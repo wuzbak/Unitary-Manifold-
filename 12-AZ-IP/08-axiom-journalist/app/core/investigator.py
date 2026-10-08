@@ -258,8 +258,8 @@ class Investigation:
 
     def add_source(self, title: str, tier: SourceTier = SourceTier.UNCLASSIFIED,
                    source_type: str = "", url_or_ref: str = "", date: str = "",
-                   excerpt: str = "") -> Source:
-        s = Source(title, tier, source_type, url_or_ref, date, excerpt)
+                   excerpt: str = "", notes: str = "") -> Source:
+        s = Source(title, tier, source_type, url_or_ref, date, excerpt, notes)
         self.sources.append(s)
         return s
 

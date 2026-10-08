@@ -1,16 +1,8 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 import json
-import sys
 from pathlib import Path
 
 import pytest
-
-PRODUCT_ROOT = Path(__file__).resolve().parents[1]
-APP_ROOT = PRODUCT_ROOT / "app"
-for import_root in (APP_ROOT, PRODUCT_ROOT):
-    if str(import_root) in sys.path:
-        sys.path.remove(str(import_root))
-    sys.path.insert(0, str(import_root))
 
 from axiom_journalist.engine.hils_review import HILSReviewRequest, format_review_output, submit_for_review
 from core.investigator import Claim, ConfidenceLevel, Source, SourceTier
@@ -276,13 +268,15 @@ def test_approve_publication_packet_updates_hils_gate():
 
 def test_parse_source_bundle_supports_json_and_pipe_rows():
     bundle = '\n'.join([
-        '{"title":"Court filing","tier":"Tier 1","source_type":"Docket","url_or_ref":"https://records.example/1","date":"2026-01-01","excerpt":"Primary filing"}',
+        '{"title":"Court filing","tier":"Tier 1","source_type":"Docket","url_or_ref":"https://records.example/1","date":"2026-01-01","excerpt":"Primary filing","notes":"Original record not retrieved"}',
         'Press report | Tier 2 | News article | https://news.example/2 | 2026-01-02 | Secondary report',
     ])
     parsed = parse_source_bundle(bundle)
     assert len(parsed) == 2
     assert parsed[0]['tier'] == 'Tier 1 — Primary Record (court/regulatory/FOIA)'
+    assert parsed[0]['notes'] == 'Original record not retrieved'
     assert parsed[1]['title'] == 'Press report'
+    assert parsed[1]['notes'] == ''
 
 
 def test_parse_source_bundle_preserves_pipes_in_excerpt_column():
@@ -291,6 +285,23 @@ def test_parse_source_bundle_preserves_pipes_in_excerpt_column():
     )
     assert parsed[0]['title'] == 'Email thread'
     assert parsed[0]['excerpt'] == 'first | second | third'
+    assert parsed[0]['notes'] == ''
+
+
+def test_parse_source_bundle_normalizes_null_notes():
+    parsed = parse_source_bundle(
+        '{"title":null,"tier":null,"source_type":null,"url_or_ref":null,'
+        '"date":null,"excerpt":null,"notes":null}'
+    )
+    assert parsed[0] == {
+        'title': '',
+        'tier': 'Unclassified',
+        'source_type': '',
+        'url_or_ref': '',
+        'date': '',
+        'excerpt': '',
+        'notes': '',
+    }
 
 
 def test_merge_source_bundle_skips_duplicates():
@@ -549,6 +560,19 @@ def test_render_story_html_contains_chapters():
     assert 'Open with the lead' in rendered
 
 
+def test_story_packet_preserves_question_terminal_punctuation():
+    investigation = _sample_investigation_dict()
+    investigation['open_questions'] = [
+        'Who approved the omitted vendor relationship?',
+        'When did the record change.',
+    ]
+
+    rendered = render_story_markdown(build_story_packet(investigation))
+
+    assert 'Who approved the omitted vendor relationship?; When did the record change.' in rendered
+    assert 'relationship?.' not in rendered
+
+
 def test_build_public_record_queries_covers_axiom_catalog():
     manifest = build_public_record_queries('Acme Corp')
     assert len(manifest) == 11
@@ -606,12 +630,56 @@ def test_scan_public_records_uses_injected_fetchers_and_exports():
     assert len(scan['duplicates']) == 1
     assert exported['source_count'] == 1
     assert exported['duplicate_count'] == 1
+    assert exported['status'] == 'COMPLETED'
+    assert sum(
+        status['status'] == 'NOT_CONFIGURED'
+        for status in exported['source_statuses'].values()
+    ) == 9
+    assert exported['source_statuses']['sec_edgar']['status'] == 'COMPLETED_WITH_RESULTS'
+    assert exported['source_statuses']['courtlistener']['status'] == 'COMPLETED_WITH_RESULTS'
+    assert exported['source_statuses']['fec']['status'] == 'NOT_CONFIGURED'
+
+
+def test_scan_public_records_reports_connector_errors_instead_of_empty_success():
+    def unavailable(_query: str):
+        raise OSError('name resolution failed')
+
+    scan = scan_public_records('Acme Corp', {'courtlistener': unavailable})
+    exported = export_public_record_scan(scan)
+    status = scan['source_statuses']['courtlistener']
+
+    assert scan['status'] == 'PARTIAL'
+    assert status['status'] == 'ERROR'
+    assert status['record_count'] == 0
+    assert 'name resolution failed' in status['error']
+    assert exported['source_statuses'] == scan['source_statuses']
+    assert scan['source_statuses']['sec_edgar']['status'] == 'NOT_CONFIGURED'
+
+
+def test_scan_public_records_materializes_generator_fetchers():
+    def generated_records(_query: str):
+        yield {'title': 'Generator result', 'source_url': 'https://records.example/generator'}
+
+    scan = scan_public_records('Acme Corp', {'sec_edgar': generated_records})
+    status = scan['source_statuses']['sec_edgar']
+
+    assert status['status'] == 'COMPLETED_WITH_RESULTS'
+    assert status['record_count'] == 1
+    assert scan['records'][0]['title'] == 'Generator result'
+
+    empty_scan = scan_public_records('Acme Corp', {'sec_edgar': lambda _query: iter(())})
+    assert empty_scan['source_statuses']['sec_edgar']['status'] == 'COMPLETED_NO_RESULTS'
 
 
 def test_scan_public_records_without_fetchers_returns_manifest_only():
     scan = scan_public_records('Acme Corp')
     assert len(scan['manifest']) == 11
     assert scan['records'] == []
+    assert scan['status'] == 'PLAN_ONLY'
+    assert all(
+        item['status'] == 'NOT_RUN'
+        for item in scan['source_statuses'].values()
+    )
 
 
 class _FakeResponse:
@@ -708,6 +776,25 @@ def test_db_add_records_append_audit_entries(tmp_path):
         'claim_added',
         'open_question_added',
     ]
+
+
+def test_db_add_sources_preserves_provenance_notes(tmp_path):
+    db_path = tmp_path / 'cases.db'
+    db.init_db(db_path)
+    case_id = db.create_case('Source provenance', 'Lead', db_path=db_path)
+    note = 'Locator only; source content was not retrieved.'
+
+    db.add_sources(case_id, [{
+        'title': 'Primary record locator',
+        'tier': 3,
+        'source_type': 'Court record locator',
+        'url_or_ref': 'https://court.example/opinion',
+        'date': '2026-10-08',
+        'excerpt': 'Retrieve original opinion.',
+        'notes': note,
+    }], db_path=db_path)
+
+    assert db.list_sources(case_id, db_path=db_path)[0]['notes'] == note
 
 
 def test_db_watchlist_records_hits_and_audit_entries(tmp_path):

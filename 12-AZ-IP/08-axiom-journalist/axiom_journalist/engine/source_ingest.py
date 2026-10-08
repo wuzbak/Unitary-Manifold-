@@ -60,14 +60,16 @@ def parse_source_bundle(bundle_text: str) -> list[dict[str, str]]:
                     f'Invalid JSON source row on line {line_number}. '
                     'Each JSON source row must be an object.'
                 )
-            rows.append({
-                'title': _clean(payload.get('title', '')),
-                'tier': normalize_tier_label(payload.get('tier', 'Unclassified')),
-                'source_type': _clean(payload.get('source_type', '')),
-                'url_or_ref': _clean(payload.get('url_or_ref', '')),
-                'date': _clean(payload.get('date', '')),
-                'excerpt': _clean(payload.get('excerpt', '')),
-            })
+            source = {
+                'title': _clean(payload.get('title') or ''),
+                'tier': normalize_tier_label(payload.get('tier') or 'Unclassified'),
+                'source_type': _clean(payload.get('source_type') or ''),
+                'url_or_ref': _clean(payload.get('url_or_ref') or ''),
+                'date': _clean(payload.get('date') or ''),
+                'excerpt': _clean(payload.get('excerpt') or ''),
+                'notes': _clean(payload.get('notes') or ''),
+            }
+            rows.append(source)
             continue
 
         parts = [part.strip() for part in line.split('|', 5)]
@@ -77,14 +79,16 @@ def parse_source_bundle(bundle_text: str) -> list[dict[str, str]]:
                 'Each non-JSON source row must contain 6 pipe-delimited fields: '
                 'title | tier | source_type | url_or_ref | date | excerpt'
             )
-        rows.append({
+        source = {
             'title': _clean(parts[0]),
             'tier': normalize_tier_label(parts[1]),
             'source_type': _clean(parts[2]),
             'url_or_ref': _clean(parts[3]),
             'date': _clean(parts[4]),
             'excerpt': _clean('|'.join(parts[5:])),
-        })
+            'notes': '',
+        }
+        rows.append(source)
     return rows
 
 

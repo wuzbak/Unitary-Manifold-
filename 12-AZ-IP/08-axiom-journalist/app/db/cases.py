@@ -323,14 +323,14 @@ def list_entities(case_id: int, db_path: Path = DB_PATH) -> list[dict]:
 
 def add_source(case_id: int, title: str, tier: int = 0, source_type: str = "",
                url_or_ref: str = "", date: str = "", excerpt: str = "",
-               actor: str = "system",
-               db_path: Path = DB_PATH) -> int:
+               actor: str = "system", db_path: Path = DB_PATH,
+               notes: str = "") -> int:
     conn = _connect(db_path)
     with conn:
         cur = conn.execute(
-            "INSERT INTO sources (case_id, title, tier, source_type, url_or_ref, date, excerpt) "
-            "VALUES (?,?,?,?,?,?,?)",
-            (case_id, title, tier, source_type, url_or_ref, date, excerpt),
+            "INSERT INTO sources (case_id, title, tier, source_type, url_or_ref, date, excerpt, notes) "
+            "VALUES (?,?,?,?,?,?,?,?)",
+            (case_id, title, tier, source_type, url_or_ref, date, excerpt, notes),
         )
         sid = cur.lastrowid
         _log_action(conn, case_id, 'source_added', actor=actor, payload={
@@ -346,8 +346,8 @@ def add_sources(case_id: int, sources: list[dict], actor: str = "system", db_pat
     conn = _connect(db_path)
     with conn:
         conn.executemany(
-            "INSERT INTO sources (case_id, title, tier, source_type, url_or_ref, date, excerpt) "
-            "VALUES (?,?,?,?,?,?,?)",
+            "INSERT INTO sources (case_id, title, tier, source_type, url_or_ref, date, excerpt, notes) "
+            "VALUES (?,?,?,?,?,?,?,?)",
             [
                 (
                     case_id,
@@ -357,6 +357,7 @@ def add_sources(case_id: int, sources: list[dict], actor: str = "system", db_pat
                     source.get('url_or_ref', ''),
                     source.get('date', ''),
                     source.get('excerpt', ''),
+                    source.get('notes', ''),
                 )
                 for source in sources
             ],

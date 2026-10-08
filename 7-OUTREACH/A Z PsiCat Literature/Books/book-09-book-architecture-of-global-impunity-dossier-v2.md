@@ -23,7 +23,9 @@ Historical-status note: this volume is maintained as a period-context document i
 **Source Standard:** Federal court records, state court filings, ICIJ databases (Panama Papers, Paradise Papers, Pandora Papers, FinCEN Files), Department of Justice releases, congressional records, Senate subcommittee reports, FBI FOIA releases, and primary investigative reporting from ICIJ, The New York Times, The Washington Post, Reuters, NBC News, The Guardian, BuzzFeed News, and major global news organizations  
 **Confidence Classification System:** CONFIRMED (court-adjudicated or government-admitted) | CORROBORATED (multiple Tier 1 sources) | ALLEGED (single credible source or sworn testimony) | UNVERIFIED (reported but not yet cross-confirmed)  
 **Date of Compilation:** May 2026  
-**Status:** Open-source investigative record — all primary sources are publicly accessible
+**Status:** Superseded rewrite draft — source and legal re-audit required
+
+> **EDITORIAL HOLD — 8 OCTOBER 2026:** This rewrite inherits material from its source draft that is not publication-ready. The “Maxwell Logical Trap” is legally unsound: a conspiracy conviction does not require a formatted client list or identify every alleged client. The CVRA appellate posture and the proposed links among banking, intelligence, political and surveillance strands also need source-level review. Do not reuse “logical impossibility,” “irrefutable,” or claims that an investigation was closed to protect a person as established findings. See the [master claim ledger](../../../12-AZ-IP/08-axiom-journalist/output/holistic_master_claim_and_money_flow_ledger_2026-10-08.md) and [corrected finance dossier](../../../12-AZ-IP/08-axiom-journalist/output/holistic_dossier_2_capital_banks_and_accountability_2026-10-08.md). Underlying leads are not declared false; the combined thesis is superseded pending record authentication, right of reply and legal review.
 
 ---
 

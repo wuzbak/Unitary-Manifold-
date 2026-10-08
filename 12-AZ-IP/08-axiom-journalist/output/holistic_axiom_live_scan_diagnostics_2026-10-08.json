@@ -1,0 +1,2834 @@
+{
+  "tool": "AXIOM Journalist LIVE_PUBLIC_RECORD_FETCHERS",
+  "retrieved_at_utc": "2026-10-08T15:54:35+00:00",
+  "connector_slugs": [
+    "courtlistener",
+    "icij_offshore_leaks",
+    "opensanctions",
+    "sec_edgar"
+  ],
+  "registered_sources": 11,
+  "configured_connectors": 4,
+  "queries": 19,
+  "connector_attempts": 76,
+  "total_records": 0,
+  "run_status_counts": {
+    "PARTIAL": 19
+  },
+  "connector_status_counts": {
+    "sec_edgar": {
+      "ERROR": 19
+    },
+    "courtlistener": {
+      "ERROR": 19
+    },
+    "icij_offshore_leaks": {
+      "ERROR": 19
+    },
+    "opensanctions": {
+      "ERROR": 19
+    }
+  },
+  "error_summary": {
+    "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname).": 76
+  },
+  "scans": [
+    {
+      "entity_name": "Ghislaine Maxwell",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Ghislaine+Maxwell"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Ghislaine+Maxwell"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Ghislaine+Maxwell"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Ghislaine+Maxwell"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Ghislaine+Maxwell"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Ghislaine+Maxwell"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Ghislaine+Maxwell"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Ghislaine+Maxwell"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Ghislaine+Maxwell"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Ghislaine+Maxwell"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Ghislaine+Maxwell"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Jeffrey Epstein",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Jeffrey+Epstein"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Jeffrey+Epstein"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Jeffrey+Epstein"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Jeffrey+Epstein"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Jeffrey+Epstein"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Jeffrey+Epstein"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Jeffrey+Epstein"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Jeffrey+Epstein"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Jeffrey+Epstein"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Jeffrey+Epstein"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Jeffrey+Epstein"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "19-13843",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=19-13843"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=19-13843"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=19-13843"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=19-13843"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=19-13843"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=19-13843"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=19-13843"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=19-13843"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/19-13843"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/19-13843"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=19-13843"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "960 F.3d 1310",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=960+F.3d+1310"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=960+F.3d+1310"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=960+F.3d+1310"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=960+F.3d+1310"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=960+F.3d+1310"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=960+F.3d+1310"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=960+F.3d+1310"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=960+F.3d+1310"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/960+F.3d+1310"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/960+F.3d+1310"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=960+F.3d+1310"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Donald Trump civil fraud 452564/2022",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Donald+Trump+civil+fraud+452564%2F2022"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Donald+Trump+civil+fraud+452564%2F2022"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Deutsche Bank mirror trading",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Deutsche+Bank+mirror+trading"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Deutsche+Bank+mirror+trading"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Wix.com Base44",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Wix.com+Base44"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Wix.com+Base44"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Wix.com+Base44"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Wix.com+Base44"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Wix.com+Base44"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Wix.com+Base44"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Wix.com+Base44"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Wix.com+Base44"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Wix.com+Base44"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Wix.com+Base44"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Wix.com+Base44"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Carbyne Axon",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Carbyne+Axon"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Carbyne+Axon"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Carbyne+Axon"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Carbyne+Axon"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Carbyne+Axon"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Carbyne+Axon"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Carbyne+Axon"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Carbyne+Axon"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Carbyne+Axon"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Carbyne+Axon"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Carbyne+Axon"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Emerdata 10911848",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Emerdata+10911848"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Emerdata+10911848"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Emerdata+10911848"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Emerdata+10911848"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Emerdata+10911848"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Emerdata+10911848"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Emerdata+10911848"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Emerdata+10911848"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Emerdata+10911848"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Emerdata+10911848"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Emerdata+10911848"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Cambridge Analytica",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Cambridge+Analytica"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Cambridge+Analytica"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Cambridge+Analytica"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Cambridge+Analytica"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Cambridge+Analytica"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Cambridge+Analytica"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Cambridge+Analytica"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Cambridge+Analytica"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Cambridge+Analytica"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Cambridge+Analytica"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Cambridge+Analytica"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Affinity Partners Kushner",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Affinity+Partners+Kushner"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Affinity+Partners+Kushner"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "MGX Binance USD1",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=MGX+Binance+USD1"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=MGX+Binance+USD1"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=MGX+Binance+USD1"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=MGX+Binance+USD1"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=MGX+Binance+USD1"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=MGX+Binance+USD1"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=MGX+Binance+USD1"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=MGX+Binance+USD1"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/MGX+Binance+USD1"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/MGX+Binance+USD1"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=MGX+Binance+USD1"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Project Meridian Hegseth",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Project+Meridian+Hegseth"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Project+Meridian+Hegseth"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Unit 8200 Microsoft Azure",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Unit+8200+Microsoft+Azure"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Unit+8200+Microsoft+Azure"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "Dmitry Rybolovlev",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Dmitry+Rybolovlev"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Dmitry+Rybolovlev"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    }
+  ],
+  "interpretation": "All attempted connectors returned explicit DNS/network errors in this execution environment. No records were retrieved. This run is an access failure, not a negative finding and not corroboration of any allegation.",
+  "retrieved_at_utc_latest": "2026-10-08T16:06:33+00:00",
+  "follow_up_queries_after_citation_correction": [
+    {
+      "entity_name": "In re Wild 994 F.3d 1244 19-13843",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/In+re+Wild+994+F.3d+1244+19-13843"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=In+re+Wild+994+F.3d+1244+19-13843"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "NYDFS Deutsche Bank Epstein 2020 consent order 150 million",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=NYDFS+Deutsche+Bank+Epstein+2020+consent+order+150+million"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "NYDFS Deutsche Bank Russian mirror trading 2017 consent order 425 million",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=NYDFS+Deutsche+Bank+Russian+mirror+trading+2017+consent+order+425+million"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    },
+    {
+      "entity_name": "People v Trump 2025 NY Slip Op 04756",
+      "source_count": 0,
+      "duplicate_count": 0,
+      "manifest": [
+        {
+          "slug": "sec_edgar",
+          "display_name": "SEC EDGAR",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory filing",
+          "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "courtlistener",
+          "display_name": "CourtListener",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Court record",
+          "query_url": "https://www.courtlistener.com/?q=People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "fec",
+          "display_name": "FEC campaign finance",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Campaign finance filing",
+          "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "icij_offshore_leaks",
+          "display_name": "ICIJ Offshore Leaks",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative data",
+          "query_url": "https://offshoreleaks.icij.org/search?q=People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "opensanctions",
+          "display_name": "OpenSanctions",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions and enforcement record",
+          "query_url": "https://www.opensanctions.org/search/?q=People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "opencorporates",
+          "display_name": "OpenCorporates",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Corporate registry aggregation",
+          "query_url": "https://opencorporates.com/companies?q=People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "propublica_nonprofit",
+          "display_name": "ProPublica Nonprofit Explorer",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "IRS 990 filing",
+          "query_url": "https://projects.propublica.org/nonprofits/search?q=People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "epa_echo",
+          "display_name": "EPA ECHO",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Regulatory compliance record",
+          "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "govinfo",
+          "display_name": "GovInfo.gov",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Federal publication",
+          "query_url": "https://www.govinfo.gov/app/search/People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "wayback_machine",
+          "display_name": "Wayback Machine",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Web archive",
+          "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/People+v+Trump+2025+NY+Slip+Op+04756"
+        },
+        {
+          "slug": "ofac_sdn",
+          "display_name": "OFAC SDN",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Sanctions designation",
+          "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=People+v+Trump+2025+NY+Slip+Op+04756"
+        }
+      ],
+      "records": [],
+      "status": "PARTIAL",
+      "source_statuses": {
+        "sec_edgar": {
+          "display_name": "SEC EDGAR",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "courtlistener": {
+          "display_name": "CourtListener",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "fec": {
+          "display_name": "FEC campaign finance",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "icij_offshore_leaks": {
+          "display_name": "ICIJ Offshore Leaks",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opensanctions": {
+          "display_name": "OpenSanctions",
+          "status": "ERROR",
+          "record_count": 0,
+          "error": "PublicRecordFetchError: Network request failed (gaierror: [Errno -5] No address associated with hostname)."
+        },
+        "opencorporates": {
+          "display_name": "OpenCorporates",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "propublica_nonprofit": {
+          "display_name": "ProPublica Nonprofit Explorer",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "epa_echo": {
+          "display_name": "EPA ECHO",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "govinfo": {
+          "display_name": "GovInfo.gov",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "wayback_machine": {
+          "display_name": "Wayback Machine",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        },
+        "ofac_sdn": {
+          "display_name": "OFAC SDN",
+          "status": "NOT_CONFIGURED",
+          "record_count": 0
+        }
+      }
+    }
+  ]
+}

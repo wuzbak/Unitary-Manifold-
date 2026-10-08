@@ -221,6 +221,13 @@ def _story_chapter_drafts(
         )
     ]
     entity_lines: list[str] = []
+    questions = [str(question).strip() for question in open_questions[:4]]
+    unresolved_question_text = '; '.join(
+        question.rstrip('.') if index < len(questions) - 1 else question
+        for index, question in enumerate(questions)
+    )
+    if unresolved_question_text and unresolved_question_text[-1] not in '.?!':
+        unresolved_question_text += '.'
     for entity in entities[:6]:
         detail = f"{entity['name']} states: {entity['stated_position'] or 'No public position recorded.'}"
         contradictions = entity.get('contradictions') or []
@@ -250,7 +257,7 @@ def _story_chapter_drafts(
         {
             'heading': 'What remains unresolved',
             'body': ' '.join(
-                ([f"What remains unresolved: {'; '.join(open_questions[:4])}."] if open_questions else ['No open questions recorded.'])
+                ([f'What remains unresolved: {unresolved_question_text}'] if open_questions else ['No open questions recorded.'])
                 + [_claim_line(claim) for claim in unresolved_claims]
             ).strip(),
             'citations': [item['citation_id'] for item in _chapter_source_ledger(unresolved_claims)],
@@ -431,6 +438,10 @@ def build_dossier_packet(
             'source_count': len(sources),
             'duplicate_source_count': len(duplicate_sources),
             'claim_count': len(claims),
+            'claims_without_linked_entities': sum(
+                not claim.get('entities_involved')
+                for claim in claims
+            ),
             'open_question_count': len(investigation.get('open_questions') or []),
             'contradiction_count': contradiction_count,
             'source_tiers': dict(source_tiers),
@@ -535,6 +546,7 @@ def render_dossier_markdown(packet: dict[str, Any]) -> str:
         f"- Sources: {packet['evidence_summary']['source_count']}",
         f"- Duplicate sources collapsed: {packet['evidence_summary']['duplicate_source_count']}",
         f"- Claims: {packet['evidence_summary']['claim_count']}",
+        f"- Claims without linked entities: {packet['evidence_summary']['claims_without_linked_entities']}",
         f"- Open questions: {packet['evidence_summary']['open_question_count']}",
         f"- Contradictions logged: {packet['evidence_summary']['contradiction_count']}",
         '',
@@ -892,7 +904,7 @@ def build_story_packet(
             'chapters': chapters,
         },
         'chapter_drafts': chapter_drafts,
-        'source_backbone': source_ledger[:12],
+        'source_backbone': source_ledger,
         'psicat_learning_packet': {
             'challenge_count': len(psicat_packet['challenge_pack']),
             'training_objectives': psicat_packet['training_objectives'],
@@ -955,7 +967,7 @@ def render_story_markdown(packet: dict[str, Any]) -> str:
     ]
     if packet['source_backbone']:
         for source in packet['source_backbone']:
-            lines.append(f"- **{source['title']}** [{source['tier']}]")
+            lines.append(f"- [{source['citation_id']}] **{source['title']}** [{source['tier']}]")
             if source['url_or_ref']:
                 lines.append(f"  - Ref: {source['url_or_ref']}")
     else:

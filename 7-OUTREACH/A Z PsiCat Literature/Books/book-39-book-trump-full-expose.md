@@ -22,7 +22,9 @@ Historical-status note: this volume is maintained as a period-context document i
 **Confidence Classification System:** CONFIRMED (court-adjudicated or government-admitted) | CORROBORATED (multiple Tier 1 sources) | ALLEGED (single credible source or sworn testimony) | UNVERIFIED (reported but not yet cross-confirmed)  
 **Date of Compilation:** May 2026  
 **Post Number:** 138  
-**Status:** Open-source investigative record — all primary sources are publicly accessible
+**Status:** Superseded rewrite draft — source and legal re-audit required
+
+> **EDITORIAL HOLD — 8 OCTOBER 2026:** This rewrite inherits material from its source dossier that is not publication-ready. Do not treat its confidence labels or combined narrative as independently verified. A property price, shell-company purchase, bank enforcement action, state political donation, foreign fund commitment or token transaction does not by itself prove laundering, bribery, a corrupt exchange or personal payment. Deutsche Bank’s mirror-trading case does not establish a link to a Trump loan; civil fraud is not a federal criminal bank-fraud conviction; and the Bondi donation does not establish a quid pro quo. See the [master claim ledger](../../../12-AZ-IP/08-axiom-journalist/output/holistic_master_claim_and_money_flow_ledger_2026-10-08.md) and [corrected finance dossier](../../../12-AZ-IP/08-axiom-journalist/output/holistic_dossier_2_capital_banks_and_accountability_2026-10-08.md). Preserve the underlying leads for source-by-source verification and right of reply.
 
 ---
 

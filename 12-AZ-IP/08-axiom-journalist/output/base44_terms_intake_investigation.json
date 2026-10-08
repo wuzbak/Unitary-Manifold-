@@ -1,0 +1,294 @@
+{
+  "title": "Base44 / Wix Terms and Data-Use Evidence Intake",
+  "lead": "Test the investigator-supplied quotations and summaries attributed to Base44/Wix terms, privacy documentation, Responsible Use Policy, security documentation, and Trust Center. The quoted materials are indexed as leads and are not treated as independently authenticated source captures.",
+  "journalist": "AXIOM Journalist / AxiomZero Special Investigations Division",
+  "created_at": "2026-10-08T14:32:48",
+  "status": "Active — source authentication pending",
+  "entities": [
+    {
+      "name": "Base44",
+      "type": "Organization",
+      "description": "Platform named in the investigator-supplied terms and privacy excerpts.",
+      "stated_position": "Position excerpts supplied by the investigator; original pages not independently retrieved in this session.",
+      "contradictions": [],
+      "notes": "No inference of unlawful surveillance or foreign-government access is established by the excerpts."
+    },
+    {
+      "name": "Wix.com Ltd.",
+      "type": "Organization",
+      "description": "Identified in the supplied Terms preamble as the operator of Base44-branded services.",
+      "stated_position": "Attributed Terms excerpts are in the source bundle; operator response not separately requested or received.",
+      "contradictions": [],
+      "notes": "Corporate identity and the exact current contracting entity require confirmation against the live agreement."
+    },
+    {
+      "name": "Base44 subprocessor directory",
+      "type": "Other",
+      "description": "Trust Center directory reported by the investigator to list 36 vendors and processing locations.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": "No dated directory capture or complete vendor roster is attached."
+    },
+    {
+      "name": "Decart",
+      "type": "Organization",
+      "description": "Named in the supplied Trust Center summary as an Israel-based LLM API subprocessor.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": "Subprocessor scope is unverified. No evidence here establishes military tasking, access to all user data, or transfer of military technology."
+    },
+    {
+      "name": "Anthropic",
+      "type": "Organization",
+      "description": "Named in the supplied Trust Center summary as a U.S.-based LLM API subprocessor.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": "No acquisition attempt or specific user-payload routing is established by this intake."
+    },
+    {
+      "name": "Amazon Web Services",
+      "type": "Organization",
+      "description": "Named in the supplied Trust Center summary as a U.S.-based infrastructure vendor.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": "The entry does not establish an Azure-to-AWS migration of any military workload."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Base44 Terms of Service — preamble and §7",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-provided excerpts attributed to first-party terms; retrieval/authentication pending",
+      "url_or_ref": "https://base44.com/terms-of-service",
+      "date": "Terms last-updated date stated as 2026-06-22; supplied transcript says retrieved 2026-10-07",
+      "excerpt": "Supplied excerpts identify Wix.com Ltd. as operator of Base44-branded services and say the listed Terms include the Privacy Policy and Responsible Use Policy, amendable at the Company's discretion. Section 7 is summarized as applying the Privacy Policy and DPA where personal data is processed.",
+      "notes": "The source is a transcript supplied by the investigator, not a page capture independently retrieved by this session."
+    },
+    {
+      "title": "Base44 Terms of Service — arbitration notice, §1.2 and §2.2–2.3",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-provided excerpts attributed to first-party terms; retrieval/authentication pending",
+      "url_or_ref": "https://base44.com/terms-of-service",
+      "date": "Terms last-updated date stated as 2026-06-22; supplied transcript says retrieved 2026-10-07",
+      "excerpt": "Supplied quotations concern opt-out from individual arbitration, changes to the Platform with or without notice, promotional messages, customer backups, and customer responsibility for configuration/access controls.",
+      "notes": "Exact full context, defined terms, opt-out procedure, governing law, and current wording require source verification."
+    },
+    {
+      "title": "Base44 Responsible Use Policy — monitoring and removal",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-provided excerpts attributed to first-party policy; retrieval/authentication pending",
+      "url_or_ref": "https://base44.com/responsible-use",
+      "date": "Supplied transcript says retrieved 2026-10-07; page update date not provided",
+      "excerpt": "Supplied quotations state that Base44 may monitor or investigate content and service use for policy compliance and may remove or delete violating Customer Data or Generated Output.",
+      "notes": "The excerpts do not establish routine human review, surveillance of all accounts, or government access."
+    },
+    {
+      "title": "Base44 Privacy Policy — collection, purposes, sharing and tracking",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-provided excerpts attributed to first-party privacy policy; retrieval/authentication pending",
+      "url_or_ref": "https://base44.com/privacy-policy",
+      "date": "Privacy Policy last-updated date stated as 2026-09-10; supplied transcript says retrieved 2026-10-07",
+      "excerpt": "Supplied quotations address connection/device/location/log information; account/input data; prospect data from public and third-party sources; aggregated metadata, marketing, policy enforcement and legal requests; vendor/affiliate/adviser/purchaser sharing; and Users-of-Users under the DPA.",
+      "notes": "The quoted categories and purposes are not independently confirmed; collection scope, lawful basis, opt-outs, retention, and actual vendor access remain open."
+    },
+    {
+      "title": "Base44 Privacy Policy — cookies, third-party matching and analytics",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-provided excerpts attributed to first-party privacy policy; retrieval/authentication pending",
+      "url_or_ref": "https://base44.com/privacy-policy",
+      "date": "Privacy Policy last-updated date stated as 2026-09-10; supplied transcript says retrieved 2026-10-07",
+      "excerpt": "Supplied quotations address cookies for advertising/statistics, possible association with third-party databases by email or home address, marketing communications, and Google Analytics collection of IP addresses.",
+      "notes": "Exact wording, implementation, consent controls, jurisdictional operation and vendor configuration require verification."
+    },
+    {
+      "title": "Base44 Documentation — Privacy and security, training and server location",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-provided excerpts attributed to first-party documentation; retrieval/authentication pending",
+      "url_or_ref": "https://docs.base44.com/Community-and-support/Privacy-and-security",
+      "date": "Supplied transcript says retrieved 2026-10-07; page update date not provided",
+      "excerpt": "Supplied quotations state Enterprise data is not used to train AI models, while data on other plans including Business can be used; all Base44 servers are currently in the United States; the Trust Center contains backup/retention details. App ownership was provided as a summary, not a quotation.",
+      "notes": "Plan definitions, exceptions, vendors' model-training practices, retention schedule, and app ownership language require source capture."
+    },
+    {
+      "title": "Base44 Trust Center — subprocessors and vendor risk",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-provided summary attributed to first-party trust center; retrieval/authentication pending",
+      "url_or_ref": "https://trust.base44.com/",
+      "date": "Supplied transcript says retrieved 2026-10-07; directory effective date not provided",
+      "excerpt": "A supplied quotation describes vendor security assessment and periodic revalidation. The investigator's summary says the directory lists 36 vendors and includes U.S.-based Anthropic, AWS, Baseten, Browserbase, ClickHouse, Cloudflare, Crusoe, Datadog, Deno and ElevenLabs; Germany-based Black Forest Labs; Singapore-based BytePlus; and Israel-based Decart.",
+      "notes": "This is a summary of a purported directory, not the full roster or an authenticated capture. Vendor listing alone does not prove that every vendor receives every data type."
+    },
+    {
+      "title": "Base44 Trust Center — encryption, audits and deletion",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-provided summary attributed to first-party trust center; retrieval/authentication pending",
+      "url_or_ref": "https://trust.base44.com/",
+      "date": "Supplied transcript says retrieved 2026-10-07; assurance-period dates not provided",
+      "excerpt": "The investigator's summary reports TLS 1.2+ in transit, AES-256 at rest, cloud KMS for secrets, encrypted backups, annual third-party audits, SOC 2 Type II, ISO 27001, GDPR, a DPA, and deletion on request.",
+      "notes": "Control scope, audit period, qualifications, deletion conditions, and exact first-party wording are not available."
+    }
+  ],
+  "claims": [
+    {
+      "statement": "The investigator-supplied Terms excerpts identify Wix.com Ltd. as the operator of Base44-branded services and describe linked policies and terms amendable by the Company.",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Base44 Terms of Service — preamble and §7",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigator-provided excerpts attributed to first-party terms; retrieval/authentication pending",
+          "url_or_ref": "https://base44.com/terms-of-service",
+          "date": "Terms last-updated date stated as 2026-06-22; supplied transcript says retrieved 2026-10-07",
+          "excerpt": "Supplied excerpts identify Wix.com Ltd. as operator of Base44-branded services and say the listed Terms include the Privacy Policy and Responsible Use Policy, amendable at the Company's discretion. Section 7 is summarized as applying the Privacy Policy and DPA where personal data is processed.",
+          "notes": "User-provided excerpt, not independently retrieved."
+        }
+      ],
+      "entities_involved": ["Base44", "Wix.com Ltd."],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Claim concerns what the quoted text says, not a legal conclusion about enforceability or the present contracting entity."
+    },
+    {
+      "statement": "The supplied Terms excerpts describe an arbitration/class-action waiver with an opt-out, unilateral platform changes, promotional contact, and customer responsibility for backups and security configuration.",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Base44 Terms of Service — arbitration notice, §1.2 and §2.2–2.3",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigator-provided excerpts attributed to first-party terms; retrieval/authentication pending",
+          "url_or_ref": "https://base44.com/terms-of-service",
+          "date": "Terms last-updated date stated as 2026-06-22; supplied transcript says retrieved 2026-10-07",
+          "excerpt": "Supplied quotations concern opt-out from individual arbitration, changes to the Platform with or without notice, promotional messages, customer backups, and customer responsibility for configuration/access controls.",
+          "notes": "User-provided excerpt, not independently retrieved."
+        }
+      ],
+      "entities_involved": ["Base44", "Wix.com Ltd."],
+      "legal_risks": "LIBEL_EXPOSURE | PRIVACY",
+      "notes": "Do not call the terms illegal or unenforceable without full text, applicable-law analysis, and counsel review."
+    },
+    {
+      "statement": "The supplied Responsible Use Policy excerpts state Base44 may monitor or investigate service content/use for compliance and may remove or delete material it regards as violating policy.",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Base44 Responsible Use Policy — monitoring and removal",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigator-provided excerpts attributed to first-party policy; retrieval/authentication pending",
+          "url_or_ref": "https://base44.com/responsible-use",
+          "date": "Supplied transcript says retrieved 2026-10-07; page update date not provided",
+          "excerpt": "Supplied quotations state that Base44 may monitor or investigate content and service use for policy compliance and may remove or delete violating Customer Data or Generated Output.",
+          "notes": "User-provided excerpt, not independently retrieved."
+        }
+      ],
+      "entities_involved": ["Base44", "Wix.com Ltd."],
+      "legal_risks": "LIBEL_EXPOSURE | PRIVACY",
+      "notes": "Contractual permission to review for compliance does not establish that all content is routinely reviewed or accessed by a government."
+    },
+    {
+      "statement": "The supplied Privacy Policy excerpts describe collection of connection, device, location, account, input, log and usage data; prospect sourcing; marketing/analytics purposes; policy/legal-process purposes; and sharing with service vendors and other listed recipients.",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Base44 Privacy Policy — collection, purposes, sharing and tracking",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigator-provided excerpts attributed to first-party privacy policy; retrieval/authentication pending",
+          "url_or_ref": "https://base44.com/privacy-policy",
+          "date": "Privacy Policy last-updated date stated as 2026-09-10; supplied transcript says retrieved 2026-10-07",
+          "excerpt": "Supplied quotations address connection/device/location/log information; account/input data; prospect data from public and third-party sources; aggregated metadata, marketing, policy enforcement and legal requests; vendor/affiliate/adviser/purchaser sharing; and Users-of-Users under the DPA.",
+          "notes": "User-provided excerpt, not independently retrieved."
+        }
+      ],
+      "entities_involved": ["Base44", "Wix.com Ltd."],
+      "legal_risks": "LIBEL_EXPOSURE | PRIVACY",
+      "notes": "The policy wording, actual collection, lawful basis, opt-outs, retention, and operational use are separate questions."
+    },
+    {
+      "statement": "The supplied Privacy Policy excerpts describe cookies for advertising/statistics, possible matching to third-party database information by email or home address, marketing contact, and Google Analytics IP collection.",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Base44 Privacy Policy — cookies, third-party matching and analytics",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigator-provided excerpts attributed to first-party privacy policy; retrieval/authentication pending",
+          "url_or_ref": "https://base44.com/privacy-policy",
+          "date": "Privacy Policy last-updated date stated as 2026-09-10; supplied transcript says retrieved 2026-10-07",
+          "excerpt": "Supplied quotations address cookies for advertising/statistics, possible association with third-party databases by email or home address, marketing communications, and Google Analytics collection of IP addresses.",
+          "notes": "User-provided excerpt, not independently retrieved."
+        }
+      ],
+      "entities_involved": ["Base44", "Wix.com Ltd.", "Google Analytics"],
+      "legal_risks": "LIBEL_EXPOSURE | PRIVACY",
+      "notes": "Actual implementation, consent, opt-out, and jurisdiction-specific compliance are not established."
+    },
+    {
+      "statement": "The supplied Base44 documentation excerpts state that Enterprise data is not used to train AI models while other plans, including Business, may use customer data for training, and that Base44 servers are currently in the United States.",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Base44 Documentation — Privacy and security, training and server location",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigator-provided excerpts attributed to first-party documentation; retrieval/authentication pending",
+          "url_or_ref": "https://docs.base44.com/Community-and-support/Privacy-and-security",
+          "date": "Supplied transcript says retrieved 2026-10-07; page update date not provided",
+          "excerpt": "Supplied quotations state Enterprise data is not used to train AI models, while data on other plans including Business can be used; all Base44 servers are currently in the United States; the Trust Center contains backup/retention details.",
+          "notes": "User-provided excerpt, not independently retrieved."
+        }
+      ],
+      "entities_involved": ["Base44", "Wix.com Ltd."],
+      "legal_risks": "LIBEL_EXPOSURE | PRIVACY",
+      "notes": "Training scope, input categories, opt-outs, retention, model-provider terms, and geographic scope require verification."
+    },
+    {
+      "statement": "The investigator reports that the Base44 Trust Center directory lists 36 subprocessors, including Decart in Israel for LLM API calls and multiple U.S., German, and Singapore-based vendors.",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Base44 Trust Center — subprocessors and vendor risk",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigator-provided summary attributed to first-party trust center; retrieval/authentication pending",
+          "url_or_ref": "https://trust.base44.com/",
+          "date": "Supplied transcript says retrieved 2026-10-07; directory effective date not provided",
+          "excerpt": "A supplied quotation describes vendor security assessment and periodic revalidation. The investigator's summary says the directory lists 36 vendors and includes U.S.-based vendors, Black Forest Labs in Germany, BytePlus in Singapore, and Decart in Israel.",
+          "notes": "User-provided summary, not the complete roster or an authenticated capture."
+        }
+      ],
+      "entities_involved": ["Base44", "Base44 subprocessor directory", "Decart", "Anthropic", "Amazon Web Services"],
+      "legal_risks": "LIBEL_EXPOSURE | PRIVACY | NATIONAL_SECURITY",
+      "notes": "A listing and processing region do not establish that every vendor receives all data, accesses plaintext, or serves a government."
+    },
+    {
+      "statement": "The investigator reports that the Base44 Trust Center describes TLS 1.2+, AES-256 at rest, cloud KMS, encrypted backups, SOC 2 Type II, ISO 27001, GDPR, a DPA, and deletion on request.",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Base44 Trust Center — encryption, audits and deletion",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigator-provided summary attributed to first-party trust center; retrieval/authentication pending",
+          "url_or_ref": "https://trust.base44.com/",
+          "date": "Supplied transcript says retrieved 2026-10-07; assurance-period dates not provided",
+          "excerpt": "The investigator's summary reports TLS 1.2+ in transit, AES-256 at rest, cloud KMS for secrets, encrypted backups, annual third-party audits, SOC 2 Type II, ISO 27001, GDPR, availability of a DPA, and deletion on request.",
+          "notes": "User-provided summary; audit scope, period, exclusions and deletion conditions are not included."
+        }
+      ],
+      "entities_involved": ["Base44", "Wix.com Ltd."],
+      "legal_risks": "LIBEL_EXPOSURE | PRIVACY",
+      "notes": "These are reported security commitments, not a technical verification that the controls operate effectively."
+    }
+  ],
+  "open_questions": [
+    "Can the original dated Base44 pages and Trust Center directory be retrieved or supplied as immutable exports with retrieval timestamp and hashes?",
+    "What exact language and opt-out procedure appear in the entire arbitration provision, and what jurisdiction and consumer statutes govern?",
+    "Which customer data categories are used for AI training on each plan, by Base44 and each model vendor, and what opt-out, retention, and deletion controls apply?",
+    "What is the complete dated 36-vendor subprocessor list, and for each vendor what data, purpose, region, retention, onward subprocessor, and access role are disclosed?",
+    "Does Decart receive prompts or payloads from Base44 in actual production, or is it merely listed as an available processor? What do the applicable DPA and service configuration say?",
+    "Where does TLS terminate, which data are decrypted for processing, who can access encryption keys, and what is the scope/date of the SOC 2 and ISO certifications?",
+    "What exact contents, configuration and trigger does the Trust Center backup/data-retention schedule specify?",
+    "Have Wix/Base44 been asked to confirm the supplied passages, describe actual practice, and respond to the questions above?"
+  ],
+  "watchlist": [],
+  "scores": {
+    "overall_confidence": 0.15,
+    "source_quality": 0.25,
+    "has_legal_flags": true
+  },
+  "notes": "Intake batch 9. AXIOM engine scores are mechanical outputs: all eight claims remain UNVERIFIED because the available evidence in this case consists of investigator-supplied excerpts/summaries classified Tier 3; scores are not truth probabilities. AxiomZero's rejection of tracking is an institutional position, not evidence of Base44 conduct. This export was processed through AXIOM's source parser and case functions in a temporary SQLite database only; it was not imported into the persistent AXIOM app, RAGbot, or PsiCat. No target systems were accessed or tested. External retrieval attempts failed DNS resolution."
+}

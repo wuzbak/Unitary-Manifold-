@@ -254,8 +254,12 @@ apps/axiom-journalist/
   investigations that have not yet been written.
 - **Not a replacement for source relationships**, editorial judgment, legal review,
   or the reporter's instinct for what a story actually means.
-- **Not connected to the internet.** AXIOM is an offline research organizer.
-  You bring the sources; AXIOM organizes and scores them.
+- **Not a general-purpose web crawler.** Case storage and evidence organization run locally,
+  while public-record scans use network access to four configured adapters. The 11-source
+  catalog includes sources without live adapters. `COMPLETED` means every configured adapter
+  returned successfully; `PARTIAL` means one or more configured adapters failed, and
+  `NOT_CONFIGURED` coverage is reported separately. A completed adapter with no hits is not
+  evidence that no responsive records exist.
 
 ---
 

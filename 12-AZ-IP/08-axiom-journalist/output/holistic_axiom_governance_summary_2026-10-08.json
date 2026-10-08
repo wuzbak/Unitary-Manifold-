@@ -1,0 +1,24 @@
+{
+  "dossier_status": "HUMAN_REVIEW_REQUIRED",
+  "claim_count": 52,
+  "claims_without_linked_entities": 52,
+  "source_count": 32,
+  "confidence_counts": {
+    "UNVERIFIED": 52
+  },
+  "new_official_locators": 8,
+  "ingestion": {
+    "database": "temporary SQLite database; deleted after export",
+    "case_id": 1,
+    "sources_ingested": 32,
+    "claims_ingested": 52,
+    "entities_ingested": 23,
+    "open_questions_ingested": 10,
+    "audit_events": 118,
+    "persistent_app_database_touched": false,
+    "source_retrieval_performed": false,
+    "live_scan_diagnostic": "holistic_axiom_live_scan_diagnostics_2026-10-08.json",
+    "research_agents": 3,
+    "research_agent_fetched_source_content": false
+  }
+}

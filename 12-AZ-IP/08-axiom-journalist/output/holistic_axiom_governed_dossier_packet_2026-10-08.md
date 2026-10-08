@@ -1,0 +1,375 @@
+# AxiomZero Holistic Investigation — Cloud, Capital and Accountability — Governed Dossier Packet
+
+## Publication posture
+- Status: **HUMAN_REVIEW_REQUIRED**
+- Legal risk level: **HIGH**
+- Overall confidence: **0.15** (LOW)
+- Source quality: **0.25** (LOW)
+
+## Investigative lead
+Test the submitted allegations and prior dossier claims against identifiable primary records. All external locators in this export were not retrieved/authenticated in this session. Do not infer criminality or connect entities without transaction or corporate identifiers.
+
+## Evidence summary
+- Entities: 23
+- Sources: 32
+- Duplicate sources collapsed: 0
+- Claims: 52
+- Claims without linked entities: 52
+- Open questions: 10
+- Contradictions logged: 0
+
+### Confidence mix
+- UNVERIFIED: 52
+
+### Source tiers
+- Tier 3 — Secondary/Unverified: 32
+
+### Legal / retaliation awareness
+- Preserve documentary chain-of-custody for every quoted source.
+- Separate adjudicated fact, corroborated reporting, allegation, and open question.
+- Log contradictions and unanswered questions without narrative smoothing.
+- Escalate named-party claims carrying legal or source-protection risk before publication.
+
+## Entity watchlist
+- **Wix.com Ltd.** [Organization]
+- **Base44** [Organization]
+- **Microsoft** [Organization]
+- **Amazon Web Services** [Organization]
+- **Axon Enterprise** [Organization]
+- **Carbyne** [Organization]
+- **Deutsche Bank** [Organization]
+- **JPMorgan Chase** [Organization]
+- **Jeffrey Epstein** [Person]
+- **Ghislaine Maxwell** [Person]
+- **Donald Trump** [Person]
+- **Jared Kushner** [Person]
+- **Affinity Partners** [Organization]
+- **Public Investment Fund** [Organization]
+- **World Liberty Financial** [Organization]
+- **MGX** [Organization]
+- **Binance** [Organization]
+- **Cambridge Analytica** [Organization]
+- **Robert Mercer** [Person]
+- **Project Meridian** [Organization]
+- **Unit 8200** [Government Agency]
+- **Decart** [Organization]
+- **Wiz** [Organization]
+
+## Claim watchlist
+- **UNVERIFIED** (tier 1/5) — Verify C-01: Axon announced Carbyne acquisition at $625m (other supplied versions say ~$600m) [ledger status: **ISSUER ANNOUNCEMENT LEAD; AMOUNT VARIES BY DESCRIPTION**; readiness: R1–R2*] [8] [24]
+  - Sources: Axon announced Carbyne acquisition, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify C-02: Carbyne was founded/developed by Unit 8200 veterans and chaired/structured by Ehud Barak [ledger status: **REPORTED; NOT SOURCE-COMPLETE HERE**; readiness: R1] [8] [24]
+  - Sources: Axon announced Carbyne acquisition, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify C-03: Epstein invested $1m, Junkermann $500k; Barak raised funds; thousands of emails [ledger status: **ALLEGED; HIGH DEFAMATION RISK**; readiness: R1] [8] [24]
+  - Sources: Axon announced Carbyne acquisition, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify C-04: Carbyne serves PSAPs in 23 states and accesses real-time GPS/video/audio [ledger status: **UNVERIFIED DEPLOYMENT/CAPABILITY CLAIM**; readiness: R1] [8] [24]
+  - Sources: Axon announced Carbyne acquisition, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify C-05: Carbyne bypasses warrants / activates ambient microphone-camera access [ledger status: **UNVERIFIED TECHNICAL/LEGAL ALLEGATION**; readiness: R0–R1] [8] [24]
+  - Sources: Axon announced Carbyne acquisition, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify C-06: Acquired product provides foreign intelligence access to U.S. emergency networks [ledger status: **INFERENCE; NOT ESTABLISHED**; readiness: R0–R1] [8] [24]
+  - Sources: Axon announced Carbyne acquisition, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify CLD-01: Joint Guardian/+972/Local Call investigation reported Unit 8200 stored/processed Palestinian call recordings in Azure [ledger status: **CORROBORATED REPORTING, ATTRIBUTED**; readiness: R1–R2*] [7] [6]
+  - Sources: +972 Magazine / Local Call Azure investigation, Microsoft update on review of Israeli Ministry of Defense unit
+- **UNVERIFIED** (tier 1/5) — Verify CLD-02: Microsoft said it reviewed an Israeli Ministry of Defense unit and disabled specified Azure services [ledger status: **COMPANY STATEMENT LEAD**; readiness: R1–R2*] [7] [6]
+  - Sources: +972 Magazine / Local Call Azure investigation, Microsoft update on review of Israeli Ministry of Defense unit
+- **UNVERIFIED** (tier 1/5) — Verify CLD-03: Azure held 11,500 TB, full list of data types, 2017–2022 timeline [ledger status: **UNVERIFIED SPECIFIC DETAILS**; readiness: R1] [7] [6]
+  - Sources: +972 Magazine / Local Call Azure investigation, Microsoft update on review of Israeli Ministry of Defense unit
+- **UNVERIFIED** (tier 1/5) — Verify CLD-04: Workload moved from Azure to AWS/GovCloud and AWS processes the same intercept data [ledger status: **UNVERIFIED**; readiness: R1] [7] [6]
+  - Sources: +972 Magazine / Local Call Azure investigation, Microsoft update on review of Israeli Ministry of Defense unit
+- **UNVERIFIED** (tier 1/5) — Verify CLD-05: Microsoft/AWS violated Wiretap Act, IEEPA or FAR through hosting [ledger status: **LEGAL THEORY, NOT FINDING**; readiness: R0–R1] [7] [6]
+  - Sources: +972 Magazine / Local Call Azure investigation, Microsoft update on review of Israeli Ministry of Defense unit
+- **UNVERIFIED** (tier 1/5) — Verify CLD-06: “Lavender,” “The Gospel,” “Where’s Daddy?” used in military workflows [ledger status: **ATTRIBUTED INVESTIGATIVE REPORTING**; readiness: R1] [7] [6]
+  - Sources: +972 Magazine / Local Call Azure investigation, Microsoft update on review of Israeli Ministry of Defense unit
+- **UNVERIFIED** (tier 1/5) — Verify CLD-07: Those systems’ algorithms/code transferred into Wix, Base44, Wiz, CyberArk, Carbyne or Decart [ledger status: **UNVERIFIED TRANSFER CLAIM**; readiness: R0–R1] [7] [6]
+  - Sources: +972 Magazine / Local Call Azure investigation, Microsoft update on review of Israeli Ministry of Defense unit
+- **UNVERIFIED** (tier 1/5) — Verify CYB-01: Wiz or other vendors have unauthenticated APIs, BOLA, cross-tenant leakage, covert telemetry [ledger status: **UNVERIFIED, NOT TESTED**; readiness: R1] [24]
+  - Sources: Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify CYB-02: Cloud security vendor permissions create concentration risk [ledger status: **GENERAL SYSTEMIC RISK; NOT MISCONDUCT FINDING**; readiness: R1] [24]
+  - Sources: Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify PM-01: Project Meridian announced by Hegseth at Quantico 26 Sep 2026 with named board/co-directors [ledger status: **UNVERIFIED IN THIS CASE**; readiness: R1] [10] [11] [12] [13] [24]
+  - Sources: Companies House — Emerdata Ltd. company no. 10911848, UK House of Commons DCMS report on disinformation and data, UK ICO investigation into political data analytics, FTC Cambridge Analytica matter, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify PM-02: Anduril/Founders Fund have commercial interests near Meridian [ledger status: **STRUCTURAL RELATIONSHIPS ASSERTED; VERIFY FILINGS**; readiness: R1] [10] [11] [12] [13] [24]
+  - Sources: Companies House — Emerdata Ltd. company no. 10911848, UK House of Commons DCMS report on disinformation and data, UK ICO investigation into political data analytics, FTC Cambridge Analytica matter, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify PM-03: Robert Mercer funded Cambridge Analytica by $15m [ledger status: **REPORTED; PAYER/INSTRUMENT/RECIPIENT PRECISION NEEDED**; readiness: R1] [10] [11] [12] [13] [24]
+  - Sources: Companies House — Emerdata Ltd. company no. 10911848, UK House of Commons DCMS report on disinformation and data, UK ICO investigation into political data analytics, FTC Cambridge Analytica matter, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify PM-04: Cambridge Analytica processed personal data in ways regulators acted on [ledger status: **OFFICIAL ACTIONS REPORTED; SCOPE MUST BE NARROW**; readiness: R1] [10] [11] [12] [13] [24]
+  - Sources: Companies House — Emerdata Ltd. company no. 10911848, UK House of Commons DCMS report on disinformation and data, UK ICO investigation into political data analytics, FTC Cambridge Analytica matter, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify PM-05: Emerdata Ltd company no. 10911848, officers include named individuals [ledger status: **COMPANIES HOUSE LEAD**; readiness: R1] [10] [11] [12] [13] [24]
+  - Sources: Companies House — Emerdata Ltd. company no. 10911848, UK House of Commons DCMS report on disinformation and data, UK ICO investigation into political data analytics, FTC Cambridge Analytica matter, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify PM-06: Mercer/Cambridge Analytica links to Meridian, defence vendors, Base44 or Decart [ledger status: **NO IDENTIFIER-LINKED EDGE FOUND**; readiness: R0] [10] [11] [12] [13] [24]
+  - Sources: Companies House — Emerdata Ltd. company no. 10911848, UK House of Commons DCMS report on disinformation and data, UK ICO investigation into political data analytics, FTC Cambridge Analytica matter, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify FIN-01: Deutsche Bank was Trump’s “sole institutional lender” 2011–20; ~$340m loans [ledger status: **OVERSTATED AS WORDED**; readiness: R1] [16] [17] [24]
+  - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify FIN-02: New York court found Trump financial statements materially false [ledger status: **CIVIL ADJUDICATION; APPELLATE LOCATOR IDENTIFIED, CURRENT DOCKET UNCHECKED**; readiness: R1] [16] [17] [24] [32]
+  - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map, NY Appellate Division — People v. Trump, 2025 NY Slip Op 04756
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify FIN-03: Deutsche staff recommended Trump/Kushner SARs and leadership quashed filings [ledger status: **REPORTED ALLEGATION / SENATE QUESTIONS**; readiness: R1] [16] [17] [24]
+  - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify FIN-04: Deutsche mirror trades ~$10bn, Epstein accounts/settlements ~$1.3bn/40 accounts [ledger status: **TWO DISTINCT NYDFS RECORD LOCATORS IDENTIFIED; REPORTED FIGURES NEED SOURCE CHECK**; readiness: R1] [16] [17] [24] [28] [29]
+  - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map, NYDFS Deutsche Bank Epstein-related consent order, NYDFS Deutsche Bank Russian mirror-trading enforcement
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify FIN-05: Trump loans intersected Deutsche mirror trades/Epstein payments [ledger status: **NO TRANSACTION-LEVEL LINK ESTABLISHED**; readiness: R0] [16] [17] [24]
+  - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify FIN-06: JPMorgan 4,700 transactions/$1.1bn; Deutsche $1.3bn/40 accounts/$13m [ledger status: **REPORTED/REGULATORY SUMMARIES; PERIOD/DEFINITION MUST BE CHECKED**; readiness: R1] [16] [17] [24]
+  - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify EP-01: 2007 Epstein NPA granted federal nonprosecution subject to its terms; victims challenged handling [ledger status: **NPA, DOJ OPR REVIEW, AND CONTROLLING EN BANC LOCATOR IDENTIFIED; FILES NOT RETRIEVED**; readiness: R1] [14] [24] [25] [26]
+  - Sources: United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map, In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal, DOJ Office of Professional Responsibility — Epstein NPA review
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify EP-02: Maxwell’s conviction logically requires an identifiable client list; DOJ memo contradicts verdict [ledger status: **LEGAL INFERENCE IS WRONG**; readiness: R0] [14] [24] [27] [30] [31]
+  - Sources: United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map, United States v. Maxwell, 118 F.4th 256 — Second Circuit appeal, DOJ/FBI Epstein review memorandum, July 2025, Maxwell certiorari docket, No. 24-1073
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify EP-03: Epstein/Maxwell intelligence links, Mossad, “honeypot,” CIA Glomar [ledger status: **ALLEGATIONS / FOIA RESPONSE NOT AFFIRMATIVE PROOF**; readiness: R0–R1] [14] [24]
+  - Sources: United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify POL-01: $25k Trump Foundation donation to Bondi committee; IRS excise tax; Bondi declined inquiry [ledger status: **TRANSACTION/IRS REPORTING LEAD; QUID PRO QUO NOT ESTABLISHED**; readiness: R1] [20] [24]
+  - Sources: FEC campaign-finance records, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify POL-02: This was a federal corporate election contribution under 52 U.S.C. §30118 [ledger status: **LEGAL CLASSIFICATION UNSUPPORTED**; readiness: R0] [20] [24]
+  - Sources: FEC campaign-finance records, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify POL-03: Acosta was appointed as reward for NPA [ledger status: **SEQUENCE DOCUMENTED, MOTIVE UNPROVEN**; readiness: R1] [20] [24]
+  - Sources: FEC campaign-finance records, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify REAL-01: Rybolovlev bought Maison de L’Amitié for $95m; later subdivision/resales [ledger status: **PROPERTY-RECORD LEAD; PRICE PURPOSE NOT ESTABLISHED**; readiness: R1] [9] [21] [24]
+  - Sources: FinCEN Geographic Targeting Orders, County property records and deeds, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify REAL-02: Rybolovlev paid ~$30m over appraised value and therefore laundered money [ledger status: **INFERENCE NOT SUPPORTED**; readiness: R0] [9] [21] [24]
+  - Sources: FinCEN Geographic Targeting Orders, County property records and deeds, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify REAL-03: Russian-passport buyers purchased Trump condo units through entities [ledger status: **REPORTED ANALYSIS / SAMPLE SCOPE MUST BE NARROW**; readiness: R1] [9] [21] [24]
+  - Sources: FinCEN Geographic Targeting Orders, County property records and deeds, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify REAL-04: 1,300 Trump condo units / 21% shell companies [ledger status: **REPORTED COUNT; DENOMINATOR/METHOD NEEDS REPLICATION**; readiness: R1] [9] [21] [24]
+  - Sources: FinCEN Geographic Targeting Orders, County property records and deeds, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify REAL-05: Panama Trump Ocean Club laundered drug money; Trump knowingly benefited [ledger status: **SERIOUS REPORTING LEAD, KNOWLEDGE/PROJECT-WIDE CLAIM OVERREACHES**; readiness: R1] [9] [21] [24]
+  - Sources: FinCEN Geographic Targeting Orders, County property records and deeds, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify REAL-06: Trump Tower Baku violated FCPA/IEEPA because of Azarpassillo/IRGC and Mammadov [ledger status: **DUE-DILIGENCE RED FLAGS REPORTED; VIOLATION NOT ESTABLISHED**; readiness: R1] [9] [21] [24]
+  - Sources: FinCEN Geographic Targeting Orders, County property records and deeds, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify REAL-07: Bayrock/Sater proves Trump money laundering and a Russia network [ledger status: **Sater conviction and project relationships are distinct; laundering claim unadjudicated**; readiness: R1] [9] [21] [24]
+  - Sources: FinCEN Geographic Targeting Orders, County property records and deeds, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify REAL-08: S&A Concrete was mob-owned and Trump paid inflated “mob tax” knowingly [ledger status: **HISTORICAL REPORTING LEAD; KNOWLEDGE/PRICE CLAIM NEEDS FBI/contract records**; readiness: R1] [9] [21] [24]
+  - Sources: FinCEN Geographic Targeting Orders, County property records and deeds, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify AFF-01: PIF committed $2bn to Kushner Affinity fund; committee objected [ledger status: **MAJOR INVESTMENT REPORTED; exact vehicle/approval record needed**; readiness: R1] [18] [17] [24]
+  - Sources: SEC Investment Adviser Public Disclosure — Affinity / A Fin Management, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify AFF-02: Investment was deferred compensation, bribery, FARA/emoluments violation [ledger status: **INFERENCE/LEGAL THEORY, NOT ESTABLISHED**; readiness: R0] [18] [17] [24]
+  - Sources: SEC Investment Adviser Public Disclosure — Affinity / A Fin Management, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify CR-01: MGX $2bn Binance investment settled in USD1 [ledger status: **TRANSACTION REPORT LEAD**; readiness: R1] [23] [19] [24]
+  - Sources: MGX / Binance / USD1 transaction reporting and primary records, U.S. Treasury OFAC sanctions search, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify CR-02: $2bn paid to Trump family; 75% of WLF profits/fees; token buyers are emoluments [ledger status: **MONEY-FLOW/OWNERSHIP/LEGAL CLAIM NOT PROVEN**; readiness: R0–R1] [23] [19] [24]
+  - Sources: MGX / Binance / USD1 transaction reporting and primary records, U.S. Treasury OFAC sanctions search, Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify CR-03: Sanctioned-jurisdiction wallets prove OFAC violations [ledger status: **NOT ESTABLISHED**; readiness: R0] [23] [19] [24]
+  - Sources: MGX / Binance / USD1 transaction reporting and primary records, U.S. Treasury OFAC sanctions search, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify EDU-01: Epstein donations to MIT/Harvard sanitized reputation and created access [ledger status: **DONATIONS/INTERNAL PRACTICES REPORTED; motive/quid-pro-quo inference needs records**; readiness: R1] [24]
+  - Sources: Investigator-submitted allegations and repository source map
+  - Legal: LIBEL_EXPOSURE
+- **UNVERIFIED** (tier 1/5) — Verify OFF-01: Offshore entities/trusts prove crime, untraceability, or “zero accountability” [ledger status: **GENERALIZATION IS FALSE/UNSUPPORTED**; readiness: R0] [24]
+  - Sources: Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify PROC-01: Carbyne deployed in 23 states and federal ICE/FBI/DEA units [ledger status: **UNVERIFIED**; readiness: R1] [22] [24]
+  - Sources: U.S. federal award records, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify PROC-02: AE Industrial/REDLattice conduits bypass FOCI/FAR and bring foreign software to federal tactical use [ledger status: **UNVERIFIED / TECHNICAL-LEGAL THEORY**; readiness: R0–R1] [22] [24]
+  - Sources: U.S. federal award records, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify PROC-03: Meridian-connected awards went to firms whose executives advised Meridian [ledger status: **NO IDENTIFIER-LINKED AWARD SHOWN**; readiness: R0–R1] [22] [24]
+  - Sources: U.S. federal award records, Investigator-submitted allegations and repository source map
+- **UNVERIFIED** (tier 1/5) — Verify PROC-04: Vendor jurisdiction means foreign state can access all hosted data [ledger status: **FALSE AS A GENERAL RULE**; readiness: R0] [22] [24]
+  - Sources: U.S. federal award records, Investigator-submitted allegations and repository source map
+
+## Source ledger
+- **Base44 Terms of Service — supplied excerpt** [Tier 3 — Secondary/Unverified]
+  - Type: Investigator-supplied excerpt; original page not fetched
+  - Ref: https://base44.com/terms-of-service
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [1]
+- **Base44 Privacy Policy — supplied excerpt** [Tier 3 — Secondary/Unverified]
+  - Type: Investigator-supplied excerpt; original page not fetched
+  - Ref: https://base44.com/privacy-policy
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [2]
+- **Base44 Responsible Use Policy — supplied excerpt** [Tier 3 — Secondary/Unverified]
+  - Type: Investigator-supplied excerpt; original page not fetched
+  - Ref: https://base44.com/responsible-use
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [3]
+- **Base44 Data Processing Addendum — retrieval target** [Tier 3 — Secondary/Unverified]
+  - Type: Official-source locator; not retrieved
+  - Ref: https://base44.com/dpa
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [4]
+- **Base44 security documentation / Trust Center** [Tier 3 — Secondary/Unverified]
+  - Type: Official-source locator; not retrieved
+  - Ref: https://docs.base44.com/Community-and-support/Privacy-and-security ; https://trust.base44.com/
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [5]
+- **Microsoft update on review of Israeli Ministry of Defense unit** [Tier 3 — Secondary/Unverified]
+  - Type: Company statement locator; not retrieved
+  - Ref: https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [6]
+- **+972 Magazine / Local Call Azure investigation** [Tier 3 — Secondary/Unverified]
+  - Type: Investigative reporting locator; not retrieved
+  - Ref: https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [7]
+- **Axon announced Carbyne acquisition** [Tier 3 — Secondary/Unverified]
+  - Type: Company announcement locator; not retrieved
+  - Ref: https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [8]
+- **FinCEN Geographic Targeting Orders** [Tier 3 — Secondary/Unverified]
+  - Type: Government records locator; not retrieved
+  - Ref: https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [9]
+- **Companies House — Emerdata Ltd. company no. 10911848** [Tier 3 — Secondary/Unverified]
+  - Type: Government registry locator; not retrieved
+  - Ref: https://find-and-update.company-information.service.gov.uk/company/10911848
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [10]
+- **UK House of Commons DCMS report on disinformation and data** [Tier 3 — Secondary/Unverified]
+  - Type: Parliamentary record locator; not retrieved
+  - Ref: https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [11]
+- **UK ICO investigation into political data analytics** [Tier 3 — Secondary/Unverified]
+  - Type: Regulator locator; not retrieved
+  - Ref: https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [12]
+- **FTC Cambridge Analytica matter** [Tier 3 — Secondary/Unverified]
+  - Type: Regulator locator; not retrieved
+  - Ref: https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [13]
+- **United States v. Maxwell — SDNY criminal docket** [Tier 3 — Secondary/Unverified]
+  - Type: Court docket locator; docket not retrieved
+  - Ref: S.D.N.Y. No. 20-cr-330
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [14]
+- **NY v. Trump — New York civil-fraud docket** [Tier 3 — Secondary/Unverified]
+  - Type: Court docket locator; current disposition not retrieved
+  - Ref: N.Y. Sup. Ct. Index No. 452564/2022; appellate dockets to be checked
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [15]
+- **Deutsche Bank enforcement records** [Tier 3 — Secondary/Unverified]
+  - Type: Regulator record locators; records not retrieved
+  - Ref: NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [16]
+- **Senate Finance Committee letters re Deutsche Bank and Affinity** [Tier 3 — Secondary/Unverified]
+  - Type: Congressional document locator; letters not retrieved
+  - Ref: U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [17]
+- **SEC Investment Adviser Public Disclosure — Affinity / A Fin Management** [Tier 3 — Secondary/Unverified]
+  - Type: Regulator database locator; filings not retrieved
+  - Ref: https://adviserinfo.sec.gov/
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [18]
+- **U.S. Treasury OFAC sanctions search** [Tier 3 — Secondary/Unverified]
+  - Type: Government database locator; not searched in this case
+  - Ref: https://ofac.treasury.gov/
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [19]
+- **FEC campaign-finance records** [Tier 3 — Secondary/Unverified]
+  - Type: Government database locator; not retrieved
+  - Ref: https://www.fec.gov/data/ ; Florida Division of Elections records
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [20]
+- **County property records and deeds** [Tier 3 — Secondary/Unverified]
+  - Type: Government record target; no transaction record attached
+  - Ref: Palm Beach County Clerk & Comptroller official records; parcel identifiers pending
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [21]
+- **U.S. federal award records** [Tier 3 — Secondary/Unverified]
+  - Type: Government database locator; no entity/UEI query completed
+  - Ref: https://www.usaspending.gov/ ; FPDS
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [22]
+- **MGX / Binance / USD1 transaction reporting and primary records** [Tier 3 — Secondary/Unverified]
+  - Type: Transaction source target; no primary record attached
+  - Ref: Issuer, investor and exchange statements; on-chain transaction identifiers pending
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [23]
+- **Investigator-submitted allegations and repository source map** [Tier 3 — Secondary/Unverified]
+  - Type: Lead only; not independent evidence
+  - Ref: Conversation intake; linked repository books listed in the master ledger
+  - Date: Locator captured 2026-10-08; source not retrieved/authenticated in this session
+  - Citation id: [24]
+- **In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal** [Tier 3 — Secondary/Unverified]
+  - Type: Appellate court record locator; opinion not fetched in this environment
+  - Ref: https://media.ca11.uscourts.gov/opinions/pub/files/201913843.enb.pdf
+  - Date: Opinion dated 2021; locator recorded 2026-10-08, content not retrieved
+  - Citation id: [25]
+- **DOJ Office of Professional Responsibility — Epstein NPA review** [Tier 3 — Secondary/Unverified]
+  - Type: Official DOJ administrative review locator; report not fetched
+  - Ref: https://www.justice.gov/opr/page/file/1336471/dl?inline
+  - Date: Released 2020-11-12; locator recorded 2026-10-08, content not retrieved
+  - Citation id: [26]
+- **United States v. Maxwell, 118 F.4th 256 — Second Circuit appeal** [Tier 3 — Secondary/Unverified]
+  - Type: Appellate court record locator; opinion not fetched
+  - Ref: https://www.ca2.uscourts.gov/decisions.html; No. 22-1426
+  - Date: Opinion dated 2024-09-17; locator recorded 2026-10-08, content not retrieved
+  - Citation id: [27]
+- **NYDFS Deutsche Bank Epstein-related consent order** [Tier 3 — Secondary/Unverified]
+  - Type: Official state regulator release locator; order not fetched
+  - Ref: https://www.dfs.ny.gov/reports_and_publications/press_releases/pr202007071
+  - Date: 2020-07-07; locator recorded 2026-10-08, content not retrieved
+  - Citation id: [28]
+- **NYDFS Deutsche Bank Russian mirror-trading enforcement** [Tier 3 — Secondary/Unverified]
+  - Type: Official state regulator release locator; order not fetched
+  - Ref: https://www.dfs.ny.gov/reports_and_publications/press_releases/pr1701301
+  - Date: 2017-01-30; locator recorded 2026-10-08, content not retrieved
+  - Citation id: [29]
+- **DOJ/FBI Epstein review memorandum, July 2025** [Tier 3 — Secondary/Unverified]
+  - Type: Official DOJ memorandum locator; document not fetched
+  - Ref: https://www.justice.gov/opa/media/1407001/dl?inline
+  - Date: Reportedly July 2025; exact issuance date not verified; locator recorded 2026-10-08
+  - Citation id: [30]
+- **Maxwell certiorari docket, No. 24-1073** [Tier 3 — Secondary/Unverified]
+  - Type: U.S. Supreme Court docket locator; docket not fetched
+  - Ref: https://www.supremecourt.gov/docket/docketfiles/html/public/24-1073.html
+  - Date: Reported certiorari denial October 2025; locator recorded 2026-10-08, current docket not checked
+  - Citation id: [31]
+- **NY Appellate Division — People v. Trump, 2025 NY Slip Op 04756** [Tier 3 — Secondary/Unverified]
+  - Type: Official state appellate opinion locator; opinion not fetched
+  - Ref: https://www.nycourts.gov/reporter/3dseries/2025/2025_04756.htm
+  - Date: 2025-08-21; locator recorded 2026-10-08, content not retrieved
+  - Citation id: [32]
+
+## Duplicate source review
+- _No duplicate sources detected._
+
+## Cross-claim contradiction review
+- _No cross-claim contradictions detected by heuristic review._
+
+## Open questions
+- Authenticate and preserve dated Base44 terms, privacy policy, Responsible Use Policy, DPA and complete subprocessor directory; obtain Wix/Base44 response on model use, matching, retention, regional routing and deletion.
+- Obtain original Azure investigative reporting and Microsoft statement, plus customer/provider contracts, account records and retention/access logs; determine exact scope and whether any migration occurred.
+- Identify each Carbyne/Axon public-safety deployment by agency, contract and period; obtain product version, data-flow documentation, permissions, retention controls and authorized technical review.
+- Authenticate the alleged Project Meridian announcement, charter and roster; search awards only by confirmed legal entity and unique identifiers.
+- Retrieve controlling Maxwell verdict/instructions and *In re Wild*, 994 F.3d 1244; remove the “client list logical trap” assertion and accurately state procedural posture.
+- Retrieve current NY civil-fraud appellate disposition, bank regulator orders, Senate correspondence, loan instruments and any public customer-specific transaction evidence.
+- Trace PIF/Affinity and MGX/Binance/USD1 with fund agreements, capital calls, custody/issuer records, fees, distributions and beneficial-owner proof.
+- Obtain property deeds, closing statements, financing, parcel histories, purchaser ownership and source-of-funds evidence; seek right of reply.
+- Search procurement databases by legal name, UEI/award ID; determine whether the named companies served the alleged agencies and dates.
+- Do not connect bank, intelligence, political-data, cloud or crypto strands absent an identifier-bearing document or transaction record.
+
+## HILS gate
+- Required: True
+- Status: **PENDING_HUMAN_REVIEW**
+- Verify every named-party claim against the attached source ledger.
+- Confirm confidence labels match the actual evidence mix.
+- Confirm retaliation/legal concerns are visible and unresolved unknowns remain visible.
+- Approve, hold, or narrow publication scope before any outward release.

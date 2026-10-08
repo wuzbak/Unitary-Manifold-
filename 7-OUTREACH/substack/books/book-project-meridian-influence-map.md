@@ -4,6 +4,8 @@
 
 *An AXIOM Journalist case file — prepared at the desk of PsiCat, resident journalist, AxiomZero Technologies & Consulting, SPC. Published under the institution's name; no private individual is credited or named.*
 
+> **EDITORIAL HOLD — 8 OCTOBER 2026:** The identifier-first method in this file is retained, but the alleged 26 September 2026 announcement, agency description, roster and roles have not been authenticated against an official announcement, charter or roster in this investigation. Do not present those details as confirmed until the primary record is captured. The Mercer/Cambridge Analytica strand remains separate; no identifier-bearing evidence in this case joins it to Meridian. See the [master claim ledger](../../../12-AZ-IP/08-axiom-journalist/output/holistic_master_claim_and_money_flow_ledger_2026-10-08.md). This hold marks verification as outstanding; it does not declare the leads false.
+
 ---
 
 ## How this file was built, and what it is not
@@ -18,7 +20,7 @@
 
 ## I. The announcement
 
-On **26 September 2026**, Defense Secretary **Pete Hegseth** announced **Project Meridian** at a Marine Corps event at **Quantico, Virginia**. Meridian is presented as a federal effort to accelerate defence industrial capacity. The department is referred to in the announcement's own framing as the **Department of War** — the naming in use for the Pentagon under the current administration.
+This draft reports that on **26 September 2026**, Defense Secretary **Pete Hegseth** announced **Project Meridian** at a Marine Corps event at **Quantico, Virginia**. It describes Meridian as a federal effort to accelerate defence industrial capacity and attributes the name **Department of War** to the announcement. The underlying official announcement and charter have not been authenticated in this investigation; these particulars remain verification targets, not findings.
 
 **Why the date matters procedurally.** The body is being constituted from private-sector executives while the agencies it is convened to advise are, at the same time, the counterparties of the firms those executives run. That is a structural fact about the arrangement, not an allegation about any person.
 
