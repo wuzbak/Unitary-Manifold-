@@ -3,17 +3,11 @@
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 
 import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
-APP_ROOT = PRODUCT_ROOT / 'app'
-for import_root in (APP_ROOT, PRODUCT_ROOT):
-    if str(import_root) in sys.path:
-        sys.path.remove(str(import_root))
-    sys.path.insert(0, str(import_root))
 
 from axiom_journalist.engine.publication import (
     build_dossier_packet,
@@ -99,6 +93,8 @@ def test_holistic_case_builds_a_human_review_packet_without_upgrading_leads(inve
     assert 'en banc Doe opinion' not in story_packet
     assert '*In re Wild*, 994 F.3d 1244' in story_packet
     assert story_packet.rstrip() == render_story_markdown(build_story_packet(investigation)).rstrip()
+    assert '.;' not in story_packet
+    assert '..' not in story_packet
     ledger = (OUTPUT / 'holistic_master_claim_and_money_flow_ledger_2026-10-08.md').read_text(
         encoding='utf-8'
     )

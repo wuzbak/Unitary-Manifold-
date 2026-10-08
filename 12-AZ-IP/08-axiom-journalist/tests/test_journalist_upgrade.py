@@ -1,16 +1,8 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 import json
-import sys
 from pathlib import Path
 
 import pytest
-
-PRODUCT_ROOT = Path(__file__).resolve().parents[1]
-APP_ROOT = PRODUCT_ROOT / "app"
-for import_root in (APP_ROOT, PRODUCT_ROOT):
-    if str(import_root) in sys.path:
-        sys.path.remove(str(import_root))
-    sys.path.insert(0, str(import_root))
 
 from axiom_journalist.engine.hils_review import HILSReviewRequest, format_review_output, submit_for_review
 from core.investigator import Claim, ConfidenceLevel, Source, SourceTier
@@ -284,6 +276,7 @@ def test_parse_source_bundle_supports_json_and_pipe_rows():
     assert parsed[0]['tier'] == 'Tier 1 — Primary Record (court/regulatory/FOIA)'
     assert parsed[0]['notes'] == 'Original record not retrieved'
     assert parsed[1]['title'] == 'Press report'
+    assert parsed[1]['notes'] == ''
 
 
 def test_parse_source_bundle_preserves_pipes_in_excerpt_column():
@@ -292,6 +285,16 @@ def test_parse_source_bundle_preserves_pipes_in_excerpt_column():
     )
     assert parsed[0]['title'] == 'Email thread'
     assert parsed[0]['excerpt'] == 'first | second | third'
+    assert parsed[0]['notes'] == ''
+
+
+def test_parse_source_bundle_normalizes_null_notes():
+    parsed = parse_source_bundle(
+        '{"title":"Court filing","tier":"Tier 1","source_type":"Docket",'
+        '"url_or_ref":"https://records.example/1","date":"2026-01-01",'
+        '"excerpt":"Primary filing","notes":null}'
+    )
+    assert parsed[0]['notes'] == ''
 
 
 def test_merge_source_bundle_skips_duplicates():

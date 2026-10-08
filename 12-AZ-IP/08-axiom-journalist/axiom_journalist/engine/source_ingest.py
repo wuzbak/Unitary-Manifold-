@@ -68,8 +68,7 @@ def parse_source_bundle(bundle_text: str) -> list[dict[str, str]]:
                 'date': _clean(payload.get('date', '')),
                 'excerpt': _clean(payload.get('excerpt', '')),
             }
-            if 'notes' in payload:
-                source['notes'] = _clean(payload['notes'])
+            source['notes'] = _clean(payload.get('notes') or '')
             rows.append(source)
             continue
 
@@ -87,6 +86,7 @@ def parse_source_bundle(bundle_text: str) -> list[dict[str, str]]:
             'url_or_ref': _clean(parts[3]),
             'date': _clean(parts[4]),
             'excerpt': _clean('|'.join(parts[5:])),
+            'notes': '',
         }
         rows.append(source)
     return rows
