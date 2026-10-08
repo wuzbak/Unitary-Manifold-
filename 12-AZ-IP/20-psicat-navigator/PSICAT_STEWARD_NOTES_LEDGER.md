@@ -56,3 +56,36 @@ The steward asked whether the non-smoothness comes from piecewise-linear constra
 - Component versions (v33.1) lag both the webspace's declared v37.7 and the repository's live version.
 
 **Open.** Fixing the page belongs to the webspace codebase, not to this repository. The audit gives the exact fix for each finding, and it clears each finding once the corrected data is supplied (this is tested).
+
+## Note 4 — Trust status, the 12/37 clock, and the full raw intake (received 2026-10-08)
+
+**What the steward said.** The Base44 site is a problem: it is not trustworthy, but it is where things currently live. Two items follow:
+1. There is a clock that was built from the ratio 12/37.
+2. The steward has found the full raw machine index. It is very large and will arrive in several parts.
+
+The instruction is to keep everything and to hold all work until every part has arrived.
+
+**What this means for the work.** Treat everything that comes from Base44 as an unverified claim. The audit already works this way: nothing the webspace says counts as verified just because the webspace says it. In this repository the clock is the Merlin tick, set by `MERLIN_TICK_NUMERATOR = 12` and `MERLIN_TICK_DENOMINATOR = 37` in `ox_navigator/engine/constants.py` (lines 16–17). The tick also sets `TICK_PHASE_STEP` in `merlin_toroidal_geometry.py`. The webspace's own clock has not been seen yet.
+
+**Raw parts received so far.** These are pieces of `sbom.packages`, in the order they arrived:
+- **Part A.** From `@mapbox/whoots-js` 3.1.0 through `@radix-ui/react-scroll-area` 1.2.10.
+- **Part B.** From `@esbuild/linux-s390x` 0.25.12 through `@mapbox/vector-tile` 1.3.1.
+- **Part C.** From `@babel/generator` 7.29.7 through `@esbuild/linux-riscv64` 0.25.12.
+- **Part D.** The machine-index header again, identical to Note 2, through `@babel/core` 7.29.7.
+
+The parts arrived out of order and overlap, so they are not yet a complete list.
+
+**Observation, not yet a finding.** Some entries appear more than once with identical integrity hashes:
+- `@radix-ui/react-context` 1.1.3 appears twice.
+- `@radix-ui/react-primitive` 2.1.4 appears five times.
+
+The index says "every named array is the COMPLETE list", so repeated identical entries could inflate `package_count` (892). Two explanations fit: the paste repeated those entries, or the generator emits one entry per nested `node_modules` copy. This will be checked once the full list has arrived.
+
+- **Part E.** From `@radix-ui/react-select` 2.2.6 through `@tensorflow/tfjs-backend-cpu` 3.21.0.
+
+**Observations from Part E. These are leads to check, not findings yet.**
+- **A likely cause for the inflated direct count.** `@radix-ui/react-slot` 1.2.3 appears 8 times, every copy byte-identical and every copy marked `"direct": true`. There is also one 1.2.4 entry, also marked direct. `package.json` declares `@radix-ui/react-slot` only once. This points to the generator writing one entry per nested `node_modules` copy and inheriting the `direct` flag from the package name instead of from the location. That would explain the earlier finding MI-DIRECT-COUNT: the SBOM says `direct_count` is 111, but `package.json` declares 96. It would also inflate `package_count` (892). To confirm, de-duplicate the full list by name, version and integrity, then count again.
+- **One of the two Hippocratic-2.1 packages identified.** It is `@react-leaflet/core` 2.1.0, pulled in by `react-leaflet`.
+- **Two TensorFlow versions in the tree.** `@tensorflow/tfjs-backend-cpu` 3.21.0 is present while the declared `@tensorflow/tfjs` is ^4.22.0. It is probably pulled in by `danfojs`, and would mean two TensorFlow.js major versions are bundled. This needs confirming against the dependency edges.
+
+**Status: holding.** No work will start until the steward says the intake is finished.
