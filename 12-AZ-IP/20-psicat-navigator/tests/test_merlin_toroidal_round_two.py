@@ -120,7 +120,9 @@ def test_flag_ab_restores_environment_and_reports(monkeypatch) -> None:
     report = run_flag_ab(stages=["stage_a_parity_capture"], limit_per_stage=2)
     assert report["ok"] is True
     assert report["benchmark_count"] == 2
-    assert set(report["summary"]) == {"baseline", "crease_fusion", "bm25_pillars", "both"}
+    assert set(report["summary"]) == {
+        "baseline", "crease_fusion", "bm25_pillars", "both", "semantic_embedder", "all_flags",
+    }
     assert report["summary"]["baseline"]["answers_changed"] == []
     for flag in OPT_IN_FLAGS:
         assert flag not in os.environ

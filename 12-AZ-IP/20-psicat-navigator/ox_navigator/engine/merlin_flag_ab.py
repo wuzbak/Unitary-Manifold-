@@ -23,9 +23,13 @@ from contextlib import contextmanager
 from typing import Any
 
 from .merlin_benchmark import evaluate_benchmark_response, get_benchmark_corpus
-from .merlin_rag import BM25_PILLAR_RANKING_FLAG, TOROIDAL_CREASE_FUSION_FLAG
+from .merlin_rag import (
+    BM25_PILLAR_RANKING_FLAG,
+    SEMANTIC_EMBEDDER_RANKING_FLAG,
+    TOROIDAL_CREASE_FUSION_FLAG,
+)
 
-OPT_IN_FLAGS = (TOROIDAL_CREASE_FUSION_FLAG, BM25_PILLAR_RANKING_FLAG)
+OPT_IN_FLAGS = (TOROIDAL_CREASE_FUSION_FLAG, BM25_PILLAR_RANKING_FLAG, SEMANTIC_EMBEDDER_RANKING_FLAG)
 _ENV_LOCK = threading.Lock()
 
 
@@ -112,7 +116,9 @@ def run_flag_ab(
         "baseline": (),
         "crease_fusion": (TOROIDAL_CREASE_FUSION_FLAG,),
         "bm25_pillars": (BM25_PILLAR_RANKING_FLAG,),
-        "both": OPT_IN_FLAGS,
+        "both": (TOROIDAL_CREASE_FUSION_FLAG, BM25_PILLAR_RANKING_FLAG),
+        "semantic_embedder": (SEMANTIC_EMBEDDER_RANKING_FLAG,),
+        "all_flags": OPT_IN_FLAGS,
     }
     if "baseline" not in variant_map:
         variant_map = {"baseline": (), **variant_map}

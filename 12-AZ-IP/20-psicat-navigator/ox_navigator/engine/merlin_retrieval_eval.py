@@ -13,6 +13,12 @@ the right pillars:
 The query set is hand-labelled against ``PILLAR_KNOWLEDGE`` and deliberately
 paraphrased so that exact-name matching is not enough.  It is small (a few
 dozen queries); results are indicative, not a benchmark of record.
+
+``evaluate_rankers(..., include_embedder=True)`` additionally measures the
+opt-in local hashed n-gram embedder (``merlin_semantic_embedder``) as
+``embedder`` and its fusion with the other two as ``rrf_all``.  This extra
+measurement is off by default so the default ``RANKERS``/``best_by_mrr``
+behaviour this module has always reported stays exactly as it was.
 """
 
 from __future__ import annotations
@@ -81,6 +87,13 @@ def _bm25_ranking(query: str, index: BM25Index, ids: Sequence[Any]) -> list[Any]
     return ranked + sorted((pid for pid in ids if pid not in seen), key=int)
 
 
+def _embedder_ranking(query: str, index: Any, ids: Sequence[Any]) -> list[Any]:
+    """Hashed n-gram embedder order; same zero-score fill rule as BM25/Jaccard."""
+    ranked = [ids[i] for i, _ in index.rank(token_list(query), top_k=len(ids))]
+    seen = set(ranked)
+    return ranked + sorted((pid for pid in ids if pid not in seen), key=int)
+
+
 def reciprocal_rank_fusion(rankings: Sequence[Sequence[Any]], *, k: int = RRF_K) -> list[Any]:
     scores: dict[Any, float] = {}
     for ranking in rankings:
@@ -111,6 +124,7 @@ def evaluate_rankers(
     queries: Sequence[tuple[str, Sequence[int]]] | None = None,
     *,
     cutoffs: Sequence[int] = DEFAULT_CUTOFFS,
+    include_embedder: bool = False,
 ) -> dict[str, Any]:
     if pillars is None:
         from .merlin_rag import PILLAR_KNOWLEDGE
@@ -121,7 +135,13 @@ def evaluate_rankers(
     known = set(ids)
     corpus_tokens = [_pillar_tokens(p) for p in pillars]
     index = BM25Index(corpus_tokens)
-    totals = {name: {} for name in RANKERS}
+    embedder_index = None
+    if include_embedder:
+        from .merlin_semantic_embedder import EmbedderIndex
+
+        embedder_index = EmbedderIndex(corpus_tokens)
+    rankers = (*RANKERS, "embedder", "rrf_all") if include_embedder else RANKERS
+    totals = {name: {} for name in rankers}
     per_query = []
     skipped = []
     for query, relevant_ids in labelled:
@@ -132,6 +152,10 @@ def evaluate_rankers(
         jaccard = _jaccard_ranking(query, corpus_tokens, ids)
         bm25 = _bm25_ranking(query, index, ids)
         rankings = {"jaccard": jaccard, "bm25": bm25, "rrf": reciprocal_rank_fusion([jaccard, bm25])}
+        if include_embedder:
+            embedder = _embedder_ranking(query, embedder_index, ids)
+            rankings["embedder"] = embedder
+            rankings["rrf_all"] = reciprocal_rank_fusion([jaccard, bm25, embedder])
         row = {"query": query, "relevant": sorted(relevant)}
         for name, ranking in rankings.items():
             metrics = _metrics(ranking, relevant, cutoffs)
@@ -144,9 +168,10 @@ def evaluate_rankers(
         name: {key: round(value / n, 4) for key, value in metrics.items()} if n else {}
         for name, metrics in totals.items()
     }
-    best = max(RANKERS, key=lambda name: (summary[name].get("mrr", 0.0), summary[name].get("recall@5", 0.0))) if n else None
+    best = max(rankers, key=lambda name: (summary[name].get("mrr", 0.0), summary[name].get("recall@5", 0.0))) if n else None
     return {
         "status": "ADJACENT_TRACK",
+        "rankers": list(rankers),
         "query_count": n,
         "corpus_size": len(ids),
         "skipped_queries": skipped,

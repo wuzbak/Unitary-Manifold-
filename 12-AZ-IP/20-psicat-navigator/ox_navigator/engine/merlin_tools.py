@@ -162,6 +162,7 @@ from .merlin_meta_learning import (
 from .merlin_reasoning_graph import get_reasoning_chain
 from .merlin_repo_graph import build_repo_graph, route_context_via_repo_graph
 from .merlin_retrieval_eval import evaluate_rankers
+from .merlin_semantic_embedder import pillar_embedder_report
 from .merlin_toroidal_awareness import build_session_awareness
 from .merlin_toroidal_geometry import export_golden_vectors, get_toroidal_geometry_report
 from .merlin_toroidal_router import build_toroidal_navigation_packet
@@ -463,6 +464,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinToroidalNavigation", "summary": "Return the hybrid-automaton facet, creases, and BM25-vs-sketch ranking for a query", "domain": "functions"},
             {"name": "getMerlinToroidalAwareness", "summary": "Read-only session trajectory: facets, creases, topic jumps, and current orientation", "domain": "functions"},
             {"name": "getMerlinRetrievalEval", "summary": "Return the labelled retrieval evaluation (Jaccard vs BM25 vs RRF)", "domain": "functions"},
+            {"name": "getMerlinSemanticEmbedder", "summary": "Return the opt-in local hashed n-gram embedder pillar ranking vs BM25 agreement", "domain": "functions"},
             {"name": "getMerlinUnitaryLab", "summary": "Run the unitary operator lab: L1 Clarke-subgradient fit on U(n) vs Procrustes", "domain": "functions"},
             {"name": "getMerlinPhaseIsaVectors", "summary": "Return phase-index ISA golden vectors with a SHA-256 fingerprint", "domain": "functions"},
             {"name": "getMerlinWebspaceProvenance", "summary": "Audit the webspace machine index and Data Provenance page against the repository", "domain": "functions"},
@@ -634,6 +636,14 @@ def _tool_manifest() -> dict[str, Any]:
             "args_schema": {"type": "object", "properties": {"query": {"type": "string"}}, "additionalProperties": False}
         },
         "getMerlinRetrievalEval": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getMerlinSemanticEmbedder": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"query": {"type": "string"}, "top_k": {"type": "integer"}},
+                "required": ["query"],
+                "additionalProperties": False,
+            }
+        },
         "getMerlinUnitaryLab": {
             "args_schema": {
                 "type": "object",
@@ -1695,6 +1705,10 @@ _FUNCTIONS = {
         str(args.get("query", "") or "")[:4000],
     )},
     "getMerlinRetrievalEval": lambda **args: {"data": evaluate_rankers()},
+    "getMerlinSemanticEmbedder": lambda **args: {"data": pillar_embedder_report(
+        str(args.get("query", ""))[:4000],
+        top_k=min(_coerce_positive_int(args.get("top_k"), 5), 20),
+    )},
     "getMerlinUnitaryLab": lambda **args: _unitary_lab_surface(args),
     "getMerlinPhaseIsaVectors": lambda **args: {"data": export_golden_vectors()},
     "getMerlinWebspaceProvenance": lambda **args: {"data": audit_webspace_provenance()},
