@@ -3,7 +3,7 @@
   "lead": "Test the submitted allegations and prior dossier claims against identifiable primary records. All external locators in this export were not retrieved/authenticated in this session. Do not infer criminality or connect entities without transaction or corporate identifiers.",
   "journalist": "AXIOM Journalist / AxiomZero Special Investigations Division",
   "created_at": "2026-10-08T00:00:00",
-  "status": "Active — source authentication and right of reply pending",
+  "status": "Active — primary-source retrieval blocked; source locator audit completed; right of reply pending",
   "entities": [
     {
       "name": "Wix.com Ltd.",
@@ -198,7 +198,8 @@
       "url_or_ref": "https://base44.com/terms-of-service",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Describes operator, incorporated policies, arbitration, changes and customer responsibilities; quoted content remains unauthenticated.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Base44 Privacy Policy — supplied excerpt",
@@ -207,7 +208,8 @@
       "url_or_ref": "https://base44.com/privacy-policy",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Describes collection, purposes, analytics, matching, sharing and tracking; quoted content remains unauthenticated.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Base44 Responsible Use Policy — supplied excerpt",
@@ -216,7 +218,8 @@
       "url_or_ref": "https://base44.com/responsible-use",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Describes monitoring, investigation, restriction and removal powers; quoted content remains unauthenticated.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Base44 Data Processing Addendum — retrieval target",
@@ -225,7 +228,8 @@
       "url_or_ref": "https://base44.com/dpa",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Requested for processor roles, transfers, retention and deletion terms.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Base44 security documentation / Trust Center",
@@ -234,7 +238,8 @@
       "url_or_ref": "https://docs.base44.com/Community-and-support/Privacy-and-security ; https://trust.base44.com/",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Requested for security scope, certifications, subprocessor roster, data location and plan-specific AI-use terms.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Microsoft update on review of Israeli Ministry of Defense unit",
@@ -243,7 +248,8 @@
       "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Capture exact scope, services disabled, dates and stated basis before relying on it.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "+972 Magazine / Local Call Azure investigation",
@@ -252,7 +258,8 @@
       "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Reported Azure workload involving Unit 8200 and call recordings; original report and underlying evidence require review.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Axon announced Carbyne acquisition",
@@ -261,7 +268,8 @@
       "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Use to test announced transaction terms; distinguish announced amount from closing and final consideration.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "FinCEN Geographic Targeting Orders",
@@ -270,7 +278,8 @@
       "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Companies House — Emerdata Ltd. company no. 10911848",
@@ -279,7 +288,8 @@
       "url_or_ref": "https://find-and-update.company-information.service.gov.uk/company/10911848",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Officer and filing history lead; does not alone establish beneficial ownership or misconduct.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "UK House of Commons DCMS report on disinformation and data",
@@ -288,7 +298,8 @@
       "url_or_ref": "https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Cambridge Analytica testimony and committee conclusions; scope/respondents must be checked.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "UK ICO investigation into political data analytics",
@@ -297,7 +308,8 @@
       "url_or_ref": "https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Obtain exact orders, entities and conduct before describing findings.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "FTC Cambridge Analytica matter",
@@ -306,16 +318,8 @@
       "url_or_ref": "https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Obtain underlying complaint/order and define the respondents/conduct.",
-      "notes": ""
-    },
-    {
-      "title": "Doe v. United States — Eleventh Circuit en banc, 960 F.3d 1310",
-      "tier": "Tier 3 — Secondary/Unverified",
-      "source_type": "Appellate docket/citation locator; opinion not retrieved",
-      "url_or_ref": "11th Cir. No. 19-13843 (en banc); 960 F.3d 1310 (2020)",
-      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
-      "excerpt": "Verify CVRA pre-charge holding and procedural history from controlling opinion.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "United States v. Maxwell — SDNY criminal docket",
@@ -324,7 +328,8 @@
       "url_or_ref": "S.D.N.Y. No. 20-cr-330",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Obtain indictment, jury instructions, verdict, judgment and appellate disposition.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "NY v. Trump — New York civil-fraud docket",
@@ -333,7 +338,8 @@
       "url_or_ref": "N.Y. Sup. Ct. Index No. 452564/2022; appellate dockets to be checked",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Verify exact civil findings and current appellate status.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Deutsche Bank enforcement records",
@@ -342,7 +348,8 @@
       "url_or_ref": "NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Keep mirror-trading enforcement distinct from separate customer, SAR and Epstein strands.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
@@ -351,7 +358,8 @@
       "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Questions and requests are not proof of the allegations posed.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "SEC Investment Adviser Public Disclosure — Affinity / A Fin Management",
@@ -360,7 +368,8 @@
       "url_or_ref": "https://adviserinfo.sec.gov/",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Retrieve dated ADV and fund disclosures; distinguish commitment, AUM, fees and actual distributions.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "U.S. Treasury OFAC sanctions search",
@@ -369,7 +378,8 @@
       "url_or_ref": "https://ofac.treasury.gov/",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Any sanctions analysis requires exact designated party, program, transaction and nexus.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "FEC campaign-finance records",
@@ -378,7 +388,8 @@
       "url_or_ref": "https://www.fec.gov/data/ ; Florida Division of Elections records",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Verify committee, jurisdiction, date and amount; federal/state laws differ.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "County property records and deeds",
@@ -387,7 +398,8 @@
       "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "U.S. federal award records",
@@ -396,7 +408,8 @@
       "url_or_ref": "https://www.usaspending.gov/ ; FPDS",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Search legal entity and unique award IDs; absence from a keyword search is not proof of no contract.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "MGX / Binance / USD1 transaction reporting and primary records",
@@ -405,7 +418,8 @@
       "url_or_ref": "Issuer, investor and exchange statements; on-chain transaction identifiers pending",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Trace funding, settlement, mint/redemption, fees, custody and any distribution separately.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
     },
     {
       "title": "Investigator-submitted allegations and repository source map",
@@ -414,7 +428,88 @@
       "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
       "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
       "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
-      "notes": ""
+      "notes": "Indexing/retrieval target only; not evidence that the page was fetched or the cited allegation established.",
+      "authentication_status": "NOT_RETRIEVED"
+    },
+    {
+      "title": "In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Appellate court record locator; opinion not fetched in this environment",
+      "url_or_ref": "https://media.ca11.uscourts.gov/opinions/pub/files/201913843.enb.pdf",
+      "date": "Opinion dated 2021; locator recorded 2026-10-08, content not retrieved",
+      "excerpt": "En banc court held the CVRA did not give victims enforceable rights before federal charges were filed in this matter and rejected the procedural route used to challenge the NPA.",
+      "notes": "Source details supplied by parallel legal research; web retrieval failed. The 2007 agreement was Epstein's NPA, not Maxwell's. Not a holding that the NPA violated the CVRA.",
+      "authentication_status": "NOT_RETRIEVED"
+    },
+    {
+      "title": "DOJ Office of Professional Responsibility — Epstein NPA review",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Official DOJ administrative review locator; report not fetched",
+      "url_or_ref": "https://www.justice.gov/opr/page/file/1336471/dl?inline",
+      "date": "Released 2020-11-12; locator recorded 2026-10-08, content not retrieved",
+      "excerpt": "Administrative review of the Southern District of Florida's 2006–2008 Epstein investigation and NPA, including process and victim-notification issues.",
+      "notes": "Locator and narrow summary supplied by parallel legal research. Not a judicial decision setting aside the NPA or deciding the CVRA appeal.",
+      "authentication_status": "NOT_RETRIEVED"
+    },
+    {
+      "title": "United States v. Maxwell, 118 F.4th 256 — Second Circuit appeal",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Appellate court record locator; opinion not fetched",
+      "url_or_ref": "https://www.ca2.uscourts.gov/decisions.html; No. 22-1426",
+      "date": "Opinion dated 2024-09-17; locator recorded 2026-10-08, content not retrieved",
+      "excerpt": "Reported appellate disposition affirmed Maxwell's conviction and rejected her argument that Epstein's Florida NPA barred her New York prosecution.",
+      "notes": "Separate from the Eleventh Circuit CVRA/NPA appeal. Locator and summary supplied by parallel legal research; current docket not checked.",
+      "authentication_status": "NOT_RETRIEVED"
+    },
+    {
+      "title": "NYDFS Deutsche Bank Epstein-related consent order",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Official state regulator release locator; order not fetched",
+      "url_or_ref": "https://www.dfs.ny.gov/reports_and_publications/press_releases/pr202007071",
+      "date": "2020-07-07; locator recorded 2026-10-08, content not retrieved",
+      "excerpt": "NYDFS announced a $150 million penalty concerning Deutsche Bank's handling of Epstein-related accounts and transactions.",
+      "notes": "Source and proposition supplied by parallel legal research. This is distinct from Russian mirror-trading enforcement and Trump-related lending.",
+      "authentication_status": "NOT_RETRIEVED"
+    },
+    {
+      "title": "NYDFS Deutsche Bank Russian mirror-trading enforcement",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Official state regulator release locator; order not fetched",
+      "url_or_ref": "https://www.dfs.ny.gov/reports_and_publications/press_releases/pr1701301",
+      "date": "2017-01-30; locator recorded 2026-10-08, content not retrieved",
+      "excerpt": "NYDFS announced a $425 million penalty concerning Russian mirror trades and AML/control failures.",
+      "notes": "Source and proposition supplied by parallel legal research. Separate from the 2020 Epstein-related NYDFS action; cited records do not establish either connection to Trump loans.",
+      "authentication_status": "NOT_RETRIEVED"
+    },
+    {
+      "title": "DOJ/FBI Epstein review memorandum, July 2025",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Official DOJ memorandum locator; document not fetched",
+      "url_or_ref": "https://www.justice.gov/opa/media/1407001/dl?inline",
+      "date": "Reportedly July 2025; exact issuance date not verified; locator recorded 2026-10-08",
+      "excerpt": "Reported conclusions include no incriminating client list and no basis for further investigations of uncharged third parties; exact language must be checked.",
+      "notes": "Source locator and summary supplied by parallel legal research. Executive review, not judicial finding; not proof that no associates or uncharged wrongdoing existed.",
+      "authentication_status": "NOT_RETRIEVED"
+    },
+    {
+      "title": "Maxwell certiorari docket, No. 24-1073",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "U.S. Supreme Court docket locator; docket not fetched",
+      "url_or_ref": "https://www.supremecourt.gov/docket/docketfiles/html/public/24-1073.html",
+      "date": "Reported certiorari denial October 2025; locator recorded 2026-10-08, current docket not checked",
+      "excerpt": "Primary docket for certiorari petition following Maxwell's Second Circuit appeal.",
+      "notes": "Reported denial leaves conviction in place; docket not live-checked and no statement about other persons follows from that disposition.",
+      "authentication_status": "NOT_RETRIEVED"
+    },
+    {
+      "title": "NY Appellate Division — People v. Trump, 2025 NY Slip Op 04756",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Official state appellate opinion locator; opinion not fetched",
+      "url_or_ref": "https://www.nycourts.gov/reporter/3dseries/2025/2025_04756.htm",
+      "date": "2025-08-21; locator recorded 2026-10-08, content not retrieved",
+      "excerpt": "Parallel research reports the First Department vacated the monetary disgorgement award as excessive while otherwise affirming, including civil liability findings.",
+      "notes": "Not a criminal judgment. Subsequent Court of Appeals docket activity through 2026-10-08 was not checked.",
+      "authentication_status": "NOT_RETRIEVED"
     }
   ],
   "claims": [
@@ -446,7 +541,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Official announcement, transaction agreement, consideration definition and closing notice; distinguish $625m headline from other valuation descriptions",
       "ledger_status": "**ISSUER ANNOUNCEMENT LEAD; AMOUNT VARIES BY DESCRIPTION**",
-      "readiness": "R1–R2*"
+      "readiness": "R1–R2*",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "C-02",
@@ -476,7 +572,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Corporate filing, dated bios, board records, primary interviews; characterize each person’s role accurately",
       "ledger_status": "**REPORTED; NOT SOURCE-COMPLETE HERE**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "C-03",
@@ -506,7 +603,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Exact JNS reporting, source documents, subscription agreements, cap table, authenticated correspondence, replies, realized proceeds",
       "ledger_status": "**ALLEGED; HIGH DEFAMATION RISK**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "C-04",
@@ -536,7 +634,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: State/county procurement awards, product docs, version/configuration, consent/call-flow, privacy impact assessments, logs",
       "ledger_status": "**UNVERIFIED DEPLOYMENT/CAPABILITY CLAIM**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "C-05",
@@ -566,7 +665,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Reproducible authorized test, product specification, contract, logs and counsel’s legal analysis",
       "ledger_status": "**UNVERIFIED TECHNICAL/LEGAL ALLEGATION**",
-      "readiness": "R0–R1"
+      "readiness": "R0–R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "C-06",
@@ -596,7 +696,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Identified data route, access, event, legal authority, transfer, independent security evidence",
       "ledger_status": "**INFERENCE; NOT ESTABLISHED**",
-      "readiness": "R0–R1"
+      "readiness": "R0–R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CLD-01",
@@ -626,7 +727,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Retrieve original reports and underlying record; no dataset/contract supplied in this case",
       "ledger_status": "**CORROBORATED REPORTING, ATTRIBUTED**",
-      "readiness": "R1–R2*"
+      "readiness": "R1–R2*",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CLD-02",
@@ -656,7 +758,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Capture Microsoft’s 25 Sep 2025 statement and exact scope; do not inflate it into validation of every reported detail",
       "ledger_status": "**COMPANY STATEMENT LEAD**",
-      "readiness": "R1–R2*"
+      "readiness": "R1–R2*",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CLD-03",
@@ -686,7 +789,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Technical/account records, documents, source corroboration, data classification and dates",
       "ledger_status": "**UNVERIFIED SPECIFIC DETAILS**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CLD-04",
@@ -716,7 +820,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: AWS customer/contract/account/region evidence or provider/customer confirmation; current AXIOM file expressly says not established",
       "ledger_status": "**UNVERIFIED**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CLD-05",
@@ -746,7 +851,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Identify intercepting actor, knowledge/participation, underlying unlawful interception, specific sanctioned transaction and applicable FAR clause",
       "ledger_status": "**LEGAL THEORY, NOT FINDING**",
-      "readiness": "R0–R1"
+      "readiness": "R0–R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CLD-06",
@@ -776,7 +882,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Original reporting, responses, operational source material; preserve as allegations/reported descriptions",
       "ledger_status": "**ATTRIBUTED INVESTIGATIVE REPORTING**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CLD-07",
@@ -806,7 +913,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Patent/code/model/contract/project evidence linking specific asset and commercial product",
       "ledger_status": "**UNVERIFIED TRANSFER CLAIM**",
-      "readiness": "R0–R1"
+      "readiness": "R0–R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CYB-01",
@@ -827,7 +935,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Specific CVE/disclosure or authorized independent test, affected versions, reproduction, vendor response/remediation",
       "ledger_status": "**UNVERIFIED, NOT TESTED**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CYB-02",
@@ -848,7 +957,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Product-specific permissions, customer configuration, access logs, key custody and incident history",
       "ledger_status": "**GENERAL SYSTEMIC RISK; NOT MISCONDUCT FINDING**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PM-01",
@@ -905,7 +1015,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Official announcement, charter, roster, Federal Register/agency file, meeting/recusal record",
       "ledger_status": "**UNVERIFIED IN THIS CASE**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PM-02",
@@ -962,7 +1073,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Corporate and award identifiers; proximity is not misconduct",
       "ledger_status": "**STRUCTURAL RELATIONSHIPS ASSERTED; VERIFY FILINGS**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PM-03",
@@ -1019,7 +1131,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Original NYT/Commons report, company/account records; don't turn investment vehicle into personal payment without proof",
       "ledger_status": "**REPORTED; PAYER/INSTRUMENT/RECIPIENT PRECISION NEEDED**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PM-04",
@@ -1076,7 +1189,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: ICO/FTC orders and exact respondent/conduct; distinguish regulatory finding from broad claims",
       "ledger_status": "**OFFICIAL ACTIONS REPORTED; SCOPE MUST BE NARROW**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PM-05",
@@ -1133,7 +1247,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Capture dated filings and officer appointment history; an officer entry is not beneficial ownership or wrongdoing",
       "ledger_status": "**COMPANIES HOUSE LEAD**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PM-06",
@@ -1190,7 +1305,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Shared director/company no., award ID, contract, payment, or document naming both sides",
       "ledger_status": "**NO IDENTIFIER-LINKED EDGE FOUND**",
-      "readiness": "R0"
+      "readiness": "R0",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "FIN-01",
@@ -1229,7 +1345,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Specify “major/large lender” and covered entities/product; identify loan agreements, draws, balances, guarantees, maturity dates and other lenders",
       "ledger_status": "**OVERSTATED AS WORDED**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "FIN-02",
@@ -1262,13 +1379,24 @@
           "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
           "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
           "notes": ""
+        },
+        {
+          "title": "NY Appellate Division — People v. Trump, 2025 NY Slip Op 04756",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Official state appellate opinion locator; opinion not fetched",
+          "url_or_ref": "https://www.nycourts.gov/reporter/3dseries/2025/2025_04756.htm",
+          "date": "2025-08-21; locator recorded 2026-10-08, content not retrieved",
+          "excerpt": "Parallel research reports the First Department vacated the monetary disgorgement award as excessive while otherwise affirming, including civil liability findings.",
+          "notes": "Not a criminal judgment. Subsequent Court of Appeals docket activity through 2026-10-08 was not checked.",
+          "authentication_status": "NOT_RETRIEVED"
         }
       ],
       "entities_involved": [],
       "legal_risks": "LIBEL_EXPOSURE",
-      "notes": "Not independently verified; preserve ledger disposition. Next proof: Confirm current appellate posture; do not call it a federal criminal bank-fraud conviction",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Confirm current appellate posture; do not call it a federal criminal bank-fraud conviction Research-agent locator review added precise official record references; source files could not be fetched in this session, so claim confidence remains UNVERIFIED.",
       "ledger_status": "**CIVIL ADJUDICATION, NARROW SCOPE**",
-      "readiness": "R1–R2*"
+      "readiness": "R1–R2*",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "FIN-03",
@@ -1307,7 +1435,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Underlying nonpublic bank records not supplied; congressional question is not proof the premise is true. SAR confidentiality applies",
       "ledger_status": "**REPORTED ALLEGATION / SENATE QUESTIONS**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "FIN-04",
@@ -1340,13 +1469,34 @@
           "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
           "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
           "notes": ""
+        },
+        {
+          "title": "NYDFS Deutsche Bank Epstein-related consent order",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Official state regulator release locator; order not fetched",
+          "url_or_ref": "https://www.dfs.ny.gov/reports_and_publications/press_releases/pr202007071",
+          "date": "2020-07-07; locator recorded 2026-10-08, content not retrieved",
+          "excerpt": "NYDFS announced a $150 million penalty concerning Deutsche Bank's handling of Epstein-related accounts and transactions.",
+          "notes": "Source and proposition supplied by parallel legal research. This is distinct from Russian mirror-trading enforcement and Trump-related lending.",
+          "authentication_status": "NOT_RETRIEVED"
+        },
+        {
+          "title": "NYDFS Deutsche Bank Russian mirror-trading enforcement",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Official state regulator release locator; order not fetched",
+          "url_or_ref": "https://www.dfs.ny.gov/reports_and_publications/press_releases/pr1701301",
+          "date": "2017-01-30; locator recorded 2026-10-08, content not retrieved",
+          "excerpt": "NYDFS announced a $425 million penalty concerning Russian mirror trades and AML/control failures.",
+          "notes": "Source and proposition supplied by parallel legal research. Separate from the 2020 Epstein-related NYDFS action; cited records do not establish either connection to Trump loans.",
+          "authentication_status": "NOT_RETRIEVED"
         }
       ],
       "entities_involved": [],
       "legal_risks": "LIBEL_EXPOSURE",
-      "notes": "Not independently verified; preserve ledger disposition. Next proof: Exact DFS/FCA/Federal Reserve orders and victim case; a bank-wide scheme does not connect Trump’s account",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Exact DFS/FCA/Federal Reserve orders and victim case; a bank-wide scheme does not connect Trump’s account Research-agent locator review added precise official record references; source files could not be fetched in this session, so claim confidence remains UNVERIFIED.",
       "ledger_status": "**SEPARATE ENFORCEMENT AND CIVIL-CASE RECORDS; NUMBERS REQUIRE SOURCE-SCOPE CHECK**",
-      "readiness": "R1–R2*"
+      "readiness": "R1–R2*",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "FIN-05",
@@ -1385,7 +1535,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Matching entity/account/wire, dates, beneficial owner, instruction, or case record",
       "ledger_status": "**NO TRANSACTION-LEVEL LINK ESTABLISHED**",
-      "readiness": "R0"
+      "readiness": "R0",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "FIN-06",
@@ -1424,7 +1575,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Use regulator’s actual defined measures; do not conflate gross transactions, suspicious transactions and illicit proceeds",
       "ledger_status": "**REPORTED/REGULATORY SUMMARIES; PERIOD/DEFINITION MUST BE CHECKED**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "EP-01",
@@ -1457,13 +1609,34 @@
           "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
           "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
           "notes": ""
+        },
+        {
+          "title": "In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Appellate court record locator; opinion not fetched in this environment",
+          "url_or_ref": "https://media.ca11.uscourts.gov/opinions/pub/files/201913843.enb.pdf",
+          "date": "Opinion dated 2021; locator recorded 2026-10-08, content not retrieved",
+          "excerpt": "En banc court held the CVRA did not give victims enforceable rights before federal charges were filed in this matter and rejected the procedural route used to challenge the NPA.",
+          "notes": "Source details supplied by parallel legal research; web retrieval failed. The 2007 agreement was Epstein's NPA, not Maxwell's. Not a holding that the NPA violated the CVRA.",
+          "authentication_status": "NOT_RETRIEVED"
+        },
+        {
+          "title": "DOJ Office of Professional Responsibility — Epstein NPA review",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Official DOJ administrative review locator; report not fetched",
+          "url_or_ref": "https://www.justice.gov/opr/page/file/1336471/dl?inline",
+          "date": "Released 2020-11-12; locator recorded 2026-10-08, content not retrieved",
+          "excerpt": "Administrative review of the Southern District of Florida's 2006–2008 Epstein investigation and NPA, including process and victim-notification issues.",
+          "notes": "Locator and narrow summary supplied by parallel legal research. Not a judicial decision setting aside the NPA or deciding the CVRA appeal.",
+          "authentication_status": "NOT_RETRIEVED"
         }
       ],
       "entities_involved": [],
       "legal_risks": "LIBEL_EXPOSURE",
-      "notes": "Not independently verified; preserve ledger disposition. Next proof: Eleventh Circuit en banc held CVRA rights did not attach pre-charge; do not state a final appellate CVRA ruling established the NPA unlawful",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Eleventh Circuit en banc held CVRA rights did not attach pre-charge; do not state a final appellate CVRA ruling established the NPA unlawful Research-agent locator review added precise official record references; source files could not be fetched in this session, so claim confidence remains UNVERIFIED.",
       "ledger_status": "**NPA AND PROCEDURAL RECORD EXIST; APPELLATE CVRA POSTURE MUST BE STATED**",
-      "readiness": "R1–R2*"
+      "readiness": "R1–R2*",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "EP-02",
@@ -1496,13 +1669,54 @@
           "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
           "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
           "notes": ""
+        },
+        {
+          "title": "In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Appellate court record locator; opinion not fetched in this environment",
+          "url_or_ref": "https://media.ca11.uscourts.gov/opinions/pub/files/201913843.enb.pdf",
+          "date": "Opinion dated 2021; locator recorded 2026-10-08, content not retrieved",
+          "excerpt": "En banc court held the CVRA did not give victims enforceable rights before federal charges were filed in this matter and rejected the procedural route used to challenge the NPA.",
+          "notes": "Source details supplied by parallel legal research; web retrieval failed. The 2007 agreement was Epstein's NPA, not Maxwell's. Not a holding that the NPA violated the CVRA.",
+          "authentication_status": "NOT_RETRIEVED"
+        },
+        {
+          "title": "United States v. Maxwell, 118 F.4th 256 — Second Circuit appeal",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Appellate court record locator; opinion not fetched",
+          "url_or_ref": "https://www.ca2.uscourts.gov/decisions.html; No. 22-1426",
+          "date": "Opinion dated 2024-09-17; locator recorded 2026-10-08, content not retrieved",
+          "excerpt": "Reported appellate disposition affirmed Maxwell's conviction and rejected her argument that Epstein's Florida NPA barred her New York prosecution.",
+          "notes": "Separate from the Eleventh Circuit CVRA/NPA appeal. Locator and summary supplied by parallel legal research; current docket not checked.",
+          "authentication_status": "NOT_RETRIEVED"
+        },
+        {
+          "title": "DOJ/FBI Epstein review memorandum, July 2025",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Official DOJ memorandum locator; document not fetched",
+          "url_or_ref": "https://www.justice.gov/opa/media/1407001/dl?inline",
+          "date": "Reportedly July 2025; exact issuance date not verified; locator recorded 2026-10-08",
+          "excerpt": "Reported conclusions include no incriminating client list and no basis for further investigations of uncharged third parties; exact language must be checked.",
+          "notes": "Source locator and summary supplied by parallel legal research. Executive review, not judicial finding; not proof that no associates or uncharged wrongdoing existed.",
+          "authentication_status": "NOT_RETRIEVED"
+        },
+        {
+          "title": "Maxwell certiorari docket, No. 24-1073",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "U.S. Supreme Court docket locator; docket not fetched",
+          "url_or_ref": "https://www.supremecourt.gov/docket/docketfiles/html/public/24-1073.html",
+          "date": "Reported certiorari denial October 2025; locator recorded 2026-10-08, current docket not checked",
+          "excerpt": "Primary docket for certiorari petition following Maxwell's Second Circuit appeal.",
+          "notes": "Reported denial leaves conviction in place; docket not live-checked and no statement about other persons follows from that disposition.",
+          "authentication_status": "NOT_RETRIEVED"
         }
       ],
       "entities_involved": [],
       "legal_risks": "LIBEL_EXPOSURE",
-      "notes": "Not independently verified; preserve ledger disposition. Next proof: Conspiracy requires agreement, not a formatted list or finding that every alleged “client” was a conspirator/prosecutable",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Conspiracy requires agreement, not a formatted list or finding that every alleged “client” was a conspirator/prosecutable Research-agent locator review added precise official record references; source files could not be fetched in this session, so claim confidence remains UNVERIFIED.",
       "ledger_status": "**LEGAL INFERENCE IS WRONG**",
-      "readiness": "R0"
+      "readiness": "R0",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "EP-03",
@@ -1541,7 +1755,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Exact FBI/CIA records, source provenance, competing explanations, responses. Glomar neither confirms nor denies records",
       "ledger_status": "**ALLEGATIONS / FOIA RESPONSE NOT AFFIRMATIVE PROOF**",
-      "readiness": "R0–R1"
+      "readiness": "R0–R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "POL-01",
@@ -1571,7 +1786,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: IRS filings, Florida campaign record, AG decision chronology, Bondi response",
       "ledger_status": "**TRANSACTION/IRS REPORTING LEAD; QUID PRO QUO NOT ESTABLISHED**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "POL-02",
@@ -1601,7 +1817,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: §30118 governs corporate contributions in federal elections; a Florida state committee and §501(c)(3) tax rules are distinct",
       "ledger_status": "**LEGAL CLASSIFICATION UNSUPPORTED**",
-      "readiness": "R0"
+      "readiness": "R0",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "POL-03",
@@ -1631,7 +1848,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Appointment records, communications, testimony; do not infer exchange from temporal order",
       "ledger_status": "**SEQUENCE DOCUMENTED, MOTIVE UNPROVEN**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "REAL-01",
@@ -1670,7 +1888,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Deeds, appraisals, closing statement, later parcel grantees/UBOs, debt/financing and market comps",
       "ledger_status": "**PROPERTY-RECORD LEAD; PRICE PURPOSE NOT ESTABLISHED**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "REAL-02",
@@ -1709,7 +1928,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Authenticated contemporaneous appraisal and evidence of unlawful proceeds/knowledge/transaction intent",
       "ledger_status": "**INFERENCE NOT SUPPORTED**",
-      "readiness": "R0"
+      "readiness": "R0",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "REAL-03",
@@ -1748,7 +1968,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Reuters article, unit-level deeds, GTO period/criteria, identity and source of funds; nationality/entity purchase is not laundering",
       "ledger_status": "**REPORTED ANALYSIS / SAMPLE SCOPE MUST BE NARROW**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "REAL-04",
@@ -1787,7 +2008,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: BuzzFeed source dataset/methodology, units vs transactions, anonymous-shell definition, period and comparison group",
       "ledger_status": "**REPORTED COUNT; DENOMINATOR/METHOD NEEDS REPLICATION**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "REAL-05",
@@ -1826,7 +2048,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: NBC/Reuters/Univision originals, exact purchaser and entity links, admissions, project agreement, Trump response, prosecution records",
       "ledger_status": "**SERIOUS REPORTING LEAD, KNOWLEDGE/PROJECT-WIDE CLAIM OVERREACHES**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "REAL-06",
@@ -1865,7 +2088,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Contractor ownership/status at relevant time, agreement/payments, official cable context, Senate letter, proof of corrupt payment/knowledge",
       "ledger_status": "**DUE-DILIGENCE RED FLAGS REPORTED; VIOLATION NOT ESTABLISHED**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "REAL-07",
@@ -1904,7 +2128,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Sater docket, emails, projects, financial records; correct or omit unsupported claim Trump and Sater traveled to Moscow together",
       "ledger_status": "**Sater conviction and project relationships are distinct; laundering claim unadjudicated**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "REAL-08",
@@ -1943,7 +2168,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: FBI source records, suppliers/invoices, contemporaneous evidence, witnesses, right of reply",
       "ledger_status": "**HISTORICAL REPORTING LEAD; KNOWLEDGE/PRICE CLAIM NEEDS FBI/contract records**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "AFF-01",
@@ -1982,7 +2208,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: PIF records, ADV, fund documents, investment committee minutes, fees/actual capital calls",
       "ledger_status": "**MAJOR INVESTMENT REPORTED; exact vehicle/approval record needed**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "AFF-02",
@@ -2021,7 +2248,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Agency relationship or corrupt exchange, official acts, communications, tracing of fee flows, legal analysis",
       "ledger_status": "**INFERENCE/LEGAL THEORY, NOT ESTABLISHED**",
-      "readiness": "R0"
+      "readiness": "R0",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CR-01",
@@ -2060,7 +2288,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: MGX/Binance/WLF statements, transaction documents, on-chain transaction hashes, custody/issuer/reserve records",
       "ledger_status": "**TRANSACTION REPORT LEAD**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CR-02",
@@ -2099,7 +2328,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Audited revenue, distributions, beneficial interests, issuer fees, wallet attribution, state-actor and legal analysis",
       "ledger_status": "**MONEY-FLOW/OWNERSHIP/LEGAL CLAIM NOT PROVEN**",
-      "readiness": "R0–R1"
+      "readiness": "R0–R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "CR-03",
@@ -2138,7 +2368,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Correct sanctions program, person/entity designation, transaction/nexus, beneficial ownership, issuer knowledge and applicable authorization",
       "ledger_status": "**NOT ESTABLISHED**",
-      "readiness": "R0"
+      "readiness": "R0",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "EDU-01",
@@ -2159,7 +2390,8 @@
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Institutional reports, donor ledgers, access records, contemporaneous correspondence; separate from intelligence or tech-transfer claims",
       "ledger_status": "**DONATIONS/INTERNAL PRACTICES REPORTED; motive/quid-pro-quo inference needs records**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "OFF-01",
@@ -2180,7 +2412,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Specific jurisdiction/entity, filings, beneficial-owner record, predicate offense and money trail; lawful uses and disclosure rules vary",
       "ledger_status": "**GENERALIZATION IS FALSE/UNSUPPORTED**",
-      "readiness": "R0"
+      "readiness": "R0",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PROC-01",
@@ -2210,7 +2443,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: USAspending/FPDS award IDs, procurement docs, agency/PSAP award and active service period",
       "ledger_status": "**UNVERIFIED**",
-      "readiness": "R1"
+      "readiness": "R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PROC-02",
@@ -2240,7 +2474,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Company/award IDs, contract flowdown, FOCI mitigation/clearance records, subcontracts and specific platform use",
       "ledger_status": "**UNVERIFIED / TECHNICAL-LEGAL THEORY**",
-      "readiness": "R0–R1"
+      "readiness": "R0–R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PROC-03",
@@ -2270,7 +2505,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Charter, roster, conflicts/recusals, solicitation, award/task-order IDs and beneficial-owner records",
       "ledger_status": "**NO IDENTIFIER-LINKED AWARD SHOWN**",
-      "readiness": "R0–R1"
+      "readiness": "R0–R1",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
       "id": "PROC-04",
@@ -2300,7 +2536,8 @@
       "legal_risks": "None identified",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Service, data, key custody, legal process, jurisdiction and access evidence for the specific system",
       "ledger_status": "**FALSE AS A GENERAL RULE**",
-      "readiness": "R0"
+      "readiness": "R0",
+      "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     }
   ],
   "open_questions": [
@@ -2316,7 +2553,7 @@
     "Do not connect bank, intelligence, political-data, cloud or crypto strands absent an identifier-bearing document or transaction record."
   ],
   "watchlist": [],
-  "notes": "See companion master ledger, two dossiers and three-part exposé in this output directory. AXIOM source classifications are intentionally Tier 3: the source locators were not fetched/authenticated in this session. Confidence output is a workflow heuristic, not truth assessment.",
+  "notes": "See companion master ledger, two dossiers and three-part exposé in this output directory. AXIOM source classifications are intentionally Tier 3: the source locators were not fetched/authenticated in this session. Confidence output is a workflow heuristic, not truth assessment. Three independent research agents provided exact primary-record locators and narrow source summaries; all said source pages/dockets could not be fetched in this session. These locator leads are not treated as authenticated source captures.",
   "scores": {
     "overall_confidence": 0.15,
     "source_quality": 0.25,
@@ -2325,12 +2562,15 @@
   "axiom_ingestion": {
     "database": "temporary SQLite database; deleted after export",
     "case_id": 1,
-    "sources_ingested": 25,
+    "sources_ingested": 32,
     "claims_ingested": 52,
     "entities_ingested": 23,
     "open_questions_ingested": 10,
-    "audit_events": 111,
+    "audit_events": 118,
     "persistent_app_database_touched": false,
-    "source_retrieval_performed": false
+    "source_retrieval_performed": false,
+    "live_scan_diagnostic": "holistic_axiom_live_scan_diagnostics_2026-10-08.json",
+    "research_agents": 3,
+    "research_agent_fetched_source_content": false
   }
 }
