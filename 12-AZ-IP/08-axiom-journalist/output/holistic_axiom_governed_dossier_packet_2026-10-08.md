@@ -105,13 +105,13 @@ Test the submitted allegations and prior dossier claims against identifiable pri
 - **UNVERIFIED** (tier 1/5) — Verify FIN-01: Deutsche Bank was Trump’s “sole institutional lender” 2011–20; ~$340m loans [ledger status: **OVERSTATED AS WORDED**; readiness: R1] [16] [17] [24]
   - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
   - Legal: LIBEL_EXPOSURE
-- **UNVERIFIED** (tier 1/5) — Verify FIN-02: New York court found Trump financial statements materially false [ledger status: **CIVIL ADJUDICATION, NARROW SCOPE**; readiness: R1–R2*] [16] [17] [24] [32]
+- **UNVERIFIED** (tier 1/5) — Verify FIN-02: New York court found Trump financial statements materially false [ledger status: **CIVIL ADJUDICATION; APPELLATE LOCATOR IDENTIFIED, CURRENT DOCKET UNCHECKED**; readiness: R1] [16] [17] [24] [32]
   - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map, NY Appellate Division — People v. Trump, 2025 NY Slip Op 04756
   - Legal: LIBEL_EXPOSURE
 - **UNVERIFIED** (tier 1/5) — Verify FIN-03: Deutsche staff recommended Trump/Kushner SARs and leadership quashed filings [ledger status: **REPORTED ALLEGATION / SENATE QUESTIONS**; readiness: R1] [16] [17] [24]
   - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
   - Legal: LIBEL_EXPOSURE
-- **UNVERIFIED** (tier 1/5) — Verify FIN-04: Deutsche mirror trades ~$10bn, Epstein accounts/settlements ~$1.3bn/40 accounts [ledger status: **SEPARATE ENFORCEMENT AND CIVIL-CASE RECORDS; NUMBERS REQUIRE SOURCE-SCOPE CHECK**; readiness: R1–R2*] [16] [17] [24] [28] [29]
+- **UNVERIFIED** (tier 1/5) — Verify FIN-04: Deutsche mirror trades ~$10bn, Epstein accounts/settlements ~$1.3bn/40 accounts [ledger status: **TWO DISTINCT NYDFS RECORD LOCATORS IDENTIFIED; REPORTED FIGURES NEED SOURCE CHECK**; readiness: R1] [16] [17] [24] [28] [29]
   - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map, NYDFS Deutsche Bank Epstein-related consent order, NYDFS Deutsche Bank Russian mirror-trading enforcement
   - Legal: LIBEL_EXPOSURE
 - **UNVERIFIED** (tier 1/5) — Verify FIN-05: Trump loans intersected Deutsche mirror trades/Epstein payments [ledger status: **NO TRANSACTION-LEVEL LINK ESTABLISHED**; readiness: R0] [16] [17] [24]
@@ -119,10 +119,10 @@ Test the submitted allegations and prior dossier claims against identifiable pri
   - Legal: LIBEL_EXPOSURE
 - **UNVERIFIED** (tier 1/5) — Verify FIN-06: JPMorgan 4,700 transactions/$1.1bn; Deutsche $1.3bn/40 accounts/$13m [ledger status: **REPORTED/REGULATORY SUMMARIES; PERIOD/DEFINITION MUST BE CHECKED**; readiness: R1] [16] [17] [24]
   - Sources: Deutsche Bank enforcement records, Senate Finance Committee letters re Deutsche Bank and Affinity, Investigator-submitted allegations and repository source map
-- **UNVERIFIED** (tier 1/5) — Verify EP-01: 2008 Epstein NPA granted broad immunity; victims were not notified [ledger status: **NPA AND PROCEDURAL RECORD EXIST; APPELLATE CVRA POSTURE MUST BE STATED**; readiness: R1–R2*] [14] [24] [25] [26]
+- **UNVERIFIED** (tier 1/5) — Verify EP-01: 2007 Epstein NPA granted federal nonprosecution subject to its terms; victims challenged handling [ledger status: **NPA, DOJ OPR REVIEW, AND CONTROLLING EN BANC LOCATOR IDENTIFIED; FILES NOT RETRIEVED**; readiness: R1] [14] [24] [25] [26]
   - Sources: United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map, In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal, DOJ Office of Professional Responsibility — Epstein NPA review
   - Legal: LIBEL_EXPOSURE
-- **UNVERIFIED** (tier 1/5) — Verify EP-02: Maxwell’s conviction logically requires an identifiable client list; DOJ memo contradicts verdict [ledger status: **LEGAL INFERENCE IS WRONG**; readiness: R0] [14] [24] [25] [27] [30] [31]
+- **UNVERIFIED** (tier 1/5) — Verify EP-02: Maxwell’s conviction logically requires an identifiable client list; DOJ memo contradicts verdict [ledger status: **LEGAL INFERENCE IS WRONG**; readiness: R0] [14] [24] [27] [30] [31]
   - Sources: United States v. Maxwell — SDNY criminal docket, Investigator-submitted allegations and repository source map, United States v. Maxwell, 118 F.4th 256 — Second Circuit appeal, DOJ/FBI Epstein review memorandum, July 2025, Maxwell certiorari docket, No. 24-1073
   - Legal: LIBEL_EXPOSURE
 - **UNVERIFIED** (tier 1/5) — Verify EP-03: Epstein/Maxwell intelligence links, Mossad, “honeypot,” CIA Glomar [ledger status: **ALLEGATIONS / FOIA RESPONSE NOT AFFIRMATIVE PROOF**; readiness: R0–R1] [14] [24]
@@ -359,7 +359,7 @@ Test the submitted allegations and prior dossier claims against identifiable pri
 - Obtain original Azure investigative reporting and Microsoft statement, plus customer/provider contracts, account records and retention/access logs; determine exact scope and whether any migration occurred.
 - Identify each Carbyne/Axon public-safety deployment by agency, contract and period; obtain product version, data-flow documentation, permissions, retention controls and authorized technical review.
 - Authenticate the alleged Project Meridian announcement, charter and roster; search awards only by confirmed legal entity and unique identifiers.
-- Retrieve controlling Maxwell verdict/instructions and en banc Doe opinion; remove the “client list logical trap” assertion and accurately state procedural posture.
+- Retrieve controlling Maxwell verdict/instructions and *In re Wild*, 994 F.3d 1244; remove the “client list logical trap” assertion and accurately state procedural posture.
 - Retrieve current NY civil-fraud appellate disposition, bank regulator orders, Senate correspondence, loan instruments and any public customer-specific transaction evidence.
 - Trace PIF/Affinity and MGX/Binance/USD1 with fund agreements, capital calls, custody/issuer records, fees, distributions and beneficial-owner proof.
 - Obtain property deeds, closing statements, financing, parcel histories, purchaser ownership and source-of-funds evidence; seek right of reply.

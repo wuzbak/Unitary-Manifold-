@@ -15,7 +15,12 @@ for import_root in (APP_ROOT, PRODUCT_ROOT):
         sys.path.remove(str(import_root))
     sys.path.insert(0, str(import_root))
 
-from axiom_journalist.engine.publication import build_dossier_packet, render_dossier_markdown
+from axiom_journalist.engine.publication import (
+    build_dossier_packet,
+    build_story_packet,
+    render_dossier_markdown,
+    render_story_markdown,
+)
 from axiom_journalist.engine.source_ingest import parse_source_bundle
 from core.investigator import Investigation, SourceTier
 from db import cases as db
@@ -76,6 +81,28 @@ def test_holistic_case_builds_a_human_review_packet_without_upgrading_leads(inve
     assert packet['evidence_summary']['claims_without_linked_entities'] == 52
     assert len(packet['editorial_sections']['claim_watchlist']) == 52
     assert 'Claims without linked entities: 52' in render_dossier_markdown(packet)
+    assert '2007 Epstein NPA' in next(c['statement'] for c in investigation['claims'] if c['id'] == 'EP-01')
+    assert 'CIVIL ADJUDICATION; APPELLATE LOCATOR IDENTIFIED, CURRENT DOCKET UNCHECKED' in next(
+        c['ledger_status'] for c in investigation['claims'] if c['id'] == 'FIN-02'
+    )
+    assert 'TWO DISTINCT NYDFS RECORD LOCATORS IDENTIFIED' in next(
+        c['ledger_status'] for c in investigation['claims'] if c['id'] == 'FIN-04'
+    )
+
+    saved_packet = (OUTPUT / 'holistic_axiom_governed_dossier_packet_2026-10-08.md').read_text(
+        encoding='utf-8'
+    )
+    assert 'en banc Doe opinion' not in saved_packet
+    assert '*In re Wild*, 994 F.3d 1244' in saved_packet
+    assert saved_packet.rstrip() == render_dossier_markdown(packet).rstrip()
+    story_packet = (OUTPUT / 'holistic_axiom_story_packet_2026-10-08.md').read_text(encoding='utf-8')
+    assert 'en banc Doe opinion' not in story_packet
+    assert '*In re Wild*, 994 F.3d 1244' in story_packet
+    assert story_packet.rstrip() == render_story_markdown(build_story_packet(investigation)).rstrip()
+    ledger = (OUTPUT / 'holistic_master_claim_and_money_flow_ledger_2026-10-08.md').read_text(
+        encoding='utf-8'
+    )
+    assert '19 targeted queries (76 requests' in ledger
 
 
 def test_holistic_source_bundle_preserves_provenance_in_sqlite(tmp_path):

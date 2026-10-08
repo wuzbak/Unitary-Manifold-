@@ -1350,7 +1350,7 @@
     },
     {
       "id": "FIN-02",
-      "statement": "Verify FIN-02: New York court found Trump financial statements materially false [ledger status: **CIVIL ADJUDICATION, NARROW SCOPE**; readiness: R1–R2*]",
+      "statement": "Verify FIN-02: New York court found Trump financial statements materially false [ledger status: **CIVIL ADJUDICATION; APPELLATE LOCATOR IDENTIFIED, CURRENT DOCKET UNCHECKED**; readiness: R1]",
       "confidence": "UNVERIFIED",
       "sources": [
         {
@@ -1394,8 +1394,8 @@
       "entities_involved": [],
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Confirm current appellate posture; do not call it a federal criminal bank-fraud conviction Research-agent locator review added precise official record references; source files could not be fetched in this session, so claim confidence remains UNVERIFIED.",
-      "ledger_status": "**CIVIL ADJUDICATION, NARROW SCOPE**",
-      "readiness": "R1–R2*",
+      "ledger_status": "**CIVIL ADJUDICATION; APPELLATE LOCATOR IDENTIFIED, CURRENT DOCKET UNCHECKED**",
+      "readiness": "R1",
       "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
@@ -1440,7 +1440,7 @@
     },
     {
       "id": "FIN-04",
-      "statement": "Verify FIN-04: Deutsche mirror trades ~$10bn, Epstein accounts/settlements ~$1.3bn/40 accounts [ledger status: **SEPARATE ENFORCEMENT AND CIVIL-CASE RECORDS; NUMBERS REQUIRE SOURCE-SCOPE CHECK**; readiness: R1–R2*]",
+      "statement": "Verify FIN-04: Deutsche mirror trades ~$10bn, Epstein accounts/settlements ~$1.3bn/40 accounts [ledger status: **TWO DISTINCT NYDFS RECORD LOCATORS IDENTIFIED; REPORTED FIGURES NEED SOURCE CHECK**; readiness: R1]",
       "confidence": "UNVERIFIED",
       "sources": [
         {
@@ -1494,8 +1494,8 @@
       "entities_involved": [],
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Exact DFS/FCA/Federal Reserve orders and victim case; a bank-wide scheme does not connect Trump’s account Research-agent locator review added precise official record references; source files could not be fetched in this session, so claim confidence remains UNVERIFIED.",
-      "ledger_status": "**SEPARATE ENFORCEMENT AND CIVIL-CASE RECORDS; NUMBERS REQUIRE SOURCE-SCOPE CHECK**",
-      "readiness": "R1–R2*",
+      "ledger_status": "**TWO DISTINCT NYDFS RECORD LOCATORS IDENTIFIED; REPORTED FIGURES NEED SOURCE CHECK**",
+      "readiness": "R1",
       "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
@@ -1580,7 +1580,7 @@
     },
     {
       "id": "EP-01",
-      "statement": "Verify EP-01: 2008 Epstein NPA granted broad immunity; victims were not notified [ledger status: **NPA AND PROCEDURAL RECORD EXIST; APPELLATE CVRA POSTURE MUST BE STATED**; readiness: R1–R2*]",
+      "statement": "Verify EP-01: 2007 Epstein NPA granted federal nonprosecution subject to its terms; victims challenged handling [ledger status: **NPA, DOJ OPR REVIEW, AND CONTROLLING EN BANC LOCATOR IDENTIFIED; FILES NOT RETRIEVED**; readiness: R1]",
       "confidence": "UNVERIFIED",
       "sources": [
         {
@@ -1625,8 +1625,8 @@
       "entities_involved": [],
       "legal_risks": "LIBEL_EXPOSURE",
       "notes": "Not independently verified; preserve ledger disposition. Next proof: Eleventh Circuit en banc held CVRA rights did not attach pre-charge; do not state a final appellate CVRA ruling established the NPA unlawful Research-agent locator review added precise official record references; source files could not be fetched in this session, so claim confidence remains UNVERIFIED.",
-      "ledger_status": "**NPA AND PROCEDURAL RECORD EXIST; APPELLATE CVRA POSTURE MUST BE STATED**",
-      "readiness": "R1–R2*",
+      "ledger_status": "**NPA, DOJ OPR REVIEW, AND CONTROLLING EN BANC LOCATOR IDENTIFIED; FILES NOT RETRIEVED**",
+      "readiness": "R1",
       "source_capture_state": "SOURCE_LOCATORS_PRESENT; SOURCE_CONTENT_NOT_RETRIEVED"
     },
     {
@@ -2508,7 +2508,7 @@
     "Obtain original Azure investigative reporting and Microsoft statement, plus customer/provider contracts, account records and retention/access logs; determine exact scope and whether any migration occurred.",
     "Identify each Carbyne/Axon public-safety deployment by agency, contract and period; obtain product version, data-flow documentation, permissions, retention controls and authorized technical review.",
     "Authenticate the alleged Project Meridian announcement, charter and roster; search awards only by confirmed legal entity and unique identifiers.",
-    "Retrieve controlling Maxwell verdict/instructions and en banc Doe opinion; remove the “client list logical trap” assertion and accurately state procedural posture.",
+    "Retrieve controlling Maxwell verdict/instructions and *In re Wild*, 994 F.3d 1244; remove the “client list logical trap” assertion and accurately state procedural posture.",
     "Retrieve current NY civil-fraud appellate disposition, bank regulator orders, Senate correspondence, loan instruments and any public customer-specific transaction evidence.",
     "Trace PIF/Affinity and MGX/Binance/USD1 with fund agreements, capital calls, custody/issuer records, fees, distributions and beneficial-owner proof.",
     "Obtain property deeds, closing statements, financing, parcel histories, purchaser ownership and source-of-funds evidence; seek right of reply.",

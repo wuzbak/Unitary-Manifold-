@@ -20,7 +20,7 @@ The AXIOM source parser and case model were exercised against isolated temporary
 
 The current working branch is `copilot/review-and-expand-dossiers`. Its local history includes two recent commits adding and refining the Base44 intake checkpoint and source bundle. The comparison against `origin/main` has no merge-base in this shallow checkout, so a conventional branch-range diff cannot certify the complete ancestry. The relevant pre-existing dossier works below are repository inputs reviewed in this pass, not newly verified reporting.
 
-The AXIOM public-record connectors were actively run on 15 targeted queries (60 requests across CourtListener, ICIJ Offshore Leaks, OpenSanctions and SEC EDGAR). All 60 failed at DNS resolution; no records were fetched. An AXIOM defect that hid retrieval errors as empty-result lists has been corrected, and the repeat scan records per-source errors. See `holistic_axiom_live_scan_diagnostics_2026-10-08.json`. This diagnosis establishes the access failure, not the presence or absence of any responsive record.
+The AXIOM public-record connectors were actively run on 19 targeted queries (76 requests across CourtListener, ICIJ Offshore Leaks, OpenSanctions and SEC EDGAR), including four focused follow-ups for corrected legal and regulatory locators. All 76 failed at DNS resolution; no records were fetched. An AXIOM defect that hid retrieval errors as empty-result lists has been corrected, and the repeat scan records per-source errors. See `holistic_axiom_live_scan_diagnostics_2026-10-08.json`. This diagnosis establishes the access failure, not the presence or absence of any responsive record.
 
 ### Session intake reviewed
 

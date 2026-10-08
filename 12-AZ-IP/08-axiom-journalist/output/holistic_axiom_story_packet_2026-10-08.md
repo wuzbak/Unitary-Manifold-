@@ -35,7 +35,7 @@ Keep unanswered questions and contradiction points visible instead of narrativel
 - Obtain original Azure investigative reporting and Microsoft statement, plus customer/provider contracts, account records and retention/access logs; determine exact scope and whether any migration occurred.
 - Identify each Carbyne/Axon public-safety deployment by agency, contract and period; obtain product version, data-flow documentation, permissions, retention controls and authorized technical review.
 - Authenticate the alleged Project Meridian announcement, charter and roster; search awards only by confirmed legal entity and unique identifiers.
-- Retrieve controlling Maxwell verdict/instructions and en banc Doe opinion; remove the “client list logical trap” assertion and accurately state procedural posture.
+- Retrieve controlling Maxwell verdict/instructions and *In re Wild*, 994 F.3d 1244; remove the “client list logical trap” assertion and accurately state procedural posture.
 - Retrieve current NY civil-fraud appellate disposition, bank regulator orders, Senate correspondence, loan instruments and any public customer-specific transaction evidence.
 
 ## Chapter drafts

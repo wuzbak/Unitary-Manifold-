@@ -31,7 +31,7 @@ The audit question is not whether Deutsche Bank has a troubling record—it has 
 
 ### II. Epstein, Maxwell and the procedural record
 
-The 2008 Florida non-prosecution agreement, the victims’ efforts to challenge the handling of the case, Epstein’s later federal prosecution and Ghislaine Maxwell’s 2021 conviction are distinct procedural events. They merit a precise chronology and sustained scrutiny. They do not support the claim that a Maxwell conspiracy conviction logically requires a government-held “client list.”
+The 2007 Florida non-prosecution agreement, the victims’ efforts to challenge the handling of the case, Epstein’s later federal prosecution and Ghislaine Maxwell’s 2021 conviction are distinct procedural events. They merit a precise chronology and sustained scrutiny. They do not support the claim that a Maxwell conspiracy conviction logically requires a government-held “client list.”
 
 A conspiracy verdict establishes an agreement among the conspirators charged under the relevant instructions and proven to the jury. It does not establish that all people who associated with Epstein were conspirators, that every alleged client committed a crime, or that the government must possess a formatted list of those people. The prior dossier’s “Maxwell Logical Trap” is not a legal contradiction. It should be withdrawn, not reframed as an unresolved judicial duty.
 
