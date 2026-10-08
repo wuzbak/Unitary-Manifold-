@@ -73,9 +73,14 @@ theorem pillar828_eta5_lt_eta7 : ETA_BAR_NUM_5 < ETA_BAR_NUM_7 := by decide
 -- 11. η̄ denominator = 4
 theorem pillar828_eta_den : ETA_BAR_DEN = 4 := rfl
 
--- 12. APS index formula: ind = 1 − η̄/2; n_w=5: ind = 1 − 1/8 = 7/8
-theorem pillar828_aps_index_5 : APS_INDEX_NUM_5 = APS_INDEX_DEN - ETA_BAR_NUM_5 / 2 := by
-  -- Compilation blocker: Nat arithmetic makes this equation 7 = 8 - 0.
+-- The historical unscaled Nat equation is withdrawn: 7 ≠ 8 - (1 / 2).
+theorem pillar828_aps_index_5_unscaled_refuted :
+    ¬ (APS_INDEX_NUM_5 = APS_INDEX_DEN - ETA_BAR_NUM_5 / 2) := by
+  decide
+
+-- Correct, explicitly renamed common-denominator arithmetic for 1 - 1/8.
+theorem pillar828_aps_index_5_scaled :
+    APS_INDEX_NUM_5 = APS_INDEX_DEN - ETA_BAR_NUM_5 := by
   decide
 
 -- 13. n_w ≡ 1 (mod 4) → minimal half-integer spin structure

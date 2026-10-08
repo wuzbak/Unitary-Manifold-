@@ -32,5 +32,6 @@ jobs:
       - name: Install deterministic verification dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-dev.txt
-          pip install -r 12-AZ-IP/20-psicat-navigator/requirements.txt
+          python -m pip install -r requirements.txt -r requirements-dev.txt \
+            -r 12-AZ-IP/20-psicat-navigator/requirements.txt
+          python -m pip check

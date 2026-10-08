@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+import shlex
 import subprocess
 import sys
 import tomllib
@@ -12,10 +13,45 @@ from pathlib import Path
 from zipfile import ZipFile
 
 import pytest
+import yaml
 from packaging.requirements import Requirement
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MODULES = ("core.metric", "holography.boundary", "multiverse.fixed_point")
+
+
+@pytest.mark.parametrize("name,supported,unsupported", [
+    ("pytest", "9.0.3", "9.1"), ("pytest-cov", "6.3.0", "7"),
+])
+def test_development_extras_preserve_verification_version_bounds(name, supported, unsupported):
+    metadata = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text())
+    groups = [metadata["project"]["optional-dependencies"]["dev"]]
+    groups.extend(
+        [line.partition("#")[0].strip()
+         for line in (REPO_ROOT / filename).read_text().splitlines()
+         if line.partition("#")[0].strip()]
+        for filename in ("requirements.txt", "requirements-dev.txt")
+    )
+    for requirements in groups:
+        requirement = next(Requirement(value) for value in requirements
+                           if Requirement(value).name == name)
+        assert supported in requirement.specifier
+        assert unsupported not in requirement.specifier
+
+
+def test_cloud_setup_resolves_runtime_and_dev_dependencies_together():
+    workflow = yaml.safe_load(
+        (REPO_ROOT / ".github/workflows/copilot-setup-steps.yml").read_text()
+    )
+    steps = workflow["jobs"]["copilot-setup-steps"]["steps"]
+    commands = [shlex.split(line)
+                for step in steps if "run" in step
+                for line in step["run"].replace("\\\n", " ").splitlines()]
+    installs = [command for command in commands if "install" in command]
+    requirements = {"requirements.txt", "requirements-dev.txt",
+                    "12-AZ-IP/20-psicat-navigator/requirements.txt"}
+    assert any(requirements.issubset(command) for command in installs)
+    assert ["python", "-m", "pip", "check"] in commands
 
 
 def test_standard_installs_exclude_unpatched_optional_cache_tooling():
