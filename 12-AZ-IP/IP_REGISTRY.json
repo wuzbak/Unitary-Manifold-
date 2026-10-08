@@ -464,9 +464,17 @@
       "description": "Product 26 UM-ARTS Python distribution manifest and explicit CLI entrypoint",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-06",
-      "sha256": "82531dc749dbdb84ca015be11792eab6d3732612a2776f025370008a42b050bc",
-      "size_bytes": 507
+      "updated": "2026-10-08",
+      "sha256": "b9775abd39c4fb253d4f17c5908aca67a1610de3036e5d7ac73249cedad69be1",
+      "size_bytes": 519,
+      "reseal_note": "Refreshed 2026-10-08 to match the root package's secure setuptools>=78.1.1 and wheel>=0.46.2 build requirements. Verified previous exact-byte seal retained in reseal_history.",
+      "reseal_history": [
+        {
+          "updated": "2026-10-06",
+          "sha256": "82531dc749dbdb84ca015be11792eab6d3732612a2776f025370008a42b050bc",
+          "size_bytes": 507
+        }
+      ]
     },
     "12-AZ-IP/27-psicat-vite-web-workbench/README.md": {
       "description": "Product 27 PsiCat Vite Web Workbench operating and security guide",

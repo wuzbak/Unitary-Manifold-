@@ -384,7 +384,7 @@ def test_bounded_timeout_cleans_descendant_process_group(arts_workspace):
         "def test_hangs():\n"
         " child = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])\n"
         f" Path({str(state)!r}).write_text(str(child.pid))\n"
-        " time.sleep(60)\n", timeout=1)
+        " time.sleep(60)\n", timeout=5)
     start = time.monotonic()
     result = engine.run(collect(root, store, config))
     assert result["status"] == "blocked"

@@ -194,7 +194,7 @@ The question is whether the people who hold this power will choose accountabilit
 
 ---
 
-**Book 23 — [The Blank Check](../Books/book-11-book-blank-check-military-accountability.md)**  
+**Book 23 — [The Blank Check](../Books/book-11-book-blank-check-military-accountability.md)**<br>
 Complete: immediate fix package (18 actions, 0–24 months), structural redesign (4 domains, 2–10 years), 100-day federal/state/local implementation annex, full source list.
 
 **Previous posts in this sequence:**
