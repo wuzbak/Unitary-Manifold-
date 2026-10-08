@@ -17,12 +17,18 @@ SKIP_PREFIXES = ("#", "data:")
 
 
 def iter_markdown_files(root: Path) -> list[Path]:
-    ignored = {".git", ".dvc", "__pycache__"}
-    return sorted(
-        path
-        for path in root.rglob("*.md")
-        if not any(part in ignored for part in path.parts)
-    )
+    ignored = {
+        ".git", ".dvc", "__pycache__", ".lake", "node_modules", ".venv",
+        ".tox", ".pytest_cache", ".um-arts", ".um-arts-test-work", "build", "dist",
+    }
+    files = []
+    for directory, subdirectories, filenames in root.walk(follow_symlinks=False):
+        subdirectories[:] = [
+            name for name in subdirectories
+            if name not in ignored and not (directory.name == ".github" and name == "agents")
+        ]
+        files.extend(directory / name for name in filenames if name.endswith(".md"))
+    return sorted(files)
 
 
 def normalize_target(raw: str) -> str:
