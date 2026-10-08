@@ -2,7 +2,7 @@
   "title": "Base44 / Wix Terms and Data-Use Evidence Intake",
   "lead": "Test the investigator-supplied quotations and summaries attributed to Base44/Wix terms, privacy documentation, Responsible Use Policy, security documentation, and Trust Center. The quoted materials are indexed as leads and are not treated as independently authenticated source captures.",
   "journalist": "AXIOM Journalist / AxiomZero Special Investigations Division",
-  "created_at": "2026-10-08T14:00:00",
+  "created_at": "2026-10-08T14:32:48",
   "status": "Active — source authentication pending",
   "entities": [
     {
@@ -285,5 +285,10 @@
     "Have Wix/Base44 been asked to confirm the supplied passages, describe actual practice, and respond to the questions above?"
   ],
   "watchlist": [],
-  "notes": "Intake batch 9. The AXIOM bundle records user-supplied excerpts as Tier 3 because the chat transcript/page-level quotation is the item presently available to this case; it does not certify source authenticity. Source tiers and the engine's confidence algorithm are not independent verification. No target systems were accessed or tested. External retrieval attempts failed DNS resolution."
+  "scores": {
+    "overall_confidence": 0.15,
+    "source_quality": 0.25,
+    "has_legal_flags": true
+  },
+  "notes": "Intake batch 9. AXIOM engine scores are mechanical outputs: all eight claims remain UNVERIFIED because the available evidence in this case consists of investigator-supplied excerpts/summaries classified Tier 3; scores are not truth probabilities. AxiomZero's rejection of tracking is an institutional position, not evidence of Base44 conduct. This export was processed through AXIOM's source parser and case functions in a temporary SQLite database only; it was not imported into the persistent AXIOM app, RAGbot, or PsiCat. No target systems were accessed or tested. External retrieval attempts failed DNS resolution."
 }
