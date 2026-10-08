@@ -1,6 +1,6 @@
 # Holistic Investigative Dossier — Intake and Verification Checkpoint
 
-**AxiomZero Special Investigations Division · Working research record · 8 October 2026**  
+**AxiomZero Special Investigations Division · Working research record · 8 October 2026**
 **Status: INTAKE IN PROGRESS · CLAIMS NOT YET INDEPENDENTLY VERIFIED · NOT FOR PUBLICATION**
 
 ## Purpose and scope
