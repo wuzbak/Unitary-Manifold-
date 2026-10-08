@@ -1,0 +1,32 @@
+{
+  "description": "Text extracted with pypdf from three PDFs the steward uploaded on 2026-10-08. Pages are joined with \"\\n<<<PAGE>>>\\n\". Text only; no images.",
+  "extractor": "pypdf 6.19.0",
+  "page_separator": "\n<<<PAGE>>>\n",
+  "sources": {
+    "publications": {
+      "upload_commit": "db1147e736b979219ef57debec1ef29105dc1321",
+      "path": "7-OUTREACH/A Z PsiCat Literature/PsiCat-Publications-2026-10-08.pdf",
+      "pdf_sha256": "dba804128b4b6a71cd3d60c6c2dc5f744e4978fcd215986f5affa8e469813689",
+      "pdf_bytes": 4601239,
+      "pages": 118,
+      "text_sha256": "735be7f29e89b21253c1ce491444a2df998a0e42eb8862b4feb65338e9c8925d"
+    },
+    "comic_shop": {
+      "upload_commit": "50c7117c1df4df619607ca6ce61c3668f7c58e56",
+      "path": "7-OUTREACH/A Z PsiCat Literature/PsiCat-Comic-Shop-2026-10-08.pdf",
+      "pdf_sha256": "ad239db4b98a545529911563a3ad4afa1f11fff18cf71174b2f279c2b7780c0c",
+      "pdf_bytes": 64629,
+      "pages": 16,
+      "text_sha256": "47a798b63069079daceac908335f09c5f0e8fe2abf936541daa6b96f57986947"
+    },
+    "knowledge_library": {
+      "upload_commit": "8a1eaf2a7f5f9c8e3f09a7b8f0a74d07c0527f80",
+      "path": "12-AZ-IP/20-psicat-navigator/axiomzero-knowledge-library-2026-10-08.pdf",
+      "pdf_sha256": "4add112784d27460eda518a021220720b261e3978a40fbf1bf6b3583144497ee",
+      "pdf_bytes": 436770,
+      "pages": 53,
+      "text_sha256": "dd8b00abf7fcc592b4a8eb425e1c8c8a3a66246ad1d845acb8725aad2be3c35a"
+    }
+  },
+  "stored_json_sha256": "ee94393e04609dac2971802a633a1813fd18d4b3c30c53f8dd9ae78f0655c37d"
+}

@@ -56,8 +56,6 @@ The backend sections, which never arrived in the pasted parts, carry the three h
 
 Lower down: two workflows run the same five-minute job twice, and the schedules add up to roughly 2,777 runs a day. On the clock, the index shows a wall-time instrument — a fifteen-minute durable tick cross-checked hourly against external time servers — and mentions 12/37 only as the sound speed in a maintenance replay. Whether the clock's constants use 12/37 is not visible without the clock's source.
 
-
-
 Each finding names its fix. The test suite applies these fixes to a copy of the snapshot:
 - full per-component digests;
 - internal licences changed to AGPL-3.0-or-later;
@@ -65,6 +63,24 @@ Each finding names its fix. The test suite applies these fixes to a copy of the 
 - Tailwind brought in line with `package.json`.
 
 It then confirms that the corresponding findings disappear. The audit is therefore a working checklist for the webspace, not a fixed verdict.
+
+## After the steward's confirmation
+
+The steward confirmed all three high findings on 2026-10-08, reported that PsiCat's GitHub write access has been removed, and announced wider admin, backend and frontend access for PsiCat on the webspace. Two consequences follow, and both are now in code.
+
+A reported fix is recorded, not assumed. The remediation register holds each report with its date, and Merlin checks it against the index. The only index in hand was generated the evening before the report, so it can neither confirm the change nor contradict it; the GitHub entry therefore reads *awaiting a newer index*. When a later index arrives, the entry becomes verified if the connector has lost `public_repo`, and is marked contradicted if it has not. The unused `PSICAT_GITHUB_TOKEN` should go at the same time.
+
+Widening access calls for reading the locks first. Merlin ranks the forty-one functions with no detected login check by what the index says each can reach: a secret it can spend, outside hosts it can call, records it can touch with service privileges, functions it can trigger, and whether a schedule runs it. Six come out on top, including the ElevenLabs proxy (a paid API key behind an open door, if the scan is right), the sanctions watchlist scan (a paid key and four outside hosts) and the steward digest (which can queue email). This is a reading order, not a verdict. The review also lists what an admin grant would reach, the nine entities that declare no row-level rules, and the LinkedIn connector's ability to post as the organisation. It reports expansion as not yet ready until each precondition is settled.
+
+## PsiCat's own exports
+
+The steward added three PDFs that the webspace compiled from PsiCat's own work. Merlin stores their text with each file's hash and audits them.
+
+The inventory is sound. All thirty-six articles match the index's published list by title and category, and the Knowledge Library's tier and domain counts add up exactly. The numbers PsiCat writes about the physics are right as well: n_s, its distance from Planck, k_CS, c_s, the birefringence branches and window, and the DESI and JUNO significances all agree with the repository's live registry.
+
+The statuses are where the articles fall behind. Two articles say the tensor-to-scalar prediction holds, citing BICEP/Keck alone, while the registry has it under high tension from ACT DR6. One repeats a CMB "irreducible mismatch" that the registry has since withdrawn as an invalid inference. The DESI tension carries a label the registry does not use and is described as coming from one experiment. Several pieces describe hardgates as proven and machine-verified, or k_CS as free of any fit to data, where the repository's truth layer treats n_w and k_CS as postulates with n_w selected by Planck data. These are the corrections an author working from an older map would need, and the repository is the newer map.
+
+The PDF compiler has two faults of its own. Every Contents entry in all three files points to the first page of the following work, and the final entry points past the end. And Greek letters and math symbols come out garbled, because the built-in PDF fonts cannot draw them.
 
 ## Why this belongs in Merlin
 

@@ -1733,6 +1733,16 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({'ok': payload['ok'], 'webspace_index': payload.get('data', {})}, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/webspace-remediation':
+                status, payload = _tool_data_or_error(route_tool('getMerlinWebspaceRemediation', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'webspace_remediation': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
+            if route_path == '/api/psicat/publication-audit':
+                status, payload = _tool_data_or_error(route_tool('getMerlinPublicationAudit', {}, session=merlin_session))
+                self._json({'ok': payload['ok'], 'publication_audit': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/phase-isa':
                 status, payload = _tool_data_or_error(route_tool('getMerlinPhaseIsaVectors', {}, session=merlin_session))
                 self._json({'ok': payload['ok'], 'phase_isa': payload.get('data', {})}, status=status)

@@ -1,0 +1,42 @@
+{
+  "description": "Steward-side remediation status for webspace index findings. A status recorded here is a claim by the steward, not evidence. A finding is only marked verified when a machine index generated after the report date shows the fix. Nothing in this file clears a finding by itself.",
+  "statuses": {
+    "open": "Finding stands; no remediation reported.",
+    "confirmed_open": "Steward confirmed the finding is correct; remediation not yet reported.",
+    "steward_reported_fixed": "Steward reports the fix was made; awaiting a newer machine index to verify."
+  },
+  "entries": [
+    {
+      "finding_id": "IX-GITHUB-WRITE-SCOPE",
+      "status": "steward_reported_fixed",
+      "reported_at": "2026-10-08",
+      "ledger_note": 6,
+      "statement": "Steward confirmed the finding and reports that PsiCat's GitHub write access has been removed.",
+      "verification": {"kind": "connector_scopes_absent", "connector": "github", "scopes": ["public_repo", "repo"]}
+    },
+    {
+      "finding_id": "IX-SERVICE-ROLE-UNAUTHENTICATED",
+      "status": "confirmed_open",
+      "reported_at": "2026-10-08",
+      "ledger_note": 6,
+      "statement": "Steward confirmed the finding. Each listed function still needs reading before it is called a hole; see the privilege-expansion review for the reading order.",
+      "verification": {"kind": "service_role_unchecked_absent"}
+    },
+    {
+      "finding_id": "IX-STALE-BUNDLE-CREDENTIAL-FILE",
+      "status": "confirmed_open",
+      "reported_at": "2026-10-08",
+      "ledger_note": 6,
+      "statement": "Steward confirmed the finding. The .npmrc inside the stale public bundle must be opened; any token in it must be rotated, and the stale bundle should be withdrawn.",
+      "verification": {"kind": "manual", "evidence_required": "Steward statement that the file was inspected, with rotation done if it held a token; a newer index with the stale bundle removed."}
+    },
+    {
+      "finding_id": "IX-UNREFERENCED-SECRETS",
+      "status": "open",
+      "reported_at": "2026-10-08",
+      "ledger_note": 6,
+      "statement": "PSICAT_GITHUB_TOKEN is used by no function. With GitHub write access removed, it should be deleted rather than kept as an unused credential.",
+      "verification": {"kind": "secret_absent", "secret": "PSICAT_GITHUB_TOKEN"}
+    }
+  ]
+}
