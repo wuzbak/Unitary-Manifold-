@@ -43,14 +43,6 @@ jobs:
       - name: Lake update
         run: lake update
 
-      - name: Download Mathlib cache
-        continue-on-error: true
-        working-directory: .
-        run: |
-          python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE/lean4" \
-            --output "$GITHUB_WORKSPACE/.um-arts/lean-cache" --timeout 600 \
-            -- lake exe cache get
-
       - name: Build checked UM-ARTS declaration exporter
         run: lake build um_arts_export
 
@@ -65,6 +57,14 @@ jobs:
             --output "$GITHUB_WORKSPACE/.um-arts/lean-exporter-tests" --timeout 300 \
             -- python3 -m pytest tests/test_um_arts_lean_exporter.py \
             --noconftest -m "" -q
+
+      - name: Download Mathlib cache
+        continue-on-error: true
+        working-directory: .
+        run: |
+          python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE/lean4" \
+            --output "$GITHUB_WORKSPACE/.um-arts/lean-cache" --timeout 600 \
+            -- lake exe cache get
 
       - name: Verify NumericalChecks compile
         working-directory: .
