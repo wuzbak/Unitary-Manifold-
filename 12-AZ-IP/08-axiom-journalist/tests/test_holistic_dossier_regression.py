@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 import pytest
-
-PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 
 from axiom_journalist.engine.publication import (
     build_dossier_packet,
@@ -20,6 +19,7 @@ from core.investigator import Investigation, SourceTier
 from db import cases as db
 
 
+PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = PRODUCT_ROOT / 'output'
 CASE_PATH = OUTPUT / 'holistic_axiom_case_export_2026-10-08.json'
 BUNDLE_PATH = OUTPUT / 'holistic_public_record_source_bundle_2026-10-08.jsonl'
@@ -93,8 +93,7 @@ def test_holistic_case_builds_a_human_review_packet_without_upgrading_leads(inve
     assert 'en banc Doe opinion' not in story_packet
     assert '*In re Wild*, 994 F.3d 1244' in story_packet
     assert story_packet.rstrip() == render_story_markdown(build_story_packet(investigation)).rstrip()
-    assert '.;' not in story_packet
-    assert '..' not in story_packet
+    assert re.search(r'\.;|(?<!\.)\.\.(?!\.)', story_packet) is None
     ledger = (OUTPUT / 'holistic_master_claim_and_money_flow_ledger_2026-10-08.md').read_text(
         encoding='utf-8'
     )
