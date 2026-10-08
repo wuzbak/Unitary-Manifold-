@@ -134,6 +134,24 @@ def _semantic_embedder_pillars(query: str, max_chunks: int) -> list[dict[str, An
     return [by_id[pid] for pid in order[: max(0, int(max_chunks))]]
 
 
+PHICAT_PROTOCOL_FLAG = "MERLIN_PHICAT_PROTOCOL"
+
+
+def phicat_protocol_enabled() -> bool:
+    """Opt-in only (default OFF): pillar ordering is unchanged unless the flag is set."""
+    return (os.environ.get(PHICAT_PROTOCOL_FLAG) or "").strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _phicat_protocol_pillars(query: str, max_chunks: int) -> list[dict[str, Any]]:
+    from .merlin_phicat_protocol import phicat_protocol_ranking
+    from .merlin_retrieval_eval import _pillar_tokens
+
+    ids = [pillar.get("id") for pillar in PILLAR_KNOWLEDGE]
+    order = phicat_protocol_ranking(query, [_pillar_tokens(p) for p in PILLAR_KNOWLEDGE], ids)
+    by_id = {pillar.get("id"): pillar for pillar in PILLAR_KNOWLEDGE}
+    return [by_id[pid] for pid in order[: max(0, int(max_chunks))]]
+
+
 def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
     """Return pillar, prediction, fallibility, and interrogator context."""
     query_tokens = _tokens(query)
@@ -153,6 +171,8 @@ def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
         pillars = _bm25_pillars(query, max_chunks)
     if semantic_embedder_ranking_enabled():
         pillars = _semantic_embedder_pillars(query, max_chunks)
+    if phicat_protocol_enabled():
+        pillars = _phicat_protocol_pillars(query, max_chunks)
     interrogator_hits = search_kb(INTERROGATOR_ENTRIES, query)[:3]
     return {
         "pillars": pillars,

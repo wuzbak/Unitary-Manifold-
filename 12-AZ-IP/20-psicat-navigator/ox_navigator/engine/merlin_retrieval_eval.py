@@ -19,6 +19,10 @@ opt-in local hashed n-gram embedder (``merlin_semantic_embedder``) as
 ``embedder`` and its fusion with the other two as ``rrf_all``.  This extra
 measurement is off by default so the default ``RANKERS``/``best_by_mrr``
 behaviour this module has always reported stays exactly as it was.
+
+``evaluate_rankers(..., include_phicat=True)`` additionally measures the
+opt-in PhiCat Protocol (``merlin_phicat_protocol``) golden-ratio
+braid-strand fusion as ``phicat``.  Also off by default for the same reason.
 """
 
 from __future__ import annotations
@@ -125,6 +129,7 @@ def evaluate_rankers(
     *,
     cutoffs: Sequence[int] = DEFAULT_CUTOFFS,
     include_embedder: bool = False,
+    include_phicat: bool = False,
 ) -> dict[str, Any]:
     if pillars is None:
         from .merlin_rag import PILLAR_KNOWLEDGE
@@ -140,7 +145,11 @@ def evaluate_rankers(
         from .merlin_semantic_embedder import EmbedderIndex
 
         embedder_index = EmbedderIndex(corpus_tokens)
-    rankers = (*RANKERS, "embedder", "rrf_all") if include_embedder else RANKERS
+    rankers = list(RANKERS)
+    if include_embedder:
+        rankers += ["embedder", "rrf_all"]
+    if include_phicat:
+        rankers += ["phicat"]
     totals = {name: {} for name in rankers}
     per_query = []
     skipped = []
@@ -156,6 +165,10 @@ def evaluate_rankers(
             embedder = _embedder_ranking(query, embedder_index, ids)
             rankings["embedder"] = embedder
             rankings["rrf_all"] = reciprocal_rank_fusion([jaccard, bm25, embedder])
+        if include_phicat:
+            from .merlin_phicat_protocol import phicat_protocol_ranking
+
+            rankings["phicat"] = phicat_protocol_ranking(query, corpus_tokens, ids)
         row = {"query": query, "relevant": sorted(relevant)}
         for name, ranking in rankings.items():
             metrics = _metrics(ranking, relevant, cutoffs)
