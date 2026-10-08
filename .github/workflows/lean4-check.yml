@@ -58,6 +58,10 @@ jobs:
             -- python3 -m pytest tests/test_um_arts_lean_exporter.py \
             --noconftest -m "" -q
 
+      - name: Verify NumericalChecks compile
+        working-directory: .
+        run: python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/lean-numerical" --timeout 900 -- lake -d lean4 build UnitaryManifold.NumericalChecks
+
       - name: Download Mathlib cache
         continue-on-error: true
         working-directory: .
@@ -65,10 +69,6 @@ jobs:
           python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE/lean4" \
             --output "$GITHUB_WORKSPACE/.um-arts/lean-cache" --timeout 600 \
             -- lake exe cache get
-
-      - name: Verify NumericalChecks compile
-        working-directory: .
-        run: python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" --output "$GITHUB_WORKSPACE/.um-arts/lean-numerical" --timeout 900 -- lake -d lean4 build UnitaryManifold.NumericalChecks
 
       - name: Lake build
         working-directory: .
