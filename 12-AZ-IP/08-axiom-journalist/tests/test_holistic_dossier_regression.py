@@ -68,13 +68,14 @@ def test_holistic_case_builds_a_human_review_packet_without_upgrading_leads(inve
     )
 
     packet = build_dossier_packet(investigation)
+    unlinked_claim_count = sum(not claim.get('entities_involved') for claim in investigation['claims'])
 
     assert packet['publication_posture']['status'] == 'HUMAN_REVIEW_REQUIRED'
     assert packet['evidence_summary']['confidence_counts'] == {'UNVERIFIED': 52}
     assert packet['evidence_summary']['source_count'] == 32
-    assert packet['evidence_summary']['claims_without_linked_entities'] == 52
+    assert packet['evidence_summary']['claims_without_linked_entities'] == unlinked_claim_count
     assert len(packet['editorial_sections']['claim_watchlist']) == 52
-    assert 'Claims without linked entities: 52' in render_dossier_markdown(packet)
+    assert f'Claims without linked entities: {unlinked_claim_count}' in render_dossier_markdown(packet)
     assert '2007 Epstein NPA' in next(c['statement'] for c in investigation['claims'] if c['id'] == 'EP-01')
     assert 'CIVIL ADJUDICATION; APPELLATE LOCATOR IDENTIFIED, CURRENT DOCKET UNCHECKED' in next(
         c['ledger_status'] for c in investigation['claims'] if c['id'] == 'FIN-02'
@@ -131,8 +132,7 @@ def test_holistic_source_bundle_preserves_provenance_in_sqlite(tmp_path):
 def test_holistic_dossiers_and_exposes_keep_publication_hold_and_evidence_limits(path):
     text = path.read_text(encoding='utf-8').casefold()
 
-    assert 'publication status' in text
-    assert 'hold' in text
+    assert re.search(r'\*\*publication status:\*\*\s*hold\b', text)
     assert any(term in text for term in ('unverified', 'not retrieved', 'not established', 'not yet'))
 
 
