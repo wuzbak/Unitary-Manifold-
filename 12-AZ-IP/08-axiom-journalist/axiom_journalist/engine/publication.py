@@ -172,7 +172,8 @@ def _render_inline_citations(citations: list[dict[str, Any]]) -> str:
 
 
 def _claim_line(claim: dict[str, Any]) -> str:
-    return f"{claim['statement']} {claim.get('inline_citations', '')}".rstrip()
+    confidence = str(claim.get('confidence', 'UNVERIFIED')).upper()
+    return f"[{confidence}] {claim['statement']} {claim.get('inline_citations', '')}".rstrip()
 
 
 def _chapter_source_ledger(claims: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -194,9 +195,18 @@ def _story_chapter_drafts(
     entities: list[dict[str, Any]],
     open_questions: list[str],
 ) -> list[dict[str, Any]]:
-    opening_claims = claims[:3]
+    publishable_confidences = {'CONFIRMED', 'CORROBORATED'}
+    opening_claims = [
+        claim
+        for claim in claims
+        if str(claim.get('confidence', 'UNVERIFIED')).upper() in publishable_confidences
+    ][:3]
     entity_claims = claims[: min(4, len(claims))]
-    unresolved_claims = claims[3:6]
+    unresolved_claims = [
+        claim
+        for claim in claims
+        if str(claim.get('confidence', 'UNVERIFIED')).upper() not in publishable_confidences
+    ][:3]
     entity_lines: list[str] = []
     for entity in entities[:6]:
         detail = f"{entity['name']} states: {entity['stated_position'] or 'No public position recorded.'}"
@@ -207,7 +217,14 @@ def _story_chapter_drafts(
     return [
         {
             'heading': 'What the record already establishes',
-            'body': ' '.join([lead or 'No investigative lead recorded.'] + [_claim_line(claim) for claim in opening_claims]).strip(),
+            'body': ' '.join(
+                ([lead or 'No investigative lead recorded.'] + [_claim_line(claim) for claim in opening_claims])
+                if opening_claims
+                else [
+                    lead or 'No investigative lead recorded.',
+                    'No claims currently meet the CONFIRMED or CORROBORATED threshold; the lead is not established by this record.',
+                ]
+            ).strip(),
             'citations': [item['citation_id'] for item in _chapter_source_ledger(opening_claims)],
             'source_ledger': _chapter_source_ledger(opening_claims),
         },

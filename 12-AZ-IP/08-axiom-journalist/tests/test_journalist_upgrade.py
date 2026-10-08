@@ -10,6 +10,7 @@ if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
 from axiom_journalist.engine.hils_review import HILSReviewRequest, format_review_output, submit_for_review
+from app.core.investigator import Claim, ConfidenceLevel, Source, SourceTier
 from axiom_journalist.engine.open_data_sources import (
     OPEN_DATA_SOURCES,
     build_investigative_brief,
@@ -458,6 +459,40 @@ def test_build_and_render_story_packet_contains_narrative_contract():
     assert 'Chapter drafts' in rendered
     assert 'Source backbone' in rendered
     assert 'Final gate' in rendered
+
+
+def test_single_credible_source_is_alleged_but_single_low_tier_source_is_unverified():
+    tier2_claim = Claim(
+        'A report makes a claim.',
+        sources=[Source('Established report', SourceTier.TIER_2)],
+    )
+    tier3_claim = Claim(
+        'An unverified post makes a claim.',
+        sources=[Source('Unverified post', SourceTier.TIER_3)],
+    )
+
+    assert tier2_claim.confidence is ConfidenceLevel.ALLEGED
+    assert tier3_claim.confidence is ConfidenceLevel.UNVERIFIED
+
+
+def test_story_packet_keeps_unverified_claims_out_of_established_chapter():
+    investigation = _sample_investigation_dict()
+    statement = 'A single-source claim remains unverified.'
+    investigation['claims'] = [{
+        'statement': statement,
+        'confidence': 'UNVERIFIED',
+        'legal_risks': 'LIBEL_EXPOSURE',
+        'entities_involved': ['Acme Corp'],
+        'sources': [{'title': 'Major newspaper investigation'}],
+    }]
+
+    chapters = build_story_packet(investigation)['chapter_drafts']
+    established = next(item for item in chapters if item['heading'] == 'What the record already establishes')
+    unresolved = next(item for item in chapters if item['heading'] == 'What remains unresolved')
+
+    assert statement not in established['body']
+    assert 'No claims currently meet the CONFIRMED or CORROBORATED threshold' in established['body']
+    assert f'[UNVERIFIED] {statement}' in unresolved['body']
 
 
 def test_render_dossier_html_contains_citation_markup():
