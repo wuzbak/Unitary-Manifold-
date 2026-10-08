@@ -159,6 +159,7 @@ from .merlin_meta_learning import (
     generate_falsification_oracle,
     run_self_audit,
 )
+from .merlin_grid_world import run_grid_world_episode
 from .merlin_reasoning_graph import get_reasoning_chain
 from .merlin_repo_graph import build_repo_graph, route_context_via_repo_graph
 from .merlin_retrieval_eval import evaluate_rankers
@@ -465,6 +466,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinToroidalAwareness", "summary": "Read-only session trajectory: facets, creases, topic jumps, and current orientation", "domain": "functions"},
             {"name": "getMerlinRetrievalEval", "summary": "Return the labelled retrieval evaluation (Jaccard vs BM25 vs RRF)", "domain": "functions"},
             {"name": "getMerlinSemanticEmbedder", "summary": "Return the opt-in local hashed n-gram embedder pillar ranking vs BM25 agreement", "domain": "functions"},
+            {"name": "getMerlinGridWorld", "summary": "Run a deterministic text/grid event-simulation episode (toroidal wrap + orbifold crease boundaries)", "domain": "functions"},
             {"name": "getMerlinUnitaryLab", "summary": "Run the unitary operator lab: L1 Clarke-subgradient fit on U(n) vs Procrustes", "domain": "functions"},
             {"name": "getMerlinPhaseIsaVectors", "summary": "Return phase-index ISA golden vectors with a SHA-256 fingerprint", "domain": "functions"},
             {"name": "getMerlinWebspaceProvenance", "summary": "Audit the webspace machine index and Data Provenance page against the repository", "domain": "functions"},
@@ -641,6 +643,19 @@ def _tool_manifest() -> dict[str, Any]:
                 "type": "object",
                 "properties": {"query": {"type": "string"}, "top_k": {"type": "integer"}},
                 "required": ["query"],
+                "additionalProperties": False,
+            }
+        },
+        "getMerlinGridWorld": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "width": {"type": "integer"},
+                    "height": {"type": "integer"},
+                    "agent_count": {"type": "integer"},
+                    "steps": {"type": "integer"},
+                    "seed": {"type": "integer"},
+                },
                 "additionalProperties": False,
             }
         },
@@ -1708,6 +1723,13 @@ _FUNCTIONS = {
     "getMerlinSemanticEmbedder": lambda **args: {"data": pillar_embedder_report(
         str(args.get("query", ""))[:4000],
         top_k=min(_coerce_positive_int(args.get("top_k"), 5), 20),
+    )},
+    "getMerlinGridWorld": lambda **args: {"data": run_grid_world_episode(
+        width=_coerce_positive_int(args.get("width"), 12),
+        height=_coerce_positive_int(args.get("height"), 12),
+        agent_count=_coerce_positive_int(args.get("agent_count"), 3),
+        steps=_coerce_positive_int(args.get("steps"), 20),
+        seed=int(args.get("seed") or 0),
     )},
     "getMerlinUnitaryLab": lambda **args: _unitary_lab_surface(args),
     "getMerlinPhaseIsaVectors": lambda **args: {"data": export_golden_vectors()},

@@ -1728,6 +1728,20 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({'ok': payload['ok'], 'semantic_embedder': payload.get('data', {})}, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/grid-world':
+                grid_args = {}
+                for key, default in (('width', 12), ('height', 12), ('agent_count', 3), ('steps', 20), ('seed', 0)):
+                    value, error = _parse_int_query_param(params, key, default)
+                    if error:
+                        self._json({'ok': False, 'error': error}, status=400)
+                        return
+                    grid_args[key] = value
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinGridWorld', grid_args, session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'grid_world': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/unitary-lab':
                 lab_args = {}
                 for key, default in (('n', 4), ('iterations', 1500), ('seed', 74), ('outlier_percent', 10)):
