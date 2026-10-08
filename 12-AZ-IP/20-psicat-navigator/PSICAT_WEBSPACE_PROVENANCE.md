@@ -3,6 +3,7 @@
 **Status:** 🔵 ADJACENT TRACK. Software audit inside Product 20; not a physics claim.
 **Module:** `ox_navigator/engine/merlin_webspace_provenance.py` · **Data:** `ox_navigator/engine/data/webspace_provenance_snapshot.json`
 **Tests:** `tests/test_merlin_webspace_provenance.py` · **Tool:** `getMerlinWebspaceProvenance` · **Endpoint:** `GET /api/psicat/webspace-provenance`
+**Full index:** `ox_navigator/engine/merlin_webspace_index.py` · `data/raw/machine_index_2026-10-07.json.gz` · `tests/test_merlin_webspace_index.py` · tool `getMerlinWebspaceIndex` · `GET /api/psicat/webspace-index`
 
 The AxiomZero webspace publishes two descriptions of itself. One is a machine index, written for agents and auditors. The other is a Data Provenance page, written for people. The machine index states its own rule of authority: the repository decides questions of science and framework status, and the index decides questions about the webspace's code and configuration. Merlin now holds both descriptions to that rule. It also holds each of them to the evidence the other provides.
 
@@ -40,9 +41,22 @@ The machine index is careful work, and most of its counts reconcile:
 
 **Informational:**
 - **dompurify classification.** dompurify is counted as copyleft, but its licence is "MPL-2.0 OR Apache-2.0", so the permissive option can be chosen.
-- **Partial transcription.** The machine index arrived truncated, so its agents, workflows and contracts were not audited.
+- **Partial transcription (superseded).** The first copy of the machine index was truncated. The complete index has since arrived; see below.
 
-## How a finding clears
+## The complete index
+
+The steward later supplied the whole index as a 2,190-page PDF export. Rebuilding JSON from a PDF invites the obvious question of whether the copy is faithful, and the index answers it for us: it publishes a tree hash with an exact definition. Recomputed from the rebuilt copy over all 1,454 file digests, it matches the published value to the last nibble. Paths, digests, counts and flags are therefore exact; only whitespace inside long prose fields is best-effort. The rebuilt copy and a sidecar describing how it was made are stored under `ox_navigator/engine/data/raw/`.
+
+With the full SBOM in hand, the earlier leads became findings. The 892 entries are 870 distinct packages; the rest are repeated install locations without a recorded path. The `direct` flag follows the package name rather than the install location, so seven nested entries at incompatible versions are counted as direct, along with eight nested in-range copies of `@radix-ui/react-slot`; together they account exactly for 111 against 96. Five declared dev dependencies are flagged as runtime. Both Hippocratic-licensed packages are now named, `@react-leaflet/core` and `react-leaflet`, and the second is a direct dependency, so its terms reach the shipped app. Five declared packages sit at two major versions, TensorFlow.js among them.
+
+The backend sections, which never arrived in the pasted parts, carry the three high-severity findings of this round:
+- **Write-capable GitHub scope.** The GitHub connector holds `public_repo`, a scope that can write to public repositories. The webspace's stated policy, enforced in code by two stub refusal functions, is read-only. The policy is right and the credential should match it. A GitHub token secret is configured and used by nothing.
+- **Service-role functions without a detected auth check.** Forty-one of 190 functions use the service role, are not admin-only, and show no auth check in the index's static analysis. Static analysis can miss a check, so this is a reading list rather than a verdict.
+- **A credential-type file in the stale public bundle.** The source bundle that the webspace's own finding VF-6 calls stale includes `.npmrc`, which the index's exclusion rules withhold because such files can hold registry tokens. Someone should look inside it.
+
+Lower down: two workflows run the same five-minute job twice, and the schedules add up to roughly 2,777 runs a day. On the clock, the index shows a wall-time instrument — a fifteen-minute durable tick cross-checked hourly against external time servers — and mentions 12/37 only as the sound speed in a maintenance replay. Whether the clock's constants use 12/37 is not visible without the clock's source.
+
+
 
 Each finding names its fix. The test suite applies these fixes to a copy of the snapshot:
 - full per-component digests;

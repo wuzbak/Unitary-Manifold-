@@ -200,11 +200,9 @@ def sbom_integrity(index: dict[str, Any]) -> dict[str, Any]:
     declared = {**runtime, **dev}
     key_counts = Counter((p["name"], p["version"], p.get("integrity")) for p in packages)
     repeats = sorted(((n, k[0], k[1]) for k, n in key_counts.items() if n > 1), reverse=True)
-    wrong_direct = sorted({
-        (p["name"], p["version"], declared.get(p["name"]))
-        for p in packages
-        if p.get("direct") and p["name"] in declared and not satisfies_caret(p["version"], declared[p["name"]])
-    })
+    unsatisfied = [p for p in packages
+                   if p.get("direct") and p["name"] in declared and not satisfies_caret(p["version"], declared[p["name"]])]
+    wrong_direct = sorted({(p["name"], p["version"], declared[p["name"]]) for p in unsatisfied})
     flagged_dev: dict[str, set[bool]] = defaultdict(set)
     for p in packages:
         if p["name"] in dev and satisfies_caret(p["version"], dev[p["name"]]):
@@ -226,6 +224,7 @@ def sbom_integrity(index: dict[str, Any]) -> dict[str, Any]:
         "direct_entries": sum(1 for p in packages if p.get("direct")),
         "declared_direct": len(declared),
         "direct_flag_unsatisfied": [{"name": n, "version": v, "spec": s} for n, v, s in wrong_direct],
+        "direct_flag_unsatisfied_entries": len(unsatisfied),
         "dev_declared_but_flagged_runtime": dev_misflagged,
         "declared_packages_with_multiple_majors": multi_major,
         "hippocratic_packages": sorted(f"{p['name']}@{p['version']}" for p in packages if "Hippocratic" in str(p.get("license"))),
@@ -368,8 +367,9 @@ def audit_full_index(index: dict[str, Any] | None = None) -> list[dict[str, Any]
         findings.append(_finding(
             "IX-SBOM-DIRECT-FLAG", "medium", "Nested copies are marked direct",
             f"{sb['direct_entries']} entries are flagged direct, but package.json declares {sb['declared_direct']}. "
-            f"These flagged versions cannot satisfy the declared range: {listed}. The generator appears to set "
-            "`direct` by package name.",
+            f"{sb['direct_flag_unsatisfied_entries']} flagged entries cannot satisfy the declared range: {listed}. "
+            f"The remaining {sb['direct_entries'] - sb['declared_direct'] - sb['direct_flag_unsatisfied_entries']} "
+            "are extra in-range copies. The generator appears to set `direct` by package name.",
             "Set direct only on the top-level node_modules entry, which is the one npm resolves for package.json.",
         ))
     if sb["dev_declared_but_flagged_runtime"]:

@@ -103,6 +103,9 @@ def test_sbom_integrity_explains_the_inflated_counts() -> None:
     assert sb["direct_entries"] == 111 and sb["declared_direct"] == 96
     wrong = {(d["name"], d["version"]) for d in sb["direct_flag_unsatisfied"]}
     assert {("@tensorflow/tfjs", "3.21.0"), ("apache-arrow", "17.0.0"), ("@types/node", "20.19.43")} <= wrong
+    assert len(wrong) == 6 and sb["direct_flag_unsatisfied_entries"] == 7
+    # 111 = 96 declared + 7 out-of-range entries + 8 nested in-range @radix-ui/react-slot 1.2.3 copies
+    assert sb["direct_entries"] - sb["declared_direct"] - sb["direct_flag_unsatisfied_entries"] == 8
     assert {"@types/node", "@types/react", "@types/react-dom"} <= set(sb["dev_declared_but_flagged_runtime"])
     assert sb["declared_packages_with_multiple_majors"]["@tensorflow/tfjs"] == [3, 4]
     assert sb["hippocratic_packages"] == ["@react-leaflet/core@2.1.0", "react-leaflet@4.2.1"]

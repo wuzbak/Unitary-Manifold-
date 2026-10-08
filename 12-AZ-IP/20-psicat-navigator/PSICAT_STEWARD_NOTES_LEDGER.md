@@ -117,4 +117,32 @@ The index says "every named array is the COMPLETE list", so repeated identical e
 
 The webspace's coverage block says counts should be verified "against its array rather than trusting the number". Doing exactly that is what exposed these problems.
 
-**Status: holding.** No work will start until the steward says the intake is finished.
+**Status: closed by Note 5.** The full index arrived as one file, so the part-by-part intake stopped at Part G. Nothing above is withdrawn; Note 5 records what the complete data confirmed and corrected.
+
+## Note 5 — The whole machine index, as one file (received 2026-10-08)
+
+**What the steward said.** First, a link to the live `machine-index.json` on the Base44 preview host, with the expectation that it might not be reachable. Then: "I just added a XML file to PsiCat — whole thing — that work? If yes, get to work, if no tell me."
+
+**What actually arrived.** The preview host does not resolve from the agent sandbox, so the link could not be used. The upload is not XML. It is `12-AZ-IP/20-psicat-navigator/WEBSPACE10_01.pdf`, a 2,190-page Word export of the complete `machine-index.json`, committed to `main` in `f4fa4dc5`. (The index does contain XML — the served `sitemap.xml` is carried inside it as a string — which may be where the name came from.) The answer to "does that work" is yes.
+
+**How it was made trustworthy.** A PDF is not a JSON file, and text extraction damages it in predictable ways: strings wrap across lines, and spaces appear before some punctuation. `merlin_webspace_index.py` rebuilds the JSON and undoes those artefacts with five fixed rules, each counted (304 trailing spaces, 167 leading spaces before a dot, 36 spaces before a comma, 12 inside glob patterns). The test of the result is the index's own tree hash: SHA-256 over every `<path>\0<sha256>` line, sorted. Recomputed over all 1,454 file digests from the rebuilt copy, it equals the published `1aa0540a…865b7e` exactly. Every path and every digest is therefore exact. Long prose descriptions are best-effort on whitespace only, and the provenance sidecar says so. The five agency telephone samples were withheld, as in the earlier snapshot; no secret values were present to withhold (all eighteen read "NOT PUBLISHED").
+
+**What the complete data confirmed from Parts A–G.**
+- The SBOM's 892 entries are 870 distinct packages by name, version and integrity; the 22 surplus are repeated install locations with no path recorded. `@radix-ui/react-slot` 1.2.3 is the largest, at eight.
+- The `direct` flag is set by package name. Seven entries (six versions) are flagged direct at versions that cannot satisfy the declared range: `@tensorflow/tfjs` 3.21.0, `@types/node` 20.19.43 (twice), `apache-arrow` 17.0.0, `globals` 14.0.0, `mathjs` 9.4.4 and `three` 0.170.0. The other eight surplus entries are the nested in-range copies of `@radix-ui/react-slot` 1.2.3. Together they account exactly for 111 against 96.
+- Five declared dev dependencies carry `dev: false` everywhere: `@types/node`, `@types/react`, `@types/react-dom`, `postcss`, `tailwindcss`.
+- Both Hippocratic-2.1 packages are named: `@react-leaflet/core` and `react-leaflet`, and the second is a direct dependency.
+- Five declared packages are installed at two majors: TensorFlow.js, `@types/node`, Apache Arrow, `globals` and `mathjs`.
+
+**What the complete data added.** The sections that never arrived in parts are the backend, and they hold the most serious findings:
+- The GitHub connector is granted `public_repo`, which can write to public repositories, while the webspace's own finding VF-5 says repository writes are refused in code. The refusal functions do look like stubs, which is good; the credential behind them is still broader than the policy. The secret `PSICAT_GITHUB_TOKEN` is referenced by no function.
+- 41 of 190 functions run with the service role, are not admin-only, and show no auth check in the index's static analysis. That flag is static; each needs reading before it is called a hole.
+- The stale public source bundle that VF-6 already reports contains `.npmrc`, a file the index's own exclusion list withholds because it may carry registry credentials.
+- `PhiCat Auto-Braid` and `PhiCat Braid Cycle` run the same function with the same arguments every five minutes; across all schedules, about 2,777 runs a day.
+
+**The 12/37 clock.** Merlin's tick in this repository is 12/37. The webspace clock, as the index describes it, is a different instrument: a fifteen-minute durable tick and an hourly cross-check of runtime time against five external time hosts. The ratio 12/37 appears in the index once, as c_s in the Cat Nap replay. Whether `CHRONOMETER_CONSTANTS` uses it cannot be read from the index; it needs `base44/shared/chronometry.ts` from `machine-source.json`.
+
+**What was done.** The rebuilt index is stored at `ox_navigator/engine/data/raw/machine_index_2026-10-07.json.gz`, with a provenance sidecar (source PDF hash, rule counts, tree-hash result). Merlin reads it through `getMerlinWebspaceIndex` and `GET /api/psicat/webspace-index`, and the existing provenance audit now merges these findings and drops its partial-intake notice. Write-up: `PSICAT_WEBSPACE_PROVENANCE.md`.
+
+**Open.** `machine-source.json` (for the clock constants and to read the 41 flagged functions) and `machine-hashes.json` (to check the hash of the index file itself) would close the remaining questions.
+
