@@ -352,6 +352,28 @@ class TestThreatIntel:
         assert ind is not None
         assert ind.cve_id == "CVE-2024-21762"
 
+    def test_refresh_keeps_sample_cves_when_live_feed_has_other_results(self, monkeypatch):
+        from engine import threat_intel
+
+        live_indicator = ThreatIndicator(
+            category=ThreatCategory.CVE,
+            indicator="CVE-2026-0001",
+            source="nvd",
+            severity=Severity.HIGH,
+            score=70.0,
+            description="Live feed sample",
+            cve_id="CVE-2026-0001",
+        )
+        monkeypatch.setattr(threat_intel, "fetch_nvd_recent", lambda **kwargs: [live_indicator])
+        monkeypatch.setattr(threat_intel, "fetch_malware_bazaar_recent", lambda: [])
+        monkeypatch.setattr(threat_intel, "load_custom_ioc_registry", lambda registry: [])
+
+        ti = ThreatIntelligenceEngine()
+        ti.refresh()
+
+        assert ti.lookup_cve("CVE-2026-0001") is live_indicator
+        assert ti.lookup_cve("CVE-2024-21762") is not None
+
     def test_domain_lookup(self):
         ti = ThreatIntelligenceEngine()
         ti.refresh()

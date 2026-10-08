@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -23,18 +22,8 @@ from omega.yukawa_explorer import (
 )
 
 
-def _generated_paths() -> tuple[Path, Path]:
-    output_dir = APP_ROOT / "tests" / "_generated"
-    output_dir.mkdir(exist_ok=True)
-    stem = f"sm_export_{os.getpid()}"
-    return output_dir / f"{stem}.json", output_dir / f"{stem}.csv"
-
-
-def _cleanup_generated_files() -> None:
-    json_path, csv_path = _generated_paths()
-    for path in (json_path, csv_path):
-        if path.exists():
-            path.unlink()
+def _generated_paths(tmp_path: Path) -> tuple[Path, Path]:
+    return tmp_path / "sm_export.json", tmp_path / "sm_export.csv"
 
 
 def test_parse_bc_parameters_defaults():
@@ -175,9 +164,8 @@ def test_flatten_export_payload_exposes_particle_paths():
     assert "yukawa.ckm.matrix.0.0" in rows
 
 
-def test_export_sm_parameters_writes_json_and_csv():
-    _cleanup_generated_files()
-    json_path, csv_path = _generated_paths()
+def test_export_sm_parameters_writes_json_and_csv(tmp_path: Path):
+    json_path, csv_path = _generated_paths(tmp_path)
     payload = export_sm_parameters(json_path, csv_path, {"alpha": 0.1})
     assert json_path.exists()
     assert csv_path.exists()
@@ -187,12 +175,10 @@ def test_export_sm_parameters_writes_json_and_csv():
     csv_text = csv_path.read_text(encoding="utf-8")
     assert "path,value" in csv_text
     assert "particle_physics.y5_universal" in csv_text
-    _cleanup_generated_files()
 
 
-def test_export_cli_writes_requested_files():
-    _cleanup_generated_files()
-    json_path, csv_path = _generated_paths()
+def test_export_cli_writes_requested_files(tmp_path: Path):
+    json_path, csv_path = _generated_paths(tmp_path)
     script = APP_ROOT / "omega" / "open_science_export.py"
     result = subprocess.run(
         [sys.executable, str(script), "--json-path", str(json_path), "--csv-path", str(csv_path), "--bc", "alpha=0.1"],
@@ -204,7 +190,6 @@ def test_export_cli_writes_requested_files():
     assert json_path.exists()
     assert csv_path.exists()
     assert "Wrote" in result.stdout
-    _cleanup_generated_files()
 
 
 def test_source_reports_core_or_fallback_mode():

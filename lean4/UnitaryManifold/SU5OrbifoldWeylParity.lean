@@ -2,7 +2,7 @@ import Mathlib.Tactic
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Nat.GCD.Basic
 import Mathlib.Data.Finset.Basic
-import Mathlib.Data.Rat.Basic
+import Mathlib.Algebra.Field.Rat
 /-!
 # Unitary Manifold — SU(5) Orbifold Weyl-Group Parity Proof (Lean 4 + Mathlib)
 

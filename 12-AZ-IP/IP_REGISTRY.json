@@ -327,10 +327,18 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-10-07",
-      "sha256": "8bddde7bf229d155cf432f8507a0b7b5e5e44b072beac260003c3e122e5f9261",
-      "size_bytes": 12653,
-      "reseal_note": "Refreshed 2026-10-07 to register Product 27 PsiCat's Vite Web Workbench alongside the existing Product 26 entry. Previous seal: ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c (11391 bytes). Prior merge provenance is retained in the preceding reseal history."
+      "updated": "2026-10-08",
+      "sha256": "e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61",
+      "size_bytes": 12750,
+      "reseal_note": "Refreshed 2026-10-08 to add the portfolio license schedule link. Previous seal retained in reseal_history.",
+      "reseal_history": [
+        {
+          "updated": "2026-10-07",
+          "sha256": "8bddde7bf229d155cf432f8507a0b7b5e5e44b072beac260003c3e122e5f9261",
+          "size_bytes": 12653,
+          "reseal_note": "Refreshed 2026-10-07 to register Product 27 PsiCat's Vite Web Workbench alongside the existing Product 26 entry. Previous seal: ec299e19cea5066f7d76694399ea86a062b2f300f0805c05ee3df6d1bc6f112c (11391 bytes). Prior merge provenance is retained in the preceding reseal history."
+        }
+      ]
     },
     "12-AZ-IP/NOTICE": {
       "description": "Canonical AxiomZero notice file",

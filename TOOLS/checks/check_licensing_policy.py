@@ -17,6 +17,7 @@ POLICY_PATH = "9-INFRASTRUCTURE/licensing_policy.json"
 DOCUMENTS = (
     "LICENSE", "LICENSE-AGPL", "LEGAL.md", "docs/policy/COMMERCIAL_TERMS.md",
     "NOTICE", "12-AZ-IP/NOTICE", "12-AZ-IP/LICENSE-AGPL",
+    "12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md",
 )
 SOFTWARE_LOCATIONS = (
     "src", "tests", "recycling", "5-GOVERNANCE/Unitary Pentad", "bot",

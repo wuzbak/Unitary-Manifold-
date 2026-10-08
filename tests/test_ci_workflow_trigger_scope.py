@@ -201,7 +201,13 @@ def test_root_lean_captures_use_the_persisted_pin(name, command, allows_failure)
     step = next(step for step in steps if step.get("name") == name)
     assert step["working-directory"] == "."
     assert step.get("continue-on-error", False) is allows_failure
-    assert "-- lake -d lean4 " + command in step["run"]
+    if name == "Download Mathlib cache":
+        assert '--repo "$GITHUB_WORKSPACE/lean4"' in step["run"]
+        assert "-- lake " + command in step["run"]
+        expected_arguments = ["lake", *command.split()]
+    else:
+        assert "-- lake -d lean4 " + command in step["run"]
+        expected_arguments = ["lake", "-d", "lean4", *command.split()]
     assert "|| true" not in step["run"]
     pin = (REPO_ROOT / "lean4/lean-toolchain").read_text().strip()
     completed = subprocess.run(
@@ -215,7 +221,7 @@ def test_root_lean_captures_use_the_persisted_pin(name, command, allows_failure)
     )
     arguments = completed.stdout.splitlines()
     assert arguments[0] == pin
-    assert arguments[arguments.index("--") + 1:] == ["lake", "-d", "lean4", *command.split()]
+    assert arguments[arguments.index("--") + 1:] == expected_arguments
 
 
 def test_coverage_retains_failure_evidence_without_weakening_the_gate(

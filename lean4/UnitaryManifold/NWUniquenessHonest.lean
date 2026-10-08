@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 /-!
 # Unitary Manifold — Honest Proof Distance: What Is and Isn't Machine-Proved (Lean 4)
 

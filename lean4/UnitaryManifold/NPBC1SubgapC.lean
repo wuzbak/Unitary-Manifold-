@@ -1,7 +1,7 @@
 import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.ZMod.Basic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 /-!
 # Unitary Manifold — NP-BC-1 Sub-gap C: Curved-Background Orbifold Consistency
 # (Lean 4 + Mathlib)

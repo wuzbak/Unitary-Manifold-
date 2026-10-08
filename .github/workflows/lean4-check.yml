@@ -37,7 +37,7 @@ jobs:
           path: |
             lean4/.lake/packages
             ~/.elan
-          key: lean4-${{ hashFiles('lean4/lean-toolchain', 'lean4/lakefile.lean') }}
+          key: lean4-${{ hashFiles('lean4/lean-toolchain', 'lean4/lakefile.lean', 'lean4/lake-manifest.json') }}
           restore-keys: lean4-
 
       - name: Lake update
@@ -66,9 +66,9 @@ jobs:
         continue-on-error: true
         working-directory: .
         run: |
-          python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE" \
+          python3 -m TOOLS.um_arts capture --repo "$GITHUB_WORKSPACE/lean4" \
             --output "$GITHUB_WORKSPACE/.um-arts/lean-cache" --timeout 600 \
-            -- lake -d lean4 exe cache get
+            -- lake exe cache get
 
       - name: Lake build
         working-directory: .

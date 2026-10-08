@@ -155,11 +155,13 @@ def xdist_events():
     data["collection_only"] = False
     worker = {key: copy.deepcopy(data[key]) for key in [
         "version", "nonce", "root", "selected", "deselected", "partition_excluded",
-        "collection", "internal_errors"]}
+        "collection", "reports", "internal_errors"]}
+    other_worker = copy.deepcopy(worker)
+    other_worker["reports"] = []
     data["xdist"] = {
         "enabled": True, "numprocesses": 2, "distribution": "load",
         "worker_collections": {"gw0": list(data["selected"]), "gw1": list(data["selected"])},
-        "worker_receipts": {"gw0": copy.deepcopy(worker), "gw1": copy.deepcopy(worker)},
+        "worker_receipts": {"gw0": worker, "gw1": other_worker},
         "worker_errors": [],
     }
     return data
@@ -208,14 +210,18 @@ def test_xdist_hooks_transport_collection_and_never_write_worker_report(arts_wor
     worker_config = SimpleNamespace(workerinput=node.workerinput, workeroutput={})
     plugin.pytest_sessionfinish(SimpleNamespace(config=worker_config), 0)
     assert worker_config.workeroutput["um_arts_collection"]["selected"] == master["selected"]
+    assert worker_config.workeroutput["um_arts_collection"]["reports"] == master["reports"]
     node.workeroutput = worker_config.workeroutput
     plugin.pytest_testnodedown(node, None)
     assert "gw0" in master["xdist"]["worker_receipts"]
     path = arts_workspace / "master.json"
     monkeypatch.setenv("UM_ARTS_PYTEST_REPORT", str(path))
     monkeypatch.delenv("UM_ARTS_RECEIPT", raising=False)
+    master["reports"] = []
     plugin.pytest_sessionfinish(SimpleNamespace(config=SimpleNamespace()), 0)
-    assert evaluate_report(path, returncode=0)["status"] == "passed"
+    result = evaluate_report(path, returncode=0)
+    assert result["status"] == "passed"
+    assert result["counts"] == {"passed": 1}
 
 
 def test_external_xdist_configuration_allowed_managed_nested_xdist_forbidden(arts_workspace, monkeypatch):

@@ -6,6 +6,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 
 - Rebrand label: **REBRAND-2026-09-PSICAT**
 - Legal separation notice: [`BRAND_SEPARATION_NOTICE_PSICAT.md`](./BRAND_SEPARATION_NOTICE_PSICAT.md)
+- Portfolio license schedule: [`PORTFOLIO_LICENSE_SCHEDULE.md`](./PORTFOLIO_LICENSE_SCHEDULE.md)
 - Internal/steward-facing identity for ThomasCory remains **Merlin**.
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 - External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).

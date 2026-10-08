@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 /-!
 # Unitary Manifold — CCR and ER=EPR Conditional Theorem Kernels (Lean 4 + Mathlib)
 

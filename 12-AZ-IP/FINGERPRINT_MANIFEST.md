@@ -69,6 +69,15 @@ in `IP_REGISTRY.json`.
 | `12-AZ-IP/27-psicat-vite-web-workbench/server.js` | `ead7901c0a3ec35231900d5898f2cb2be0ceb765bc50e558e95884b45d98cb28` | 6728 |
 | `12-AZ-IP/27-psicat-vite-web-workbench/workbench.js` | `b29dc3d070116a08cedc2d8ce5649b7006ee1e35b6d0a625bcf22899a0147b52` | 13747 |
 
+### Portfolio license schedule link refresh — 2026-10-08
+
+The master README now links to the portfolio license schedule. Its earlier
+2026-10-07 fingerprint remains in `IP_REGISTRY.json` reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/README.md` | `e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61` | 12750 |
+
 The master README fingerprint in the table is refreshed each time the catalog
 changes. Historical registration references remain in Git history and the
 machine-readable reseal note.

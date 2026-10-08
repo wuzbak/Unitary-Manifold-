@@ -1,3 +1,5 @@
+import Mathlib.Tactic
+
 /-!
 # Unitary Manifold — Cosmological Constant No-Go Theorem (Lean 4)
 

@@ -65,6 +65,7 @@ theorem t1_r_eq (φ₀ N_w c_s : ℝ) (hφ : φ₀ ≠ 0) (hN : N_w ≠ 0) :
   have h2 : (4 : ℝ) * N_w ≠ 0 := mul_ne_zero (by norm_num) hN
   field_simp [h1, h2]
   ring
+  all_goals simp_all
 
 /-- **T1-WKK-EQ**: w_KK equation-of-state is a tautology. -/
 theorem t1_w_kk_eq (c_s : ℝ) :

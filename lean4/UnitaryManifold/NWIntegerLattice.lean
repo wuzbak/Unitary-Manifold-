@@ -1,8 +1,8 @@
 import Mathlib.Tactic
-import Mathlib.Data.Nat.Parity
+import Mathlib.Algebra.Ring.Parity
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Finset.Card
-import Mathlib.Algebra.Order.Monoid.Lemmas
+import Mathlib.Algebra.Order.Monoid.Basic
 /-!
 # Unitary Manifold — n_w Integer Lattice: Machine-Verified Exhaustive Enumeration (Lean 4 + Mathlib)
 

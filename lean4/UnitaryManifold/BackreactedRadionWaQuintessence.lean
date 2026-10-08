@@ -1,5 +1,6 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
+import Mathlib.Tactic
 /-
   BackreactedRadionWaQuintessence.lean
   Pillar 808 — RADION_WA_QUINTESSENCE_DERIVED

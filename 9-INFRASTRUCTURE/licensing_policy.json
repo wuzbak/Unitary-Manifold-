@@ -62,7 +62,8 @@
     "docs/policy/COMMERCIAL_TERMS.md",
     "NOTICE",
     "12-AZ-IP/NOTICE",
-    "12-AZ-IP/LICENSE-AGPL"
+    "12-AZ-IP/LICENSE-AGPL",
+    "12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md"
   ],
   "gate_limit": "structural-evidence-only-not-legal-certification"
 }

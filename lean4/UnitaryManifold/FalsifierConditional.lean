@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Int.Order
+import Mathlib.Data.Int.Order.Basic
 /-!
 # Unitary Manifold — Explicit Conditional Falsifier Theorems (Lean 4 + Mathlib)
 

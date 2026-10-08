@@ -1,9 +1,16 @@
 # Brand Separation Notice — PsiCat Rebrand (REBRAND-2026-09-PSICAT)
 
-Effective 2026-09-08, Product 20 and Product 23 in this repository are rebranded from **Merlin** to **PsiCat**:
+Effective 2026-09-08, Products 20 and 23 in this repository were rebranded
+from **Merlin** to **PsiCat**:
 
 - Product 20: **PsiCat Navigator** (formerly Merlin Navigator)
 - Product 23: **PsiCat DM Guide & Player Assistant** (formerly Merlin DM Guide & Player Assistant)
+
+The PsiCat-branded portfolio also includes:
+
+- Product 24: **PsiCat Web Browser**
+- Product 25: **PsiCat Braided Brain**
+- Product 27: **PsiCat's Vite Web Workbench**
 
 This repository and its PsiCat-branded products are independent works and are **not affiliated with, endorsed by, sponsored by, or connected to** Foyer Tech Inc. or the commercial Merlin browser extension/workspace product.
 
