@@ -1,0 +1,10 @@
+{
+  "dossier_status": "HUMAN_REVIEW_REQUIRED",
+  "dossier_claim_count": 52,
+  "dossier_source_count": 25,
+  "dossier_confidence_counts": {
+    "UNVERIFIED": 52
+  },
+  "story_chapters": 3,
+  "story_drafts": 3
+}
