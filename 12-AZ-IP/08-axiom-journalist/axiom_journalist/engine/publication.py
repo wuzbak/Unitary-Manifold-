@@ -201,12 +201,25 @@ def _story_chapter_drafts(
         for claim in claims
         if str(claim.get('confidence', 'UNVERIFIED')).upper() in publishable_confidences
     ][:3]
-    entity_claims = claims[: min(4, len(claims))]
     unresolved_claims = [
         claim
         for claim in claims
         if str(claim.get('confidence', 'UNVERIFIED')).upper() not in publishable_confidences
     ][:3]
+    entity_names = {
+        str(entity.get('name', '')).strip().casefold()
+        for entity in entities[:6]
+        if str(entity.get('name', '')).strip()
+    }
+    entity_claims = [
+        claim
+        for claim in claims
+        if entity_names.intersection(
+            str(name).strip().casefold()
+            for name in claim.get('entities_involved') or []
+            if str(name).strip()
+        )
+    ]
     entity_lines: list[str] = []
     for entity in entities[:6]:
         detail = f"{entity['name']} states: {entity['stated_position'] or 'No public position recorded.'}"

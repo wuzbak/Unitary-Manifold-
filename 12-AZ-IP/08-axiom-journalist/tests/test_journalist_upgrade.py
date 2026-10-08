@@ -505,6 +505,34 @@ def test_story_packet_keeps_unverified_claims_out_of_established_chapter():
     assert story_spine['evidence'] == ['No claims currently meet the CONFIRMED or CORROBORATED threshold.']
 
 
+def test_story_entity_chapter_cites_claims_after_first_four():
+    investigation = _sample_investigation_dict()
+    investigation['sources'].append({
+        'title': 'Later filing',
+        'tier': 'Tier 1 — Primary Record (court/regulatory/FOIA)',
+        'source_type': 'Filing',
+        'url_or_ref': 'https://records.example/later',
+        'date': '2026-01-03',
+    })
+    first_claim = investigation['claims'][0]
+    investigation['claims'] = [first_claim] * 4 + [{
+        'statement': 'A later claim concerns Acme Corp.',
+        'confidence': 'ALLEGED',
+        'legal_risks': 'LIBEL_EXPOSURE',
+        'entities_involved': ['Acme Corp'],
+        'sources': [{'title': 'Later filing'}],
+    }]
+
+    packet = build_story_packet(investigation)
+    entity_chapter = next(
+        item
+        for item in packet['chapter_drafts']
+        if item['heading'] == 'What the named entities say, and where the record resists them'
+    )
+
+    assert 'Later filing' in [source['title'] for source in entity_chapter['source_ledger']]
+
+
 def test_render_dossier_html_contains_citation_markup():
     packet = build_dossier_packet(_sample_investigation_dict())
     rendered = render_dossier_html(packet)

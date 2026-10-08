@@ -73,7 +73,7 @@ The user-supplied OPSEC suggestions involving synthetic identities, disposable c
 
 ## 5. AXIOM stress-test result and limitations
 
-AXIOM generated a case with 7 entities, 11 source entries, 10 claims, 8 open questions, and 38 case-lifecycle audit events in an isolated SQLite database. The generated artifacts are alongside this volume:
+AXIOM generated a case with 7 entities, 14 source entries, 10 claims, 8 open questions, and 38 case-lifecycle audit events in an isolated SQLite database. The generated artifacts are alongside this volume:
 
 - `unit8200_surveillance_investigation.json` — structured case record and source-linked claims.
 - `unit8200_surveillance_dossier_packet.md` — governed evidence, confidence, legal-risk, and human-review packet.

@@ -54,7 +54,7 @@ These questions apply to all suppliers. The relevant risk is concentration, cont
 
 ## 6. AXIOM’s test and the work still required
 
-AXIOM stored the case in an isolated SQLite test database and generated a structured investigation, dossier packet, source-linked claims, story packet, and public-record query manifest. Seven entities, eleven sources, ten claims, eight research questions, and thirty-eight case-lifecycle events were recorded. The live adapters returned no records in this environment, and the source-fetching limitations are preserved in the output.
+AXIOM stored the case in an isolated SQLite test database and generated a structured investigation, dossier packet, source-linked claims, story packet, and public-record query manifest. Seven entities, fourteen sources, ten claims, eight research questions, and thirty-eight case-lifecycle events were recorded. The live adapters returned no records in this environment, and the source-fetching limitations are preserved in the output.
 
 That exercise was valuable because it found weaknesses in our own instrument: a mismatch between the confidence rubric and scoring code, and an editorial generator that initially described unverified claims as established. We fixed those defects and added tests. But AXIOM still cannot authenticate a leaked contract, interview an engineer, inspect classified material, test a cloud tenant, or decide whether a source’s claim is true. It organizes evidence. Humans remain responsible for judgment.
 
