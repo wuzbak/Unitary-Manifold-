@@ -43855,6 +43855,12 @@
       "lane": "other"
     },
     {
+      "path": "tests/ci_tooling/test_public_exports_health.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "tests/conftest.py",
       "top_level": "tests",
       "kind": "file",
@@ -52238,12 +52244,6 @@
     },
     {
       "path": "tests/test_psychology.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_public_exports_health.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
