@@ -205,3 +205,68 @@ def test_route_tool_grid_world_defaults_when_args_missing() -> None:
     payload = route_tool("getMerlinGridWorld", {})
     assert payload["ok"] is True
     assert payload["result"]["data"]["world"]["width"] == grid.DEFAULT_WIDTH
+
+
+# --- navigation-driven bridge --------------------------------------------------------------
+
+
+def test_directions_from_toroidal_code_is_deterministic_and_bounded() -> None:
+    code = [19, 38, 46, 31, 24, 0, 73, 1]
+    directions = grid.directions_from_toroidal_code(code)
+    assert len(directions) == len(code)
+    assert all(direction in grid.DIRECTIONS for direction in directions)
+    assert directions == grid.directions_from_toroidal_code(code)
+
+
+def test_navigation_driven_episode_is_deterministic_given_query() -> None:
+    a = grid.run_navigation_driven_episode("winding number five seven braided compactification")
+    b = grid.run_navigation_driven_episode("winding number five seven braided compactification")
+    assert a == b
+
+
+def test_navigation_driven_episode_differs_across_queries() -> None:
+    a = grid.run_navigation_driven_episode("winding number five seven braided compactification")
+    b = grid.run_navigation_driven_episode("totally unrelated topic about something else entirely")
+    assert a != b
+
+
+def test_navigation_driven_episode_reports_navigation_source() -> None:
+    result = grid.run_navigation_driven_episode("holographic boundary entropy")
+    source = result["navigation_source"]
+    assert source["query"] == "holographic boundary entropy"
+    assert "primary_facet" in source
+    assert "toroidal_address_code" in source
+    assert len(source["directions_derived"]) == len(source["toroidal_address_code"])
+    assert result["method"] == grid.NAVIGATION_DRIVEN_METHOD
+
+
+def test_navigation_driven_episode_steps_match_code_length() -> None:
+    result = grid.run_navigation_driven_episode("braided Chern-Simons level")
+    assert result["steps_run"] == len(result["navigation_source"]["toroidal_address_code"])
+
+
+def test_tool_manifest_lists_get_merlin_navigation_driven_grid_world() -> None:
+    manifest = _tool_manifest()
+    names = {entry["name"]: entry for entry in manifest["functions"]}
+    assert "getMerlinNavigationDrivenGridWorld" in names
+    assert "args_schema" in names["getMerlinNavigationDrivenGridWorld"]
+
+
+def test_route_tool_runs_navigation_driven_grid_world() -> None:
+    payload = route_tool("getMerlinNavigationDrivenGridWorld", {"query": "winding number five seven"})
+    assert payload["ok"] is True
+    data = payload["result"]["data"]
+    assert data["status"] == "ADJACENT_TRACK"
+    assert "navigation_source" in data
+
+
+def test_route_tool_navigation_driven_grid_world_requires_query() -> None:
+    assert route_tool("getMerlinNavigationDrivenGridWorld", {})["ok"] is False
+
+
+def test_server_exposes_grid_world_endpoints() -> None:
+    import ox_navigator.app.server as server_module
+
+    source = Path(server_module.__file__).read_text(encoding="utf-8")
+    assert "/api/psicat/grid-world" in source
+    assert "/api/psicat/navigation-grid-world" in source

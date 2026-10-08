@@ -89,10 +89,40 @@ That is a real, auditable architectural fact (see
   makes no claim about the 5D Kaluza-Klein metric, `src/core/`, or any
   hardgated pillar.
 
+## The navigation-driven bridge
+
+The honesty ledger above establishes that navigation and simulation share
+one geometric *substrate* (the same wrap/fold rules). `run_navigation_driven_episode`
+goes one step further and closes an actual *data* loop between them,
+answering the second gap in the original critique directly: "a continuous
+runtime loop that reads the Navigator's geometric output state and
+translates it into operational actions."
+
+`merlin_toroidal_router.build_toroidal_navigation_packet(query)` already
+assigns every query a deterministic point on the Z₇₄ lattice —
+`toroidal_address.code`, a list of integers in `[0, 73]`. `directions_from_toroidal_code`
+reads that code out, one integer per tick, and maps each value's residue
+modulo 5 onto one of the five grid actions (`N`, `S`, `E`, `W`, `STAY`).
+`run_navigation_driven_episode(query, ...)` calls the Navigator's existing,
+unchanged packet builder, derives the direction sequence from its code, and
+runs that sequence through the same `run_grid_world_episode` used above.
+
+No new or parallel randomness is introduced: the same query that the
+Navigator would route to a lane/kernel/KB facet also produces this grid
+world's trajectory, deterministically, from the Navigator's own output. The
+routing decision and the simulated trajectory are two readings of one
+computation, not two separately-tuned subsystems. The response includes a
+`navigation_source` field recording the query, the Navigator's primary
+facet, whether the query sat on a crease, the raw toroidal code, and the
+directions derived from it, so the link is auditable in every response
+rather than merely asserted in this document.
+
 ## API surface
 
 * Tool: `getMerlinGridWorld(width?, height?, agent_count?, steps?, seed?)`
 * Endpoint: `GET /api/psicat/grid-world?width=&height=&agent_count=&steps=&seed=`
+* Tool: `getMerlinNavigationDrivenGridWorld(query, width?, height?, agent_count?, seed?, top_k?)`
+* Endpoint: `GET /api/psicat/navigation-grid-world?query=&width=&height=&agent_count=&seed=&top_k=`
 * Module: `ox_navigator.engine.merlin_grid_world`
 
 All parameters are optional integers; out-of-range values are clamped
@@ -109,3 +139,4 @@ bounded, safe response.
 | Output is text-only (no pixels, no binary image data) | Verified | `render_ascii` returns `str`; tested in `test_merlin_grid_world.py` |
 | All inputs are bounded (no unbounded CPU/memory from the endpoint) | Verified | `MAX_WIDTH`/`MAX_HEIGHT`/`MAX_AGENT_COUNT`/`MAX_STEPS` enforced in `create_world`/`run_grid_world_episode` |
 | This module is a physics or robotics simulator in any validated sense | **Not claimed** | Explicitly disclaimed above and in the module docstring |
+| The navigation-driven bridge reuses the Navigator's existing packet builder unchanged, with no parallel randomness | Verified | `tests/test_merlin_grid_world.py::test_navigation_driven_episode_is_deterministic_given_query` |

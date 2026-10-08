@@ -43,10 +43,14 @@ What this is not:
 from __future__ import annotations
 
 import random
+from collections.abc import Sequence
 from typing import Any
+
+from .merlin_toroidal_router import build_toroidal_navigation_packet
 
 STATUS_LABEL = "ADJACENT_TRACK"
 METHOD = "discrete_grid_event_simulation_v1"
+NAVIGATION_DRIVEN_METHOD = "discrete_grid_event_simulation_v1_navigation_driven"
 
 DEFAULT_WIDTH = 12
 DEFAULT_HEIGHT = 12
@@ -64,6 +68,7 @@ DIRECTIONS: dict[str, tuple[int, int]] = {
     "W": (-1, 0),
     "STAY": (0, 0),
 }
+_DIRECTION_ORDER: tuple[str, ...] = ("N", "S", "E", "W", "STAY")
 _AGENT_SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 _EMPTY_CELL = "."
 
@@ -236,6 +241,76 @@ def run_grid_world_episode(
     }
 
 
+# ---------------------------------------------------------------------------
+# Navigation-driven bridge: PsiCat's own geometric output state -> grid actions
+# ---------------------------------------------------------------------------
+#
+# This closes the second gap named in the original critique: "a continuous
+# runtime loop that reads the Navigator's geometric output state and
+# translates it into operational actions". The Navigator's existing toroidal
+# phase sketch (``merlin_toroidal_router.build_toroidal_navigation_packet``)
+# already assigns every query a deterministic point on the Z_74 lattice
+# (``toroidal_address.code``, a list of integers in [0, 73]). No new,
+# unrelated randomness is introduced here: that same code is read out and
+# turned directly into this grid world's action sequence, so a query's
+# *routing* outcome and a query's *grid-world trajectory* are the same
+# computation viewed two ways.
+
+
+def directions_from_toroidal_code(code: Sequence[int]) -> list[str]:
+    """Map a Z_74 toroidal phase-sketch code to a deterministic direction sequence.
+
+    Each integer in ``code`` (already in ``[0, 73]``, the Navigator's own
+    lattice range) selects one of the five grid actions by its residue
+    modulo ``len(_DIRECTION_ORDER)``. Purely arithmetic and deterministic:
+    the same code always yields the same directions.
+    """
+    return [_DIRECTION_ORDER[int(value) % len(_DIRECTION_ORDER)] for value in code]
+
+
+def run_navigation_driven_episode(
+    query: str,
+    *,
+    width: int = DEFAULT_WIDTH,
+    height: int = DEFAULT_HEIGHT,
+    agent_count: int = 1,
+    seed: int = 0,
+    top_k: int = 5,
+) -> dict[str, Any]:
+    """Run a grid-world episode whose action sequence is derived from ``query``.
+
+    Builds the Navigator's own toroidal navigation packet for ``query``
+    (unchanged, read-only use of ``merlin_toroidal_router``), reads its
+    ``toroidal_address.code``, and converts it into a direction sequence
+    applied identically to every agent. The episode is reproducible from
+    ``query`` and ``seed`` alone, since the Navigator's packet is itself
+    deterministic.
+    """
+    packet = build_toroidal_navigation_packet(str(query), top_k=int(top_k))
+    toroidal_address = packet.get("toroidal_address") or {}
+    code = list(toroidal_address.get("code") or [])
+    directions = directions_from_toroidal_code(code) if code else ["STAY"]
+    agent_count = max(1, min(int(agent_count), MAX_AGENT_COUNT))
+    actions = {agent_id: list(directions) for agent_id in range(agent_count)}
+    result = run_grid_world_episode(
+        width=width,
+        height=height,
+        agent_count=agent_count,
+        steps=len(directions),
+        seed=seed,
+        actions=actions,
+    )
+    result["method"] = NAVIGATION_DRIVEN_METHOD
+    result["navigation_source"] = {
+        "query": str(query),
+        "primary_facet": packet.get("primary_facet"),
+        "on_crease": packet.get("on_crease"),
+        "toroidal_address_code": code,
+        "directions_derived": directions,
+    }
+    return result
+
+
 __all__ = [
     "DEFAULT_AGENT_COUNT",
     "DEFAULT_HEIGHT",
@@ -247,9 +322,12 @@ __all__ = [
     "MAX_STEPS",
     "MAX_WIDTH",
     "METHOD",
+    "NAVIGATION_DRIVEN_METHOD",
     "STATUS_LABEL",
     "create_world",
+    "directions_from_toroidal_code",
     "render_ascii",
     "run_grid_world_episode",
+    "run_navigation_driven_episode",
     "step_world",
 ]
