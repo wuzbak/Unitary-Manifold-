@@ -61,14 +61,14 @@ def parse_source_bundle(bundle_text: str) -> list[dict[str, str]]:
                     'Each JSON source row must be an object.'
                 )
             source = {
-                'title': _clean(payload.get('title', '')),
-                'tier': normalize_tier_label(payload.get('tier', 'Unclassified')),
-                'source_type': _clean(payload.get('source_type', '')),
-                'url_or_ref': _clean(payload.get('url_or_ref', '')),
-                'date': _clean(payload.get('date', '')),
-                'excerpt': _clean(payload.get('excerpt', '')),
+                'title': _clean(payload.get('title') or ''),
+                'tier': normalize_tier_label(payload.get('tier') or 'Unclassified'),
+                'source_type': _clean(payload.get('source_type') or ''),
+                'url_or_ref': _clean(payload.get('url_or_ref') or ''),
+                'date': _clean(payload.get('date') or ''),
+                'excerpt': _clean(payload.get('excerpt') or ''),
+                'notes': _clean(payload.get('notes') or ''),
             }
-            source['notes'] = _clean(payload.get('notes') or '')
             rows.append(source)
             continue
 

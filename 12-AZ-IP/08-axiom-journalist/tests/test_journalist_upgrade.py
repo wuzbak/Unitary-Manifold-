@@ -290,11 +290,18 @@ def test_parse_source_bundle_preserves_pipes_in_excerpt_column():
 
 def test_parse_source_bundle_normalizes_null_notes():
     parsed = parse_source_bundle(
-        '{"title":"Court filing","tier":"Tier 1","source_type":"Docket",'
-        '"url_or_ref":"https://records.example/1","date":"2026-01-01",'
-        '"excerpt":"Primary filing","notes":null}'
+        '{"title":null,"tier":null,"source_type":null,"url_or_ref":null,'
+        '"date":null,"excerpt":null,"notes":null}'
     )
-    assert parsed[0]['notes'] == ''
+    assert parsed[0] == {
+        'title': '',
+        'tier': 'Unclassified',
+        'source_type': '',
+        'url_or_ref': '',
+        'date': '',
+        'excerpt': '',
+        'notes': '',
+    }
 
 
 def test_merge_source_bundle_skips_duplicates():
