@@ -221,10 +221,13 @@ def _story_chapter_drafts(
         )
     ]
     entity_lines: list[str] = []
+    questions = [str(question).strip() for question in open_questions[:4]]
     unresolved_question_text = '; '.join(
-        str(question).strip().rstrip('.')
-        for question in open_questions[:4]
+        question.rstrip('.') if index < len(questions) - 1 else question
+        for index, question in enumerate(questions)
     )
+    if unresolved_question_text and unresolved_question_text[-1] not in '.?!':
+        unresolved_question_text += '.'
     for entity in entities[:6]:
         detail = f"{entity['name']} states: {entity['stated_position'] or 'No public position recorded.'}"
         contradictions = entity.get('contradictions') or []
@@ -254,7 +257,7 @@ def _story_chapter_drafts(
         {
             'heading': 'What remains unresolved',
             'body': ' '.join(
-                ([f'What remains unresolved: {unresolved_question_text}.'] if open_questions else ['No open questions recorded.'])
+                ([f'What remains unresolved: {unresolved_question_text}'] if open_questions else ['No open questions recorded.'])
                 + [_claim_line(claim) for claim in unresolved_claims]
             ).strip(),
             'citations': [item['citation_id'] for item in _chapter_source_ledger(unresolved_claims)],

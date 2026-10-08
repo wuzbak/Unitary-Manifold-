@@ -256,7 +256,13 @@ def scan_public_records(
         'manifest': manifest,
         'records': deduped['records'],
         'duplicates': deduped['duplicates'],
-        'status': 'PARTIAL' if has_errors or configured_count < len(manifest) else 'COMPLETED',
+        'status': (
+            'PLAN_ONLY'
+            if configured_count == 0
+            else 'PARTIAL'
+            if has_errors
+            else 'COMPLETED'
+        ),
         'source_statuses': source_statuses,
     }
 

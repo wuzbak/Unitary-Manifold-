@@ -256,9 +256,10 @@ apps/axiom-journalist/
   or the reporter's instinct for what a story actually means.
 - **Not a general-purpose web crawler.** Case storage and evidence organization run locally,
   while public-record scans use network access to four configured adapters. The 11-source
-  catalog includes sources without live adapters; AXIOM reports those separately from
-  retrieval failures and successful searches with no results. A scan is not complete when
-  configured sources fail or remain unconfigured.
+  catalog includes sources without live adapters. `COMPLETED` means every configured adapter
+  returned successfully; `PARTIAL` means one or more configured adapters failed, and
+  `NOT_CONFIGURED` coverage is reported separately. A completed adapter with no hits is not
+  evidence that no responsive records exist.
 
 ---
 

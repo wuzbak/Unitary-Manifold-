@@ -560,6 +560,19 @@ def test_render_story_html_contains_chapters():
     assert 'Open with the lead' in rendered
 
 
+def test_story_packet_preserves_question_terminal_punctuation():
+    investigation = _sample_investigation_dict()
+    investigation['open_questions'] = [
+        'Who approved the omitted vendor relationship?',
+        'When did the record change.',
+    ]
+
+    rendered = render_story_markdown(build_story_packet(investigation))
+
+    assert 'Who approved the omitted vendor relationship?; When did the record change.' in rendered
+    assert 'relationship?.' not in rendered
+
+
 def test_build_public_record_queries_covers_axiom_catalog():
     manifest = build_public_record_queries('Acme Corp')
     assert len(manifest) == 11
@@ -617,7 +630,11 @@ def test_scan_public_records_uses_injected_fetchers_and_exports():
     assert len(scan['duplicates']) == 1
     assert exported['source_count'] == 1
     assert exported['duplicate_count'] == 1
-    assert exported['status'] == 'PARTIAL'
+    assert exported['status'] == 'COMPLETED'
+    assert sum(
+        status['status'] == 'NOT_CONFIGURED'
+        for status in exported['source_statuses'].values()
+    ) == 9
     assert exported['source_statuses']['sec_edgar']['status'] == 'COMPLETED_WITH_RESULTS'
     assert exported['source_statuses']['courtlistener']['status'] == 'COMPLETED_WITH_RESULTS'
     assert exported['source_statuses']['fec']['status'] == 'NOT_CONFIGURED'

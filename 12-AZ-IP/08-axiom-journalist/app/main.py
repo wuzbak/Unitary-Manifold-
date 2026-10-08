@@ -292,11 +292,16 @@ def add_watchlist_entry_ui(name: str, entity_type: str, notes: str) -> tuple[str
         1 for item in scan.get('source_statuses', {}).values()
         if item['status'] == 'ERROR'
     )
+    not_configured = sum(
+        1 for item in scan.get('source_statuses', {}).values()
+        if item['status'] == 'NOT_CONFIGURED'
+    )
     status_icon = '✅' if scan.get('status') == 'COMPLETED' else '⚠️'
     return (
         f"{status_icon} Watchlist entry '{normalized}' scan status: {scan.get('status', 'UNKNOWN')}. "
         f"Recorded {len(scan['records'])} hits, {len(scan['duplicates'])} duplicates, "
-        f"{error_count} connector errors. No hits are not evidence of absence.",
+        f"{error_count} connector errors, {not_configured} sources not configured. "
+        "No hits are not evidence of absence.",
         _watchlist_md(),
     )
 
