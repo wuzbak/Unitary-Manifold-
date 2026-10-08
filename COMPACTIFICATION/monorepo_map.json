@@ -2,13 +2,13 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 7960,
+  "file_count": 7970,
   "lanes": {
-    "az_ip": 2185,
+    "az_ip": 2191,
     "compactification": 9,
     "other": 5350,
     "psicat_articles": 352,
-    "psicat_books": 64
+    "psicat_books": 68
   },
   "top_levels": {
     ".bazelrc": 1,
@@ -23,13 +23,13 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2185,
+    "12-AZ-IP": 2191,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 887,
+    "7-OUTREACH": 891,
     "8-SAFETY": 8,
     "9-INFRASTRUCTURE": 193,
     "AGENTS.md": 1,
@@ -1302,6 +1302,12 @@
       "12-AZ-IP/08-axiom-journalist/output/corporate_power_investigation.json",
       "12-AZ-IP/08-axiom-journalist/output/corporate_power_story_packet.json",
       "12-AZ-IP/08-axiom-journalist/output/corporate_power_story_packet.md",
+      "12-AZ-IP/08-axiom-journalist/output/unit8200_public_records_scan.json",
+      "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_packet.md",
+      "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_volume_1.md",
+      "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_volume_2.md",
+      "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_investigation.json",
+      "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_story_packet.md",
       "12-AZ-IP/08-axiom-journalist/requirements.txt",
       "12-AZ-IP/08-axiom-journalist/run.py",
       "12-AZ-IP/08-axiom-journalist/tests/test_journalist_upgrade.py"
@@ -2385,7 +2391,11 @@
       "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-09-10-subconscious-falsifiable.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-11-12-appendices.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-53-what-the-geometry-knew-FULL.md",
-      "7-OUTREACH/A Z PsiCat Literature/Books/book-53-what-the-geometry-knew.md"
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-53-what-the-geometry-knew.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-54-axiomzero-surveillance-exposure.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-01-the-cloud-record.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-02-the-algorithm-bridge.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-03-the-accountability-test.md"
     ],
     "articles": [
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-01-v22-9-honest-accounting.md",
@@ -11595,6 +11605,48 @@
     },
     {
       "path": "12-AZ-IP/08-axiom-journalist/output/corporate_power_story_packet.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/unit8200_public_records_scan.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_packet.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_volume_1.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_volume_2.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_investigation.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_story_packet.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -22816,6 +22868,30 @@
     },
     {
       "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-what-the-geometry-knew.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-54-axiomzero-surveillance-exposure.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-01-the-cloud-record.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-02-the-algorithm-bridge.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-03-the-accountability-test.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
       "lane": "psicat_books"

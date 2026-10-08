@@ -13,15 +13,6 @@ def _reset():
     m._config = None
 
 
-@pytest.fixture(autouse=True)
-def isolate_default_database(tmp_path, monkeypatch):
-    import desktop.app.config as m
-    monkeypatch.setattr(m, "FILM_DIR", tmp_path / "filmers")
-    m._config = None
-    yield
-    m._config = None
-
-
 # ---------------------------------------------------------------------------
 # Tests
 # ---------------------------------------------------------------------------
