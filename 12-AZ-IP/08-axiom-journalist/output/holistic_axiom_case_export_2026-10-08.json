@@ -1,0 +1,2336 @@
+{
+  "title": "AxiomZero Holistic Investigation — Cloud, Capital and Accountability",
+  "lead": "Test the submitted allegations and prior dossier claims against identifiable primary records. All external locators in this export were not retrieved/authenticated in this session. Do not infer criminality or connect entities without transaction or corporate identifiers.",
+  "journalist": "AXIOM Journalist / AxiomZero Special Investigations Division",
+  "created_at": "2026-10-08T00:00:00",
+  "status": "Active — source authentication and right of reply pending",
+  "entities": [
+    {
+      "name": "Wix.com Ltd.",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Base44",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Microsoft",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Amazon Web Services",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Axon Enterprise",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Carbyne",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Deutsche Bank",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "JPMorgan Chase",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Jeffrey Epstein",
+      "type": "Person",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Ghislaine Maxwell",
+      "type": "Person",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Donald Trump",
+      "type": "Person",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Jared Kushner",
+      "type": "Person",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Affinity Partners",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Public Investment Fund",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "World Liberty Financial",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "MGX",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Binance",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Cambridge Analytica",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Robert Mercer",
+      "type": "Person",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Project Meridian",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Unit 8200",
+      "type": "Government Agency",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Decart",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Wiz",
+      "type": "Organization",
+      "description": "Investigative subject or entity named in supplied leads; inclusion is not an allegation of wrongdoing.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    }
+  ],
+  "sources": [
+    {
+      "title": "Base44 Terms of Service — supplied excerpt",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-supplied excerpt; original page not fetched",
+      "url_or_ref": "https://base44.com/terms-of-service",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Describes operator, incorporated policies, arbitration, changes and customer responsibilities; quoted content remains unauthenticated.",
+      "notes": ""
+    },
+    {
+      "title": "Base44 Privacy Policy — supplied excerpt",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-supplied excerpt; original page not fetched",
+      "url_or_ref": "https://base44.com/privacy-policy",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Describes collection, purposes, analytics, matching, sharing and tracking; quoted content remains unauthenticated.",
+      "notes": ""
+    },
+    {
+      "title": "Base44 Responsible Use Policy — supplied excerpt",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigator-supplied excerpt; original page not fetched",
+      "url_or_ref": "https://base44.com/responsible-use",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Describes monitoring, investigation, restriction and removal powers; quoted content remains unauthenticated.",
+      "notes": ""
+    },
+    {
+      "title": "Base44 Data Processing Addendum — retrieval target",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Official-source locator; not retrieved",
+      "url_or_ref": "https://base44.com/dpa",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Requested for processor roles, transfers, retention and deletion terms.",
+      "notes": ""
+    },
+    {
+      "title": "Base44 security documentation / Trust Center",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Official-source locator; not retrieved",
+      "url_or_ref": "https://docs.base44.com/Community-and-support/Privacy-and-security ; https://trust.base44.com/",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Requested for security scope, certifications, subprocessor roster, data location and plan-specific AI-use terms.",
+      "notes": ""
+    },
+    {
+      "title": "Microsoft update on review of Israeli Ministry of Defense unit",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Company statement locator; not retrieved",
+      "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Capture exact scope, services disabled, dates and stated basis before relying on it.",
+      "notes": ""
+    },
+    {
+      "title": "+972 Magazine / Local Call Azure investigation",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigative reporting locator; not retrieved",
+      "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Reported Azure workload involving Unit 8200 and call recordings; original report and underlying evidence require review.",
+      "notes": ""
+    },
+    {
+      "title": "Axon announced Carbyne acquisition",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Company announcement locator; not retrieved",
+      "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Use to test announced transaction terms; distinguish announced amount from closing and final consideration.",
+      "notes": ""
+    },
+    {
+      "title": "FinCEN Geographic Targeting Orders",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Government records locator; not retrieved",
+      "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
+      "notes": ""
+    },
+    {
+      "title": "Companies House — Emerdata Ltd. company no. 10911848",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Government registry locator; not retrieved",
+      "url_or_ref": "https://find-and-update.company-information.service.gov.uk/company/10911848",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Officer and filing history lead; does not alone establish beneficial ownership or misconduct.",
+      "notes": ""
+    },
+    {
+      "title": "UK House of Commons DCMS report on disinformation and data",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Parliamentary record locator; not retrieved",
+      "url_or_ref": "https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Cambridge Analytica testimony and committee conclusions; scope/respondents must be checked.",
+      "notes": ""
+    },
+    {
+      "title": "UK ICO investigation into political data analytics",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Regulator locator; not retrieved",
+      "url_or_ref": "https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Obtain exact orders, entities and conduct before describing findings.",
+      "notes": ""
+    },
+    {
+      "title": "FTC Cambridge Analytica matter",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Regulator locator; not retrieved",
+      "url_or_ref": "https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Obtain underlying complaint/order and define the respondents/conduct.",
+      "notes": ""
+    },
+    {
+      "title": "Doe v. United States — Eleventh Circuit en banc, 960 F.3d 1310",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Appellate docket/citation locator; opinion not retrieved",
+      "url_or_ref": "11th Cir. No. 19-13843 (en banc); 960 F.3d 1310 (2020)",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Verify CVRA pre-charge holding and procedural history from controlling opinion.",
+      "notes": ""
+    },
+    {
+      "title": "United States v. Maxwell — SDNY criminal docket",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Court docket locator; docket not retrieved",
+      "url_or_ref": "S.D.N.Y. No. 20-cr-330",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Obtain indictment, jury instructions, verdict, judgment and appellate disposition.",
+      "notes": ""
+    },
+    {
+      "title": "NY v. Trump — New York civil-fraud docket",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Court docket locator; current disposition not retrieved",
+      "url_or_ref": "N.Y. Sup. Ct. Index No. 452564/2022; appellate dockets to be checked",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Verify exact civil findings and current appellate status.",
+      "notes": ""
+    },
+    {
+      "title": "Deutsche Bank enforcement records",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Regulator record locators; records not retrieved",
+      "url_or_ref": "NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Keep mirror-trading enforcement distinct from separate customer, SAR and Epstein strands.",
+      "notes": ""
+    },
+    {
+      "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Congressional document locator; letters not retrieved",
+      "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Questions and requests are not proof of the allegations posed.",
+      "notes": ""
+    },
+    {
+      "title": "SEC Investment Adviser Public Disclosure — Affinity / A Fin Management",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Regulator database locator; filings not retrieved",
+      "url_or_ref": "https://adviserinfo.sec.gov/",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Retrieve dated ADV and fund disclosures; distinguish commitment, AUM, fees and actual distributions.",
+      "notes": ""
+    },
+    {
+      "title": "U.S. Treasury OFAC sanctions search",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Government database locator; not searched in this case",
+      "url_or_ref": "https://ofac.treasury.gov/",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Any sanctions analysis requires exact designated party, program, transaction and nexus.",
+      "notes": ""
+    },
+    {
+      "title": "FEC campaign-finance records",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Government database locator; not retrieved",
+      "url_or_ref": "https://www.fec.gov/data/ ; Florida Division of Elections records",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Verify committee, jurisdiction, date and amount; federal/state laws differ.",
+      "notes": ""
+    },
+    {
+      "title": "County property records and deeds",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Government record target; no transaction record attached",
+      "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
+      "notes": ""
+    },
+    {
+      "title": "U.S. federal award records",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Government database locator; no entity/UEI query completed",
+      "url_or_ref": "https://www.usaspending.gov/ ; FPDS",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Search legal entity and unique award IDs; absence from a keyword search is not proof of no contract.",
+      "notes": ""
+    },
+    {
+      "title": "MGX / Binance / USD1 transaction reporting and primary records",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Transaction source target; no primary record attached",
+      "url_or_ref": "Issuer, investor and exchange statements; on-chain transaction identifiers pending",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Trace funding, settlement, mint/redemption, fees, custody and any distribution separately.",
+      "notes": ""
+    },
+    {
+      "title": "Investigator-submitted allegations and repository source map",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Lead only; not independent evidence",
+      "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+      "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+      "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+      "notes": ""
+    }
+  ],
+  "claims": [
+    {
+      "id": "C-01",
+      "statement": "Verify C-01: Axon announced Carbyne acquisition at $625m (other supplied versions say ~$600m) [ledger status: **ISSUER ANNOUNCEMENT LEAD; AMOUNT VARIES BY DESCRIPTION**; readiness: R1–R2*]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Axon announced Carbyne acquisition",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company announcement locator; not retrieved",
+          "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to test announced transaction terms; distinguish announced amount from closing and final consideration.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Official announcement, transaction agreement, consideration definition and closing notice; distinguish $625m headline from other valuation descriptions",
+      "ledger_status": "**ISSUER ANNOUNCEMENT LEAD; AMOUNT VARIES BY DESCRIPTION**",
+      "readiness": "R1–R2*"
+    },
+    {
+      "id": "C-02",
+      "statement": "Verify C-02: Carbyne was founded/developed by Unit 8200 veterans and chaired/structured by Ehud Barak [ledger status: **REPORTED; NOT SOURCE-COMPLETE HERE**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Axon announced Carbyne acquisition",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company announcement locator; not retrieved",
+          "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to test announced transaction terms; distinguish announced amount from closing and final consideration.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Corporate filing, dated bios, board records, primary interviews; characterize each person’s role accurately",
+      "ledger_status": "**REPORTED; NOT SOURCE-COMPLETE HERE**",
+      "readiness": "R1"
+    },
+    {
+      "id": "C-03",
+      "statement": "Verify C-03: Epstein invested $1m, Junkermann $500k; Barak raised funds; thousands of emails [ledger status: **ALLEGED; HIGH DEFAMATION RISK**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Axon announced Carbyne acquisition",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company announcement locator; not retrieved",
+          "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to test announced transaction terms; distinguish announced amount from closing and final consideration.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Exact JNS reporting, source documents, subscription agreements, cap table, authenticated correspondence, replies, realized proceeds",
+      "ledger_status": "**ALLEGED; HIGH DEFAMATION RISK**",
+      "readiness": "R1"
+    },
+    {
+      "id": "C-04",
+      "statement": "Verify C-04: Carbyne serves PSAPs in 23 states and accesses real-time GPS/video/audio [ledger status: **UNVERIFIED DEPLOYMENT/CAPABILITY CLAIM**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Axon announced Carbyne acquisition",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company announcement locator; not retrieved",
+          "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to test announced transaction terms; distinguish announced amount from closing and final consideration.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: State/county procurement awards, product docs, version/configuration, consent/call-flow, privacy impact assessments, logs",
+      "ledger_status": "**UNVERIFIED DEPLOYMENT/CAPABILITY CLAIM**",
+      "readiness": "R1"
+    },
+    {
+      "id": "C-05",
+      "statement": "Verify C-05: Carbyne bypasses warrants / activates ambient microphone-camera access [ledger status: **UNVERIFIED TECHNICAL/LEGAL ALLEGATION**; readiness: R0–R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Axon announced Carbyne acquisition",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company announcement locator; not retrieved",
+          "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to test announced transaction terms; distinguish announced amount from closing and final consideration.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Reproducible authorized test, product specification, contract, logs and counsel’s legal analysis",
+      "ledger_status": "**UNVERIFIED TECHNICAL/LEGAL ALLEGATION**",
+      "readiness": "R0–R1"
+    },
+    {
+      "id": "C-06",
+      "statement": "Verify C-06: Acquired product provides foreign intelligence access to U.S. emergency networks [ledger status: **INFERENCE; NOT ESTABLISHED**; readiness: R0–R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Axon announced Carbyne acquisition",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company announcement locator; not retrieved",
+          "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to test announced transaction terms; distinguish announced amount from closing and final consideration.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Identified data route, access, event, legal authority, transfer, independent security evidence",
+      "ledger_status": "**INFERENCE; NOT ESTABLISHED**",
+      "readiness": "R0–R1"
+    },
+    {
+      "id": "CLD-01",
+      "statement": "Verify CLD-01: Joint Guardian/+972/Local Call investigation reported Unit 8200 stored/processed Palestinian call recordings in Azure [ledger status: **CORROBORATED REPORTING, ATTRIBUTED**; readiness: R1–R2*]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "+972 Magazine / Local Call Azure investigation",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative reporting locator; not retrieved",
+          "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Reported Azure workload involving Unit 8200 and call recordings; original report and underlying evidence require review.",
+          "notes": ""
+        },
+        {
+          "title": "Microsoft update on review of Israeli Ministry of Defense unit",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company statement locator; not retrieved",
+          "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Capture exact scope, services disabled, dates and stated basis before relying on it.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Retrieve original reports and underlying record; no dataset/contract supplied in this case",
+      "ledger_status": "**CORROBORATED REPORTING, ATTRIBUTED**",
+      "readiness": "R1–R2*"
+    },
+    {
+      "id": "CLD-02",
+      "statement": "Verify CLD-02: Microsoft said it reviewed an Israeli Ministry of Defense unit and disabled specified Azure services [ledger status: **COMPANY STATEMENT LEAD**; readiness: R1–R2*]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "+972 Magazine / Local Call Azure investigation",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative reporting locator; not retrieved",
+          "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Reported Azure workload involving Unit 8200 and call recordings; original report and underlying evidence require review.",
+          "notes": ""
+        },
+        {
+          "title": "Microsoft update on review of Israeli Ministry of Defense unit",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company statement locator; not retrieved",
+          "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Capture exact scope, services disabled, dates and stated basis before relying on it.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Capture Microsoft’s 25 Sep 2025 statement and exact scope; do not inflate it into validation of every reported detail",
+      "ledger_status": "**COMPANY STATEMENT LEAD**",
+      "readiness": "R1–R2*"
+    },
+    {
+      "id": "CLD-03",
+      "statement": "Verify CLD-03: Azure held 11,500 TB, full list of data types, 2017–2022 timeline [ledger status: **UNVERIFIED SPECIFIC DETAILS**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "+972 Magazine / Local Call Azure investigation",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative reporting locator; not retrieved",
+          "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Reported Azure workload involving Unit 8200 and call recordings; original report and underlying evidence require review.",
+          "notes": ""
+        },
+        {
+          "title": "Microsoft update on review of Israeli Ministry of Defense unit",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company statement locator; not retrieved",
+          "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Capture exact scope, services disabled, dates and stated basis before relying on it.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Technical/account records, documents, source corroboration, data classification and dates",
+      "ledger_status": "**UNVERIFIED SPECIFIC DETAILS**",
+      "readiness": "R1"
+    },
+    {
+      "id": "CLD-04",
+      "statement": "Verify CLD-04: Workload moved from Azure to AWS/GovCloud and AWS processes the same intercept data [ledger status: **UNVERIFIED**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "+972 Magazine / Local Call Azure investigation",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative reporting locator; not retrieved",
+          "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Reported Azure workload involving Unit 8200 and call recordings; original report and underlying evidence require review.",
+          "notes": ""
+        },
+        {
+          "title": "Microsoft update on review of Israeli Ministry of Defense unit",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company statement locator; not retrieved",
+          "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Capture exact scope, services disabled, dates and stated basis before relying on it.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: AWS customer/contract/account/region evidence or provider/customer confirmation; current AXIOM file expressly says not established",
+      "ledger_status": "**UNVERIFIED**",
+      "readiness": "R1"
+    },
+    {
+      "id": "CLD-05",
+      "statement": "Verify CLD-05: Microsoft/AWS violated Wiretap Act, IEEPA or FAR through hosting [ledger status: **LEGAL THEORY, NOT FINDING**; readiness: R0–R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "+972 Magazine / Local Call Azure investigation",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative reporting locator; not retrieved",
+          "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Reported Azure workload involving Unit 8200 and call recordings; original report and underlying evidence require review.",
+          "notes": ""
+        },
+        {
+          "title": "Microsoft update on review of Israeli Ministry of Defense unit",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company statement locator; not retrieved",
+          "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Capture exact scope, services disabled, dates and stated basis before relying on it.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Identify intercepting actor, knowledge/participation, underlying unlawful interception, specific sanctioned transaction and applicable FAR clause",
+      "ledger_status": "**LEGAL THEORY, NOT FINDING**",
+      "readiness": "R0–R1"
+    },
+    {
+      "id": "CLD-06",
+      "statement": "Verify CLD-06: “Lavender,” “The Gospel,” “Where’s Daddy?” used in military workflows [ledger status: **ATTRIBUTED INVESTIGATIVE REPORTING**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "+972 Magazine / Local Call Azure investigation",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative reporting locator; not retrieved",
+          "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Reported Azure workload involving Unit 8200 and call recordings; original report and underlying evidence require review.",
+          "notes": ""
+        },
+        {
+          "title": "Microsoft update on review of Israeli Ministry of Defense unit",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company statement locator; not retrieved",
+          "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Capture exact scope, services disabled, dates and stated basis before relying on it.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Original reporting, responses, operational source material; preserve as allegations/reported descriptions",
+      "ledger_status": "**ATTRIBUTED INVESTIGATIVE REPORTING**",
+      "readiness": "R1"
+    },
+    {
+      "id": "CLD-07",
+      "statement": "Verify CLD-07: Those systems’ algorithms/code transferred into Wix, Base44, Wiz, CyberArk, Carbyne or Decart [ledger status: **UNVERIFIED TRANSFER CLAIM**; readiness: R0–R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "+972 Magazine / Local Call Azure investigation",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Investigative reporting locator; not retrieved",
+          "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Reported Azure workload involving Unit 8200 and call recordings; original report and underlying evidence require review.",
+          "notes": ""
+        },
+        {
+          "title": "Microsoft update on review of Israeli Ministry of Defense unit",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Company statement locator; not retrieved",
+          "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Capture exact scope, services disabled, dates and stated basis before relying on it.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Patent/code/model/contract/project evidence linking specific asset and commercial product",
+      "ledger_status": "**UNVERIFIED TRANSFER CLAIM**",
+      "readiness": "R0–R1"
+    },
+    {
+      "id": "CYB-01",
+      "statement": "Verify CYB-01: Wiz or other vendors have unauthenticated APIs, BOLA, cross-tenant leakage, covert telemetry [ledger status: **UNVERIFIED, NOT TESTED**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Specific CVE/disclosure or authorized independent test, affected versions, reproduction, vendor response/remediation",
+      "ledger_status": "**UNVERIFIED, NOT TESTED**",
+      "readiness": "R1"
+    },
+    {
+      "id": "CYB-02",
+      "statement": "Verify CYB-02: Cloud security vendor permissions create concentration risk [ledger status: **GENERAL SYSTEMIC RISK; NOT MISCONDUCT FINDING**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Product-specific permissions, customer configuration, access logs, key custody and incident history",
+      "ledger_status": "**GENERAL SYSTEMIC RISK; NOT MISCONDUCT FINDING**",
+      "readiness": "R1"
+    },
+    {
+      "id": "PM-01",
+      "statement": "Verify PM-01: Project Meridian announced by Hegseth at Quantico 26 Sep 2026 with named board/co-directors [ledger status: **UNVERIFIED IN THIS CASE**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Companies House — Emerdata Ltd. company no. 10911848",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government registry locator; not retrieved",
+          "url_or_ref": "https://find-and-update.company-information.service.gov.uk/company/10911848",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Officer and filing history lead; does not alone establish beneficial ownership or misconduct.",
+          "notes": ""
+        },
+        {
+          "title": "UK House of Commons DCMS report on disinformation and data",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Parliamentary record locator; not retrieved",
+          "url_or_ref": "https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Cambridge Analytica testimony and committee conclusions; scope/respondents must be checked.",
+          "notes": ""
+        },
+        {
+          "title": "UK ICO investigation into political data analytics",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain exact orders, entities and conduct before describing findings.",
+          "notes": ""
+        },
+        {
+          "title": "FTC Cambridge Analytica matter",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain underlying complaint/order and define the respondents/conduct.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Official announcement, charter, roster, Federal Register/agency file, meeting/recusal record",
+      "ledger_status": "**UNVERIFIED IN THIS CASE**",
+      "readiness": "R1"
+    },
+    {
+      "id": "PM-02",
+      "statement": "Verify PM-02: Anduril/Founders Fund have commercial interests near Meridian [ledger status: **STRUCTURAL RELATIONSHIPS ASSERTED; VERIFY FILINGS**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Companies House — Emerdata Ltd. company no. 10911848",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government registry locator; not retrieved",
+          "url_or_ref": "https://find-and-update.company-information.service.gov.uk/company/10911848",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Officer and filing history lead; does not alone establish beneficial ownership or misconduct.",
+          "notes": ""
+        },
+        {
+          "title": "UK House of Commons DCMS report on disinformation and data",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Parliamentary record locator; not retrieved",
+          "url_or_ref": "https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Cambridge Analytica testimony and committee conclusions; scope/respondents must be checked.",
+          "notes": ""
+        },
+        {
+          "title": "UK ICO investigation into political data analytics",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain exact orders, entities and conduct before describing findings.",
+          "notes": ""
+        },
+        {
+          "title": "FTC Cambridge Analytica matter",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain underlying complaint/order and define the respondents/conduct.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Corporate and award identifiers; proximity is not misconduct",
+      "ledger_status": "**STRUCTURAL RELATIONSHIPS ASSERTED; VERIFY FILINGS**",
+      "readiness": "R1"
+    },
+    {
+      "id": "PM-03",
+      "statement": "Verify PM-03: Robert Mercer funded Cambridge Analytica by $15m [ledger status: **REPORTED; PAYER/INSTRUMENT/RECIPIENT PRECISION NEEDED**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Companies House — Emerdata Ltd. company no. 10911848",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government registry locator; not retrieved",
+          "url_or_ref": "https://find-and-update.company-information.service.gov.uk/company/10911848",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Officer and filing history lead; does not alone establish beneficial ownership or misconduct.",
+          "notes": ""
+        },
+        {
+          "title": "UK House of Commons DCMS report on disinformation and data",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Parliamentary record locator; not retrieved",
+          "url_or_ref": "https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Cambridge Analytica testimony and committee conclusions; scope/respondents must be checked.",
+          "notes": ""
+        },
+        {
+          "title": "UK ICO investigation into political data analytics",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain exact orders, entities and conduct before describing findings.",
+          "notes": ""
+        },
+        {
+          "title": "FTC Cambridge Analytica matter",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain underlying complaint/order and define the respondents/conduct.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Original NYT/Commons report, company/account records; don't turn investment vehicle into personal payment without proof",
+      "ledger_status": "**REPORTED; PAYER/INSTRUMENT/RECIPIENT PRECISION NEEDED**",
+      "readiness": "R1"
+    },
+    {
+      "id": "PM-04",
+      "statement": "Verify PM-04: Cambridge Analytica processed personal data in ways regulators acted on [ledger status: **OFFICIAL ACTIONS REPORTED; SCOPE MUST BE NARROW**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Companies House — Emerdata Ltd. company no. 10911848",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government registry locator; not retrieved",
+          "url_or_ref": "https://find-and-update.company-information.service.gov.uk/company/10911848",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Officer and filing history lead; does not alone establish beneficial ownership or misconduct.",
+          "notes": ""
+        },
+        {
+          "title": "UK House of Commons DCMS report on disinformation and data",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Parliamentary record locator; not retrieved",
+          "url_or_ref": "https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Cambridge Analytica testimony and committee conclusions; scope/respondents must be checked.",
+          "notes": ""
+        },
+        {
+          "title": "UK ICO investigation into political data analytics",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain exact orders, entities and conduct before describing findings.",
+          "notes": ""
+        },
+        {
+          "title": "FTC Cambridge Analytica matter",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain underlying complaint/order and define the respondents/conduct.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: ICO/FTC orders and exact respondent/conduct; distinguish regulatory finding from broad claims",
+      "ledger_status": "**OFFICIAL ACTIONS REPORTED; SCOPE MUST BE NARROW**",
+      "readiness": "R1"
+    },
+    {
+      "id": "PM-05",
+      "statement": "Verify PM-05: Emerdata Ltd company no. 10911848, officers include named individuals [ledger status: **COMPANIES HOUSE LEAD**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Companies House — Emerdata Ltd. company no. 10911848",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government registry locator; not retrieved",
+          "url_or_ref": "https://find-and-update.company-information.service.gov.uk/company/10911848",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Officer and filing history lead; does not alone establish beneficial ownership or misconduct.",
+          "notes": ""
+        },
+        {
+          "title": "UK House of Commons DCMS report on disinformation and data",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Parliamentary record locator; not retrieved",
+          "url_or_ref": "https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Cambridge Analytica testimony and committee conclusions; scope/respondents must be checked.",
+          "notes": ""
+        },
+        {
+          "title": "UK ICO investigation into political data analytics",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain exact orders, entities and conduct before describing findings.",
+          "notes": ""
+        },
+        {
+          "title": "FTC Cambridge Analytica matter",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain underlying complaint/order and define the respondents/conduct.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Capture dated filings and officer appointment history; an officer entry is not beneficial ownership or wrongdoing",
+      "ledger_status": "**COMPANIES HOUSE LEAD**",
+      "readiness": "R1"
+    },
+    {
+      "id": "PM-06",
+      "statement": "Verify PM-06: Mercer/Cambridge Analytica links to Meridian, defence vendors, Base44 or Decart [ledger status: **NO IDENTIFIER-LINKED EDGE FOUND**; readiness: R0]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Companies House — Emerdata Ltd. company no. 10911848",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government registry locator; not retrieved",
+          "url_or_ref": "https://find-and-update.company-information.service.gov.uk/company/10911848",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Officer and filing history lead; does not alone establish beneficial ownership or misconduct.",
+          "notes": ""
+        },
+        {
+          "title": "UK House of Commons DCMS report on disinformation and data",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Parliamentary record locator; not retrieved",
+          "url_or_ref": "https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Cambridge Analytica testimony and committee conclusions; scope/respondents must be checked.",
+          "notes": ""
+        },
+        {
+          "title": "UK ICO investigation into political data analytics",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain exact orders, entities and conduct before describing findings.",
+          "notes": ""
+        },
+        {
+          "title": "FTC Cambridge Analytica matter",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator locator; not retrieved",
+          "url_or_ref": "https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain underlying complaint/order and define the respondents/conduct.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Shared director/company no., award ID, contract, payment, or document naming both sides",
+      "ledger_status": "**NO IDENTIFIER-LINKED EDGE FOUND**",
+      "readiness": "R0"
+    },
+    {
+      "id": "FIN-01",
+      "statement": "Verify FIN-01: Deutsche Bank was Trump’s “sole institutional lender” 2011–20; ~$340m loans [ledger status: **OVERSTATED AS WORDED**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Deutsche Bank enforcement records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator record locators; records not retrieved",
+          "url_or_ref": "NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Keep mirror-trading enforcement distinct from separate customer, SAR and Epstein strands.",
+          "notes": ""
+        },
+        {
+          "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Congressional document locator; letters not retrieved",
+          "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Questions and requests are not proof of the allegations posed.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Specify “major/large lender” and covered entities/product; identify loan agreements, draws, balances, guarantees, maturity dates and other lenders",
+      "ledger_status": "**OVERSTATED AS WORDED**",
+      "readiness": "R1"
+    },
+    {
+      "id": "FIN-02",
+      "statement": "Verify FIN-02: New York court found Trump financial statements materially false [ledger status: **CIVIL ADJUDICATION, NARROW SCOPE**; readiness: R1–R2*]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Deutsche Bank enforcement records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator record locators; records not retrieved",
+          "url_or_ref": "NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Keep mirror-trading enforcement distinct from separate customer, SAR and Epstein strands.",
+          "notes": ""
+        },
+        {
+          "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Congressional document locator; letters not retrieved",
+          "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Questions and requests are not proof of the allegations posed.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Confirm current appellate posture; do not call it a federal criminal bank-fraud conviction",
+      "ledger_status": "**CIVIL ADJUDICATION, NARROW SCOPE**",
+      "readiness": "R1–R2*"
+    },
+    {
+      "id": "FIN-03",
+      "statement": "Verify FIN-03: Deutsche staff recommended Trump/Kushner SARs and leadership quashed filings [ledger status: **REPORTED ALLEGATION / SENATE QUESTIONS**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Deutsche Bank enforcement records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator record locators; records not retrieved",
+          "url_or_ref": "NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Keep mirror-trading enforcement distinct from separate customer, SAR and Epstein strands.",
+          "notes": ""
+        },
+        {
+          "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Congressional document locator; letters not retrieved",
+          "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Questions and requests are not proof of the allegations posed.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Underlying nonpublic bank records not supplied; congressional question is not proof the premise is true. SAR confidentiality applies",
+      "ledger_status": "**REPORTED ALLEGATION / SENATE QUESTIONS**",
+      "readiness": "R1"
+    },
+    {
+      "id": "FIN-04",
+      "statement": "Verify FIN-04: Deutsche mirror trades ~$10bn, Epstein accounts/settlements ~$1.3bn/40 accounts [ledger status: **SEPARATE ENFORCEMENT AND CIVIL-CASE RECORDS; NUMBERS REQUIRE SOURCE-SCOPE CHECK**; readiness: R1–R2*]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Deutsche Bank enforcement records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator record locators; records not retrieved",
+          "url_or_ref": "NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Keep mirror-trading enforcement distinct from separate customer, SAR and Epstein strands.",
+          "notes": ""
+        },
+        {
+          "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Congressional document locator; letters not retrieved",
+          "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Questions and requests are not proof of the allegations posed.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Exact DFS/FCA/Federal Reserve orders and victim case; a bank-wide scheme does not connect Trump’s account",
+      "ledger_status": "**SEPARATE ENFORCEMENT AND CIVIL-CASE RECORDS; NUMBERS REQUIRE SOURCE-SCOPE CHECK**",
+      "readiness": "R1–R2*"
+    },
+    {
+      "id": "FIN-05",
+      "statement": "Verify FIN-05: Trump loans intersected Deutsche mirror trades/Epstein payments [ledger status: **NO TRANSACTION-LEVEL LINK ESTABLISHED**; readiness: R0]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Deutsche Bank enforcement records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator record locators; records not retrieved",
+          "url_or_ref": "NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Keep mirror-trading enforcement distinct from separate customer, SAR and Epstein strands.",
+          "notes": ""
+        },
+        {
+          "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Congressional document locator; letters not retrieved",
+          "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Questions and requests are not proof of the allegations posed.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Matching entity/account/wire, dates, beneficial owner, instruction, or case record",
+      "ledger_status": "**NO TRANSACTION-LEVEL LINK ESTABLISHED**",
+      "readiness": "R0"
+    },
+    {
+      "id": "FIN-06",
+      "statement": "Verify FIN-06: JPMorgan 4,700 transactions/$1.1bn; Deutsche $1.3bn/40 accounts/$13m [ledger status: **REPORTED/REGULATORY SUMMARIES; PERIOD/DEFINITION MUST BE CHECKED**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Deutsche Bank enforcement records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator record locators; records not retrieved",
+          "url_or_ref": "NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Keep mirror-trading enforcement distinct from separate customer, SAR and Epstein strands.",
+          "notes": ""
+        },
+        {
+          "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Congressional document locator; letters not retrieved",
+          "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Questions and requests are not proof of the allegations posed.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Use regulator’s actual defined measures; do not conflate gross transactions, suspicious transactions and illicit proceeds",
+      "ledger_status": "**REPORTED/REGULATORY SUMMARIES; PERIOD/DEFINITION MUST BE CHECKED**",
+      "readiness": "R1"
+    },
+    {
+      "id": "EP-01",
+      "statement": "Verify EP-01: 2008 Epstein NPA granted broad immunity; victims were not notified [ledger status: **NPA AND PROCEDURAL RECORD EXIST; APPELLATE CVRA POSTURE MUST BE STATED**; readiness: R1–R2*]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Doe v. United States — Eleventh Circuit en banc, 960 F.3d 1310",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Appellate docket/citation locator; opinion not retrieved",
+          "url_or_ref": "11th Cir. No. 19-13843 (en banc); 960 F.3d 1310 (2020)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Verify CVRA pre-charge holding and procedural history from controlling opinion.",
+          "notes": ""
+        },
+        {
+          "title": "United States v. Maxwell — SDNY criminal docket",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Court docket locator; docket not retrieved",
+          "url_or_ref": "S.D.N.Y. No. 20-cr-330",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain indictment, jury instructions, verdict, judgment and appellate disposition.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Eleventh Circuit en banc held CVRA rights did not attach pre-charge; do not state a final appellate CVRA ruling established the NPA unlawful",
+      "ledger_status": "**NPA AND PROCEDURAL RECORD EXIST; APPELLATE CVRA POSTURE MUST BE STATED**",
+      "readiness": "R1–R2*"
+    },
+    {
+      "id": "EP-02",
+      "statement": "Verify EP-02: Maxwell’s conviction logically requires an identifiable client list; DOJ memo contradicts verdict [ledger status: **LEGAL INFERENCE IS WRONG**; readiness: R0]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Doe v. United States — Eleventh Circuit en banc, 960 F.3d 1310",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Appellate docket/citation locator; opinion not retrieved",
+          "url_or_ref": "11th Cir. No. 19-13843 (en banc); 960 F.3d 1310 (2020)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Verify CVRA pre-charge holding and procedural history from controlling opinion.",
+          "notes": ""
+        },
+        {
+          "title": "United States v. Maxwell — SDNY criminal docket",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Court docket locator; docket not retrieved",
+          "url_or_ref": "S.D.N.Y. No. 20-cr-330",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain indictment, jury instructions, verdict, judgment and appellate disposition.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Conspiracy requires agreement, not a formatted list or finding that every alleged “client” was a conspirator/prosecutable",
+      "ledger_status": "**LEGAL INFERENCE IS WRONG**",
+      "readiness": "R0"
+    },
+    {
+      "id": "EP-03",
+      "statement": "Verify EP-03: Epstein/Maxwell intelligence links, Mossad, “honeypot,” CIA Glomar [ledger status: **ALLEGATIONS / FOIA RESPONSE NOT AFFIRMATIVE PROOF**; readiness: R0–R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Doe v. United States — Eleventh Circuit en banc, 960 F.3d 1310",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Appellate docket/citation locator; opinion not retrieved",
+          "url_or_ref": "11th Cir. No. 19-13843 (en banc); 960 F.3d 1310 (2020)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Verify CVRA pre-charge holding and procedural history from controlling opinion.",
+          "notes": ""
+        },
+        {
+          "title": "United States v. Maxwell — SDNY criminal docket",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Court docket locator; docket not retrieved",
+          "url_or_ref": "S.D.N.Y. No. 20-cr-330",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Obtain indictment, jury instructions, verdict, judgment and appellate disposition.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Exact FBI/CIA records, source provenance, competing explanations, responses. Glomar neither confirms nor denies records",
+      "ledger_status": "**ALLEGATIONS / FOIA RESPONSE NOT AFFIRMATIVE PROOF**",
+      "readiness": "R0–R1"
+    },
+    {
+      "id": "POL-01",
+      "statement": "Verify POL-01: $25k Trump Foundation donation to Bondi committee; IRS excise tax; Bondi declined inquiry [ledger status: **TRANSACTION/IRS REPORTING LEAD; QUID PRO QUO NOT ESTABLISHED**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FEC campaign-finance records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; not retrieved",
+          "url_or_ref": "https://www.fec.gov/data/ ; Florida Division of Elections records",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Verify committee, jurisdiction, date and amount; federal/state laws differ.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: IRS filings, Florida campaign record, AG decision chronology, Bondi response",
+      "ledger_status": "**TRANSACTION/IRS REPORTING LEAD; QUID PRO QUO NOT ESTABLISHED**",
+      "readiness": "R1"
+    },
+    {
+      "id": "POL-02",
+      "statement": "Verify POL-02: This was a federal corporate election contribution under 52 U.S.C. §30118 [ledger status: **LEGAL CLASSIFICATION UNSUPPORTED**; readiness: R0]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FEC campaign-finance records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; not retrieved",
+          "url_or_ref": "https://www.fec.gov/data/ ; Florida Division of Elections records",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Verify committee, jurisdiction, date and amount; federal/state laws differ.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: §30118 governs corporate contributions in federal elections; a Florida state committee and §501(c)(3) tax rules are distinct",
+      "ledger_status": "**LEGAL CLASSIFICATION UNSUPPORTED**",
+      "readiness": "R0"
+    },
+    {
+      "id": "POL-03",
+      "statement": "Verify POL-03: Acosta was appointed as reward for NPA [ledger status: **SEQUENCE DOCUMENTED, MOTIVE UNPROVEN**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FEC campaign-finance records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; not retrieved",
+          "url_or_ref": "https://www.fec.gov/data/ ; Florida Division of Elections records",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Verify committee, jurisdiction, date and amount; federal/state laws differ.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Appointment records, communications, testimony; do not infer exchange from temporal order",
+      "ledger_status": "**SEQUENCE DOCUMENTED, MOTIVE UNPROVEN**",
+      "readiness": "R1"
+    },
+    {
+      "id": "REAL-01",
+      "statement": "Verify REAL-01: Rybolovlev bought Maison de L’Amitié for $95m; later subdivision/resales [ledger status: **PROPERTY-RECORD LEAD; PRICE PURPOSE NOT ESTABLISHED**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FinCEN Geographic Targeting Orders",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government records locator; not retrieved",
+          "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
+          "notes": ""
+        },
+        {
+          "title": "County property records and deeds",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government record target; no transaction record attached",
+          "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Deeds, appraisals, closing statement, later parcel grantees/UBOs, debt/financing and market comps",
+      "ledger_status": "**PROPERTY-RECORD LEAD; PRICE PURPOSE NOT ESTABLISHED**",
+      "readiness": "R1"
+    },
+    {
+      "id": "REAL-02",
+      "statement": "Verify REAL-02: Rybolovlev paid ~$30m over appraised value and therefore laundered money [ledger status: **INFERENCE NOT SUPPORTED**; readiness: R0]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FinCEN Geographic Targeting Orders",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government records locator; not retrieved",
+          "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
+          "notes": ""
+        },
+        {
+          "title": "County property records and deeds",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government record target; no transaction record attached",
+          "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Authenticated contemporaneous appraisal and evidence of unlawful proceeds/knowledge/transaction intent",
+      "ledger_status": "**INFERENCE NOT SUPPORTED**",
+      "readiness": "R0"
+    },
+    {
+      "id": "REAL-03",
+      "statement": "Verify REAL-03: Russian-passport buyers purchased Trump condo units through entities [ledger status: **REPORTED ANALYSIS / SAMPLE SCOPE MUST BE NARROW**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FinCEN Geographic Targeting Orders",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government records locator; not retrieved",
+          "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
+          "notes": ""
+        },
+        {
+          "title": "County property records and deeds",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government record target; no transaction record attached",
+          "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Reuters article, unit-level deeds, GTO period/criteria, identity and source of funds; nationality/entity purchase is not laundering",
+      "ledger_status": "**REPORTED ANALYSIS / SAMPLE SCOPE MUST BE NARROW**",
+      "readiness": "R1"
+    },
+    {
+      "id": "REAL-04",
+      "statement": "Verify REAL-04: 1,300 Trump condo units / 21% shell companies [ledger status: **REPORTED COUNT; DENOMINATOR/METHOD NEEDS REPLICATION**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FinCEN Geographic Targeting Orders",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government records locator; not retrieved",
+          "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
+          "notes": ""
+        },
+        {
+          "title": "County property records and deeds",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government record target; no transaction record attached",
+          "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: BuzzFeed source dataset/methodology, units vs transactions, anonymous-shell definition, period and comparison group",
+      "ledger_status": "**REPORTED COUNT; DENOMINATOR/METHOD NEEDS REPLICATION**",
+      "readiness": "R1"
+    },
+    {
+      "id": "REAL-05",
+      "statement": "Verify REAL-05: Panama Trump Ocean Club laundered drug money; Trump knowingly benefited [ledger status: **SERIOUS REPORTING LEAD, KNOWLEDGE/PROJECT-WIDE CLAIM OVERREACHES**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FinCEN Geographic Targeting Orders",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government records locator; not retrieved",
+          "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
+          "notes": ""
+        },
+        {
+          "title": "County property records and deeds",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government record target; no transaction record attached",
+          "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: NBC/Reuters/Univision originals, exact purchaser and entity links, admissions, project agreement, Trump response, prosecution records",
+      "ledger_status": "**SERIOUS REPORTING LEAD, KNOWLEDGE/PROJECT-WIDE CLAIM OVERREACHES**",
+      "readiness": "R1"
+    },
+    {
+      "id": "REAL-06",
+      "statement": "Verify REAL-06: Trump Tower Baku violated FCPA/IEEPA because of Azarpassillo/IRGC and Mammadov [ledger status: **DUE-DILIGENCE RED FLAGS REPORTED; VIOLATION NOT ESTABLISHED**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FinCEN Geographic Targeting Orders",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government records locator; not retrieved",
+          "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
+          "notes": ""
+        },
+        {
+          "title": "County property records and deeds",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government record target; no transaction record attached",
+          "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Contractor ownership/status at relevant time, agreement/payments, official cable context, Senate letter, proof of corrupt payment/knowledge",
+      "ledger_status": "**DUE-DILIGENCE RED FLAGS REPORTED; VIOLATION NOT ESTABLISHED**",
+      "readiness": "R1"
+    },
+    {
+      "id": "REAL-07",
+      "statement": "Verify REAL-07: Bayrock/Sater proves Trump money laundering and a Russia network [ledger status: **Sater conviction and project relationships are distinct; laundering claim unadjudicated**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FinCEN Geographic Targeting Orders",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government records locator; not retrieved",
+          "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
+          "notes": ""
+        },
+        {
+          "title": "County property records and deeds",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government record target; no transaction record attached",
+          "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Sater docket, emails, projects, financial records; correct or omit unsupported claim Trump and Sater traveled to Moscow together",
+      "ledger_status": "**Sater conviction and project relationships are distinct; laundering claim unadjudicated**",
+      "readiness": "R1"
+    },
+    {
+      "id": "REAL-08",
+      "statement": "Verify REAL-08: S&A Concrete was mob-owned and Trump paid inflated “mob tax” knowingly [ledger status: **HISTORICAL REPORTING LEAD; KNOWLEDGE/PRICE CLAIM NEEDS FBI/contract records**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "FinCEN Geographic Targeting Orders",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government records locator; not retrieved",
+          "url_or_ref": "https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Defines designated geography, period and reporting scope; not itself evidence of suspicious or unlawful purchase.",
+          "notes": ""
+        },
+        {
+          "title": "County property records and deeds",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government record target; no transaction record attached",
+          "url_or_ref": "Palm Beach County Clerk & Comptroller official records; parcel identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Identify deeds, owners, financing, closing statements, parcel changes and transaction dates.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: FBI source records, suppliers/invoices, contemporaneous evidence, witnesses, right of reply",
+      "ledger_status": "**HISTORICAL REPORTING LEAD; KNOWLEDGE/PRICE CLAIM NEEDS FBI/contract records**",
+      "readiness": "R1"
+    },
+    {
+      "id": "AFF-01",
+      "statement": "Verify AFF-01: PIF committed $2bn to Kushner Affinity fund; committee objected [ledger status: **MAJOR INVESTMENT REPORTED; exact vehicle/approval record needed**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "SEC Investment Adviser Public Disclosure — Affinity / A Fin Management",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator database locator; filings not retrieved",
+          "url_or_ref": "https://adviserinfo.sec.gov/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Retrieve dated ADV and fund disclosures; distinguish commitment, AUM, fees and actual distributions.",
+          "notes": ""
+        },
+        {
+          "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Congressional document locator; letters not retrieved",
+          "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Questions and requests are not proof of the allegations posed.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: PIF records, ADV, fund documents, investment committee minutes, fees/actual capital calls",
+      "ledger_status": "**MAJOR INVESTMENT REPORTED; exact vehicle/approval record needed**",
+      "readiness": "R1"
+    },
+    {
+      "id": "AFF-02",
+      "statement": "Verify AFF-02: Investment was deferred compensation, bribery, FARA/emoluments violation [ledger status: **INFERENCE/LEGAL THEORY, NOT ESTABLISHED**; readiness: R0]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "SEC Investment Adviser Public Disclosure — Affinity / A Fin Management",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Regulator database locator; filings not retrieved",
+          "url_or_ref": "https://adviserinfo.sec.gov/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Retrieve dated ADV and fund disclosures; distinguish commitment, AUM, fees and actual distributions.",
+          "notes": ""
+        },
+        {
+          "title": "Senate Finance Committee letters re Deutsche Bank and Affinity",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Congressional document locator; letters not retrieved",
+          "url_or_ref": "U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Questions and requests are not proof of the allegations posed.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Agency relationship or corrupt exchange, official acts, communications, tracing of fee flows, legal analysis",
+      "ledger_status": "**INFERENCE/LEGAL THEORY, NOT ESTABLISHED**",
+      "readiness": "R0"
+    },
+    {
+      "id": "CR-01",
+      "statement": "Verify CR-01: MGX $2bn Binance investment settled in USD1 [ledger status: **TRANSACTION REPORT LEAD**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "MGX / Binance / USD1 transaction reporting and primary records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Transaction source target; no primary record attached",
+          "url_or_ref": "Issuer, investor and exchange statements; on-chain transaction identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Trace funding, settlement, mint/redemption, fees, custody and any distribution separately.",
+          "notes": ""
+        },
+        {
+          "title": "U.S. Treasury OFAC sanctions search",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; not searched in this case",
+          "url_or_ref": "https://ofac.treasury.gov/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Any sanctions analysis requires exact designated party, program, transaction and nexus.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: MGX/Binance/WLF statements, transaction documents, on-chain transaction hashes, custody/issuer/reserve records",
+      "ledger_status": "**TRANSACTION REPORT LEAD**",
+      "readiness": "R1"
+    },
+    {
+      "id": "CR-02",
+      "statement": "Verify CR-02: $2bn paid to Trump family; 75% of WLF profits/fees; token buyers are emoluments [ledger status: **MONEY-FLOW/OWNERSHIP/LEGAL CLAIM NOT PROVEN**; readiness: R0–R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "MGX / Binance / USD1 transaction reporting and primary records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Transaction source target; no primary record attached",
+          "url_or_ref": "Issuer, investor and exchange statements; on-chain transaction identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Trace funding, settlement, mint/redemption, fees, custody and any distribution separately.",
+          "notes": ""
+        },
+        {
+          "title": "U.S. Treasury OFAC sanctions search",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; not searched in this case",
+          "url_or_ref": "https://ofac.treasury.gov/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Any sanctions analysis requires exact designated party, program, transaction and nexus.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Audited revenue, distributions, beneficial interests, issuer fees, wallet attribution, state-actor and legal analysis",
+      "ledger_status": "**MONEY-FLOW/OWNERSHIP/LEGAL CLAIM NOT PROVEN**",
+      "readiness": "R0–R1"
+    },
+    {
+      "id": "CR-03",
+      "statement": "Verify CR-03: Sanctioned-jurisdiction wallets prove OFAC violations [ledger status: **NOT ESTABLISHED**; readiness: R0]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "MGX / Binance / USD1 transaction reporting and primary records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Transaction source target; no primary record attached",
+          "url_or_ref": "Issuer, investor and exchange statements; on-chain transaction identifiers pending",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Trace funding, settlement, mint/redemption, fees, custody and any distribution separately.",
+          "notes": ""
+        },
+        {
+          "title": "U.S. Treasury OFAC sanctions search",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; not searched in this case",
+          "url_or_ref": "https://ofac.treasury.gov/",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Any sanctions analysis requires exact designated party, program, transaction and nexus.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Correct sanctions program, person/entity designation, transaction/nexus, beneficial ownership, issuer knowledge and applicable authorization",
+      "ledger_status": "**NOT ESTABLISHED**",
+      "readiness": "R0"
+    },
+    {
+      "id": "EDU-01",
+      "statement": "Verify EDU-01: Epstein donations to MIT/Harvard sanitized reputation and created access [ledger status: **DONATIONS/INTERNAL PRACTICES REPORTED; motive/quid-pro-quo inference needs records**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Institutional reports, donor ledgers, access records, contemporaneous correspondence; separate from intelligence or tech-transfer claims",
+      "ledger_status": "**DONATIONS/INTERNAL PRACTICES REPORTED; motive/quid-pro-quo inference needs records**",
+      "readiness": "R1"
+    },
+    {
+      "id": "OFF-01",
+      "statement": "Verify OFF-01: Offshore entities/trusts prove crime, untraceability, or “zero accountability” [ledger status: **GENERALIZATION IS FALSE/UNSUPPORTED**; readiness: R0]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Specific jurisdiction/entity, filings, beneficial-owner record, predicate offense and money trail; lawful uses and disclosure rules vary",
+      "ledger_status": "**GENERALIZATION IS FALSE/UNSUPPORTED**",
+      "readiness": "R0"
+    },
+    {
+      "id": "PROC-01",
+      "statement": "Verify PROC-01: Carbyne deployed in 23 states and federal ICE/FBI/DEA units [ledger status: **UNVERIFIED**; readiness: R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "U.S. federal award records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; no entity/UEI query completed",
+          "url_or_ref": "https://www.usaspending.gov/ ; FPDS",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Search legal entity and unique award IDs; absence from a keyword search is not proof of no contract.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: USAspending/FPDS award IDs, procurement docs, agency/PSAP award and active service period",
+      "ledger_status": "**UNVERIFIED**",
+      "readiness": "R1"
+    },
+    {
+      "id": "PROC-02",
+      "statement": "Verify PROC-02: AE Industrial/REDLattice conduits bypass FOCI/FAR and bring foreign software to federal tactical use [ledger status: **UNVERIFIED / TECHNICAL-LEGAL THEORY**; readiness: R0–R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "U.S. federal award records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; no entity/UEI query completed",
+          "url_or_ref": "https://www.usaspending.gov/ ; FPDS",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Search legal entity and unique award IDs; absence from a keyword search is not proof of no contract.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Company/award IDs, contract flowdown, FOCI mitigation/clearance records, subcontracts and specific platform use",
+      "ledger_status": "**UNVERIFIED / TECHNICAL-LEGAL THEORY**",
+      "readiness": "R0–R1"
+    },
+    {
+      "id": "PROC-03",
+      "statement": "Verify PROC-03: Meridian-connected awards went to firms whose executives advised Meridian [ledger status: **NO IDENTIFIER-LINKED AWARD SHOWN**; readiness: R0–R1]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "U.S. federal award records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; no entity/UEI query completed",
+          "url_or_ref": "https://www.usaspending.gov/ ; FPDS",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Search legal entity and unique award IDs; absence from a keyword search is not proof of no contract.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Charter, roster, conflicts/recusals, solicitation, award/task-order IDs and beneficial-owner records",
+      "ledger_status": "**NO IDENTIFIER-LINKED AWARD SHOWN**",
+      "readiness": "R0–R1"
+    },
+    {
+      "id": "PROC-04",
+      "statement": "Verify PROC-04: Vendor jurisdiction means foreign state can access all hosted data [ledger status: **FALSE AS A GENERAL RULE**; readiness: R0]",
+      "confidence": "UNVERIFIED",
+      "sources": [
+        {
+          "title": "U.S. federal award records",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Government database locator; no entity/UEI query completed",
+          "url_or_ref": "https://www.usaspending.gov/ ; FPDS",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Search legal entity and unique award IDs; absence from a keyword search is not proof of no contract.",
+          "notes": ""
+        },
+        {
+          "title": "Investigator-submitted allegations and repository source map",
+          "tier": "Tier 3 — Secondary/Unverified",
+          "source_type": "Lead only; not independent evidence",
+          "url_or_ref": "Conversation intake; linked repository books listed in the master ledger",
+          "date": "Locator captured 2026-10-08; source not retrieved/authenticated in this session",
+          "excerpt": "Use to define questions. Repetition in a user statement or draft book does not corroborate a claim.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [],
+      "legal_risks": "None identified",
+      "notes": "Not independently verified; preserve ledger disposition. Next proof: Service, data, key custody, legal process, jurisdiction and access evidence for the specific system",
+      "ledger_status": "**FALSE AS A GENERAL RULE**",
+      "readiness": "R0"
+    }
+  ],
+  "open_questions": [
+    "Authenticate and preserve dated Base44 terms, privacy policy, Responsible Use Policy, DPA and complete subprocessor directory; obtain Wix/Base44 response on model use, matching, retention, regional routing and deletion.",
+    "Obtain original Azure investigative reporting and Microsoft statement, plus customer/provider contracts, account records and retention/access logs; determine exact scope and whether any migration occurred.",
+    "Identify each Carbyne/Axon public-safety deployment by agency, contract and period; obtain product version, data-flow documentation, permissions, retention controls and authorized technical review.",
+    "Authenticate the alleged Project Meridian announcement, charter and roster; search awards only by confirmed legal entity and unique identifiers.",
+    "Retrieve controlling Maxwell verdict/instructions and en banc Doe opinion; remove the “client list logical trap” assertion and accurately state procedural posture.",
+    "Retrieve current NY civil-fraud appellate disposition, bank regulator orders, Senate correspondence, loan instruments and any public customer-specific transaction evidence.",
+    "Trace PIF/Affinity and MGX/Binance/USD1 with fund agreements, capital calls, custody/issuer records, fees, distributions and beneficial-owner proof.",
+    "Obtain property deeds, closing statements, financing, parcel histories, purchaser ownership and source-of-funds evidence; seek right of reply.",
+    "Search procurement databases by legal name, UEI/award ID; determine whether the named companies served the alleged agencies and dates.",
+    "Do not connect bank, intelligence, political-data, cloud or crypto strands absent an identifier-bearing document or transaction record."
+  ],
+  "watchlist": [],
+  "notes": "See companion master ledger, two dossiers and three-part exposé in this output directory. AXIOM source classifications are intentionally Tier 3: the source locators were not fetched/authenticated in this session. Confidence output is a workflow heuristic, not truth assessment.",
+  "scores": {
+    "overall_confidence": 0.15,
+    "source_quality": 0.25,
+    "has_legal_flags": true
+  },
+  "axiom_ingestion": {
+    "database": "temporary SQLite database; deleted after export",
+    "case_id": 1,
+    "sources_ingested": 25,
+    "claims_ingested": 52,
+    "entities_ingested": 23,
+    "open_questions_ingested": 10,
+    "audit_events": 111,
+    "persistent_app_database_touched": false,
+    "source_retrieval_performed": false
+  }
+}
