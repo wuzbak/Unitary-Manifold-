@@ -12,9 +12,24 @@ from pathlib import Path
 from zipfile import ZipFile
 
 import pytest
+from packaging.requirements import Requirement
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MODULES = ("core.metric", "holography.boundary", "multiverse.fixed_point")
+
+
+def test_standard_installs_exclude_unpatched_optional_cache_tooling():
+    metadata = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text())
+    requirements = list(metadata["project"]["dependencies"])
+    for filename in ("requirements.txt", "requirements-dev.txt"):
+        requirements.extend(
+            requirement
+            for line in (REPO_ROOT / filename).read_text().splitlines()
+            if (requirement := line.partition("#")[0].strip())
+        )
+    names = {Requirement(requirement).name.lower().replace("_", "-")
+             for requirement in requirements}
+    assert names.isdisjoint({"dvc", "dvc-data", "diskcache"})
 
 
 def run(*args, cwd, env=None):

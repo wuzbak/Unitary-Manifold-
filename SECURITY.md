@@ -41,6 +41,12 @@ in `diskcache==5.6.3`, a transitive dependency of `dvc-data`. The latest
 available DiskCache release is affected; the audit lists no patched version.
 This finding is **unresolved**, not a clean dependency-audit result.
 
+DVC is not required by the Python runtime or regression suites, so it is
+excluded from `requirements.txt` and standard CI installs. The `dvc.yaml`
+pipeline remains available for manual use. If you need to run it, install DVC
+separately only after reviewing this advisory and securing its cache directories.
+This dependency isolation is a mitigation, not a DiskCache patch.
+
 DiskCache's default pickle deserialization can execute code if an attacker
 can modify the cache contents. Keep DVC/DiskCache cache directories and their
 parent directories private to the account running DVC; do not read caches

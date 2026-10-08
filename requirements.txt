@@ -12,7 +12,8 @@ jax[cpu]>=0.10.0,<0.11
 jaxlib>=0.4,<1
 z3-solver>=4.12.0
 wandb>=0.18.0
-dvc>=3.0.0
+# DVC is optional data-pipeline tooling, not a runtime/test dependency.
+# See SECURITY.md before installing it: DiskCache has an unpatched advisory.
 juliacall>=0.9.35
 duckdb>=1.5.5
 polars>=1.44.1
