@@ -901,7 +901,7 @@ def build_story_packet(
             'chapters': chapters,
         },
         'chapter_drafts': chapter_drafts,
-        'source_backbone': source_ledger[:12],
+        'source_backbone': source_ledger,
         'psicat_learning_packet': {
             'challenge_count': len(psicat_packet['challenge_pack']),
             'training_objectives': psicat_packet['training_objectives'],
@@ -964,7 +964,7 @@ def render_story_markdown(packet: dict[str, Any]) -> str:
     ]
     if packet['source_backbone']:
         for source in packet['source_backbone']:
-            lines.append(f"- **{source['title']}** [{source['tier']}]")
+            lines.append(f"- [{source['citation_id']}] **{source['title']}** [{source['tier']}]")
             if source['url_or_ref']:
                 lines.append(f"  - Ref: {source['url_or_ref']}")
     else:

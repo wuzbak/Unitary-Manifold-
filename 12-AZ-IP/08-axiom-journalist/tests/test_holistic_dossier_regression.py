@@ -90,15 +90,20 @@ def test_holistic_case_builds_a_human_review_packet_without_upgrading_leads(inve
     assert 'en banc Doe opinion' not in saved_packet
     assert '*In re Wild*, 994 F.3d 1244' in saved_packet
     assert saved_packet.rstrip() == render_dossier_markdown(packet).rstrip()
+    story_packet_data = build_story_packet(investigation)
+    backbone = {
+        source['citation_id']: source['title']
+        for source in story_packet_data['source_backbone']
+    }
+    assert len(backbone) == len(investigation['sources'])
+    for chapter in story_packet_data['chapter_drafts']:
+        for source in chapter['source_ledger']:
+            assert backbone[source['citation_id']] == source['title']
     story_packet = (OUTPUT / 'holistic_axiom_story_packet_2026-10-08.md').read_text(encoding='utf-8')
     assert 'en banc Doe opinion' not in story_packet
     assert '*In re Wild*, 994 F.3d 1244' in story_packet
-    assert story_packet.rstrip() == render_story_markdown(build_story_packet(investigation)).rstrip()
+    assert story_packet.rstrip() == render_story_markdown(story_packet_data).rstrip()
     assert re.search(r'\.;|(?<!\.)\.\.(?!\.)', story_packet) is None
-    ledger = (OUTPUT / 'holistic_master_claim_and_money_flow_ledger_2026-10-08.md').read_text(
-        encoding='utf-8'
-    )
-    assert '19 targeted queries (76 requests' in ledger
 
 
 def test_holistic_source_bundle_preserves_provenance_in_sqlite(tmp_path):

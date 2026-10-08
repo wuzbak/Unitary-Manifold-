@@ -10,4 +10,4 @@ APP_ROOT = PRODUCT_ROOT / 'app'
 for import_root in (str(APP_ROOT), str(PRODUCT_ROOT)):
     if import_root in sys.path:
         sys.path.remove(import_root)
-sys.path[:0] = [str(PRODUCT_ROOT), str(APP_ROOT)]
+sys.path[:0] = [str(APP_ROOT), str(PRODUCT_ROOT)]

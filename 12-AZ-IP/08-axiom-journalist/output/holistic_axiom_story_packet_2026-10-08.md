@@ -54,30 +54,70 @@ Chapter source ledger:
 
 
 ## Source backbone
-- **Base44 Terms of Service — supplied excerpt** [Tier 3 — Secondary/Unverified]
+- [1] **Base44 Terms of Service — supplied excerpt** [Tier 3 — Secondary/Unverified]
   - Ref: https://base44.com/terms-of-service
-- **Base44 Privacy Policy — supplied excerpt** [Tier 3 — Secondary/Unverified]
+- [2] **Base44 Privacy Policy — supplied excerpt** [Tier 3 — Secondary/Unverified]
   - Ref: https://base44.com/privacy-policy
-- **Base44 Responsible Use Policy — supplied excerpt** [Tier 3 — Secondary/Unverified]
+- [3] **Base44 Responsible Use Policy — supplied excerpt** [Tier 3 — Secondary/Unverified]
   - Ref: https://base44.com/responsible-use
-- **Base44 Data Processing Addendum — retrieval target** [Tier 3 — Secondary/Unverified]
+- [4] **Base44 Data Processing Addendum — retrieval target** [Tier 3 — Secondary/Unverified]
   - Ref: https://base44.com/dpa
-- **Base44 security documentation / Trust Center** [Tier 3 — Secondary/Unverified]
+- [5] **Base44 security documentation / Trust Center** [Tier 3 — Secondary/Unverified]
   - Ref: https://docs.base44.com/Community-and-support/Privacy-and-security ; https://trust.base44.com/
-- **Microsoft update on review of Israeli Ministry of Defense unit** [Tier 3 — Secondary/Unverified]
+- [6] **Microsoft update on review of Israeli Ministry of Defense unit** [Tier 3 — Secondary/Unverified]
   - Ref: https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/
-- **+972 Magazine / Local Call Azure investigation** [Tier 3 — Secondary/Unverified]
+- [7] **+972 Magazine / Local Call Azure investigation** [Tier 3 — Secondary/Unverified]
   - Ref: https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/
-- **Axon announced Carbyne acquisition** [Tier 3 — Secondary/Unverified]
+- [8] **Axon announced Carbyne acquisition** [Tier 3 — Secondary/Unverified]
   - Ref: https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne
-- **FinCEN Geographic Targeting Orders** [Tier 3 — Secondary/Unverified]
+- [9] **FinCEN Geographic Targeting Orders** [Tier 3 — Secondary/Unverified]
   - Ref: https://www.fincen.gov/resources/statutes-regulations/geographic-targeting-orders
-- **Companies House — Emerdata Ltd. company no. 10911848** [Tier 3 — Secondary/Unverified]
+- [10] **Companies House — Emerdata Ltd. company no. 10911848** [Tier 3 — Secondary/Unverified]
   - Ref: https://find-and-update.company-information.service.gov.uk/company/10911848
-- **UK House of Commons DCMS report on disinformation and data** [Tier 3 — Secondary/Unverified]
+- [11] **UK House of Commons DCMS report on disinformation and data** [Tier 3 — Secondary/Unverified]
   - Ref: https://publications.parliament.uk/pa/cm201719/cmselect/cmcumeds/1791/1791.pdf
-- **UK ICO investigation into political data analytics** [Tier 3 — Secondary/Unverified]
+- [12] **UK ICO investigation into political data analytics** [Tier 3 — Secondary/Unverified]
   - Ref: https://ico.org.uk/action-weve-taken/investigation-into-data-analytics-for-political-purposes/
+- [13] **FTC Cambridge Analytica matter** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.ftc.gov/legal-library/browse/cases-proceedings/182-3107-cambridge-analytica-llc
+- [14] **United States v. Maxwell — SDNY criminal docket** [Tier 3 — Secondary/Unverified]
+  - Ref: S.D.N.Y. No. 20-cr-330
+- [15] **NY v. Trump — New York civil-fraud docket** [Tier 3 — Secondary/Unverified]
+  - Ref: N.Y. Sup. Ct. Index No. 452564/2022; appellate dockets to be checked
+- [16] **Deutsche Bank enforcement records** [Tier 3 — Secondary/Unverified]
+  - Ref: NY DFS consent order (2017); Federal Reserve/FCA records; Epstein-related 2020 NY DFS consent order
+- [17] **Senate Finance Committee letters re Deutsche Bank and Affinity** [Tier 3 — Secondary/Unverified]
+  - Ref: U.S. Senate Finance Committee; Wyden letters (2018, 2019, 2024)
+- [18] **SEC Investment Adviser Public Disclosure — Affinity / A Fin Management** [Tier 3 — Secondary/Unverified]
+  - Ref: https://adviserinfo.sec.gov/
+- [19] **U.S. Treasury OFAC sanctions search** [Tier 3 — Secondary/Unverified]
+  - Ref: https://ofac.treasury.gov/
+- [20] **FEC campaign-finance records** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.fec.gov/data/ ; Florida Division of Elections records
+- [21] **County property records and deeds** [Tier 3 — Secondary/Unverified]
+  - Ref: Palm Beach County Clerk & Comptroller official records; parcel identifiers pending
+- [22] **U.S. federal award records** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.usaspending.gov/ ; FPDS
+- [23] **MGX / Binance / USD1 transaction reporting and primary records** [Tier 3 — Secondary/Unverified]
+  - Ref: Issuer, investor and exchange statements; on-chain transaction identifiers pending
+- [24] **Investigator-submitted allegations and repository source map** [Tier 3 — Secondary/Unverified]
+  - Ref: Conversation intake; linked repository books listed in the master ledger
+- [25] **In re Wild, 994 F.3d 1244 — Eleventh Circuit en banc CVRA appeal** [Tier 3 — Secondary/Unverified]
+  - Ref: https://media.ca11.uscourts.gov/opinions/pub/files/201913843.enb.pdf
+- [26] **DOJ Office of Professional Responsibility — Epstein NPA review** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.justice.gov/opr/page/file/1336471/dl?inline
+- [27] **United States v. Maxwell, 118 F.4th 256 — Second Circuit appeal** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.ca2.uscourts.gov/decisions.html; No. 22-1426
+- [28] **NYDFS Deutsche Bank Epstein-related consent order** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.dfs.ny.gov/reports_and_publications/press_releases/pr202007071
+- [29] **NYDFS Deutsche Bank Russian mirror-trading enforcement** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.dfs.ny.gov/reports_and_publications/press_releases/pr1701301
+- [30] **DOJ/FBI Epstein review memorandum, July 2025** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.justice.gov/opa/media/1407001/dl?inline
+- [31] **Maxwell certiorari docket, No. 24-1073** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.supremecourt.gov/docket/docketfiles/html/public/24-1073.html
+- [32] **NY Appellate Division — People v. Trump, 2025 NY Slip Op 04756** [Tier 3 — Secondary/Unverified]
+  - Ref: https://www.nycourts.gov/reporter/3dseries/2025/2025_04756.htm
 
 ## PsiCat learning packet
 - Challenge count: 16
