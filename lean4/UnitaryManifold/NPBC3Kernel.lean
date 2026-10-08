@@ -88,7 +88,7 @@ theorem kcs_nonzero : k_cs ≠ 0 := Nat.not_eq_zero_of_lt kcs_positive
 
 /-- A winding configuration is labeled by a natural number n (winding number).
     The n=0 sector is the vacuum. -/
-def windingSector := ℕ
+abbrev windingSector := ℕ
 
 /-- The vacuum sector (n = 0). -/
 def vacuumSector : windingSector := 0

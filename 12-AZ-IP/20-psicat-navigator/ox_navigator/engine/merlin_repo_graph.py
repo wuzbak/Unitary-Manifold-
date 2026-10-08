@@ -250,6 +250,17 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     for path, tokens in token_sets.items():
         for token in tokens:
             token_to_paths.setdefault(token, set()).add(path)
+    module_to_paths: dict[str, set[str]] = {}
+    for path in known_paths:
+        if not path.endswith(".py"):
+            continue
+        module_paths = [path[:-3]]
+        if path.endswith("/__init__.py"):
+            module_paths.append(path[:-len("/__init__.py")])
+        for module_path in module_paths:
+            # Preserve suffix matching, including imports without a package prefix.
+            for offset in range(len(module_path)):
+                module_to_paths.setdefault(module_path[offset:], set()).add(path)
     for record in by_path.values():
         for imported in list(record.get("imports") or []):
             candidate_targets: set[str] = set()
@@ -257,11 +268,7 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 candidate_targets.update(_relative_import_candidates(str(record["path"]), str(imported)))
             else:
                 module_path = str(imported).replace(".", "/")
-                candidate_targets.update(
-                    path
-                    for path in known_paths
-                    if str(path).endswith(f"{module_path}.py") or str(path).endswith(f"{module_path}/__init__.py")
-                )
+                candidate_targets.update(module_to_paths.get(module_path, ()))
             for candidate in candidate_targets:
                 if candidate in known_paths:
                     edges.append(

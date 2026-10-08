@@ -657,11 +657,11 @@ This is the first edition of *The Learning Crisis*; the Omega Edition designatio
 
 This book is the analysis framework. The practical implementation is in three companion volumes:
 
-- **[K-12 Curriculum Volume 1: PreK Through Grade 5](book-curriculum-vol1-preK-5.md)** — Grade-by-grade curriculum for early childhood through upper elementary. Every subject, every grade level, with framework seeds planted age-appropriately. How to teach conservation to a kindergartner. How to introduce pattern in music and mathematics simultaneously. How to build the vocabulary for dimensions in third grade.
+- **[K-12 Curriculum Volume 1: PreK Through Grade 5](book-15-book-curriculum-vol1-prek-5.md)** — Grade-by-grade curriculum for early childhood through upper elementary. Every subject, every grade level, with framework seeds planted age-appropriately. How to teach conservation to a kindergartner. How to introduce pattern in music and mathematics simultaneously. How to build the vocabulary for dimensions in third grade.
 
-- **[K-12 Curriculum Volume 2: Grades 6-8](book-curriculum-vol2-6-8.md)** — Middle school curriculum where concrete thinking bridges to abstract thinking. The full STEM/humanities/arts integration. The moment when conservation laws, algebraic structure, and scientific reasoning begin to converge. How to introduce the cylinder analogy for compact dimensions in 7th grade.
+- **[K-12 Curriculum Volume 2: Grades 6-8](book-16-book-curriculum-vol2-6-8.md)** — Middle school curriculum where concrete thinking bridges to abstract thinking. The full STEM/humanities/arts integration. The moment when conservation laws, algebraic structure, and scientific reasoning begin to converge. How to introduce the cylinder analogy for compact dimensions in 7th grade.
 
-- **[K-12 Curriculum Volume 3: Grades 9-12 and Beyond](book-curriculum-vol3-9-12-beyond.md)** — High school through research and professional levels. The complete STEM sequence building toward 5D thinking. Advanced humanities. Philosophy and ethics. The professional and research toolkit. How to present the Unitary Manifold to an advanced physics student as a legitimate, falsifiable theoretical framework rather than a metaphysical claim.
+- **[K-12 Curriculum Volume 3: Grades 9-12 and Beyond](book-17-book-curriculum-vol3-9-12-beyond.md)** — High school through research and professional levels. The complete STEM sequence building toward 5D thinking. Advanced humanities. Philosophy and ethics. The professional and research toolkit. How to present the Unitary Manifold to an advanced physics student as a legitimate, falsifiable theoretical framework rather than a metaphysical claim.
 
 ---
 

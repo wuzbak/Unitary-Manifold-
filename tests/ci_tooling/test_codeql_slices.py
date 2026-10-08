@@ -46,6 +46,18 @@ def test_manifest_is_well_formed():
     assert any(s["slice_id"] == "python-eige" for s in m["slices"])
 
 
+def test_python_slice_paths_do_not_use_literal_files():
+    m = cs.load_manifest()
+    for s in m["slices"]:
+        if s["language"] != "python":
+            continue
+        for path in s["paths"]:
+            # The Python extractor walks literal paths as directories.
+            assert any(char in path for char in "*?[") or not (REPO_ROOT / path).is_file(), path
+    fixture = "12-AZ-IP/20-psicat-navigator/conftest.py"
+    assert any(cs.in_slice(fixture, s, m["paths_ignore"]) for s in m["slices"])
+
+
 def test_manifest_rejects_duplicate_ids_and_empty_paths(tmp_path):
     bad = {"slices": [{"slice_id": "a", "language": "python", "build_mode": "none", "paths": ["x"]},
                       {"slice_id": "a", "language": "python", "build_mode": "none", "paths": ["y"]}]}

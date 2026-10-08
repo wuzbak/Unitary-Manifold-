@@ -1092,9 +1092,9 @@ tested by LiteBIRD, launch ~2032).
 **Where to read the companion physics:**
 
 - Framework overview: [README.md](../README.md)
-- Falsification map: [post-32-falsification-map.md](../posts/post-032-falsification-map.md)
-- Human-AI collaboration: [post-37-human-ai-collaboration.md](../posts/post-037-human-ai-collaboration.md)
-- All pillars index: [post-06-74-pillars.md](../posts/post-006-74-pillars.md)
+- Falsification map: [post-32-falsification-map.md](../Articles/article-052-post-032-falsification-map.md)
+- Human-AI collaboration: [post-37-human-ai-collaboration.md](../Articles/article-057-post-037-human-ai-collaboration.md)
+- All pillars index: [post-06-74-pillars.md](../Articles/article-025-post-006-74-pillars.md)
 
 ---
 

@@ -24,6 +24,40 @@ def _write_graph_fixture(root: Path, relative: str, content: str = "def example(
     path.write_text(content, encoding="utf-8")
 
 
+def test_import_edge_index_preserves_suffix_and_relative_resolution() -> None:
+    paths = [
+        "src/core/consumer.py",
+        "src/core/helper.py",
+        "src/core/myhelper.py",
+        "src/core/package/__init__.py",
+        "other/helper.py",
+        "docs/helper.md",
+    ]
+    imports = ["helper", "core.helper", "src.core.helper", "package", ".helper", ".package", "missing"]
+    records = [
+        {"path": path, "imports": imports if path == paths[0] else []}
+        for path in paths
+    ]
+    known_paths = set(paths)
+    expected_targets = set()
+    for imported in imports:
+        if imported.startswith("."):
+            candidates = merlin_repo_graph._relative_import_candidates(paths[0], imported)
+        else:
+            module_path = imported.replace(".", "/")
+            candidates = {
+                path for path in paths
+                if path.endswith(f"{module_path}.py")
+                or path.endswith(f"{module_path}/__init__.py")
+            }
+        expected_targets.update(candidates & known_paths)
+    edges = merlin_repo_graph._edge_records(records)
+    assert edges == [
+        {"source": paths[0], "target": target, "relation": "imports"}
+        for target in sorted(expected_targets)
+    ]
+
+
 def test_python_record_skips_literal_nodes_but_preserves_nested_statements(
     graph_root, monkeypatch,
 ) -> None:

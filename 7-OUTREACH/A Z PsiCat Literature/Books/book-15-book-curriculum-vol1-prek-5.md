@@ -1387,8 +1387,8 @@ This curriculum guide covers the foundational years of formal education — PreK
 
 The companion volumes continue the curriculum from Grade 6 through high school graduation and into professional and research-level work:
 
-- **[K-12 Curriculum Volume 2: Grades 6-8](book-curriculum-vol2-6-8.md)** — The middle school years: bridging concrete thinking to abstract reasoning, developing disciplinary literacy, and building the habits of inquiry that define educated adults.
-- **[K-12 Curriculum Volume 3: Grades 9-12 and Beyond](book-curriculum-vol3-9-12-beyond.md)** — High school through research and professional levels: the full academic sequence, advanced studies, professional preparation, and the path toward the frontier of human knowledge.
+- **[K-12 Curriculum Volume 2: Grades 6-8](book-16-book-curriculum-vol2-6-8.md)** — The middle school years: bridging concrete thinking to abstract reasoning, developing disciplinary literacy, and building the habits of inquiry that define educated adults.
+- **[K-12 Curriculum Volume 3: Grades 9-12 and Beyond](book-17-book-curriculum-vol3-9-12-beyond.md)** — High school through research and professional levels: the full academic sequence, advanced studies, professional preparation, and the path toward the frontier of human knowledge.
 
 ---
 

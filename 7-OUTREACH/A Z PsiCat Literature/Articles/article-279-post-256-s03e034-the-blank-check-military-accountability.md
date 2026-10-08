@@ -15,7 +15,7 @@
 
 ---
 
-**[Cross-reference: Book 23 — The Blank Check](../books/book-blank-check-military-accountability.md)**
+**[Cross-reference: Book 23 — The Blank Check](../Books/book-11-book-blank-check-military-accountability.md)**
 
 ---
 
@@ -194,12 +194,12 @@ The question is whether the people who hold this power will choose accountabilit
 
 ---
 
-**Book 23 — [The Blank Check](../books/book-blank-check-military-accountability.md)**  
+**Book 23 — [The Blank Check](../Books/book-11-book-blank-check-military-accountability.md)**  
 Complete: immediate fix package (18 actions, 0–24 months), structural redesign (4 domains, 2–10 years), 100-day federal/state/local implementation annex, full source list.
 
 **Previous posts in this sequence:**
-- [Post #254 (S03E032): The Broken Fixed Point — Neuroscience, Disorders, Geometry](post-254-s03e032-the-broken-fixed-point-neuroscience-disorders-geometry.md)
-- [Post #255 (S03E033): The Next Three Years — Four Decision Windows, Four Predictions](post-255-s03e033-the-next-three-years.md)
+- [Post #254 (S03E032): The Broken Fixed Point — Neuroscience, Disorders, Geometry](article-276-post-254-s03e032-the-broken-fixed-point-neuroscience-disorders-geometry.md)
+- [Post #255 (S03E033): The Next Three Years — Four Decision Windows, Four Predictions](article-278-post-255-s03e033-the-next-three-years.md)
 
 ---
 

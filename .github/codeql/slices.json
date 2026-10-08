@@ -65,7 +65,7 @@
       "paths": [
         "12-AZ-IP/20-psicat-navigator/tests",
         "12-AZ-IP/20-psicat-navigator/tools",
-        "12-AZ-IP/20-psicat-navigator/conftest.py"
+        "12-AZ-IP/20-psicat-navigator/conftest*.py"
       ]
     },
     {

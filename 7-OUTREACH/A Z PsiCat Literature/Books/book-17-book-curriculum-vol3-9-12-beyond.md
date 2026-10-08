@@ -1093,10 +1093,10 @@ The most important things this curriculum guide says:
 
 The companion volumes are:
 
-- **[K-12 Curriculum Volume 1: PreK-5](book-curriculum-vol1-preK-5.md)** — The foundational
+- **[K-12 Curriculum Volume 1: PreK-5](book-15-book-curriculum-vol1-prek-5.md)** — The foundational
   years: reading skills, mathematical fluency, executive function, and the structures on which
   all subsequent learning rests.
-- **[K-12 Curriculum Volume 2: Grades 6-8](book-curriculum-vol2-6-8.md)** — The middle school
+- **[K-12 Curriculum Volume 2: Grades 6-8](book-16-book-curriculum-vol2-6-8.md)** — The middle school
   years: bridging concrete thinking to abstract reasoning, developing disciplinary literacy,
   and building the habits of inquiry that define educated adults.
 

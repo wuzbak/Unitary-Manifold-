@@ -4,7 +4,7 @@
 # After installation:    from unitary_manifold.core import metric
 
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=78.1.1", "wheel>=0.46.2"]
 build-backend = "setuptools.build_meta"
 
 # ---------------------------------------------------------------------------
@@ -127,17 +127,20 @@ DOI = "https://doi.org/10.5281/zenodo.19584531"
 
 # ---------------------------------------------------------------------------
 # Package discovery
-# The `unitary_manifold` top-level package is a thin namespace shim whose
-# __path__ is redirected to src/ by unitary_manifold/__init__.py, so that
-# `from unitary_manifold.core import metric` resolves to src/core/metric.py
-# without moving any source files.
+# Ship src/ alongside the unitary_manifold namespace shim.  Both public
+# unitary_manifold.* imports and legacy src.* imports use the same source
+# files in editable installs and wheels.
 # ---------------------------------------------------------------------------
 [tool.setuptools]
 license-files = ["LICENSE", "LICENSE-AGPL", "NOTICE", "LICENSES/AGPL-3.0-or-later.txt"]
 
 [tool.setuptools.packages.find]
 where = [".", "5-GOVERNANCE/Unitary Pentad"]
-include = ["unitary_manifold*", "omega*", "holon_zero*", "UOS*"]
+include = ["unitary_manifold*", "src", "src.*", "omega*", "holon_zero*", "UOS*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+"src.data_feeds" = ["latest_snapshot.json"]
 
 # ---------------------------------------------------------------------------
 # pytest configuration is in pytest.ini (canonical config)
