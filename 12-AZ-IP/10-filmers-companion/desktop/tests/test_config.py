@@ -13,6 +13,15 @@ def _reset():
     m._config = None
 
 
+@pytest.fixture(autouse=True)
+def isolate_default_database(tmp_path, monkeypatch):
+    import desktop.app.config as m
+    monkeypatch.setattr(m, "FILM_DIR", tmp_path / "filmers")
+    m._config = None
+    yield
+    m._config = None
+
+
 # ---------------------------------------------------------------------------
 # Tests
 # ---------------------------------------------------------------------------
@@ -86,6 +95,7 @@ def test_db_parent_created(tmp_path, monkeypatch):
     from desktop.app.config import get_config
     cfg = get_config()
     assert cfg.db_path.parent.exists()
+    assert cfg.db_path.parent.is_relative_to(tmp_path)
 
 
 def test_llm_url_default():
