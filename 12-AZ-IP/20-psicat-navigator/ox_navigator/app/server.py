@@ -1777,6 +1777,16 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
                 self._json({'ok': payload['ok'], 'phicat_protocol': payload.get('data', {})}, status=status)
                 self._persist_session(session_id, merlin_session)
                 return
+            if route_path == '/api/psicat/braided-gut-microbiome':
+                query = str(params.get('query', [''])[0] or '').strip()
+                status, payload = _tool_data_or_error(route_tool(
+                    'getMerlinBraidedGutMicrobiome',
+                    {'query': query[:4000]},
+                    session=merlin_session,
+                ))
+                self._json({'ok': payload['ok'], 'braided_gut_microbiome': payload.get('data', {})}, status=status)
+                self._persist_session(session_id, merlin_session)
+                return
             if route_path == '/api/psicat/unitary-lab':
                 lab_args = {}
                 for key, default in (('n', 4), ('iterations', 1500), ('seed', 74), ('outlier_percent', 10)):

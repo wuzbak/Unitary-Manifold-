@@ -110,6 +110,51 @@ def test_bm25_pillar_ranking_flag_changes_order_only(monkeypatch) -> None:
     assert {k: v for k, v in ranked.items() if k != "pillars"} == {k: v for k, v in baseline.items() if k != "pillars"}
 
 
+# --- opt-in production RRF fusion ranking (additive; default OFF) ---------------------
+
+def test_rrf_fusion_ranking_default_off(monkeypatch) -> None:
+    monkeypatch.delenv(merlin_rag.RRF_FUSION_RANKING_FLAG, raising=False)
+    assert merlin_rag.rrf_fusion_ranking_enabled() is False
+
+
+def test_rrf_fusion_ranking_flag_changes_order_only(monkeypatch) -> None:
+    query = "Why are the CMB acoustic peaks suppressed?"
+    monkeypatch.delenv(merlin_rag.RRF_FUSION_RANKING_FLAG, raising=False)
+    baseline = merlin_rag.retrieve_context(query, max_chunks=5)
+    monkeypatch.setenv(merlin_rag.RRF_FUSION_RANKING_FLAG, "1")
+    ranked = merlin_rag.retrieve_context(query, max_chunks=5)
+    assert len(ranked["pillars"]) == len(baseline["pillars"]) == 5
+    assert ranked["pillars"][0]["id"] == 57
+    assert {k: v for k, v in ranked.items() if k != "pillars"} == {k: v for k, v in baseline.items() if k != "pillars"}
+
+
+def test_rrf_fusion_ranking_matches_offline_rrf_all(monkeypatch) -> None:
+    """The production flag must reproduce evaluate_rankers' already-measured rrf_all order."""
+    from ox_navigator.engine.merlin_retrieval_eval import (
+        _bm25_ranking,
+        _embedder_ranking,
+        _jaccard_ranking,
+        _pillar_tokens,
+        reciprocal_rank_fusion,
+    )
+    from ox_navigator.engine.merlin_retrieval_scoring import BM25Index
+    from ox_navigator.engine.merlin_semantic_embedder import EmbedderIndex
+
+    query = "Why are the CMB acoustic peaks suppressed?"
+    pillars = merlin_rag.PILLAR_KNOWLEDGE
+    ids = [p.get("id") for p in pillars]
+    tokens = [_pillar_tokens(p) for p in pillars]
+    expected = reciprocal_rank_fusion([
+        _jaccard_ranking(query, tokens, ids),
+        _bm25_ranking(query, BM25Index(tokens), ids),
+        _embedder_ranking(query, EmbedderIndex(tokens), ids),
+    ])[:5]
+
+    monkeypatch.setenv(merlin_rag.RRF_FUSION_RANKING_FLAG, "1")
+    live = [p.get("id") for p in merlin_rag.retrieve_context(query, max_chunks=5)["pillars"]]
+    assert live == expected
+
+
 # --- flag A/B harness -----------------------------------------------------------------
 
 def test_flag_ab_restores_environment_and_reports(monkeypatch) -> None:
@@ -121,7 +166,8 @@ def test_flag_ab_restores_environment_and_reports(monkeypatch) -> None:
     assert report["ok"] is True
     assert report["benchmark_count"] == 2
     assert set(report["summary"]) == {
-        "baseline", "crease_fusion", "bm25_pillars", "both", "semantic_embedder", "phicat_protocol", "all_flags",
+        "baseline", "crease_fusion", "bm25_pillars", "both", "semantic_embedder", "phicat_protocol",
+        "rrf_fusion", "all_flags",
     }
     assert report["summary"]["baseline"]["answers_changed"] == []
     for flag in OPT_IN_FLAGS:

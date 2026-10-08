@@ -160,6 +160,7 @@ from .merlin_meta_learning import (
     run_self_audit,
 )
 from .merlin_grid_world import run_grid_world_episode, run_navigation_driven_episode
+from .merlin_braided_gut_microbiome import braided_gut_microbiome_report
 from .merlin_phicat_protocol import run_phicat_protocol
 from .merlin_reasoning_graph import get_reasoning_chain
 from .merlin_repo_graph import build_repo_graph, route_context_via_repo_graph
@@ -470,6 +471,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getMerlinGridWorld", "summary": "Run a deterministic text/grid event-simulation episode (toroidal wrap + orbifold crease boundaries)", "domain": "functions"},
             {"name": "getMerlinNavigationDrivenGridWorld", "summary": "Run a grid-world episode whose actions are read out from the Navigator's own toroidal phase-sketch code for a query", "domain": "functions"},
             {"name": "getMerlinPhiCatProtocol", "summary": "Run the opt-in golden-ratio parallel braid-strand fusion ranker (PhiCat Protocol) for a query", "domain": "functions"},
+            {"name": "getMerlinBraidedGutMicrobiome", "summary": "Braid the (5,7) observable pair against the (5,6) shadow-parent pair for the gut-brain/microbiome lane", "domain": "functions"},
             {"name": "getMerlinUnitaryLab", "summary": "Run the unitary operator lab: L1 Clarke-subgradient fit on U(n) vs Procrustes", "domain": "functions"},
             {"name": "getMerlinPhaseIsaVectors", "summary": "Return phase-index ISA golden vectors with a SHA-256 fingerprint", "domain": "functions"},
             {"name": "getMerlinWebspaceProvenance", "summary": "Audit the webspace machine index and Data Provenance page against the repository", "domain": "functions"},
@@ -682,6 +684,13 @@ def _tool_manifest() -> dict[str, Any]:
                 "type": "object",
                 "properties": {"query": {"type": "string"}, "top_k": {"type": "integer"}},
                 "required": ["query"],
+                "additionalProperties": False,
+            }
+        },
+        "getMerlinBraidedGutMicrobiome": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"query": {"type": "string"}},
                 "additionalProperties": False,
             }
         },
@@ -1768,6 +1777,9 @@ _FUNCTIONS = {
     "getMerlinPhiCatProtocol": lambda **args: {"data": run_phicat_protocol(
         str(args.get("query", ""))[:4000],
         top_k=min(_coerce_positive_int(args.get("top_k"), 5), 20),
+    )},
+    "getMerlinBraidedGutMicrobiome": lambda **args: {"data": braided_gut_microbiome_report(
+        str(args.get("query", ""))[:4000],
     )},
     "getMerlinUnitaryLab": lambda **args: _unitary_lab_surface(args),
     "getMerlinPhaseIsaVectors": lambda **args: {"data": export_golden_vectors()},
