@@ -127,6 +127,7 @@ documented in `4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md`.
 - `GET /api/psicat/action-traceability` exposes the executable action-to-evolution residual audit/receipt surface and explicitly preserves non-closure routing when residual gates remain open.
 - `GET /api/psicat/epistemic-policy` exposes the centralized claim-status policy used to keep runtime/UI/promotion language aligned with scientific gate state.
 - `GET /api/psicat/repo-graph` and `GET /api/psicat/context-route` expose local-first structural repository mapping and deterministic context routing for low-waste retrieval.
+- `GET /api/psicat/toroidal-geometry`, `GET /api/psicat/toroidal-navigation`, and `GET /api/psicat/repo-geodesic` expose the 🔵 adjacent-track toroidal non-smooth navigation core: exact Z₇₄ phase-lattice operators with S¹/Z₂ orbifold creases, hybrid-automaton crease detection over Merlin's existing lane/kernel/KB thresholds (primary decisions unchanged), BM25 pillar ranking, and weighted repo-graph geodesics. Design, measurements, and claims ledger: `PSICAT_TOROIDAL_NONSMOOTH_NAVIGATION.md`.
 - `GET /api/psicat/formal-invariants` exposes the bounded formal non-regression registry and current machine-checked invariant results.
 - `GET /api/psicat/resource-budget` exposes local-first resource ceilings, execution-class policy, and budget posture.
 - `GET /api/psicat/behavioral-audit` exposes the deterministic applied-pressure/manipulation-resistance audit battery.
