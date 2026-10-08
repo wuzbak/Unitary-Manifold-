@@ -1,0 +1,94 @@
+{
+  "case_id": 1,
+  "query": "Microsoft Azure Israeli Ministry of Defense Unit 8200",
+  "manifest": [
+    {
+      "slug": "sec_edgar",
+      "display_name": "SEC EDGAR",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Regulatory filing",
+      "query_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "courtlistener",
+      "display_name": "CourtListener",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Court record",
+      "query_url": "https://www.courtlistener.com/?q=Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "fec",
+      "display_name": "FEC campaign finance",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Campaign finance filing",
+      "query_url": "https://api.open.fec.gov/v1/names/candidates/?q=Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "icij_offshore_leaks",
+      "display_name": "ICIJ Offshore Leaks",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Investigative data",
+      "query_url": "https://offshoreleaks.icij.org/search?q=Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "opensanctions",
+      "display_name": "OpenSanctions",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Sanctions and enforcement record",
+      "query_url": "https://www.opensanctions.org/search/?q=Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "opencorporates",
+      "display_name": "OpenCorporates",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Corporate registry aggregation",
+      "query_url": "https://opencorporates.com/companies?q=Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "propublica_nonprofit",
+      "display_name": "ProPublica Nonprofit Explorer",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "IRS 990 filing",
+      "query_url": "https://projects.propublica.org/nonprofits/search?q=Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "epa_echo",
+      "display_name": "EPA ECHO",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Regulatory compliance record",
+      "query_url": "https://echo.epa.gov/trends/comparative-maps-dashboards/state-comparative-map?search=Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "govinfo",
+      "display_name": "GovInfo.gov",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Federal publication",
+      "query_url": "https://www.govinfo.gov/app/search/Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "wayback_machine",
+      "display_name": "Wayback Machine",
+      "tier": "Tier 3 — Secondary/Unverified",
+      "source_type": "Web archive",
+      "query_url": "https://webcache.allorigins.workers.dev/raw?url=https://web.archive.org/web/*/Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    },
+    {
+      "slug": "ofac_sdn",
+      "display_name": "OFAC SDN",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Sanctions designation",
+      "query_url": "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=Microsoft+Azure+Israeli+Ministry+of+Defense+Unit+8200"
+    }
+  ],
+  "live_connector_slugs": [
+    "courtlistener",
+    "icij_offshore_leaks",
+    "opensanctions",
+    "sec_edgar"
+  ],
+  "records_returned": 0,
+  "duplicates_returned": 0,
+  "records": [],
+  "duplicate_records": [],
+  "limitation": "Empty results are not evidence of absence; connector errors may be silently converted to no results by AXIOM fetchers. Results require identity/record-level human validation."
+}

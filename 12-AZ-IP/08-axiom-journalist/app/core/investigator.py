@@ -165,7 +165,7 @@ class Claim:
             return ConfidenceLevel.CONFIRMED
         if tier1_count >= 1 and tier2_count >= 1:
             return ConfidenceLevel.CORROBORATED
-        if tier1_count >= 1 or tier2_count >= 2:
+        if tier1_count >= 1 or tier2_count >= 1:
             return ConfidenceLevel.ALLEGED
         return ConfidenceLevel.UNVERIFIED
 

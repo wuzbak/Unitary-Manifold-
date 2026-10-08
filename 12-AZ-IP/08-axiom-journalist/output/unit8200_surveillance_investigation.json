@@ -1,0 +1,439 @@
+{
+  "title": "AxiomZero Investigative Dossier — Commercial Surveillance, Cloud Contracts, and Military-Tech Human Capital",
+  "lead": "Test whether the supplied claims about Israeli military-intelligence technology, Western cloud contracts, commercial acquisitions, veteran employment, and surveillance describe documented facts or inferential leaps. The case treats each lead as a hypothesis; it does not presume unlawful access, algorithm transfer, foreign control, or a threat from an individual’s service history.",
+  "journalist": "AXIOM Journalist / AxiomZero Special Investigations Division",
+  "created_at": "2026-10-08T06:31:43",
+  "status": "Active",
+  "entities": [
+    {
+      "name": "Unit 8200 / Israel Defense Forces",
+      "type": "Government Agency",
+      "description": "Israeli military signals-intelligence unit named in investigative reporting.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Microsoft Azure / Microsoft Corporation",
+      "type": "Organization",
+      "description": "Cloud platform and provider; Microsoft issued a public statement about discontinuing specified services to an Israeli Ministry of Defense unit.",
+      "stated_position": "Microsoft stated it does not provide technology to facilitate mass surveillance of civilians and described a review and specified service discontinuation.",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Project Nimbus / Google / Amazon",
+      "type": "Corporate Structure",
+      "description": "Israeli public-sector cloud procurement program; contract terms are the subject of investigative reporting.",
+      "stated_position": "No party statement is treated as proof of the alleged contract interpretation.",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Wiz / Alphabet (Google)",
+      "type": "Organization",
+      "description": "Cloud security company and announced acquirer relationship.",
+      "stated_position": "Google announced a $32 billion acquisition agreement in March 2025.",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "CyberArk / Palo Alto Networks",
+      "type": "Organization",
+      "description": "Identity-security company and announced acquirer relationship.",
+      "stated_position": "Palo Alto Networks announced an approximately $25 billion agreement in July 2025.",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Carbyne / Axon Enterprise",
+      "type": "Organization",
+      "description": "Emergency communications software company and announced acquirer relationship.",
+      "stated_position": "Axon announced a $625 million acquisition agreement in November 2025.",
+      "contradictions": [],
+      "notes": ""
+    },
+    {
+      "name": "Israeli intelligence-veteran employee-count report",
+      "type": "Other",
+      "description": "A reported count based on compiled public professional profiles; not a verified roster or evidence of coordinated conduct.",
+      "stated_position": "",
+      "contradictions": [],
+      "notes": ""
+    }
+  ],
+  "sources": [
+    {
+      "title": "Microsoft, “Update on ongoing Microsoft review”",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Company statement",
+      "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+      "date": "2025-09-25",
+      "excerpt": "Microsoft said it had disabled specified services after reviewing information about Israeli Ministry of Defense use; the statement is narrower than every allegation in press reports.",
+      "notes": ""
+    },
+    {
+      "title": "The Guardian / +972 Magazine / Local Call, investigation of Unit 8200 use of Azure",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Investigative reporting",
+      "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+      "date": "2025-08-06",
+      "excerpt": "Collaborative reporting alleged Azure storage and processing of a large database of Palestinian phone-call recordings; attribution and technical details require review against original reporting and Microsoft’s narrower statement.",
+      "notes": ""
+    },
+    {
+      "title": "+972 Magazine, Microsoft terminates specified services to Israeli military unit",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Investigative reporting",
+      "url_or_ref": "https://www.972mag.com/microsoft-cloud-israel-8200-expose/",
+      "date": "2025-09-25",
+      "excerpt": "Reports Microsoft discontinued specified access; use Microsoft’s own statement for what the company confirmed.",
+      "notes": ""
+    },
+    {
+      "title": "+972 Magazine, “Lavender”: AI-assisted targeting reporting",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Investigative reporting",
+      "url_or_ref": "https://www.972mag.com/lavender-ai-israeli-army-gaza/",
+      "date": "2024-04-03",
+      "excerpt": "Reports on an AI-assisted target-identification system based on interviews; distinguish reported practice from independently inspected system documentation.",
+      "notes": ""
+    },
+    {
+      "title": "The Guardian, AI-assisted targeting in Gaza",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Investigative reporting",
+      "url_or_ref": "https://www.theguardian.com/world/2024/apr/03/israel-gaza-ai-database-hamas-airstrikes",
+      "date": "2024-04-03",
+      "excerpt": "Describes reported AI-supported target selection and human review; not evidence of commercial software transfer.",
+      "notes": ""
+    },
+    {
+      "title": "Alphabet, “Google Announces Agreement to Acquire Wiz”",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Corporate transaction announcement",
+      "url_or_ref": "https://abc.xyz/investor/news/news-details/2025/Google-Announces-Agreement-to-Acquire-Wiz-03-18-2025/default.aspx",
+      "date": "2025-03-18",
+      "excerpt": "Google announced a definitive agreement valued at $32 billion; the release describes a commercial acquisition, not intelligence access or a backdoor.",
+      "notes": ""
+    },
+    {
+      "title": "Palo Alto Networks, “Agreement to Acquire CyberArk”",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Corporate transaction announcement",
+      "url_or_ref": "https://investors.paloaltonetworks.com/news-releases/news-release-details/palo-alto-networks-announces-agreement-acquire-cyberark-identity",
+      "date": "2025-07-30",
+      "excerpt": "Company announced a roughly $25 billion transaction; acquisition terms do not prove an intelligence purpose.",
+      "notes": ""
+    },
+    {
+      "title": "Axon, “Axon to acquire Carbyne”",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Corporate transaction announcement",
+      "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
+      "date": "2025-11-04",
+      "excerpt": "Axon announced a $625 million transaction. This corrects earlier unsubstantiated approximations in supplied leads; transaction status must be checked against current filings before use.",
+      "notes": ""
+    },
+    {
+      "title": "The Guardian, Project Nimbus contract notification mechanism reporting",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Investigative reporting on leaked contract",
+      "url_or_ref": "https://www.theguardian.com/us-news/2025/oct/29/google-amazon-israel-contract-secret-code",
+      "date": "2025-10-29",
+      "excerpt": "Reportedly describes contract language and coded notification mechanism. The underlying complete contract is not reproduced here; allegations about illegality or guaranteed access are not established.",
+      "notes": ""
+    },
+    {
+      "title": "Drop Site News, reporting on Israeli intelligence veterans in US technology",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Investigative reporting",
+      "url_or_ref": "https://www.dropsitenews.com/p/israel-technology-palo-alto-networks-microsoft-unit-8200",
+      "date": "2025",
+      "excerpt": "A report on professional profiles and a compiled count; the count is not an official personnel roster or independently audited database.",
+      "notes": ""
+    },
+    {
+      "title": "18 U.S.C. § 2511, interception and disclosure of communications",
+      "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+      "source_type": "Federal statute",
+      "url_or_ref": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title18-section2511&num=0&edition=prelim",
+      "date": "Current code",
+      "excerpt": "Primary statutory text; application requires fact-specific analysis of interception, actor, intent/knowledge, jurisdiction, exceptions, and causation.",
+      "notes": ""
+    },
+    {
+      "title": "TechCrunch, “Google wraps up $32B acquisition of cloud cybersecurity startup Wiz”",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Independent reporting on transaction completion",
+      "url_or_ref": "https://techcrunch.com/2026/03/11/google-completes-32b-acquisition-of-wiz/",
+      "date": "2026-03-11",
+      "excerpt": "Reports completion of the announced Google-Wiz transaction; confirm against current official filings before publication.",
+      "notes": ""
+    },
+    {
+      "title": "Reuters, “Palo Alto’s $25 billion deal for CyberArk targets rising AI-driven threats”",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Independent reporting on transaction announcement",
+      "url_or_ref": "https://www.reuters.com/technology/palo-alto-networks-buy-cyberark-25-bln-2025-07-30/",
+      "date": "2025-07-30",
+      "excerpt": "Independent reporting on Palo Alto Networks’ approximately $25 billion agreement announcement.",
+      "notes": ""
+    },
+    {
+      "title": "Calcalist Tech, “Public safety giant Axon acquires Carbyne for $625 million in cash”",
+      "tier": "Tier 2 — Established/On-Record",
+      "source_type": "Independent reporting on transaction announcement",
+      "url_or_ref": "https://www.calcalistech.com/ctechnews/article/rj4vnuokwg",
+      "date": "2025-11-04",
+      "excerpt": "Independent reporting on Axon’s announced $625 million agreement.",
+      "notes": ""
+    }
+  ],
+  "claims": [
+    {
+      "statement": "Microsoft’s September 25, 2025 statement says it disabled specified services for an Israeli Ministry of Defense unit after a review; it does not endorse every allegation in press coverage.",
+      "confidence": "CORROBORATED",
+      "sources": [
+        {
+          "title": "Microsoft, “Update on ongoing Microsoft review”",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Company statement",
+          "url_or_ref": "https://blogs.microsoft.com/on-the-issues/2025/09/25/update-on-ongoing-microsoft-review/",
+          "date": "2025-09-25",
+          "excerpt": "Microsoft said it had disabled specified services after reviewing information about Israeli Ministry of Defense use; the statement is narrower than every allegation in press reports.",
+          "notes": ""
+        },
+        {
+          "title": "+972 Magazine, Microsoft terminates specified services to Israeli military unit",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Investigative reporting",
+          "url_or_ref": "https://www.972mag.com/microsoft-cloud-israel-8200-expose/",
+          "date": "2025-09-25",
+          "excerpt": "Reports Microsoft discontinued specified access; use Microsoft’s own statement for what the company confirmed.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [
+        "Microsoft Azure / Microsoft Corporation"
+      ],
+      "legal_risks": "NATIONAL_SECURITY | PRIVACY",
+      "notes": "Company primary statement is the controlling source for what Microsoft itself said; confidence labels from AXIOM are heuristic, not a legal or truth determination."
+    },
+    {
+      "statement": "A collaborative Guardian / +972 / Local Call investigation alleged that Unit 8200 used Azure storage for a large collection of Palestinian phone-call recordings.",
+      "confidence": "ALLEGED",
+      "sources": [
+        {
+          "title": "The Guardian / +972 Magazine / Local Call, investigation of Unit 8200 use of Azure",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Investigative reporting",
+          "url_or_ref": "https://www.972mag.com/microsoft-8200-intelligence-surveillance-cloud-azure/",
+          "date": "2025-08-06",
+          "excerpt": "Collaborative reporting alleged Azure storage and processing of a large database of Palestinian phone-call recordings; attribution and technical details require review against original reporting and Microsoft’s narrower statement.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [
+        "Unit 8200 / Israel Defense Forces",
+        "Microsoft Azure / Microsoft Corporation"
+      ],
+      "legal_risks": "NATIONAL_SECURITY | PRIVACY | LIBEL_EXPOSURE",
+      "notes": "Reported claim, not independently reproduced here from the underlying dataset or full Azure contract; Microsoft’s later statement confirms a review and discontinuation, not every technical detail."
+    },
+    {
+      "statement": "Investigative reporting described AI-assisted target-generation and classification systems used in Gaza; the reporting does not establish that their code, models, or methods were transferred to named commercial products.",
+      "confidence": "ALLEGED",
+      "sources": [
+        {
+          "title": "+972 Magazine, “Lavender”: AI-assisted targeting reporting",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Investigative reporting",
+          "url_or_ref": "https://www.972mag.com/lavender-ai-israeli-army-gaza/",
+          "date": "2024-04-03",
+          "excerpt": "Reports on an AI-assisted target-identification system based on interviews; distinguish reported practice from independently inspected system documentation.",
+          "notes": ""
+        },
+        {
+          "title": "The Guardian, AI-assisted targeting in Gaza",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Investigative reporting",
+          "url_or_ref": "https://www.theguardian.com/world/2024/apr/03/israel-gaza-ai-database-hamas-airstrikes",
+          "date": "2024-04-03",
+          "excerpt": "Describes reported AI-supported target selection and human review; not evidence of commercial software transfer.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [
+        "Unit 8200 / Israel Defense Forces"
+      ],
+      "legal_risks": "NATIONAL_SECURITY | LIBEL_EXPOSURE",
+      "notes": "Human source-based reporting; do not convert reported military use into a finding about vendor products or individual alumni."
+    },
+    {
+      "statement": "Google announced an agreement to acquire Wiz for $32 billion on March 18, 2025; the transaction announcement provides no evidence of backdoor access or intelligence transfer.",
+      "confidence": "CORROBORATED",
+      "sources": [
+        {
+          "title": "Alphabet, “Google Announces Agreement to Acquire Wiz”",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Corporate transaction announcement",
+          "url_or_ref": "https://abc.xyz/investor/news/news-details/2025/Google-Announces-Agreement-to-Acquire-Wiz-03-18-2025/default.aspx",
+          "date": "2025-03-18",
+          "excerpt": "Google announced a definitive agreement valued at $32 billion; the release describes a commercial acquisition, not intelligence access or a backdoor.",
+          "notes": ""
+        },
+        {
+          "title": "TechCrunch, “Google wraps up $32B acquisition of cloud cybersecurity startup Wiz”",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Independent reporting on transaction completion",
+          "url_or_ref": "https://techcrunch.com/2026/03/11/google-completes-32b-acquisition-of-wiz/",
+          "date": "2026-03-11",
+          "excerpt": "Reports completion of the announced Google-Wiz transaction; confirm against current official filings before publication.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [
+        "Wiz / Alphabet (Google)"
+      ],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Transaction fact only; this case does not infer technical access from the acquisition."
+    },
+    {
+      "statement": "Palo Alto Networks announced an approximately $25 billion agreement to acquire CyberArk on July 30, 2025; the corporate announcement establishes a proposed commercial transaction, not intelligence purpose.",
+      "confidence": "CORROBORATED",
+      "sources": [
+        {
+          "title": "Palo Alto Networks, “Agreement to Acquire CyberArk”",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Corporate transaction announcement",
+          "url_or_ref": "https://investors.paloaltonetworks.com/news-releases/news-release-details/palo-alto-networks-announces-agreement-acquire-cyberark-identity",
+          "date": "2025-07-30",
+          "excerpt": "Company announced a roughly $25 billion transaction; acquisition terms do not prove an intelligence purpose.",
+          "notes": ""
+        },
+        {
+          "title": "Reuters, “Palo Alto’s $25 billion deal for CyberArk targets rising AI-driven threats”",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Independent reporting on transaction announcement",
+          "url_or_ref": "https://www.reuters.com/technology/palo-alto-networks-buy-cyberark-25-bln-2025-07-30/",
+          "date": "2025-07-30",
+          "excerpt": "Independent reporting on Palo Alto Networks’ approximately $25 billion agreement announcement.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [
+        "CyberArk / Palo Alto Networks"
+      ],
+      "legal_risks": "LIBEL_EXPOSURE",
+      "notes": "Transaction terms and completion status should be checked against current filings before publication."
+    },
+    {
+      "statement": "Axon announced a $625 million agreement to acquire Carbyne on November 4, 2025; the release does not establish that Carbyne secretly intercepts emergency-call users or bypasses warrants.",
+      "confidence": "CORROBORATED",
+      "sources": [
+        {
+          "title": "Axon, “Axon to acquire Carbyne”",
+          "tier": "Tier 1 — Primary Record (court/regulatory/FOIA)",
+          "source_type": "Corporate transaction announcement",
+          "url_or_ref": "https://www.axon.com/newsroom/press-releases/axon-to-acquire-carbyne",
+          "date": "2025-11-04",
+          "excerpt": "Axon announced a $625 million transaction. This corrects earlier unsubstantiated approximations in supplied leads; transaction status must be checked against current filings before use.",
+          "notes": ""
+        },
+        {
+          "title": "Calcalist Tech, “Public safety giant Axon acquires Carbyne for $625 million in cash”",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Independent reporting on transaction announcement",
+          "url_or_ref": "https://www.calcalistech.com/ctechnews/article/rj4vnuokwg",
+          "date": "2025-11-04",
+          "excerpt": "Independent reporting on Axon’s announced $625 million agreement.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [
+        "Carbyne / Axon Enterprise"
+      ],
+      "legal_risks": "PRIVACY | LIBEL_EXPOSURE",
+      "notes": "Use the official announced price rather than earlier approximate figures; review emergency-service product documentation and procurement records before claims about access or deployment."
+    },
+    {
+      "statement": "A Guardian investigation reported Project Nimbus contract provisions that allegedly notified Israel through coded signals when cloud providers were legally compelled to disclose data; the supplied source set does not include the complete authenticated contract.",
+      "confidence": "ALLEGED",
+      "sources": [
+        {
+          "title": "The Guardian, Project Nimbus contract notification mechanism reporting",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Investigative reporting on leaked contract",
+          "url_or_ref": "https://www.theguardian.com/us-news/2025/oct/29/google-amazon-israel-contract-secret-code",
+          "date": "2025-10-29",
+          "excerpt": "Reportedly describes contract language and coded notification mechanism. The underlying complete contract is not reproduced here; allegations about illegality or guaranteed access are not established.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [
+        "Project Nimbus / Google / Amazon"
+      ],
+      "legal_risks": "PRIVACY | NATIONAL_SECURITY | LIBEL_EXPOSURE",
+      "notes": "Reported contract interpretation; do not describe it as an established statutory violation, irrevocable access, or a blanket bar on service suspension without contract text and party responses."
+    },
+    {
+      "statement": "Drop Site News reported a compiled count of more than 1,400 Israeli intelligence veterans in U.S. technology; this is a media-reported count, not an official, independently audited roster.",
+      "confidence": "ALLEGED",
+      "sources": [
+        {
+          "title": "Drop Site News, reporting on Israeli intelligence veterans in US technology",
+          "tier": "Tier 2 — Established/On-Record",
+          "source_type": "Investigative reporting",
+          "url_or_ref": "https://www.dropsitenews.com/p/israel-technology-palo-alto-networks-microsoft-unit-8200",
+          "date": "2025",
+          "excerpt": "A report on professional profiles and a compiled count; the count is not an official personnel roster or independently audited database.",
+          "notes": ""
+        }
+      ],
+      "entities_involved": [
+        "Israeli intelligence-veteran employee-count report"
+      ],
+      "legal_risks": "PRIVACY | LIBEL_EXPOSURE",
+      "notes": "The count’s methodology, duplicate resolution, job status, service history, reserve status, and role sensitivity require independent validation."
+    },
+    {
+      "statement": "The record assembled for this AXIOM test does not establish that Wiz, CyberArk, Wix, Base44, Cato Networks, or another named commercial product contains a foreign-intelligence backdoor or shares client data with a foreign government.",
+      "confidence": "UNVERIFIED",
+      "sources": [],
+      "entities_involved": [
+        "Wiz / Alphabet (Google)",
+        "CyberArk / Palo Alto Networks"
+      ],
+      "legal_risks": "LIBEL_EXPOSURE | NATIONAL_SECURITY",
+      "notes": "A bounded non-finding about this record, not proof that no risk exists. No penetration tests, source-code review, access audit, or classified evidence was available."
+    },
+    {
+      "statement": "The supplied leads naming “Eagle Mission,” a “Keshet” hardware-sabotage unit, a “Noisy Message” system, and direct battlefield-algorithm commercial spinoffs remain unverified in this case.",
+      "confidence": "UNVERIFIED",
+      "sources": [],
+      "entities_involved": [
+        "Unit 8200 / Israel Defense Forces"
+      ],
+      "legal_risks": "NATIONAL_SECURITY | LIBEL_EXPOSURE",
+      "notes": "No reliable primary record or independent corroboration was available in the materials reviewed. Do not repeat as fact."
+    }
+  ],
+  "open_questions": [
+    "Obtain and authenticate Microsoft’s full review record and the relevant Azure subscription, data classification, and service logs; identify precisely what Microsoft confirmed and what it did not inspect.",
+    "Obtain the complete Project Nimbus master agreement, schedules, security addenda, legal-request procedures, suspension clauses, and formal Google/Amazon/Israeli government responses; have qualified counsel assess the reported clause.",
+    "For each military AI system described in reporting, locate original military documentation, system specifications, operational directives, and right-of-reply records; distinguish decision support from automated target approval.",
+    "Verify the current legal status and closing terms of the Google–Wiz, Palo Alto–CyberArk, and Axon–Carbyne transactions using current SEC filings and official closing notices.",
+    "Test alleged commercial algorithm transfer only through provenance evidence (patents, source-code history, technical documents, testimony, or documented personnel projects), not through shared geography or alumni status.",
+    "For emergency-call platforms, obtain product specifications, PSAP procurement contracts, privacy impact assessments, retention/deletion rules, vendor access logs, and independent security audit results for each jurisdiction.",
+    "Reproduce the reported intelligence-veteran count from a documented sampling frame, resolve duplicate/ambiguous identities, avoid collecting unnecessary personal information, and do not infer reserve status or coordinated access from public profiles.",
+    "Request comments from every named corporate party and source authors; record responses, denials, corrections, and non-responses without treating silence as admission."
+  ],
+  "watchlist": [],
+  "notes": "AXIOM real-world stress test. Direct URL retrieval was blocked by this execution environment for several reporting and corporate pages; search results supplied article metadata and summaries, but publication requires a human to retrieve and verify the linked originals, underlying records, dates, quotations, and responses. No target systems were probed and no private data was collected. Confidence and source-quality scores are software heuristics only. The supplied dossier claims are leads, not evidence.",
+  "scores": {
+    "overall_confidence": 0.49,
+    "source_quality": 0.775,
+    "has_legal_flags": true
+  }
+}

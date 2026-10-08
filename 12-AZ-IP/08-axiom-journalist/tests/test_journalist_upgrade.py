@@ -6,10 +6,14 @@ from pathlib import Path
 import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
-if str(PRODUCT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PRODUCT_ROOT))
+APP_ROOT = PRODUCT_ROOT / "app"
+for import_root in (APP_ROOT, PRODUCT_ROOT):
+    if str(import_root) in sys.path:
+        sys.path.remove(str(import_root))
+    sys.path.insert(0, str(import_root))
 
 from axiom_journalist.engine.hils_review import HILSReviewRequest, format_review_output, submit_for_review
+from core.investigator import Claim, ConfidenceLevel, Source, SourceTier
 from axiom_journalist.engine.open_data_sources import (
     OPEN_DATA_SOURCES,
     build_investigative_brief,
@@ -42,7 +46,7 @@ from axiom_journalist.engine.public_records import (
     standardize_public_record,
 )
 from axiom_journalist.engine.source_ingest import merge_source_bundle, parse_source_bundle
-from app.db import cases as db
+from db import cases as db
 
 
 def test_open_data_sources_have_expected_keys():
@@ -458,6 +462,75 @@ def test_build_and_render_story_packet_contains_narrative_contract():
     assert 'Chapter drafts' in rendered
     assert 'Source backbone' in rendered
     assert 'Final gate' in rendered
+
+
+def test_single_credible_source_is_alleged_but_single_low_tier_source_is_unverified():
+    tier2_claim = Claim(
+        'A report makes a claim.',
+        sources=[Source('Established report', SourceTier.TIER_2)],
+    )
+    tier3_claim = Claim(
+        'An unverified post makes a claim.',
+        sources=[Source('Unverified post', SourceTier.TIER_3)],
+    )
+
+    assert tier2_claim.confidence is ConfidenceLevel.ALLEGED
+    assert tier3_claim.confidence is ConfidenceLevel.UNVERIFIED
+
+
+def test_story_packet_keeps_unverified_claims_out_of_established_chapter():
+    investigation = _sample_investigation_dict()
+    statement = 'A single-source claim remains unverified.'
+    investigation['claims'] = [{
+        'statement': statement,
+        'confidence': 'UNVERIFIED',
+        'legal_risks': 'LIBEL_EXPOSURE',
+        'entities_involved': ['Acme Corp'],
+        'sources': [{'title': 'Major newspaper investigation'}],
+    }]
+
+    packet = build_story_packet(investigation)
+    chapters = packet['chapter_drafts']
+    established = next(item for item in chapters if item['heading'] == 'What the record already establishes')
+    unresolved = next(item for item in chapters if item['heading'] == 'What remains unresolved')
+    story_spine = next(
+        item
+        for item in packet['story_spine']['chapters']
+        if item['heading'] == 'What can be established from the record'
+    )
+
+    assert statement not in established['body']
+    assert 'No claims currently meet the CONFIRMED or CORROBORATED threshold' in established['body']
+    assert f'[UNVERIFIED] {statement}' in unresolved['body']
+    assert story_spine['evidence'] == ['No claims currently meet the CONFIRMED or CORROBORATED threshold.']
+
+
+def test_story_entity_chapter_cites_claims_after_first_four():
+    investigation = _sample_investigation_dict()
+    investigation['sources'].append({
+        'title': 'Later filing',
+        'tier': 'Tier 1 — Primary Record (court/regulatory/FOIA)',
+        'source_type': 'Filing',
+        'url_or_ref': 'https://records.example/later',
+        'date': '2026-01-03',
+    })
+    first_claim = investigation['claims'][0]
+    investigation['claims'] = [first_claim] * 4 + [{
+        'statement': 'A later claim concerns Acme Corp.',
+        'confidence': 'ALLEGED',
+        'legal_risks': 'LIBEL_EXPOSURE',
+        'entities_involved': ['Acme Corp'],
+        'sources': [{'title': 'Later filing'}],
+    }]
+
+    packet = build_story_packet(investigation)
+    entity_chapter = next(
+        item
+        for item in packet['chapter_drafts']
+        if item['heading'] == 'What the named entities say, and where the record resists them'
+    )
+
+    assert 'Later filing' in [source['title'] for source in entity_chapter['source_ledger']]
 
 
 def test_render_dossier_html_contains_citation_markup():
