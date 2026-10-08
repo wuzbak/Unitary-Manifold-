@@ -130,4 +130,18 @@ The extracts are materially more useful than bare allegations: they identify the
 - Existing Meridian map: `/7-OUTREACH/substack/books/book-project-meridian-influence-map.md`.
 - The new source bundle was parsed with AXIOM’s existing `parse_source_bundle` path and its sources, entities, claims, and questions were exercised through the AXIOM case functions in a temporary SQLite database. The durable JSON is an AXIOM-formatted export; this does **not** mean the case was entered into the live/local AXIOM application database, RAGbot, or PsiCat runtime.
 
-**Resume point:** The first-party excerpts are now indexed. Next retrieve and authenticate the cited Base44 documents and Trust Center roster, then verify each vendor’s data role and the exact Decart/Anthropic/AWS relationships. Keep Mercer/Cambridge Analytica, Meridian, cloud-surveillance, and personnel-history edges separate unless an identifier-bearing source joins them.
+### Full-session review and deliverables — 8 October 2026
+
+The conversation’s allegation batches and the two current branch commits were reviewed against the existing Trump, Global Impunity, Meridian, and Book 54 materials. The checkout has shallow/grafted history and no merge-base for a three-dot comparison; the direct tree comparison identified the branch’s added evidence artifacts. A broader ancestry audit cannot be certified from this checkout.
+
+The following working outputs now hold the consolidated investigation:
+
+- [Master claim, source, legal-correction and money-flow ledger](holistic_master_claim_and_money_flow_ledger_2026-10-08.md) — 52 claim rows, with readiness and proof needs.
+- [Dossier One: The Data Path](holistic_dossier_1_cloud_platforms_and_emergency_systems_2026-10-08.md) — Base44/Wix, Azure, emergency systems and technology-provenance leads.
+- [Dossier Two: Follow the Instrument](holistic_dossier_2_capital_banks_and_accountability_2026-10-08.md) — banking, Epstein/Maxwell, property, political finance, sovereign capital and crypto.
+- [Three-part exposé: Part 1](holistic_expose_part_1_the_data_path_2026-10-08.md), [Part 2](holistic_expose_part_2_the_money_path_2026-10-08.md), and [Part 3](holistic_expose_part_3_the_accountability_gap_2026-10-08.md) — narrative drafts tied to the ledger.
+- [AXIOM case export](holistic_axiom_case_export_2026-10-08.json) and [public-record source bundle](holistic_public_record_source_bundle_2026-10-08.jsonl) — 25 source locators, 52 claims, 23 entities and 10 open questions ingested through AXIOM in a disposable SQLite database. All 52 claims remain **UNVERIFIED** because locators were not retrieved/authenticated in this session.
+
+Editorial holds were added to the legacy Trump, Global Impunity and Meridian books because their prior text contains unsupported legal conclusions or unverified announcement/roster claims. The original chapters remain in place and still require a complete line-by-line rewrite or retirement; do not treat their old confidence labels or connective claims as verified. No external-source retrieval, RAGbot ingestion or live AXIOM database update was completed.
+
+**Resume point:** Preserve this checkpoint. First retrieve dated Base44 terms, privacy/RUP/DPA and the complete subprocessor directory, then obtain controlling Epstein/Maxwell and New York civil-fraud docket records. Continue through each priority queue in the master ledger. Next identify contract/award/transaction IDs for cloud, public-safety, finance and procurement claims; request right of reply; update claim status only after attaching captured evidence. Keep the Mercer/Cambridge Analytica, Meridian, cloud-surveillance, bank and personnel strands separate unless an identifier-bearing source joins them.
