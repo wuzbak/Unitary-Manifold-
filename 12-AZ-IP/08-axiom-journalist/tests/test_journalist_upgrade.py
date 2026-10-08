@@ -639,6 +639,21 @@ def test_scan_public_records_reports_connector_errors_instead_of_empty_success()
     assert scan['source_statuses']['sec_edgar']['status'] == 'NOT_CONFIGURED'
 
 
+def test_scan_public_records_materializes_generator_fetchers():
+    def generated_records(_query: str):
+        yield {'title': 'Generator result', 'source_url': 'https://records.example/generator'}
+
+    scan = scan_public_records('Acme Corp', {'sec_edgar': generated_records})
+    status = scan['source_statuses']['sec_edgar']
+
+    assert status['status'] == 'COMPLETED_WITH_RESULTS'
+    assert status['record_count'] == 1
+    assert scan['records'][0]['title'] == 'Generator result'
+
+    empty_scan = scan_public_records('Acme Corp', {'sec_edgar': lambda _query: iter(())})
+    assert empty_scan['source_statuses']['sec_edgar']['status'] == 'COMPLETED_NO_RESULTS'
+
+
 def test_scan_public_records_without_fetchers_returns_manifest_only():
     scan = scan_public_records('Acme Corp')
     assert len(scan['manifest']) == 11

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from collections.abc import Iterable
 from datetime import datetime, timezone
 import json
 from typing import Any, Callable
@@ -183,7 +184,7 @@ def deduplicate_public_records(records: list[dict[str, Any]]) -> dict[str, list[
 
 def scan_public_records(
     entity_name: str,
-    fetchers: dict[str, Callable[[str], list[dict[str, Any]]]] | None = None,
+    fetchers: dict[str, Callable[[str], Iterable[dict[str, Any]]]] | None = None,
 ) -> dict[str, Any]:
     """Run a public-record scan using injected fetchers or return the query manifest."""
     manifest = build_public_record_queries(entity_name)
@@ -217,7 +218,7 @@ def scan_public_records(
             continue
         source = PUBLIC_RECORD_SOURCES[item['slug']]
         try:
-            rows = fetcher(entity_name)
+            rows = list(fetcher(entity_name))
         except Exception as exc:
             source_statuses[item['slug']] = {
                 'display_name': item['display_name'],
