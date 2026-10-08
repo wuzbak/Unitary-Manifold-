@@ -12,7 +12,9 @@
 **Confidence Classification System:** CONFIRMED (court-adjudicated or government-admitted) | CORROBORATED (multiple Tier 1 sources) | ALLEGED (single credible source or sworn testimony) | UNVERIFIED (reported but not yet cross-confirmed)  
 **Date of Compilation:** May 2026  
 **Post Number:** 138  
-**Status:** Open-source investigative record — all primary sources are publicly accessible
+**Status:** Superseded working draft — claims below require source and legal re-audit
+
+> **EDITORIAL HOLD — 8 OCTOBER 2026:** This May 2026 draft is not a verified or publication-ready factual synthesis. Review identified unsupported criminality conclusions and inferences that join separate bank, property, political, foreign-investment and cryptocurrency records without transaction-level proof. In particular, do not treat its “CONFIRMED” labels as an independent audit; a property price or shell-company purchase does not prove laundering; Deutsche Bank’s mirror-trading case does not establish a link to a Trump loan; the Bondi donation does not prove a bribe; PIF capital is not automatically Kushner’s personal income; token value or a foreign-linked purchase is not automatically a payment to Trump; and a civil judgment is not a federal criminal bank-fraud conviction. The cited FCPA, campaign-finance, sanctions, obstruction and other statutes are not findings that their elements were met. See the [master claim and money-flow ledger](../../../12-AZ-IP/08-axiom-journalist/output/holistic_master_claim_and_money_flow_ledger_2026-10-08.md) and [corrected finance dossier](../../../12-AZ-IP/08-axiom-journalist/output/holistic_dossier_2_capital_banks_and_accountability_2026-10-08.md). Underlying leads are not declared false; they remain subject to source authentication, right of reply and legal review.
 
 ---
 
@@ -26,7 +28,7 @@
 
 ## PREFATORY NOTE: WHAT THIS DOCUMENT IS AND IS NOT
 
-This dossier is an act of journalism and public record accountability. It is not a political attack. It is not speculation. Every claim in this document is sourced, labeled with a confidence score, and tied to a specific, retrievable primary or secondary source.
+This superseded draft is retained as a source map for audit, not as a statement that every claim is verified. Its confidence labels and cited sources have not been independently revalidated claim by claim. The current source-by-source status and corrections are recorded in the linked master ledger.
 
 What makes this investigation different from prior Trump exposés is scope and synthesis. The pattern of corruption documented here is not a collection of isolated incidents. It is a career-long system — built on organized crime mentorship, scaled through shell companies and offshore secrecy, protected by political capture, and now operating at a global level through cryptocurrency and Gulf sovereign wealth. Understanding any one thread requires understanding all of them.
 

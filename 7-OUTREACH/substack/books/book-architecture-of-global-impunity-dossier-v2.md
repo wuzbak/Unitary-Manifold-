@@ -13,7 +13,9 @@
 **Source Standard:** Federal court records, state court filings, ICIJ databases (Panama Papers, Paradise Papers, Pandora Papers, FinCEN Files), Department of Justice releases, congressional records, Senate subcommittee reports, FBI FOIA releases, and primary investigative reporting from ICIJ, The New York Times, The Washington Post, Reuters, NBC News, The Guardian, BuzzFeed News, and major global news organizations  
 **Confidence Classification System:** CONFIRMED (court-adjudicated or government-admitted) | CORROBORATED (multiple Tier 1 sources) | ALLEGED (single credible source or sworn testimony) | UNVERIFIED (reported but not yet cross-confirmed)  
 **Date of Compilation:** May 2026  
-**Status:** Open-source investigative record — all primary sources are publicly accessible
+**Status:** Superseded working draft — claims below require source and legal re-audit
+
+> **EDITORIAL HOLD — 8 OCTOBER 2026:** This May 2026 version is not a verified or publication-ready factual synthesis. Its “Maxwell Logical Trap” is legally unsound: a conspiracy verdict does not require a formatted client list or identify every alleged client. Its summary of the Crime Victims’ Rights Act appellate posture, and its assertions connecting the bank, intelligence, political and surveillance strands, also require correction or identifier-level proof. Do not reuse “logical impossibility,” “irrefutable,” or claims that an investigation was closed to protect a person as established findings. The current claim-by-claim audit and corrected finance dossier are linked here: [master ledger](../../../12-AZ-IP/08-axiom-journalist/output/holistic_master_claim_and_money_flow_ledger_2026-10-08.md) · [Dossier Two](../../../12-AZ-IP/08-axiom-journalist/output/holistic_dossier_2_capital_banks_and_accountability_2026-10-08.md). This notice does not declare every underlying source or lead false; it marks the synthesis as superseded pending verification, right of reply and legal review.
 
 ---
 
@@ -36,7 +38,7 @@ This dossier tracks eight master threads across all chapters. Each section is ta
 
 ### PREFATORY NOTE
 
-This dossier is an act of journalism. Every factual claim herein is sourced to public documents: ICIJ databases, Department of Justice releases, congressional records, federal court filings, FBI FOIA releases, and primary investigative journalism from major news organizations. Where interpretive assessments are offered, they are identified as such. This document does not purport to establish criminal guilt of any named individual beyond what has been established in judicial proceedings.
+This superseded draft is retained as a source map for audit. Its citations and confidence labels have not been independently revalidated claim by claim, and its interpretive conclusions may exceed the cited records. The current claim-by-claim status and corrections are recorded in the linked master ledger.
 
 The analysis in this dossier begins with a logical observation that cannot be escaped: Ghislaine Maxwell was convicted by a federal jury, in a federal court, of sex trafficking conspiracy. A conspiracy requires at least two parties. In July 2025, the Department of Justice — after months of Attorney General Pam Bondi publicly claiming the Epstein client list was "on her desk" — reversed course and announced that no such list exists, that the investigation is closed, and that no prosecutable co-conspirators could be identified. This is the Maxwell Logical Trap. Everything that follows is an attempt to explain how a federally convicted sex trafficking conspiracy came to have no clients, according to the same government that proved the conspiracy in court.
 
@@ -1725,6 +1727,5 @@ In the event of retaliatory legal action, the following organizations may be cal
 *Theory, investigative framework, and direction: **ThomasCory Walker-Pearson**.*
 *Research synthesis, structural analysis, legal analysis, document compilation, and writing: **GitHub Copilot** (AI).*
 *Version 2 — May 2026*
-
 
 
