@@ -80,8 +80,12 @@ def _norm(text: str) -> str:
     return re.sub(r"[^a-z0-9]", "", text.lower())
 
 
+_FOOTER = re.compile(r"^(?:Contents\n)?[^\n]*page \d+ / \d+[ \t]*$", re.M)
+
+
 def _flat(text: str) -> str:
-    return re.sub(r"\s+", " ", text.replace(PAGE_BREAK, " "))
+    """Single-spaced text with the running page footers removed."""
+    return re.sub(r"\s+", " ", _FOOTER.sub(" ", text).replace(PAGE_BREAK, " "))
 
 
 def _finding(fid: str, severity: str, title: str, evidence: str, recommendation: str) -> dict[str, Any]:
@@ -220,8 +224,18 @@ def _gate(registry: dict[str, Any], name: str) -> dict[str, Any]:
     return next((g for g in registry.get("open_gates", []) if g.get("gate") == name), {})
 
 
+_LAST_MATCH: list[re.Match] = []
+
+
 def _snippet(text: str, match: re.Match, width: int = 110) -> str:
+    _LAST_MATCH[:] = [match]
     return text[max(0, match.start() - width):match.end() + width].strip()
+
+
+def _sentence(text: str, match: re.Match) -> str:
+    start = max(text.rfind(". ", 0, match.start()), text.rfind("? ", 0, match.start()))
+    end = text.find(". ", match.end())
+    return text[start + 2 if start >= 0 else 0:end + 1 if end >= 0 else len(text)].strip()
 
 
 def check_claims(works: list[dict[str, Any]], registry: dict[str, Any]) -> list[dict[str, Any]]:
@@ -230,8 +244,11 @@ def check_claims(works: list[dict[str, Any]], registry: dict[str, Any]) -> list[
     rows: list[dict[str, Any]] = []
 
     def add(rule: str, work: dict[str, Any], verdict: str, evidence: str, authority: str) -> None:
+        current = list(_LAST_MATCH)
+        _LAST_MATCH.clear()
         rows.append({"rule": rule, "work": work["title"], "position": work["position"],
-                     "verdict": verdict, "evidence": evidence, "authority": authority})
+                     "verdict": verdict, "evidence": evidence, "authority": authority,
+                     "sentence": _sentence(flat, current[0]) if current else evidence})
 
     exp_r, exp_desi, exp_juno = (_prediction(registry, i) for i in ("EXP-4", "EXP-2", "EXP-3"))
     desi_sigmas = {float(s) for s in re.findall(r"(\d\.\d+)σ", exp_desi.get("verdict", ""))}
@@ -328,6 +345,56 @@ def check_claims(works: list[dict[str, Any]], registry: dict[str, Any]) -> list[
     return rows
 
 
+def build_corrections(claims: list[dict[str, Any]], registry: dict[str, Any]) -> list[dict[str, Any]]:
+    """Replacement wording for each flagged statement, drawn from the live registry at call time."""
+    assessment = registry.get("scientific_assessment", {})
+    lean = registry.get("lean4", {})
+    tests = registry.get("tests", {})
+    exp_r, exp_desi = _prediction(registry, "EXP-4"), _prediction(registry, "EXP-2")
+    cmb_gate = _gate(registry, "CMB_AMP_CONFIRMED_IRREDUCIBLE")
+    wording = {
+        "R-STATUS": (f"Status of r = 0.0315 is {exp_r.get('status')}: {exp_r.get('verdict')} "
+                     f"Kill condition: {exp_r.get('kill_condition', 'see registry')}."),
+        "CMB-IRREDUCIBLE": (f"The CMB amplitude question is open, not irreducible. {cmb_gate.get('description')} "
+                            f"Normalisation: {assessment.get('cmb_normalization')}"),
+        "DESI-LABEL": (f"Status {exp_desi.get('status')} (monitored under DESI_DR3_MONITORING): {exp_desi.get('verdict')}"),
+        "DESI-SCOPE": f"{exp_desi.get('verdict')}",
+        "HARDGATE-MEANING": (f"'Hardgate' is a lane label, not a proof certificate. {assessment.get('registry_labels')} "
+                             f"Closure earned: {assessment.get('closure_earned')}."),
+        "LEAN-SCOPE": (f"{lean.get('theorem_count'):,} Lean 4 declarations, counted as historical declarations rather "
+                       "than physical proof obligations" if lean.get("theorem_count") else "Lean count: see registry"),
+        "TEST-COUNT": f"{tests.get('passed'):,} passing tests in the repository's last recorded full run"
+        if tests.get("passed") else "test count: see registry",
+        "POSTULATE-AS-DERIVATION": (
+            "Two constants are postulated, not derived: n_w = 5, selected from the candidates {5, 7} by Planck's "
+            "measurement of n_s, and k_CS = 74 = 5² + 7², which follows once that selection is made. Given those "
+            "inputs, no further parameter is adjusted."),
+    }
+    issue = {
+        "R-STATUS": "States or implies the r prediction is in good standing; the registry rates it under high tension.",
+        "CMB-IRREDUCIBLE": "Repeats an irreducibility inference the registry has withdrawn as invalid.",
+        "DESI-LABEL": "Uses a status label the registry does not assign to this lane.",
+        "DESI-SCOPE": "Describes a tension drawn from three data combinations as coming from one experiment.",
+        "HARDGATE-MEANING": "Describes the hardgate label as proven and machine-verified.",
+        "LEAN-SCOPE": "Quotes the Lean count without its scope.",
+        "TEST-COUNT": "Quotes an out-of-date test count.",
+        "POSTULATE-AS-DERIVATION": "Presents a chain that starts from postulated constants as free of fitting.",
+    }
+    out = []
+    seen: set[tuple[int, str]] = set()
+    for row in claims:
+        if row["verdict"] == "consistent" or row["rule"] not in wording:
+            continue
+        key = (row["position"], row["rule"], row["sentence"])
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append({"position": row["position"], "work": row["work"], "rule": row["rule"],
+                    "sentence": row["sentence"], "issue": issue[row["rule"]],
+                    "suggested_wording": wording[row["rule"]], "authority": row["authority"]})
+    return sorted(out, key=lambda c: (c["position"], c["rule"]))
+
+
 # ---------------------------------------------------------------------------
 # Knowledge Library and Comic Shop: declared counts
 # ---------------------------------------------------------------------------
@@ -388,6 +455,7 @@ def audit_exports(exports: dict[str, str] | None = None, index: dict[str, Any] |
     works = parse_publications(exports["publications"], [p["title"] for p in published] if isinstance(published, list) else [])
     inventory = publication_inventory(works, index)
     claims = check_claims(works, registry)
+    corrections = build_corrections(claims, registry)
     toc = {name: contents_page_check(text) for name, text in exports.items()}
     glyphs = {name: glyph_check(text) for name, text in exports.items()}
     library = library_counts(exports["knowledge_library"])
@@ -493,7 +561,8 @@ def audit_exports(exports: dict[str, str] | None = None, index: dict[str, Any] |
             "PX-GLYPH-CORRUPTION", "medium", "Greek letters and math symbols are mangled in the exports",
             "; ".join(f"{n}: {g['lines_with_mangled_glyphs']} line(s) with mangled glyphs, {g['letter_spaced_lines']} "
                       f"letter-spaced or two-byte line(s), e.g. {g['examples'][:1]}" for n, g in corrupted.items()),
-            "Embed a Unicode font in the PDF compiler (the standard 14 fonts cannot draw sigma, Delta or Lambda), "
+            "The index lists jspdf 4.2.1 as a direct dependency but does not record which module imports it, and "
+            "these exports postdate the index. Embed a Unicode font in the PDF compiler (the standard 14 fonts cannot draw sigma, Delta or Lambda), "
             "or transliterate before rendering."))
 
     if library["tiers_reproduce"]:
@@ -533,6 +602,7 @@ def audit_exports(exports: dict[str, str] | None = None, index: dict[str, Any] |
         "severity_counts": dict(Counter(f["severity"] for f in findings)),
         "publications": {k: v for k, v in inventory.items()},
         "claims": claims,
+        "corrections": corrections,
         "contents_pages": {n: {k: v for k, v in t.items() if k != "rows"} for n, t in toc.items()},
         "glyphs": glyphs,
         "knowledge_library": library,
@@ -548,5 +618,7 @@ def summarise_exports() -> dict[str, Any]:
                                    "severity_counts")} | {
         "findings": [{k: f[k] for k in ("id", "severity", "title", "evidence")} for f in report["findings"]],
         "works": report["publications"]["works_in_pdf"],
+        "corrections": report["corrections"],
+        "articles_needing_correction": sorted({c["position"] for c in report["corrections"]}),
         "claims_checked": len(report["claims"]),
     }

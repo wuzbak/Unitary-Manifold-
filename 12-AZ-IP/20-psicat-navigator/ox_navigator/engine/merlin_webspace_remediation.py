@@ -61,6 +61,11 @@ def _fix_visible(verification: dict[str, Any], index: dict[str, Any]) -> bool | 
         return all(s.get("name") != verification.get("secret") for s in backend.get("secrets", []))
     if kind == "service_role_unchecked_absent":
         return not backend_posture(index)["service_role_without_auth_check"]
+    if kind == "stale_bundle_credential_absent":
+        bundle = next((f for f in index.get("verification_findings", []) if f.get("area") == "source-bundle"), None)
+        if bundle is None or bundle.get("status") != "open":
+            return True
+        return verification.get("file") not in bundle.get("evidence", {}).get("in_bundle_not_in_tree", [])
     return None
 
 
@@ -73,6 +78,8 @@ def verify_register_entry(entry: dict[str, Any], index: dict[str, Any]) -> dict[
         outcome = "manual_evidence_required"
     elif index_date is None or index_date < reported:
         outcome = "awaiting_newer_index"
+    elif visible and entry.get("rotation_confirmed") is False:
+        outcome = "bundle_clean_rotation_unconfirmed"
     elif visible:
         outcome = "verified"
     elif entry["status"] == "steward_reported_fixed":
@@ -161,7 +168,8 @@ def privilege_expansion_review(index: dict[str, Any] | None = None) -> dict[str,
         {"id": "PRE-DELETE-UNUSED-TOKEN", "settled": register["IX-UNREFERENCED-SECRETS"]["verification_outcome"] == "verified",
          "state": register["IX-UNREFERENCED-SECRETS"]["verification_outcome"],
          "what": "Delete PSICAT_GITHUB_TOKEN; no function uses it."},
-        {"id": "PRE-NPMRC-ROTATION", "settled": False,
+        {"id": "PRE-NPMRC-ROTATION",
+         "settled": register["IX-STALE-BUNDLE-CREDENTIAL-FILE"]["verification_outcome"] == "verified",
          "state": register["IX-STALE-BUNDLE-CREDENTIAL-FILE"]["verification_outcome"],
          "what": "Open the .npmrc in the stale public bundle; rotate any token in it; withdraw the bundle."},
         {"id": "PRE-READ-FIRST-FUNCTIONS", "settled": False, "state": "unread",
@@ -208,6 +216,160 @@ def summarise_remediation(index: dict[str, Any] | None = None) -> dict[str, Any]
         "available": True,
         "tracked_findings": [{"id": f["id"], "severity": f["severity"], **f["remediation"]} for f in tracked],
         "privilege_expansion": {k: review[k] for k in ("function_count", "tiers", "preconditions", "ready_to_expand")},
+        "stale_bundle_exposure": stale_bundle_exposure(index),
+        "stored_indexes": [p.name for p in stored_index_paths()],
         "reading": ("Steward reports are recorded as claims. The current index predates them, so nothing is verified yet; "
                     "the next published index decides each entry."),
     }
+
+
+# ---------------------------------------------------------------------------
+# The stale bundle: how the .npmrc can be reached
+# ---------------------------------------------------------------------------
+
+def stale_bundle_exposure(index: dict[str, Any] | None = None) -> dict[str, Any]:
+    """What the index says about the stale source bundle and who can read it."""
+    index = index or load_full_index()
+    if not index:
+        return {"available": False}
+    finding = next((f for f in index.get("verification_findings", []) if f.get("area") == "source-bundle"), {})
+    evidence = finding.get("evidence", {})
+    url = str(evidence.get("url") or "")
+    functions = {f["name"]: f for f in index.get("backend", {}).get("functions", [])}
+    readers = {name: {"admin_only": functions[name].get("admin_only"), "auth_checked": functions[name].get("auth_checked")}
+               for name in ("readSourceFile", "listSourceFiles") if name in functions}
+    agent_told_to_read = [a["name"] for a in index.get("backend", {}).get("agents", [])
+                          if "readSourceFile" in str(a.get("system_prompt", ""))]
+    excluded = [e["pattern"] for e in index.get("redaction", {}).get("exclusions", [])]
+    in_bundle_only = evidence.get("in_bundle_not_in_tree", [])
+    return {
+        "available": bool(finding),
+        "status": finding.get("status"),
+        "bundle_url": url,
+        "public_path": "/public/" in url,
+        "url_published_in_index": bool(url),
+        "bundle_file_count": evidence.get("bundle_file_count"),
+        "tree_file_count": evidence.get("tree_file_count"),
+        "credential_type_files_in_bundle": [p for p in in_bundle_only if p in excluded or p.startswith(".env")],
+        "in_app_readers": readers,
+        "agents_instructed_to_read_source": agent_told_to_read,
+        "reading": (
+            "The bundle sits under a public file path and the index publishes its URL, so the admin-only readers do "
+            "not protect it: anyone with the URL can download it. The psicat agent is told to read its own source "
+            "through readSourceFile; with admin rights it can also read the stale bundle, .npmrc included. "
+            "Inspect the file, rotate anything in it, and delete or replace the bundle before widening PsiCat's access."
+        ),
+    }
+
+
+# ---------------------------------------------------------------------------
+# A newer index: ingest, verify, compare
+# ---------------------------------------------------------------------------
+
+def stored_index_paths() -> list[Path]:
+    from .merlin_webspace_index import RAW_DIR
+
+    return sorted(RAW_DIR.glob("machine_index_*.json.gz"))
+
+
+def ingest_index_file(path: str | Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Load a machine index from .json, .json.gz or a PDF export; return it with an intake record."""
+    import gzip as _gzip
+
+    from .merlin_webspace_index import extract_pdf_text, reconstruct_index, redact_phone_shaped_strings, verify_tree_hash
+
+    source = Path(path)
+    intake: dict[str, Any] = {"source_file": source.name}
+    if source.suffix.lower() == ".pdf":
+        index, counts = reconstruct_index(extract_pdf_text(source))
+        intake["normalisation_rule_counts"] = counts
+    elif source.suffix.lower() == ".gz":
+        with _gzip.open(source, "rt", encoding="utf-8") as handle:
+            index = json.load(handle)
+    else:
+        index = json.loads(source.read_text(encoding="utf-8"))
+    intake["phone_shaped_samples_withheld"] = redact_phone_shaped_strings(index)
+    intake["tree_hash_check"] = verify_tree_hash(index)
+    intake["generated_at_by_webspace"] = index.get("provenance", {}).get("generated_at")
+    return index, intake
+
+
+def _names(items: list[dict[str, Any]], key: str = "name") -> set[str]:
+    return {str(i.get(key)) for i in items}
+
+
+def compare_indexes(old: dict[str, Any], new: dict[str, Any]) -> dict[str, Any]:
+    """What changed between two machine indexes, in the terms the findings use."""
+    old_files, new_files = old.get("hashes", {}).get("files", {}), new.get("hashes", {}).get("files", {})
+    changed = sorted(p for p in set(old_files) & set(new_files)
+                     if old_files[p].get("sha256") != new_files[p].get("sha256"))
+    old_b, new_b = old.get("backend", {}), new.get("backend", {})
+    old_p, new_p = backend_posture(old), backend_posture(new)
+
+    def scopes(posture: dict[str, Any]) -> dict[str, list[str]]:
+        return {str(c["type"]): sorted(c["granted_scopes"]) for c in posture["connectors"]}
+
+    old_scopes, new_scopes = scopes(old_p), scopes(new_p)
+    old_unchecked, new_unchecked = set(old_p["service_role_without_auth_check"]), set(new_p["service_role_without_auth_check"])
+    return {
+        "old_generated_at": old.get("provenance", {}).get("generated_at"),
+        "new_generated_at": new.get("provenance", {}).get("generated_at"),
+        "files": {"added": sorted(set(new_files) - set(old_files)), "removed": sorted(set(old_files) - set(new_files)),
+                  "changed": changed},
+        "functions": {"added": sorted(_names(new_b.get("functions", [])) - _names(old_b.get("functions", []))),
+                      "removed": sorted(_names(old_b.get("functions", [])) - _names(new_b.get("functions", [])))},
+        "service_role_without_auth_check": {"now_checked_or_gone": sorted(old_unchecked - new_unchecked),
+                                            "newly_flagged": sorted(new_unchecked - old_unchecked),
+                                            "count": [len(old_unchecked), len(new_unchecked)]},
+        "connector_scopes": {t: {"before": old_scopes.get(t), "after": new_scopes.get(t)}
+                             for t in sorted(set(old_scopes) | set(new_scopes)) if old_scopes.get(t) != new_scopes.get(t)},
+        "secrets": {"added": sorted(_names(new_b.get("secrets", [])) - _names(old_b.get("secrets", []))),
+                    "removed": sorted(_names(old_b.get("secrets", [])) - _names(new_b.get("secrets", [])))},
+        "stale_bundle": {"before": stale_bundle_exposure(old).get("status"), "after": stale_bundle_exposure(new).get("status")},
+        "register": [{"finding_id": e["finding_id"], **{k: v for k, v in verify_register_entry(e, new).items()
+                                                         if k in ("verification_outcome", "fix_visible_in_index")}}
+                     for e in load_remediation_register()["entries"]],
+    }
+
+
+def store_index(index: dict[str, Any], intake: dict[str, Any]) -> Path:
+    """Store a verified newer index beside the first one, with its intake sidecar."""
+    import gzip as _gzip
+    import hashlib as _hashlib
+
+    from .merlin_webspace_index import RAW_DIR
+
+    if not intake["tree_hash_check"]["verified"]:
+        raise ValueError("refusing to store an index whose tree hash does not reproduce")
+    stamp = str(index.get("provenance", {}).get("generated_at") or "")[:10]
+    target = RAW_DIR / f"machine_index_{stamp}.json.gz"
+    raw = json.dumps(index, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    if target.exists():
+        with _gzip.open(target, "rb") as handle:
+            if handle.read() != raw:
+                raise FileExistsError(f"{target.name} already holds a different index; it will not be overwritten")
+    with _gzip.GzipFile(target, "wb", mtime=0) as handle:
+        handle.write(raw)
+    sidecar = {**intake, "stored_json_sha256": _hashlib.sha256(raw).hexdigest()}
+    target.with_name(f"machine_index_{stamp}.provenance.json").write_text(json.dumps(sidecar, indent=2) + "\n",
+                                                                          encoding="utf-8")
+    return target
+
+
+def main(argv: list[str] | None = None) -> int:  # pragma: no cover - thin CLI over tested functions
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Ingest a newer webspace machine index and verify the register.")
+    parser.add_argument("path", help="machine-index .json, .json.gz, or a PDF export of it")
+    parser.add_argument("--store", action="store_true", help="store it under data/raw/ if the tree hash reproduces")
+    args = parser.parse_args(argv)
+    new, intake = ingest_index_file(args.path)
+    report = {"intake": intake, "comparison": compare_indexes(load_full_index(), new)}
+    if args.store:
+        report["stored_at"] = str(store_index(new, intake))
+    print(json.dumps(report, indent=2, default=str))
+    return 0 if intake["tree_hash_check"]["verified"] else 1
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())

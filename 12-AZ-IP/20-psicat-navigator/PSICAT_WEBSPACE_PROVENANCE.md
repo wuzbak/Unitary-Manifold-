@@ -82,6 +82,12 @@ The statuses are where the articles fall behind. Two articles say the tensor-to-
 
 The PDF compiler has two faults of its own. Every Contents entry in all three files points to the first page of the following work, and the final entry points past the end. And Greek letters and math symbols come out garbled, because the built-in PDF fonts cannot draw them.
 
+## Continuing without new material
+
+The stale bundle is more exposed than the first reading showed. It is stored under a public file path whose URL the index publishes, so the admin-only readers inside the app do not protect it. The `psicat` agent is told to read its own source through one of those readers, so widening its admin rights would also bring the bundle within its reach. The register now holds this finding open until two things are true: a newer index shows `.npmrc` gone from the bundle, and the steward confirms that anything it held has been rotated. A clean bundle without that confirmation is reported as `bundle_clean_rotation_unconfirmed`.
+
+The next index can be checked mechanically. `python -m ox_navigator.engine.merlin_webspace_remediation <file>` verifies its tree hash, compares it with the stored index and re-checks the register. The publication audit now carries a correction packet, which gives each flagged sentence with replacement wording drawn from the live registry. The PDF compiler cannot be located from the index: `jspdf` is a direct dependency, but the index records no import graph.
+
 ## Why this belongs in Merlin
 
 A provenance page makes a promise: every component can be traced from source to deployment. Merlin should be able to check that promise, not repeat it. The same discipline already applies to the physics, where a claim is only as strong as the gate it has passed. That discipline now covers the webspace as well.

@@ -15,6 +15,7 @@ from ox_navigator.engine.merlin_publication_audit import (
     EXPORTS_PATH,
     PAGE_BREAK,
     audit_exports,
+    build_corrections,
     check_claims,
     contents_page_check,
     glyph_check,
@@ -31,6 +32,10 @@ from ox_navigator.engine.merlin_tools import _tool_manifest, route_tool
 from ox_navigator.engine.merlin_webspace_index import load_full_index
 from ox_navigator.engine.merlin_webspace_remediation import (
     apply_remediation_register,
+    compare_indexes,
+    ingest_index_file,
+    stale_bundle_exposure,
+    store_index,
     load_remediation_register,
     privilege_expansion_review,
     summarise_remediation,
@@ -166,7 +171,7 @@ def test_tools_and_endpoints() -> None:
         assert route_tool(tool, {})["ok"] is True
     assert summarise_exports()["works"] == 36
     tracked = {t["id"]: t for t in summarise_remediation()["tracked_findings"]}
-    assert tracked["IX-STALE-BUNDLE-CREDENTIAL-FILE"]["verification_outcome"] == "manual_evidence_required"
+    assert tracked["IX-STALE-BUNDLE-CREDENTIAL-FILE"]["verification_outcome"] == "awaiting_newer_index"
 
     from ox_navigator.app.server import serve
 
@@ -184,3 +189,104 @@ def test_tools_and_endpoints() -> None:
     finally:
         httpd.shutdown()
         httpd.server_close()
+
+
+def _newer_index() -> dict:
+    newer = copy.deepcopy(load_full_index())
+    newer["provenance"]["generated_at"] = "2026-10-09T00:00:00Z"
+    return newer
+
+
+def test_stale_bundle_exposure() -> None:
+    exposure = stale_bundle_exposure()
+    assert exposure["public_path"] is True
+    assert ".npmrc" in exposure["credential_type_files_in_bundle"]
+    assert "psicat" in exposure["agents_instructed_to_read_source"]
+
+
+def test_compare_indexes_with_simulated_fixes() -> None:
+    old, newer = load_full_index(), _newer_index()
+    for connector in newer["backend"]["connectors"]:
+        if connector["type"] == "github":
+            connector["granted_scopes"] = ["read:user"]
+    unreferenced = next(e for e in load_remediation_register()["entries"]
+                        if e["finding_id"] == "IX-UNREFERENCED-SECRETS")
+    gone = {unreferenced["verification"]["secret"]}
+    newer["backend"]["secrets"] = [s for s in newer["backend"]["secrets"] if s.get("name") not in gone]
+    diff = compare_indexes(old, newer)
+    outcomes = {r["finding_id"]: r["verification_outcome"] for r in diff["register"]}
+    assert outcomes["IX-GITHUB-WRITE-SCOPE"] == "verified"
+    assert outcomes["IX-SERVICE-ROLE-UNAUTHENTICATED"] == "still_present"
+    assert diff["connector_scopes"]["github"]["after"] == ["read:user"]
+    assert diff["files"] == {"added": [], "removed": [], "changed": []}
+    assert outcomes["IX-UNREFERENCED-SECRETS"] == "verified"
+    assert set(diff["secrets"]["removed"]) == gone
+
+
+def test_clean_bundle_still_needs_rotation() -> None:
+    newer = _newer_index()
+    bundle = next(f for f in newer["verification_findings"] if f.get("area") == "source-bundle")
+    bundle["evidence"]["in_bundle_not_in_tree"] = [p for p in bundle["evidence"]["in_bundle_not_in_tree"]
+                                                   if p != ".npmrc"]
+    entry = next(e for e in load_remediation_register()["entries"]
+                 if e["finding_id"] == "IX-STALE-BUNDLE-CREDENTIAL-FILE")
+    assert verify_register_entry(entry, load_full_index())["verification_outcome"] == "awaiting_newer_index"
+    assert verify_register_entry(entry, newer)["verification_outcome"] == "bundle_clean_rotation_unconfirmed"
+    confirmed = copy.deepcopy(entry)
+    confirmed["rotation_confirmed"] = True
+    assert verify_register_entry(confirmed, newer)["verification_outcome"] == "verified"
+
+
+def test_ingest_and_store_index(tmp_path, monkeypatch) -> None:
+    from ox_navigator.engine import merlin_webspace_index
+
+    monkeypatch.setattr(merlin_webspace_index, "RAW_DIR", tmp_path)
+    newer = _newer_index()
+    source = tmp_path / "upload.json"
+    source.write_text(json.dumps(newer), encoding="utf-8")
+    index, intake = ingest_index_file(source)
+    assert intake["tree_hash_check"]["verified"] is True
+    stored = store_index(index, intake)
+    assert stored.name == "machine_index_2026-10-09.json.gz"
+    assert store_index(index, intake) == stored
+    with gzip.open(stored, "rt", encoding="utf-8") as handle:
+        assert json.load(handle)["provenance"]["generated_at"] == "2026-10-09T00:00:00Z"
+    tampered = copy.deepcopy(index)
+    next(iter(tampered["hashes"]["files"].values()))["sha256"] = "0" * 64
+    _, bad = ingest_index_file(_write(tmp_path / "bad.json", tampered))
+    assert bad["tree_hash_check"]["verified"] is False
+    try:
+        store_index(tampered, bad)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("unverified index was stored")
+    tampered["hashes"]["files"] = index["hashes"]["files"]
+    tampered["provenance"]["note"] = "different"
+    try:
+        store_index(tampered, intake)
+    except FileExistsError:
+        pass
+    else:
+        raise AssertionError("existing index was overwritten")
+
+
+def _write(path, payload) -> object:
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    return path
+
+
+def test_correction_packet() -> None:
+    summary = summarise_exports()
+    corrections = summary["corrections"]
+    assert summary["articles_needing_correction"] == sorted({c["position"] for c in corrections})
+    assert {"R-STATUS", "CMB-IRREDUCIBLE", "HARDGATE-MEANING"} <= {c["rule"] for c in corrections}
+    for c in corrections:
+        assert c["sentence"] and "page " not in c["sentence"] and c["suggested_wording"]
+    r_fix = next(c for c in corrections if c["rule"] == "R-STATUS")["suggested_wording"]
+    registry = copy.deepcopy(load_live_registry())
+    exp = next(p for p in registry["predictions"] if p["id"] == "EXP-4")
+    exp["verdict"] = "SENTINEL VERDICT."
+    assert exp["status"] in r_fix
+    report = audit_exports(registry=registry)
+    assert any("SENTINEL VERDICT." in c["suggested_wording"] for c in report["corrections"])
