@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.ZMod.Basic
 import Mathlib.Data.Nat.Parity
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic

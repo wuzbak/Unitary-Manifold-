@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
+import Mathlib.Algebra.Field.Rat
 import Mathlib.Data.Finset.Basic
 /-!
 # Unitary Manifold — Orbifold BC Pattern Uniqueness (Lean 4)

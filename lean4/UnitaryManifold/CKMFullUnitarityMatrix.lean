@@ -1,6 +1,6 @@
 import Mathlib.Tactic
-import Mathlib.Data.Rat.Basic
-import Mathlib.Data.Rat.Order
+import Mathlib.Algebra.Field.Rat
+import Mathlib.Algebra.Order.Field.Rat
 /-!
 # Unitary Manifold — CKM Full Unitarity Matrix (Lean 4 + Mathlib)
 

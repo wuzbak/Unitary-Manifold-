@@ -1,6 +1,6 @@
 import Mathlib.Tactic
 import Mathlib.Data.Nat.Prime.Basic
-import Mathlib.Data.Rat.Basic
+import Mathlib.Algebra.Field.Rat
 /-!
 # Unitary Manifold — Shadow-Pair Parent Derivation: Formal Lean 4 Certificate
 

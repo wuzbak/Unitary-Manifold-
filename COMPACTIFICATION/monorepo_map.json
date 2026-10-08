@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 7954,
+  "file_count": 7960,
   "lanes": {
-    "az_ip": 2184,
+    "az_ip": 2185,
     "compactification": 9,
-    "other": 5345,
+    "other": 5350,
     "psicat_articles": 352,
     "psicat_books": 64
   },
@@ -23,15 +23,15 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2184,
+    "12-AZ-IP": 2185,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 886,
+    "7-OUTREACH": 887,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 192,
+    "9-INFRASTRUCTURE": 193,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -56,6 +56,7 @@
     "LEGAL.md": 1,
     "LICENSE": 1,
     "LICENSE-AGPL": 1,
+    "LICENSES": 1,
     "MODULE.bazel": 1,
     "Makefile": 1,
     "NOTICE": 1,
@@ -73,7 +74,7 @@
     "SLA_MANIFESTO.md": 1,
     "STATUS.md": 1,
     "STEWARDSHIP.md": 1,
-    "TOOLS": 18,
+    "TOOLS": 19,
     "VERIFY.py": 1,
     "_config.yml": 1,
     "axiomzero_bootstrap.py": 1,
@@ -110,7 +111,7 @@
     "src": 1622,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1545,
+    "tests": 1546,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -18488,6 +18489,12 @@
       "lane": "az_ip"
     },
     {
+      "path": "12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip"
+    },
+    {
       "path": "12-AZ-IP/README.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22820,6 +22827,12 @@
       "lane": "other"
     },
     {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Releases/axiomzero-spc-licensing.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "7-OUTREACH/FROM_THE_FIXED_POINT_OPED.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -25892,6 +25905,12 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/licensing_policy.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/llms.txt",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
@@ -27190,6 +27209,12 @@
     {
       "path": "LICENSE-AGPL",
       "top_level": "LICENSE-AGPL",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "LICENSES/AGPL-3.0-or-later.txt",
+      "top_level": "LICENSES",
       "kind": "file",
       "lane": "other"
     },
@@ -30513,6 +30538,12 @@
     },
     {
       "path": "TOOLS/checks/check_large_files.py",
+      "top_level": "TOOLS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "TOOLS/checks/check_licensing_policy.py",
       "top_level": "TOOLS",
       "kind": "file",
       "lane": "other"
@@ -45705,6 +45736,12 @@
     },
     {
       "path": "tests/test_lhc_kk_resonances.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_licensing_policy.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

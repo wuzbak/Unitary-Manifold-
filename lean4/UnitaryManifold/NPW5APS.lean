@@ -1,6 +1,6 @@
 import Mathlib.Tactic
 import Mathlib.Data.Nat.Parity
-import Mathlib.Data.Rat.Basic
+import Mathlib.Algebra.Field.Rat
 import Mathlib.Data.Finset.Basic
 /-!
 # Unitary Manifold — n_w = 5 APS Phase Exclusion Theorem (Machine-Verified)

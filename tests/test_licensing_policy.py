@@ -77,7 +77,7 @@ def test_portfolio_schedule_matches_canonical_product_registry():
         number: schedule_entries[number][0]
         for number in ("20", "23", "24", "25", "27")
     } == {
-        "20": "PsiCat Navigator",
+        "20": "PsiCat Navigator (formerly Merlin Navigator)",
         "23": "PsiCat DM Guide & Player Assistant",
         "24": "PsiCat Web Browser",
         "25": "PsiCat Braided Brain",
