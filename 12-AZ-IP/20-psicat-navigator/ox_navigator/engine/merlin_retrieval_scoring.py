@@ -8,7 +8,7 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
-from typing import Iterable, Sequence
+from collections.abc import Iterable, Sequence
 
 TOKEN_RE = re.compile(r"[a-z0-9_ΔβΩ²³⁴⁵]+", re.IGNORECASE)
 BM25_K1 = 1.5
@@ -69,4 +69,4 @@ class BM25Index:
         return scored[: max(0, int(top_k))]
 
 
-__all__ = ["BM25Index", "TOKEN_RE", "jaccard_overlap", "token_list", "token_set"]
+__all__ = ["TOKEN_RE", "BM25Index", "jaccard_overlap", "token_list", "token_set"]

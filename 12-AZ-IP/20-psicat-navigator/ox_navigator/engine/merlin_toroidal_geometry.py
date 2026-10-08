@@ -23,8 +23,9 @@ from __future__ import annotations
 
 import hashlib
 import math
+from collections.abc import Iterable, Sequence
 from functools import lru_cache
-from typing import Any, Iterable, Sequence
+from typing import Any
 
 import numpy as np
 
@@ -262,15 +263,15 @@ ANGLE_FRAC_BITS = 24
 
 @lru_cache(maxsize=64)
 def _cordic_tables(iterations: int) -> tuple[tuple[int, ...], float]:
-    atans = tuple(int(round(math.atan(2.0 ** -i) * (1 << ANGLE_FRAC_BITS))) for i in range(iterations))
+    atans = tuple(round(math.atan(2.0 ** -i) * (1 << ANGLE_FRAC_BITS)) for i in range(iterations))
     gain = 1.0
     for i in range(iterations):
         gain *= math.sqrt(1.0 + 2.0 ** (-2 * i))
     return atans, gain
 
 
-_HALF_PI_FIXED = int(round((math.pi / 2) * (1 << ANGLE_FRAC_BITS)))
-_TWO_PI_FIXED = int(round((2 * math.pi) * (1 << ANGLE_FRAC_BITS)))
+_HALF_PI_FIXED = round((math.pi / 2) * (1 << ANGLE_FRAC_BITS))
+_TWO_PI_FIXED = round((2 * math.pi) * (1 << ANGLE_FRAC_BITS))
 
 
 def phase_index_to_angle_fixed(index: int) -> int:
@@ -294,7 +295,7 @@ def cordic_rotate(x: int, y: int, angle_fixed: int, *, iterations: int, frac_bit
         else:
             x, y = x + (y >> i), y - (x >> i)
             angle += atans[i]
-    inverse_gain = int(round((1 << frac_bits) / gain))
+    inverse_gain = round((1 << frac_bits) / gain)
     half = 1 << (frac_bits - 1)
     return (x * inverse_gain + half) >> frac_bits, (y * inverse_gain + half) >> frac_bits
 
@@ -372,8 +373,8 @@ _ROOT_TABLE_FRAC_BITS = 14
 def _root_table() -> tuple[tuple[int, int], ...]:
     scale = 1 << _ROOT_TABLE_FRAC_BITS
     return tuple(
-        (int(round(math.cos(2 * math.pi * k / LATTICE_ORDER) * scale)),
-         int(round(math.sin(2 * math.pi * k / LATTICE_ORDER) * scale)))
+        (round(math.cos(2 * math.pi * k / LATTICE_ORDER) * scale),
+         round(math.sin(2 * math.pi * k / LATTICE_ORDER) * scale))
         for k in range(LATTICE_ORDER)
     )
 

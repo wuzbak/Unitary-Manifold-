@@ -6,25 +6,18 @@
 from __future__ import annotations
 
 import math
-import re
 from collections import Counter
 from typing import Any
 
-TOKEN_RE = re.compile(r"[a-z0-9_ΔβΩ²³⁴⁵]+", re.IGNORECASE)
+from .merlin_retrieval_scoring import TOKEN_RE, jaccard_overlap, token_list  # noqa: F401
 
 
 def _tokens(text: str) -> list[str]:
-    return [token.lower() for token in TOKEN_RE.findall(text or "")]
+    return token_list(text)
 
 
 def _score_overlap(query_tokens: set[str], sample: str) -> float:
-    if not query_tokens:
-        return 0.0
-    sample_tokens = set(_tokens(sample))
-    if not sample_tokens:
-        return 0.0
-    overlap = len(query_tokens & sample_tokens)
-    return round(overlap / max(len(query_tokens | sample_tokens), 1), 4)
+    return round(jaccard_overlap(query_tokens, set(_tokens(sample))), 4)
 
 
 def _hyperbolic_radius(depth: int) -> float:

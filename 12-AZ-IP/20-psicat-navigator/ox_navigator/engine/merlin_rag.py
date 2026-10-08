@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import importlib.util
 import os
-import re
 import sys
 import threading
 from pathlib import Path
@@ -15,6 +14,7 @@ from typing import Any
 
 from .merlin_counterexample import build_counterexample_digest
 from .merlin_repo_graph import route_context_via_repo_graph
+from .merlin_retrieval_scoring import TOKEN_RE, token_set  # noqa: F401  (TOKEN_RE re-exported)
 from .merlin_training_execution import get_merlin_lane_e_runtime_profiles
 from .interrogator import load_kb, search_kb
 
@@ -45,11 +45,13 @@ PREDICTIONS_TEXT: str = _assistant_api.PREDICTIONS_TEXT
 FALLIBILITY_TEXT: str = _assistant_api.FALLIBILITY_TEXT
 build_status_response = _assistant_api.build_status_response
 INTERROGATOR_ENTRIES = load_kb(INTERROGATOR_KB_PATH)
-TOKEN_RE = re.compile(r"[a-z0-9_ΔβΩ²³⁴⁵]+", re.IGNORECASE)
+
+
+KB_MATCH_THRESHOLD = 0.15
 
 
 def _tokens(text: str) -> set[str]:
-    return {token.lower() for token in TOKEN_RE.findall(text or "")}
+    return token_set(text)
 
 
 def _default_index():
@@ -61,11 +63,11 @@ def _default_index():
     return _RAG_INDEX_CACHE
 
 
-def lookup_kb(query: str) -> dict[str, Any] | None:
-    """Return the best knowledge-base match if overlap clears the threshold."""
+def best_kb_match(query: str) -> tuple[str | None, float]:
+    """Return the best knowledge-base key and its query-coverage score (no threshold)."""
     query_tokens = _tokens(query)
     if not query_tokens:
-        return None
+        return None, 0.0
     best_key = None
     best_score = 0.0
     for key, entry in KNOWLEDGE_BASE.items():
@@ -82,7 +84,13 @@ def lookup_kb(query: str) -> dict[str, Any] | None:
         if score > best_score:
             best_score = score
             best_key = key
-    if best_key and best_score > 0.15:
+    return best_key, best_score
+
+
+def lookup_kb(query: str) -> dict[str, Any] | None:
+    """Return the best knowledge-base match if overlap clears the threshold."""
+    best_key, best_score = best_kb_match(query)
+    if best_key and best_score > KB_MATCH_THRESHOLD:
         entry = dict(KNOWLEDGE_BASE[best_key])
         entry["key"] = best_key
         entry["score"] = round(best_score, 4)
