@@ -40,9 +40,9 @@ No grounded rewrite source is assigned to these works, because none exists. Book
 
 ## Current coverage in this pass
 
-Coverage so far: **50 / 50 books**, **352 / 352 articles**.
+Coverage so far: **50 / 50 books**, **353 / 353 articles**.
 
-Original works (not rewrites): **5** — Books 51, 52, 53, 54, 55.
+Original works (not rewrites): **6** — Books 51, 52, 53, 54, 55; Article 353.
 
 ### Books
 
@@ -104,6 +104,7 @@ Original works (not rewrites): **5** — Books 51, 52, 53, 54, 55.
 3. `book-53-what-the-geometry-knew.md` — *What the Geometry Knew* (reading index; 11 part-files `book-53-part-*.md` plus the assembled single-volume copy `book-53-what-the-geometry-knew-FULL.md`; 46 chapters, 12 parts, 5 appendices)
 4. `book-54-axiomzero-surveillance-exposure.md` — *The Cloud Has a Memory* (three-part original AXIOM Journalist investigation; public-record and human-review caveats apply)
 5. `book-55-the-architecture-of-impunity.md` — *The Architecture of Impunity* (reading index; 11 part-files `book-55-part-*.md`, the last two of which are Appendix A and Appendix B; 27 chapters, 9 narrative Parts, 2 appendices; synthesis of Books 9, 39, 45-v2, 48/51, 52, and 54 into a single through-lined investigation)
+6. `article-353-the-state-of-the-manifold-october-2026.md` — *The State of the Manifold: A Full Inspection, October 2026* (first original-work article; full-repository audit, not grounded in any substack source)
 
 ### Articles
 
@@ -459,6 +460,7 @@ Original works (not rewrites): **5** — Books 51, 52, 53, 54, 55.
 350. `article-350-post-324-s04e027-sprint-ci-closeout-verdict.md`
 351. `article-351-post-327-s04e030-ai-extinction-risk-governance-and-the-honest-monorepo.md`
 352. `article-352-post-329-repository-tracker-refresh-sep-2026.md`
+353. `article-353-the-state-of-the-manifold-october-2026.md` — *The State of the Manifold: A Full Inspection, October 2026* (original work, not a rewrite; commissioned full-repository audit covering line-of-code counts, physics/pillar status, the 27-product `12-AZ-IP` registry, and CI/regression health)
 
 ## Version and gate policy
 
