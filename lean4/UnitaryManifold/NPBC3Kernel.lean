@@ -112,9 +112,7 @@ theorem vacuum_zero_action :
 theorem cs_exponent_monotone (n m : ℕ) (h : n < m) :
     csExponent n < csExponent m := by
   unfold csExponent
-  apply Nat.mul_lt_mul_left
-  · exact kcs_positive
-  · exact h
+  exact (Nat.mul_lt_mul_left kcs_positive).2 h
 
 /-- The n=1 sector has exponent k_CS = 74. -/
 theorem first_winding_exponent :

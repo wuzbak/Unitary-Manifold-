@@ -125,6 +125,41 @@ the workflow and inherited Navigator cache changes found no significant issues.
 Neither that review nor the Actions scan supplies the missing broad execution
 or Python security certificate.
 
+**Approved verification follow-up (2026-10-09).** Owner approval started attempt
+2 of the dedicated workflows against commit `5e7d8b49f`; the provisioning
+workflow against `f79ca356a` passed. The full Lean workflow
+[37892866096](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37892866096)
+passed exporter validation, NumericalChecks and Mathlib cache retrieval, then
+failed at `NPBC3Kernel.cs_exponent_monotone`. In the pinned library,
+`Nat.mul_lt_mul_left` yields an equivalence, not the implication expected by the
+old `apply` tactic. The repair selects the equivalence's reverse direction with
+the existing positive-level and winding-order hypotheses. The theorem statement
+and imports are unchanged. The exact repaired theorem/proof compiled with
+Lean 4.22.0-rc2 and its actual `Init` lemma in an isolated check, without
+`sorryAx`; this is not yet a successful full Mathlib-file or repository build.
+
+Repository-wide Python CodeQL
+[37892866082](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37892866082)
+completed and reported scanning **4,071/4,071 Python files** and **32/32 Actions
+files**. Its preserved SARIF contains **21 findings**, not zero. Read-only
+triage identified ten test-assertion reports and guarded production reports:
+Filmers rejects XML declaration markers before parsing and strips screenplay
+lines before the flagged regex matches; Navigator resolves execution paths
+inside its allowed base, exactly allowlists reflected origins and constrains
+session IDs before signing cookies. No high-confidence exploit was established
+from these reports. The findings were not suppressed or dismissed, and this
+disposition is not a proof of safety for all inputs or all unreported code.
+
+At the inspection checkpoint, **all 27 isolated product jobs** had passed in
+[37892866116](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37892866116);
+this includes the complete discovered Navigator product suite. Full-core
+execution was still running.
+Separately, **97 proof-status/Kawamura contract tests** and **87 regression
+supervision/workflow tests** passed locally, and status drift, directory limits
+and dependency consistency passed. Hosted receipts remain tied to their tested
+commit; the new Lean proof repair needs its own full-build receipt. No complete
+full-core or complete Lean success is inferred from these scoped results.
+
 ## Synthesis repair (2026-10-05)
 
 This repair preserves the existing version and pillar allocation. It does not
