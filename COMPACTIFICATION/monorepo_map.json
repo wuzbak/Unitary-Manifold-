@@ -2,13 +2,13 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 8020,
+  "file_count": 8043,
   "lanes": {
-    "az_ip": 2236,
+    "az_ip": 2247,
     "compactification": 9,
     "other": 5355,
     "psicat_articles": 352,
-    "psicat_books": 68
+    "psicat_books": 80
   },
   "top_levels": {
     ".bazelrc": 1,
@@ -23,13 +23,13 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2236,
+    "12-AZ-IP": 2247,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 893,
+    "7-OUTREACH": 905,
     "8-SAFETY": 8,
     "9-INFRASTRUCTURE": 193,
     "AGENTS.md": 1,
@@ -1981,7 +1981,10 @@
       "12-AZ-IP/20-psicat-navigator/PSICAT_EXECUTION_BOARD.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_EXPLAINER.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_FRONTIER_ROADMAP.md",
+      "12-AZ-IP/20-psicat-navigator/PSICAT_GRID_WORLD.md",
+      "12-AZ-IP/20-psicat-navigator/PSICAT_PHICAT_PROTOCOL.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_PROGRAM.md",
+      "12-AZ-IP/20-psicat-navigator/PSICAT_SEMANTIC_EMBEDDER.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_SMART_ROADMAP.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_SPC_BENCHMARK_GATES.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md",
@@ -2032,6 +2035,7 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_admission.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_behavioral_audit.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_benchmark.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_braided_gut_microbiome.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_compactification.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_counterexample.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_energy_ledger.py",
@@ -2039,6 +2043,7 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_epistemic_guard.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_flag_ab.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_geometry_memory.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_grid_world.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_identity.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_inference_health.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_kernel_routing.py",
@@ -2052,6 +2057,7 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_memory_store.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_meta_learning.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_persona.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_phicat_protocol.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_publication_audit.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_rag.py",
@@ -2063,6 +2069,7 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_router.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_runtime.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_science_evidence.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_semantic_embedder.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_sentinel.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_sync_contract.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_telemetry.py",
@@ -2088,7 +2095,9 @@
       "12-AZ-IP/20-psicat-navigator/tests/__init__.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_browser_contract.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_lean4_pillar_graph.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_braided_gut_microbiome.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_execution_spine.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_grid_world.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_hardening_surfaces.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_kernel_runtime.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_lean_bridge.py",
@@ -2096,8 +2105,10 @@
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_masterclass_runtime.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_memory_and_telemetry.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_meta_learning.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_phicat_protocol.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_publication_audit.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_repo_graph.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_semantic_embedder.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_testing_stack.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_toroidal_navigation.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_toroidal_round_two.py",
@@ -2440,7 +2451,19 @@
       "7-OUTREACH/A Z PsiCat Literature/Books/book-54-axiomzero-surveillance-exposure.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-01-the-cloud-record.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-02-the-algorithm-bridge.md",
-      "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-03-the-accountability-test.md"
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-03-the-accountability-test.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-01-the-foundry.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-02-the-bridge.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-03-the-vault.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-04-the-cover.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-05-the-throughline.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-06-the-concentration.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-07-the-blank-check.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-08-the-architecture-synthesis.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-09-what-can-be-done.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-10-appendix-a-expert.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-11-appendix-b-empirical.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-the-architecture-of-impunity.md"
     ],
     "articles": [
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-01-v22-9-honest-accounting.md",
@@ -16241,7 +16264,28 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/PSICAT_GRID_WORLD.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/PSICAT_PHICAT_PROTOCOL.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/PSICAT_PROGRAM.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/PSICAT_SEMANTIC_EMBEDDER.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16598,6 +16642,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_braided_gut_microbiome.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_compactification.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16641,6 +16692,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_geometry_memory.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_grid_world.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16738,6 +16796,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_phicat_protocol.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16809,6 +16874,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_science_evidence.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_semantic_embedder.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16990,7 +17062,21 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_braided_gut_microbiome.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_execution_spine.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_grid_world.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -17046,6 +17132,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_phicat_protocol.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_publication_audit.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -17054,6 +17147,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_repo_graph.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_semantic_embedder.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -23252,6 +23352,78 @@
     },
     {
       "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-03-the-accountability-test.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-01-the-foundry.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-02-the-bridge.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-03-the-vault.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-04-the-cover.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-05-the-throughline.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-06-the-concentration.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-07-the-blank-check.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-08-the-architecture-synthesis.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-09-what-can-be-done.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-10-appendix-a-expert.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-11-appendix-b-empirical.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-the-architecture-of-impunity.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
       "lane": "psicat_books"
