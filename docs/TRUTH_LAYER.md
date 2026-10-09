@@ -115,6 +115,15 @@ advisories). That environment audit does
 not cover optional uninstalled products or the complete dependency set used by
 dedicated CI. Broad regression, complete Lean compilation and repository-wide
 security results remain outstanding until matching execution receipts exist.
+The initial branch-triggered full-core, Lean, CodeQL and provisioning runs were
+created with conclusion **action_required**; the inspected full-core run had
+zero jobs. They require repository-owner approval, not another in-agent wait or
+a relaxation of workflow permissions. The validation wrapper again could not
+execute its configured review model and skipped Python CodeQL for database
+size; its Actions analysis reported zero alerts. A separate read-only review of
+the workflow and inherited Navigator cache changes found no significant issues.
+Neither that review nor the Actions scan supplies the missing broad execution
+or Python security certificate.
 
 ## Synthesis repair (2026-10-05)
 
