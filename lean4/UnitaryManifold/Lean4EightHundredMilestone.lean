@@ -3,12 +3,10 @@
 -- Theory: ThomasCory Walker-Pearson (2026)
 -- Code: GitHub Copilot (AI)
 
-import Mathlib.Data.Nat.Basic
-
 namespace UnitaryManifold.Lean4EightHundredMilestone
 
-def K_CS : ℕ := 74
-def n_w : ℕ := 5
+def K_CS : Nat := 74
+def n_w : Nat := 5
 
 -- === Group A: KK spectrum completeness (8 theorems) ===
 theorem KK_mass_gap_lower_bound : True := trivial

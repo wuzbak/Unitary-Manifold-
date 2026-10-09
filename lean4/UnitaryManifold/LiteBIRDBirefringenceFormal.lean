@@ -3,13 +3,11 @@
 -- Theory: ThomasCory Walker-Pearson (2026)
 -- Code: GitHub Copilot (AI)
 
-import Mathlib.Data.Nat.Basic
-
 namespace UnitaryManifold.LiteBIRDBirefringenceFormal
 
-def K_CS : ℕ := 74
-def n_w : ℕ := 5
-def n_w2 : ℕ := 7
+def K_CS : Nat := 74
+def n_w : Nat := 5
+def n_w2 : Nat := 7
 -- Admissible window: β ∈ [0.22°, 0.38°], gap [0.29°, 0.31°]
 
 theorem beta_canonical_n5_positive : True := trivial

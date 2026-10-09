@@ -39,6 +39,24 @@ def _priority_key_cached(path: Path, root: str) -> tuple[int, str]:
     return (len(_PRIORITY_PREFIXES), rel)
 
 
+@lru_cache(maxsize=2048)
+def _directory_layout_cached(
+    directory: str, identity: tuple[int, int, int, int],
+) -> tuple[tuple[str, ...], tuple[str, ...], tuple[str, ...]]:
+    directories: list[str] = []
+    files: list[str] = []
+    symlinks: list[str] = []
+    with os.scandir(directory) as entries:
+        for entry in entries:
+            if entry.is_symlink():
+                symlinks.append(entry.path)
+            elif entry.is_dir(follow_symlinks=False):
+                directories.append(entry.path)
+            elif entry.is_file():
+                files.append(entry.path)
+    return tuple(directories), tuple(files), tuple(symlinks)
+
+
 def _discover_files() -> tuple[Path, ...]:
     pool: List[str] = []
     for relative, suffixes in (
@@ -52,12 +70,18 @@ def _discover_files() -> tuple[Path, ...]:
         directories = [str(REPO_ROOT / relative)]
         while directories:
             try:
-                with os.scandir(directories.pop()) as entries:
-                    for entry in entries:
-                        if entry.is_dir(follow_symlinks=False):
-                            directories.append(entry.path)
-                        elif entry.name.endswith(suffixes) and entry.is_file():
-                            pool.append(str(Path(entry.path).resolve()) if entry.is_symlink() else entry.path)
+                directory = directories.pop()
+                stat = os.stat(directory)
+                identity = (stat.st_dev, stat.st_ino, stat.st_mtime_ns, stat.st_ctime_ns)
+                children, files, symlinks = _directory_layout_cached(directory, identity)
+                directories.extend(children)
+                pool.extend(path for path in files if path.endswith(suffixes))
+                # Link targets can change without touching the parent directory.
+                pool.extend(
+                    str(Path(path).resolve())
+                    for path in symlinks
+                    if path.endswith(suffixes) and os.path.isfile(path)
+                )
             except OSError:
                 continue
     return _discovery_layout_cached(tuple(sorted(set(pool))), str(REPO_ROOT))
@@ -105,8 +129,15 @@ def _file_layout_cached(
 
 
 def _select_files(files: Iterable[Path], max_files: int, query: str = "") -> tuple[Path, ...]:
-    # Discovery remains fresh; reuse only path metadata for an identical file set.
-    representative = _file_layout_cached(tuple(files), str(REPO_ROOT))
+    return _select_files_cached(tuple(files), max_files, query, str(REPO_ROOT))
+
+
+@lru_cache(maxsize=128)
+def _select_files_cached(
+    files: tuple[Path, ...], max_files: int, query: str, root: str,
+) -> tuple[Path, ...]:
+    # Only path metadata is reused; discovery and source stats remain fresh.
+    representative = _file_layout_cached(files, root)
     query_tokens = _tokenize(query)
     if query_tokens:
         representative = sorted(
@@ -121,12 +152,13 @@ def _candidate_files(max_files: int, query: str = "") -> tuple[Path, ...]:
 
 def _state_signature(files: List[Path]) -> tuple[tuple[str, int, int], ...]:
     signature: list[tuple[str, int, int]] = []
+    root = str(REPO_ROOT)
     for path in files:
         try:
             stat = path.stat()
         except FileNotFoundError:
             continue
-        signature.append((path.relative_to(REPO_ROOT).as_posix(), int(stat.st_mtime_ns), int(stat.st_size)))
+        signature.append((_priority_key_cached(path, root)[1], int(stat.st_mtime_ns), int(stat.st_size)))
     return tuple(signature)
 
 
@@ -221,19 +253,20 @@ def _record_for_cached(
     return _record_for(Path(resolved_path))
 
 
-def _relative_import_candidates(source_path: str, imported: str) -> set[str]:
+@lru_cache(maxsize=8192)
+def _relative_import_candidates(source_path: str, imported: str) -> frozenset[str]:
     level = len(str(imported)) - len(str(imported).lstrip("."))
     module = str(imported).lstrip(".")
     package_dir = Path(str(source_path)).parent
     for _ in range(max(level - 1, 0)):
         package_dir = package_dir.parent
     if not module:
-        return {(package_dir / "__init__.py").as_posix()}
+        return frozenset({(package_dir / "__init__.py").as_posix()})
     module_path = module.replace(".", "/")
-    return {
+    return frozenset({
         (package_dir / f"{module_path}.py").as_posix(),
         (package_dir / module_path / "__init__.py").as_posix(),
-    }
+    })
 
 
 def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -251,6 +284,13 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
         for token in tokens:
             token_to_paths.setdefault(token, set()).add(path)
     module_to_paths: dict[str, set[str]] = {}
+    imported_modules = {
+        str(imported).replace(".", "/")
+        for record in by_path.values()
+        for imported in record.get("imports") or []
+        if not str(imported).startswith(".")
+    }
+    import_lengths = {len(module) for module in imported_modules}
     for path in known_paths:
         if not path.endswith(".py"):
             continue
@@ -259,8 +299,11 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
             module_paths.append(path[:-len("/__init__.py")])
         for module_path in module_paths:
             # Preserve suffix matching, including imports without a package prefix.
-            for offset in range(len(module_path)):
-                module_to_paths.setdefault(module_path[offset:], set()).add(path)
+            for length in import_lengths:
+                if 0 < length <= len(module_path):
+                    suffix = module_path[-length:]
+                    if suffix in imported_modules:
+                        module_to_paths.setdefault(suffix, set()).add(path)
     for record in by_path.values():
         for imported in list(record.get("imports") or []):
             candidate_targets: set[str] = set()
@@ -297,7 +340,7 @@ def _edge_records(records: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return [deduped[key] for key in sorted(deduped)]
 
 
-@lru_cache(maxsize=32)
+@lru_cache(maxsize=128)
 def _build_repo_graph_cached(
     max_files: int, state_signature: tuple[tuple[str, int, int], ...], root: str
 ) -> Dict[str, Any]:
