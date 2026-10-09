@@ -335,7 +335,7 @@ def _substitute_smooth_profiles(sp, expression, profiles, replacements=None):
     return expression.xreplace(replacements)
 
 
-@lru_cache(maxsize=4)
+@lru_cache(maxsize=8)
 def symbolic_kk_reduction_check(full: bool = False, exact: bool = False, offdiagonal: bool = False) -> Dict[str, Any]:
     """Verify √(−G)R⁽⁵⁾ − √(−g_E)[R_E − (3/2)(∂ψ)² − ¼λ²φ³F²] is a total derivative.
 
@@ -345,11 +345,14 @@ def symbolic_kk_reduction_check(full: bool = False, exact: bool = False, offdiag
     ``full=True`` uses g_E = diag(−a,b,c,d), B = (B0,0,B2,0);
     the default reduced ansatz uses g_E = diag(−a,b,1,1), B = (0,0,B2,0).
     ``offdiagonal=True`` uses a non-diagonal Einstein-frame metric with
-    g_E,02 = e(x) and g_E,23 = f(x) (plus a, b) and B = (B0,0,B2,0); it is
-    evaluated at sample points only.
+    g_E,02 = e(x) and g_E,23 = f(x) (plus a, b) and B = (B0,0,B2,0).
     ``exact=True`` additionally simplifies every Euler expression symbolically
     and reports whether each is identically zero. Exact domain inverses and
     rational Ricci compaction avoid unnecessary intermediate expression swell.
+    ``offdiagonal=True, exact=True`` together upgrade the non-diagonal case
+    from a sample-point numeric check to an exact symbolic identity (Pillar
+    1131): every Euler expression of the difference simplifies to zero on
+    the non-diagonal ansatz, not merely evaluates near zero at sample points.
     """
     from sympy.calculus.euler import euler_equations
 

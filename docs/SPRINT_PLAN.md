@@ -60,10 +60,16 @@ included in the root imports; the full formal build remains unverified.
 
 ## Historical sprint continuity
 
-*Last updated: 2026-10-01 (v38.2 Sprint CX COMPLETE — Pillar 1130; Lean4 4080→4080; next slot 1131)*
+*Last updated: 2026-10-09 (v38.3 Sprint CY COMPLETE — Pillar 1131; Lean4 4080→4080; next slot 1132)*
 *Purpose: keep one canonical sprint reality across all truth surfaces.*
 
 ---
+
+## SPRINT CY OFFDIAGONAL EXACT REDUCTION IDENTITY CLOSURE
+
+Sprint CY closes one of the three residual obligations Sprint CX (Pillar 1130) left open: `EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ`. Pillar 1131 upgrades `symbolic_kk_reduction_check(offdiagonal=True)` from a sample-point numeric check to an exact symbolic identity by also passing `exact=True`: every Euler-Lagrange expression of the KK reduction difference on the non-diagonal Einstein-frame ansatz simplifies to identically zero. The certificate's `VERIFIED_PERIMETER` text and the action-to-evolution contract's `residual_obligations` field are updated to reflect the closure; Pillar 1130's own historical record is left unchanged. The other two residual obligations — `T_RELAXATION_LAW_DECLARED_NOT_DERIVED` and `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` — remain explicitly open, and the contract still reads `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`.
+
+Verification for Sprint CY is recorded in `docs/TRUTH_LAYER.md` (Sprint CY section). Latest verified full regression in current branch history remains the Sprint CU record.
 
 ## SPRINT CX ACTION-DERIVED FLOW STEWARD PROMOTION
 
@@ -98,20 +104,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v38.2 — Sprint CX)
+## CURRENT AUDITABLE STATE (v38.3 — Sprint CY)
 
 | Field | Value |
 |-------|-------|
-| Version | **v38.2** |
-| Sprint | **Sprint CX** |
-| Pillars | **1130-1130** |
-| Next pillar slot | **1131** |
+| Version | **v38.3** |
+| Sprint | **Sprint CY** |
+| Pillars | **1131-1131** |
+| Next pillar slot | **1132** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record)** |
-| Sprint theme | **Steward promotion of the action-derived flow's Euler-Lagrange deliverable within its declared perimeter; canonical status resynchronization** |
-| Primary target | **Record the promotion decision fail-closed on executable evidence without promoting the declared t-relaxation law or framework closure** |
-| Binary outcome | **P1130 valid, contract `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`, canonical surfaces on v38.2, no closure inflation** |
+| Sprint theme | **Closure of one of Pillar 1130's three residual obligations — the non-diagonal KK reduction identity is now an exact symbolic identity, not only sample-point-verified** |
+| Primary target | **Upgrade the offdiagonal reduction check to exact symbolic form and propagate the closure to the contract and certificate, without touching the t-relaxation or physical-time-evolution obligations** |
+| Binary outcome | **P1131 valid, contract `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` with two residual obligations remaining, canonical surfaces on v38.3, no closure inflation** |
 
+Historical continuity: v38.3 Sprint CY (Pillar 1131; next slot 1132) is the canonical offdiagonal exact reduction identity closure layer directly above Sprint CX.
 Historical continuity: v38.2 Sprint CX (Pillar 1130; next slot 1131) is the canonical action-derived flow steward-promotion layer directly above Sprint CW.
 Historical continuity: v38.1 Sprint CW (Pillar 1129; next slot 1130) is the canonical adjacent empirical MaleCNS bridge layer directly above Sprint CV.
 Historical continuity: v38.0 Sprint CV (Pillars 1122-1128; next slot 1129) is the canonical three-lane earned-version packet directly above Sprint CU.
@@ -139,6 +146,20 @@ Historical continuity: v35.4 Sprint BX (Pillars 1032–1039; next slot 1040) rem
 
 
 ### Archived auditable states (superseded; retained for audit traceability)
+
+#### Archived: CURRENT AUDITABLE STATE (v38.2 — Sprint CX)
+
+| Field | Value |
+|-------|-------|
+| Version | **v38.2** |
+| Sprint | **Sprint CX** |
+| Pillars | **1130-1130** |
+| Next pillar slot | **1131** |
+| Lean4 theorems | **4080** |
+| Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record)** |
+| Sprint theme | **Steward promotion of the action-derived flow's Euler-Lagrange deliverable within its declared perimeter; canonical status resynchronization** |
+| Primary target | **Record the promotion decision fail-closed on executable evidence without promoting the declared t-relaxation law or framework closure** |
+| Binary outcome | **P1130 valid, contract `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`, canonical surfaces on v38.2, no closure inflation** |
 
 #### Archived: CURRENT AUDITABLE STATE (v38.1 — Sprint CW)
 
