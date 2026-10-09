@@ -18,7 +18,6 @@
 -/
 
 import Mathlib.Tactic.IntervalCases
-import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Nat.Sqrt
@@ -57,8 +56,16 @@ theorem pillar822_kcs_pair_unique :
     a = N_W_822 ∧ b = N_TOP_822 := by
   intro a b ha hab heq
   change a ^ 2 + b ^ 2 = 74 at heq
-  have ha_bound : a ≤ 8 := by nlinarith
-  have hb_bound : b ≤ 8 := by nlinarith
+  have ha_bound : a ≤ 8 := by
+    by_contra h
+    have hmin : 9 ≤ a := by omega
+    have hsq := Nat.pow_le_pow_left hmin 2
+    omega
+  have hb_bound : b ≤ 8 := by
+    by_contra h
+    have hmin : 9 ≤ b := by omega
+    have hsq := Nat.pow_le_pow_left hmin 2
+    omega
   interval_cases a <;> interval_cases b <;>
     norm_num [N_W_822, N_TOP_822] at *
 
@@ -67,7 +74,11 @@ theorem pillar822_no_equal_pair :
     ¬ ∃ a : Nat, 0 < a ∧ 2 * a ^ 2 = K_CS_822 := by
   rintro ⟨a, ha, heq⟩
   change 2 * a ^ 2 = 74 at heq
-  have ha_bound : a ≤ 8 := by nlinarith
+  have ha_bound : a ≤ 8 := by
+    by_contra h
+    have hmin : 9 ≤ a := by omega
+    have hsq := Nat.pow_le_pow_left hmin 2
+    omega
   interval_cases a <;> norm_num at heq
 
 -- 8. n_w = 5 is odd (Z₂ parity satisfied)
@@ -90,7 +101,7 @@ theorem pillar822_kcs_not_double_square :
     ¬ ∃ a : Nat, 0 < a ∧ a ^ 2 + a ^ 2 = K_CS_822 := by
   rintro ⟨a, ha, heq⟩
   apply pillar822_no_equal_pair
-  exact ⟨a, ha, by nlinarith [heq]⟩
+  exact ⟨a, ha, by omega⟩
 
 -- The historical pillar822_candidates_57 declaration is withdrawn:
 -- the ordering condition b ≥ a excludes 7. Its candidate-set closure
@@ -99,27 +110,34 @@ theorem pillar822_seven_ordered_candidate_counterexample :
     ¬ ∃ b : Nat, b ≥ 7 ∧ 7 ^ 2 + b ^ 2 = K_CS_822 := by
   rintro ⟨b, hb, heq⟩
   norm_num [K_CS_822] at heq
-  nlinarith
+  have hsq := Nat.pow_le_pow_left hb 2
+  omega
+
+/-- The historical predicate has an unbounded existential, so the finite
+    set is defined classically rather than claiming executable enumeration. -/
+noncomputable def pillar822_ordered_candidate_set : Finset Nat := by
+  classical
+  exact (Finset.range 10).filter (fun a =>
+    a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822)
 
 theorem pillar822_candidates_57_refuted :
-    ¬ ((Finset.range 10).filter (fun a =>
-      a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822) =
-      {5, 7}) := by
+    ¬ (pillar822_ordered_candidate_set = {5, 7}) := by
+  classical
   intro h
-  have hseven : 7 ∈ (Finset.range 10).filter (fun a =>
-      a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822) := by
+  have hseven : 7 ∈ pillar822_ordered_candidate_set := by
     rw [h]
     simp
+  unfold pillar822_ordered_candidate_set at hseven
   exact pillar822_seven_ordered_candidate_counterexample
     (Finset.mem_filter.mp hseven).2.2.2
 
 /-- Ordered smaller components form a singleton, not the unordered pair. -/
 theorem pillar822_ordered_candidates_singleton :
-    (Finset.range 10).filter (fun a =>
-      a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822) =
-    {5} := by
+    pillar822_ordered_candidate_set = {5} := by
+  classical
   ext a
-  simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_singleton]
+  simp only [pillar822_ordered_candidate_set, Finset.mem_filter,
+    Finset.mem_range, Finset.mem_singleton]
   constructor
   · rintro ⟨_, _, ha, b, hab, heq⟩
     exact (pillar822_kcs_pair_unique a b ha hab heq).1

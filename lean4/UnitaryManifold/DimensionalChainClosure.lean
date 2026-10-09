@@ -14,10 +14,10 @@ The surviving arithmetic identities do not prove physical reduction uniqueness.
 ## Physical context
 
 The Unitary Manifold 5D framework asserts that its metric ansatz G_AB arises
-from a specific 11D → 5D dimensional reduction. This file proves, in integer
-proxy arithmetic, that the functional form of the block-diagonal 5D metric is
-uniquely determined at each reduction step, with no new free parameters entering
-beyond the topological constants {K_CS = 74, n_w = 5, N_c = 3}.
+from a specific 11D → 5D dimensional reduction. This file checks selected
+integer proxy identities associated with that proposed chain. It does not
+prove uniqueness of the metric, all reduction links, or absence of new
+parameters; the gauge-selection step below is explicitly refuted.
 
 ## Reduction chain
 
@@ -35,16 +35,16 @@ beyond the topological constants {K_CS = 74, n_w = 5, N_c = 3}.
     ↓  S¹/Z₂ KK reduction
    5D G_AB block metric
 
-## Block-structure uniqueness theorem
+## Intended block-structure target (not proved here)
 
-The key theorem: at each reduction step, the block structure of G_AB is
-preserved under the KK reduction map, and no new free parameters enter.
-The 5D metric is uniquely:
+The intended physical target is that each KK reduction preserves the block
+structure of G_AB with no new free parameters, giving the 5D metric:
 
     G_AB = [[g_μν + λ²φ²B_μB_ν,  λφB_μ],
              [λφB_ν,              φ²    ]]
 
-with all parameters determined by {K_CS, n_w, N_c}.
+with all parameters determined by {K_CS, n_w, N_c}. The arithmetic proxy
+conjunction below does not establish this target.
 
 Theory: ThomasCory Walker-Pearson (2026)
 Code: GitHub Copilot (AI)
@@ -162,16 +162,15 @@ theorem n_gen_from_z3 : N_GEN = 3 := by decide
 theorem n_c_from_holonomy : N_c = 3 := by decide
 
 -- ---------------------------------------------------------------------------
--- Master theorem: dimensional chain uniqueness
--- The 5D G_AB block structure is uniquely determined by the chain.
--- No new free parameters enter at any of the 6 reduction links.
+-- Historical name retained for the true arithmetic conjunction only.
+-- These fixed-constant identities do not prove dimensional-chain uniqueness.
 -- ---------------------------------------------------------------------------
 theorem dimensional_chain_uniqueness :
     -- (1) Flux quanta fixed by K_CS
     N_FLUX * 2 = K_CS ∧
-    -- (2) Gauge dimension uniquely 496
+    -- (2) Declared gauge dimension factors as 16 * 31
     GAUGE_DIM = 16 * 31 ∧
-    -- (3) N_c uniquely 3 from CS quantization
+    -- (3) Cancellation in the declared nonzero K_CS equation
     (∀ x : ℕ, K_CS * x = N_c * K_CS → x = N_c) ∧
     -- (4) Z₃ torsion gives 3 phases
     N_GEN = 3 ∧

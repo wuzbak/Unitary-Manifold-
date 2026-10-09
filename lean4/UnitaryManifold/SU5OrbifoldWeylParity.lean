@@ -2,6 +2,7 @@ import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Nat.GCD.Basic
 import Mathlib.Data.Finset.Basic
+import Mathlib.Data.Fintype.Fin
 /-!
 # Unitary Manifold — SU(5) Orbifold Weyl-Group Parity Proof (Lean 4 + Mathlib)
 

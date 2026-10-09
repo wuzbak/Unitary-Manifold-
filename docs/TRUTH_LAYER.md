@@ -27,6 +27,9 @@ bookkeeping, not a currently compiled proof inventory. The actual functional,
 domain, coercivity, weak lower semi-continuity, existence and uniqueness
 obligations remain open. No version, pillar or observational-falsifier change
 is made.
+P783 preserves its historical sprint deltas but carries the current P777 chain
+status separately; its displayed NP-BC-4 summary and outstanding obligations
+no longer reassert the withdrawn Sub-gap L promotion.
 
 **Kawamura traceability.** The formal ledger's former proposition axioms are
 removed; its eight explicitly named `_given` lemmas require evidence from the
@@ -38,14 +41,40 @@ names and historical unconditional names cannot fill the eight-name ledger.
 
 **Verification at this checkpoint.** Compactified preflight passed **88 tests**;
 preserved packaging/CodeQL configuration regressions passed **27 tests**
-(3 deselected); the directly coupled P759/P777/Kawamura regressions passed
-**76 tests**. Installed runtime/development/Navigator requirements resolve
+(3 deselected); the directly coupled P759/P777/P783/Kawamura regressions passed
+**97 tests**. Installed runtime/development/Navigator requirements resolve
 together; `pip check` and the installed-environment advisory audit passed.
+The dependency audit examined 142 installed distributions and found no known
+advisories; this does not patch the optional DiskCache limitation documented
+in `SECURITY.md`.
 Directory limits and status-drift checks passed. These are scoped software
 checks, not a full repository regression or a complete Lean build. Downloaded
 toolchains, package-resolution reports and execution logs remain outside the
 tracked repository. Full-build and full-core outcomes must be recorded
 separately before any broader clearance is asserted.
+
+The hosted review wrapper reported success, but its review engine was
+unavailable because the configured model was absent from the registry. Its
+Python CodeQL analysis was skipped for database size; the actions analysis
+reported no alerts. Neither wrapper result certifies the unexecuted checks.
+An independent read-only review of the touched P8/Kawamura runtime changes
+found no significant introduced defects. A separate CodeQL run extracted all
+four changed P8/Kawamura/sprint runtime modules from a SHA-256-identical source
+projection and executed 45 queries (43 reported security rules plus two
+diagnostics), with zero alerts. This is source-local evidence for those four
+files, not repository-wide or complete imported-dependency dataflow clearance.
+The complete formal build and broad regression execution remain separate
+obligations.
+
+**Bounded broad-run outcome.** The combined `tests/`, `recycling/` and canonical
+Pentad run explicitly enabled slow tests (`-m ""`) with four workers. It reached
+about 14% before the 900-second deadline; it did not produce a complete
+regression result. The Product 20 suite reached about 40% before its 600-second
+deadline and recorded one early failure. Neither run is a zero-failure
+certificate, and partial progress is not a passed-test total. The Navigator
+failure is being isolated with fail-fast execution rather than raising endpoint
+timeouts or concealing it. These results do not replace historical regression
+records.
 
 ## Synthesis repair (2026-10-05)
 

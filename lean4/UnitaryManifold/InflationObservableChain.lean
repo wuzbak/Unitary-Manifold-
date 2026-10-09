@@ -176,7 +176,9 @@ theorem w_kk_below_minus_third_refuted :
 theorem w_kk_below_minus_third_of_nonnegative
     (c_s : ℝ) (hcs_nonneg : 0 ≤ c_s) (hcs_sub : c_s < 1) :
     -1 + 2 / 3 * c_s ^ 2 < -1 / 3 := by
-  have : c_s ^ 2 < 1 := by nlinarith
+  have hprod : 0 < (1 - c_s) * (1 + c_s) :=
+    mul_pos (sub_pos.mpr hcs_sub) (by linarith)
+  have : c_s ^ 2 < 1 := by nlinarith [hprod]
   linarith
 
 /-! ## §4 β Formula Structure -/

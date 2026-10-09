@@ -8542,6 +8542,26 @@ def run_psicat_spc_phase2_applied_pressure(
     phase1_packet: dict[str, Any] | None = None,
     observatory_payload: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    from .merlin_repo_graph import repo_graph_request
+
+    with repo_graph_request():
+        return _run_psicat_spc_phase2_applied_pressure(
+            session=session,
+            limit=limit,
+            training_limit=training_limit,
+            phase1_packet=phase1_packet,
+            observatory_payload=observatory_payload,
+        )
+
+
+def _run_psicat_spc_phase2_applied_pressure(
+    *,
+    session: MerlinSession | None = None,
+    limit: int | None = 5,
+    training_limit: int | None = 9,
+    phase1_packet: dict[str, Any] | None = None,
+    observatory_payload: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     from .merlin_behavioral_audit import run_behavioral_audit_battery
 
     active_session = session if isinstance(session, MerlinSession) else MerlinSession()

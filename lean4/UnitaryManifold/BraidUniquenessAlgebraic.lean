@@ -11,16 +11,16 @@ The historical `braid_step2_global_minimum` declaration is refuted by
 withdrawn pending a justified selection domain; restricted finite certificates
 below are not replacements for that claim.
 
-This file formalises the algebraic uniqueness proof from Pillar 680
-("BRAID_UNIQUENESS_ALGEBRAIC_PROOF_COMPLETE") in Lean 4.
+This file audits the integer arithmetic behind the historical Pillar 680
+claim ("BRAID_UNIQUENESS_ALGEBRAIC_PROOF_COMPLETE") in Lean 4.
 
-Pillar 680 showed algebraically that:
+Pillar 680 claimed algebraically that:
   - n₁ = 5 is uniquely selected from Planck n_s
   - n₂ = 7 is uniquely selected from r + β
   - (5,7) is algebraically the unique Z₂-odd minimum-action pair
 
-This file provides the machine-verified integer arithmetic certificates for all
-algebraic steps that can be stated as integer (or rational-proxied) inequalities.
+The unrestricted minimum claim is false. Surviving finite arithmetic checks
+below do not certify that historical closure or physical uniqueness.
 
 ## Relationship to BraidUniqueness.lean
 

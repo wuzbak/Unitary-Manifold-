@@ -12,6 +12,13 @@ establish ledger policy nor close the Kawamura independence residual.
 
 namespace UnitaryManifold.MerlinProofFirstKawamuraLedger
 
+/-- Taking the arbitrary proposition to be False refutes any blanket
+    unconditional proof rule. The Kawamura residual remains open. -/
+theorem mpf_kawamura_unconditional_prop_counterexample :
+    ¬ (∀ claim : Prop, claim) := by
+  intro h
+  exact h False
+
 variable (ResidualOpen TraceabilityNotClosure DualLoopAgreement ExternalBoundary : Prop)
 
 theorem mpf_kawamura_kernel_1_given (h : ResidualOpen) : ResidualOpen := h
