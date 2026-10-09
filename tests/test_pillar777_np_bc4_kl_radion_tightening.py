@@ -24,7 +24,7 @@ def test_pillar_number():
     assert PILLAR_NUMBER == 777
 
 def test_pillar_status():
-    assert PILLAR_STATUS == "NP_BC4_KL_RADION_TIGHTENING_CLOSED"
+    assert PILLAR_STATUS == "NP_BC4_KL_RADION_TIGHTENING_PARTIAL"
 
 def test_lean4_accounting():
     assert LEAN4_PREV_TOTAL == 902
@@ -74,7 +74,11 @@ def test_p8_sorry_stubs():
 
 def test_p8_proxy_theorems():
     res = p8_lean4_closure_status()
-    assert res["proxy_theorems"] == 18
+    assert res["proxy_theorems"] == 0
+    assert res["historical_claimed_proxy_theorems"] == 18
+    assert not res["functional_proof_verified"]
+    assert not res["closed_former_sorrys"]
+    assert len(res["counterexamples"]) == 3
 
 def test_p8_status():
     res = p8_lean4_closure_status()
@@ -110,7 +114,7 @@ def test_subgap_k_cert():
 def test_subgap_l_cert():
     cert = subgap_l_closure_certificate()
     assert cert["sub_gap"] == "L"
-    assert cert["promoted"] is True
+    assert cert["promoted"] is False
     assert cert["new_status"] == SUBGAP_L_NEW_STATUS
     assert cert["sorry_stubs_remaining"] == 0
 
@@ -145,5 +149,11 @@ def test_pillar_report_lean4():
 
 def test_epistemic_deltas():
     deltas = pillar_report()["epistemic_deltas"]
-    assert any("CLOSED_VIA_LEAN4" in d for d in deltas)
+    assert any("OPEN_FUNCTIONAL_PROOF_WITHDRAWN" in d for d in deltas)
     assert any("LOOP_CORRECTION_CLOSED" in d for d in deltas)
+
+
+def test_chain_cannot_claim_functional_closure():
+    assert np_bc4_chain_status()["overall_status"] == "NP_BC4_PARTIAL_FUNCTIONAL_PROOF_OPEN"
+    assert SUBGAP_L_NEW_STATUS == "OPEN_FUNCTIONAL_PROOF_WITHDRAWN"
+    assert pillar_report()["sub_gap_L"]["promoted"] is False

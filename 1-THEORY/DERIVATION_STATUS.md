@@ -1,5 +1,11 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
+> **Health repair (2026-10-09):** P8's historical full functional-space
+> certificate and Sub-gap L's Lean4 promotion are withdrawn. NaN ordering,
+> negative-input square ordering and underflow defeat unrestricted Float
+> claims; finite checks do not prove attainment or uniqueness on H¹(Ω).
+> See [the open obligations](../docs/TRUTH_LAYER.md#health-repair-2026-10-09).
+
 > **2026-10-05 scoped correction:** B² halo prescriptions and independently
 > assumed hot-relic, weak-scale and warped KK benchmarks are not a shared
 > action-derived dark sector. Corrected computable quantities and unresolved

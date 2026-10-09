@@ -1,5 +1,15 @@
 # Wave Changelog
 
+## Health repair (2026-10-09; no new pillar)
+
+Recovered the interrupted health-check work and corrected the live P759/P777
+reports to withdraw unsupported P8 functional-space closure and Sub-gap L
+promotion. NaN, negative-input square ordering and underflow refute historical
+unrestricted Float statements. Finite numerical checks remain available, but
+cannot certify global uniqueness or a Sobolev-space theorem. Historical
+increments are not current proof clearance. No version or pillar promotion.
+See [the repair record](TRUTH_LAYER.md#health-repair-2026-10-09).
+
 ## Synthesis repair (2026-10-05; no new pillar)
 
 Separated action-derived gauge energy from the preserved legacy B² halo,

@@ -1,5 +1,11 @@
 # Fallibility, Limitations, and Failure Modes
 
+> **Health repair (2026-10-09):** P8's former Float-based functional-space
+> closure is withdrawn, including the Sub-gap L Lean4 promotion. NaN ordering,
+> negative-input square ordering and underflow invalidate unrestricted claims;
+> a positive sampled second variation does not prove global uniqueness.
+> See [the open obligations](docs/TRUTH_LAYER.md#health-repair-2026-10-09).
+
 > **2026-10-05 dark-sector correction:** the legacy potential-norm B² halo is
 > not stress-energy of the current F² action. KK mass, relic and detector
 > estimates describe separate assumed models, not a unified dark-matter result.

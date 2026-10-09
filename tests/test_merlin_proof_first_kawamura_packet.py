@@ -154,25 +154,32 @@ def test_missing_required_article_section_fails_closed(monkeypatch, tmp_path) ->
 def test_missing_lean_marker_fails_closed(monkeypatch, tmp_path) -> None:
     lean = tmp_path / "MerlinProofFirstKawamuraLedger.lean"
     lean.write_text(
-        "namespace UnitaryManifold\n"
-        "axiom KawamuraResidualStillOpen : Prop\n"
-        "axiom NoTraceabilityEqualsClosure : Prop\n"
-        "axiom DualLoopVerdictAgreementRequired : Prop\n"
-        "theorem mpf_kawamura_kernel_1 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
-        "theorem mpf_kawamura_kernel_2 : NoTraceabilityEqualsClosure := by exact NoTraceabilityEqualsClosure\n"
-        "theorem mpf_kawamura_kernel_3 : DualLoopVerdictAgreementRequired := by exact DualLoopVerdictAgreementRequired\n"
-        "theorem mpf_kawamura_kernel_4 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
-        "theorem mpf_kawamura_kernel_5 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
-        "theorem mpf_kawamura_kernel_6 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
-        "theorem mpf_kawamura_kernel_7 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n"
-        "theorem mpf_kawamura_kernel_8 : KawamuraResidualStillOpen := by exact KawamuraResidualStillOpen\n",
+        packet_mod._LEAN4_FILE.read_text(encoding="utf-8").replace(
+            "ExternalBoundary", "MissingBoundary"
+        ),
         encoding="utf-8",
     )
     monkeypatch.setattr(packet_mod, "_LEAN4_FILE", lean)
     packet = merlin_proof_first_kawamura_packet()
     assert packet["lean4"]["theorem_count"] == 8
-    assert packet["lean4"]["semantic_markers"]["ExternalImportBoundaryPreserved"] is False
+    assert packet["lean4"]["semantic_markers"]["ExternalBoundary"] is False
     assert packet["valid"] is False
+
+
+def test_unconditional_legacy_declarations_do_not_count_as_conditional_lemmas():
+    legacy = "\n".join(
+        f"theorem mpf_kawamura_kernel_{index} : True := by trivial"
+        for index in range(1, 9)
+    )
+    assert packet_mod._count_theorems(legacy) == 0
+
+
+def test_duplicate_conditional_names_do_not_fill_the_ledger():
+    repeated = "\n".join(
+        "theorem mpf_kawamura_kernel_1_given (h : True) : True := h"
+        for _ in range(8)
+    )
+    assert packet_mod._count_theorems(repeated) == 1
 
 
 def test_mismatched_ledger_target_fails_closed(monkeypatch) -> None:

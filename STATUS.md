@@ -1,5 +1,11 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
+> **Health repair (2026-10-09):** the historical P8 functional-space Lean4
+> closure and its Sub-gap L promotion are withdrawn. Finite Float checks
+> do not prove Sobolev-space coercivity, attainment or uniqueness.
+> No version, pillar or full-regression promotion is made.
+> See [the repair record](docs/TRUTH_LAYER.md#health-repair-2026-10-09).
+
 > **2026-10-05 synthesis repair:** dark-sector formulas are separated into
 > action-derived gauge energy and distinct phenomenological/KK toy models.
 > Regression partitioning is not execution evidence; full-core now explicitly

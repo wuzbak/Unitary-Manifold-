@@ -11,8 +11,8 @@ from src.core.pillar759_p8_full_functional_lean4_proof import (
 
 class TestScalars:
     def test_pillar_number(self): assert PILLAR == 759
-    def test_status(self): assert STATUS == 'CLOSED'
-    def test_epistemic_label(self): assert EPISTEMIC_LABEL == 'CONDITIONAL_PROOF'
+    def test_status(self): assert STATUS == 'OPEN'
+    def test_epistemic_label(self): assert EPISTEMIC_LABEL == 'FINITE_PROXY_ONLY'
     def test_alpha_range(self): assert 0.7 < ALPHA_COERCE < 0.8
     def test_beta_range(self): assert 0.0 < BETA_COERCE < 0.05
     def test_no_toe_score(self): import src.core.pillar759_p8_full_functional_lean4_proof as m; assert not hasattr(m, 'toe_score')
@@ -44,7 +44,8 @@ class TestUniqueness:
     def test_second_variation_positive(self): assert second_variation(1.0) > 0
     def test_unique_at_phi_star(self):
         u = uniqueness_certificate()
-        assert u['unique']
+        assert not u['unique']
+        assert u['sample_positive']
         assert u['second_variation'] > 0
     def test_label_correct(self):
         u = uniqueness_certificate()
@@ -59,9 +60,9 @@ class TestMasterResult:
     def test_pillar_field(self, result): assert result['pillar'] == 759
     def test_coercivity_step(self, result): assert result['steps']['coercivity']['passed']
     def test_lsc_step(self, result): assert result['steps']['lower_semi_continuity']['lsc']
-    def test_uniqueness_step(self, result): assert result['steps']['uniqueness']['unique']
-    def test_lean4_new(self, result): assert result['lean4']['new_theorems'] == 18
-    def test_lean4_total(self, result): assert result['lean4']['new_total'] == 780
+    def test_uniqueness_step(self, result): assert not result['steps']['uniqueness']['unique']
+    def test_lean4_new(self, result): assert result['lean4']['new_theorems'] == 0
+    def test_lean4_total(self, result): assert result['lean4']['new_total'] == 762
     def test_extends_p752(self, result): assert '752' in result['extends']
     def test_honest_note_present(self, result): assert len(result['honest_note']) > 10
     def test_no_forbidden_keys(self, result): assert 'toe_score' not in result
@@ -75,3 +76,19 @@ class TestExpectations:
         import src.core.pillar759_p8_full_functional_lean4_proof as m
         for sym in TEST_EXPECTATIONS['required_symbols']:
             assert hasattr(m, sym), f"Missing symbol: {sym}"
+
+
+def test_finite_checks_do_not_promote_functional_proof():
+    result = p8_full_functional_proof()
+    assert result['label'] == 'P8_FULL_FUNCTIONAL_PROOF_WITHDRAWN'
+    assert not result['steps']['lower_semi_continuity']['functional_lsc_proved']
+    assert not lsc_check([])['functional_lsc_proved']
+    assert result['lean4']['historical_claimed_increment'] == 18
+    assert 'remain open' in result['honest_note']
+
+
+@pytest.mark.parametrize('phi_star', [0.0, 1.0, -1.0, float('nan')])
+def test_positive_sample_is_not_a_uniqueness_certificate(phi_star):
+    result = uniqueness_certificate(phi_star)
+    assert not result['unique']
+    assert result['sample_positive']

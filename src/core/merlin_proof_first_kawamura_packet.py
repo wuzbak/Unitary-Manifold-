@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import importlib
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Dict, Protocol
@@ -17,10 +18,10 @@ _LEAN4_FILE = _ROOT / "lean4" / "UnitaryManifold" / "MerlinProofFirstKawamuraLed
 _SUBSTACK_POST = _ROOT / "7-OUTREACH" / "substack" / "posts" / "post-320-s04e023-merlin-proof-first-kawamura-sprint.md"
 _EXPECTED_THEOREM_COUNT = 8
 _SEMANTIC_MARKERS = [
-    "KawamuraResidualStillOpen",
-    "NoTraceabilityEqualsClosure",
-    "DualLoopVerdictAgreementRequired",
-    "ExternalImportBoundaryPreserved",
+    "ResidualOpen",
+    "TraceabilityNotClosure",
+    "DualLoopAgreement",
+    "ExternalBoundary",
 ]
 
 _SECTION_HEADINGS = {
@@ -63,7 +64,9 @@ def _read_text(path: Path) -> str:
 
 
 def _count_theorems(text: str) -> int:
-    return sum(1 for line in text.splitlines() if line.strip().startswith("theorem mpf_kawamura_kernel_"))
+    return len(set(re.findall(
+        r"^\s*theorem (mpf_kawamura_kernel_[1-8]_given)\b", text, re.MULTILINE
+    )))
 
 
 def _display_path(path: Path) -> str:
@@ -126,6 +129,7 @@ def _lean4_state(lean_text: str) -> dict[str, Any]:
         "theorem_count": theorem_count,
         "expected_theorem_count": _EXPECTED_THEOREM_COUNT,
         "semantic_markers": marker_hits,
+        "verification_scope": "source traceability of conditional lemmas, not compilation or closure",
     }
 
 

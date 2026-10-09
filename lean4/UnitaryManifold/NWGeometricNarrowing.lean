@@ -17,7 +17,10 @@
   Theorem count: 22  (total after: 1449 + 22 = 1471)
 -/
 
-import Mathlib.Tactic
+import Mathlib.Tactic.IntervalCases
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
+import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Nat.Sqrt
 
 namespace UnitaryManifold.NWGeometricNarrowing
@@ -89,14 +92,40 @@ theorem pillar822_kcs_not_double_square :
   apply pillar822_no_equal_pair
   exact ⟨a, ha, by nlinarith [heq]⟩
 
--- 13. Geometric candidates are exactly {5, 7}
--- Proxy: the only odd integers in [1, 8] satisfying a² ≤ K_CS are {1,3,5,7}
--- After K_CS constraint: only {5,7} appear as components of the unique pair
--- False as stated: b ≥ a excludes a = 7, since 7² + b² ≥ 98 > 74.
-theorem pillar822_candidates_57 :
+-- The historical pillar822_candidates_57 declaration is withdrawn:
+-- the ordering condition b ≥ a excludes 7. Its candidate-set closure
+-- remains pending a separately stated unordered-component argument.
+theorem pillar822_seven_ordered_candidate_counterexample :
+    ¬ ∃ b : Nat, b ≥ 7 ∧ 7 ^ 2 + b ^ 2 = K_CS_822 := by
+  rintro ⟨b, hb, heq⟩
+  norm_num [K_CS_822] at heq
+  nlinarith
+
+theorem pillar822_candidates_57_refuted :
+    ¬ ((Finset.range 10).filter (fun a =>
+      a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822) =
+      {5, 7}) := by
+  intro h
+  have hseven : 7 ∈ (Finset.range 10).filter (fun a =>
+      a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822) := by
+    rw [h]
+    simp
+  exact pillar822_seven_ordered_candidate_counterexample
+    (Finset.mem_filter.mp hseven).2.2.2
+
+/-- Ordered smaller components form a singleton, not the unordered pair. -/
+theorem pillar822_ordered_candidates_singleton :
     (Finset.range 10).filter (fun a =>
       a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822) =
-    {5, 7} := by decide
+    {5} := by
+  ext a
+  simp only [Finset.mem_filter, Finset.mem_range, Finset.mem_singleton]
+  constructor
+  · rintro ⟨_, _, ha, b, hab, heq⟩
+    exact (pillar822_kcs_pair_unique a b ha hab heq).1
+  · intro ha
+    subst a
+    exact ⟨by decide, by decide, by decide, 7, by decide, by decide⟩
 
 -- 14. For n_w = 5, K_CS selection ratio: n_w² / K_CS = 25/74
 theorem pillar822_nw_fraction : N_W_822 ^ 2 * 74 = 25 * K_CS_822 := by decide

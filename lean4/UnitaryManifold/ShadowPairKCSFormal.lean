@@ -1,10 +1,17 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
+import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.Algebra.Field.Rat
 /-!
 # Unitary Manifold — Shadow-Pair Parent Derivation: Formal Lean 4 Certificate
 
-**Pillar 537 Lean 4 Bridge — SHADOW_PAIR_KCS_FORMALLY_PROVED**
+**Pillar 537 Lean 4 Bridge — conditional arithmetic; prime-window closure withdrawn**
+
+The historical `no_prime_n2p1_near_6` and
+`n_before_6_unique_prime_window` declarations are withdrawn: n = 4 gives
+the prime 17. Parent uniqueness remains open. The final conjunction proves
+only arithmetic for the declared parent n_before = 6.
 
 ## Physical Context
 
@@ -35,19 +42,19 @@ Using the algebraic identity (a−1)² + (a+1)² = 2(a²+1):
 ## What IS Proved in This File
 
 1. **Parent derivation**: n_w = n_before − 1 = 5, n_shadow = n_before + 1 = 7 at n_before = 6.
-2. **Algebraic identity**: (n−1)² + (n+1)² = 2(n²+1) for all n : ℕ.
+2. **Algebraic identity**: (n+1)² + (n+3)² = 2((n+2)²+1) for all n : ℕ.
 3. **K_CS identity**: At n=6, (6−1)² + (6+1)² = 74 = 2(37).
 4. **Braid step forced**: z2_removes = 1 is the unique Z₂-symmetric partition (Δ = 2).
 5. **c_s numerator**: n_shadow² − n_w² = 49 − 25 = 24.
 6. **c_s rational form**: 24/74 = 12/37 in lowest terms.
 7. **Primality proxy**: 37 is prime (proved by decision procedure).
-8. **Uniqueness in neighbourhood**: no integer n ∈ [5, 7] other than 6 gives a prime n²+1.
+8. **Prime-window uniqueness refuted**: n = 4 gives 17, another prime.
 9. **K_CS positivity**: K_CS > 0 (trivially, but stated for downstream use).
 10. **Full certificate**: all identities assembled as a single conjunction theorem.
 
 ## Connection to Prior Files
 
-- `BraidUniqueness.lean`: proves (5,7) is the global CS-action minimum.
+- `BraidUniqueness.lean`: supplies restricted finite action comparisons.
 - `NWIntegerLattice.lean`: proves the candidate set is exactly {5,7}.
 - `NPW5APS.lean`: proves n_w=5 is the unique APS-consistent candidate.
 - **This file**: derives K_CS=74 and c_s=12/37 from n_before=6 alone.
@@ -110,9 +117,8 @@ theorem cs_equals_12_over_37 : c_s = 12 / 37 := by
 
 /-! ## The Core Algebraic Identity -/
 
-/-- **SHADOW-PAIR-IDENTITY**: For any n : ℕ, (n−1)² + (n+1)² = 2(n²+1).
-    This is the algebraic backbone of the K_CS derivation.
-    At n = n_before = 6: (5)² + (7)² = 2(36+1) = 2×37 = 74. -/
+/-- Shifted Nat identity with no truncated subtraction. At n = 4 it
+    evaluates to the parent-6 arithmetic identity. -/
 theorem shadow_pair_identity (n : ℕ) : (n + 1) ^ 2 + (n + 1 + 2) ^ 2 = 2 * ((n + 2) ^ 2 + 1) := by
   ring
 
@@ -159,23 +165,24 @@ theorem gcd_12_37 : Nat.gcd 12 37 = 1 := by native_decide
 
 /-! ## Uniqueness in Neighbourhood -/
 
-/-- **NO-PRIME-N2-PLUS-1-IN-RANGE**: For n ∈ {4, 5, 7, 8} (the neighbourhood of 6
-    excluding 6 itself), n² + 1 is NOT prime.
-    This supports the uniqueness of n_before = 6 in the phenomenological window. -/
-theorem no_prime_n2p1_near_6 :
-    ¬ Nat.Prime (4^2 + 1) ∧
+/-- n = 4 lies in the historical window and gives the prime 17. -/
+theorem n_before_6_prime_window_counterexample :
+    4 ∈ ({4, 5, 7, 8} : Finset ℕ) ∧ (4 : ℕ) ≠ 6 ∧
+      Nat.Prime (4 ^ 2 + 1) := by
+  native_decide
+
+theorem no_prime_n2p1_near_6_refuted :
+    ¬ (¬ Nat.Prime (4^2 + 1) ∧
     ¬ Nat.Prime (5^2 + 1) ∧
     ¬ Nat.Prime (7^2 + 1) ∧
-    ¬ Nat.Prime (8^2 + 1) := by
-  -- Compilation blocker: 4^2 + 1 = 17 is prime.
-  refine ⟨?_, ?_, ?_, ?_⟩ <;> native_decide
+    ¬ Nat.Prime (8^2 + 1)) := by
+  native_decide
 
-/-- **UNIQUENESS-IN-WINDOW**: Among n ∈ {4, 5, 6, 7, 8}, the only n with n²+1 prime is n=6.
-    This is the arithmetic basis for the uniqueness claim of n_before = 6. -/
-theorem n_before_6_unique_prime_window :
-    ∀ n ∈ ({4, 5, 7, 8} : Finset ℕ), ¬ Nat.Prime (n^2 + 1) := by
-  -- Compilation blocker: n = 4 belongs to the set and gives the prime 17.
-  decide
+theorem n_before_6_unique_prime_window_refuted :
+    ¬ (∀ n ∈ ({4, 5, 7, 8} : Finset ℕ), ¬ Nat.Prime (n^2 + 1)) := by
+  intro h
+  exact h 4 n_before_6_prime_window_counterexample.1
+    n_before_6_prime_window_counterexample.2.2
 
 /-! ## Full Certificate -/
 
@@ -190,7 +197,7 @@ theorem n_before_6_unique_prime_window :
       (5) gcd(12, 37) = 1 (fraction in lowest terms).
       (6) The braid step Δ = 2 is forced (unique symmetric partition).
 
-    STATUS: SHADOW_PAIR_KCS_FORMALLY_PROVED -/
+    Conditional arithmetic only; parent uniqueness is not certified. -/
 theorem shadow_pair_kcs_certificate :
     n_w = 5 ∧
     n_shadow = 7 ∧

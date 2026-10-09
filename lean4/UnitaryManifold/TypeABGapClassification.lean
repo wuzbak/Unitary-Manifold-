@@ -7,10 +7,10 @@
   Pillar 784 — Type A / Type B Gap Classification (Constraint-Surface Synthesis)
   18 proxy theorems formalising the discriminant criteria and key bounds.
 
-  Each theorem encodes a physically meaningful inequality or constraint
-  using integer/rational arithmetic that Lean can verify natively.
-  Physical quantities are scaled to integer proxies that preserve the
-  constraint structure.
+  The historical g2_ads_below_pdg and g2_residual_positive declarations
+  are withdrawn: their scales differ by 100, not 10. Their original
+  comparison certificates are refuted; renamed common-scale arithmetic
+  checks below do not certify the physical gap-classification closure.
 
   Theory: ThomasCory Walker-Pearson (2026)
   Lean4 proxy engineering: GitHub Copilot (AI)
@@ -42,7 +42,7 @@ def s_warp_min_proxy : Nat := 40   -- S_warp_floor × 10
 
 /-- Criterion 4 — G2: α_s_ads × 10^6 = π²/(2·K_CS) × 10^6 ≈ 66694. -/
 def alpha_s_ads_proxy : Nat := pi_sq_proxy * 1000000 / (2 * 74 * 100)
--- ≈ 987 × 10000 / (148 × 100) = 9870000 / 14800 ≈ 667 (units: ×10^4)
+-- floor(987 × 1000000 / 14800) = 66689 (units: ×10^6)
 
 /-- Criterion 4 — G4: NLO floor proxy.
     NLO floor = ε²·(0.5 + 1/(4π²)) ≈ 4563×10^{-6} × 0.5253 ≈ 2397×10^{-9}.
@@ -92,8 +92,7 @@ def m_h_ceiling_proxy : Nat := 7231    -- 72.31 GeV × 100
 def m_h_obs_proxy : Nat := 12525       -- 125.25 GeV × 100
 theorem g3_ceiling_below_observed : m_h_ceiling_proxy < m_h_obs_proxy := by native_decide
 
-/-- Lean4 Theorem 11: G2 α_s_ads < α_s_PDG proxy.
-    α_s_ads ≈ 667 (×10^{-4}) < 1180 (= 0.1180 × 10^4). -/
+/-- PDG proxy in units of 10⁻⁴; comparison requires conversion to 10⁻⁶. -/
 def alpha_s_pdg_proxy : Nat := 1180    -- α_s(M_Z) × 10^4
 -- Withdrawn historical comparison: the proxy scales differ by 100, not 10.
 theorem g2_ads_below_pdg_misscaled_refuted :

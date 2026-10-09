@@ -1,6 +1,12 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
 # Unitary Manifold v38.1
 
+> **Health repair (2026-10-09):** the P8 full functional-space certificate and
+> Sub-gap L promotion are withdrawn; finite Float checks do not discharge
+> infinite-dimensional proof obligations. Historical theorem and test totals
+> below are not fresh full-build or full-regression clearance.
+> See [the repair record](TRUTH_LAYER.md#health-repair-2026-10-09).
+
 > **Current foundation reassessment (2026-09-05):** no new physics closure.
 > The historical summaries below overstate evidence on the audited paths:
 > assigned contractions are not physical calculations; proxy theorems are not

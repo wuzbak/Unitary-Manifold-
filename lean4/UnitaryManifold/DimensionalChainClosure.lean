@@ -1,10 +1,15 @@
-import Mathlib.Tactic
 import Mathlib.Data.Nat.Sqrt
+import Mathlib.Data.Finset.Card
 
 /-!
 # Unitary Manifold — Dimensional Chain Closure (Lean 4)
 
-**Pillar 762 — DIMENSIONAL_CHAIN_CLOSED**
+**Pillar 762 — dimensional-chain proxy audit; gauge-selection closure open**
+
+The historical `gauge_dim_uniquely_496` declaration and
+`DIMENSIONAL_CHAIN_CLOSED` interpretation are withdrawn. The first disjunct
+admits 256, not 496; the explicit counterexample below preserves that fact.
+The surviving arithmetic identities do not prove physical reduction uniqueness.
 
 ## Physical context
 
@@ -73,10 +78,17 @@ theorem n_flux_positive : 0 < N_FLUX := by decide
 -- ---------------------------------------------------------------------------
 theorem gauge_dim_factored : GAUGE_DIM = 16 * 31 := by decide
 
-theorem gauge_dim_uniquely_496 (d : ℕ) (h : d = 8 * (8 + 31 - 7) ∨ d = 248 + 248) :
-    d = GAUGE_DIM := by
-  -- Compilation blocker: d = 256 satisfies the first disjunct, not d = 496.
-  rcases h with rfl | rfl <;> decide
+theorem gauge_dim_uniquely_496_counterexample :
+    (256 = 8 * (8 + 31 - 7) ∨ 256 = 248 + 248) ∧
+      (256 : ℕ) ≠ GAUGE_DIM := by
+  decide
+
+theorem gauge_dim_uniquely_496_refuted :
+    ¬ (∀ d : ℕ, (d = 8 * (8 + 31 - 7) ∨ d = 248 + 248) →
+      d = GAUGE_DIM) := by
+  intro h
+  exact gauge_dim_uniquely_496_counterexample.2
+    (h 256 gauge_dim_uniquely_496_counterexample.1)
 
 -- ---------------------------------------------------------------------------
 -- Link 3: 9D → 8D: Wilson-line selects N_c = 3 (unique perturbative solution)
@@ -175,11 +187,10 @@ theorem dimensional_chain_uniqueness :
          k_cs_topological⟩
 
 -- ---------------------------------------------------------------------------
--- Summary certificate
--- Status: DIMENSIONAL_CHAIN_CLOSED
--- All 6 reduction links pass with zero free parameters propagated.
--- The 5D G_AB block metric is the unique output of the 11D → 5D reduction.
+-- The former dimensional_chain_closed_certificate : True is retired:
+-- True was only a status marker and cannot close the refuted selection claim.
+-- Gauge-selection closure remains open; the arithmetic conjunction above
+-- does not certify uniqueness of the physical dimensional reduction.
 -- ---------------------------------------------------------------------------
-theorem dimensional_chain_closed_certificate : True := trivial
 
 end UnitaryManifold.DimensionalChainClosure

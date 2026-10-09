@@ -1,5 +1,10 @@
 # The The Unitary Manifold — 5D Kaluza-Klein Physics Framework
 
+**Health repair (2026-10-09):** the historical P8 functional-space Lean4
+closure and Sub-gap L promotion are withdrawn; finite Float checks are not
+continuous functional-analysis proofs. No new full-build/regression clearance
+is implied. See [the evidence boundary](docs/TRUTH_LAYER.md#health-repair-2026-10-09).
+
 **Current repair scope (2026-10-05):** [dark-sector consistency and auditable
 regression execution](docs/TRUTH_LAYER.md#synthesis-repair-2026-10-05).
 Software integration checks do not establish a complete universe simulation;

@@ -1,8 +1,5 @@
-import Mathlib.Tactic
-import Mathlib.Algebra.BigOperators.Group.Finset.Basic
-import Mathlib.Data.ZMod.Basic
-import Mathlib.Algebra.Ring.Parity
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
 /-!
 # Unitary Manifold — NP-BC-2 IR-Brane Mixing Proof Attempt (Lean 4 + Mathlib)
 
@@ -175,13 +172,17 @@ theorem kk_zero_mode_robin_bc :
   unfold kk_mode_consistent delta_c_den delta_c_num kk_half
   ring
 
-/-- For n=1, the first KK mode is consistent with a specific Robin BC. -/
-theorem kk_first_mode_robin_bc :
-    kk_mode_consistent 1 ⟨79, 74, Or.inl (by decide)⟩ := by
-  -- Compilation blocker: these parameters require 5846 = 3108.
-  -- The statement is preserved, not silently reparameterized.
-  unfold kk_mode_consistent delta_c_den delta_c_num kk_half
-  ring
+/-- The historical kk_first_mode_robin_bc declaration is withdrawn:
+    the proposed parameters require 5846 = 3108. First-mode closure with
+    those parameters is refuted; selecting physical BC data remains open. -/
+theorem kk_first_mode_robin_bc_counterexample :
+    ¬ kk_mode_consistent 1 ⟨79, 74, Or.inl (by decide)⟩ := by
+  norm_num [kk_mode_consistent, delta_c_den, delta_c_num, kk_half]
+
+/-- Separately named arithmetic witness, not a physical BC selection proof. -/
+theorem kk_first_mode_robin_bc_arithmetic_witness :
+    kk_mode_consistent 1 ⟨42, 74, Or.inl (by decide)⟩ := by
+  norm_num [kk_mode_consistent, delta_c_den, delta_c_num, kk_half]
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- KK spectrum integers and mixing

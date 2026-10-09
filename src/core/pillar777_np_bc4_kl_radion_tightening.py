@@ -3,12 +3,12 @@
 """
 Pillar 777 — NP-BC-4 Sub-gaps K/L + de Radion Loop: Tightening.
 
-STATUS: NP_BC4_KL_RADION_TIGHTENING_CLOSED
+STATUS: NP_BC4_KL_RADION_TIGHTENING_PARTIAL
 
 This pillar tightens the three remaining PARTIALLY_CLOSED items in NP-BC-4:
 
   • Sub-gap K (ADM inhomogeneous NP) → PARTIALLY_BOUNDED_ADM
-  • Sub-gap L (P8 functional space)   → CLOSED_VIA_LEAN4
+  • Sub-gap L (P8 functional space)   → OPEN_FUNCTIONAL_PROOF_WITHDRAWN
   • de_radion_loop (1-loop CW)        → LOOP_CORRECTION_CLOSED
 
 Physics outline — Sub-gap K (ADM)
@@ -31,14 +31,11 @@ remains community-level, but the residual bound is explicit).
 
 Physics outline — Sub-gap L (P8 functional space)
 ──────────────────────────────────────────────────
-P8FunctionalFull.lean (Pillar 598 / sprint H) has 0 sorry stubs remaining.
-The 18 proxy theorems collectively prove that the P8 Bekenstein-Hawking
-entropy statement holds on the algebraic extension of the integer lattice.
-Sub-gap L is upgraded from PARTIALLY_CLOSED → CLOSED_VIA_LEAN4:
-  — All five former sorry stubs are closed (documented in P8FunctionalFull.lean).
-  — The functional residual is documented as ARCHITECTURE_LIMIT_LEAN4
-    (not sorry stubs — honest label for what remains outside Lean4 scope).
-  — The connection between pillar588 and P8FunctionalFull.lean is explicit.
+P8FunctionalFull.lean withdraws its historical functional-space closure.
+NaN ordering, negative-input square ordering and positive-input underflow
+refute former unrestricted Float statements. Finite computations and the
+absence of proof stubs do not establish an infinite-dimensional theorem.
+Sub-gap L remains open; its former Lean4 promotion is withdrawn.
 
 Physics outline — de Radion Loop (1-loop CW correction)
 ─────────────────────────────────────────────────────────
@@ -94,7 +91,7 @@ __all__ = [
 ]
 
 PILLAR_NUMBER: int = 777
-PILLAR_STATUS: str = "NP_BC4_KL_RADION_TIGHTENING_CLOSED"
+PILLAR_STATUS: str = "NP_BC4_KL_RADION_TIGHTENING_PARTIAL"
 PILLAR_TITLE: str = "NP-BC-4 Sub-gaps K/L + de Radion Loop: Tightening"
 VERSION: str = "v22.5"
 
@@ -103,7 +100,7 @@ LEAN4_NEW_THEOREMS: int = 8
 LEAN4_NEW_TOTAL: int = LEAN4_PREV_TOTAL + LEAN4_NEW_THEOREMS
 
 SUBGAP_K_NEW_STATUS: str = "PARTIALLY_BOUNDED_ADM"
-SUBGAP_L_NEW_STATUS: str = "CLOSED_VIA_LEAN4"
+SUBGAP_L_NEW_STATUS: str = "OPEN_FUNCTIONAL_PROOF_WITHDRAWN"
 RADION_LOOP_NEW_STATUS: str = "LOOP_CORRECTION_CLOSED"
 
 K_CS: int = 74
@@ -151,13 +148,14 @@ def p8_lean4_closure_status() -> Dict[str, Any]:
     return {
         "lean4_file": "lean4/UnitaryManifold/P8FunctionalFull.lean",
         "sorry_stubs_remaining": 0,
-        "proxy_theorems": 18,
-        "closed_former_sorrys": [
-            "alpha*phi^2 - beta <= phi^2 iff (alpha-1)*phi^2 <= beta",
-            "alpha*r^2 < alpha*s^2 when r < s",
-            "Every non-empty list of Floats has a lower bound",
-            "0 < alpha*delta_phi^2 when delta_phi > 0",
-            "False theorem replaced by correct reformulation",
+        "proxy_theorems": 0,
+        "historical_claimed_proxy_theorems": 18,
+        "functional_proof_verified": False,
+        "closed_former_sorrys": [],
+        "counterexamples": [
+            "NaN has no ordered lower bound",
+            "Negative inputs reverse square ordering",
+            "Positive Float inputs can square to zero",
         ],
         "architecture_limit_lean4": [
             "Spectral theory on full infinite-dimensional wavefunctional space",
@@ -207,10 +205,10 @@ def subgap_l_closure_certificate() -> Dict[str, Any]:
     res = p8_lean4_closure_status()
     return {
         "sub_gap": "L",
-        "description": "P8 functional space — closed via Lean4 (P8FunctionalFull.lean)",
+        "description": "P8 functional space — historical Float closure withdrawn",
         "previous_status": "PARTIALLY_CLOSED",
         "new_status": SUBGAP_L_NEW_STATUS,
-        "promoted": True,
+        "promoted": False,
         "sorry_stubs_remaining": res["sorry_stubs_remaining"],
         "proxy_theorems": res["proxy_theorems"],
         "lean4_file": res["lean4_file"],
@@ -244,7 +242,7 @@ def np_bc4_chain_status() -> Dict[str, Any]:
             "L": l_cert["new_status"],
         },
         "radion_loop": radion_loop_closure_certificate()["new_status"],
-        "overall_status": "NP_BC4_TIGHTENED",
+        "overall_status": "NP_BC4_PARTIAL_FUNCTIONAL_PROOF_OPEN",
     }
 
 
@@ -259,6 +257,7 @@ def pillar_report() -> Dict[str, Any]:
             "new_theorems": LEAN4_NEW_THEOREMS,
             "new_total": LEAN4_NEW_TOTAL,
             "module": "lean4/UnitaryManifold/NPBC4KLRadionTightening.lean",
+            "accounting_scope": "historical sprint counts, not current proof clearance",
         },
         "sub_gap_K": subgap_k_closure_certificate(),
         "sub_gap_L": subgap_l_closure_certificate(),
@@ -266,7 +265,7 @@ def pillar_report() -> Dict[str, Any]:
         "np_bc4_chain": np_bc4_chain_status(),
         "epistemic_deltas": [
             "Sub-gap K: PARTIALLY_CLOSED → PARTIALLY_BOUNDED_ADM (BSSN-derived bound)",
-            "Sub-gap L: PARTIALLY_CLOSED → CLOSED_VIA_LEAN4 (0 sorry stubs)",
+            "Sub-gap L: CLOSED_VIA_LEAN4 → OPEN_FUNCTIONAL_PROOF_WITHDRAWN",
             "de_radion_loop: PARTIALLY_CLOSED → LOOP_CORRECTION_CLOSED (2-loop bound proved)",
         ],
     }

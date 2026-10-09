@@ -1,5 +1,8 @@
-import Mathlib.Tactic
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
+import Mathlib.Data.Real.Basic
 /-!
 # Unitary Manifold — Full Inflation Observable Derivation Chain (Lean 4 + Mathlib)
 
@@ -155,11 +158,25 @@ theorem w_kk_above_minus_one (c_s : ℝ) (hcs_pos : 0 < c_s) (hcs_sub : c_s < 1)
   have : 0 < c_s ^ 2 := pow_pos hcs_pos 2
   linarith
 
-/-- **W-KK-BELOW-MINUS-THIRD**: For c_s < 1, w_KK < −1/3. -/
--- False as stated: c_s = -2 satisfies the hypothesis but gives w_KK = 5/3.
-theorem w_kk_below_minus_third (c_s : ℝ) (hcs_sub : c_s < 1) :
+/-- The historical w_kk_below_minus_third universal claim is withdrawn.
+    Negative sound speeds are admitted by its sole hypothesis. Closure
+    under that hypothesis is refuted, not replaced by the conditional result. -/
+theorem w_kk_below_minus_third_negative_counterexample :
+    (-2 : ℝ) < 1 ∧
+      ¬ (-1 + 2 / 3 * (-2 : ℝ) ^ 2 < -1 / 3) := by
+  norm_num
+
+theorem w_kk_below_minus_third_refuted :
+    ¬ (∀ c_s : ℝ, c_s < 1 → -1 + 2 / 3 * c_s ^ 2 < -1 / 3) := by
+  intro h
+  exact w_kk_below_minus_third_negative_counterexample.2
+    (h (-2) w_kk_below_minus_third_negative_counterexample.1)
+
+/-- Separately stated bound for a nonnegative subluminal sound speed. -/
+theorem w_kk_below_minus_third_of_nonnegative
+    (c_s : ℝ) (hcs_nonneg : 0 ≤ c_s) (hcs_sub : c_s < 1) :
     -1 + 2 / 3 * c_s ^ 2 < -1 / 3 := by
-  have : c_s ^ 2 < 1 := by nlinarith [sq_nonneg c_s]
+  have : c_s ^ 2 < 1 := by nlinarith
   linarith
 
 /-! ## §4 β Formula Structure -/

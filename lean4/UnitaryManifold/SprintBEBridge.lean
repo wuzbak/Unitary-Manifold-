@@ -1,8 +1,5 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
-import Mathlib.Tactic
-import Mathlib.Data.Real.Basic
-import Mathlib.Data.Nat.Basic
 /-!
 # Unitary Manifold — Sprint BE Bridge Theorems (Pillar 929)
 
@@ -204,9 +201,13 @@ theorem g_sigma_cy3_value : True := trivial
 -- 5.3  Δ_{CY₄} = χ(CY₄)/576 − χ(CY₃)/144
 theorem delta_cy4_formula : True := trivial
 
--- 5.4  χ(CY₄)/576 ≈ 3162.8 ≫ 1
-theorem chi_cy4_over_576_large : (1820160 / 576 : Nat) = 3159 := by
-  -- Compilation blocker: the quotient is exactly 3160, not 3159.
+-- The historical chi_cy4_over_576_large equality is withdrawn.
+-- Its arithmetic closure is pending correction; status markers do not prove it.
+theorem chi_cy4_over_576_large_refuted :
+    ¬ ((1820160 / 576 : Nat) = 3159) := by
+  native_decide
+
+theorem chi_cy4_over_576_exact : (1820160 / 576 : Nat) = 3160 := by
   native_decide
 
 -- 5.5  Large Euler char produces O(10³) genus correction: obstruction

@@ -1,6 +1,52 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
 # Unitary Manifold v38.2
 
+## Health repair (2026-10-09)
+
+The resumed health check recovered the interrupted branch without treating the
+agent's monthly-quota failure as a repository failure. The preserved packaging,
+dependency-resolution, CodeQL extraction and inventory repairs remain separate
+from the scientific evidence boundary. The latest inspected failing mainline
+CI runs are not executions of this repair branch.
+
+**P8 closure withdrawal.** `lean4/UnitaryManifold/P8FunctionalFull.lean`
+withdraws the historical full functional-space certificate. IEEE Float is not
+an ordered real field or a Sobolev-space model: NaN defeats ordered lower
+bounds, negative arguments reverse square ordering, and positive tiny values
+can square to zero. Previously asserted `True` certificates for regularity,
+attainment and uniqueness supplied no mathematical evidence. Remaining finite
+sample computations and a conditional identity do not prove the continuous
+claims.
+
+The live P759 report therefore marks the functional proof **OPEN**, describes
+its computations as **FINITE_PROXY_ONLY**, and never promotes a positive
+sampled second variation into a uniqueness certificate. P777 withdraws its
+Sub-gap L **CLOSED_VIA_LEAN4** promotion and reports
+**OPEN_FUNCTIONAL_PROOF_WITHDRAWN**. Former theorem increments are historical
+bookkeeping, not a currently compiled proof inventory. The actual functional,
+domain, coercivity, weak lower semi-continuity, existence and uniqueness
+obligations remain open. No version, pillar or observational-falsifier change
+is made.
+
+**Kawamura traceability.** The formal ledger's former proposition axioms are
+removed; its eight explicitly named `_given` lemmas require evidence from the
+caller. The Python packet now checks those conditional names and current
+proposition markers instead of requiring withdrawn axioms. Its validity flag
+is source/policy traceability only, not Lean compilation, a proof of ledger
+policy or discharge of the Kawamura independence residual. Duplicate theorem
+names and historical unconditional names cannot fill the eight-name ledger.
+
+**Verification at this checkpoint.** Compactified preflight passed **88 tests**;
+preserved packaging/CodeQL configuration regressions passed **27 tests**
+(3 deselected); the directly coupled P759/P777/Kawamura regressions passed
+**76 tests**. Installed runtime/development/Navigator requirements resolve
+together; `pip check` and the installed-environment advisory audit passed.
+Directory limits and status-drift checks passed. These are scoped software
+checks, not a full repository regression or a complete Lean build. Downloaded
+toolchains, package-resolution reports and execution logs remain outside the
+tracked repository. Full-build and full-core outcomes must be recorded
+separately before any broader clearance is asserted.
+
 ## Synthesis repair (2026-10-05)
 
 This repair preserves the existing version and pillar allocation. It does not
