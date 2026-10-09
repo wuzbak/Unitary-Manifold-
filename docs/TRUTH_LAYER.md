@@ -74,7 +74,7 @@ deadline and recorded one early failure. Neither run is a zero-failure
 certificate, and partial progress is not a passed-test total. These results do
 not replace historical regression records.
 
-**Remaining Navigator blocker.** Fail-fast execution recorded **99 passed,
+**Navigator blocker at the preceding checkpoint.** Fail-fast execution recorded **99 passed,
 1 failed, 3 skipped, 1 deselected**. The failure is
 `test_server_masterclass_and_swarm_routes_and_tools` at the
 `/api/psicat/spc-phase2-applied-pressure?limit=2&training_limit=2` read timeout.
@@ -83,8 +83,38 @@ warm profiled execution took 11.41 seconds, including 6.48 seconds in graph
 routing. A request-local reuse experiment still failed the existing endpoint
 test and was rolled back; incidental profiling history was restored. No
 endpoint timeout, promotion rule or assertion was weakened. Eight other
-runtime-contract tests passed, but this endpoint remains unresolved and
-requires a semantics-preserving reduction in repeated work.
+runtime-contract tests passed, but the endpoint was unresolved at that checkpoint
+and required a semantics-preserving reduction in repeated work.
+
+**Navigator focused follow-up (2026-10-09).** The inherited metadata-cache and
+pre-bind preparation repair now passes the exact
+`test_server_masterclass_and_swarm_routes_and_tools` regression (**1 passed in
+11.74 seconds**) and the focused runtime/graph coverage, including mutation
+isolation and source invalidation (**32 passed in 20.92 seconds**). Both runs
+were externally bounded; the existing HTTP timeout remains 10 seconds. No
+additional Navigator refactor, relaxed assertion or training-receipt cache was
+introduced in this follow-up. These focused results resolve the reproduced
+endpoint blocker locally, not the complete Product 20 regression obligation.
+
+**Agent deadline remediation (2026-10-09).** The cancelled agent job exceeded
+the managed 59-minute execution limit while regression processes were still
+running. Raising a repository test-job timeout cannot extend that agent limit.
+The existing full-core/product, Lean and repository-wide CodeQL workflows now
+also accept pushes to `copilot/full-health-check-fix`, so their longer-lived,
+artifact-preserving verification can run independently of the agent session.
+Their failure gates and full-core slow-test selection are unchanged. The
+Python setup action in agent provisioning and full-core verification now uses
+the Node 24 release, without changing Python 3.12 or the installed requirements.
+This trigger/runtime repair is not evidence that the dispatched jobs passed.
+
+The resumed compactification, CI-tooling and workflow contract regressions
+passed **77 tests** (3 deselected); status drift and directory limits passed, and the link
+audit resolved all internal file links in 1,992 Markdown files. `pip check` and
+the installed-environment advisory audit passed (**91 distributions**, no known
+advisories). That environment audit does
+not cover optional uninstalled products or the complete dependency set used by
+dedicated CI. Broad regression, complete Lean compilation and repository-wide
+security results remain outstanding until matching execution receipts exist.
 
 ## Synthesis repair (2026-10-05)
 
