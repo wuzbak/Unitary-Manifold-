@@ -40,9 +40,9 @@ No grounded rewrite source is assigned to these works, because none exists. Book
 
 ## Current coverage in this pass
 
-Coverage so far: **50 / 50 books**, **353 / 353 articles**.
+Coverage so far: **50 / 50 books**, **354 / 354 articles**.
 
-Original works (not rewrites): **6** — Books 51, 52, 53, 54, 55; Article 353.
+Original works (not rewrites): **7** — Books 51, 52, 53, 54, 55; Articles 353, 354.
 
 ### Books
 
@@ -105,6 +105,7 @@ Original works (not rewrites): **6** — Books 51, 52, 53, 54, 55; Article 353.
 4. `book-54-axiomzero-surveillance-exposure.md` — *The Cloud Has a Memory* (three-part original AXIOM Journalist investigation; public-record and human-review caveats apply)
 5. `book-55-the-architecture-of-impunity.md` — *The Architecture of Impunity* (reading index; 11 part-files `book-55-part-*.md`, the last two of which are Appendix A and Appendix B; 27 chapters, 9 narrative Parts, 2 appendices; synthesis of Books 9, 39, 45-v2, 48/51, 52, and 54 into a single through-lined investigation)
 6. `article-353-the-state-of-the-manifold-october-2026.md` — *The State of the Manifold: A Full Inspection, October 2026* (first original-work article; full-repository audit, not grounded in any substack source)
+7. `article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md` — *The Untouched Manifold: What This Monorepo Could Still Become* (second original-work article; commissioned technology-transfer essay on untapped uses, implications, and derivable tech/hardware across the monorepo, researched via `bot/rag_index.py`; not grounded in any substack source)
 
 ### Articles
 
@@ -461,6 +462,7 @@ Original works (not rewrites): **6** — Books 51, 52, 53, 54, 55; Article 353.
 351. `article-351-post-327-s04e030-ai-extinction-risk-governance-and-the-honest-monorepo.md`
 352. `article-352-post-329-repository-tracker-refresh-sep-2026.md`
 353. `article-353-the-state-of-the-manifold-october-2026.md` — *The State of the Manifold: A Full Inspection, October 2026* (original work, not a rewrite; commissioned full-repository audit covering line-of-code counts, physics/pillar status, the 27-product `12-AZ-IP` registry, and CI/regression health)
+354. `article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md` — *The Untouched Manifold: What This Monorepo Could Still Become* (original work, not a rewrite; commissioned technology-transfer essay surveying untapped uses, implications, and derivable tech/hardware across adjacent-track physics, materials, quantum, governance, consumer, and kernel software, researched via `bot/rag_index.py`)
 
 ## Version and gate policy
 
