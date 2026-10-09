@@ -160,6 +160,39 @@ and dependency consistency passed. Hosted receipts remain tied to their tested
 commit; the new Lean proof repair needs its own full-build receipt. No complete
 full-core or complete Lean success is inferred from these scoped results.
 
+**Final blocker repair (2026-10-09).** The repaired-commit Lean workflow
+[37943756394](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37943756394)
+now passed the complete pinned Mathlib build, exporter checks and
+NumericalChecks against `a2cb4e633`. This supersedes the earlier full-build
+blocker, not the open physical and functional-space obligations.
+
+The full-core job finished with a **blocked** integrity result:
+65,835 identities selected, 20,399 reconciled (20,392 passed and 7 skipped).
+The archived start/end fingerprints identify the mutation precisely:
+packaging tests generated 1,612 `build/` files and five
+`unitary_manifold.egg-info/` files inside the checkout; the latter also made
+`unitary-manifold==11.12.0` newly discoverable in the environment fingerprint.
+No existing source bytes changed. Wheel and editable-install checks now build
+from byte-verified copies of the declared packages and build metadata in pytest
+scratch space, and assert that the complete UM-ARTS compatibility fingerprint
+is unchanged afterwards. All eight packaging tests passed, including the slow
+wheel/editable checks and the fingerprint assertion. No source or environment
+exclusion was added to the frozen-evidence gate.
+
+Archived subprocess logs also expose six real failures in the P1055/P1056
+release-metadata suites. P1055's fixed 20-line status window no longer reached
+the historical regression record after honest introductory notes were added.
+It now parses the first explicitly named historical regression record and
+rejects missing, nonzero or conflicting failure counts; the report explicitly
+labels this as historical metadata, not verification of current execution.
+All nine directly coupled parser/certificate tests passed after the repair.
+Independent read-only reviews of both fixes found no significant remaining
+issues.
+
+These repairs explain and address the observed blockers, but do not retroactively
+validate the rejected full-core receipts. A fresh complete frozen run is still
+required before a repository-wide regression all-clear can be asserted.
+
 ## Synthesis repair (2026-10-05)
 
 This repair preserves the existing version and pillar allocation. It does not

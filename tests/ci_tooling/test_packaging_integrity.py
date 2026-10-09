@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 import shlex
+import shutil
 import subprocess
 import sys
 import tomllib
@@ -79,19 +80,49 @@ def run(*args, cwd, env=None):
 
 @pytest.fixture(scope="module")
 def artifacts(tmp_path_factory):
-    pytest.importorskip("setuptools")
+    setuptools = pytest.importorskip("setuptools")
     pytest.importorskip("wheel")
+    from TOOLS.um_arts.evidence import fingerprints
+
     root = tmp_path_factory.mktemp("packaging")
+    before = fingerprints(REPO_ROOT, root, {})
+    source_root = root / "source"
+    source_root.mkdir()
+    metadata = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text())
+    discovery = metadata["tool"]["setuptools"]["packages"]["find"]
+    for location in discovery["where"]:
+        packages = setuptools.find_packages(
+            where=str(REPO_ROOT / location), include=discovery["include"],
+        )
+        for package in sorted({name.split(".")[0] for name in packages}):
+            relative = Path(location) / package
+            shutil.copytree(
+                REPO_ROOT / relative, source_root / relative,
+                ignore=shutil.ignore_patterns("__pycache__", "*.pyc", "*.pyo"),
+            )
+    files = {
+        "pyproject.toml", "setup.py", "setup.cfg", metadata["project"]["readme"],
+        *metadata["tool"]["setuptools"]["license-files"],
+    }
+    for name in files:
+        relative = Path(name)
+        destination = source_root / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(REPO_ROOT / relative, destination)
+    for copied in source_root.rglob("*"):
+        if copied.is_file():
+            assert copied.read_bytes() == (REPO_ROOT / copied.relative_to(source_root)).read_bytes()
     scratch = root / "scratch"
     scratch.mkdir()
     env = dict(os.environ, TMPDIR=str(scratch), TEMP=str(scratch), TMP=str(scratch))
     wheel_dir = root / "wheels"
     run(
-        "-m", "pip", "wheel", str(REPO_ROOT), "--no-deps",
+        "-m", "pip", "wheel", str(source_root), "--no-deps",
         "--no-build-isolation", "--wheel-dir", str(wheel_dir),
         "--disable-pip-version-check", cwd=root, env=env,
     )
-    return root, env, next(wheel_dir.glob("unitary_manifold-*.whl"))
+    yield root, env, next(wheel_dir.glob("unitary_manifold-*.whl")), source_root
+    assert fingerprints(REPO_ROOT, root, {})["compatibility"] == before["compatibility"]
 
 
 def smoke_imports(target, expected_root, version):
@@ -133,7 +164,7 @@ def test_checkout_namespace_and_version():
 
 @pytest.mark.slow
 def test_wheel_contains_source_and_runtime_data(artifacts):
-    _, _, wheel = artifacts
+    _, _, wheel, _ = artifacts
     with ZipFile(wheel) as archive:
         names = set(archive.namelist())
         assert "unitary_manifold/__init__.py" in names
@@ -147,12 +178,12 @@ def test_wheel_contains_source_and_runtime_data(artifacts):
 @pytest.mark.parametrize("editable", [False, True], ids=["wheel", "editable"])
 @pytest.mark.slow
 def test_install_imports_outside_checkout(artifacts, editable):
-    root, env, wheel = artifacts
+    root, env, wheel, source_root = artifacts
     target = root / ("editable" if editable else "installed")
-    source = ["--editable", str(REPO_ROOT)] if editable else [str(wheel)]
+    source = ["--editable", str(source_root)] if editable else [str(wheel)]
     run(
         "-m", "pip", "install", *source, "--no-deps", "--no-build-isolation",
         "--target", str(target), "--disable-pip-version-check", cwd=root, env=env,
     )
     metadata = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text())
-    smoke_imports(target, REPO_ROOT if editable else target, metadata["project"]["version"])
+    smoke_imports(target, source_root if editable else target, metadata["project"]["version"])

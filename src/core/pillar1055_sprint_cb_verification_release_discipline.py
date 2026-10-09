@@ -31,6 +31,13 @@ FULL_REGRESSION_SUITE: str = "python3 -m pytest tests/ recycling/ \"5-GOVERNANCE
 
 def _status_has_zero_failures() -> bool:
     text = _STATUS.read_text(encoding="utf-8") if _STATUS.exists() else ""
+    record = re.search(
+        r"Latest verified full regression in current branch history[^.\n]*",
+        text,
+    )
+    if record:
+        failure_counts = re.findall(r"\b(\d+)\s+failed\b", record.group())
+        return failure_counts == ["0"]
     top_window = "\n".join(text.lstrip().splitlines()[:20])
     return bool(re.search(r"\b0\s+failed\b", top_window))
 
@@ -106,6 +113,7 @@ def sprint_cb_verification_release_discipline() -> Dict[str, Any]:
         },
         "status_gate": {
             "zero_failures_in_header": _status_has_zero_failures(),
+            "evidence_scope": "historical regression metadata; not current execution verification",
         },
         "artifact_script_checks": script_checks,
     }
