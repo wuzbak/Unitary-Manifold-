@@ -2,6 +2,14 @@ version: "v38.2"
 date: "2026-10-01"
 updated: "2026-10-01"
 
+health_repair_2026_10_09:
+  new_pillars: 0
+  version_promotion: false
+  p8_functional_proof: "WITHDRAWN_FLOAT_PROXY_CLOSURE"
+  subgap_l: "OPEN_FUNCTIONAL_PROOF_WITHDRAWN"
+  verification_scope: "No fresh full-build or full-regression clearance claimed"
+  reference: "docs/TRUTH_LAYER.md#health-repair-2026-10-09"
+
 canonical_status_notice: >
   The single current, canonical status of this tracker is the topmost
   per-sprint entry immediately below this notice (the highest-numbered

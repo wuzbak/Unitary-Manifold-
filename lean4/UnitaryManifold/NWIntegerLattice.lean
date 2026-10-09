@@ -1,4 +1,3 @@
-import Mathlib.Tactic
 import Mathlib.Algebra.Ring.Parity
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Finset.Card
@@ -80,7 +79,7 @@ namespace UnitaryManifold.NWIntegerLattice
 /-! ## Core Definitions -/
 
 /-- Z₂ parity predicate: n_w is odd (passes S¹/Z₂ orbifold projection). -/
-def z2_odd (n : ℕ) : Prop := n % 2 = 1
+abbrev z2_odd (n : ℕ) : Prop := n % 2 = 1
 
 /-- CS anomaly stability: KK mode of charge k is stable iff k² ≤ n_w. -/
 def mode_stable (k n_w : ℕ) : Prop := k ^ 2 ≤ n_w

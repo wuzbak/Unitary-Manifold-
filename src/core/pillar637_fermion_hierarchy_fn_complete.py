@@ -62,7 +62,6 @@ __all__ = [
     "Y_TOP",
     "N_W",
     "K_CS",
-    "SM_FERMION_TABLE",
     "WITHIN_05_DEX",
     "WITHIN_10_DEX",
     "FERMION_HIERARCHY_STATUS_BEFORE",

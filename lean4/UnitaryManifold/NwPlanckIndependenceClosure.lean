@@ -9,6 +9,8 @@
   Theorem count: 45  (total after: 1776 + 45 = 1821)
 -/
 
+import Mathlib.Data.Nat.Prime.Defs
+
 def N_W_835 : Nat := 5
 def K_CS_835 : Nat := 74
 def N_S_NUM : Nat := 9635    -- n_s = 0.9635 (proxy × 10000)

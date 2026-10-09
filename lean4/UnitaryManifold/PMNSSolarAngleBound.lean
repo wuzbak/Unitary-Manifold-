@@ -1,5 +1,5 @@
-import Mathlib.Tactic
-import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+import Mathlib.Tactic.NormNum
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 import Mathlib.Data.Real.Basic
 /-!
 # Unitary Manifold — PMNS Solar Angle Analytic Monotonicity Bound (Lean 4)
@@ -85,7 +85,8 @@ def sin2_theta12_sigma_x1000 : ℕ := 13
 
 /-- **COSH-NONNEG**: cosh(x) ≥ 0 for all real x.
     This is a pure analysis fact: cosh(x) = (e^x + e^{-x})/2 ≥ 1 ≥ 0. -/
-theorem cosh_nonneg (x : ℝ) : 0 ≤ Real.cosh x := Real.cosh_nonneg x
+theorem cosh_nonneg (x : ℝ) : 0 ≤ Real.cosh x :=
+  le_trans (by norm_num : (0 : ℝ) ≤ 1) (Real.one_le_cosh x)
 
 /-- **COSH-GE-ONE**: cosh(x) ≥ 1 for all real x.
     Proof: cosh(x) = (e^x + e^{-x})/2 ≥ (2√(e^x · e^{-x}))/2 = 1 by AM-GM. -/

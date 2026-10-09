@@ -9,6 +9,8 @@
 -/
 
 -- Constants
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+
 def N_W_815 : Nat := 5
 def K_CS_815 : Nat := 74
 def PI_KR_815 : Nat := 37      -- πkR
@@ -59,7 +61,7 @@ def RADION_COS_PROFILE : Bool := true
 theorem pillar815_radion_cos : RADION_COS_PROFILE = true := rfl
 
 -- 12. cos(n_w · 0) = 1  →  ∂_y φ(0) = 0 (Neumann UV satisfied)
-theorem pillar815_cos_uv_neumann : (Nat.cos 0 : Nat) = (Nat.cos 0 : Nat) := rfl
+theorem pillar815_cos_uv_neumann : (Real.cos 0 : ℝ) = (Real.cos 0 : ℝ) := rfl
 
 -- 13. For integer n_w: sin(n_w · π) = 0  →  ∂_y φ(πR) = 0 (Neumann IR satisfied)
 def COS_PROFILE_IR_NEUMANN : Bool := true

@@ -4,13 +4,14 @@
 
   Dm21NLOLatticeClosure.lean
   ─────────────────────────
-  Pillar 773 — NLO Lattice Correction for Δm²₂₁ (Partial Closure)
-  13 proxy theorems formalising the three NLO correction mechanisms and
-  their honest partial-closure result.
+  Pillar 773 — NLO integer-proxy audit; correction-chain closure pending
+  The historical nlo_bkt_positive declaration is withdrawn: the declared
+  Nat proxy is zero. The former three-positive-mechanism partial closure
+  is not certified; real-valued corrections require a repaired scale model.
 
   Proxy methodology: theorems encode the correction chain as integer and
-  rational arithmetic that Lean can check natively.  Physical quantities
-  are scaled to integer proxies preserving the constraint structure.
+  rational arithmetic that Lean can check natively. Nat division truncates;
+  these literal proxies do not preserve the claimed positivity structure.
 
   Theory: ThomasCory Walker-Pearson (2026)
   Lean4 proxy engineering: GitHub Copilot (AI)
@@ -20,16 +21,14 @@
 def n_w : Nat := 5
 def k_cs : Nat := 74
 
-/-- Squared FN parameter proxy: (n_w)^2 × 10^6 / k_cs^2
-    = 25 × 10^6 / 5476 ≈ 4564 (integer proxy for (5/74)^2 × 10^6) -/
-def eps_sq_proxy : Nat := 25 * 1000000 / (74 * 74)   -- = 4563
+/-- Squared FN parameter proxy: floor(25 × 10^6 / 5476) = 4565. -/
+def eps_sq_proxy : Nat := 25 * 1000000 / (74 * 74)
 
 /-- Pillar 772 LO tension proxy: 1.1642 × 1000 → 1164 -/
 def tension_lo_proxy : Nat := 1164
 
-/-- NLO winding correction proxy (×10^6):
-    δ_wind = (5/74)^2 × 0.693 / 2 ≈ 1582 × 10^(-6)
-    Proxy: 25 × 693 / (74^2 × 2) = 17325 / 10952 ≈ 1581 -/
+/-- Historical winding proxy: floor(17325 / 10952) = 1.
+    The declared scale does not encode the documented 10⁻⁶ correction. -/
 def nlo_wind_proxy : Nat := 25 * 693 / (74 * 74 * 2)
 
 /-- NLO KK threshold proxy (×10^6):
@@ -37,9 +36,8 @@ def nlo_wind_proxy : Nat := 25 * 693 / (74 * 74 * 2)
     Proxy: 25 × 10^6 / (74^2 × 40) ≈ 114 (using 4π²≈39.48→40) -/
 def nlo_kk_proxy : Nat := 25 * 1000000 / (74 * 74 * 40)
 
-/-- NLO BKT correction proxy (×10^6):
-    δ_BKT = (5/74)^2 × 0.307 / 2 ≈ 701 × 10^(-6)
-    Proxy: 25 × 307 / (74^2 × 2) = 7675 / 10952 ≈ 700 -/
+/-- Historical BKT proxy: floor(7675 / 10952) = 0.
+    The declared scale does not encode the documented 10⁻⁶ correction. -/
 def nlo_bkt_proxy : Nat := 25 * 307 / (74 * 74 * 2)
 
 /-- Lean4 Theorem 1: The squared FN parameter is strictly positive.
@@ -47,7 +45,7 @@ def nlo_bkt_proxy : Nat := 25 * 307 / (74 * 74 * 2)
 theorem eps_sq_positive : n_w * n_w > 0 := by
   native_decide
 
-/-- Lean4 Theorem 2: Each individual NLO mechanism is strictly positive. -/
+/-- Positivity of the declared winding proxy only. -/
 theorem nlo_wind_positive : nlo_wind_proxy > 0 := by
   native_decide
 
@@ -55,17 +53,16 @@ theorem nlo_wind_positive : nlo_wind_proxy > 0 := by
 theorem nlo_kk_positive : nlo_kk_proxy > 0 := by
   native_decide
 
-/-- Lean4 Theorem 4: The BKT correction is strictly positive. -/
-theorem nlo_bkt_positive : nlo_bkt_proxy > 0 := by
+/-- Withdrawn positivity claim: the declared Nat proxy truncates to zero.
+    No conclusion about the physical real-valued correction follows. -/
+theorem nlo_bkt_positive_refuted : ¬ (nlo_bkt_proxy > 0) := by
   native_decide
 
-/-- Lean4 Theorem 5: The winding + BKT contributions together equal
-    (n_w/k_cs)^2 / 2 (the full angular phase space).
-    Proxy check: (nlo_wind + nlo_bkt) × k_cs^2 × 2 ≈ n_w^2 × 1000.
-    = (1581 + 700) × 2 = 4562; n_w^2 × 1000 / k_cs^2 × k_cs^2 = 25000.
-    Simpler: wind + bkt ≈ eps_sq_proxy / 2.
-    Integer check: 2 × (nlo_wind_proxy + nlo_bkt_proxy) ≤ eps_sq_proxy + 5
-    (accounting for integer rounding). -/
+theorem nlo_bkt_proxy_zero_counterexample : nlo_bkt_proxy = 0 := by
+  native_decide
+
+/-- Literal inequality 2 × (1 + 0) ≤ 4565 + 5.
+    It does not establish coverage of the physical angular phase space. -/
 theorem wind_plus_bkt_covers_angular_space :
     2 * (nlo_wind_proxy + nlo_bkt_proxy) ≤ eps_sq_proxy + 5 := by
   native_decide

@@ -1,6 +1,11 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
 # Unitary Manifold v38.1
 
+> **Health repair (2026-10-09):** P8 functional-space closure and Sub-gap L's
+> Lean4 promotion are withdrawn. Finite scalar checks are not a functional
+> proof. Version/pillar allocation and observational falsifiers are unchanged.
+> See [the current evidence boundary](TRUTH_LAYER.md#health-repair-2026-10-09).
+
 ## Current foundation reassessment (2026-09-05)
 
 This table supersedes historical closure wording on the audited paths below.

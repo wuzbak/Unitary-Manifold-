@@ -9,6 +9,7 @@ import importlib.util
 import os
 import sys
 import threading
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -50,8 +51,38 @@ INTERROGATOR_ENTRIES = load_kb(INTERROGATOR_KB_PATH)
 KB_MATCH_THRESHOLD = 0.15
 
 
-def _tokens(text: str) -> set[str]:
-    return token_set(text)
+@lru_cache(maxsize=4096)
+def _tokens(text: str) -> frozenset[str]:
+    return frozenset(token_set(text))
+
+
+def prepare_local_navigation() -> None:
+    """Prepare pure metadata before accepting latency-bounded HTTP requests."""
+    from .merlin_benchmark import get_benchmark_corpus
+    from .merlin_repo_graph import _build_repo_graph
+
+    corpora = get_benchmark_corpus().get("corpora") or {}
+    queries = {
+        str(query)
+        for corpus in corpora.values()
+        for benchmark in corpus.get("benchmarks") or []
+        for query in [benchmark.get("query") or "", *(benchmark.get("setup_turns") or [])]
+        if str(query)
+    }
+    for query in sorted(queries):
+        try:
+            _build_repo_graph(120, query)
+        except Exception:
+            # Preparation is optional; live routing retains its own error path.
+            continue
+    try:
+        from src.core.action_derived_flow import symbolic_kk_reduction_check
+
+        # Warm only the parameter-pure algebra, never a gate verdict or session.
+        symbolic_kk_reduction_check(full=False, exact=True)
+    except Exception:
+        # Optional formal integrations retain their existing lazy failure path.
+        pass
 
 
 def _default_index():
@@ -391,14 +422,17 @@ def build_rag_context(
     session: Any | None = None,
     ast_file_limit: int = 5,
     max_chunks: int = 5,
+    context_scaffold: dict[str, Any] | None = None,
 ) -> str:
     """Build the Merlin prompt context blocks."""
-    scaffold = build_context_scaffold(
-        query,
-        session=session,
-        ast_file_limit=ast_file_limit,
-        max_chunks=max_chunks,
-    )
+    scaffold = context_scaffold
+    if scaffold is None:
+        scaffold = build_context_scaffold(
+            query,
+            session=session,
+            ast_file_limit=ast_file_limit,
+            max_chunks=max_chunks,
+        )
     context = retrieve_context(query, max_chunks=max_chunks)
     retrieval = dict(scaffold.get("retrieval") or {})
     blocks = [render_context_scaffold(scaffold)]

@@ -28,6 +28,73 @@ from ox_navigator.engine.merlin_memory import MerlinSession
 from ox_navigator.engine.merlin_program import get_merlin_execution_board
 
 
+def test_server_prepares_pure_navigation_before_binding(monkeypatch) -> None:
+    from ox_navigator.app import server
+    from ox_navigator.engine import merlin_rag
+
+    calls = []
+    sentinel_server = object()
+    monkeypatch.setattr(merlin_rag, "prepare_local_navigation", lambda: calls.append("prepare"))
+
+    def bind(address, handler):
+        calls.append(("bind", address, handler))
+        return sentinel_server
+
+    monkeypatch.setattr(server, "ThreadingHTTPServer", bind)
+    assert serve(host="127.0.0.1", port=1234) is sentinel_server
+    assert calls == ["prepare", ("bind", ("127.0.0.1", 1234), server.OxRequestHandler)]
+
+
+def test_navigation_preparation_does_not_run_queries_or_cache_gate_verdicts(monkeypatch) -> None:
+    from ox_navigator.engine import merlin_benchmark, merlin_engine, merlin_program, merlin_rag, merlin_repo_graph
+    from src.core import action_derived_flow
+
+    calls = []
+    monkeypatch.setattr(merlin_benchmark, "get_benchmark_corpus", lambda: {
+        "corpora": {"stage": {"benchmarks": [
+            {"query": "beta", "setup_turns": ["alpha"]},
+            {"query": "alpha", "setup_turns": ["alpha"]},
+        ]}},
+    })
+    monkeypatch.setattr(merlin_repo_graph, "_build_repo_graph", lambda cap, query: calls.append((cap, query)))
+    monkeypatch.setattr(action_derived_flow, "symbolic_kk_reduction_check", lambda **kwargs: calls.append(kwargs))
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Readiness must not execute queries or prepare gate verdicts")
+
+    monkeypatch.setattr(merlin_engine, "query_merlin", forbidden)
+    monkeypatch.setattr(merlin_program, "_get_formal_proof_foundry_snapshot", forbidden)
+    merlin_rag.prepare_local_navigation()
+    assert calls == [(120, "alpha"), (120, "beta"), {"full": False, "exact": True}]
+
+
+def test_navigation_preparation_does_not_cache_failures_or_change_optional_availability(monkeypatch) -> None:
+    from ox_navigator.engine import merlin_benchmark, merlin_rag, merlin_repo_graph
+    from src.core import action_derived_flow
+
+    attempts = []
+    monkeypatch.setattr(merlin_benchmark, "get_benchmark_corpus", lambda: {
+        "corpora": {"stage": {"benchmarks": [{"query": "alpha"}]}},
+    })
+
+    def unavailable_graph(cap, query):
+        attempts.append((cap, query))
+        raise OSError("Source currently unavailable")
+
+    def unavailable_algebra(**kwargs):
+        attempts.append(kwargs)
+        raise ImportError("Optional formal integration unavailable")
+
+    monkeypatch.setattr(merlin_repo_graph, "_build_repo_graph", unavailable_graph)
+    monkeypatch.setattr(action_derived_flow, "symbolic_kk_reduction_check", unavailable_algebra)
+    merlin_rag.prepare_local_navigation()
+    merlin_rag.prepare_local_navigation()
+    assert attempts == [
+        (120, "alpha"), {"full": False, "exact": True},
+        (120, "alpha"), {"full": False, "exact": True},
+    ]
+
+
 def test_masterclass_execution_packet_contract() -> None:
     packet = get_masterclass_execution_packet(limit=4)
     assert packet["execution_spine"]["surface_id"] == "psicat_masterclass_execution_packet"

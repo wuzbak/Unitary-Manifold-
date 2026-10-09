@@ -6,7 +6,7 @@
   Lean4 proxy theorems formalising the KK graviton mass bound and zero-mode
   masslessness argument.
 
-  Theorem count: 15  (total after: 1051 + 15 = 1066)
+  Historical bookkeeping: 15 (1051 + 15 = 1066), not a live declaration count.
 -/
 
 -- Proxy integers (× 10⁴ for fractions)
@@ -38,9 +38,14 @@ theorem kk_graviton_mass_n1_positive : BESSEL_X1 * (C_S_NUM * C_S_NUM) > 0 := by
 -- 7. Sound speed numerator < denominator (subluminality proxy)
 theorem cs_subluminal : C_S_NUM < C_S_DEN := by decide
 
--- 8. c_s² proxy: (12/37)² × 10⁴ = 1052 (rounded)
---    We check 12² × 10000 / 37² ≈ 1052
-theorem cs_squared_proxy : 12 * 12 * 10000 / (37 * 37) = 1052 := by decide
+-- Withdrawn equality: Nat division truncates rather than rounding to nearest.
+theorem cs_squared_proxy_rounded_equality_refuted :
+    ¬ (12 * 12 * 10000 / (37 * 37) = 1052) := by
+  decide
+
+theorem cs_squared_proxy_truncated :
+    12 * 12 * 10000 / (37 * 37) = 1051 := by
+  decide
 
 -- 9. M_G*(n=1) proxy: BESSEL_X1 × c_s² / 10⁴ is in (0, HLLHC_EXCL)
 theorem m_gstar_below_hllhc_excl :

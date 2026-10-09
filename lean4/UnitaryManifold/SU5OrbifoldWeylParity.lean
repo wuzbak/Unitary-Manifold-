@@ -1,8 +1,8 @@
-import Mathlib.Tactic
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Nat.Basic
 import Mathlib.Data.Nat.GCD.Basic
 import Mathlib.Data.Finset.Basic
-import Mathlib.Algebra.Field.Rat
+import Mathlib.Data.Fintype.Fin
 /-!
 # Unitary Manifold — SU(5) Orbifold Weyl-Group Parity Proof (Lean 4 + Mathlib)
 
@@ -319,11 +319,18 @@ theorem kawamura_eigenspace_completeness :
     (Finset.univ.filter (fun i : Fin 5 => kawamura_parity i = -1)).card = 5 := by
   decide
 
-/-- Theorem E6: The even eigenspace has exactly 3 entries (= N_SM_GENERATORS / 4
-    colour count / rank proxy), matching the SU(3) colour factor N_c = 3. -/
-theorem kawamura_even_dim_equals_n_colour :
-    (Finset.univ.filter (fun i : Fin 5 => kawamura_parity i = 1)).card = N_C := by
+/-- The historical kawamura_even_dim_equals_n_colour declaration is withdrawn.
+    Its undeclared N_C was an arbitrary auto-implicit Nat, not a constant.
+    N_C = 0 refutes it; colour identification is not closed by a count. -/
+theorem kawamura_even_dim_equals_n_colour_zero_counterexample :
+    (Finset.univ.filter (fun i : Fin 5 => kawamura_parity i = 1)).card ≠ 0 := by
   decide
+
+theorem kawamura_even_dim_equals_n_colour_refuted :
+    ¬ (∀ N_C : Nat,
+      (Finset.univ.filter (fun i : Fin 5 => kawamura_parity i = 1)).card = N_C) := by
+  intro h
+  exact kawamura_even_dim_equals_n_colour_zero_counterexample (h 0)
 
 /-- Theorem E7: Among all possible diagonal involutions on Fin 5 (choices of
     (p₀,...,p₄) with each pᵢ ∈ {+1,−1}), exactly one has trace = 1 AND

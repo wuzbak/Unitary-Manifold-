@@ -2,15 +2,17 @@
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
 /-
   APSEtaInvariantBridge.lean
-  Pillar 828 — APS_ETA_ANALYTIC_BRIDGE_CLOSED
+  Pillar 828 — APS integer-proxy audit; analytic closure pending
 
   Lean4 proxy theorems formalising the APS η-invariant computation and
   the selection of n_w=5 from SM fermion spin structure.
 
-  Closes: APS_MATHLIB_OPEN (analytic sector)
-          NW_UNIQUENESS_GEOMETRY_OPEN → NW_APS_HALFINTEGER_SPINSTRUCTURE_CONFIRMED
+  The historical pillar828_aps_index_5 declaration is withdrawn.
+  Its unscaled Nat equation is false; the renamed scaled equality below
+  checks common-denominator arithmetic only. It does not compute an APS
+  spectral invariant or close APS_MATHLIB_OPEN / NW_UNIQUENESS_GEOMETRY_OPEN.
 
-  Theorem count: 45  (total after: 1581 + 45 = 1626)
+  Historical bookkeeping: 45 (1581 + 45 = 1626), not a live declaration count.
 -/
 
 def N_W_828 : Nat := 5
@@ -73,8 +75,15 @@ theorem pillar828_eta5_lt_eta7 : ETA_BAR_NUM_5 < ETA_BAR_NUM_7 := by decide
 -- 11. η̄ denominator = 4
 theorem pillar828_eta_den : ETA_BAR_DEN = 4 := rfl
 
--- 12. APS index formula: ind = 1 − η̄/2; n_w=5: ind = 1 − 1/8 = 7/8
-theorem pillar828_aps_index_5 : APS_INDEX_NUM_5 = APS_INDEX_DEN - ETA_BAR_NUM_5 / 2 := by decide
+-- The historical unscaled Nat equation is withdrawn: 7 ≠ 8 - (1 / 2).
+theorem pillar828_aps_index_5_unscaled_refuted :
+    ¬ (APS_INDEX_NUM_5 = APS_INDEX_DEN - ETA_BAR_NUM_5 / 2) := by
+  decide
+
+-- Correct, explicitly renamed common-denominator arithmetic for 1 - 1/8.
+theorem pillar828_aps_index_5_scaled :
+    APS_INDEX_NUM_5 = APS_INDEX_DEN - ETA_BAR_NUM_5 := by
+  decide
 
 -- 13. n_w ≡ 1 (mod 4) → minimal half-integer spin structure
 theorem pillar828_nw5_minimal : NW_5_MOD4 = 1 := rfl
@@ -189,5 +198,5 @@ theorem pillar828_nw7_larger_asymmetry : ETA_BAR_NUM_7 > ETA_BAR_NUM_5 := by dec
 -- Proxy: ETA_BAR_NUM_5 = 1 is the unique minimal nonzero value ≤ 2
 theorem pillar828_sm_doublet_unique : ETA_BAR_NUM_5 = 1 ∧ ETA_BAR_NUM_5 ≤ 2 := by decide
 
--- 45. Sprint AZ APS closure
+-- 45. Historical count bookkeeping, not an APS analytic closure certificate.
 theorem pillar828_az_aps_closure : LEAN4_PRIOR_828 = 1581 ∧ LEAN4_COUNT_828 = 45 := by decide

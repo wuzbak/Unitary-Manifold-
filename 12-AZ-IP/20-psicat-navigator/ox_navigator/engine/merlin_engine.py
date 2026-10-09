@@ -850,7 +850,7 @@ async def query_merlin(
     context = retrieve_context(text)
     benchmark_match = match_benchmark_for_query(text)
     context_scaffold = build_context_scaffold(text, session=session)
-    rag_context = build_rag_context(text, session=session)
+    rag_context = build_rag_context(text, session=session, context_scaffold=context_scaffold)
     urls = extract_urls(text)
     internal = is_internal_question(text)
     used_websearch = bool(force_websearch) if force_websearch is not None else (not internal or bool(urls))

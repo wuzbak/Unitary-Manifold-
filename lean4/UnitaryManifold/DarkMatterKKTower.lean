@@ -70,7 +70,7 @@ theorem kk_mode_2_double_mode_1 (M1 : Nat) : 2 * M1 = 2 * M1 := rfl
 theorem kk_mode_2_heavier_than_mode_1 (M1 : Nat) (h : M1 > 0) : 1 * M1 < 2 * M1 := by omega
 
 /-- Lightest KK mode has n=1 (smallest positive index). -/
-theorem lightest_mode_index : (1 : Nat) ≤ 1 := le_refl 1
+theorem lightest_mode_index : (1 : Nat) ≤ 1 := Nat.le_refl 1
 
 /-- The n=1 mode is lighter than all n≥2 modes (given M1 > 0). -/
 theorem lightest_is_n1 (M1 : Nat) (h : M1 > 0) : 1 * M1 < 2 * M1 := by omega

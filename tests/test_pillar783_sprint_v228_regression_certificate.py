@@ -60,6 +60,16 @@ def test_sprint_np_bc_chains():
     assert any("NP-BC-1" in c for c in chains)
     assert any("NP-BC-4" in c for c in chains)
 
+
+def test_np_bc4_withdrawal_overrides_historical_sprint_promotion():
+    from src.core.pillar777_np_bc4_kl_radion_tightening import np_bc4_chain_status
+
+    summary = sprint_summary()
+    assert summary["current_np_bc4"] == np_bc4_chain_status()
+    assert "OPEN_FUNCTIONAL_PROOF_WITHDRAWN" in summary["np_bc_chains_resolved"][3]
+    assert any("functional-space" in gap for gap in summary["open_gaps_remaining"])
+    assert "historical" in summary["scope"]
+
 def test_sprint_gap_statuses():
     summary = sprint_summary()
     assert "PROVED_LEAN4_FORMAL" in summary["gap_3_status"]

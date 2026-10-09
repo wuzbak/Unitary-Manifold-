@@ -1,4 +1,5 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
 import Mathlib.Algebra.Ring.Parity
 import Mathlib.Algebra.Field.Rat
 import Mathlib.Data.Finset.Basic
@@ -179,6 +180,8 @@ theorem nw7_aps_inconsistent : ¬ aps_consistent k_CS_7 eta_7 := by
   intro ⟨m, hprod, _hpos⟩
   -- The phase product is 0, but 0 ≠ 2m+1 for any integer m.
   norm_num at hprod
+  have hm : (0 : ℚ) ≤ m := by exact_mod_cast _hpos
+  linarith
 
 /-! ## The Main Exclusion and Selection Theorems -/
 

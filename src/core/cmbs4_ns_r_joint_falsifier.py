@@ -48,7 +48,6 @@ __all__ = [
     "R_SIGMA_CMBS4",
     "NS_FALSIFICATION_WINDOW",
     "R_FALSIFICATION_LOWER",
-    "route_cmbs4_ns_r",
     "ns_tension",
     "r_tension",
     "joint_ns_r_verdict",

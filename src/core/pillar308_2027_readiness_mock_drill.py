@@ -60,7 +60,6 @@ __all__ = [
     "READINESS_STATUS",
     # DESI DR3 routing
     "DESI_WA_CONSISTENT_THRESHOLD",
-    "DESI_WA_TENSION_THRESHOLD",
     "DESI_WA_FALSIFICATION_SIGMA",
     "route_desi_dr3",
     # JUNO DR1 routing

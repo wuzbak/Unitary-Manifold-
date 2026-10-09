@@ -82,6 +82,16 @@ The master README fingerprint in the table is refreshed each time the catalog
 changes. Historical registration references remain in Git history and the
 machine-readable reseal note.
 
+### Product 26 secure build requirements refresh — 2026-10-08
+
+The UM-ARTS distribution manifest now matches the root package's secure build
+requirements: `setuptools>=78.1.1` and `wheel>=0.46.2`. Its verified previous
+exact-byte seal is retained in `IP_REGISTRY.json` reseal history.
+
+| Asset | SHA-256 | Bytes | Status |
+|-------|---------|-------|--------|
+| `12-AZ-IP/26-um-arts/pyproject.toml` | `b9775abd39c4fb253d4f17c5908aca67a1610de3036e5d7ac73249cedad69be1` | 519 | RESEALED 2026-10-08 |
+
 ---
 
 ## Authorship Declaration

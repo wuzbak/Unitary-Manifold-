@@ -247,7 +247,7 @@ That is why this post includes an in-post appendix and a standalone companion bi
 
 A standalone, expanded bibliography with app, open-software, open-science, and provenance coverage is provided here:
 
-[`post-140-companion-bibliography-credit-lineage-ledger.md`](post-140-companion-bibliography-credit-lineage-ledger.md)
+[`post-140-companion-bibliography-credit-lineage-ledger.md`](article-162-post-140-companion-bibliography-credit-lineage-ledger.md)
 
 ---
 

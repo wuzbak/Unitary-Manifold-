@@ -1,5 +1,7 @@
-import Mathlib.Tactic
 import Mathlib.Algebra.Ring.Parity
+import Mathlib.Data.Finset.Filter
+import Mathlib.Data.Finset.Range
+import Mathlib.Data.Nat.Prime.Defs
 /-!
 # Unitary Manifold — Honest Proof Distance: What Is and Isn't Machine-Proved (Lean 4)
 
@@ -128,13 +130,13 @@ axiom chirality_selects_half_eta : True  -- placeholder
     Its machine-verified status is therefore: the LOGICAL STRUCTURE is correct,
     but the premises require validation by future Lean 4 formalization. -/
 theorem nw5_unique_given_axioms
-    (h_z2 : z2_involution_removes_even_winding 6 (by native_decide))
+    (h_z2 : ¬ ((6 : ℕ) > 0 ∧ True))
     (h_ngen3 : True)  -- N_gen = 3 observational input
     : True := by trivial
 
 /-! ## §3 Open Axioms (Named Gaps) -/
 
-/-- **OPEN-GAP-1**: Full n_w = 5 uniqueness from first principles alone
+/- **OPEN-GAP-1**: Full n_w = 5 uniqueness from first principles alone
     (without Planck n_s AND without the three geometric axioms above).
 
     STATUS: OPEN.
@@ -147,7 +149,7 @@ theorem nw5_unique_given_axioms
 -- Gap ID: NW_FIRST_PRINCIPLES_UNIQUENESS
 -- Blocking: APS formalization, GW mechanism, N_gen derivation
 
-/-- **OPEN-GAP-2**: APS index theorem in Lean 4 / Mathlib.
+/- **OPEN-GAP-2**: APS index theorem in Lean 4 / Mathlib.
 
     STATUS: OPEN (Mathlib research frontier).
     Mathlib has manifold theory but not the APS boundary value problem
@@ -155,7 +157,7 @@ theorem nw5_unique_given_axioms
     This is a significant open problem in the formalized mathematics community. -/
 -- Gap ID: APS_MATHLIB_FORMALIZATION
 
-/-- **OPEN-GAP-3**: N_gen = 3 from 5D geometry.
+/- **OPEN-GAP-3**: N_gen = 3 from 5D geometry.
 
     STATUS: OPEN (architecture limit of 5D-EFT).
     The number of Standard Model generations is observed (N_gen = 3) but

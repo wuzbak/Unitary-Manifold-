@@ -14,7 +14,7 @@
 
 ## The short version
 
-I just finished a full book-length deep dive: **[The Iron Cage](../books/book-iron-cage.md)**.
+I just finished a full book-length deep dive: **[The Iron Cage](../Books/book-26-book-iron-cage.md)**.
 
 If you want the blunt summary, here it is:
 
@@ -101,7 +101,7 @@ Right now, in too many places, it does not.
 
 If we keep calling that normal, we are not defending public safety. We are normalizing preventable institutional harm.
 
-Read the full book: **[The Iron Cage](../books/book-iron-cage.md)**.
+Read the full book: **[The Iron Cage](../Books/book-26-book-iron-cage.md)**.
 
 ---
 

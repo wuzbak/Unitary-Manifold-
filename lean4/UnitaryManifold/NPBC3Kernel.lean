@@ -1,4 +1,5 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.ZMod.Basic
 import Mathlib.Algebra.Ring.Parity
@@ -88,7 +89,7 @@ theorem kcs_nonzero : k_cs ≠ 0 := Nat.not_eq_zero_of_lt kcs_positive
 
 /-- A winding configuration is labeled by a natural number n (winding number).
     The n=0 sector is the vacuum. -/
-def windingSector := ℕ
+abbrev windingSector := ℕ
 
 /-- The vacuum sector (n = 0). -/
 def vacuumSector : windingSector := 0
@@ -111,9 +112,7 @@ theorem vacuum_zero_action :
 theorem cs_exponent_monotone (n m : ℕ) (h : n < m) :
     csExponent n < csExponent m := by
   unfold csExponent
-  apply Nat.mul_lt_mul_left
-  · exact kcs_positive
-  · exact h
+  exact (Nat.mul_lt_mul_left kcs_positive).2 h
 
 /-- The n=1 sector has exponent k_CS = 74. -/
 theorem first_winding_exponent :

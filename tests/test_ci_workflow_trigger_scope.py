@@ -25,7 +25,7 @@ def _extract_branches(workflow_name: str, event_name: str) -> list[str]:
     return list((on_block.get(event_name, {}) or {}).get("branches", []))
 
 
-def test_hosted_ci_workflows_run_pushes_only_on_main() -> None:
+def test_hosted_ci_workflows_limit_pushes_to_main_and_explicit_health_branch() -> None:
     for workflow_name in [
         "ci.yml",
         "tests.yml",
@@ -33,7 +33,10 @@ def test_hosted_ci_workflows_run_pushes_only_on_main() -> None:
         "lean4-check.yml",
         "codeql-language-matrix.yml",
     ]:
-        assert _extract_branches(workflow_name, "push") == ["main"]
+        expected = ["main"]
+        if workflow_name in ("lean4-check.yml", "codeql-language-matrix.yml"):
+            expected.append("copilot/full-health-check-fix")
+        assert _extract_branches(workflow_name, "push") == expected
         assert _extract_branches(workflow_name, "pull_request") == ["**"]
 
 
@@ -96,7 +99,9 @@ def test_ledger_consistency_installs_shared_and_navigator_requirements() -> None
 def test_full_core_evidence_runs_outside_the_agent_session() -> None:
     workflow = _load("um-arts-full-core.yml")
     job = workflow["jobs"]["full-core"]
-    assert _extract_branches("um-arts-full-core.yml", "push") == ["main", "copilot/um-arts-*"]
+    assert _extract_branches("um-arts-full-core.yml", "push") == [
+        "main", "copilot/um-arts-*", "copilot/full-health-check-fix",
+    ]
     assert _extract_branches("um-arts-full-core.yml", "pull_request") == ["**"]
     assert workflow["concurrency"]["cancel-in-progress"] is False
     assert job["steps"][0]["with"]["fetch-depth"] == 0
@@ -112,6 +117,29 @@ def test_full_core_evidence_runs_outside_the_agent_session() -> None:
     assert upload["if"] == "always()"
     assert upload["with"]["include-hidden-files"] is True
     assert upload["with"]["retention-days"] == 90
+
+
+def test_health_branch_verification_outlives_the_cloud_agent_job() -> None:
+    branch = "copilot/full-health-check-fix"
+    for name in ("um-arts-full-core.yml", "lean4-check.yml", "codeql-language-matrix.yml"):
+        assert branch in _extract_branches(name, "push")
+    assert _load("lean4-check.yml")["jobs"]["lean4-build"]["timeout-minutes"] > 59
+    assert _load("codeql-language-matrix.yml")["jobs"]["python-full"]["timeout-minutes"] > 59
+
+
+def test_health_setup_uses_node24_python_action_without_changing_the_runtime() -> None:
+    setup = _load("copilot-setup-steps.yml")["jobs"]["copilot-setup-steps"]
+    assert setup["timeout-minutes"] == 59
+    assert setup["permissions"] == {"contents": "read"}
+    jobs = [setup, *_load("um-arts-full-core.yml")["jobs"].values()]
+    for job in jobs:
+        python_steps = [
+            step for step in job["steps"]
+            if step.get("uses", "").startswith("actions/setup-python@")
+        ]
+        assert len(python_steps) == 1
+        assert python_steps[0]["uses"] == "actions/setup-python@v7.0.0"
+        assert python_steps[0]["with"]["python-version"] == "3.12"
 
 
 def test_fast_pytest_redirects_wandb_to_external_step_runtime() -> None:

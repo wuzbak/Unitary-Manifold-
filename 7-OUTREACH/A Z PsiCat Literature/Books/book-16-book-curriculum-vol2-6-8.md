@@ -1340,10 +1340,10 @@ is the middle school that closes gaps rather than compounds them.
 
 The companion volumes provide the full K-12 arc:
 
-- **[K-12 Curriculum Volume 1: PreK-5](book-curriculum-vol1-preK-5.md)** — The foundational
+- **[K-12 Curriculum Volume 1: PreK-5](book-15-book-curriculum-vol1-prek-5.md)** — The foundational
   years: reading skills, mathematical fluency, executive function, and the structures on which
   all subsequent learning rests.
-- **[K-12 Curriculum Volume 3: Grades 9-12 and Beyond](book-curriculum-vol3-9-12-beyond.md)** —
+- **[K-12 Curriculum Volume 3: Grades 9-12 and Beyond](book-17-book-curriculum-vol3-9-12-beyond.md)** —
   High school through research and professional levels: the full academic sequence, advanced
   studies, professional preparation, and the path toward the frontier of human knowledge.
 

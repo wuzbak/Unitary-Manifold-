@@ -1,5 +1,15 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
+## Health repair checkpoint (2026-10-09)
+
+The interrupted branch's repairs are being completed, not promoted into a new
+sprint or physics closure. P8's historical full functional-space Lean4 claim
+and Sub-gap L promotion are withdrawn in the formal and live Python surfaces.
+The remaining obligations and actual verification scope are recorded in
+[TRUTH_LAYER](TRUTH_LAYER.md#health-repair-2026-10-09). Preserve the full Lean
+build target and include slow tests in full-core runs; incomplete execution
+must not replace historical regression totals with an invented clean result.
+
 ## Synthesis repair checkpoint (2026-10-05)
 
 This is a scoped repair, not a new numbered sprint or a closure claim.

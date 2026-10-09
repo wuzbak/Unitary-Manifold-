@@ -1,15 +1,23 @@
+import Mathlib.Data.Nat.Sqrt
+import Mathlib.Data.Finset.Card
+
 /-!
 # Unitary Manifold — Dimensional Chain Closure (Lean 4)
 
-**Pillar 762 — DIMENSIONAL_CHAIN_CLOSED**
+**Pillar 762 — dimensional-chain proxy audit; gauge-selection closure open**
+
+The historical `gauge_dim_uniquely_496` declaration and
+`DIMENSIONAL_CHAIN_CLOSED` interpretation are withdrawn. The first disjunct
+admits 256, not 496; the explicit counterexample below preserves that fact.
+The surviving arithmetic identities do not prove physical reduction uniqueness.
 
 ## Physical context
 
 The Unitary Manifold 5D framework asserts that its metric ansatz G_AB arises
-from a specific 11D → 5D dimensional reduction. This file proves, in integer
-proxy arithmetic, that the functional form of the block-diagonal 5D metric is
-uniquely determined at each reduction step, with no new free parameters entering
-beyond the topological constants {K_CS = 74, n_w = 5, N_c = 3}.
+from a specific 11D → 5D dimensional reduction. This file checks selected
+integer proxy identities associated with that proposed chain. It does not
+prove uniqueness of the metric, all reduction links, or absence of new
+parameters; the gauge-selection step below is explicitly refuted.
 
 ## Reduction chain
 
@@ -27,16 +35,16 @@ beyond the topological constants {K_CS = 74, n_w = 5, N_c = 3}.
     ↓  S¹/Z₂ KK reduction
    5D G_AB block metric
 
-## Block-structure uniqueness theorem
+## Intended block-structure target (not proved here)
 
-The key theorem: at each reduction step, the block structure of G_AB is
-preserved under the KK reduction map, and no new free parameters enter.
-The 5D metric is uniquely:
+The intended physical target is that each KK reduction preserves the block
+structure of G_AB with no new free parameters, giving the 5D metric:
 
     G_AB = [[g_μν + λ²φ²B_μB_ν,  λφB_μ],
              [λφB_ν,              φ²    ]]
 
-with all parameters determined by {K_CS, n_w, N_c}.
+with all parameters determined by {K_CS, n_w, N_c}. The arithmetic proxy
+conjunction below does not establish this target.
 
 Theory: ThomasCory Walker-Pearson (2026)
 Code: GitHub Copilot (AI)
@@ -70,9 +78,17 @@ theorem n_flux_positive : 0 < N_FLUX := by decide
 -- ---------------------------------------------------------------------------
 theorem gauge_dim_factored : GAUGE_DIM = 16 * 31 := by decide
 
-theorem gauge_dim_uniquely_496 (d : ℕ) (h : d = 8 * (8 + 31 - 7) ∨ d = 248 + 248) :
-    d = GAUGE_DIM := by
-  rcases h with rfl | rfl <;> decide
+theorem gauge_dim_uniquely_496_counterexample :
+    (256 = 8 * (8 + 31 - 7) ∨ 256 = 248 + 248) ∧
+      (256 : ℕ) ≠ GAUGE_DIM := by
+  decide
+
+theorem gauge_dim_uniquely_496_refuted :
+    ¬ (∀ d : ℕ, (d = 8 * (8 + 31 - 7) ∨ d = 248 + 248) →
+      d = GAUGE_DIM) := by
+  intro h
+  exact gauge_dim_uniquely_496_counterexample.2
+    (h 256 gauge_dim_uniquely_496_counterexample.1)
 
 -- ---------------------------------------------------------------------------
 -- Link 3: 9D → 8D: Wilson-line selects N_c = 3 (unique perturbative solution)
@@ -87,15 +103,16 @@ theorem n_c_positive : 0 < N_c := by decide
 theorem alpha_gut_proxy_numerator_bounded : N_c < K_CS := by decide
 
 -- The CS quantization uniquely identifies N_c from α_GUT: K_CS × α = N_c.
-theorem cs_quantization_selects_N_c (x : ℕ) (h : K_CS * x = N_c * K_CS) : x = N_c :=
-  Nat.eq_of_mul_eq_mul_left (by decide : 0 < K_CS) h
+theorem cs_quantization_selects_N_c (x : ℕ) (h : K_CS * x = N_c * K_CS) : x = N_c := by
+  apply Nat.eq_of_mul_eq_mul_left (by decide : 0 < K_CS)
+  simpa [Nat.mul_comm] using h
 
 -- ---------------------------------------------------------------------------
 -- Link 4: 8D → 7D: Z₃ torsion gives exactly 3 CP phases (ε ∈ {0, 1, 2})
 -- H¹(T²/Z₃, U(1)) = Z₃ has order 3. Three cohomology classes.
 -- ---------------------------------------------------------------------------
 theorem z3_torsion_order : 3 = N_GEN := by decide
-theorem torsion_classes_three : Finset.card {0, 1, 2} = 3 := by decide
+theorem torsion_classes_three : Finset.card ({0, 1, 2} : Finset ℕ) = 3 := by decide
 
 -- ---------------------------------------------------------------------------
 -- Link 5: 7D → 6D: T²/Z₃ fixed points → N_gen = 3
@@ -145,16 +162,15 @@ theorem n_gen_from_z3 : N_GEN = 3 := by decide
 theorem n_c_from_holonomy : N_c = 3 := by decide
 
 -- ---------------------------------------------------------------------------
--- Master theorem: dimensional chain uniqueness
--- The 5D G_AB block structure is uniquely determined by the chain.
--- No new free parameters enter at any of the 6 reduction links.
+-- Historical name retained for the true arithmetic conjunction only.
+-- These fixed-constant identities do not prove dimensional-chain uniqueness.
 -- ---------------------------------------------------------------------------
 theorem dimensional_chain_uniqueness :
     -- (1) Flux quanta fixed by K_CS
     N_FLUX * 2 = K_CS ∧
-    -- (2) Gauge dimension uniquely 496
+    -- (2) Declared gauge dimension factors as 16 * 31
     GAUGE_DIM = 16 * 31 ∧
-    -- (3) N_c uniquely 3 from CS quantization
+    -- (3) Cancellation in the declared nonzero K_CS equation
     (∀ x : ℕ, K_CS * x = N_c * K_CS → x = N_c) ∧
     -- (4) Z₃ torsion gives 3 phases
     N_GEN = 3 ∧
@@ -170,11 +186,10 @@ theorem dimensional_chain_uniqueness :
          k_cs_topological⟩
 
 -- ---------------------------------------------------------------------------
--- Summary certificate
--- Status: DIMENSIONAL_CHAIN_CLOSED
--- All 6 reduction links pass with zero free parameters propagated.
--- The 5D G_AB block metric is the unique output of the 11D → 5D reduction.
+-- The former dimensional_chain_closed_certificate : True is retired:
+-- True was only a status marker and cannot close the refuted selection claim.
+-- Gauge-selection closure remains open; the arithmetic conjunction above
+-- does not certify uniqueness of the physical dimensional reduction.
 -- ---------------------------------------------------------------------------
-theorem dimensional_chain_closed_certificate : True := trivial
 
 end UnitaryManifold.DimensionalChainClosure

@@ -1,21 +1,26 @@
-import Mathlib.Tactic
 import Mathlib.Data.Nat.GCD.Basic
 import Mathlib.Data.Finset.Basic
+import Mathlib.Order.Interval.Finset.Nat
 /-!
 # Unitary Manifold — Braid Uniqueness Algebraic Certificate (Lean 4 + Mathlib)
 
-**Pillar 725 — LEAN4_BRAID_UNIQUENESS_ALGEBRAIC: BRAID_ALGEBRAIC_UNIQUENESS_PROVED**
+**Pillar 725 — algebraic proxy audit; unrestricted minimum closure withdrawn**
 
-This file formalises the algebraic uniqueness proof from Pillar 680
-("BRAID_UNIQUENESS_ALGEBRAIC_PROOF_COMPLETE") in Lean 4.
+The historical `braid_step2_global_minimum` declaration is refuted by
+(1,3), whose action is 10 < 74. The unrestricted minimum-action claim is
+withdrawn pending a justified selection domain; restricted finite certificates
+below are not replacements for that claim.
 
-Pillar 680 showed algebraically that:
+This file audits the integer arithmetic behind the historical Pillar 680
+claim ("BRAID_UNIQUENESS_ALGEBRAIC_PROOF_COMPLETE") in Lean 4.
+
+Pillar 680 claimed algebraically that:
   - n₁ = 5 is uniquely selected from Planck n_s
   - n₂ = 7 is uniquely selected from r + β
   - (5,7) is algebraically the unique Z₂-odd minimum-action pair
 
-This file provides the machine-verified integer arithmetic certificates for all
-algebraic steps that can be stated as integer (or rational-proxied) inequalities.
+The unrestricted minimum claim is false. Surviving finite arithmetic checks
+below do not certify that historical closure or physical uniqueness.
 
 ## Relationship to BraidUniqueness.lean
 
@@ -30,13 +35,13 @@ and CS action ordering properties.  This file extends to:
 
 1.  **Z₂-odd step-2 pairs enumeration**: All coprime odd pairs (a,b) with
     b = a+2, a ≤ 19 form a specific finite set.
-2.  **CS action minimum**: (5,7) achieves the minimum 74 among all step-2 pairs
-    with a ∈ {1,3,5,7,9,11} (odd, ≥ 1).
+2.  **Restricted CS action minimum**: (5,7) achieves the minimum 74 among
+    the explicitly declared candidates a ∈ {5,7,9}, not all positive odd a.
 3.  **Action is strictly increasing**: CS action a²+(a+2)² is strictly 
     monotone increasing in a for odd a.
 4.  **Width-4 domination**: (5,9) has higher CS action than (5,7).
 5.  **Width-6 domination**: (5,11) has higher CS action than (5,7).
-6.  **Width-2 global minimum in {5,7}**: (5,7) achieves the minimum.
+6.  **Unrestricted minimum refuted**: (1,3) has lower action than (5,7).
 7.  **Uniqueness over 4-candidate set**: Among {(1,3),(3,5),(5,7),(7,9)},
     only (5,7) satisfies k_eff ∈ [70,80].
 8.  **n_s proxy**: 5² + 7² = 74 < 7² + 9² = 130 (lower action → higher n_s proxy).
@@ -54,7 +59,7 @@ and CS action ordering properties.  This file extends to:
 - That n_w = 5 (not n_w = 7) from Planck n_s alone; this requires n_s = 0.9649.
 - The η-invariant uniqueness conjecture (Pillar 70-B).
 
-## Lean 4 theorem count
+## Historical bookkeeping (not the live audit declaration count)
 
 Previous (after WarpFactorUniqueness.lean): 494  
 New theorems in this file: 15  
@@ -104,12 +109,17 @@ theorem braid_width6_dominated : (5:ℕ)^2 + 11^2 > (5:ℕ)^2 + 7^2 := by native
 
 -- ── Theorem 6: Width-2 global minimum in first four odd pairs ────────────
 
-/-- Among {(1,3),(3,5),(5,7),(7,9)}: cs_action_step2(5) is the unique minimum ≤ 74. -/
-theorem braid_step2_global_minimum :
-    cs_action_step2 5 ≤ cs_action_step2 1 ∧
+/-- The candidate (1,3) refutes the historical unrestricted minimum. -/
+theorem braid_step2_global_minimum_counterexample :
+    cs_action_step2 1 = 10 ∧ cs_action_step2 5 = 74 ∧
+      cs_action_step2 1 < cs_action_step2 5 := by
+  native_decide
+
+theorem braid_step2_global_minimum_refuted :
+    ¬ (cs_action_step2 5 ≤ cs_action_step2 1 ∧
     cs_action_step2 5 ≤ cs_action_step2 3 ∧
     cs_action_step2 5 ≤ cs_action_step2 5 ∧
-    cs_action_step2 5 ≤ cs_action_step2 7 := by
+    cs_action_step2 5 ≤ cs_action_step2 7) := by
   native_decide
 
 -- ── Theorem 7: Uniqueness over 4-candidate set ───────────────────────────

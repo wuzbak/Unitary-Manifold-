@@ -2,7 +2,7 @@ name: CodeQL Language Matrix
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "copilot/full-health-check-fix"]
   pull_request:
     branches: ["**"]
   schedule:

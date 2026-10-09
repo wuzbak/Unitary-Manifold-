@@ -24,6 +24,40 @@ def _write_graph_fixture(root: Path, relative: str, content: str = "def example(
     path.write_text(content, encoding="utf-8")
 
 
+def test_import_edge_index_preserves_suffix_and_relative_resolution() -> None:
+    paths = [
+        "src/core/consumer.py",
+        "src/core/helper.py",
+        "src/core/myhelper.py",
+        "src/core/package/__init__.py",
+        "other/helper.py",
+        "docs/helper.md",
+    ]
+    imports = ["helper", "core.helper", "src.core.helper", "package", ".helper", ".package", "missing"]
+    records = [
+        {"path": path, "imports": imports if path == paths[0] else []}
+        for path in paths
+    ]
+    known_paths = set(paths)
+    expected_targets = set()
+    for imported in imports:
+        if imported.startswith("."):
+            candidates = merlin_repo_graph._relative_import_candidates(paths[0], imported)
+        else:
+            module_path = imported.replace(".", "/")
+            candidates = {
+                path for path in paths
+                if path.endswith(f"{module_path}.py")
+                or path.endswith(f"{module_path}/__init__.py")
+            }
+        expected_targets.update(candidates & known_paths)
+    edges = merlin_repo_graph._edge_records(records)
+    assert edges == [
+        {"source": paths[0], "target": target, "relation": "imports"}
+        for target in sorted(expected_targets)
+    ]
+
+
 def test_python_record_skips_literal_nodes_but_preserves_nested_statements(
     graph_root, monkeypatch,
 ) -> None:
@@ -178,7 +212,7 @@ def test_graph_metadata_cache_reuses_benchmark_query_cycle_and_invalidates_sourc
     updated = merlin_repo_graph._build_repo_graph(1, "topic0")
     assert updated["nodes"][0]["symbols"] == ["updated_source"]
     assert len(calls) == 9
-    assert merlin_repo_graph._build_repo_graph_cached.cache_info().maxsize == 32
+    assert merlin_repo_graph._build_repo_graph_cached.cache_info().maxsize == 128
 
 
 def test_public_graph_mutations_do_not_modify_cached_metadata(graph_root, monkeypatch) -> None:
@@ -195,6 +229,83 @@ def test_public_graph_mutations_do_not_modify_cached_metadata(graph_root, monkey
     route = route_context_via_repo_graph("example")
     route["suggested_files"][0]["symbols"].append("injected_symbol")
     assert route_context_via_repo_graph("example")["suggested_files"][0]["symbols"] == ["example"]
+
+
+def test_directory_reuse_refreshes_nested_additions_deletions_and_symlink_targets(
+    graph_root, monkeypatch,
+) -> None:
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
+    merlin_repo_graph._directory_layout_cached.cache_clear()
+    _write_graph_fixture(graph_root, "src/core/alpha.py")
+    first = merlin_repo_graph._discover_files()
+    original = merlin_repo_graph.os.scandir
+    scans = []
+
+    def counted_scandir(directory):
+        scans.append(directory)
+        return original(directory)
+
+    monkeypatch.setattr(merlin_repo_graph.os, "scandir", counted_scandir)
+    assert merlin_repo_graph._discover_files() == first
+    assert scans == []
+    _write_graph_fixture(graph_root, "src/core/nested/beta.py")
+    assert {path.name for path in merlin_repo_graph._discover_files()} == {"alpha.py", "beta.py"}
+    (graph_root / "src/core/nested/beta.py").unlink()
+    assert merlin_repo_graph._discover_files() == first
+    _write_graph_fixture(graph_root, "targets/target.py")
+    target = graph_root / "targets/target.py"
+    link = graph_root / "src/core/link.py"
+    link.symlink_to(target)
+    assert set(merlin_repo_graph._discover_files()) == {*first, target}
+    target.unlink()
+    assert merlin_repo_graph._discover_files() == first
+    target.write_text("def recreated(): pass\n", encoding="utf-8")
+    assert set(merlin_repo_graph._discover_files()) == {*first, target}
+    assert merlin_repo_graph._directory_layout_cached.cache_info().maxsize == 2048
+
+
+def test_selection_cache_does_not_cache_source_contents(graph_root, monkeypatch) -> None:
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
+    merlin_repo_graph._select_files_cached.cache_clear()
+    relative = "src/core/alpha.py"
+    _write_graph_fixture(graph_root, relative)
+    first = merlin_repo_graph._build_repo_graph(1, "alpha")
+    assert merlin_repo_graph._build_repo_graph(1, "alpha") == first
+    assert merlin_repo_graph._select_files_cached.cache_info().hits == 1
+    _write_graph_fixture(graph_root, relative, "def changed_symbol(): pass\n")
+    assert merlin_repo_graph._build_repo_graph(1, "alpha")["nodes"][0]["symbols"] == ["changed_symbol"]
+    assert merlin_repo_graph._select_files_cached.cache_info().maxsize == 128
+
+
+def test_relative_import_cache_is_immutable_and_preserves_package_levels() -> None:
+    candidates = merlin_repo_graph._relative_import_candidates("src/core/package/module.py", "..helper")
+    assert candidates == {"src/core/helper.py", "src/core/helper/__init__.py"}
+    assert isinstance(candidates, frozenset)
+    assert merlin_repo_graph._relative_import_candidates("src/core/package/module.py", ".helper") == {
+        "src/core/package/helper.py", "src/core/package/helper/__init__.py",
+    }
+
+
+def test_rag_token_cache_is_content_keyed_and_immutable(monkeypatch) -> None:
+    from ox_navigator.engine import merlin_rag
+
+    merlin_rag._tokens.cache_clear()
+    tokenize = merlin_rag.token_set
+    calls = []
+
+    def counted_tokens(text):
+        calls.append(text)
+        return tokenize(text)
+
+    monkeypatch.setattr(merlin_rag, "token_set", counted_tokens)
+    first = merlin_rag._tokens("Alpha Ω β")
+    assert first == tokenize("Alpha Ω β")
+    assert merlin_rag._tokens("Alpha Ω β") is first
+    assert isinstance(first, frozenset)
+    assert merlin_rag._tokens("Updated Δ") == tokenize("Updated Δ")
+    assert calls == ["Alpha Ω β", "Updated Δ"]
+    assert merlin_rag._tokens.cache_info().maxsize == 4096
+    merlin_rag._tokens.cache_clear()
 
 
 def test_discovery_reuses_priority_metadata_and_keys_it_by_root(graph_root, monkeypatch) -> None:

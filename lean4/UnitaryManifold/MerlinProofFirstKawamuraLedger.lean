@@ -1,43 +1,45 @@
-/--
-MerlinProofFirstKawamuraLedger.lean
+-- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
+-- Copyright (C) 2026  ThomasCory Walker-Pearson
+/-!
+# Kawamura ledger — conditional proof accounting only
 
-Purpose: formalize the proof-accounting invariants for the active Kawamura
-independence residual without mislabeling that residual as closed.
+The historical unconditional `mpf_kawamura_kernel_1`–`8` declarations are
+withdrawn: declaring an arbitrary `Prop` does not provide a proof of it.
+Their four proposition axioms are removed. These explicitly renamed
+conditional lemmas require evidence supplied by the caller; they neither
+establish ledger policy nor close the Kawamura independence residual.
 -/
 
-namespace UnitaryManifold
+namespace UnitaryManifold.MerlinProofFirstKawamuraLedger
 
-axiom KawamuraResidualStillOpen : Prop
-axiom NoTraceabilityEqualsClosure : Prop
-axiom DualLoopVerdictAgreementRequired : Prop
-axiom ExternalImportBoundaryPreserved : Prop
+/-- Taking the arbitrary proposition to be False refutes any blanket
+    unconditional proof rule. The Kawamura residual remains open. -/
+theorem mpf_kawamura_unconditional_prop_counterexample :
+    ¬ (∀ claim : Prop, claim) := by
+  intro h
+  exact h False
 
-theorem mpf_kawamura_kernel_1 : KawamuraResidualStillOpen := by
-  exact KawamuraResidualStillOpen
+variable (ResidualOpen TraceabilityNotClosure DualLoopAgreement ExternalBoundary : Prop)
 
-theorem mpf_kawamura_kernel_2 : NoTraceabilityEqualsClosure := by
-  exact NoTraceabilityEqualsClosure
+theorem mpf_kawamura_kernel_1_given (h : ResidualOpen) : ResidualOpen := h
+theorem mpf_kawamura_kernel_2_given (h : TraceabilityNotClosure) : TraceabilityNotClosure := h
+theorem mpf_kawamura_kernel_3_given (h : DualLoopAgreement) : DualLoopAgreement := h
+theorem mpf_kawamura_kernel_4_given (h : ExternalBoundary) : ExternalBoundary := h
 
-theorem mpf_kawamura_kernel_3 : DualLoopVerdictAgreementRequired := by
-  exact DualLoopVerdictAgreementRequired
+theorem mpf_kawamura_kernel_5_given
+    (hr : ResidualOpen) (ht : TraceabilityNotClosure) :
+    ResidualOpen ∧ TraceabilityNotClosure := ⟨hr, ht⟩
 
-theorem mpf_kawamura_kernel_4 : ExternalImportBoundaryPreserved := by
-  exact ExternalImportBoundaryPreserved
+theorem mpf_kawamura_kernel_6_given
+    (hd : DualLoopAgreement) (he : ExternalBoundary) :
+    DualLoopAgreement ∧ ExternalBoundary := ⟨hd, he⟩
 
-theorem mpf_kawamura_kernel_5 :
-    KawamuraResidualStillOpen ∧ NoTraceabilityEqualsClosure := by
-  exact And.intro KawamuraResidualStillOpen NoTraceabilityEqualsClosure
+theorem mpf_kawamura_kernel_7_given
+    (hr : ResidualOpen) (hd : DualLoopAgreement) :
+    ResidualOpen ∧ DualLoopAgreement := ⟨hr, hd⟩
 
-theorem mpf_kawamura_kernel_6 :
-    DualLoopVerdictAgreementRequired ∧ ExternalImportBoundaryPreserved := by
-  exact And.intro DualLoopVerdictAgreementRequired ExternalImportBoundaryPreserved
+theorem mpf_kawamura_kernel_8_given
+    (ht : TraceabilityNotClosure) (he : ExternalBoundary) :
+    TraceabilityNotClosure ∧ ExternalBoundary := ⟨ht, he⟩
 
-theorem mpf_kawamura_kernel_7 :
-    KawamuraResidualStillOpen ∧ DualLoopVerdictAgreementRequired := by
-  exact And.intro KawamuraResidualStillOpen DualLoopVerdictAgreementRequired
-
-theorem mpf_kawamura_kernel_8 :
-    NoTraceabilityEqualsClosure ∧ ExternalImportBoundaryPreserved := by
-  exact And.intro NoTraceabilityEqualsClosure ExternalImportBoundaryPreserved
-
-end UnitaryManifold
+end UnitaryManifold.MerlinProofFirstKawamuraLedger

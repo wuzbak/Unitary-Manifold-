@@ -150,22 +150,22 @@ operational implications: investigative journalism training. The AXIOM system �
 documented in full in the **Axiom Journalism AI** series — is itself a learning-by-doing
 system built on exactly the principles described in this post.
 
-The **[Axiom Journalism AI — 6-Part Series](../books/BOOKS_README.md#book-4-the-6-part-substack-series)**
+The **[Axiom Journalism AI — 6-Part Series](../../substack/books/BOOKS_README.md#book-4-the-6-part-substack-series)**
 covers how a structured learning framework applied to journalism produces measurably better
 investigators than ad hoc skill accumulation:
 
-- **[Part 1: The AxiomZero Method](../books/BOOKS_README.md#book-4-the-6-part-substack-series)** —
+- **[Part 1: The AxiomZero Method](../../substack/books/BOOKS_README.md#book-4-the-6-part-substack-series)** —
   the seven principles of the framework as a teaching architecture (Truth Above All,
   Source Integrity, Entity Identification, Legal Consciousness, Crowd Intelligence,
   Transparency of Method, Editorial Courage)
 
-- **[Part 3: The Document Hunters](../books/BOOKS_README.md#book-4-the-6-part-substack-series)** —
+- **[Part 3: The Document Hunters](../../substack/books/BOOKS_README.md#book-4-the-6-part-substack-series)** —
   the investigation template system as a structured approach to iterating toward the
   fixed point of a story: each template is a pre-built approach trajectory toward a
   specific investigative attractor (financial crime, corporate malfeasance, environmental
   violation, civil rights, political corruption)
 
-- **[Part 4: The Hallucination Problem](../books/BOOKS_README.md#book-4-the-6-part-substack-series)** —
+- **[Part 4: The Hallucination Problem](../../substack/books/BOOKS_README.md#book-4-the-6-part-substack-series)** —
   the most direct application of the ΔI → 0 convergence principle to education: the
   difference between an LLM that produces plausible-sounding text and a journalist who
   has iterated toward the actual record is exactly the difference between memorization
@@ -182,21 +182,21 @@ The fixed-point model of learning described in this post is implemented in full 
 3-volume K-12 curriculum guide — grade-by-grade, subject-by-subject, with optional Framework
 Seeds connecting each developmental level to the Unitary Manifold's mathematical structure.
 
-**[K-12 Curriculum Guide — Volume 1: PreK-5](../books/book-curriculum-vol1-preK-5.md)**
+**[K-12 Curriculum Guide — Volume 1: PreK-5](../Books/book-15-book-curriculum-vol1-prek-5.md)**
 
 The foundational years: where the phonemic awareness that becomes reading fluency, the
 number sense that becomes algebraic thinking, and the executive function that makes all
 learning possible are either built or missed. Each grade includes a Framework Seed
 connecting the developmental content to the 5D geometry.
 
-**[K-12 Curriculum Guide — Volume 2: Grades 6-8](../books/book-curriculum-vol2-6-8.md)**
+**[K-12 Curriculum Guide — Volume 2: Grades 6-8](../Books/book-16-book-curriculum-vol2-6-8.md)**
 
 The middle school years — the most under-designed and most consequential bridge in K-12
 education. Disciplinary literacy, abstract reasoning, and the adolescent social brain.
 Framework Seeds connect ratio reasoning (Grade 6), DNA information conservation (Grade 7),
 and classical field theory (Grade 8) to the Unitary Manifold.
 
-**[K-12 Curriculum Guide — Volume 3: Grades 9-12 and Beyond](../books/book-curriculum-vol3-9-12-beyond.md)**
+**[K-12 Curriculum Guide — Volume 3: Grades 9-12 and Beyond](../Books/book-17-book-curriculum-vol3-9-12-beyond.md)**
 
 High school through the research frontier. Framework Seeds connect algebra (Grade 9),
 atomic structure (Grade 10), classical physics (Grade 11), and calculus (Grade 12) directly
@@ -204,7 +204,7 @@ to the Unitary Manifold's mathematical language. The "Beyond" chapter maps the f
 arc as a fixed-point iteration toward the frontier of human knowledge — the most direct
 structural connection between this post's framework and a complete educational curriculum.
 
-**[The Learning Crisis — Omega Edition](../books/book-learning-crisis-omega.md)**
+**[The Learning Crisis — Omega Edition](../Books/book-28-book-learning-crisis-omega.md)**
 
 The full evidence base for why educational systems persistently underperform — PISA/NAEP,
 Science of Reading, cognitive science of spacing and retrieval, structural failures — with
@@ -216,7 +216,7 @@ an Omega chapter building the path from K-12 pattern recognition to Kaluza-Klein
 *https://github.com/wuzbak/Unitary-Manifold-*
 *Fixed-point iteration: `src/multiverse/fixed_point.py`*
 *Coupled attractor (Information Gap): `src/consciousness/coupled_attractor.py`*
-*Companion series: [Axiom Journalism AI — index + 6-part structure](../books/BOOKS_README.md#book-4-the-6-part-substack-series)*
+*Companion series: [Axiom Journalism AI — index + 6-part structure](../../substack/books/BOOKS_README.md#book-4-the-6-part-substack-series)*
 *Zenodo DOI: https://doi.org/10.5281/zenodo.19584531*
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

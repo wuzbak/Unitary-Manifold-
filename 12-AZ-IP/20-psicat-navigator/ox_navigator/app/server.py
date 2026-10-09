@@ -2325,4 +2325,7 @@ class OxRequestHandler(SimpleHTTPRequestHandler):
 
 
 def serve(host: str = '127.0.0.1', port: int = 8020, no_open: bool = True) -> ThreadingHTTPServer:
+    from ..engine.merlin_rag import prepare_local_navigation
+
+    prepare_local_navigation()
     return ThreadingHTTPServer((host, port), OxRequestHandler)

@@ -25,13 +25,13 @@ theorem adm_np_numerator : n_w_bc4 * k_cs_bc4 = 370 := by native_decide
 -- (5/74)^2 ≈ 0.00456; proxy: n_w^2 × 10 < k_cs^2
 theorem np_adm_bound_small : n_w_bc4 ^ 2 * 10 < k_cs_bc4 ^ 2 := by native_decide
 
--- Sub-gap L: P8 Lean4 closure
+-- Sub-gap L: historical arithmetic proxies, not P8 Lean4 closure
 
--- Theorem 4: P8FunctionalFull.lean has 0 sorry stubs — proxy: 0 = 0
+-- Theorem 4: 0 = 0 does not certify the status of another source file.
 theorem p8_zero_sorry_stubs : (0 : Nat) = 0 := by native_decide
 
--- Theorem 5: P8 proxy theorem count: 18 + 12 (combined) = 30 proxy proofs
--- (18 from P8FunctionalFull.lean + 12 legacy from earlier Lean4 files)
+-- Theorem 5: historical count arithmetic only; the former 18-theorem
+-- functional-closure claim was withdrawn in P8FunctionalFull.lean.
 theorem p8_proxy_theorem_count : (18 : Nat) + 12 = 30 := by native_decide
 
 -- de Radion Loop: 2-loop bound
@@ -53,9 +53,9 @@ Sub-gap K: PARTIALLY_BOUNDED_ADM
   — ||H_NP||/||H_pert|| ≤ 2×10⁻⁴ (from BSSN Pillar 434)
   — Remaining: full inhomogeneous NP ADM quantisation (community-level)
 
-Sub-gap L: CLOSED_VIA_LEAN4
-  — P8FunctionalFull.lean: 0 sorry stubs, 18 proxy theorems
-  — ARCHITECTURE_LIMIT_LEAN4 for spectral theory on continuous functional space
+Sub-gap L: OPEN_FUNCTIONAL_SPACE_PROOF
+  — P8FunctionalFull.lean withdraws the invalid Float closure declarations
+  — Checked Float counterexamples and finite checks are not functional proofs
 
 de Radion Loop: LOOP_CORRECTION_CLOSED
   — 2-loop bound: |Δw₀²ˡ|/|Δw₀¹ˡ| ≤ (n_w/k_cs)²/(4π²) ≈ 2.3×10⁻⁵

@@ -1,4 +1,3 @@
-import Mathlib.Tactic
 import Mathlib.Algebra.Ring.Parity
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Nat.Basic
@@ -103,8 +102,8 @@ theorem action_factorization (n : ℕ) : n * s_unit = n * k_cs := by
 /-- **SECTOR_ORDERING**: S(n) < S(n+1) for all n — the winding tower is strictly
     monotone increasing in action. -/
 theorem sector_ordering (n : ℕ) : n * s_unit < (n + 1) * s_unit := by
-  apply Nat.lt_add_of_pos_right
-  exact Nat.pos_of_ne_zero (by decide)
+  rw [Nat.add_mul, Nat.one_mul]
+  exact Nat.lt_add_of_pos_right (by decide : 0 < s_unit)
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- Theorem 6: Topological charge mod k_CS
@@ -121,7 +120,7 @@ theorem topological_charge_mod : k_cs % k_cs = 0 := by decide
 /-- **VACUUM_UNIQUE**: n=0 is the unique zero-action sector: 0 × s_unit = 0,
     and for n ≥ 1: n × s_unit ≥ s_unit = 74 > 0. -/
 theorem vacuum_unique : (0 : ℕ) * s_unit = 0 ∧ 1 * s_unit = k_cs := by
-  exact ⟨by ring, by ring⟩
+  simp [s_unit]
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- Theorem 8: Winding bound up to n_w

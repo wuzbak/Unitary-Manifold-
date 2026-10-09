@@ -1,4 +1,4 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.NormNum
 import Mathlib.Algebra.Field.Rat
 import Mathlib.Algebra.Order.Field.Rat
 /-!
@@ -15,7 +15,7 @@ def N_W : ℕ := 5
 def BRAID_PARTNER : ℕ := N_W + 2
 def K_CS : ℕ := 74
 
-def OddPair74 (a b : Nat) : Prop :=
+abbrev OddPair74 (a b : Nat) : Prop :=
   a % 2 = 1 ∧ b % 2 = 1 ∧ a ^ 2 + b ^ 2 = 74
 
 theorem n_w_value : N_W = 5 := by native_decide

@@ -14,10 +14,12 @@
   The honest no-go: final selection of n_w = 5 over n_w = 7 requires
   Planck nₛ data or an additional geometric convention.
 
-  Theorem count: 22  (total after: 1449 + 22 = 1471)
+  Historical bookkeeping: 22 (1449 + 22 = 1471), not a live declaration count.
 -/
 
-import Mathlib.Tactic
+import Mathlib.Tactic.IntervalCases
+import Mathlib.Tactic.NormNum
+import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Nat.Sqrt
 
 namespace UnitaryManifold.NWGeometricNarrowing
@@ -51,11 +53,33 @@ theorem pillar822_kcs_from_57 : N_W_822 ^ 2 + N_TOP_822 ^ 2 = K_CS_822 := by dec
 -- Exhaustive search: a ∈ {1,...,8}, b² = 74 − a², b ≥ a
 theorem pillar822_kcs_pair_unique :
     ∀ a b : Nat, 0 < a → a ≤ b → a ^ 2 + b ^ 2 = K_CS_822 →
-    a = N_W_822 ∧ b = N_TOP_822 := by decide
+    a = N_W_822 ∧ b = N_TOP_822 := by
+  intro a b ha hab heq
+  change a ^ 2 + b ^ 2 = 74 at heq
+  have ha_bound : a ≤ 8 := by
+    by_contra h
+    have hmin : 9 ≤ a := by omega
+    have hsq := Nat.pow_le_pow_left hmin 2
+    omega
+  have hb_bound : b ≤ 8 := by
+    by_contra h
+    have hmin : 9 ≤ b := by omega
+    have hsq := Nat.pow_le_pow_left hmin 2
+    omega
+  interval_cases a <;> interval_cases b <;>
+    norm_num [N_W_822, N_TOP_822] at *
 
 -- 7. No pair with a = b satisfies a² + b² = 74
 theorem pillar822_no_equal_pair :
-    ¬ ∃ a : Nat, 0 < a ∧ 2 * a ^ 2 = K_CS_822 := by decide
+    ¬ ∃ a : Nat, 0 < a ∧ 2 * a ^ 2 = K_CS_822 := by
+  rintro ⟨a, ha, heq⟩
+  change 2 * a ^ 2 = 74 at heq
+  have ha_bound : a ≤ 8 := by
+    by_contra h
+    have hmin : 9 ≤ a := by omega
+    have hsq := Nat.pow_le_pow_left hmin 2
+    omega
+  interval_cases a <;> norm_num at heq
 
 -- 8. n_w = 5 is odd (Z₂ parity satisfied)
 theorem pillar822_nw_odd : N_W_822 % 2 = 1 := by decide
@@ -74,15 +98,52 @@ theorem pillar822_nw_lt_ntop : N_W_822 < N_TOP_822 := by decide
 
 -- 12. K_CS = 74 < 100 (K_CS is not a perfect square — no single-mode solution)
 theorem pillar822_kcs_not_double_square :
-    ¬ ∃ a : Nat, 0 < a ∧ a ^ 2 + a ^ 2 = K_CS_822 := by decide
+    ¬ ∃ a : Nat, 0 < a ∧ a ^ 2 + a ^ 2 = K_CS_822 := by
+  rintro ⟨a, ha, heq⟩
+  apply pillar822_no_equal_pair
+  exact ⟨a, ha, by omega⟩
 
--- 13. Geometric candidates are exactly {5, 7}
--- Proxy: the only odd integers in [1, 8] satisfying a² ≤ K_CS are {1,3,5,7}
--- After K_CS constraint: only {5,7} appear as components of the unique pair
-theorem pillar822_candidates_57 :
-    (Finset.range 10).filter (fun a =>
-      a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822) =
-    {5, 7} := by decide
+-- The historical pillar822_candidates_57 declaration is withdrawn:
+-- the ordering condition b ≥ a excludes 7. Its candidate-set closure
+-- remains pending a separately stated unordered-component argument.
+theorem pillar822_seven_ordered_candidate_counterexample :
+    ¬ ∃ b : Nat, b ≥ 7 ∧ 7 ^ 2 + b ^ 2 = K_CS_822 := by
+  rintro ⟨b, hb, heq⟩
+  norm_num [K_CS_822] at heq
+  have hsq := Nat.pow_le_pow_left hb 2
+  omega
+
+/-- The historical predicate has an unbounded existential, so the finite
+    set is defined classically rather than claiming executable enumeration. -/
+noncomputable def pillar822_ordered_candidate_set : Finset Nat := by
+  classical
+  exact (Finset.range 10).filter (fun a =>
+    a % 2 = 1 ∧ 0 < a ∧ ∃ b : Nat, b ≥ a ∧ a ^ 2 + b ^ 2 = K_CS_822)
+
+theorem pillar822_candidates_57_refuted :
+    ¬ (pillar822_ordered_candidate_set = {5, 7}) := by
+  classical
+  intro h
+  have hseven : 7 ∈ pillar822_ordered_candidate_set := by
+    rw [h]
+    simp
+  unfold pillar822_ordered_candidate_set at hseven
+  exact pillar822_seven_ordered_candidate_counterexample
+    (Finset.mem_filter.mp hseven).2.2.2
+
+/-- Ordered smaller components form a singleton, not the unordered pair. -/
+theorem pillar822_ordered_candidates_singleton :
+    pillar822_ordered_candidate_set = {5} := by
+  classical
+  ext a
+  simp only [pillar822_ordered_candidate_set, Finset.mem_filter,
+    Finset.mem_range, Finset.mem_singleton]
+  constructor
+  · rintro ⟨_, _, ha, b, hab, heq⟩
+    exact (pillar822_kcs_pair_unique a b ha hab heq).1
+  · intro ha
+    subst a
+    exact ⟨by decide, by decide, by decide, 7, by decide, by decide⟩
 
 -- 14. For n_w = 5, K_CS selection ratio: n_w² / K_CS = 25/74
 theorem pillar822_nw_fraction : N_W_822 ^ 2 * 74 = 25 * K_CS_822 := by decide
@@ -96,12 +157,14 @@ theorem pillar822_fractions_sum : N_W_822 ^ 2 + N_TOP_822 ^ 2 = K_CS_822 := by d
 -- 17. No other integer in [1, 9] could be a K_CS partner of 5 except 7
 theorem pillar822_nw5_unique_partner :
     ∀ b : Nat, 1 ≤ b → b ≤ 9 → N_W_822 ^ 2 + b ^ 2 = K_CS_822 → b = N_TOP_822 := by
-  decide
+  intro b hb_low hb_high heq
+  interval_cases b <;> norm_num [N_W_822, N_TOP_822, K_CS_822] at *
 
 -- 18. No other integer in [1, 9] could be a K_CS partner of 7 except 5
 theorem pillar822_ntop7_unique_partner :
     ∀ a : Nat, 1 ≤ a → a ≤ 9 → a ^ 2 + N_TOP_822 ^ 2 = K_CS_822 → a = N_W_822 := by
-  decide
+  intro a ha_low ha_high heq
+  interval_cases a <;> norm_num [N_W_822, N_TOP_822, K_CS_822] at *
 
 -- 19. Open gap: Planck nₛ selects n_w = 5 over n_w = 7
 -- Proxy: the gap is registered (always true)

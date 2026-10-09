@@ -874,6 +874,33 @@ def test_build_rag_context_contains_sections():
     assert '[FALLIBILITY]' in context
 
 
+def test_query_merlin_builds_one_shared_context_scaffold(monkeypatch):
+    from ox_navigator.engine import merlin_rag
+
+    original = merlin_rag.build_context_scaffold
+    scaffolds = []
+
+    def counted_scaffold(*args, **kwargs):
+        scaffold = original(*args, **kwargs)
+        scaffolds.append(scaffold)
+        return scaffold
+
+    monkeypatch.setattr(merlin_engine, 'build_context_scaffold', counted_scaffold)
+    monkeypatch.setattr(merlin_rag, 'build_context_scaffold', counted_scaffold)
+    payload = asyncio.run(query_merlin(
+        text='Explain LiteBIRD and birefringence.',
+        session=MerlinSession(),
+    ))
+    assert len(scaffolds) == 1
+    assert payload['context_scaffold'] == scaffolds[0]
+    shared = build_rag_context(
+        'Explain LiteBIRD and birefringence.', context_scaffold=scaffolds[0],
+    )
+    assert '[KNOWLEDGE BASE MATCH]' in shared
+    assert '[FALLIBILITY]' in shared
+    assert len(scaffolds) == 1
+
+
 def test_build_context_scaffold_contains_runtime_and_contradiction_packets():
     session = MerlinSession()
     scaffold = build_context_scaffold(

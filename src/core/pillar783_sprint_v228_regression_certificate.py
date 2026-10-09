@@ -17,6 +17,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
+from src.core.pillar777_np_bc4_kl_radion_tightening import np_bc4_chain_status
+
 __all__ = [
     "PILLAR_NUMBER",
     "PILLAR_STATUS",
@@ -109,8 +111,11 @@ SPRINT_EPISTEMIC_DELTAS: List[Dict[str, str]] = [
 def sprint_summary() -> Dict[str, Any]:
     """Return the full sprint summary for v22.5–v22.8."""
     total_lean4_new = sum(int(d["lean4"].replace("+", "")) for d in SPRINT_EPISTEMIC_DELTAS)
+    current_np_bc4 = np_bc4_chain_status()
     return {
         "sprint": "v22.5–v22.8",
+        "scope": "historical sprint record; current_np_bc4 supersedes the historical L promotion",
+        "current_np_bc4": current_np_bc4,
         "pillars": PILLARS_IN_SPRINT,
         "n_pillars": len(PILLARS_IN_SPRINT),
         "lean4_prev": LEAN4_SPRINT_PREV_TOTAL,
@@ -122,7 +127,8 @@ def sprint_summary() -> Dict[str, Any]:
             "NP-BC-1: fully bounded (A=CLOSED, B=KERNEL_PROVED, C=BOUNDED)",
             "NP-BC-2: fully bounded (D=BOUNDED_ANALYTICALLY, E=F=PROXY_CLOSED)",
             "NP-BC-3: resolved (G=BOUNDED_FINITE_L, H=CS_BOUNDED_SCAFFOLD, I=ARCHITECTURE_LIMIT/closed)",
-            "NP-BC-4: tightened (K=PARTIALLY_BOUNDED_ADM, L=CLOSED_VIA_LEAN4, radion=LOOP_CLOSED)",
+            f"NP-BC-4: partial (K={current_np_bc4['sub_gaps']['K']}, "
+            f"L={current_np_bc4['sub_gaps']['L']}, radion={current_np_bc4['radion_loop']})",
         ],
         "gap_3_status": "PROVED_LEAN4_FORMAL (upgraded from PROVED_CONDITIONAL)",
         "gap_4_status": "PARTIALLY_CONSTRAINED (3 irreducible, down from 9)",
@@ -130,6 +136,7 @@ def sprint_summary() -> Dict[str, Any]:
         "dm21_status": "DM21_NNLO_ARCHITECTURE_LIMIT_CERTIFIED (thread closed at NNLO)",
         "alpha_s_status": "ALPHA_S_ALL_ROUTES_ARCHITECTURE_LIMIT (all 4 routes exhausted)",
         "open_gaps_remaining": [
+            "P8 functional-space proof: historical Sub-gap L Lean4 promotion withdrawn",
             "Gap 2: ADM UV quantisation (community-level, no UM pillar possible)",
             "wₐ tension: 2.75σ (awaiting DESI DR3 ~2026)",
         ],

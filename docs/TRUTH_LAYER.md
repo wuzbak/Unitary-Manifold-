@@ -1,6 +1,198 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
 # Unitary Manifold v38.2
 
+## Health repair (2026-10-09)
+
+The resumed health check recovered the interrupted branch without treating the
+agent's monthly-quota failure as a repository failure. The preserved packaging,
+dependency-resolution, CodeQL extraction and inventory repairs remain separate
+from the scientific evidence boundary. The latest inspected failing mainline
+CI runs are not executions of this repair branch.
+
+**P8 closure withdrawal.** `lean4/UnitaryManifold/P8FunctionalFull.lean`
+withdraws the historical full functional-space certificate. IEEE Float is not
+an ordered real field or a Sobolev-space model: NaN defeats ordered lower
+bounds, negative arguments reverse square ordering, and positive tiny values
+can square to zero. Previously asserted `True` certificates for regularity,
+attainment and uniqueness supplied no mathematical evidence. Remaining finite
+sample computations and a conditional identity do not prove the continuous
+claims.
+
+The live P759 report therefore marks the functional proof **OPEN**, describes
+its computations as **FINITE_PROXY_ONLY**, and never promotes a positive
+sampled second variation into a uniqueness certificate. P777 withdraws its
+Sub-gap L **CLOSED_VIA_LEAN4** promotion and reports
+**OPEN_FUNCTIONAL_PROOF_WITHDRAWN**. Former theorem increments are historical
+bookkeeping, not a currently compiled proof inventory. The actual functional,
+domain, coercivity, weak lower semi-continuity, existence and uniqueness
+obligations remain open. No version, pillar or observational-falsifier change
+is made.
+P783 preserves its historical sprint deltas but carries the current P777 chain
+status separately; its displayed NP-BC-4 summary and outstanding obligations
+no longer reassert the withdrawn Sub-gap L promotion.
+
+**Kawamura traceability.** The formal ledger's former proposition axioms are
+removed; its eight explicitly named `_given` lemmas require evidence from the
+caller. The Python packet now checks those conditional names and current
+proposition markers instead of requiring withdrawn axioms. Its validity flag
+is source/policy traceability only, not Lean compilation, a proof of ledger
+policy or discharge of the Kawamura independence residual. Duplicate theorem
+names and historical unconditional names cannot fill the eight-name ledger.
+
+**Verification at this checkpoint.** Compactified preflight passed **88 tests**;
+preserved packaging/CodeQL configuration regressions passed **27 tests**
+(3 deselected); the directly coupled P759/P777/P783/Kawamura regressions passed
+**97 tests**. Installed runtime/development/Navigator requirements resolve
+together; `pip check` and the installed-environment advisory audit passed.
+The dependency audit examined 142 installed distributions and found no known
+advisories; this does not patch the optional DiskCache limitation documented
+in `SECURITY.md`.
+Directory limits and status-drift checks passed. These are scoped software
+checks, not a full repository regression or a complete Lean build. Downloaded
+toolchains, package-resolution reports and execution logs remain outside the
+tracked repository. Full-build and full-core outcomes must be recorded
+separately before any broader clearance is asserted.
+
+The hosted review wrapper reported success, but its review engine was
+unavailable because the configured model was absent from the registry. Its
+Python CodeQL analysis was skipped for database size; the actions analysis
+reported no alerts. Neither wrapper result certifies the unexecuted checks.
+An independent read-only review of the touched P8/Kawamura runtime changes
+found no significant introduced defects. A separate CodeQL run extracted all
+four changed P8/Kawamura/sprint runtime modules from a SHA-256-identical source
+projection and executed 45 queries (43 reported security rules plus two
+diagnostics), with zero alerts. This is source-local evidence for those four
+files, not repository-wide or complete imported-dependency dataflow clearance.
+The complete formal build and broad regression execution remain separate
+obligations.
+
+**Bounded broad-run outcome.** The combined `tests/`, `recycling/` and canonical
+Pentad run explicitly enabled slow tests (`-m ""`) with four workers. It reached
+about 14% before the 900-second deadline; it did not produce a complete
+regression result. The Product 20 suite reached about 40% before its 600-second
+deadline and recorded one early failure. Neither run is a zero-failure
+certificate, and partial progress is not a passed-test total. These results do
+not replace historical regression records.
+
+**Navigator blocker at the preceding checkpoint.** Fail-fast execution recorded **99 passed,
+1 failed, 3 skipped, 1 deselected**. The failure is
+`test_server_masterclass_and_swarm_routes_and_tools` at the
+`/api/psicat/spc-phase2-applied-pressure?limit=2&training_limit=2` read timeout.
+Focused profiling observed 134 queries, 132 scaffolds and 132 graph discoveries;
+warm profiled execution took 11.41 seconds, including 6.48 seconds in graph
+routing. A request-local reuse experiment still failed the existing endpoint
+test and was rolled back; incidental profiling history was restored. No
+endpoint timeout, promotion rule or assertion was weakened. Eight other
+runtime-contract tests passed, but the endpoint was unresolved at that checkpoint
+and required a semantics-preserving reduction in repeated work.
+
+**Navigator focused follow-up (2026-10-09).** The inherited metadata-cache and
+pre-bind preparation repair now passes the exact
+`test_server_masterclass_and_swarm_routes_and_tools` regression (**1 passed in
+11.74 seconds**) and the focused runtime/graph coverage, including mutation
+isolation and source invalidation (**32 passed in 20.92 seconds**). Both runs
+were externally bounded; the existing HTTP timeout remains 10 seconds. No
+additional Navigator refactor, relaxed assertion or training-receipt cache was
+introduced in this follow-up. These focused results resolve the reproduced
+endpoint blocker locally, not the complete Product 20 regression obligation.
+
+**Agent deadline remediation (2026-10-09).** The cancelled agent job exceeded
+the managed 59-minute execution limit while regression processes were still
+running. Raising a repository test-job timeout cannot extend that agent limit.
+The existing full-core/product, Lean and repository-wide CodeQL workflows now
+also accept pushes to `copilot/full-health-check-fix`, so their longer-lived,
+artifact-preserving verification can run independently of the agent session.
+Their failure gates and full-core slow-test selection are unchanged. The
+Python setup action in agent provisioning and full-core verification now uses
+the Node 24 release, without changing Python 3.12 or the installed requirements.
+This trigger/runtime repair is not evidence that the dispatched jobs passed.
+
+The resumed compactification, CI-tooling and workflow contract regressions
+passed **77 tests** (3 deselected); status drift and directory limits passed, and the link
+audit resolved all internal file links in 1,992 Markdown files. `pip check` and
+the installed-environment advisory audit passed (**91 distributions**, no known
+advisories). That environment audit does
+not cover optional uninstalled products or the complete dependency set used by
+dedicated CI. Broad regression, complete Lean compilation and repository-wide
+security results remain outstanding until matching execution receipts exist.
+The initial branch-triggered full-core, Lean, CodeQL and provisioning runs were
+created with conclusion **action_required**; the inspected full-core run had
+zero jobs. They require repository-owner approval, not another in-agent wait or
+a relaxation of workflow permissions. The validation wrapper again could not
+execute its configured review model and skipped Python CodeQL for database
+size; its Actions analysis reported zero alerts. A separate read-only review of
+the workflow and inherited Navigator cache changes found no significant issues.
+Neither that review nor the Actions scan supplies the missing broad execution
+or Python security certificate.
+
+**Approved verification follow-up (2026-10-09).** Owner approval started attempt
+2 of the dedicated workflows against commit `5e7d8b49f`; the provisioning
+workflow against `f79ca356a` passed. The full Lean workflow
+[37892866096](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37892866096)
+passed exporter validation, NumericalChecks and Mathlib cache retrieval, then
+failed at `NPBC3Kernel.cs_exponent_monotone`. In the pinned library,
+`Nat.mul_lt_mul_left` yields an equivalence, not the implication expected by the
+old `apply` tactic. The repair selects the equivalence's reverse direction with
+the existing positive-level and winding-order hypotheses. The theorem statement
+and imports are unchanged. The exact repaired theorem/proof compiled with
+Lean 4.22.0-rc2 and its actual `Init` lemma in an isolated check, without
+`sorryAx`; this is not yet a successful full Mathlib-file or repository build.
+
+Repository-wide Python CodeQL
+[37892866082](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37892866082)
+completed and reported scanning **4,071/4,071 Python files** and **32/32 Actions
+files**. Its preserved SARIF contains **21 findings**, not zero. Read-only
+triage identified ten test-assertion reports and guarded production reports:
+Filmers rejects XML declaration markers before parsing and strips screenplay
+lines before the flagged regex matches; Navigator resolves execution paths
+inside its allowed base, exactly allowlists reflected origins and constrains
+session IDs before signing cookies. No high-confidence exploit was established
+from these reports. The findings were not suppressed or dismissed, and this
+disposition is not a proof of safety for all inputs or all unreported code.
+
+At the inspection checkpoint, **all 27 isolated product jobs** had passed in
+[37892866116](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37892866116);
+this includes the complete discovered Navigator product suite. Full-core
+execution was still running.
+Separately, **97 proof-status/Kawamura contract tests** and **87 regression
+supervision/workflow tests** passed locally, and status drift, directory limits
+and dependency consistency passed. Hosted receipts remain tied to their tested
+commit; the new Lean proof repair needs its own full-build receipt. No complete
+full-core or complete Lean success is inferred from these scoped results.
+
+**Final blocker repair (2026-10-09).** The repaired-commit Lean workflow
+[37943756394](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/37943756394)
+now passed the complete pinned Mathlib build, exporter checks and
+NumericalChecks against `a2cb4e633`. This supersedes the earlier full-build
+blocker, not the open physical and functional-space obligations.
+
+The full-core job finished with a **blocked** integrity result:
+65,835 identities selected, 20,399 reconciled (20,392 passed and 7 skipped).
+The archived start/end fingerprints identify the mutation precisely:
+packaging tests generated 1,612 `build/` files and five
+`unitary_manifold.egg-info/` files inside the checkout; the latter also made
+`unitary-manifold==11.12.0` newly discoverable in the environment fingerprint.
+No existing source bytes changed. Wheel and editable-install checks now build
+from byte-verified copies of the declared packages and build metadata in pytest
+scratch space, and assert that the complete UM-ARTS compatibility fingerprint
+is unchanged afterwards. All eight packaging tests passed, including the slow
+wheel/editable checks and the fingerprint assertion. No source or environment
+exclusion was added to the frozen-evidence gate.
+
+Archived subprocess logs also expose six real failures in the P1055/P1056
+release-metadata suites. P1055's fixed 20-line status window no longer reached
+the historical regression record after honest introductory notes were added.
+It now parses the first explicitly named historical regression record and
+rejects missing, nonzero or conflicting failure counts; the report explicitly
+labels this as historical metadata, not verification of current execution.
+All nine directly coupled parser/certificate tests passed after the repair.
+Independent read-only reviews of both fixes found no significant remaining
+issues.
+
+These repairs explain and address the observed blockers, but do not retroactively
+validate the rejected full-core receipts. A fresh complete frozen run is still
+required before a repository-wide regression all-clear can be asserted.
+
 ## Synthesis repair (2026-10-05)
 
 This repair preserves the existing version and pillar allocation. It does not

@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 7970,
+  "file_count": 8020,
   "lanes": {
-    "az_ip": 2191,
+    "az_ip": 2236,
     "compactification": 9,
-    "other": 5350,
+    "other": 5355,
     "psicat_articles": 352,
     "psicat_books": 68
   },
@@ -23,13 +23,13 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2191,
+    "12-AZ-IP": 2236,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 891,
+    "7-OUTREACH": 893,
     "8-SAFETY": 8,
     "9-INFRASTRUCTURE": 193,
     "AGENTS.md": 1,
@@ -111,7 +111,7 @@
     "src": 1622,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1546,
+    "tests": 1549,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -1296,12 +1296,27 @@
       "12-AZ-IP/08-axiom-journalist/axiom_journalist/engine/publication.py",
       "12-AZ-IP/08-axiom-journalist/axiom_journalist/engine/source_ingest.py",
       "12-AZ-IP/08-axiom-journalist/docker-compose.yml",
+      "12-AZ-IP/08-axiom-journalist/output/base44_terms_intake_investigation.json",
+      "12-AZ-IP/08-axiom-journalist/output/base44_user_supplied_source_bundle.jsonl",
       "12-AZ-IP/08-axiom-journalist/output/corporate_power_dossier_packet.html",
       "12-AZ-IP/08-axiom-journalist/output/corporate_power_dossier_packet.json",
       "12-AZ-IP/08-axiom-journalist/output/corporate_power_dossier_packet.md",
       "12-AZ-IP/08-axiom-journalist/output/corporate_power_investigation.json",
       "12-AZ-IP/08-axiom-journalist/output/corporate_power_story_packet.json",
       "12-AZ-IP/08-axiom-journalist/output/corporate_power_story_packet.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_case_export_2026-10-08.json",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_governance_summary_2026-10-08.json",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_governed_dossier_packet_2026-10-08.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_live_scan_diagnostics_2026-10-08.json",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_story_packet_2026-10-08.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_dossier_1_cloud_platforms_and_emergency_systems_2026-10-08.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_dossier_2_capital_banks_and_accountability_2026-10-08.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_dossier_intake_checkpoint_2026-10-08.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_expose_part_1_the_data_path_2026-10-08.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_expose_part_2_the_money_path_2026-10-08.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_expose_part_3_the_accountability_gap_2026-10-08.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_master_claim_and_money_flow_ledger_2026-10-08.md",
+      "12-AZ-IP/08-axiom-journalist/output/holistic_public_record_source_bundle_2026-10-08.jsonl",
       "12-AZ-IP/08-axiom-journalist/output/unit8200_public_records_scan.json",
       "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_packet.md",
       "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_volume_1.md",
@@ -1310,6 +1325,8 @@
       "12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_story_packet.md",
       "12-AZ-IP/08-axiom-journalist/requirements.txt",
       "12-AZ-IP/08-axiom-journalist/run.py",
+      "12-AZ-IP/08-axiom-journalist/tests/conftest.py",
+      "12-AZ-IP/08-axiom-journalist/tests/test_holistic_dossier_regression.py",
       "12-AZ-IP/08-axiom-journalist/tests/test_journalist_upgrade.py"
     ],
     "09-omegaholon": [
@@ -1968,9 +1985,15 @@
       "12-AZ-IP/20-psicat-navigator/PSICAT_SMART_ROADMAP.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_SPC_BENCHMARK_GATES.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_SPC_EXPERT_ACCELERATION_MASTER_PLAN.md",
+      "12-AZ-IP/20-psicat-navigator/PSICAT_STEWARD_NOTES_LEDGER.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_THREE_LANE_INTENSIVE_SPRINT.md",
+      "12-AZ-IP/20-psicat-navigator/PSICAT_TOROIDAL_ISA_SPEC.md",
+      "12-AZ-IP/20-psicat-navigator/PSICAT_TOROIDAL_NONSMOOTH_NAVIGATION.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_VALIDATION_RESILIENCE_PACKET.md",
+      "12-AZ-IP/20-psicat-navigator/PSICAT_WEBSPACE_PROVENANCE.md",
       "12-AZ-IP/20-psicat-navigator/README.md",
+      "12-AZ-IP/20-psicat-navigator/WEBSPACE10_01.pdf",
+      "12-AZ-IP/20-psicat-navigator/axiomzero-knowledge-library-2026-10-08.pdf",
       "12-AZ-IP/20-psicat-navigator/benchmarks/stage_b/receipts.json",
       "12-AZ-IP/20-psicat-navigator/benchmarks/stage_c/receipts.json",
       "12-AZ-IP/20-psicat-navigator/conftest.py",
@@ -1996,6 +2019,12 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/__init__.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/client.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/constants.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/raw/machine_index_2026-10-07.json.gz",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/raw/machine_index_2026-10-07.provenance.json",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/raw/psicat_exports_2026-10-08.json.gz",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/raw/psicat_exports_2026-10-08.provenance.json",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/webspace_provenance_snapshot.json",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/webspace_remediation_register.json",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/flashcard.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/gate_parser.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/interrogator.py",
@@ -2008,6 +2037,7 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_energy_ledger.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_engine.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_epistemic_guard.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_flag_ab.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_geometry_memory.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_identity.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_inference_health.py",
@@ -2023,10 +2053,13 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_meta_learning.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_persona.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_program.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_publication_audit.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_rag.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_reasoning_graph.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_repo_graph.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_research_cycle.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_retrieval_eval.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_retrieval_scoring.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_router.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_runtime.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_science_evidence.py",
@@ -2035,8 +2068,15 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_telemetry.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_testing_stack.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tools.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_toroidal_awareness.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_toroidal_geometry.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_toroidal_router.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_training_execution.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_unitary_lab.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_vite_workbench.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_webspace_index.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_webspace_provenance.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_webspace_remediation.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_workspace.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/pillar_graph.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/session.py",
@@ -2056,11 +2096,16 @@
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_masterclass_runtime.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_memory_and_telemetry.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_meta_learning.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_publication_audit.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_repo_graph.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_testing_stack.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_toroidal_navigation.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_toroidal_round_two.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_artifact_isolation.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_execution.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_webspace_index.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_webspace_provenance.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_ox_navigator.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_science_evidence.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_vite_workbench.py",
@@ -11569,6 +11614,20 @@
       "product": "08-axiom-journalist"
     },
     {
+      "path": "12-AZ-IP/08-axiom-journalist/output/base44_terms_intake_investigation.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/base44_user_supplied_source_bundle.jsonl",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
       "path": "12-AZ-IP/08-axiom-journalist/output/corporate_power_dossier_packet.html",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -11605,6 +11664,97 @@
     },
     {
       "path": "12-AZ-IP/08-axiom-journalist/output/corporate_power_story_packet.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_case_export_2026-10-08.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_governance_summary_2026-10-08.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_governed_dossier_packet_2026-10-08.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_live_scan_diagnostics_2026-10-08.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_axiom_story_packet_2026-10-08.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_dossier_1_cloud_platforms_and_emergency_systems_2026-10-08.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_dossier_2_capital_banks_and_accountability_2026-10-08.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_dossier_intake_checkpoint_2026-10-08.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_expose_part_1_the_data_path_2026-10-08.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_expose_part_2_the_money_path_2026-10-08.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_expose_part_3_the_accountability_gap_2026-10-08.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_master_claim_and_money_flow_ledger_2026-10-08.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/output/holistic_public_record_source_bundle_2026-10-08.jsonl",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -11661,6 +11811,20 @@
     },
     {
       "path": "12-AZ-IP/08-axiom-journalist/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/tests/conftest.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "08-axiom-journalist"
+    },
+    {
+      "path": "12-AZ-IP/08-axiom-journalist/tests/test_holistic_dossier_regression.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16105,7 +16269,28 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/PSICAT_STEWARD_NOTES_LEDGER.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/PSICAT_THREE_LANE_INTENSIVE_SPRINT.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/PSICAT_TOROIDAL_ISA_SPEC.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/PSICAT_TOROIDAL_NONSMOOTH_NAVIGATION.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16119,7 +16304,28 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/PSICAT_WEBSPACE_PROVENANCE.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/WEBSPACE10_01.pdf",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/axiomzero-knowledge-library-2026-10-08.pdf",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16301,6 +16507,48 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/raw/machine_index_2026-10-07.json.gz",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/raw/machine_index_2026-10-07.provenance.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/raw/psicat_exports_2026-10-08.json.gz",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/raw/psicat_exports_2026-10-08.provenance.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/webspace_provenance_snapshot.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/data/webspace_remediation_register.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/flashcard.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16379,6 +16627,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_epistemic_guard.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_flag_ab.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16490,6 +16745,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_publication_audit.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_rag.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16512,6 +16774,20 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_research_cycle.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_retrieval_eval.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_retrieval_scoring.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16574,6 +16850,27 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_toroidal_awareness.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_toroidal_geometry.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_toroidal_router.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_training_execution.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16581,7 +16878,35 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_unitary_lab.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_vite_workbench.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_webspace_index.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_webspace_provenance.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_webspace_remediation.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16721,6 +17046,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_publication_audit.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_repo_graph.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16729,6 +17061,20 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_testing_stack.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_toroidal_navigation.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_toroidal_round_two.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16750,6 +17096,20 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_v1.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_webspace_index.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_webspace_provenance.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -22895,6 +23255,18 @@
       "top_level": "7-OUTREACH",
       "kind": "file",
       "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/PsiCat-Comic-Shop-2026-10-08.pdf",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/PsiCat-Publications-2026-10-08.pdf",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "other"
     },
     {
       "path": "7-OUTREACH/A Z PsiCat Literature/README.md",
@@ -43466,6 +43838,24 @@
     },
     {
       "path": "tests/ci_tooling/test_codeql_slices.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/ci_tooling/test_internal_links_audit.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/ci_tooling/test_packaging_integrity.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/ci_tooling/test_public_exports_health.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

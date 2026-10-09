@@ -1,4 +1,3 @@
-import Mathlib.Tactic
 import Mathlib.Algebra.Field.Rat
 import Mathlib.Algebra.Order.Field.Rat
 /-!
@@ -123,7 +122,7 @@ theorem layer2_within_1pct :
 /-- **LAYER-IMPROVEMENT**: Layer 2 is strictly closer to PDG than Layer 1.
     |J_L2 − J_PDG| = 0 < |J_L1 − J_PDG| = 1140. -/
 theorem layer2_closer_than_layer1 :
-    (j_um_layer2_central_x1e8 - j_pdg_x1e8).toNat <
+    (j_um_layer2_central_x1e8 - j_pdg_x1e8) <
     (j_pdg_x1e8 - j_um_layer1_x1e8) := by
   unfold j_um_layer2_central_x1e8 j_pdg_x1e8 j_um_layer1_x1e8; native_decide
 

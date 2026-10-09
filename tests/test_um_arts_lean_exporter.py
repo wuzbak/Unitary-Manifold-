@@ -112,10 +112,11 @@ def installed_lean():
 
 
 @pytest.fixture(scope="module")
-def lean_fixture(installed_lean):
+def lean_fixture(installed_lean, tmp_path_factory):
     module = "UMArtsExporterFixture" + uuid.uuid4().hex
-    source_path = LEAN_DIR / f"{module}.lean"
-    olean_path = LEAN_DIR / f"{module}.olean"
+    fixture_dir = tmp_path_factory.mktemp("lean-exporter")
+    source_path = fixture_dir / f"{module}.lean"
+    olean_path = fixture_dir / f"{module}.olean"
     source_path.write_text(
         "import Lean\n"
         "namespace ExportFixture\n"
@@ -131,7 +132,10 @@ def lean_fixture(installed_lean):
         encoding="utf-8",
     )
     env = dict(os.environ)
-    env["LEAN_PATH"] = str(LEAN_DIR) + os.pathsep + env.get("LEAN_PATH", "")
+    env["LEAN_PATH"] = (
+        str(fixture_dir) + os.pathsep + str(LEAN_DIR)
+        + os.pathsep + env.get("LEAN_PATH", "")
+    )
     try:
         prefix = subprocess.run(
             [installed_lean, "--print-prefix"], capture_output=True, text=True,
@@ -141,7 +145,7 @@ def lean_fixture(installed_lean):
         compiled = subprocess.run(
             [installed_lean, "-o", str(olean_path), str(source_path)],
             capture_output=True, text=True, check=False, timeout=60,
-            cwd=LEAN_DIR, env=env,
+            cwd=fixture_dir, env=env,
         )
         assert compiled.returncode == 0, compiled.stdout + compiled.stderr
         yield installed_lean, module, env
@@ -158,6 +162,16 @@ def run_export(fixture, *args):
         cwd=LEAN_DIR, env=env, capture_output=True, text=True,
         check=False, timeout=90,
     )
+
+
+def test_real_export_fixture_uses_pytest_temp_directory(lean_fixture):
+    _, module, env = lean_fixture
+    fixture_dir = Path(env["LEAN_PATH"].split(os.pathsep)[0]).resolve()
+    assert not fixture_dir.is_relative_to(LEAN_DIR)
+    assert (fixture_dir / f"{module}.lean").is_file()
+    assert (fixture_dir / f"{module}.olean").is_file()
+    assert not (LEAN_DIR / f"{module}.lean").exists()
+    assert not (LEAN_DIR / f"{module}.olean").exists()
 
 
 def test_real_export_checks_types_axioms_and_transitive_sorry(lean_fixture):

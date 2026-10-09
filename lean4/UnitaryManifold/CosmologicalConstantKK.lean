@@ -12,6 +12,11 @@
   follows the established UM proxy pattern.
 -/
 
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.Ring
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+
 -- Proxy arithmetic universe
 def N_KK : Nat := 74
 def M_KK_PROXY : Nat := 1000   -- M_KK in GeV proxy
@@ -26,7 +31,6 @@ theorem mkk4_scaling (m : Nat) : (2 * m)^4 = 16 * m^4 := by ring
 -- 3. Sum of fourth powers is positive for N_KK ≥ 1
 theorem sum_n4_positive : (Finset.range N_KK).sum (fun n => (n + 1)^4) > 0 := by
   simp [N_KK, Finset.sum_range_succ]
-  norm_num
 
 -- 4. Zero-mode contributes 1^4 = 1 to the sum
 theorem first_mode_contribution : (1 : Nat)^4 = 1 := by decide
@@ -34,9 +38,8 @@ theorem first_mode_contribution : (1 : Nat)^4 = 1 := by decide
 -- 5. KK vacuum energy exceeds a single-mode estimate
 theorem kk_energy_exceeds_single :
     (Finset.range N_KK).sum (fun n => (n + 1)^4) ≥ (1 : Nat)^4 := by
-  apply Finset.single_le_sum
-  · intros; positivity
-  · simp [N_KK]
+  exact Finset.single_le_sum (f := fun n : Nat => (n + 1)^4) (a := 0)
+    (fun _ _ => Nat.zero_le _) (by simp [N_KK])
 
 -- 6. 74 modes sum is larger than 1 mode
 theorem seventy_four_modes_gt_one :

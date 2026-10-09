@@ -10,7 +10,7 @@ This matters because most model narratives optimize for impressive demos first a
 
 Use the canonical start-here path in:
 
-- [`12-AZ-IP/20-merlin-navigator/MERLIN_SMART_ROADMAP.md`](../../../12-AZ-IP/20-merlin-navigator/MERLIN_SMART_ROADMAP.md)
+- [`12-AZ-IP/20-merlin-navigator/MERLIN_SMART_ROADMAP.md`](../../../12-AZ-IP/20-psicat-navigator/PSICAT_SMART_ROADMAP.md)
 
 That document is the maintained short-to-deep reading sequence.
 

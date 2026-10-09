@@ -826,9 +826,9 @@ For readers who want the engineering analysis without the physics framework:
 
 For the physics that underlies the engineering analysis:
 
-- **[post-16-domain-applications.md](../posts/post-016-domain-applications.md)** — "The Same Geometry, Everywhere Else"
-- **[post-37-human-ai-collaboration.md](../posts/post-037-human-ai-collaboration.md)** — How this book was built
-- **[post-93-governance-is-a-physics-problem.md](../posts/post-093-governance-is-a-physics-problem.md)** — Organizations as physical systems
+- **[post-16-domain-applications.md](../Articles/article-035-post-016-domain-applications.md)** — "The Same Geometry, Everywhere Else"
+- **[post-37-human-ai-collaboration.md](../Articles/article-057-post-037-human-ai-collaboration.md)** — How this book was built
+- **[post-93-governance-is-a-physics-problem.md](../Articles/article-115-post-093-governance-is-a-physics-problem.md)** — Organizations as physical systems
 
 ---
 
