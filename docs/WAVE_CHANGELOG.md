@@ -58,12 +58,26 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v38.2 (2026-10-01)**
+**Current version: v38.3 (2026-10-09)**
 **Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record; latest verified full regression in branch history)
-**Next pillar slot:** 1131
+**Next pillar slot:** 1132
 
 
 
+
+## v38.3 (2026-10-09 — Sprint CY: Pillar 1131)
+
+**What changed:**
+Pillar 1131 closes one of the three residual obligations Pillar 1130 left open: `EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ`. `symbolic_kk_reduction_check(offdiagonal=True, exact=True)` (`src/core/action_derived_flow.py`) now symbolically simplifies every Euler-Lagrange expression of the KK reduction difference on the non-diagonal Einstein-frame ansatz and confirms each is identically zero, upgrading that check from a sample-point numeric evaluation to an exact symbolic identity. `action_to_evolution_derived_flow_certificate.py` reports this result in a new `offdiagonal_exact_reduction` field and updates `VERIFIED_PERIMETER`. `action_to_evolution_contract.py`'s `residual_obligations` field drops the now-closed item via `pillar1131_offdiagonal_exact_reduction_closure.current_residual_obligations`, while Pillar 1130's own historical record is left unchanged.
+
+**Why:**
+The non-diagonal reduction identity was already verified numerically at sample points; extending the existing exact-simplification code path (already used for the diagonal ansatz) to the non-diagonal case closes a concretely scoped, binary residual obligation without touching the deeper open questions.
+
+**What it does not do:**
+It does not derive the t-relaxation law, identify t with coordinate time, certify physical-time evolution, cover the legacy flow law, or change framework-level `closure_earned = false`. The action-to-evolution contract still reports `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`; `promotion_ready` stays false. No new hardgate physics closure is claimed.
+
+**Verification:** Pillar 1131 suite, the two new offdiagonal-exact tests in `tests/test_action_derived_flow.py`, and the action-to-evolution consumer suites pass; recorded in docs/TRUTH_LAYER.md.
+**Next pillar slot:** 1132
 
 ## v38.2 (2026-10-01 — Sprint CX: Pillar 1130)
 

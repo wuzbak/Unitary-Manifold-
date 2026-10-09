@@ -18,6 +18,7 @@ from src.core.action_to_evolution_el_mismatch_certificate import (
 from src.core.action_to_evolution_retirement_units import build_action_to_evolution_retirement_units
 from src.core.evolution import implemented_flow_equation_surface, phenomenological_flow_boundary
 from src.core.pillar1130_action_derived_flow_steward_promotion import steward_promotion_decision
+from src.core.pillar1131_offdiagonal_exact_reduction_closure import current_residual_obligations
 
 DERIVED_PENDING_STEWARD_PROMOTION = "DERIVED_PENDING_STEWARD_PROMOTION"
 
@@ -138,7 +139,11 @@ def action_to_evolution_deliverable_contract() -> Dict[str, Any]:
     deliverables_earned = len(remaining_blockers) == 0 and all(item["earned"] for item in deliverables)
     evolution_law_open = boundary["status"] == "OPEN"
     promotion_ready = deliverables_earned and not evolution_law_open
-    residual_obligations = list(steward_decision["residual_obligations"]) if el_promoted and steward_decision else []
+    residual_obligations = (
+        current_residual_obligations(list(steward_decision["residual_obligations"]))
+        if el_promoted and steward_decision
+        else []
+    )
     if promotion_ready:
         status = "CLOSURE_READY"
     elif deliverables_earned:

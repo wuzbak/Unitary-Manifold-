@@ -1,5 +1,5 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v38.1
+# Unitary Manifold v38.3
 
 > **Health repair (2026-10-09):** P8 functional-space closure and Sub-gap L's
 > Lean4 promotion are withdrawn. Finite scalar checks are not a functional
@@ -59,6 +59,8 @@ still-open physical obligations in the table.
 
 
 
+
+*P1131 (v38.3): Offdiagonal Exact Reduction Identity Closure — OFFDIAGONAL_REDUCTION_IDENTITY_EXACT_CLOSED. `src/core/pillar1131_offdiagonal_exact_reduction_closure.py` closes one of Pillar 1130's three residual obligations: EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ. The non-diagonal KK reduction identity in `src/core/action_derived_flow.py` is now verified as an exact SymPy identity (`symbolic_kk_reduction_check(offdiagonal=True, exact=True)`), not only at sample points. Remaining residual obligations: T_RELAXATION_LAW_DECLARED_NOT_DERIVED, PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED. The contract still reads DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN, not closure-ready. Framework closure not earned. Truth layer: [Sprint CY](TRUTH_LAYER.md#sprint-cy-offdiagonal-exact-reduction-identity-closure).*
 
 *P1130 (v38.2): Action-Derived Flow Steward Promotion — ACTION_DERIVED_FLOW_PROMOTED_WITHIN_DECLARED_PERIMETER. `src/core/pillar1130_action_derived_flow_steward_promotion.py` records the steward decision to promote the Euler-Lagrange deliverable of `src/core/action_to_evolution_contract.py` within the declared perimeter (y-independent zero modes, 1-D periodic grid, circle reduction, declared t-relaxation). The decision is re-checked fail-closed against `src/core/action_to_evolution_derived_flow_certificate.py`. The contract reads DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN, not closure-ready; residual obligations: T_RELAXATION_LAW_DECLARED_NOT_DERIVED, EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ, PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED. Framework closure not earned. Truth layer: [Sprint CX](TRUTH_LAYER.md#sprint-cx-action-derived-flow-steward-promotion).*
 

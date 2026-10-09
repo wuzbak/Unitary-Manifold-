@@ -12,7 +12,9 @@ Certificate classes used (vocabulary of ``proof/FORMAL_PROOF_FOUNDRY.md``):
 
 * exact identity — SymPy simplifies the Euler operator of
   √(−G)R⁽⁵⁾ − √(−g_E)[R_E − (3/2)(∂ψ)² − ¼λ²φ³F²] to zero on the reduced
-  ansatz g_E = diag(−a, b, 1, 1), B = (0, 0, B₂, 0);
+  ansatz g_E = diag(−a, b, 1, 1), B = (0, 0, B₂, 0), and (Pillar 1131) also
+  on a non-diagonal ansatz with g_E,02 and g_E,23 components and
+  B = (B₀, 0, B₂, 0);
 * truncation/discretization certificate — the implemented EL expressions
   converge to SymPy's δS₄/δ(field) at second order, and the finite-difference
   Ricci tensor converges to an exact-derivative reference on a non-diagonal
@@ -40,9 +42,9 @@ from src.core.action_derived_flow import (
 VERIFIED_PERIMETER: List[str] = [
     'y-independent Kaluza-Klein zero modes (consistent U(1) truncation); KK tower not evolved',
     'fields depend on one coordinate x (index 1) on a periodic grid x ∈ S¹; x⁰ gauge-fixed',
-    'exact symbolic reduction identity checked on g_E = diag(−a, b, 1, 1), B = (0, 0, B₂, 0); '
-    'the reduction is also checked at sample points (30-digit evaluation, slow test) on a non-diagonal '
-    'g_E with g_E,02 and g_E,23 components and B = (B₀, 0, B₂, 0); '
+    'exact symbolic reduction identity checked on g_E = diag(−a, b, 1, 1), B = (0, 0, B₂, 0), and '
+    '(Pillar 1131) also checked as an exact symbolic identity on a non-diagonal g_E with g_E,02 and '
+    'g_E,23 components and B = (B₀, 0, B₂, 0), not merely at sample points; '
     'the general-index Ricci implementation is cross-checked numerically on a non-diagonal metric',
     'circle reduction, not the Z₂ orbifold: the photon/orbifold obstruction is untouched',
     't is a declared relaxation parameter; its dynamics are not obtained by varying the action',
@@ -65,12 +67,16 @@ def derived_flow_verification_certificate() -> Dict[str, Any]:
     from src.core.evolution import DEFAULT_FLOW_LAW, FLOW_LAW_ACTION_DERIVED
 
     reduction = symbolic_kk_reduction_check(full=False, exact=True)
+    offdiagonal_reduction = symbolic_kk_reduction_check(offdiagonal=True, exact=True)
     el_match = numeric_euler_lagrange_match()
     ricci = numeric_ricci_crosscheck()
     fixed_point_residual = _fixed_point_residual()
     default_is_derived = DEFAULT_FLOW_LAW == FLOW_LAW_ACTION_DERIVED
 
     reduction_ok = bool(reduction['reduction_verified'] and reduction['exact_identity_verified'])
+    offdiagonal_reduction_ok = bool(
+        offdiagonal_reduction['reduction_verified'] and offdiagonal_reduction['exact_identity_verified']
+    )
     residual = el_match['relative_residual_fine']
     orders = el_match['observed_convergence_order']
 
@@ -102,6 +108,7 @@ def derived_flow_verification_certificate() -> Dict[str, Any]:
         'flow_surface': action_derived_flow_surface(),
         'default_flow_law_is_action_derived': default_is_derived,
         'symbolic_reduction': reduction,
+        'offdiagonal_exact_reduction': offdiagonal_reduction,
         'numeric_euler_lagrange_match': el_match,
         'ricci_crosscheck': ricci,
         'minkowski_fixed_point_residual': fixed_point_residual,
@@ -111,6 +118,7 @@ def derived_flow_verification_certificate() -> Dict[str, Any]:
             'field_equations_derived_from_action': all(r['derivation_present'] for r in sector_rows),
             'residual_certificate_present': all(r['residual_mismatch_proof_present'] for r in sector_rows),
             'all_checks_pass': all_verified,
+            'offdiagonal_exact_identity_verified': offdiagonal_reduction_ok,
             't_dynamics_derived_from_action': False,
             'steward_promotion_required': True,
             'closure_earned': False,

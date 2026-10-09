@@ -223,6 +223,15 @@ class TestVerification:
         assert res["ansatz"] == "offdiagonal_two_component"
         assert res["reduction_verified"]
 
+    @pytest.mark.slow
+    def test_symbolic_reduction_offdiagonal_exact_ansatz(self):
+        """Pillar 1131: the non-diagonal reduction identity holds exactly, not just at sample points."""
+        res = symbolic_kk_reduction_check(offdiagonal=True, exact=True)
+        assert res["ansatz"] == "offdiagonal_two_component"
+        assert res["reduction_verified"]
+        assert res["exact_simplification_performed"]
+        assert res["exact_identity_verified"] is True
+
 
 class TestDynamics:
     def test_flat_noise_relaxes_and_stays_finite(self):

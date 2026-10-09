@@ -27,10 +27,12 @@
 > Photon origin and action-to-evolution equivalence remain open. No new physics
 > closure is claimed.
 
-**The Unitary Manifold v38.2 — Unambiguous Record**
+**The Unitary Manifold v38.3 — Unambiguous Record**
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-10-01 (v38.2 — Sprint CX: Pillar 1130; steward promotion of the Lane 1 Euler-Lagrange deliverable within the declared perimeter — the default flow relaxes the field equations derived from the circle-reduced 5D Einstein-Hilbert action, the t-relaxation law remains declared, the legacy flow stays phenomenological, framework closure is not earned — plus canonical status resynchronization after the v38.0/v38.1 drift; Lean4 4080→4080; next slot 1131.)*
-*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record, tests/ + recycling/ + Pentad; Sprints CV and CW recorded none; Sprint CX sharded verification is reported in docs/TRUTH_LAYER.md).*
+*Last updated: 2026-10-09 (v38.3 — Sprint CY: Pillar 1131; closes one of the three residual obligations left by Pillar 1130 — the non-diagonal KK reduction identity is now verified as an exact symbolic identity, not only at sample points; the t-relaxation law remains declared, physical-time evolution remains uncertified, framework closure is not earned; next slot 1132.)*
+*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record, tests/ + recycling/ + Pentad; Sprints CV and CW recorded none; Sprint CY focused verification is reported in docs/TRUTH_LAYER.md).*
+
+*Historical continuity note: The Unitary Manifold v38.2 retained the marker `Last updated: 2026-10-01 (v38.2 — Sprint CX: Pillar 1130; next slot 1131.)` for the steward promotion of the Lane 1 Euler-Lagrange deliverable within its declared perimeter and canonical status resynchronization after the v38.0/v38.1 drift.*
 
 *Historical continuity note: The Unitary Manifold v38.1 Sprint CW (Pillar 1129; next slot 1130) added the adjacent MaleCNS connectome bridge without changing this record's physics claim state.*
 
