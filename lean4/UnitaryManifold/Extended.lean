@@ -1,4 +1,7 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
+import Mathlib.Data.Real.Basic
 /-!
 # Unitary Manifold — Extended Contract Library (Lean 4 + Mathlib)
 

@@ -7,8 +7,6 @@ from __future__ import annotations
 import ast
 import os
 import re
-from contextlib import contextmanager
-from contextvars import ContextVar
 from copy import deepcopy
 from functools import lru_cache
 from pathlib import Path
@@ -17,7 +15,6 @@ from typing import Any, Dict, Iterable, List
 REPO_ROOT = Path(__file__).resolve().parents[4]
 _TOKEN_RE = re.compile(r"[A-Za-z0-9_./-]+")
 _DOC_HEADING_RE = re.compile(r"^\s*#+\s+(.*)$", re.MULTILINE)
-_REQUEST_DISCOVERY: ContextVar[dict[str, Any] | None] = ContextVar("repo_graph_discovery", default=None)
 _PRIORITY_PREFIXES = [
     "src/core/",
     "tests/",
@@ -42,32 +39,8 @@ def _priority_key_cached(path: Path, root: str) -> tuple[int, str]:
     return (len(_PRIORITY_PREFIXES), rel)
 
 
-@contextmanager
-def repo_graph_request():
-    """Reuse discovery within a request, while checking directory and file freshness."""
-    token = _REQUEST_DISCOVERY.set({})
-    try:
-        yield
-    finally:
-        _REQUEST_DISCOVERY.reset(token)
-
-
-def _directory_signature(path: str) -> tuple[int, int, int]:
-    stat = os.stat(path)
-    return stat.st_ino, stat.st_mtime_ns, stat.st_ctime_ns
-
-
 def _discover_files() -> tuple[Path, ...]:
-    request = _REQUEST_DISCOVERY.get()
-    if request and request.get("root") == str(REPO_ROOT):
-        try:
-            if all(_directory_signature(path) == signature for path, signature in request["directories"]):
-                return request["files"]
-        except OSError:
-            pass
     pool: List[str] = []
-    signatures = []
-    reusable = True
     for relative, suffixes in (
         ("src", (".py", ".md")),
         ("tests", (".py",)),
@@ -78,27 +51,16 @@ def _discover_files() -> tuple[Path, ...]:
     ):
         directories = [str(REPO_ROOT / relative)]
         while directories:
-            directory = directories.pop()
             try:
-                signature = _directory_signature(directory)
-                with os.scandir(directory) as entries:
+                with os.scandir(directories.pop()) as entries:
                     for entry in entries:
-                        if entry.is_symlink():
-                            reusable = False
                         if entry.is_dir(follow_symlinks=False):
                             directories.append(entry.path)
                         elif entry.name.endswith(suffixes) and entry.is_file():
                             pool.append(str(Path(entry.path).resolve()) if entry.is_symlink() else entry.path)
-                signatures.append((directory, signature))
             except OSError:
-                reusable = False
                 continue
-    files = _discovery_layout_cached(tuple(sorted(set(pool))), str(REPO_ROOT))
-    if request is not None:
-        request.clear()
-        if reusable:
-            request.update(root=str(REPO_ROOT), directories=signatures, files=files)
-    return files
+    return _discovery_layout_cached(tuple(sorted(set(pool))), str(REPO_ROOT))
 
 
 @lru_cache(maxsize=4)

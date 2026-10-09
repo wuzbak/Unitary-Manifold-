@@ -59,7 +59,7 @@ Using the algebraic identity (a−1)² + (a+1)² = 2(a²+1):
 - `NPW5APS.lean`: proves n_w=5 is the unique APS-consistent candidate.
 - **This file**: derives K_CS=74 and c_s=12/37 from n_before=6 alone.
 
-## Lean 4 Theorem Count
+## Historical bookkeeping (not the live audit declaration count)
 
 Previous total (after NPW5APS.lean): 403 theorems
 New theorems in this file: 17

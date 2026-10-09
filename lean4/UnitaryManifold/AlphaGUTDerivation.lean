@@ -1,4 +1,4 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.Ring
 
 /-!
 # Unitary Manifold — α_GUT Derivation (Lean 4)

@@ -12,7 +12,10 @@
   follows the established UM proxy pattern.
 -/
 
-import Mathlib.Tactic
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.Ring
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 
 -- Proxy arithmetic universe
 def N_KK : Nat := 74

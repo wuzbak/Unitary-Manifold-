@@ -1,4 +1,4 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.NormNum
 import Mathlib.Algebra.Field.Rat
 import Mathlib.Algebra.Order.Field.Rat
 /-!

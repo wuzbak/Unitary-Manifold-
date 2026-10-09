@@ -12,7 +12,7 @@
   checks common-denominator arithmetic only. It does not compute an APS
   spectral invariant or close APS_MATHLIB_OPEN / NW_UNIQUENESS_GEOMETRY_OPEN.
 
-  Theorem count: 45  (total after: 1581 + 45 = 1626)
+  Historical bookkeeping: 45 (1581 + 45 = 1626), not a live declaration count.
 -/
 
 def N_W_828 : Nat := 5

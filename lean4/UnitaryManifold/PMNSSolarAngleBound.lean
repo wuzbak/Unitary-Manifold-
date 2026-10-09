@@ -1,4 +1,4 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.NormNum
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 import Mathlib.Data.Real.Basic
 /-!

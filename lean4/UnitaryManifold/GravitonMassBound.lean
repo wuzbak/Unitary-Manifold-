@@ -6,7 +6,7 @@
   Lean4 proxy theorems formalising the KK graviton mass bound and zero-mode
   masslessness argument.
 
-  Theorem count: 15  (total after: 1051 + 15 = 1066)
+  Historical bookkeeping: 15 (1051 + 15 = 1066), not a live declaration count.
 -/
 
 -- Proxy integers (× 10⁴ for fractions)

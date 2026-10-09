@@ -1,4 +1,3 @@
-import Mathlib.Tactic
 import Mathlib.Algebra.Ring.Parity
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import Mathlib.Data.Real.Basic

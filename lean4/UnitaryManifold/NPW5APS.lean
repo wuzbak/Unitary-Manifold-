@@ -1,4 +1,5 @@
-import Mathlib.Tactic
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
 import Mathlib.Algebra.Ring.Parity
 import Mathlib.Algebra.Field.Rat
 import Mathlib.Data.Finset.Basic

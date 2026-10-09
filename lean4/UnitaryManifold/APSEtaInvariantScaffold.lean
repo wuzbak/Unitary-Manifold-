@@ -45,7 +45,6 @@
   axiom aps_eta_even_zero : for any even n_w, η̄(n_w) = 0.
 -/
 
-import Mathlib.Tactic
 import Mathlib.Algebra.Ring.Parity
 
 namespace UnitaryManifold.APSEtaInvariantScaffold

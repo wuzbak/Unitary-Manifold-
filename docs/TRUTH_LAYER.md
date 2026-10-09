@@ -71,10 +71,20 @@ Pentad run explicitly enabled slow tests (`-m ""`) with four workers. It reached
 about 14% before the 900-second deadline; it did not produce a complete
 regression result. The Product 20 suite reached about 40% before its 600-second
 deadline and recorded one early failure. Neither run is a zero-failure
-certificate, and partial progress is not a passed-test total. The Navigator
-failure is being isolated with fail-fast execution rather than raising endpoint
-timeouts or concealing it. These results do not replace historical regression
-records.
+certificate, and partial progress is not a passed-test total. These results do
+not replace historical regression records.
+
+**Remaining Navigator blocker.** Fail-fast execution recorded **99 passed,
+1 failed, 3 skipped, 1 deselected**. The failure is
+`test_server_masterclass_and_swarm_routes_and_tools` at the
+`/api/psicat/spc-phase2-applied-pressure?limit=2&training_limit=2` read timeout.
+Focused profiling observed 134 queries, 132 scaffolds and 132 graph discoveries;
+warm profiled execution took 11.41 seconds, including 6.48 seconds in graph
+routing. A request-local reuse experiment still failed the existing endpoint
+test and was rolled back; incidental profiling history was restored. No
+endpoint timeout, promotion rule or assertion was weakened. Eight other
+runtime-contract tests passed, but this endpoint remains unresolved and
+requires a semantics-preserving reduction in repeated work.
 
 ## Synthesis repair (2026-10-05)
 

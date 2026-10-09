@@ -1,6 +1,9 @@
 -- SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 -- Copyright (C) 2026  ThomasCory Walker-Pearson
-import Mathlib.Tactic
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Positivity
+import Mathlib.Data.Real.Sqrt
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.Nat.Basic
 /-!

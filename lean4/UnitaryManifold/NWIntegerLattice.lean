@@ -1,4 +1,3 @@
-import Mathlib.Tactic
 import Mathlib.Algebra.Ring.Parity
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Finset.Card

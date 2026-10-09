@@ -14,7 +14,7 @@
   The honest no-go: final selection of n_w = 5 over n_w = 7 requires
   Planck nₛ data or an additional geometric convention.
 
-  Theorem count: 22  (total after: 1449 + 22 = 1471)
+  Historical bookkeeping: 22 (1449 + 22 = 1471), not a live declaration count.
 -/
 
 import Mathlib.Tactic.IntervalCases

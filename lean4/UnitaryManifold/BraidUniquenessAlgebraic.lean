@@ -59,7 +59,7 @@ and CS action ordering properties.  This file extends to:
 - That n_w = 5 (not n_w = 7) from Planck n_s alone; this requires n_s = 0.9649.
 - The η-invariant uniqueness conjecture (Pillar 70-B).
 
-## Lean 4 theorem count
+## Historical bookkeeping (not the live audit declaration count)
 
 Previous (after WarpFactorUniqueness.lean): 494  
 New theorems in this file: 15  

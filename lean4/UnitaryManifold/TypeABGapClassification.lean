@@ -5,7 +5,7 @@
   TypeABGapClassification.lean
   ────────────────────────────
   Pillar 784 — Type A / Type B Gap Classification (Constraint-Surface Synthesis)
-  18 proxy theorems formalising the discriminant criteria and key bounds.
+  Historical bookkeeping recorded 18 proxy theorems, not the live audit count.
 
   The historical g2_ads_below_pdg and g2_residual_positive declarations
   are withdrawn: their scales differ by 100, not 10. Their original
