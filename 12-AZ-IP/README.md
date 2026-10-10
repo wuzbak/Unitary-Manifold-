@@ -11,7 +11,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 - External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
-## Product registry (41 canonical software products / surfaces)
+## Product registry (42 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -56,6 +56,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 39 | AZ Research-Debt Tracker | 1.1.0 | TRL-4 | CLI / Python library + web | 19 | Domain-agnostic project-health tracker generalized from `src/meta/mas_wave_engine.py`, dogfooded against UM's own live gap list. | [39-az-research-debt-tracker/](39-az-research-debt-tracker/) |
 | 40 | AZ Live-Data Harness | 1.1.0 | TRL-4 | CLI / Python library + web | 13 | Shared fetch/normalize/fallback/verdict harness demonstrated against `src/data/fetch_planck.py`. | [40-az-live-data-harness/](40-az-live-data-harness/) |
 | 41 | AZ Media & Feature-Inspection Suite | 1.0.0 | TRL-2 | CLI / Python library + web (http://localhost:8141) | 28 | Comic (CBZ) viewer, WAV audio understanding/synthesis, lightweight `.azvid` video container understanding/creation, and an evidence-cited feature inspector for PsiCat adapted from the `github.com/morluto/rea` workflow (source-only, no external dependency). | [41-az-media-suite/](41-az-media-suite/) |
+| 42 | AZ Awareness & Creation Toolkit | 1.0.0 | TRL-2 | CLI / Python library + web (http://localhost:8142) | 58 | Live sibling-product registry awareness, a capability router, document/config structural awareness, dependency-free SVG chart creation, SM-2 spaced-repetition knowledge-card decks, path:line citation verification, and a cross-product home-health dashboard — all wired as native PsiCat tools. | [42-az-awareness-creation-toolkit/](42-az-awareness-creation-toolkit/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 

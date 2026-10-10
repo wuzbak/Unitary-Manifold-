@@ -328,10 +328,16 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-10-10",
-      "sha256": "0f2dbfe3e8ef03bebd5b5883be7c5d4160b8e9cee18e186a568f10aa2e2898a7",
-      "size_bytes": 17037,
-      "reseal_note": "Refreshed 2026-10-10 to register Product 41 AZ Media & Feature-Inspection Suite, bumping the canonical count from 40 to 41. Previous seal: 5c2009d1a824cc55b9e17b1aa0f545cf2c07603169e5d6a9eaac1d9d2ce94280 (16616 bytes), which bumped Products 28-40 to version 1.1.0 ('CLI / Python library + web', updated test counts) after each gained a Phase 2 read-only JSON API + static UI web-product layer. Earlier seal: c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65 (16527 bytes), which registered Products 28-40 in the registry table, bumping the canonical count from 27 to 40. Earliest retained seal: e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61 (12750 bytes).",
+      "sha256": "bfda7ce884d5b2c72c3f7085511e1bdb1afcd747a291a181d40c431b34d46700",
+      "size_bytes": 17521,
+      "reseal_note": "Refreshed 2026-10-10 to register Product 42 AZ Awareness & Creation Toolkit, bumping the canonical count from 41 to 42. Previous seal: 0f2dbfe3e8ef03bebd5b5883be7c5d4160b8e9cee18e186a568f10aa2e2898a7 (17037 bytes), which registered Product 41 AZ Media & Feature-Inspection Suite, bumping the canonical count from 40 to 41. Earlier reseal provenance is retained in reseal_history.",
       "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "0f2dbfe3e8ef03bebd5b5883be7c5d4160b8e9cee18e186a568f10aa2e2898a7",
+          "size_bytes": 17037,
+          "reseal_note": "Refreshed 2026-10-10 to register Product 41 AZ Media & Feature-Inspection Suite, bumping the canonical count from 40 to 41. Previous seal: 5c2009d1a824cc55b9e17b1aa0f545cf2c07603169e5d6a9eaac1d9d2ce94280 (16616 bytes), which bumped Products 28-40 to version 1.1.0 ('CLI / Python library + web', updated test counts) after each gained a Phase 2 read-only JSON API + static UI web-product layer. Earlier seal: c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65 (16527 bytes), which registered Products 28-40 in the registry table, bumping the canonical count from 27 to 40. Earliest retained seal: e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61 (12750 bytes)."
+        },
         {
           "updated": "2026-10-10",
           "sha256": "5c2009d1a824cc55b9e17b1aa0f545cf2c07603169e5d6a9eaac1d9d2ce94280",
@@ -647,6 +653,14 @@
       "updated": "2026-10-10",
       "sha256": "68be8d1333f98bdfa1b01708c242e8718c79f309541a6e9a36599fcad49ae7c9",
       "size_bytes": 4289
+    },
+    "12-AZ-IP/42-az-awareness-creation-toolkit/README.md": {
+      "description": "Product 42 AZ Awareness & Creation Toolkit README documenting the 7 PsiCat awareness/creation features and roadmap",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "d9b24c25c27b79af1db0dbd7b6fb1b2d86c3520f1e8c62d281caa995daf75714",
+      "size_bytes": 4898
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -1055,6 +1069,15 @@
       "tests": "28",
       "description": "Comic (CBZ) viewer, WAV audio understanding/synthesis, lightweight .azvid video container understanding/creation, and an evidence-cited feature inspector for PsiCat adapted from the github.com/morluto/rea workflow.",
       "link": "41-az-media-suite/"
+    },
+    {
+      "name": "AZ Awareness & Creation Toolkit",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library + web (http://localhost:8142)",
+      "tests": "58",
+      "description": "Live sibling-product registry awareness, a capability router, document/config structural awareness, dependency-free SVG chart creation, SM-2 spaced-repetition knowledge-card decks, path:line citation verification, and a cross-product home-health dashboard; all wired as native PsiCat tools, closing a holistic-audit finding that PsiCat's ~200 tools referenced none of its 41 sibling products.",
+      "link": "42-az-awareness-creation-toolkit/"
     }
   ]
 }

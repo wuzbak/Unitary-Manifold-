@@ -156,6 +156,38 @@ Previous seal (`c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65
 
 ---
 
+### Product 41 registration — master README reseal — 2026-10-10
+
+Product 41, the AZ Media & Feature-Inspection Suite, was registered.
+The master registry README was refreshed to register it and bump the
+canonical product count from 40 to 41; its previous seal is retained in
+`IP_REGISTRY.json` reseal history. This row was omitted from this
+manifest when Product 41 was first registered and is added here for
+completeness; `IP_REGISTRY.json` has carried the correct seal throughout.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/README.md` | `0f2dbfe3e8ef03bebd5b5883be7c5d4160b8e9cee18e186a568f10aa2e2898a7` | 17037 |
+
+---
+
+### Product 42 registration — 2026-10-10
+
+Product 42, the AZ Awareness & Creation Toolkit, was registered. It gives
+PsiCat/Merlin native awareness of its 41 sibling products (a holistic
+audit of `merlin_tools.py` found zero of its ~200 tools referenced any of
+them), plus general-purpose chart/knowledge-card creation and citation
+verification. The master registry README was refreshed to register it and
+bump the canonical product count from 41 to 42; its previous seal is
+retained in `IP_REGISTRY.json` reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/README.md` | `bfda7ce884d5b2c72c3f7085511e1bdb1afcd747a291a181d40c431b34d46700` | 17521 |
+| `12-AZ-IP/42-az-awareness-creation-toolkit/README.md` | `d9b24c25c27b79af1db0dbd7b6fb1b2d86c3520f1e8c62d281caa995daf75714` | 4898 |
+
+---
+
 ## Authorship Declaration
 
 All assets listed in this manifest are the intellectual property of
