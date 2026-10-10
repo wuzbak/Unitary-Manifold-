@@ -27,6 +27,10 @@ def main(argv: list[str] | None = None) -> int:
     track_cmd.add_argument("--power-in-w", type=float, required=True)
     track_cmd.add_argument("--power-out-w", type=float, required=True)
 
+    serve_cmd = sub.add_parser("serve", help="Run the console as a live HTTP product")
+    serve_cmd.add_argument("--host", default="127.0.0.1")
+    serve_cmd.add_argument("--port", type=int, default=8128)
+
     args = parser.parse_args(argv)
 
     if args.command == "run-sheet":
@@ -38,6 +42,12 @@ def main(argv: list[str] | None = None) -> int:
         tracker = COPTracker()
         tracker.ingest(0.0, args.power_in_w, args.power_out_w)
         print(json.dumps(tracker.to_report(), indent=2))
+        return 0
+
+    if args.command == "serve":
+        from az_calorimetry_console.app.server import serve
+
+        serve(host=args.host, port=args.port)
         return 0
 
     return 1

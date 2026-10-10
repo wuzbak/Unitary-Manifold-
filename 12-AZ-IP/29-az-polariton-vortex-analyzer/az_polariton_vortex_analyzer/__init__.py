@@ -20,12 +20,15 @@ from .pipeline import (
     extract_feature_velocity_curve,
     compare_to_prediction,
 )
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "PumpProbeFrame",
     "FeatureVelocityCurve",
     "extract_feature_velocity_curve",
     "compare_to_prediction",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

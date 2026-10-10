@@ -1,9 +1,9 @@
 # AZ Polariton Vortex Analyzer — Product 29
 
 **Folder:** `12-AZ-IP/29-az-polariton-vortex-analyzer/`
-**Version:** 1.0.0
+**Version:** 1.1.0
 **TRL:** TRL-2 (analysis software; validated only against synthetic data)
-**Status:** Active — Phase 0 of article-354's polariton-vortex roadmap
+**Status:** Active — Phase 0 of article-354's polariton-vortex roadmap, now a runnable web product
 
 ## What this is
 
@@ -42,6 +42,20 @@ frames = [...]  # real pump-probe frames
 curve = extract_feature_velocity_curve(frames)
 result = compare_to_prediction(curve)
 ```
+
+## Running as a web product
+
+A stdlib-only JSON API plus a static dashboard sits over the same pipeline above
+(`app/server.py` dispatches to `dispatch_api_request`, covered by `tests/test_api.py`):
+
+```bash
+python 12-AZ-IP/29-az-polariton-vortex-analyzer/run.py serve --port 8129
+# then open http://127.0.0.1:8129/
+```
+
+Endpoints: `GET /api/status`, `GET /api/prediction?c_s=`, `GET /api/demo-comparison?c_s=`
+(the latter uses synthetic frames built directly on the prediction curve — a
+self-consistency check, not a real dataset comparison).
 
 ## Tests
 

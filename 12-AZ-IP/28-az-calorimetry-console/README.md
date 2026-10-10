@@ -1,9 +1,9 @@
 # AZ Calorimetry Console — Product 28
 
 **Folder:** `12-AZ-IP/28-az-calorimetry-console/`
-**Version:** 1.0.0
+**Version:** 1.1.0
 **TRL:** TRL-2 (software instrumentation only; no lab run performed)
-**Status:** Active — Phase 0 of article-354's cold-fusion roadmap
+**Status:** Active — Phase 0 of article-354's cold-fusion roadmap, now a runnable web product
 
 ## What this is
 
@@ -41,6 +41,23 @@ lattice scale has not been computed — see `src/cold_fusion/README.md`.
 python 12-AZ-IP/28-az-calorimetry-console/run.py run-sheet --loading-target 0.875
 python 12-AZ-IP/28-az-calorimetry-console/run.py track --power-in-w 100 --power-out-w 102
 ```
+
+## Running as a web product
+
+The console also runs as a live HTTP product — a stdlib-only JSON API plus a
+static dashboard, with no behavior beyond the library above (`app/server.py`
+dispatches to the same `dispatch_api_request` function covered by
+`tests/test_api.py`):
+
+```bash
+python 12-AZ-IP/28-az-calorimetry-console/run.py serve --port 8128
+# then open http://127.0.0.1:8128/
+```
+
+Endpoints: `GET /api/status`, `GET /api/run-sheet?loading_target=&hold_minutes=`,
+`GET /api/track?power_in_w=&power_out_w=`. This is a software product-surface
+step, distinct from the article's own Phase 2 ("an actual external lab run"),
+which still has not happened and is not claimed here.
 
 ## Tests
 

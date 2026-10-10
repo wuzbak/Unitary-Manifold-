@@ -15,12 +15,15 @@ vertex gap, not yet bridged).
 
 from .run_sheet import RunSheet, generate_run_sheet
 from .cop_tracker import COPTracker, COPReading
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "RunSheet",
     "generate_run_sheet",
     "COPTracker",
     "COPReading",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
