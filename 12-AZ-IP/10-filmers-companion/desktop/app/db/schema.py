@@ -257,6 +257,130 @@ CREATE TABLE IF NOT EXISTS deliverables (
     recipient  TEXT,
     notes      TEXT
 );
+
+-- ---------------------------------------------------------------------
+-- Accounting: chart of accounts, vendors/clients, AP/AR, payments
+-- ---------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS chart_of_accounts (
+    id          TEXT PRIMARY KEY,
+    project_id  TEXT NOT NULL,
+    code        TEXT NOT NULL,
+    name        TEXT NOT NULL,
+    account_type TEXT NOT NULL,
+    notes       TEXT
+);
+
+CREATE TABLE IF NOT EXISTS vendors (
+    id         TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL,
+    name       TEXT NOT NULL,
+    category   TEXT,
+    contact    TEXT,
+    terms      TEXT DEFAULT 'Net 30',
+    tax_id     TEXT,
+    notes      TEXT
+);
+
+CREATE TABLE IF NOT EXISTS clients (
+    id              TEXT PRIMARY KEY,
+    project_id      TEXT NOT NULL,
+    name            TEXT NOT NULL,
+    contact         TEXT,
+    billing_address TEXT,
+    notes           TEXT
+);
+
+CREATE TABLE IF NOT EXISTS ap_invoices (
+    id              TEXT PRIMARY KEY,
+    project_id      TEXT NOT NULL,
+    vendor_id       TEXT NOT NULL,
+    invoice_number  TEXT,
+    account_code    TEXT,
+    amount          REAL DEFAULT 0.0,
+    amount_paid     REAL DEFAULT 0.0,
+    status          TEXT DEFAULT 'pending',
+    issue_date      TEXT,
+    due_date        TEXT,
+    notes           TEXT
+);
+
+CREATE TABLE IF NOT EXISTS ar_invoices (
+    id              TEXT PRIMARY KEY,
+    project_id      TEXT NOT NULL,
+    client_id       TEXT NOT NULL,
+    invoice_number  TEXT,
+    account_code    TEXT,
+    amount          REAL DEFAULT 0.0,
+    amount_received REAL DEFAULT 0.0,
+    status          TEXT DEFAULT 'pending',
+    issue_date      TEXT,
+    due_date        TEXT,
+    notes           TEXT
+);
+
+CREATE TABLE IF NOT EXISTS payments (
+    id           TEXT PRIMARY KEY,
+    project_id   TEXT NOT NULL,
+    invoice_id   TEXT NOT NULL,
+    invoice_kind TEXT NOT NULL,
+    amount       REAL DEFAULT 0.0,
+    paid_date    TEXT,
+    method       TEXT,
+    notes        TEXT
+);
+
+-- ---------------------------------------------------------------------
+-- Marketing / distribution: campaigns, deliverable assets, press
+-- ---------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS marketing_campaigns (
+    id         TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL,
+    name       TEXT NOT NULL,
+    channel    TEXT,
+    status     TEXT DEFAULT 'planned',
+    start_date TEXT,
+    end_date   TEXT,
+    budget     REAL DEFAULT 0.0,
+    notes      TEXT
+);
+
+CREATE TABLE IF NOT EXISTS marketing_assets (
+    id          TEXT PRIMARY KEY,
+    project_id  TEXT NOT NULL,
+    campaign_id TEXT,
+    asset_type  TEXT NOT NULL,
+    title       TEXT NOT NULL,
+    status      TEXT DEFAULT 'pending',
+    due_date    TEXT,
+    platform    TEXT,
+    notes       TEXT
+);
+
+CREATE TABLE IF NOT EXISTS press_contacts (
+    id         TEXT PRIMARY KEY,
+    project_id TEXT NOT NULL,
+    name       TEXT NOT NULL,
+    outlet     TEXT,
+    email      TEXT,
+    beat       TEXT,
+    notes      TEXT
+);
+
+-- ---------------------------------------------------------------------
+-- Post pipeline interchange (DaVinci Resolve / NLE / OTIO bridge)
+-- ---------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS post_pipeline_exports (
+    id             TEXT PRIMARY KEY,
+    project_id     TEXT NOT NULL,
+    export_format  TEXT NOT NULL,
+    target_tool    TEXT,
+    file_name      TEXT,
+    content        TEXT,
+    created_at     TEXT DEFAULT (datetime('now'))
+);
 """
 
 

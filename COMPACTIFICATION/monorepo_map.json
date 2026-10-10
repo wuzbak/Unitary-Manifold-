@@ -2,13 +2,13 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 8043,
+  "file_count": 8250,
   "lanes": {
-    "az_ip": 2247,
+    "az_ip": 2416,
     "compactification": 9,
-    "other": 5355,
-    "psicat_articles": 352,
-    "psicat_books": 80
+    "other": 5375,
+    "psicat_articles": 354,
+    "psicat_books": 96
   },
   "top_levels": {
     ".bazelrc": 1,
@@ -23,13 +23,13 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2247,
+    "12-AZ-IP": 2416,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 905,
+    "7-OUTREACH": 923,
     "8-SAFETY": 8,
     "9-INFRASTRUCTURE": 193,
     "AGENTS.md": 1,
@@ -81,7 +81,7 @@
     "az-kernel": 1,
     "az-os": 1,
     "az_os": 1,
-    "bot": 5,
+    "bot": 6,
     "browser_contract_helpers.py": 1,
     "claims": 24,
     "conftest.py": 1,
@@ -108,10 +108,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1622,
+    "src": 1631,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1549,
+    "tests": 1559,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -1362,6 +1362,9 @@
       "12-AZ-IP/10-filmers-companion/android/settings.gradle.kts",
       "12-AZ-IP/10-filmers-companion/desktop/__init__.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/__init__.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/accounting/__init__.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/accounting/router.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/accounting/service.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/ad_suite/__init__.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/ad_suite/router.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/ad_suite/ui.py",
@@ -1388,20 +1391,30 @@
       "12-AZ-IP/10-filmers-companion/desktop/app/locations/router.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/locations/ui.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/main.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/marketing/__init__.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/marketing/router.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/marketing/service.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/post_pipeline/__init__.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/post_pipeline/router.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/post_pipeline/service.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/production_suite/__init__.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/production_suite/router.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/production_suite/service.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/__init__.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/conftest.py",
+      "12-AZ-IP/10-filmers-companion/desktop/tests/test_accounting.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_agents.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_cinematography.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_config.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_db.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_finance.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_kb.py",
+      "12-AZ-IP/10-filmers-companion/desktop/tests/test_marketing.py",
+      "12-AZ-IP/10-filmers-companion/desktop/tests/test_post_pipeline.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_production_suite.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_production_suite_api.py",
       "12-AZ-IP/10-filmers-companion/docker-compose.yml",
+      "12-AZ-IP/10-filmers-companion/docs/OPEN_SOURCE_INTEGRATION_RESEARCH.md",
       "12-AZ-IP/10-filmers-companion/filmers_companion/__init__.py",
       "12-AZ-IP/10-filmers-companion/filmers_companion/engine/__init__.py",
       "12-AZ-IP/10-filmers-companion/filmers_companion/engine/science_citation_checker.py",
@@ -1980,8 +1993,10 @@
       "12-AZ-IP/20-psicat-navigator/PSICAT_CONTEXT_LOG.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_EXECUTION_BOARD.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_EXPLAINER.md",
+      "12-AZ-IP/20-psicat-navigator/PSICAT_EXTERNAL_HOSTING_PROTOCOL.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_FRONTIER_ROADMAP.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_GRID_WORLD.md",
+      "12-AZ-IP/20-psicat-navigator/PSICAT_LITERATURE_CORPUS.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_PHICAT_PROTOCOL.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_PROGRAM.md",
       "12-AZ-IP/20-psicat-navigator/PSICAT_SEMANTIC_EMBEDDER.md",
@@ -2012,6 +2027,7 @@
       "12-AZ-IP/20-psicat-navigator/knowledge_library/condensed_truth_concept.md",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/dark_forest_analysis.md",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/david_lynch_transcendentalism_and_hidden_space.md",
+      "12-AZ-IP/20-psicat-navigator/knowledge_library/filmers_companion_production_suite.md",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/hils_framework.md",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/music_resonance_guide_to_manifold.md",
       "12-AZ-IP/20-psicat-navigator/knowledge_library/music_resonance_guide_v2.md",
@@ -2044,6 +2060,7 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_flag_ab.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_geometry_memory.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_grid_world.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_hosting_retention_guard.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_identity.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_inference_health.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_kernel_routing.py",
@@ -2099,8 +2116,10 @@
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_execution_spine.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_grid_world.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_hardening_surfaces.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_hosting_retention_guard.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_kernel_runtime.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_lean_bridge.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_literature_retrieval.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_local_execution.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_masterclass_runtime.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_memory_and_telemetry.py",
@@ -2380,6 +2399,182 @@
       "12-AZ-IP/27-psicat-vite-web-workbench/ui/src/style.css",
       "12-AZ-IP/27-psicat-vite-web-workbench/vite.config.mjs",
       "12-AZ-IP/27-psicat-vite-web-workbench/workbench.js"
+    ],
+    "28-az-calorimetry-console": [
+      "12-AZ-IP/28-az-calorimetry-console/README.md",
+      "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/__init__.py",
+      "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/_repo.py",
+      "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/api.py",
+      "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/app/__init__.py",
+      "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/app/server.py",
+      "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/cop_tracker.py",
+      "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/run_sheet.py",
+      "12-AZ-IP/28-az-calorimetry-console/run.py",
+      "12-AZ-IP/28-az-calorimetry-console/tests/test_api.py",
+      "12-AZ-IP/28-az-calorimetry-console/tests/test_calorimetry_console.py",
+      "12-AZ-IP/28-az-calorimetry-console/ui/index.html"
+    ],
+    "29-az-polariton-vortex-analyzer": [
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/README.md",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/__init__.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/_repo.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/api.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/app/__init__.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/app/server.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/pipeline.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/run.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/tests/test_api.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/tests/test_polariton_vortex_analyzer.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/ui/index.html"
+    ],
+    "30-az-materials-screening-engine": [
+      "12-AZ-IP/30-az-materials-screening-engine/README.md",
+      "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/__init__.py",
+      "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/_repo.py",
+      "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/api.py",
+      "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/app/__init__.py",
+      "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/app/server.py",
+      "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/screening.py",
+      "12-AZ-IP/30-az-materials-screening-engine/run.py",
+      "12-AZ-IP/30-az-materials-screening-engine/tests/test_api.py",
+      "12-AZ-IP/30-az-materials-screening-engine/tests/test_materials_screening_engine.py",
+      "12-AZ-IP/30-az-materials-screening-engine/ui/index.html"
+    ],
+    "31-az-braided-qubit-ansatz-studio": [
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/README.md",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/__init__.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/_repo.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/api.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/app/__init__.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/app/server.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/circuit_export.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/run.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/tests/test_api.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/tests/test_braided_qubit_ansatz_studio.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/ui/index.html"
+    ],
+    "32-az-phi-debt-early-warning": [
+      "12-AZ-IP/32-az-phi-debt-early-warning/README.md",
+      "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/__init__.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/_repo.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/api.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/app/__init__.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/app/server.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/debt_monitor.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/recycling_dogfood.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/run.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/tests/test_api.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/tests/test_phi_debt_early_warning.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/ui/index.html"
+    ],
+    "33-az-accessibility-pipeline": [
+      "12-AZ-IP/33-az-accessibility-pipeline/README.md",
+      "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/__init__.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/_repo.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/api.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/app/__init__.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/app/server.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/pipeline.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/run.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/tests/test_accessibility_pipeline.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/tests/test_api.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/ui/index.html"
+    ],
+    "34-az-domain-experts-pack": [
+      "12-AZ-IP/34-az-domain-experts-pack/README.md",
+      "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/__init__.py",
+      "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/_repo.py",
+      "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/api.py",
+      "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/app/__init__.py",
+      "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/app/server.py",
+      "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/experts.py",
+      "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/retrieval.py",
+      "12-AZ-IP/34-az-domain-experts-pack/run.py",
+      "12-AZ-IP/34-az-domain-experts-pack/tests/test_api.py",
+      "12-AZ-IP/34-az-domain-experts-pack/tests/test_domain_experts_pack.py",
+      "12-AZ-IP/34-az-domain-experts-pack/ui/index.html"
+    ],
+    "35-az-uos-kernel-bridge": [
+      "12-AZ-IP/35-az-uos-kernel-bridge/README.md",
+      "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/__init__.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/_repo.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/addressing.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/api.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/app/__init__.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/app/server.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/interface_contract.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/run.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_api.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_uos_kernel_bridge.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/ui/index.html"
+    ],
+    "36-az-cosmology-slider": [
+      "12-AZ-IP/36-az-cosmology-slider/README.md",
+      "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/__init__.py",
+      "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/_repo.py",
+      "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/api.py",
+      "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/app/__init__.py",
+      "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/app/server.py",
+      "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/slider.py",
+      "12-AZ-IP/36-az-cosmology-slider/run.py",
+      "12-AZ-IP/36-az-cosmology-slider/tests/test_api.py",
+      "12-AZ-IP/36-az-cosmology-slider/tests/test_cosmology_slider.py",
+      "12-AZ-IP/36-az-cosmology-slider/ui/index.html"
+    ],
+    "37-az-holographic-condensed-matter-comparator": [
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/README.md",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/__init__.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/_repo.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/api.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/app/__init__.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/app/server.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/comparator.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/run.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/tests/test_api.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/tests/test_holographic_condensed_matter_comparator.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/ui/index.html"
+    ],
+    "38-az-formal-verification-library": [
+      "12-AZ-IP/38-az-formal-verification-library/README.md",
+      "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/__init__.py",
+      "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/_repo.py",
+      "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/api.py",
+      "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/app/__init__.py",
+      "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/app/server.py",
+      "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/checker.py",
+      "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/pentad_example.py",
+      "12-AZ-IP/38-az-formal-verification-library/run.py",
+      "12-AZ-IP/38-az-formal-verification-library/tests/test_api.py",
+      "12-AZ-IP/38-az-formal-verification-library/tests/test_formal_verification_library.py",
+      "12-AZ-IP/38-az-formal-verification-library/ui/index.html"
+    ],
+    "39-az-research-debt-tracker": [
+      "12-AZ-IP/39-az-research-debt-tracker/README.md",
+      "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/__init__.py",
+      "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/_repo.py",
+      "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/api.py",
+      "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/app/__init__.py",
+      "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/app/server.py",
+      "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/tracker.py",
+      "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/um_dogfood.py",
+      "12-AZ-IP/39-az-research-debt-tracker/run.py",
+      "12-AZ-IP/39-az-research-debt-tracker/tests/test_api.py",
+      "12-AZ-IP/39-az-research-debt-tracker/tests/test_research_debt_tracker.py",
+      "12-AZ-IP/39-az-research-debt-tracker/ui/index.html"
+    ],
+    "40-az-live-data-harness": [
+      "12-AZ-IP/40-az-live-data-harness/README.md",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/__init__.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/_repo.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/api.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/__init__.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/server.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/harness.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/planck_adapter.py",
+      "12-AZ-IP/40-az-live-data-harness/run.py",
+      "12-AZ-IP/40-az-live-data-harness/tests/test_api.py",
+      "12-AZ-IP/40-az-live-data-harness/tests/test_live_data_harness.py",
+      "12-AZ-IP/40-az-live-data-harness/ui/index.html"
     ]
   },
   "psicat_literature": {
@@ -2463,7 +2658,23 @@
       "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-09-what-can-be-done.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-10-appendix-a-expert.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-11-appendix-b-empirical.md",
-      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-the-architecture-of-impunity.md"
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-55-the-architecture-of-impunity.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-01-architecture-and-alignment.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-02-foundational-architecture.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-03-applied-science-and-social-domains.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-04-braided-winding-cmb.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-05-uniqueness-proofs.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-06-geometric-expansion.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-07-sm-closure-and-hardening.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08-adjacent-tracks.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08a-catalog-218-399.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08b-catalog-400-581.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08c-catalog-582-763.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08d-catalog-764-945.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08e-catalog-946-1131.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-09-epistemics-and-falsification.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-10-appendix-master-tables.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-the-complete-pillar-guide.md"
     ],
     "articles": [
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-01-v22-9-honest-accounting.md",
@@ -2817,7 +3028,9 @@
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-349-post-323-s04e026-sprint-ci-merlin-handoff-and-next-sprint-map.md",
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-350-post-324-s04e027-sprint-ci-closeout-verdict.md",
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-351-post-327-s04e030-ai-extinction-risk-governance-and-the-honest-monorepo.md",
-      "7-OUTREACH/A Z PsiCat Literature/Articles/article-352-post-329-repository-tracker-refresh-sep-2026.md"
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-352-post-329-repository-tracker-refresh-sep-2026.md",
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-353-the-state-of-the-manifold-october-2026.md",
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md"
     ]
   },
   "files": [
@@ -12071,6 +12284,27 @@
       "product": "10-filmers-companion"
     },
     {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/accounting/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/accounting/router.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/accounting/service.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
       "path": "12-AZ-IP/10-filmers-companion/desktop/app/ad_suite/__init__.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -12253,6 +12487,48 @@
       "product": "10-filmers-companion"
     },
     {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/marketing/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/marketing/router.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/marketing/service.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/post_pipeline/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/post_pipeline/router.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/post_pipeline/service.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
       "path": "12-AZ-IP/10-filmers-companion/desktop/app/production_suite/__init__.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -12282,6 +12558,13 @@
     },
     {
       "path": "12-AZ-IP/10-filmers-companion/desktop/tests/conftest.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/tests/test_accounting.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -12330,6 +12613,20 @@
       "product": "10-filmers-companion"
     },
     {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/tests/test_marketing.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/tests/test_post_pipeline.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
       "path": "12-AZ-IP/10-filmers-companion/desktop/tests/test_production_suite.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -12345,6 +12642,13 @@
     },
     {
       "path": "12-AZ-IP/10-filmers-companion/docker-compose.yml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/docs/OPEN_SOURCE_INTEGRATION_RESEARCH.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16257,6 +16561,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/PSICAT_EXTERNAL_HOSTING_PROTOCOL.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/PSICAT_FRONTIER_ROADMAP.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16265,6 +16576,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/PSICAT_GRID_WORLD.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/PSICAT_LITERATURE_CORPUS.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16475,6 +16793,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/knowledge_library/david_lynch_transcendentalism_and_hidden_space.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/knowledge_library/filmers_companion_production_suite.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -16699,6 +17024,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_grid_world.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_hosting_retention_guard.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -17090,6 +17422,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_hosting_retention_guard.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_kernel_runtime.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -17098,6 +17437,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_lean_bridge.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_literature_retrieval.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -18957,6 +19303,1056 @@
       "kind": "file",
       "lane": "az_ip",
       "product": "27-psicat-vite-web-workbench"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/cop_tracker.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/run_sheet.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/tests/test_calorimetry_console.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/pipeline.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/tests/test_polariton_vortex_analyzer.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/screening.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/tests/test_materials_screening_engine.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/az_braided_qubit_ansatz_studio/circuit_export.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/tests/test_braided_qubit_ansatz_studio.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/debt_monitor.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/recycling_dogfood.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/tests/test_phi_debt_early_warning.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/az_accessibility_pipeline/pipeline.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/tests/test_accessibility_pipeline.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/experts.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/az_domain_experts_pack/retrieval.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/tests/test_domain_experts_pack.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/addressing.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/interface_contract.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_uos_kernel_bridge.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/slider.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/tests/test_cosmology_slider.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/36-az-cosmology-slider/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/comparator.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/tests/test_holographic_condensed_matter_comparator.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/checker.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/pentad_example.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/tests/test_formal_verification_library.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/38-az-formal-verification-library/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/tracker.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/um_dogfood.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/tests/test_research_debt_tracker.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/harness.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/planck_adapter.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/tests/test_live_data_harness.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
     },
     {
       "path": "12-AZ-IP/BRAND_SEPARATION_NOTICE_PSICAT.md",
@@ -22949,6 +24345,18 @@
       "lane": "psicat_articles"
     },
     {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Articles/article-353-the-state-of-the-manifold-october-2026.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_articles"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_articles"
+    },
+    {
       "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-01-psicat-new-first-announcement.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -23424,6 +24832,102 @@
     },
     {
       "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-the-architecture-of-impunity.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-01-architecture-and-alignment.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-02-foundational-architecture.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-03-applied-science-and-social-domains.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-04-braided-winding-cmb.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-05-uniqueness-proofs.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-06-geometric-expansion.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-07-sm-closure-and-hardening.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08-adjacent-tracks.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08a-catalog-218-399.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08b-catalog-400-581.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08c-catalog-582-763.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08d-catalog-764-945.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08e-catalog-946-1131.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-09-epistemics-and-falsification.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-10-appendix-master-tables.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-the-complete-pillar-guide.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
       "lane": "psicat_books"
@@ -31271,6 +32775,12 @@
       "lane": "other"
     },
     {
+      "path": "bot/psicat_literature_corpus.py",
+      "top_level": "bot",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "bot/rag_index.py",
       "top_level": "bot",
       "kind": "file",
@@ -37361,6 +38871,12 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar1131_offdiagonal_exact_reduction_closure.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pillar183_cl_spectrum_subleading.py",
       "top_level": "src",
       "kind": "file",
@@ -37866,6 +39382,18 @@
     },
     {
       "path": "src/core/pillar281_desi_dr3_routing_drill.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar283_sc2_alpha_gw_desi_dr3_joint_robustness.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar284_sc2_lane_phase_regression_certificate.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -39468,6 +40996,12 @@
     },
     {
       "path": "src/core/pillar569_np_bc3_subgap_i_cs_erepr.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar574_ftheory_12d_rung7_sync.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -41297,6 +42831,12 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar857_cross_dimensional_preclosure_audit.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pillar858_cross_dimensional_chain_closure.py",
       "top_level": "src",
       "kind": "file",
@@ -42851,6 +44391,18 @@
       "lane": "other"
     },
     {
+      "path": "src/eightd/pillar847_wilson_line_rung3_pillar_certificate.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/eightd/pillar848_anomaly_rung4_pillar_certificate.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/eightd/wilson_line_gauge.py",
       "top_level": "src",
       "kind": "file",
@@ -43379,6 +44931,12 @@
       "lane": "other"
     },
     {
+      "path": "src/nined/pillar851_9d_to_10d_moduli_flux_bridge.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/nined/pillar852_sprint_ba_phase3_regression_certificate.py",
       "top_level": "src",
       "kind": "file",
@@ -43614,6 +45172,12 @@
     },
     {
       "path": "src/sevend/pillar844_7d_alphas_discrete_torsion.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/sevend/pillar845_7d_flavor_cross_consistency_audit.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -44153,7 +45717,25 @@
       "lane": "other"
     },
     {
+      "path": "tests/pillar_0829_0858/test_pillar845_7d_flavor_cross_consistency_audit.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "tests/pillar_0829_0858/test_pillar846_sprint_ba_phase2_regression_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0829_0858/test_pillar847_wilson_line_rung3_pillar_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0829_0858/test_pillar848_anomaly_rung4_pillar_certificate.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
@@ -44166,6 +45748,12 @@
     },
     {
       "path": "tests/pillar_0829_0858/test_pillar850_9d_pmns_cp_phase_derivation.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0829_0858/test_pillar851_9d_to_10d_moduli_flux_bridge.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
@@ -44196,6 +45784,12 @@
     },
     {
       "path": "tests/pillar_0829_0858/test_pillar856_sprint_ba_phase4_regression_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0829_0858/test_pillar857_cross_dimensional_preclosure_audit.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
@@ -47795,6 +49389,12 @@
       "lane": "other"
     },
     {
+      "path": "tests/test_pillar1131_offdiagonal_exact_reduction_closure.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "tests/test_pillar182_precision.py",
       "top_level": "tests",
       "kind": "file",
@@ -48306,6 +49906,18 @@
     },
     {
       "path": "tests/test_pillar281_desi_dr3_routing_drill.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar283_sc2_alpha_gw_desi_dr3_joint_robustness.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar284_sc2_lane_phase_regression_certificate.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
@@ -50004,6 +51616,12 @@
     },
     {
       "path": "tests/test_pillar569_np_bc3_subgap_i_cs_erepr.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar574_ftheory_12d_rung7_sync.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
@@ -52404,6 +54022,12 @@
     },
     {
       "path": "tests/test_provably_safe_neighborhoods.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_psicat_literature_corpus.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

@@ -37,6 +37,9 @@ FilmersCompanion is a **dual-platform** (Python desktop + Android) AI production
 | 📍 **Locations** | Scout reports, permit tracking, unconfirmed location alerts |
 | 💰 **Finance** | Budget builder, ROI calculator, DOOD, burn-rate alerts |
 | 📋 **AD Suite** | Call sheets, turnaround compliance, one-liner scene lists |
+| 🧾 **Accounting (AP/AR)** | Chart of accounts, vendor/client ledgers, invoices, payments, aging reports, GnuCash/ledger-cli-compatible CSV export |
+| 📣 **Marketing / Distribution** | Campaigns, trailer/poster/EPK/press-release asset tracking, press contacts, release calendar |
+| 🎛️ **Post Pipeline (DaVinci Resolve)** | Offline-safe Resolve scripting bridge, CMX3600 EDL export, OpenTimelineIO JSON export, shot-list CSV |
 
 ### Design Philosophy
 
@@ -45,6 +48,8 @@ FilmersCompanion is a **dual-platform** (Python desktop + Android) AI production
 - **Deterministic seed**: Ships with "THE OMEGA PROTOCOL" sample project (ID: `omega-001`)
 - **Guild-aware**: SAG/DGA/WGA/IATSE minimums baked into KB
 - **Axiom Omega**: 10 production principles embedded in the knowledge base
+
+See [`docs/OPEN_SOURCE_INTEGRATION_RESEARCH.md`](docs/OPEN_SOURCE_INTEGRATION_RESEARCH.md) for the exhaustive survey of free/open-source film-production tooling (accounting, marketing, DaVinci Resolve/EDL/OTIO) behind the modules below.
 
 ---
 
@@ -72,7 +77,10 @@ apps/filmmakers-companion/
 │   │   ├── cinematography/     ← FastAPI router + Gradio UI
 │   │   ├── locations/
 │   │   ├── finance/
-│   │   └── ad_suite/
+│   │   ├── ad_suite/
+│   │   ├── accounting/         ← chart of accounts, vendors/clients, AP/AR, payments
+│   │   ├── marketing/          ← campaigns, trailer/poster/EPK assets, press contacts
+│   │   └── post_pipeline/      ← DaVinci Resolve bridge, EDL/OTIO/CSV interchange
 │   ├── deploy/
 │   │   ├── requirements.txt
 │   │   ├── install.sh

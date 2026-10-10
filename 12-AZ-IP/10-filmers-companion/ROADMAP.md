@@ -11,7 +11,7 @@
 - [x] Android MVP: Kotlin/Compose/Hilt/Room, 5 screens
 - [x] Full API docs at /docs
 
-## v2.0 — Unified Production Suite ✅ (Current)
+## v2.0 — Unified Production Suite ✅
 
 - [x] Producer / UPM unified dashboard with status, alerts, approvals, and at-risk department tracking
 - [x] Script Studio with screenplay import, revision metadata, character extraction, and scene parsing
@@ -44,13 +44,23 @@
 - [ ] Scenario scheduling and contingency simulations
 - [ ] Richer producer forecasting for burn, overages, and pickup risk
 
+## v2.4 — Accounting, Marketing, and Post-Pipeline Interchange ✅ (Current)
+
+- [x] Open-source integration research pass (`docs/OPEN_SOURCE_INTEGRATION_RESEARCH.md`): GnuCash, ledger-cli, Mautic, Matomo, DaVinci Resolve, OpenTimelineIO, OpenAssetIO, OpenColorIO, Kitsu, OpenCue, Blender
+- [x] Accounting module: chart of accounts, vendors/clients, AP/AR invoices, payments, aging reports, GnuCash/ledger-cli-compatible general-ledger CSV export
+- [x] Marketing/distribution module: campaigns, trailer/poster/EPK/press-release asset tracking, press contacts, release calendar
+- [x] Post-pipeline module: offline-safe DaVinci Resolve scripting bridge (auto-detects `DaVinciResolveScript`), CMX3600 EDL export, OpenTimelineIO JSON export, shot-list CSV export
+- [x] PsiCat knowledge-library entry covering the full FilmersCompanion module surface
+
 ## Stretch Goals
 
-- [ ] OpenTimelineIO / OpenAssetIO / OpenColorIO integration surfaces
+- [ ] OpenTimelineIO / OpenAssetIO / OpenColorIO full adapter integration (beyond the minimal OTIO JSON export shipped in v2.4)
 - [ ] Blender / previs / techvis hooks
 - [ ] Permit API integration (select US cities)
 - [ ] Voice interface (production assistant)
 - [ ] LiteBIRD falsification tracker integration (Unitary Manifold)
+- [ ] Kitsu/CGWire production-tracker bridge for VFX-heavy pipelines
+- [ ] OpenCue render-farm management integration
 
 ---
 
