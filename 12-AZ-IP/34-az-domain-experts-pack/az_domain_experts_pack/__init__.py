@@ -19,7 +19,15 @@ part of this pattern.
 
 from .retrieval import DomainExpert, DocChunk
 from .experts import MATERIALS_EXPERT, SPECTROSCOPY_EXPERT
+from .api import API_ENDPOINTS, dispatch_api_request
 
-__all__ = ["DomainExpert", "DocChunk", "MATERIALS_EXPERT", "SPECTROSCOPY_EXPERT"]
+__all__ = [
+    "DomainExpert",
+    "DocChunk",
+    "MATERIALS_EXPERT",
+    "SPECTROSCOPY_EXPERT",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
+]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

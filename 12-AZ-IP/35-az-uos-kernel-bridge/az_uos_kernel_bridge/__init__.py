@@ -27,6 +27,7 @@ from .addressing import (
     winding_adjacency_pairs,
     validate_against_kk_channel_rs,
 )
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "GeodesicSchedulable",
@@ -38,6 +39,8 @@ __all__ = [
     "parse_rust_adjacency_pairs",
     "winding_adjacency_pairs",
     "validate_against_kk_channel_rs",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

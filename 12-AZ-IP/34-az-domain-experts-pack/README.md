@@ -1,9 +1,9 @@
 # AZ Domain Experts Pack — Product 34
 
 **Folder:** `12-AZ-IP/34-az-domain-experts-pack/`
-**Version:** 1.0.0
+**Version:** 1.1.0
 **TRL:** TRL-3 (retrieval over existing, already-tested source content)
-**Status:** Active — Phase 0 of article-354's domain-experts roadmap
+**Status:** Active — Phase 0 of article-354's domain-experts roadmap, now a runnable web product
 
 ## What this is
 
@@ -43,6 +43,20 @@ from az_domain_experts_pack import MATERIALS_EXPERT
 MATERIALS_EXPERT.build()
 MATERIALS_EXPERT.query("feature velocity critical angle")
 ```
+
+## Running as a web product
+
+The "thin FastAPI layer on top of the retrieval index" the retrieval module's own
+docstring describes is implemented here with the stdlib (no FastAPI dependency is
+installed in this environment), dispatching through `dispatch_api_request`
+(covered by `tests/test_api.py`):
+
+```bash
+python 12-AZ-IP/34-az-domain-experts-pack/run.py serve --port 8134
+# then open http://127.0.0.1:8134/
+```
+
+Endpoints: `GET /api/status`, `GET /api/experts`, `GET /api/query?expert=&question=&top_k=`.
 
 ## Tests
 

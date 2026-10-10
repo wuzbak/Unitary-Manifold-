@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AZ UOS/AZ-KERNEL Bridge — Product 35</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+  .epistemic { background: #fff3cd; border: 1px solid #e0b000; padding: 0.75rem 1rem; border-radius: 6px; }
+  pre { background: #0d1117; color: #c9d1d9; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+  fieldset { margin: 1rem 0; border-radius: 6px; }
+  button { padding: 0.4rem 0.9rem; cursor: pointer; margin-right: 0.5rem; }
+</style>
+</head>
+<body>
+<h1>AZ UOS/AZ-KERNEL Bridge</h1>
+<div class="epistemic">
+  <strong>Epistemic status:</strong> Design-only interface contract plus a cross-checked
+  addressing rule. No Rust code is generated or ported here.
+</div>
+<fieldset>
+  <legend>Actions</legend>
+  <button onclick="show('/api/validate-adjacency')">Validate adjacency vs kk_channel.rs</button>
+  <button onclick="getNeighbors()">Get neighbors</button>
+  <input id="ring" type="number" value="0" style="width:4rem" />
+  <button onclick="show('/api/contract')">Get Rust interface contract</button>
+</fieldset>
+<pre id="output">(results appear here)</pre>
+<script>
+async function show(url) {
+  const res = await fetch(url);
+  document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+}
+function getNeighbors() { show(`/api/neighbors?ring=${document.getElementById('ring').value}`); }
+</script>
+</body>
+</html>
