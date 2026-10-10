@@ -167,7 +167,7 @@ def test_flag_ab_restores_environment_and_reports(monkeypatch) -> None:
     assert report["benchmark_count"] == 2
     assert set(report["summary"]) == {
         "baseline", "crease_fusion", "bm25_pillars", "both", "semantic_embedder", "phicat_protocol",
-        "rrf_fusion", "all_flags",
+        "rrf_fusion", "psicat_literature_corpus", "hosting_retention_guard", "all_flags",
     }
     assert report["summary"]["baseline"]["answers_changed"] == []
     for flag in OPT_IN_FLAGS:
