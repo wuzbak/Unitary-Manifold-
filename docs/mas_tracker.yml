@@ -3766,7 +3766,7 @@ official_pillar_tracking_checkpoint:
     - 280
     - 281
     - 285
-  sparse_numbering_note: "Pillar numbers 225, 226, 231, and 247 appeared as gaps in earlier tracker snapshots; all four now have implemented source modules — see sparse_pillar_registry below. Slots 282–284 reserved."
+  sparse_numbering_note: "Pillar numbers 225, 226, 231, and 247 appeared as gaps in earlier tracker snapshots; all four now have implemented source modules — see sparse_pillar_registry below. Slots 283, 284, 574, 845, 847, 848, 851, and 857 were reserved/skipped in earlier sprints; all eight now have implemented source modules and test files — see sparse_pillar_registry below."
   sparse_pillar_registry:
     pillar_225:
       status: "PRESENT"
@@ -3796,6 +3796,62 @@ official_pillar_tracking_checkpoint:
       track: "NON_HARDGATE_ADJACENT"
       reason: "Module was added after the original sparse_numbering_note was written. Pillar 247 implements the unified observation ingest and verdict router as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
       action: "No action required. Tracker note updated to reflect presence."
+      pillar_283:
+        status: "PRESENT"
+        source: "src/core/pillar283_sc2_alpha_gw_desi_dr3_joint_robustness.py"
+        label: "SC2 lane: alpha_GW x DESI DR3 joint robustness check"
+        track: "NON_HARDGATE_ADJACENT"
+        reason: "Slot was reserved between Pillar 281 (DESI DR3 routing drill) and Pillar 285 (dark-energy extension spec v2). Pillar 283 cross-checks that the Pillar 280 alpha_GW interval remains stable under every DESI DR3 verdict bucket from Pillar 281, as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate physics claim."
+        action: "No action required. Tracker note updated to reflect presence."
+      pillar_284:
+        status: "PRESENT"
+        source: "src/core/pillar284_sc2_lane_phase_regression_certificate.py"
+        label: "SC2 lane phase regression certificate (280/281/283)"
+        track: "NON_HARDGATE_ADJACENT"
+        reason: "Slot was reserved between Pillar 281 and Pillar 285. Pillar 284 is a phase regression certificate validating Pillars 280, 281, and 283 together before the SC2 lane hands off to Pillar 285, as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate physics claim."
+        action: "No action required. Tracker note updated to reflect presence."
+      pillar_574:
+        status: "PRESENT"
+        source: "src/core/pillar574_ftheory_12d_rung7_sync.py"
+        label: "F-theory 12D Rung-7 sync certificate"
+        track: "NON_HARDGATE_ADJACENT"
+        reason: "Pillar 574 (FTHEORY_12D_RUNG7_SYNC) was previously a documentation-only sync checkpoint (STATUS.md only), unlike sibling sync pillars 575 and 616 which both ship a standalone module and test. It now has a standalone module and test mirroring Pillar 575's structure, bringing it to parity."
+        action: "No action required. Tracker note updated to reflect presence."
+      pillar_845:
+        status: "PRESENT"
+        source: "src/sevend/pillar845_7d_flavor_cross_consistency_audit.py"
+        label: "7D flavor-sector cross-consistency audit (843/844/CP phase)"
+        track: "NON_HARDGATE_ADJACENT"
+        reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 845 cross-checks that Pillars 843 (CKM mixing) and 844 (alpha_s torsion) and the discrete-torsion CP-phase module all pass their kill-switches simultaneously, as a PARTIAL closure bookkeeping check with zero new Lean4 theorems."
+        action: "No action required. Tracker note updated to reflect presence."
+      pillar_847:
+        status: "PRESENT"
+        source: "src/eightd/pillar847_wilson_line_rung3_pillar_certificate.py"
+        label: "8D Wilson-line Rung-3 pillar certificate"
+        track: "NON_HARDGATE_ADJACENT"
+        reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 847 is a pillar-numbered certificate wrapper around the existing stable src/eightd/wilson_line_gauge.py Rung-3 scaffold, as a PARTIAL closure bookkeeping check with zero new Lean4 theorems."
+        action: "No action required. Tracker note updated to reflect presence."
+      pillar_848:
+        status: "PRESENT"
+        source: "src/eightd/pillar848_anomaly_rung4_pillar_certificate.py"
+        label: "8D/9D anomaly-cancellation Rung-4 pillar certificate"
+        track: "NON_HARDGATE_ADJACENT"
+        reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 848 is a pillar-numbered certificate wrapper around the existing stable src/nined/anomaly_cancellation_gs.py Rung-4 scaffold, as a PARTIAL closure bookkeeping check with zero new Lean4 theorems."
+        action: "No action required. Tracker note updated to reflect presence."
+      pillar_851:
+        status: "PRESENT"
+        source: "src/nined/pillar851_9d_to_10d_moduli_flux_bridge.py"
+        label: "9D -> 10D moduli/flux counting bridge"
+        track: "NON_HARDGATE_ADJACENT"
+        reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 851 checks that Pillar 850's 9D discrete-torsion CP branch and Pillar 853's 10D minimal flux quantum both sit at their respective minimal admissible integers, as a PARTIAL counting-consistency bridge with zero new Lean4 theorems."
+        action: "No action required. Tracker note updated to reflect presence."
+      pillar_857:
+        status: "PRESENT"
+        source: "src/core/pillar857_cross_dimensional_preclosure_audit.py"
+        label: "Cross-dimensional pre-closure open-items audit (842/846/852/856)"
+        track: "NON_HARDGATE_ADJACENT"
+        reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 857 tallies the REMAINING_OPEN items already declared by Pillars 842, 846, 852, and 856 into one consolidated audit before Pillar 858's chain-closure registry, as a PARTIAL / bookkeeping deliverable with zero new Lean4 theorems and no new hardgate claim."
+        action: "No action required. Tracker note updated to reflect presence."
   note: >
     STATUS.md now registers every implemented numbered pillar through Pillar 285, including
     the v11.5 Residual Tightening Wave (274–281) and the v11.6-desi-correction sprint
@@ -6996,7 +7052,7 @@ legacy_pre_v31_mixed_format_archive_raw_text: |
       - 280
       - 281
       - 285
-    sparse_numbering_note: "Pillar numbers 225, 226, 231, and 247 appeared as gaps in earlier tracker snapshots; all four now have implemented source modules — see sparse_pillar_registry below. Slots 282–284 reserved."
+    sparse_numbering_note: "Pillar numbers 225, 226, 231, and 247 appeared as gaps in earlier tracker snapshots; all four now have implemented source modules — see sparse_pillar_registry below. Slots 283, 284, 574, 845, 847, 848, 851, and 857 were reserved/skipped in earlier sprints; all eight now have implemented source modules and test files — see sparse_pillar_registry below."
     sparse_pillar_registry:
       pillar_225:
         status: "PRESENT"
@@ -7026,6 +7082,62 @@ legacy_pre_v31_mixed_format_archive_raw_text: |
         track: "NON_HARDGATE_ADJACENT"
         reason: "Module was added after the original sparse_numbering_note was written. Pillar 247 implements the unified observation ingest and verdict router as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate ToE score."
         action: "No action required. Tracker note updated to reflect presence."
+        pillar_283:
+          status: "PRESENT"
+          source: "src/core/pillar283_sc2_alpha_gw_desi_dr3_joint_robustness.py"
+          label: "SC2 lane: alpha_GW x DESI DR3 joint robustness check"
+          track: "NON_HARDGATE_ADJACENT"
+          reason: "Slot was reserved between Pillar 281 (DESI DR3 routing drill) and Pillar 285 (dark-energy extension spec v2). Pillar 283 cross-checks that the Pillar 280 alpha_GW interval remains stable under every DESI DR3 verdict bucket from Pillar 281, as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate physics claim."
+          action: "No action required. Tracker note updated to reflect presence."
+        pillar_284:
+          status: "PRESENT"
+          source: "src/core/pillar284_sc2_lane_phase_regression_certificate.py"
+          label: "SC2 lane phase regression certificate (280/281/283)"
+          track: "NON_HARDGATE_ADJACENT"
+          reason: "Slot was reserved between Pillar 281 and Pillar 285. Pillar 284 is a phase regression certificate validating Pillars 280, 281, and 283 together before the SC2 lane hands off to Pillar 285, as a 🔵 ADJACENT TRACK deliverable; it does not affect the hardgate physics claim."
+          action: "No action required. Tracker note updated to reflect presence."
+        pillar_574:
+          status: "PRESENT"
+          source: "src/core/pillar574_ftheory_12d_rung7_sync.py"
+          label: "F-theory 12D Rung-7 sync certificate"
+          track: "NON_HARDGATE_ADJACENT"
+          reason: "Pillar 574 (FTHEORY_12D_RUNG7_SYNC) was previously a documentation-only sync checkpoint (STATUS.md only), unlike sibling sync pillars 575 and 616 which both ship a standalone module and test. It now has a standalone module and test mirroring Pillar 575's structure, bringing it to parity."
+          action: "No action required. Tracker note updated to reflect presence."
+        pillar_845:
+          status: "PRESENT"
+          source: "src/sevend/pillar845_7d_flavor_cross_consistency_audit.py"
+          label: "7D flavor-sector cross-consistency audit (843/844/CP phase)"
+          track: "NON_HARDGATE_ADJACENT"
+          reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 845 cross-checks that Pillars 843 (CKM mixing) and 844 (alpha_s torsion) and the discrete-torsion CP-phase module all pass their kill-switches simultaneously, as a PARTIAL closure bookkeeping check with zero new Lean4 theorems."
+          action: "No action required. Tracker note updated to reflect presence."
+        pillar_847:
+          status: "PRESENT"
+          source: "src/eightd/pillar847_wilson_line_rung3_pillar_certificate.py"
+          label: "8D Wilson-line Rung-3 pillar certificate"
+          track: "NON_HARDGATE_ADJACENT"
+          reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 847 is a pillar-numbered certificate wrapper around the existing stable src/eightd/wilson_line_gauge.py Rung-3 scaffold, as a PARTIAL closure bookkeeping check with zero new Lean4 theorems."
+          action: "No action required. Tracker note updated to reflect presence."
+        pillar_848:
+          status: "PRESENT"
+          source: "src/eightd/pillar848_anomaly_rung4_pillar_certificate.py"
+          label: "8D/9D anomaly-cancellation Rung-4 pillar certificate"
+          track: "NON_HARDGATE_ADJACENT"
+          reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 848 is a pillar-numbered certificate wrapper around the existing stable src/nined/anomaly_cancellation_gs.py Rung-4 scaffold, as a PARTIAL closure bookkeeping check with zero new Lean4 theorems."
+          action: "No action required. Tracker note updated to reflect presence."
+        pillar_851:
+          status: "PRESENT"
+          source: "src/nined/pillar851_9d_to_10d_moduli_flux_bridge.py"
+          label: "9D -> 10D moduli/flux counting bridge"
+          track: "NON_HARDGATE_ADJACENT"
+          reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 851 checks that Pillar 850's 9D discrete-torsion CP branch and Pillar 853's 10D minimal flux quantum both sit at their respective minimal admissible integers, as a PARTIAL counting-consistency bridge with zero new Lean4 theorems."
+          action: "No action required. Tracker note updated to reflect presence."
+        pillar_857:
+          status: "PRESENT"
+          source: "src/core/pillar857_cross_dimensional_preclosure_audit.py"
+          label: "Cross-dimensional pre-closure open-items audit (842/846/852/856)"
+          track: "NON_HARDGATE_ADJACENT"
+          reason: "Slot was explicitly skipped in STATUS.md's Sprint BA 837-860 range. Pillar 857 tallies the REMAINING_OPEN items already declared by Pillars 842, 846, 852, and 856 into one consolidated audit before Pillar 858's chain-closure registry, as a PARTIAL / bookkeeping deliverable with zero new Lean4 theorems and no new hardgate claim."
+          action: "No action required. Tracker note updated to reflect presence."
     note: >
       STATUS.md now registers every implemented numbered pillar through Pillar 285, including
       the v11.5 Residual Tightening Wave (274–281) and the v11.6-desi-correction sprint

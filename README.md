@@ -1534,3 +1534,14 @@ The complete BibLaTeX source for all 20+ references (Kaluza, Klein,
 Bekenstein, Hawking, Maldacena, Verlinde, Jacobson, Shannon, …) is in
 [`6-MONOGRAPH/arxiv/references.bib`](6-MONOGRAPH/arxiv/references.bib).  Use this file directly
 for any LaTeX submission built from `6-MONOGRAPH/arxiv/main.tex`.
+
+### Reserved-slot backfill (2026-10-10)
+
+Pillars 283, 284, 574, 845, 847, 848, 851, and 857 were previously
+documented reserved/skipped slots or documentation-only sync notes; each
+now has a standalone 🔵 ADJACENT TRACK or PARTIAL-closure module and test.
+See STATUS.md's "Reserved-slot backfill" section for the full list and
+docs/mas_tracker.yml's `sparse_pillar_registry` for the per-pillar tracker
+entries. This backfill makes no hardgate Pillar 1–208 claim, adds zero
+Lean4 theorems, and does not change the canonical version or regression
+headline recorded elsewhere in this file.
