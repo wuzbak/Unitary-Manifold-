@@ -730,3 +730,41 @@ TOE Score: 35% → **42%** (11/26 parameters within <5% without fitting):
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
+
+---
+
+## Reserved-slot backfill (2026-10-10)
+
+Pillars 283, 284, 574, 845, 847, 848, 851, and 857 were previously documented
+as reserved/skipped slots: docs/mas_tracker.yml noted "Slots 282–284 reserved"
+and this file's Sprint BA entry explicitly recorded "18 pillars (837–860,
+skipping 845,847,848,851,857)"; Pillar 574 (`FTHEORY_12D_RUNG7_SYNC`) existed
+only as a documentation-only sync note, unlike sibling sync pillars 575 and
+616 which both ship a standalone module and test.
+
+Each of the eight slots now has a standalone module and a matching test file,
+following the `sparse_pillar_registry` precedent already used for pillars
+225, 226, 231, and 247 (see docs/mas_tracker.yml):
+
+| Pillar | Module | Role |
+|--------|--------|------|
+| 283 | `src/core/pillar283_sc2_alpha_gw_desi_dr3_joint_robustness.py` | 🔵 ADJACENT TRACK — SC2 lane: α_GW interval × DESI DR3 verdict robustness check (bridges 280→285) |
+| 284 | `src/core/pillar284_sc2_lane_phase_regression_certificate.py` | 🔵 ADJACENT TRACK — SC2 lane phase regression certificate (280/281/283) |
+| 574 | `src/core/pillar574_ftheory_12d_rung7_sync.py` | Sync-certificate module, brought to parity with sibling sync pillars 575/616 |
+| 845 | `src/sevend/pillar845_7d_flavor_cross_consistency_audit.py` | PARTIAL — 7D flavor-sector cross-consistency audit (843/844/CP phase) |
+| 847 | `src/eightd/pillar847_wilson_line_rung3_pillar_certificate.py` | PARTIAL — pillar-numbered certificate wrapper over the existing 8D Wilson-line Rung-3 scaffold |
+| 848 | `src/eightd/pillar848_anomaly_rung4_pillar_certificate.py` | PARTIAL — pillar-numbered certificate wrapper over the existing 9D anomaly-cancellation Rung-4 scaffold |
+| 851 | `src/nined/pillar851_9d_to_10d_moduli_flux_bridge.py` | PARTIAL — 9D torsion branch (850) × 10D flux quantum (853) minimal-integer counting bridge |
+| 857 | `src/core/pillar857_cross_dimensional_preclosure_audit.py` | PARTIAL / bookkeeping — consolidates REMAINING_OPEN items from 842/846/852/856 before Pillar 858's chain closure |
+
+None of these resolve a previously-open physics question, add a Lean4
+theorem (`LEAN4_THEOREM_COUNT = 0` for all eight), or touch the hardgate
+Pillar 1–208 set, `WINDING_NUMBER`, or `K_CS`. No existing pillar module
+(e.g. Pillar 846's `PILLARS` list, Pillar 856's `REMAINING_OPEN` list) was
+modified. The canonical version, next-pillar-slot, and full-regression
+headline recorded above this section are unchanged by this backfill; see
+docs/mas_tracker.yml `sparse_pillar_registry` for the full per-pillar
+tracker entries.
+
+*Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
+*Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

@@ -370,3 +370,12 @@ Overall labels: **OPEN_GAP** for core three-sector architecture; **PARTIAL_REDUC
 | [`docs/CLAIM_LABEL_STANDARD.md`](../docs/CLAIM_LABEL_STANDARD.md) | Definition of all six epistemic labels | Normative standard for the Status column |
 | [`1-THEORY/NW_UNIQUENESS_STATUS.md`](NW_UNIQUENESS_STATUS.md) | Authoritative summary of n_w uniqueness arguments | Canonical reference for Part II of this file |
 | [`2-REPRODUCIBILITY/VALIDATION_REPORT.md`](../2-REPRODUCIBILITY/VALIDATION_REPORT.md) | What "validation" means; test-suite scope | Scope context for the Code column entries |
+
+### Reserved-slot backfill (2026-10-10)
+
+Pillars 283, 284, 574, 845, 847, 848, 851, and 857 — previously reserved or
+documentation-only slots — now each have a standalone module and test
+(🔵 ADJACENT TRACK or PARTIAL closure; zero new Lean4 theorems; zero hardgate
+Pillar 1–208 impact). See STATUS.md's "Reserved-slot backfill" section and
+docs/mas_tracker.yml's `sparse_pillar_registry` for the full per-pillar
+breakdown.
