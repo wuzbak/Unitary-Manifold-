@@ -92,6 +92,35 @@ exact-byte seal is retained in `IP_REGISTRY.json` reseal history.
 |-------|---------|-------|--------|
 | `12-AZ-IP/26-um-arts/pyproject.toml` | `b9775abd39c4fb253d4f17c5908aca67a1610de3036e5d7ac73249cedad69be1` | 519 | RESEALED 2026-10-08 |
 
+### Products 28-40 registration — 2026-10-10
+
+Thirteen new standalone AZ-IP products (28-40) were added, each implementing
+the "Phase 0/1 buildable now" scope of one numbered direction in
+`7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md`.
+Every product is a real, tested Python package (109 passing tests across all
+thirteen combined) with an explicit "Epistemic status" section in its own
+README stating exactly which article phase is and is not implemented. The
+master registry README was refreshed to register all thirteen and bump the
+canonical product count from 27 to 40; its previous seal is retained in
+`IP_REGISTRY.json` reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/README.md` | `c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65` | 16527 |
+| `12-AZ-IP/28-az-calorimetry-console/README.md` | `f4ae245b4c9aba210912a52eae4eebc0a90040f1751705bd7f182ba6db1a25d4` | 2638 |
+| `12-AZ-IP/29-az-polariton-vortex-analyzer/README.md` | `26e40e6cc7d936226a35eb2590125e4e7f4e2cc470d13dd314f165df1cfec757` | 2299 |
+| `12-AZ-IP/30-az-materials-screening-engine/README.md` | `ba2535643c6447629ea1ef0a9266bd40c2a5561a8fa16eb5a6e53dacd2a7572b` | 2357 |
+| `12-AZ-IP/31-az-braided-qubit-ansatz-studio/README.md` | `740c8421762aad15c566973bf221176908e11c8fcaa2dd9e3d30792335e047db` | 2225 |
+| `12-AZ-IP/32-az-phi-debt-early-warning/README.md` | `6dad1b24f670ee55149358d4eba52b9a87b4c75ebe59d33051879be28b4960b1` | 2289 |
+| `12-AZ-IP/33-az-accessibility-pipeline/README.md` | `e424052274712a1604f78baf6f4bce13741b073ff20efcab4eabc1d484531163` | 2610 |
+| `12-AZ-IP/34-az-domain-experts-pack/README.md` | `a40755115ca585b240bd71bca44ae826a2cd4f6b8d82d2477f91cf45af7b826d` | 2167 |
+| `12-AZ-IP/35-az-uos-kernel-bridge/README.md` | `a620ea5e1587faac458e5caee18fd58a6eb75b51e23104ea3524e7e6ee924c05` | 2400 |
+| `12-AZ-IP/36-az-cosmology-slider/README.md` | `925f654670702b75e7f4125689bccea91a232fee38224198b8caad7684624f52` | 1897 |
+| `12-AZ-IP/37-az-holographic-condensed-matter-comparator/README.md` | `097e513b184516d976be9d752753854c4a952e8193b729de82c5071cbc39d320` | 2285 |
+| `12-AZ-IP/38-az-formal-verification-library/README.md` | `b5ddd72e4b2d4b9e936f67c3a5c53318d058a6b3828a3734a181e5ccb16376b9` | 2075 |
+| `12-AZ-IP/39-az-research-debt-tracker/README.md` | `26dde18b809cf351cf11828b3b6c6c9af715d5fb52e0acc60ee213e7d7e6dce3` | 2109 |
+| `12-AZ-IP/40-az-live-data-harness/README.md` | `cb80dd007ad1d36a221349debdf5d680fa00f326993d70ac535f5467f0e94669` | 2632 |
+
 ---
 
 ## Authorship Declaration

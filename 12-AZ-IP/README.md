@@ -11,7 +11,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 - External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
-## Product registry (27 canonical software products / surfaces)
+## Product registry (40 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -42,6 +42,19 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 25 | PsiCat Braided Brain | 1.1.0 | TRL-3 | Browser / PWA | 25 | Toroidal brain simulator game for desktop and mobile with science missions, local training-packet export, and optional PsiCat coaching through Product 20. | [25-psicat-braided-brain/](25-psicat-braided-brain/) |
 | 26 | UM-ARTS | 1.0.0 | Not assessed | CLI / local browser | Focused pytest suites | Evidence-first regression application: supervised execution, immutable receipts, compatible resume, inventory, and bounded assistance; no scientific claim promotion. | [26-um-arts/](26-um-arts/) |
 | 27 | PsiCat's Vite Web Workbench | 1.0.0 | Not assessed | http://127.0.0.1:8327 | 10 targeted tests | Standalone loopback-only Vite project workbench with curated starters and native Product 20 tools; project configs/plugins are not loaded and arbitrary commands are not run. | [27-psicat-vite-web-workbench/](27-psicat-vite-web-workbench/) |
+| 28 | AZ Calorimetry Console | 1.0.0 | TRL-2 | CLI / Python library | 9 | Cold-fusion run-sheet generator and COP tracker wrapping `src/physics/lattice_dynamics.py` and `src/cold_fusion/`. | [28-az-calorimetry-console/](28-az-calorimetry-console/) |
+| 29 | AZ Polariton Vortex Analyzer | 1.0.0 | TRL-2 | CLI / Python library | 5 | Pump-probe vortex feature extraction and comparison against `src/materials/polariton_vortex.py` predictions. | [29-az-polariton-vortex-analyzer/](29-az-polariton-vortex-analyzer/) |
+| 30 | AZ Materials Screening Engine | 1.0.0 | TRL-2 | CLI / Python library | 7 | Candidate-material screening and ranking against the canonical UM Fröhlich-polaron/metamaterial formulas. | [30-az-materials-screening-engine/](30-az-materials-screening-engine/) |
+| 31 | AZ Braided Qubit Ansatz Studio | 1.0.0 | TRL-2 | CLI / Python library | 9 | Hardware-portable gate-list export and independent re-simulation of `src/quantum/kk_vqe.py`'s ansatz. | [31-az-braided-qubit-ansatz-studio/](31-az-braided-qubit-ansatz-studio/) |
+| 32 | AZ Phi-Debt Early Warning Library | 1.0.0 | TRL-2 | CLI / Python library | 11 | Domain-agnostic capacity/discharge/debt monitor generalized from `recycling/entropy_ledger.py`. | [32-az-phi-debt-early-warning/](32-az-phi-debt-early-warning/) |
+| 33 | AZ Accessibility Pipeline | 1.0.0 | TRL-2 | CLI / Python library | 9 | Reading-segment, visual-concept, and falsifiable-claim routing pipeline reusing Products 17 and 19. | [33-az-accessibility-pipeline/](33-az-accessibility-pipeline/) |
+| 34 | AZ Domain Experts Pack | 1.0.0 | TRL-2 | CLI / Python library | 9 | AST-based domain-expert retrieval over `src/materials/` and `src/atomic_structure/`. | [34-az-domain-experts-pack/](34-az-domain-experts-pack/) |
+| 35 | AZ UOS/AZ-KERNEL Bridge | 1.0.0 | TRL-2 | CLI / Python library | 9 | Interface contract plus winding-aware IPC addressing scheme, cross-checked against the real `kk_channel.rs`. | [35-az-uos-kernel-bridge/](35-az-uos-kernel-bridge/) |
+| 36 | AZ Differentiable Cosmology Slider | 1.0.0 | TRL-3 | CLI / Python library | 8 | Real-time (n_s, gradient) slider API wrapping `src/core/jax_backend.grad_spectral_index`. | [36-az-cosmology-slider/](36-az-cosmology-slider/) |
+| 37 | AZ Holographic Condensed-Matter Comparator | 1.0.0 | TRL-2 | CLI / Python library | 7 | Compares `src/holography/dual_cft_spectrum.py` KK-tower operator dimensions against illustrative literature benchmarks. | [37-az-holographic-condensed-matter-comparator/](37-az-holographic-condensed-matter-comparator/) |
+| 38 | AZ Formal Verification Library | 1.0.0 | TRL-3 | CLI / Python library | 8 | Generic Z3 safety-property template generalized from `src/core/z3_pentad_checker.py`. | [38-az-formal-verification-library/](38-az-formal-verification-library/) |
+| 39 | AZ Research-Debt Tracker | 1.0.0 | TRL-3 | CLI / Python library | 10 | Domain-agnostic project-health tracker generalized from `src/meta/mas_wave_engine.py`, dogfooded against UM's own live gap list. | [39-az-research-debt-tracker/](39-az-research-debt-tracker/) |
+| 40 | AZ Live-Data Harness | 1.0.0 | TRL-3 | CLI / Python library | 8 | Shared fetch/normalize/fallback/verdict harness demonstrated against `src/data/fetch_planck.py`. | [40-az-live-data-harness/](40-az-live-data-harness/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
@@ -76,6 +89,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - `25-psicat-braided-brain/` — responsive toroidal brain simulator game with PsiCat/PhiCat teaching loops, voluntary training-packet export, and optional Product 20 coaching
 - `26-um-arts/` — canonical UM-ARTS regression application and Python package; `TOOLS.um_arts` retains backwards-compatible CLI, submodule, and pytest-plugin imports
 - `27-psicat-vite-web-workbench/` — standalone local Vite app with curated frontend starters and human-gated native Product 20 actions
+- `28-az-calorimetry-console/` through `40-az-live-data-harness/` — thirteen new standalone products (direct Python packages, not merges of pre-existing folders), each built against one of the thirteen "Phase 0/1 buildable now" directions named in `7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md`; see each product's own README "Epistemic status" section for exactly which article phase is and is not implemented
 
 ## Product 26 operational entrypoints
 

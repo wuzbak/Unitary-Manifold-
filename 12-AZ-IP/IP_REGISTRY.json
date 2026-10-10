@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-10-06",
+  "updated": "2026-10-10",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -327,11 +327,17 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-10-08",
-      "sha256": "e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61",
-      "size_bytes": 12750,
-      "reseal_note": "Refreshed 2026-10-08 to add the portfolio license schedule link. Previous seal retained in reseal_history.",
+      "updated": "2026-10-10",
+      "sha256": "c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65",
+      "size_bytes": 16527,
+      "reseal_note": "Refreshed 2026-10-10 to register Products 28-40 (13 new standalone AZ-IP products built from article-354's roadmap directions) in the registry table, bumping the canonical count from 27 to 40. Previous seal: e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61 (12750 bytes).",
       "reseal_history": [
+        {
+          "updated": "2026-10-08",
+          "sha256": "e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61",
+          "size_bytes": 12750,
+          "reseal_note": "Refreshed 2026-10-08 to add the portfolio license schedule link. Previous seal retained in reseal_history."
+        },
         {
           "updated": "2026-10-07",
           "sha256": "8bddde7bf229d155cf432f8507a0b7b5e5e44b072beac260003c3e122e5f9261",
@@ -523,6 +529,110 @@
       "updated": "2026-09-10",
       "sha256": "29f508dc743f95bcddd890fa327c2592495e883e60b5c21aee5b830188e23c72",
       "size_bytes": 399
+    },
+    "12-AZ-IP/28-az-calorimetry-console/README.md": {
+      "description": "Product 28 AZ Calorimetry Console README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "f4ae245b4c9aba210912a52eae4eebc0a90040f1751705bd7f182ba6db1a25d4",
+      "size_bytes": 2638
+    },
+    "12-AZ-IP/29-az-polariton-vortex-analyzer/README.md": {
+      "description": "Product 29 AZ Polariton Vortex Analyzer README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "26e40e6cc7d936226a35eb2590125e4e7f4e2cc470d13dd314f165df1cfec757",
+      "size_bytes": 2299
+    },
+    "12-AZ-IP/30-az-materials-screening-engine/README.md": {
+      "description": "Product 30 AZ Materials Screening Engine README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "ba2535643c6447629ea1ef0a9266bd40c2a5561a8fa16eb5a6e53dacd2a7572b",
+      "size_bytes": 2357
+    },
+    "12-AZ-IP/31-az-braided-qubit-ansatz-studio/README.md": {
+      "description": "Product 31 AZ Braided Qubit Ansatz Studio README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "740c8421762aad15c566973bf221176908e11c8fcaa2dd9e3d30792335e047db",
+      "size_bytes": 2225
+    },
+    "12-AZ-IP/32-az-phi-debt-early-warning/README.md": {
+      "description": "Product 32 AZ Phi-Debt Early Warning Library README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "6dad1b24f670ee55149358d4eba52b9a87b4c75ebe59d33051879be28b4960b1",
+      "size_bytes": 2289
+    },
+    "12-AZ-IP/33-az-accessibility-pipeline/README.md": {
+      "description": "Product 33 AZ Accessibility Pipeline README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "e424052274712a1604f78baf6f4bce13741b073ff20efcab4eabc1d484531163",
+      "size_bytes": 2610
+    },
+    "12-AZ-IP/34-az-domain-experts-pack/README.md": {
+      "description": "Product 34 AZ Domain Experts Pack README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "a40755115ca585b240bd71bca44ae826a2cd4f6b8d82d2477f91cf45af7b826d",
+      "size_bytes": 2167
+    },
+    "12-AZ-IP/35-az-uos-kernel-bridge/README.md": {
+      "description": "Product 35 AZ UOS/AZ-KERNEL Bridge README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "a620ea5e1587faac458e5caee18fd58a6eb75b51e23104ea3524e7e6ee924c05",
+      "size_bytes": 2400
+    },
+    "12-AZ-IP/36-az-cosmology-slider/README.md": {
+      "description": "Product 36 AZ Differentiable Cosmology Slider README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "925f654670702b75e7f4125689bccea91a232fee38224198b8caad7684624f52",
+      "size_bytes": 1897
+    },
+    "12-AZ-IP/37-az-holographic-condensed-matter-comparator/README.md": {
+      "description": "Product 37 AZ Holographic Condensed-Matter Comparator README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "097e513b184516d976be9d752753854c4a952e8193b729de82c5071cbc39d320",
+      "size_bytes": 2285
+    },
+    "12-AZ-IP/38-az-formal-verification-library/README.md": {
+      "description": "Product 38 AZ Formal Verification Library README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "b5ddd72e4b2d4b9e936f67c3a5c53318d058a6b3828a3734a181e5ccb16376b9",
+      "size_bytes": 2075
+    },
+    "12-AZ-IP/39-az-research-debt-tracker/README.md": {
+      "description": "Product 39 AZ Research-Debt Tracker README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "26dde18b809cf351cf11828b3b6c6c9af715d5fb52e0acc60ee213e7d7e6dce3",
+      "size_bytes": 2109
+    },
+    "12-AZ-IP/40-az-live-data-harness/README.md": {
+      "description": "Product 40 AZ Live-Data Harness README with epistemic-status section",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "cb80dd007ad1d36a221349debdf5d680fa00f326993d70ac535f5467f0e94669",
+      "size_bytes": 2632
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -805,6 +915,123 @@
       "pillar_refs": [],
       "epistemic_status": "LOCAL_DEVELOPER_TOOL",
       "added": "2026-10-07"
+    },
+    {
+      "name": "AZ Calorimetry Console",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library",
+      "tests": "9",
+      "description": "Cold-fusion run-sheet generator and COP tracker wrapping src/physics/lattice_dynamics.py and src/cold_fusion/.",
+      "link": "28-az-calorimetry-console/"
+    },
+    {
+      "name": "AZ Polariton Vortex Analyzer",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library",
+      "tests": "5",
+      "description": "Pump-probe vortex feature extraction and comparison against src/materials/polariton_vortex.py predictions.",
+      "link": "29-az-polariton-vortex-analyzer/"
+    },
+    {
+      "name": "AZ Materials Screening Engine",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library",
+      "tests": "7",
+      "description": "Candidate-material screening and ranking against canonical UM Frohlich-polaron/metamaterial formulas.",
+      "link": "30-az-materials-screening-engine/"
+    },
+    {
+      "name": "AZ Braided Qubit Ansatz Studio",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library",
+      "tests": "9",
+      "description": "Hardware-portable gate-list export and independent re-simulation of src/quantum/kk_vqe.py's ansatz.",
+      "link": "31-az-braided-qubit-ansatz-studio/"
+    },
+    {
+      "name": "AZ Phi-Debt Early Warning Library",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library",
+      "tests": "11",
+      "description": "Domain-agnostic capacity/discharge/debt monitor generalized from recycling/entropy_ledger.py.",
+      "link": "32-az-phi-debt-early-warning/"
+    },
+    {
+      "name": "AZ Accessibility Pipeline",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library",
+      "tests": "9",
+      "description": "Reading-segment, visual-concept, and falsifiable-claim routing pipeline reusing Products 17 and 19.",
+      "link": "33-az-accessibility-pipeline/"
+    },
+    {
+      "name": "AZ Domain Experts Pack",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library",
+      "tests": "9",
+      "description": "AST-based domain-expert retrieval over src/materials/ and src/atomic_structure/.",
+      "link": "34-az-domain-experts-pack/"
+    },
+    {
+      "name": "AZ UOS/AZ-KERNEL Bridge",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library",
+      "tests": "9",
+      "description": "Interface contract plus winding-aware IPC addressing scheme, cross-checked against real kk_channel.rs.",
+      "link": "35-az-uos-kernel-bridge/"
+    },
+    {
+      "name": "AZ Differentiable Cosmology Slider",
+      "version": "1.0.0",
+      "trl": "TRL-3",
+      "port": "CLI / Python library",
+      "tests": "8",
+      "description": "Real-time (n_s, gradient) slider API wrapping src/core/jax_backend.grad_spectral_index.",
+      "link": "36-az-cosmology-slider/"
+    },
+    {
+      "name": "AZ Holographic Condensed-Matter Comparator",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library",
+      "tests": "7",
+      "description": "Compares src/holography/dual_cft_spectrum.py KK-tower operator dimensions against illustrative literature benchmarks.",
+      "link": "37-az-holographic-condensed-matter-comparator/"
+    },
+    {
+      "name": "AZ Formal Verification Library",
+      "version": "1.0.0",
+      "trl": "TRL-3",
+      "port": "CLI / Python library",
+      "tests": "8",
+      "description": "Generic Z3 safety-property template generalized from src/core/z3_pentad_checker.py.",
+      "link": "38-az-formal-verification-library/"
+    },
+    {
+      "name": "AZ Research-Debt Tracker",
+      "version": "1.0.0",
+      "trl": "TRL-3",
+      "port": "CLI / Python library",
+      "tests": "10",
+      "description": "Domain-agnostic project-health tracker generalized from src/meta/mas_wave_engine.py, dogfooded against UM's own live gap list.",
+      "link": "39-az-research-debt-tracker/"
+    },
+    {
+      "name": "AZ Live-Data Harness",
+      "version": "1.0.0",
+      "trl": "TRL-3",
+      "port": "CLI / Python library",
+      "tests": "8",
+      "description": "Shared fetch/normalize/fallback/verdict harness demonstrated against src/data/fetch_planck.py.",
+      "link": "40-az-live-data-harness/"
     }
   ]
 }
