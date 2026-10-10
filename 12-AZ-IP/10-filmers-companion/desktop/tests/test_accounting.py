@@ -90,3 +90,68 @@ def test_export_general_ledger_csv_contains_invoice_rows(svc):
     csv_text = svc.export_general_ledger_csv("proj-1")
     assert "INV-010" in csv_text
     assert "150.00" in csv_text
+
+
+def test_create_vendor_rejects_blank_name(svc):
+    with pytest.raises(ValueError):
+        svc.create_vendor("proj-1", "   ")
+
+
+def test_create_client_rejects_blank_name(svc):
+    with pytest.raises(ValueError):
+        svc.create_client("proj-1", "")
+
+
+def test_create_ap_invoice_rejects_nonpositive_amount(svc):
+    vendor = svc.create_vendor("proj-1", "Acme")
+    with pytest.raises(ValueError):
+        svc.create_ap_invoice("proj-1", vendor["id"], amount=0.0)
+    with pytest.raises(ValueError):
+        svc.create_ap_invoice("proj-1", vendor["id"], amount=-50.0)
+
+
+def test_create_ap_invoice_rejects_unknown_vendor(svc):
+    with pytest.raises(ValueError):
+        svc.create_ap_invoice("proj-1", "does-not-exist", amount=100.0)
+
+
+def test_create_ar_invoice_rejects_unknown_client(svc):
+    with pytest.raises(ValueError):
+        svc.create_ar_invoice("proj-1", "does-not-exist", amount=100.0)
+
+
+def test_record_payment_rejects_nonpositive_amount(svc):
+    vendor = svc.create_vendor("proj-1", "Acme")
+    invoice = svc.create_ap_invoice("proj-1", vendor["id"], amount=100.0)
+    with pytest.raises(ValueError):
+        svc.record_payment("proj-1", invoice["id"], "ap", amount=0.0)
+
+
+def test_list_vendors_and_clients(svc):
+    svc.create_vendor("proj-1", "Zed Rentals")
+    svc.create_vendor("proj-1", "Acme Grip")
+    svc.create_client("proj-1", "Distributor Co")
+
+    vendors = svc.list_vendors("proj-1")
+    clients = svc.list_clients("proj-1")
+    assert [v["name"] for v in vendors] == ["Acme Grip", "Zed Rentals"]
+    assert [c["name"] for c in clients] == ["Distributor Co"]
+
+
+def test_ap_aging_report_flags_overdue_invoices(svc):
+    vendor = svc.create_vendor("proj-1", "Acme")
+    svc.create_ap_invoice("proj-1", vendor["id"], amount=500.0, due_date="2020-01-01")
+    svc.create_ap_invoice("proj-1", vendor["id"], amount=500.0, due_date="2999-01-01")
+
+    aging = svc.ap_aging_report("proj-1", as_of="2026-01-01")
+    assert aging["overdue_count"] == 1
+    assert aging["total_overdue"] == 500.0
+
+
+def test_ar_aging_report_flags_overdue_invoices(svc):
+    client = svc.create_client("proj-1", "Buyer Co")
+    svc.create_ar_invoice("proj-1", client["id"], amount=1000.0, due_date="2020-01-01")
+
+    aging = svc.ar_aging_report("proj-1", as_of="2026-01-01")
+    assert aging["overdue_count"] == 1
+    assert aging["total_overdue"] == 1000.0

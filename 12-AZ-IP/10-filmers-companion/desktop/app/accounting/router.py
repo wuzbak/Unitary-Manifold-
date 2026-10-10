@@ -31,26 +31,42 @@ def chart_of_accounts(project_id: str):
 
 @router.post("/vendors")
 def create_vendor(body: dict):
-    return _service().create_vendor(
-        project_id=body.get("project_id", ""),
-        name=body.get("name", ""),
-        category=body.get("category", ""),
-        contact=body.get("contact", ""),
-        terms=body.get("terms", "Net 30"),
-        tax_id=body.get("tax_id", ""),
-        notes=body.get("notes", ""),
-    )
+    try:
+        return _service().create_vendor(
+            project_id=body.get("project_id", ""),
+            name=body.get("name", ""),
+            category=body.get("category", ""),
+            contact=body.get("contact", ""),
+            terms=body.get("terms", "Net 30"),
+            tax_id=body.get("tax_id", ""),
+            notes=body.get("notes", ""),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
 
 @router.post("/clients")
 def create_client(body: dict):
-    return _service().create_client(
-        project_id=body.get("project_id", ""),
-        name=body.get("name", ""),
-        contact=body.get("contact", ""),
-        billing_address=body.get("billing_address", ""),
-        notes=body.get("notes", ""),
-    )
+    try:
+        return _service().create_client(
+            project_id=body.get("project_id", ""),
+            name=body.get("name", ""),
+            contact=body.get("contact", ""),
+            billing_address=body.get("billing_address", ""),
+            notes=body.get("notes", ""),
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@router.get("/{project_id}/vendors")
+def list_vendors(project_id: str):
+    return _service().list_vendors(project_id)
+
+
+@router.get("/{project_id}/clients")
+def list_clients(project_id: str):
+    return _service().list_clients(project_id)
 
 
 @router.post("/ap/invoices")

@@ -9,6 +9,7 @@ dependency on either.
 from __future__ import annotations
 
 import uuid
+from datetime import date
 from pathlib import Path
 
 from ..db.schema import get_conn
@@ -38,6 +39,9 @@ ASSET_TYPES = [
     "one-sheet", "key-art", "behind-the-scenes",
 ]
 
+CAMPAIGN_STATUSES = ["planned", "active", "paused", "completed", "cancelled"]
+ASSET_STATUSES = ["pending", "in-progress", "in-review", "approved", "delivered"]
+
 
 class MarketingService:
     """Campaigns, marketing/distribution assets, and press contacts."""
@@ -48,6 +52,12 @@ class MarketingService:
     def create_campaign(self, project_id: str, name: str, channel: str = "",
                          status: str = "planned", start_date: str = "", end_date: str = "",
                          budget: float = 0.0, notes: str = "") -> dict:
+        if not name.strip():
+            raise ValueError("Campaign name is required.")
+        if status not in CAMPAIGN_STATUSES:
+            raise ValueError(f"Unknown campaign status: {status!r}. Expected one of {CAMPAIGN_STATUSES}.")
+        if budget < 0:
+            raise ValueError("Campaign budget cannot be negative.")
         campaign_id = str(uuid.uuid4())
         with get_conn(self.db_path) as conn:
             self._ensure_project(conn, project_id)
@@ -62,9 +72,21 @@ class MarketingService:
     def create_asset(self, project_id: str, asset_type: str, title: str,
                       campaign_id: str = "", status: str = "pending", due_date: str = "",
                       platform: str = "", notes: str = "") -> dict:
+        if not title.strip():
+            raise ValueError("Asset title is required.")
+        if asset_type not in ASSET_TYPES:
+            raise ValueError(f"Unknown asset_type: {asset_type!r}. Expected one of {ASSET_TYPES}.")
+        if status not in ASSET_STATUSES:
+            raise ValueError(f"Unknown asset status: {status!r}. Expected one of {ASSET_STATUSES}.")
         asset_id = str(uuid.uuid4())
         with get_conn(self.db_path) as conn:
             self._ensure_project(conn, project_id)
+            if campaign_id:
+                campaign = conn.execute(
+                    "SELECT id FROM marketing_campaigns WHERE id=?", (campaign_id,)
+                ).fetchone()
+                if campaign is None:
+                    raise ValueError(f"Unknown campaign: {campaign_id}")
             conn.execute(
                 """INSERT INTO marketing_assets
                    (id, project_id, campaign_id, asset_type, title, status, due_date, platform, notes)
@@ -75,6 +97,8 @@ class MarketingService:
 
     def create_press_contact(self, project_id: str, name: str, outlet: str = "",
                               email: str = "", beat: str = "", notes: str = "") -> dict:
+        if not name.strip():
+            raise ValueError("Press contact name is required.")
         contact_id = str(uuid.uuid4())
         with get_conn(self.db_path) as conn:
             self._ensure_project(conn, project_id)
@@ -85,7 +109,22 @@ class MarketingService:
             )
         return {"id": contact_id, "project_id": project_id, "name": name}
 
-    def marketing_dashboard(self, project_id: str) -> dict:
+    def list_campaigns(self, project_id: str) -> list[dict]:
+        with get_conn(self.db_path) as conn:
+            return _fetch_all(
+                conn, "SELECT * FROM marketing_campaigns WHERE project_id=? ORDER BY start_date",
+                (project_id,),
+            )
+
+    def list_assets(self, project_id: str) -> list[dict]:
+        with get_conn(self.db_path) as conn:
+            return _fetch_all(
+                conn, "SELECT * FROM marketing_assets WHERE project_id=? ORDER BY due_date",
+                (project_id,),
+            )
+
+    def marketing_dashboard(self, project_id: str, as_of: str | None = None) -> dict:
+        today = as_of or date.today().isoformat()
         with get_conn(self.db_path) as conn:
             campaigns = _fetch_all(
                 conn, "SELECT * FROM marketing_campaigns WHERE project_id=? ORDER BY start_date",
@@ -102,13 +141,19 @@ class MarketingService:
         assets_by_status: dict[str, int] = {}
         for asset in assets:
             assets_by_status[asset["status"]] = assets_by_status.get(asset["status"], 0) + 1
+        overdue_assets = [
+            a for a in assets
+            if a["status"] != "delivered" and a["due_date"] and a["due_date"] < today
+        ]
         return {
             "project_id": project_id,
+            "as_of": today,
             "campaigns": campaigns,
             "active_campaigns": [c for c in campaigns if c["status"] == "active"],
             "assets": assets,
             "assets_by_status": assets_by_status,
             "outstanding_assets": [a for a in assets if a["status"] != "delivered"],
+            "overdue_assets": overdue_assets,
             "press_contacts": press_contacts,
             "total_campaign_budget": round(sum(float(c["budget"]) for c in campaigns), 2),
         }

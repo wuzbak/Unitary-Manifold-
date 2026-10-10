@@ -13,6 +13,7 @@ from __future__ import annotations
 import csv
 import io
 import uuid
+from datetime import date
 from pathlib import Path
 
 from ..db.schema import get_conn
@@ -90,6 +91,8 @@ class AccountingService:
 
     def create_vendor(self, project_id: str, name: str, category: str = "", contact: str = "",
                        terms: str = "Net 30", tax_id: str = "", notes: str = "") -> dict:
+        if not name.strip():
+            raise ValueError("Vendor name is required.")
         vendor_id = str(uuid.uuid4())
         with get_conn(self.db_path) as conn:
             self._ensure_project(conn, project_id)
@@ -102,6 +105,8 @@ class AccountingService:
 
     def create_client(self, project_id: str, name: str, contact: str = "",
                        billing_address: str = "", notes: str = "") -> dict:
+        if not name.strip():
+            raise ValueError("Client name is required.")
         client_id = str(uuid.uuid4())
         with get_conn(self.db_path) as conn:
             self._ensure_project(conn, project_id)
@@ -112,6 +117,14 @@ class AccountingService:
             )
         return {"id": client_id, "project_id": project_id, "name": name}
 
+    def list_vendors(self, project_id: str) -> list[dict]:
+        with get_conn(self.db_path) as conn:
+            return _fetch_all(conn, "SELECT * FROM vendors WHERE project_id=? ORDER BY name", (project_id,))
+
+    def list_clients(self, project_id: str) -> list[dict]:
+        with get_conn(self.db_path) as conn:
+            return _fetch_all(conn, "SELECT * FROM clients WHERE project_id=? ORDER BY name", (project_id,))
+
     # ------------------------------------------------------------------
     # Accounts payable
     # ------------------------------------------------------------------
@@ -119,9 +132,14 @@ class AccountingService:
     def create_ap_invoice(self, project_id: str, vendor_id: str, amount: float,
                            invoice_number: str = "", account_code: str = "5100",
                            issue_date: str = "", due_date: str = "", notes: str = "") -> dict:
+        if amount <= 0:
+            raise ValueError("Invoice amount must be positive.")
         invoice_id = str(uuid.uuid4())
         with get_conn(self.db_path) as conn:
             self._ensure_project(conn, project_id)
+            vendor = conn.execute("SELECT id FROM vendors WHERE id=?", (vendor_id,)).fetchone()
+            if vendor is None:
+                raise ValueError(f"Unknown vendor: {vendor_id}")
             conn.execute(
                 """INSERT INTO ap_invoices
                    (id, project_id, vendor_id, invoice_number, account_code, amount,
@@ -135,9 +153,14 @@ class AccountingService:
     def create_ar_invoice(self, project_id: str, client_id: str, amount: float,
                            invoice_number: str = "", account_code: str = "4000",
                            issue_date: str = "", due_date: str = "", notes: str = "") -> dict:
+        if amount <= 0:
+            raise ValueError("Invoice amount must be positive.")
         invoice_id = str(uuid.uuid4())
         with get_conn(self.db_path) as conn:
             self._ensure_project(conn, project_id)
+            client = conn.execute("SELECT id FROM clients WHERE id=?", (client_id,)).fetchone()
+            if client is None:
+                raise ValueError(f"Unknown client: {client_id}")
             conn.execute(
                 """INSERT INTO ar_invoices
                    (id, project_id, client_id, invoice_number, account_code, amount,
@@ -152,6 +175,8 @@ class AccountingService:
                         amount: float, paid_date: str = "", method: str = "", notes: str = "") -> dict:
         if invoice_kind not in ("ap", "ar"):
             raise ValueError("invoice_kind must be 'ap' or 'ar'")
+        if amount <= 0:
+            raise ValueError("Payment amount must be positive.")
         payment_id = str(uuid.uuid4())
         table = "ap_invoices" if invoice_kind == "ap" else "ar_invoices"
         paid_column = "amount_paid" if invoice_kind == "ap" else "amount_received"
@@ -176,7 +201,8 @@ class AccountingService:
     # Reporting
     # ------------------------------------------------------------------
 
-    def ap_aging_report(self, project_id: str) -> dict:
+    def ap_aging_report(self, project_id: str, as_of: str | None = None) -> dict:
+        today = as_of or date.today().isoformat()
         with get_conn(self.db_path) as conn:
             invoices = _fetch_all(
                 conn,
@@ -186,19 +212,27 @@ class AccountingService:
                 (project_id,),
             )
         outstanding = [
-            {**inv, "balance": round(float(inv["amount"]) - float(inv["amount_paid"]), 2)}
+            {
+                **inv,
+                "balance": round(float(inv["amount"]) - float(inv["amount_paid"]), 2),
+                "overdue": bool(inv["due_date"]) and inv["due_date"] < today,
+            }
             for inv in invoices
             if inv["status"] != "paid"
         ]
         return {
             "project_id": project_id,
+            "as_of": today,
             "total_invoiced": round(sum(float(i["amount"]) for i in invoices), 2),
             "total_paid": round(sum(float(i["amount_paid"]) for i in invoices), 2),
             "total_outstanding": round(sum(i["balance"] for i in outstanding), 2),
+            "total_overdue": round(sum(i["balance"] for i in outstanding if i["overdue"]), 2),
+            "overdue_count": sum(1 for i in outstanding if i["overdue"]),
             "outstanding_invoices": outstanding,
         }
 
-    def ar_aging_report(self, project_id: str) -> dict:
+    def ar_aging_report(self, project_id: str, as_of: str | None = None) -> dict:
+        today = as_of or date.today().isoformat()
         with get_conn(self.db_path) as conn:
             invoices = _fetch_all(
                 conn,
@@ -208,15 +242,22 @@ class AccountingService:
                 (project_id,),
             )
         outstanding = [
-            {**inv, "balance": round(float(inv["amount"]) - float(inv["amount_received"]), 2)}
+            {
+                **inv,
+                "balance": round(float(inv["amount"]) - float(inv["amount_received"]), 2),
+                "overdue": bool(inv["due_date"]) and inv["due_date"] < today,
+            }
             for inv in invoices
             if inv["status"] != "paid"
         ]
         return {
             "project_id": project_id,
+            "as_of": today,
             "total_invoiced": round(sum(float(i["amount"]) for i in invoices), 2),
             "total_received": round(sum(float(i["amount_received"]) for i in invoices), 2),
             "total_outstanding": round(sum(i["balance"] for i in outstanding), 2),
+            "total_overdue": round(sum(i["balance"] for i in outstanding if i["overdue"]), 2),
+            "overdue_count": sum(1 for i in outstanding if i["overdue"]),
             "outstanding_invoices": outstanding,
         }
 

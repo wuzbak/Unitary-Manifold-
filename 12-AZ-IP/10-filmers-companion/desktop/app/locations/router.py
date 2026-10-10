@@ -87,3 +87,45 @@ def unconfirmed_locations(project_id: str):
     mgr = LocationManager()
     flagged = mgr.check_unconfirmed(scenes, locations)
     return {"flagged_scenes": flagged, "count": len(flagged)}
+
+
+def _mapping_service():
+    from ...config import get_config
+    from .mapping import LocationMappingService
+
+    return LocationMappingService(get_config().db_path)
+
+
+@router.post("/{location_id}/coordinates")
+def set_coordinates(location_id: str, body: dict):
+    """Set latitude/longitude (and optional basecamp notes) for a location."""
+    from fastapi import HTTPException
+    try:
+        return _mapping_service().set_coordinates(
+            location_id,
+            latitude=float(body.get("latitude")),
+            longitude=float(body.get("longitude")),
+            basecamp_notes=body.get("basecamp_notes", ""),
+        )
+    except (ValueError, TypeError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@router.get("/{project_id}/map")
+def location_map(project_id: str):
+    """Return mapped/unmapped locations with geo-coordinates for scouting."""
+    return _mapping_service().location_map_summary(project_id)
+
+
+@router.get("/{project_id}/company-moves")
+def company_moves(project_id: str):
+    """Return inter-location distances across scheduled shoot days (trailer/basecamp move planning)."""
+    return _mapping_service().company_move_plan(project_id)
+
+
+@router.get("/{project_id}/export.kml")
+def export_kml(project_id: str):
+    """Export mapped locations as a KML document (Google Earth/Maps, QGIS compatible)."""
+    from fastapi.responses import PlainTextResponse
+
+    return PlainTextResponse(_mapping_service().export_kml(project_id), media_type="application/vnd.google-earth.kml+xml")

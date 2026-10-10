@@ -410,12 +410,28 @@ def get_conn(db_path: Path):
 # Public API
 # ---------------------------------------------------------------------------
 
+def _ensure_column(conn: sqlite3.Connection, table: str, column: str, ddl_type: str) -> None:
+    """Add ``column`` to ``table`` if it does not already exist (additive migration).
+
+    SQLite's ``ALTER TABLE ... ADD COLUMN`` has no ``IF NOT EXISTS`` clause, so
+    existing columns are detected via ``PRAGMA table_info`` first. Safe to call
+    on every startup against databases created before the column existed.
+    """
+    existing = {row[1] for row in conn.execute(f"PRAGMA table_info({table})").fetchall()}
+    if column not in existing:
+        conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {ddl_type}")
+
+
 def init_db(db_path: Path) -> None:
     """Create all tables. Idempotent — safe to call on every startup."""
     db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(db_path))
     try:
         conn.executescript(SCHEMA_SQL)
+        # Additive migrations for columns introduced after initial release.
+        _ensure_column(conn, "locations", "latitude", "REAL")
+        _ensure_column(conn, "locations", "longitude", "REAL")
+        _ensure_column(conn, "locations", "basecamp_notes", "TEXT")
         conn.execute(
             """
             DELETE FROM characters
