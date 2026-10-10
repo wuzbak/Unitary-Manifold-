@@ -123,6 +123,38 @@ canonical product count from 27 to 40; its previous seal is retained in
 
 ---
 
+### Products 39-40 reseal — Phase 2 web-product layer — 2026-10-10
+
+Products 39 (AZ Research-Debt Tracker) and 40 (AZ Live-Data Harness) each
+gained a Phase 2 read-only JSON API + static UI web-product layer
+(`api.py`, `app/server.py`, `run.py --serve`, `tests/test_api.py`,
+`ui/index.html`), mirroring the pattern already applied to Products
+28-38. Their READMEs were updated (version/TRL/status bump + a "Running
+as a web product" section) and are resealed below; their prior seals
+above remain the historical record of the original Phase 0/1
+registration.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/39-az-research-debt-tracker/README.md` | `6e5752fec9cc118689730b294f76a8ddbf66399507cbfd5a1d6e69fd33951e4d` | 2823 |
+| `12-AZ-IP/40-az-live-data-harness/README.md` | `d01d560c6ead556f17ad2d8a1a540f511a2b8d074c23c0e43643afb56e6f1886` | 3377 |
+
+---
+
+### Master registry README — 1.1.0 web-layer bump — 2026-10-10
+
+`12-AZ-IP/README.md` was refreshed to bump Products 28-40 to version
+1.1.0 ("CLI / Python library + web", updated test counts) after each
+gained the Phase 2 read-only JSON API + static UI web-product layer.
+Previous seal (`c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65`,
+16527 bytes) is retained in `IP_REGISTRY.json` reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/README.md` | `5c2009d1a824cc55b9e17b1aa0f545cf2c07603169e5d6a9eaac1d9d2ce94280` | 16616 |
+
+---
+
 ## Authorship Declaration
 
 All assets listed in this manifest are the intellectual property of

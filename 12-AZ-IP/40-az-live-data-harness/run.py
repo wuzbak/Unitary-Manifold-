@@ -14,6 +14,20 @@ from az_live_data_harness import fetch_planck_n_s_via_harness, planck_n_s_verdic
 
 
 def main(argv=None) -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="AZ Live-Data Harness")
+    parser.add_argument("--serve", action="store_true", help="run as a live HTTP product instead")
+    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--port", type=int, default=8140)
+    args = parser.parse_args(argv)
+
+    if args.serve:
+        from az_live_data_harness.app.server import serve
+
+        serve(host=args.host, port=args.port)
+        return 0
+
     fetch_result = fetch_planck_n_s_via_harness()
     print(f"fetch source: {fetch_result.source.value}")
     if fetch_result.error:

@@ -4,6 +4,13 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+PRODUCT_ROOT = Path(__file__).resolve().parents[1]
+if str(PRODUCT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PRODUCT_ROOT))
+
 import pytest
 
 from az_research_debt_tracker.api import API_ENDPOINTS, dispatch_api_request

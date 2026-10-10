@@ -27,6 +27,7 @@ from .harness import (
     compute_verdict,
 )
 from .planck_adapter import fetch_planck_n_s_via_harness, planck_n_s_verdict
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "FetchSource",
@@ -37,6 +38,8 @@ __all__ = [
     "compute_verdict",
     "fetch_planck_n_s_via_harness",
     "planck_n_s_verdict",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

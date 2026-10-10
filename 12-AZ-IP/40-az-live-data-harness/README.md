@@ -1,9 +1,9 @@
 # AZ Live-Data Harness — Product 40
 
 **Folder:** `12-AZ-IP/40-az-live-data-harness/`
-**Version:** 1.0.0
-**TRL:** TRL-3 (generic harness; demonstrated against a real, working adapter)
-**Status:** Active — Phase 1 of article-354's "Live-public-data pattern -> shared harness" roadmap
+**Version:** 1.1.0
+**TRL:** TRL-4 (generic harness, demonstrated adapter, read-only JSON API + UI)
+**Status:** Active — Phases 1-2 of article-354's "Live-public-data pattern -> shared harness" roadmap
 
 ## What this is
 
@@ -35,13 +35,32 @@ This product does not migrate `feeds.py` or
 they remain independent and canonical. Only one adapter
 (`fetch_planck.py`'s n_s comparison) is demonstrated end-to-end, per this
 repository's established "partial Phase 1, stated honestly" pattern (see
-Product 32's README for the same convention).
+Product 32's README for the same convention). The Phase 2 web layer
+below exposes this one adapter read-only over HTTP; wiring additional
+adapters onto the generic harness remains a Python-level task, since an
+arbitrary fetch callable cannot be constructed from untrusted query
+parameters.
 
 ## Usage
 
 ```bash
 python 12-AZ-IP/40-az-live-data-harness/run.py
 ```
+
+## Running as a web product
+
+```bash
+python 12-AZ-IP/40-az-live-data-harness/run.py --serve --port 8140
+```
+
+Serves the static dashboard in `ui/` on `http://127.0.0.1:8140/` and a
+read-only JSON API:
+
+- `GET /api/status` — product name, endpoint list, adapter name
+- `GET /api/fetch-result` — the harness `FetchResult` (value/source/error)
+  for the Planck n_s adapter
+- `GET /api/verdict` — the harness `Verdict` comparing the UM n_s
+  prediction against the fetched/fallback Planck value
 
 ## Tests
 

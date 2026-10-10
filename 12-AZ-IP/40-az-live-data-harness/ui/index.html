@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AZ Live-Data Harness — Product 40</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+  .epistemic { background: #fff3cd; border: 1px solid #e0b000; padding: 0.75rem 1rem; border-radius: 6px; }
+  pre { background: #0d1117; color: #c9d1d9; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+  button { margin-right: 0.5rem; }
+</style>
+</head>
+<body>
+<h1>AZ Live-Data Harness</h1>
+<div class="epistemic">
+  <strong>Epistemic status:</strong> Exposes the one worked Planck n_s adapter only;
+  wiring new adapters onto the generic fetch/fallback/verdict harness remains a
+  Python-level task (an arbitrary fetch callable can't be built from untrusted
+  query parameters).
+</div>
+<p>
+  <button onclick="show('/api/status')">Status</button>
+  <button onclick="show('/api/fetch-result')">Fetch result</button>
+  <button onclick="show('/api/verdict')">Verdict</button>
+</p>
+<pre id="output">(results appear here)</pre>
+<script>
+async function show(url) {
+  const res = await fetch(url);
+  document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+}
+</script>
+</body>
+</html>

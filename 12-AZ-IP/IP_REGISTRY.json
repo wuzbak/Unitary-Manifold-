@@ -328,9 +328,9 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-10-10",
-      "sha256": "c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65",
-      "size_bytes": 16527,
-      "reseal_note": "Refreshed 2026-10-10 to register Products 28-40 (13 new standalone AZ-IP products built from article-354's roadmap directions) in the registry table, bumping the canonical count from 27 to 40. Previous seal: e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61 (12750 bytes).",
+      "sha256": "5c2009d1a824cc55b9e17b1aa0f545cf2c07603169e5d6a9eaac1d9d2ce94280",
+      "size_bytes": 16616,
+      "reseal_note": "Refreshed 2026-10-10 to bump Products 28-40 to version 1.1.0 ('CLI / Python library + web', updated test counts) after each gained a Phase 2 read-only JSON API + static UI web-product layer. Previous seal: c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65 (16527 bytes), which registered Products 28-40 in the registry table, bumping the canonical count from 27 to 40. Earlier seal: e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61 (12750 bytes).",
       "reseal_history": [
         {
           "updated": "2026-10-08",
@@ -619,20 +619,20 @@
       "size_bytes": 2075
     },
     "12-AZ-IP/39-az-research-debt-tracker/README.md": {
-      "description": "Product 39 AZ Research-Debt Tracker README with epistemic-status section",
+      "description": "Product 39 AZ Research-Debt Tracker README with epistemic-status section; resealed after Phase 2 web-product layer (api.py + app/server.py + ui/)",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-10-10",
-      "sha256": "26dde18b809cf351cf11828b3b6c6c9af715d5fb52e0acc60ee213e7d7e6dce3",
-      "size_bytes": 2109
+      "sha256": "6e5752fec9cc118689730b294f76a8ddbf66399507cbfd5a1d6e69fd33951e4d",
+      "size_bytes": 2823
     },
     "12-AZ-IP/40-az-live-data-harness/README.md": {
-      "description": "Product 40 AZ Live-Data Harness README with epistemic-status section",
+      "description": "Product 40 AZ Live-Data Harness README with epistemic-status section; resealed after Phase 2 web-product layer (api.py + app/server.py + ui/)",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-10-10",
-      "sha256": "cb80dd007ad1d36a221349debdf5d680fa00f326993d70ac535f5467f0e94669",
-      "size_bytes": 2632
+      "sha256": "d01d560c6ead556f17ad2d8a1a540f511a2b8d074c23c0e43643afb56e6f1886",
+      "size_bytes": 3377
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
