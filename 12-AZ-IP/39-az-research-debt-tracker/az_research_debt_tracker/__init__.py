@@ -22,6 +22,7 @@ from .tracker import (
     ResearchDebtTracker,
 )
 from .um_dogfood import load_um_gaps_into_tracker, UM_GAP_TAXONOMY
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "StatusTaxonomy",
@@ -32,6 +33,8 @@ __all__ = [
     "ResearchDebtTracker",
     "load_um_gaps_into_tracker",
     "UM_GAP_TAXONOMY",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
