@@ -6416,3 +6416,31 @@ are enumerated as Lanes F–H rather than renumbering the canonical 5-lane board
 - Exact c_L derivation from higher-order braid dynamics.
 - Quantitative neutrino splitting closure to <5%.
 - Higgs mass closure beyond RS1 architecture limit.
+
+## Reserved-slot backfill (2026-10-10)
+
+Pillars 283, 284, 574, 845, 847, 848, 851, and 857 were documented
+reserved/skipped slots (docs/mas_tracker.yml "Slots 282–284 reserved";
+STATUS.md Sprint BA "skipping 845,847,848,851,857") or a documentation-only
+sync note (574). Each now has a standalone module and test:
+
+- 283 `src/core/pillar283_sc2_alpha_gw_desi_dr3_joint_robustness.py` — 🔵 ADJACENT TRACK
+- 284 `src/core/pillar284_sc2_lane_phase_regression_certificate.py` — 🔵 ADJACENT TRACK
+- 574 `src/core/pillar574_ftheory_12d_rung7_sync.py` — sync-certificate parity with 575/616
+- 845 `src/sevend/pillar845_7d_flavor_cross_consistency_audit.py` — PARTIAL
+- 847 `src/eightd/pillar847_wilson_line_rung3_pillar_certificate.py` — PARTIAL
+- 848 `src/eightd/pillar848_anomaly_rung4_pillar_certificate.py` — PARTIAL
+- 851 `src/nined/pillar851_9d_to_10d_moduli_flux_bridge.py` — PARTIAL
+- 857 `src/core/pillar857_cross_dimensional_preclosure_audit.py` — PARTIAL / bookkeeping
+
+### Falsification impact
+- No new falsifier removed or weakened.
+- Existing falsification framework remains active.
+
+### Residual unknowns
+- Each new module's open items are carried forward unchanged from the
+  pillars it bridges or audits; no previously-open item is closed.
+
+No new pillar advances the hardgate Pillar 1–208 set; `next_pillar_slot`,
+Lean4 theorem totals, and the canonical version/regression headline are
+unchanged by this entry.

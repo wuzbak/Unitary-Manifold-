@@ -323,6 +323,8 @@ closure engine above the 5D EFT, not as permanent runtime clutter inside it.
 
 **Status policy:** All Pillars 570–574 are 🔵 ADJACENT TRACK. The 12D F-theory extension does not replace the 5D pipeline; it extends the DBP ladder by one rung and provides geometric motivation for previously manual constants. Full Rung 7 closure requires: exact Kähler potential for Vol(S), Weierstrass model Higgs bundle, matter-curve genus computation.
 
+**2026-10-10 note:** Pillar 574 (`FTHEORY_12D_RUNG7_SYNC`) previously existed only as the STATUS.md sync note referenced below; it now also has a standalone `src/core/pillar574_ftheory_12d_rung7_sync.py` module and test, mirroring sibling sync pillars 575/616. No change to Rung 7's 🔵 ADJACENT TRACK status or closure requirements.
+
 **Modules:**
 - `src/twelved/ftheory_scaffold.py` (Pillar 570)
 - `src/twelved/ftheory_flux_landscape.py` (Pillar 571)
