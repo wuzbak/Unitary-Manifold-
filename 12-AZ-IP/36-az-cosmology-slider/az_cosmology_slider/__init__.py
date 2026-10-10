@@ -2,15 +2,13 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """AZ Differentiable Cosmology Slider — Product 36.
 
-Phase 1 of article-354 direction #9: a real-time slider-ready API over
+Phases 1-2 of article-354 direction #9: a real-time slider-ready API over
 `src/core/jax_backend.grad_spectral_index`, so a UI can show (n_s, gradient)
 for any (phi0, n_w) position and how far it is from the Planck 2018
-measurement.
+measurement — plus the actual interactive front-end calling it over HTTP.
 
-Epistemic status: this product does not ship a UI. It provides the
-differentiable backend contract a slider widget would call; building the
-actual interactive front-end (Phase 2 in the article's language) is out
-of scope here.
+Epistemic status: this is an educational gradient display over an
+already-tested differentiable backend; it introduces no new physics claim.
 """
 
 from .slider import (
@@ -22,6 +20,7 @@ from .slider import (
     slider_reading,
     sweep_phi0,
 )
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "JAX_AVAILABLE",
@@ -31,6 +30,8 @@ __all__ = [
     "require_jax",
     "slider_reading",
     "sweep_phi0",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

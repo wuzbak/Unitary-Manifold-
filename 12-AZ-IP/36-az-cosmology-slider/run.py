@@ -19,7 +19,16 @@ def main(argv=None) -> int:
     parser.add_argument("--phi0", type=float, default=10.0)
     parser.add_argument("--n-w", type=float, default=5.0)
     parser.add_argument("--sweep", action="store_true", help="sweep phi0 from phi0-2 to phi0+2")
+    parser.add_argument("--serve", action="store_true", help="run as a live HTTP product instead")
+    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--port", type=int, default=8136)
     args = parser.parse_args(argv)
+
+    if args.serve:
+        from az_cosmology_slider.app.server import serve
+
+        serve(host=args.host, port=args.port)
+        return 0
 
     require_jax()
     if args.sweep:
