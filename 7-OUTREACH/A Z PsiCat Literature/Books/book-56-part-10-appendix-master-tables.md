@@ -7,7 +7,7 @@ from the auto-generated `PILLARS/README.md` (built by `PILLARS/build_index.py` f
 headers and the `PILLARS/P*/README.md` stubs). Not a rewrite of an existing source.*
 *Part file of Book 56 — reading index: `book-56-the-complete-pillar-guide.md`.*
 
-## Chapter 44 — A Note Before the Tables
+## Chapter 49 — A Note Before the Tables
 
 Everything in this Appendix is reference material, reproduced or lightly adapted from live, machine-generated
 or machine-checked repository sources rather than from this book's own narrative judgment. That is deliberate:
@@ -17,7 +17,7 @@ land, the generated table — and, behind it, `docs/mas_tracker.yml` and `bot/ra
 first. Re-running `python3 PILLARS/build_index.py` regenerates the table below from the live repository state
 at any later date.
 
-## Chapter 45 — The Master Table: Foundation and Core Hardgate Pillars (P001–P208)
+## Chapter 50 — The Master Table: Foundation and Core Hardgate Pillars (P001–P208)
 
 The following rows are reproduced directly from `PILLARS/README.md` as it stood at the time of this book's
 writing (Sprint CY, v38.3). Pillars not listed by number between 1 and 208 have their claim details recorded
@@ -95,7 +95,7 @@ sub-numbers (e.g., 70-B, 70-C, 70-D, 99-B) are not independently stubbed in `PIL
 through VII of this book. For the full table of all 1,131-plus pillars, including every adjacent-track entry
 past P208, consult the live `PILLARS/README.md` directly, or regenerate it with `python3 PILLARS/build_index.py`.
 
-## Chapter 46 — Glossary
+## Chapter 51 — Glossary
 
 **n_w** — the winding number of the primary compact-dimension mode; canonically 5, selected observationally
 within a geometrically-narrowed candidate set {5, 7} (Part V).
@@ -117,7 +117,7 @@ planetary-resilience pillars (Part VIII).
 canonical value ≈0.331°, the framework's primary falsifiable prediction, to be tested by LiteBIRD (Part IX).
 
 **DERIVED / PARAMETERIZED / CONSTRAINED / ARCHITECTURE_LIMIT / OPEN / ADJACENT_TRACK** — the six formal
-epistemic status labels; see Part IX, Chapter 40, for full definitions.
+epistemic status labels; see Part IX, Chapter 45, for full definitions.
 
 **Hardgate** — the formally closed status of Pillars 1–208 plus Ω₀ Holon Zero and its sub-pillars; "closed"
 means faithfully implemented and honestly labeled, not "proved physically correct" (Part I).
@@ -128,7 +128,7 @@ core physics claims or the derivation-coverage count (Part VIII).
 **Ragbot / RAG index** — the repository's retrieval-augmented question-answering layer, implemented in
 `bot/rag_index.py`; the alignment layer this book was checked against throughout (Part I).
 
-## Chapter 47 — Worked Queries: How to Ask the Ragbot Yourself
+## Chapter 52 — Worked Queries: How to Ask the Ragbot Yourself
 
 This book's central design claim is that it should not be trusted in isolation forever — it should be checked
 against the live repository as further sprints land. Here is exactly how to do that, using the same interface

@@ -13,9 +13,18 @@ Pillar 218 and everything after it — well past eleven hundred pillar slots as 
 publication sprint, with the next slot standing at 1132 — belongs to a different economy than Parts II through
 VII described. 🔵 **Every pillar in this Part is a non-hardgate adjacent track.** None of them is a physics
 claim in the sense Pillars 1–208 are. None of them affects the framework's derivation-coverage score. Each one
-is labeled as such in its own source module and test suite, not only in this book, and this Part groups them
-by theme because the sheer count makes a pillar-by-pillar narration both impractical and, more importantly,
-uninformative — number alone, at this scale, tells a reader nothing a theme does not tell them better.
+is labeled as such in its own source module and test suite, not only in this book.
+
+The commission for this book was explicit on a point I want to honor in full rather than in summary: a
+complete pillar guide covers *all* pillars, not only the 208 that are hardgate. So this Part does two things,
+not one. Chapters 35 through 39, below, read the adjacent-track economy by theme — the quantum-simulation
+lane, the applied-science and medicine cluster, planetary resilience, the PsiCat governance arc, and the
+interface pillars that connect this economy back to the hardgate core — because a reader's first need is to
+understand what *kind* of work each cluster is and why it is labeled the way it is. Chapters 40 through 44,
+carried in five companion catalog files (`book-56-part-08a-*.md` through `book-56-part-08e-*.md`), then name
+every one of the 876 individual adjacent-track pillar modules this repository contains as of Sprint CY — each
+by number, title, one-line description, and exact source path — so that "complete" means what it says: not a
+representative sample, and not a theme standing in for a number, but every pillar, named.
 
 ## Chapter 35 — Quantum Computing, Materials, and the Simulation Lane
 
@@ -105,9 +114,30 @@ constant (c_s = 12/37, k_CS = 74, φ₀) from the hardgate core without importin
 physical correctness along with it. `7-OUTREACH/pillar-guide/PILLAR_MAP.md` calls this out explicitly as "the
 Adjacent Track Interface Layer," with a stated separation guarantee: adjacent pillars may *inherit* a derived
 numerical constant, but they may not *inherit* hardgate epistemic status for whatever they build with it. This
-book's own organizing choice — covering 218 pillars and onward by theme, in a single Part, after seven Parts
-individually covering the 208-pillar core — is itself an application of that same boundary rule, made visible
+book's own organizing choice — reading 218-and-onward by theme first, in this Part, and then by exhaustive
+catalog in the five Parts that follow it — is itself an application of that same boundary rule, made visible
 in the book's own table of contents rather than only in the source code.
+
+## Where the Complete Catalog Lives
+
+Five companion files carry Chapters 40 through 44, continuing this Part's numbering without a break:
+
+- **Chapter 40** — `book-56-part-08a-catalog-218-399.md` — Pillars 218–399 (182 entries)
+- **Chapter 41** — `book-56-part-08b-catalog-400-581.md` — Pillars 400–581 (182 entries)
+- **Chapter 42** — `book-56-part-08c-catalog-582-763.md` — Pillars 582–763 (182 entries)
+- **Chapter 43** — `book-56-part-08d-catalog-764-945.md` — Pillars 764–945 (182 entries)
+- **Chapter 44** — `book-56-part-08e-catalog-946-1131.md` — Pillars 946–1131 (186 entries)
+
+That is 914 entries in total — every integer from 218 through 1131 inclusive, with no gaps and no silent
+omissions. Most of those 914 correspond to a real file under `src/` with its own paired test file under
+`tests/`. A handful do not, and each is named as such rather than skipped: one slot (Pillar 574) is a
+cross-surface documentation sync recorded only in `STATUS.md`, with no standalone module; seven slots
+(Pillars 283, 284, 845, 847, 848, 851, and 857) could not be found anywhere in the repository — no module, no
+test file, and no prose entry in `STATUS.md` or `docs/mas_tracker.yml` — and are marked "reserved slot" rather
+than silently dropped from the count or filled in with invented content. As of Sprint CY, this book's
+publication sprint, Pillar 1131 is confirmed as the highest pillar that exists anywhere in the live repository,
+with the next slot standing at 1132; this book does not describe any pillar beyond 1131, because none yet
+exists to describe.
 
 ---
 

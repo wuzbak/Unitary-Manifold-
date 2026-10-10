@@ -28,7 +28,12 @@ documentation has since been superseded by later honesty audits.*
 - [Part V: Why Five](book-56-part-05-uniqueness-proofs.md) — Pillars 53–75 and Ω₀ Holon Zero: the long argument for n_w=5, and the honest correction of how strong that argument actually is.
 - [Part VI: The Expansion Layer](book-56-part-06-geometric-expansion.md) — Pillars 75–132: particle masses, holography, quantum circuit complexity, and the Grand Synthesis identity.
 - [Part VII: Closing the Standard Model, Surviving the Red Team](book-56-part-07-sm-closure-and-hardening.md) — Pillars 133–217: the parameter closure arc and the adversarial hardening arc that completes the 208-pillar hardgate set.
-- [Part VIII: Beyond the Hardgate](book-56-part-08-adjacent-tracks.md) — Pillars 218 and onward: adjacent research tracks, the quantum simulation lane, and the long sprint arc running through v38.3.
+- [Part VIII: Beyond the Hardgate](book-56-part-08-adjacent-tracks.md) — Pillars 218 and onward: adjacent research tracks, the quantum simulation lane, and the long sprint arc running through v38.3, read thematically.
+- [Part VIIIA: The Complete Adjacent-Track Catalog, Block A](book-56-part-08a-catalog-218-399.md) — Pillars 218–399, named individually, one by one.
+- [Part VIIIB: The Complete Adjacent-Track Catalog, Block B](book-56-part-08b-catalog-400-581.md) — Pillars 400–581, named individually, one by one.
+- [Part VIIIC: The Complete Adjacent-Track Catalog, Block C](book-56-part-08c-catalog-582-763.md) — Pillars 582–763, named individually, one by one.
+- [Part VIIID: The Complete Adjacent-Track Catalog, Block D](book-56-part-08d-catalog-764-945.md) — Pillars 764–945, named individually, one by one.
+- [Part VIIIE: The Complete Adjacent-Track Catalog, Block E](book-56-part-08e-catalog-946-1131.md) — Pillars 946–1131, named individually, one by one — the last pillar that exists in the repository as of Sprint CY.
 - [Part IX: What Is Proved, What Is Open, What Would End It](book-56-part-09-epistemics-and-falsification.md) — the current, corrected epistemic ledger and the falsification conditions that make this framework answerable to the sky.
 - [Part X: Appendix — Tables, Glossary, and How to Ask the Ragbot](book-56-part-10-appendix-master-tables.md) — the master pillar table, a glossary of recurring terms, and worked RAG queries.
 
@@ -88,11 +93,20 @@ status entry in `docs/mas_tracker.yml` and `STATUS.md`. Part I explains how that
 pillar by pillar and cluster by cluster, so that a reader auditing this book later has a method to re-run, not
 just a result to trust.
 
-What follows is organized the way the repository organizes itself: by domain group for the 208 hardgate
-pillars (Parts II through VII), by theme for the adjacent tracks that have grown up around them since
-(Part VIII), and by honest accounting for what all of it does and does not yet prove (Part IX). Appendix
-material — the master table, the glossary, and a set of worked queries you can run against the ragbot
-yourself — closes the book in Part X.
+What follows is organized the way the repository organizes itself, in two passes for the adjacent-track
+economy rather than one: by domain group for the 208 hardgate pillars (Parts II through VII); by theme, first,
+for the adjacent tracks that have grown up around them since (Part VIII); and then, in full, pillar by pillar,
+number by number, with no theme standing in for a name (Parts VIIIA through VIIIE — 914 entries, covering
+every integer from 218 through 1131, the highest pillar that exists in the repository as of this writing).
+Part IX then gives the honest accounting of what all of it does and does not yet prove. Appendix material —
+the master table, the glossary, and a set of worked queries you can run against the ragbot yourself — closes
+the book in Part X.
+
+A complete pillar guide, I was reminded partway through writing it, means what it says: not the 208 that are
+formally closed, and not a representative theme standing in for the rest, but all of them — every pillar this
+repository actually contains, named individually, with an honest note wherever a number turns out to have no
+module behind it rather than a silent gap. Parts VIIIA–E exist because of that reminder, and I am glad to have
+received it before calling the book finished rather than after.
 
 I write this as PsiCat, under my own name, because AxiomZero asked PsiCat specifically — not a generic
 summarizer — to hold the whole architecture in view at once and tell you honestly what is there. I have tried

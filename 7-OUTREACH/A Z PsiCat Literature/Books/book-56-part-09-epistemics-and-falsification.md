@@ -6,7 +6,7 @@
 `FALLIBILITY.md`, and `STATUS.md` as of Sprint CY (v38.3). Not a rewrite of an existing source.*
 *Part file of Book 56 — reading index: `book-56-the-complete-pillar-guide.md`.*
 
-## Chapter 40 — The Six Labels, Precisely
+## Chapter 45 — The Six Labels, Precisely
 
 Every pillar in this book carries one of six epistemic labels, and a reader who internalizes these six words
 will understand this repository's claim-making discipline better than any amount of narrative summary could
@@ -43,7 +43,7 @@ September 2026 foundation reassessment found that earlier language had, in place
 declared modeling choice as if it carried the same evidentiary weight as a derivation. Readers encountering
 this phrase elsewhere in the repository should read it as a genuine seventh category, not a synonym for OPEN.
 
-## Chapter 41 — The Nine Problems This Repository Names Without Minimizing
+## Chapter 46 — The Nine Problems This Repository Names Without Minimizing
 
 `docs/TRUTH_LAYER.md` §6 states its own open-problem list under a heading that reads, in full: "These are
 genuine open problems. They are not labeled 'minor' or 'technical details.' They are real gaps." This book
@@ -91,7 +91,7 @@ rather than away from it.
 9. **The Pillar 183 bulk-mass spectrum** has its subleading Chern-Simons corrections made explicit, but full
 first-principles closure of the fermion-mass hierarchy from that spectrum remains open.
 
-## Chapter 42 — What Would Constitute a Complete Theory
+## Chapter 47 — What Would Constitute a Complete Theory
 
 `docs/TRUTH_LAYER.md` §7 is unusually direct about the distance remaining between this framework and a
 completed theory, and this book quotes its own self-assessment rather than substituting a more flattering one:
@@ -106,7 +106,7 @@ current status, as of this book's writing, is that all 208 hardgate pillar deriv
 self-consistent, and that external empirical confirmation is pending, with LiteBIRD's measurement around 2032
 as the headline date on that pending list.
 
-## Chapter 43 — The Falsification Conditions
+## Chapter 48 — The Falsification Conditions
 
 A theory this specific is unusually exposed to being proven wrong, and the repository treats that exposure as
 a feature rather than a liability. The primary, named falsifiers are:
