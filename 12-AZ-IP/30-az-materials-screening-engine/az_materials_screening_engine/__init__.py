@@ -17,7 +17,14 @@ specific candidate material will show UM-distinctive behavior.
 """
 
 from .screening import MaterialCandidate, screen_candidate, rank_candidates
+from .api import API_ENDPOINTS, dispatch_api_request
 
-__all__ = ["MaterialCandidate", "screen_candidate", "rank_candidates"]
+__all__ = [
+    "MaterialCandidate",
+    "screen_candidate",
+    "rank_candidates",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
+]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

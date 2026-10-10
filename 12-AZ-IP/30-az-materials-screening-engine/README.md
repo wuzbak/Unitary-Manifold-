@@ -1,9 +1,9 @@
 # AZ Materials Screening Engine — Product 30
 
 **Folder:** `12-AZ-IP/30-az-materials-screening-engine/`
-**Version:** 1.0.0
+**Version:** 1.1.0
 **TRL:** TRL-2 (formula consolidation + ranking tool; not validated against measured data yet)
-**Status:** Active — Phase 0/1 of article-354's materials-screening roadmap
+**Status:** Active — Phase 0/1 of article-354's materials-screening roadmap, now a runnable web product
 
 ## What this is
 
@@ -43,6 +43,19 @@ from az_materials_screening_engine import MaterialCandidate, rank_candidates
 candidates = [MaterialCandidate("my-material", alpha=0.4, omega_lo_mev=120.0, m_band_me=0.1, epsilon_r=3.5)]
 ranked = rank_candidates(candidates)
 ```
+
+## Running as a web product
+
+A stdlib-only JSON API plus a static dashboard sits over the same formulas above
+(`app/server.py` dispatches to `dispatch_api_request`, covered by `tests/test_api.py`):
+
+```bash
+python 12-AZ-IP/30-az-materials-screening-engine/run.py serve --port 8130
+# then open http://127.0.0.1:8130/
+```
+
+Endpoints: `GET /api/status`, `GET /api/screen?name=&alpha=&omega_lo_mev=&m_band_me=&epsilon_r=`,
+`GET /api/demo-rank` (the 3 built-in demo candidates).
 
 ## Tests
 

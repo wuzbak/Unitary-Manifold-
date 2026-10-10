@@ -23,6 +23,7 @@ from .circuit_export import (
     simulate_circuit,
     validate_against_kk_vqe,
 )
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "Gate",
@@ -30,6 +31,8 @@ __all__ = [
     "build_braided_ansatz_circuit",
     "simulate_circuit",
     "validate_against_kk_vqe",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

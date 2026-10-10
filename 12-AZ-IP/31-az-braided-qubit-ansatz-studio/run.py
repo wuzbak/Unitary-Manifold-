@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -17,6 +18,19 @@ from az_braided_qubit_ansatz_studio import build_braided_ansatz_circuit, validat
 
 
 def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="AZ Braided Qubit Ansatz Studio")
+    sub = parser.add_subparsers(dest="command")
+    serve_cmd = sub.add_parser("serve", help="Run the studio as a live HTTP product")
+    serve_cmd.add_argument("--host", default="127.0.0.1")
+    serve_cmd.add_argument("--port", type=int, default=8131)
+    args = parser.parse_args(argv)
+
+    if args.command == "serve":
+        from az_braided_qubit_ansatz_studio.app.server import serve
+
+        serve(host=args.host, port=args.port)
+        return 0
+
     n_qubits = 8
     n_layers = 2
     rng = np.random.default_rng(42)
@@ -28,7 +42,8 @@ def main(argv: list[str] | None = None) -> int:
     print(json.dumps({"validation": validation, "gate_count": len(circuit.gates)}, indent=2))
     print(
         "This is a simulated, simulation-validated gate export only — no "
-        "cloud quantum backend was submitted to."
+        "cloud quantum backend was submitted to. Run `serve` to start the "
+        "live HTTP product."
     )
     return 0
 
