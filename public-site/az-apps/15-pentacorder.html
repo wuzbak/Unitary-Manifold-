@@ -91,6 +91,54 @@
     .canvas-shell{margin-top:.9rem;background:rgba(2,6,16,.96);border:1px solid rgba(122,139,168,.2);border-radius:14px;padding:.75rem}
     #modemCanvas{width:100%;height:110px;display:block;border-radius:10px}
     textarea.field-input{width:100%;background:rgba(4,9,23,.85);color:var(--color-text);border:1px solid rgba(122,139,168,.24);border-radius:12px;padding:.8rem .9rem;font:inherit;resize:vertical;min-height:90px}
+    input.field-input{width:100%;background:rgba(4,9,23,.85);color:var(--color-text);border:1px solid rgba(122,139,168,.24);border-radius:12px;padding:.6rem .8rem;font:inherit}
+
+    /* ─── Tools / Vitals / Navigation widgets ─── */
+    .tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem}
+    @media (max-width:1100px){.tool-grid{grid-template-columns:1fr}}
+    .tool-card{background:linear-gradient(180deg,rgba(13,24,48,.98),rgba(8,16,34,.98));border:1px solid var(--color-border);border-radius:var(--radius);box-shadow:0 18px 44px rgba(0,0,0,.22);padding:1.05rem}
+    .tool-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem;margin-bottom:.4rem}
+    .tool-title{font-weight:700;font-size:1rem}
+    .tool-icon{font-size:1.25rem;margin-right:.4rem}
+    .tool-desc{color:var(--color-muted);font-size:.8rem;line-height:1.55;margin-bottom:.7rem}
+
+    .level-wrap{background:#03101f;border:1px solid rgba(122,139,168,.22);border-radius:14px;height:150px;position:relative;overflow:hidden;margin-bottom:.6rem}
+    .level-crosshair{position:absolute;inset:0;background:
+      linear-gradient(rgba(122,139,168,.25) 1px,transparent 1px) 0 50%/100% 1px no-repeat,
+      linear-gradient(90deg,rgba(122,139,168,.25) 1px,transparent 1px) 50% 0/1px 100% no-repeat}
+    .level-ring{position:absolute;left:50%;top:50%;width:94px;height:94px;margin:-47px 0 0 -47px;border:1px solid rgba(48,209,88,.35);border-radius:50%}
+    .level-bubble{position:absolute;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8dffb0,#30d158 60%,#0f6b2c);left:50%;top:50%;margin:-13px 0 0 -13px;box-shadow:0 0 14px rgba(48,209,88,.55);transition:left .08s linear,top .08s linear}
+    .level-readout{display:flex;justify-content:space-around;font-family:var(--font-mono);font-size:.85rem}
+
+    .compass-wrap{display:flex;align-items:center;gap:1rem;margin-bottom:.6rem}
+    .compass-rose{width:120px;height:120px;border-radius:50%;background:#03101f;border:1px solid rgba(122,139,168,.22);position:relative;flex:0 0 auto}
+    .compass-needle{position:absolute;left:50%;top:8%;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:44% solid #ff647c;transform-origin:50% 92%;margin-left:-7px;transition:transform .12s linear}
+    .compass-label{position:absolute;font-family:var(--font-mono);font-size:.68rem;color:var(--color-muted)}
+    .compass-n{top:4%;left:50%;transform:translateX(-50%)} .compass-e{right:4%;top:46%} .compass-s{bottom:4%;left:50%;transform:translateX(-50%)} .compass-w{left:4%;top:46%}
+    .compass-readout{font-family:var(--font-mono)}
+    .compass-readout .big{font-size:1.6rem}
+
+    .meter-bar-wrap{background:rgba(255,255,255,.04);border:1px solid rgba(122,139,168,.16);border-radius:10px;height:14px;overflow:hidden;margin:.3rem 0 .6rem}
+    .meter-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#30d158,#f5b942 70%,#ff647c);transition:width .12s linear}
+
+    .note-display{text-align:center;padding:.6rem 0 .3rem}
+    .note-display .note{font-family:var(--font-mono);font-size:2.4rem;font-weight:700;letter-spacing:-.02em}
+    .note-display .cents{font-family:var(--font-mono);font-size:.85rem;color:var(--color-muted)}
+
+    .torch-btn{width:100%;padding:1rem;border-radius:14px;border:1px solid rgba(245,185,66,.35);background:rgba(245,185,66,.08);color:#f5b942;font:inherit;font-weight:700;font-size:1rem;cursor:pointer}
+    .torch-btn.on{background:linear-gradient(135deg,#f5b942,#ffd98a);color:#201300;box-shadow:0 0 24px rgba(245,185,66,.55)}
+
+    .qr-video-wrap{background:#03101f;border:1px solid rgba(122,139,168,.22);border-radius:14px;overflow:hidden;position:relative;margin-bottom:.6rem}
+    .qr-video-wrap video{width:100%;height:200px;object-fit:cover;display:block}
+    .qr-video-wrap .reticle{position:absolute;inset:18%;border:2px solid rgba(48,209,88,.7);border-radius:10px;pointer-events:none}
+    .qr-result{font-family:var(--font-mono);font-size:.85rem;background:rgba(48,209,88,.1);border:1px solid rgba(48,209,88,.3);border-radius:10px;padding:.6rem .7rem;word-break:break-all;margin-top:.5rem}
+
+    .big-digits{font-family:var(--font-mono);font-size:2.6rem;text-align:center;letter-spacing:.02em;padding:.5rem 0}
+    .steady-gauge{height:18px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden;margin:.4rem 0}
+    .steady-gauge-fill{height:100%;transition:width .1s linear,background-color .2s linear}
+
+    .waveform-shell{background:rgba(2,6,16,.96);border:1px solid rgba(122,139,168,.2);border-radius:14px;padding:.6rem;margin:.5rem 0}
+    .waveform-shell canvas{width:100%;height:70px;display:block}
 
     @media (max-width:1100px){.gauge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}}
     @media (max-width:640px){.gauge-grid{grid-template-columns:1fr}.readout-grid{grid-template-columns:1fr}}
@@ -116,10 +164,10 @@
           <div class="app-icon-lg">📲</div>
           <div class="app-meta">
             <div class="app-id-badge">Product 15 · 12-AZ-IP/15-pentacorder · Browser Field Scanner</div>
-            <div class="app-title">Pentacorder + SDAM — Field Sensing &amp; Acoustic Comms</div>
-            <div class="app-subtitle">Up to fifteen live channels read straight from this device's own hardware — motion, orientation, GNSS, battery, microphone, camera, S&nbsp;Pen/touch digitizer, Web NFC and the platform authenticator — plus a real sound-wave data link to a second device (the browser companion to the native SDAM / Pentacorder Android apps).</div>
-            <div class="app-tags"><span class="tag tag-green">🟢 Real Sensors</span><span class="tag tag-physics">15 Channels</span><span class="tag tag-dep">No Simulation</span></div>
-            <div class="hero-note">Every value on this page comes from a browser Web API reading this device's actual hardware. Nothing is invented, interpolated, or filled in: a channel the browser cannot reach stays empty and is labelled with the reason — no such sensor, no browser API for it, or a permission that was refused — rather than showing a plausible number. The Unitary Manifold pillar mapped to each channel is an <strong>adjacent-track conceptual comparison</strong>, not an experimental validation of the physics. See <code>12-AZ-IP/15-pentacorder/</code> for the full native Android implementation and <code>12-AZ-IP/14-sdam/</code> for the dedicated acoustic-modem product.</div>
+            <div class="app-title">Pentacorder + SDAM — Field Sensing, Tools &amp; Acoustic Comms</div>
+            <div class="app-subtitle">Fifteen live hardware channels, an eleven-tool sensor-driven multitool, a vitals &amp; environment reader, a navigation console and a real sound-wave data link — everything reading straight from this device's own motion, orientation, GNSS, battery, microphone and camera hardware. This turns an ordinary phone or tablet into the pocket field instrument the original Pentacorder concept pointed at: real sensors, real math, nothing simulated. (The browser companion to the native SDAM / Pentacorder Android apps.)</div>
+            <div class="app-tags"><span class="tag tag-green">🟢 Real Sensors</span><span class="tag tag-physics">15 Channels · 11 Tools</span><span class="tag tag-dep">No Simulation</span></div>
+            <div class="hero-note">Every value on this page comes from a browser Web API reading this device's actual hardware. Nothing is invented, interpolated, or filled in: a channel or tool the browser cannot reach stays empty and is labelled with the reason — no such sensor, no browser API for it, or a permission that was refused — rather than showing a plausible number. The Unitary Manifold pillar mapped to each raw channel is an <strong>adjacent-track conceptual comparison</strong>, not an experimental validation of the physics; the Tools tab is plain, honest engineering with no pillar mapping at all. See <code>12-AZ-IP/15-pentacorder/</code> for the full native Android implementation and <code>12-AZ-IP/14-sdam/</code> for the dedicated acoustic-modem product.</div>
           </div>
         </div>
       </div>
@@ -129,6 +177,9 @@
       <div class="tab-bar">
         <button class="tab-btn active" data-tab="scanner">📡 Field Scanner</button>
         <button class="tab-btn" data-tab="inventory">🧰 Hardware Inventory</button>
+        <button class="tab-btn" data-tab="tools">🛠️ Tools</button>
+        <button class="tab-btn" data-tab="vitals">🫀 Vitals &amp; Environment</button>
+        <button class="tab-btn" data-tab="nav">🧭 Navigation</button>
         <button class="tab-btn" data-tab="modem">📶 Acoustic Modem</button>
         <button class="tab-btn" data-tab="report">📄 Field Report</button>
       </div>
@@ -217,6 +268,172 @@
         </div>
       </div>
 
+      <!-- ============== TAB: TOOLS (digital multitool) ============== -->
+      <div class="tab-panel" id="tab-tools">
+        <div class="warn-banner">🛠️ Eleven real tools, each built from the sensors above — nothing here is a toy simulation. Every reading is computed live from accelerometer, gyroscope, magnetometer, microphone or camera samples this exact device just produced. Where the underlying API doesn't exist in this browser, the tool says so honestly instead of faking a reading.</div>
+        <div class="tool-grid">
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">🫧</span>Spirit Level</div><span class="status-pill status-idle" id="levelStatusPill">IDLE</span></div>
+            <div class="tool-desc">Pitch and roll computed live from the accelerometer's gravity vector (<code>accelerationIncludingGravity</code>). Lay the device flat or on edge — the green dot centres when level on that axis.</div>
+            <div class="level-wrap" id="levelWrap"><div class="level-crosshair"></div><div class="level-ring"></div><div class="level-bubble" id="levelBubble"></div></div>
+            <div class="level-readout"><span>Pitch: <b id="levelPitch">—</b>°</span><span>Roll: <b id="levelRoll">—</b>°</span></div>
+            <div class="btn-row"><button class="btn-soft accent" id="levelStartBtn">▶ Start level (uses motion sensors)</button></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">🧭</span>Compass &amp; Bearing-To-Target</div><span class="status-pill status-idle" id="compassToolStatusPill">IDLE</span></div>
+            <div class="tool-desc">Live heading from the platform orientation solution (same compass channel as the Field Scanner). Enter a target bearing — a map azimuth, a satellite-dish spec, a qibla direction, anything in degrees — and the tool tells you which way to turn.</div>
+            <div class="compass-wrap">
+              <div class="compass-rose" id="compassRose">
+                <span class="compass-label compass-n">N</span><span class="compass-label compass-e">E</span><span class="compass-label compass-s">S</span><span class="compass-label compass-w">W</span>
+                <div class="compass-needle" id="compassNeedle"></div>
+              </div>
+              <div class="compass-readout"><div class="big" id="compassHeadingBig">—°</div><div id="compassCardinal">—</div></div>
+            </div>
+            <div class="list-rows">
+              <div class="list-row"><span class="k">Target bearing</span><span class="v"><input class="field-input" style="width:5.5rem;display:inline-block;padding:.3rem .5rem" id="bearingTargetInput" type="number" min="0" max="359" placeholder="deg"> <button class="btn-soft" id="bearingSetBtn">set</button></span></div>
+              <div class="list-row"><span class="k">Turn to face target</span><span class="v" id="bearingDelta">set a target bearing above</span></div>
+            </div>
+            <div class="btn-row"><button class="btn-soft accent" id="compassToolStartBtn">▶ Start compass (uses motion sensors)</button></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">🔊</span>Decibel Meter &amp; Hearing-Safety Dose</div><span class="status-pill status-idle" id="dbStatusPill">IDLE</span></div>
+            <div class="tool-desc">Real-time microphone RMS reported as dBFS (full-scale, uncalibrated — this is <em>not</em> a certified SPL meter without reference-tone calibration). Still genuinely useful for relative loudness and a running noise-exposure dose timer against the WHO/NIOSH 85&nbsp;dB(A)/8h guideline, scaled from this device's own mic baseline.</div>
+            <div class="meter-bar-wrap"><div class="meter-bar-fill" id="dbMeterFill" style="width:0%"></div></div>
+            <div class="readout-grid">
+              <div class="readout-box"><div class="label">Level (dBFS)</div><div class="value" id="dbLevel">—</div></div>
+              <div class="readout-box"><div class="label">Peak (session)</div><div class="value" id="dbPeak">—</div></div>
+              <div class="readout-box"><div class="label">Band</div><div class="value" id="dbBand">—</div></div>
+            </div>
+            <div class="list-rows"><div class="list-row"><span class="k">Exposure timer (above loud threshold)</span><span class="v" id="dbDoseTime">00:00</span></div></div>
+            <div class="btn-row"><button class="btn-soft accent" id="dbStartBtn">▶ Start metering (needs microphone)</button><button class="btn-soft" id="dbResetBtn">reset dose</button></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">🎵</span>Chromatic Tuner</div><span class="status-pill status-idle" id="tunerStatusPill">IDLE</span></div>
+            <div class="tool-desc">Fundamental-frequency detection via time-domain autocorrelation on the live microphone signal — the same real technique instrument tuner apps use. Hum, whistle, or play a note.</div>
+            <div class="note-display"><div class="note" id="tunerNote">—</div><div class="cents" id="tunerCents">— cents</div></div>
+            <div class="readout-grid two"><div class="readout-box"><div class="label">Detected frequency</div><div class="value" id="tunerFreq">—</div></div><div class="readout-box"><div class="label">Confidence</div><div class="value" id="tunerConf">—</div></div></div>
+            <div class="btn-row"><button class="btn-soft accent" id="tunerStartBtn">▶ Start tuner (needs microphone)</button></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">🔦</span>Flashlight / Torch</div></div>
+            <div class="tool-desc">Direct hardware control of the rear-camera LED torch via <code>MediaStreamTrack.applyConstraints({ advanced:[{ torch:true }] })</code>. Only Chromium-based browsers on devices whose camera driver exposes a torch capability will light up — this honestly reports when that capability is missing instead of pretending.</div>
+            <button class="torch-btn" id="torchBtn">🔦 Turn Torch ON</button>
+            <div class="helper" style="margin-top:.6rem" id="torchDetail">Press the button — this requests the camera (rear-facing) and checks for a torch capability.</div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">▦</span>QR / Barcode Scanner</div><span class="status-pill status-idle" id="qrStatusPill">IDLE</span></div>
+            <div class="tool-desc">Live decode via the browser's native <code>BarcodeDetector</code> API running against real camera frames — QR codes, EAN/UPC, Code128 and more, whatever this browser's implementation supports. Firefox and Safari currently expose no <code>BarcodeDetector</code>; this says so rather than faking a scan.</div>
+            <div class="qr-video-wrap"><video id="qrVideo" autoplay playsinline muted></video><div class="reticle"></div></div>
+            <div class="btn-row"><button class="btn-soft accent" id="qrStartBtn">▶ Start scanning (needs camera)</button><button class="btn-soft" id="qrStopBtn">⏹ stop</button></div>
+            <div class="qr-result" id="qrResult" style="display:none"></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">📷</span>Camera Steadiness Meter</div><span class="status-pill status-idle" id="steadyStatusPill">IDLE</span></div>
+            <div class="tool-desc">RMS of the live rate gyroscope over a rolling ~1s window — a real measurement of how much the device is rotating in your hands right now, useful for timing a sharp hand-held photo or a steady video pan.</div>
+            <div class="steady-gauge"><div class="steady-gauge-fill" id="steadyFill" style="width:0%;background:#30d158"></div></div>
+            <div class="readout-grid two"><div class="readout-box"><div class="label">Angular RMS</div><div class="value" id="steadyValue">—</div></div><div class="readout-box"><div class="label">Verdict</div><div class="value" id="steadyVerdict">—</div></div></div>
+            <div class="btn-row"><button class="btn-soft accent" id="steadyStartBtn">▶ Start steadiness check (uses motion sensors)</button></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">👣</span>Pedometer / Step Counter</div><span class="status-pill status-idle" id="pedoStatusPill">IDLE</span></div>
+            <div class="tool-desc">Real peak-detection on the vertical-ish component of acceleration — each qualifying peak-to-trough swing above a cadence-gated threshold counts as one step. Distance is an honest estimate from a stride length <em>you</em> provide (no API measures leg length); leave it blank and only the step count is shown.</div>
+            <div class="big-digits" id="stepCount">0</div>
+            <div class="readout-grid two"><div class="readout-box"><div class="label">Cadence</div><div class="value" id="stepCadence">— spm</div></div><div class="readout-box"><div class="label">Est. distance</div><div class="value" id="stepDistance">— m</div></div></div>
+            <div class="list-rows"><div class="list-row"><span class="k">Stride length (m, optional)</span><span class="v"><input class="field-input" style="width:5rem;display:inline-block;padding:.3rem .5rem" id="strideInput" type="number" step="0.01" placeholder="0.75"></span></div></div>
+            <div class="btn-row"><button class="btn-soft accent" id="pedoStartBtn">▶ Start counting (uses motion sensors)</button><button class="btn-soft" id="pedoResetBtn">reset</button></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">🚨</span>Fall / Impact Detector</div><span class="status-pill status-idle" id="fallStatusPill">IDLE</span></div>
+            <div class="tool-desc">Logs a real event whenever acceleration magnitude crosses a sharp-impact threshold (&gt;25&nbsp;m/s², roughly 2.5&nbsp;g) — the same class of accelerometer-threshold logic used in commercial fall-detection wearables. This is a field-test utility, not a certified medical device; do not rely on it for safety-critical monitoring.</div>
+            <div class="list-rows" id="fallLog"><div class="list-row"><span class="k">Status</span><span class="v">not armed yet</span></div></div>
+            <div class="btn-row"><button class="btn-soft accent" id="fallStartBtn">▶ Arm detector (uses motion sensors)</button><button class="btn-soft" id="fallResetBtn">clear log</button></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">🧲</span>Magnetometer Field Scanner</div><span class="status-pill status-idle" id="magStatusPill">IDLE</span></div>
+            <div class="tool-desc">Raw magnetic-field magnitude from the Generic Sensor API <code>Magnetometer</code>, compared against a rolling baseline you set by holding the device away from metal — a swing above baseline flags a nearby ferrous object or live current, the same principle as a basic metal/stud detector. Very few browsers currently implement this sensor; most report the honest "unavailable" state below.</div>
+            <div class="readout-grid">
+              <div class="readout-box"><div class="label">Field magnitude</div><div class="value" id="magField">—</div></div>
+              <div class="readout-box"><div class="label">Baseline</div><div class="value" id="magBaseline">—</div></div>
+              <div class="readout-box"><div class="label">Anomaly</div><div class="value" id="magAnomaly">—</div></div>
+            </div>
+            <div class="btn-row"><button class="btn-soft accent" id="magStartBtn">▶ Start sensor</button><button class="btn-soft" id="magBaselineBtn">set baseline (hold away from metal)</button></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-head"><div class="tool-title"><span class="tool-icon">⏱️</span>Stopwatch &amp; Lap Timer</div></div>
+            <div class="tool-desc">High-resolution <code>performance.now()</code> timing — a genuine stopwatch, with lap splits logged as you go.</div>
+            <div class="big-digits" id="stopwatchDigits">00:00.0</div>
+            <div class="btn-row"><button class="btn-soft accent" id="stopwatchStartBtn">▶ Start</button><button class="btn-soft" id="stopwatchLapBtn">🏁 Lap</button><button class="btn-soft danger" id="stopwatchResetBtn">↺ Reset</button></div>
+            <div class="list-rows" id="lapLog"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ============== TAB: VITALS & ENVIRONMENT ============== -->
+      <div class="tab-panel" id="tab-vitals">
+        <div class="warn-banner">🫀 Camera-based pulse detection is a genuine signal-processing technique (remote photoplethysmography, rPPG) but this is a field-test utility, <strong>not a medical device</strong> — do not use it for diagnosis or safety-critical monitoring. Noise and light bands below reuse the real microphone and camera readings from the Field Scanner tab.</div>
+        <div class="two-col">
+          <div class="panel-box">
+            <div class="panel-head"><div><div class="eyebrow">Camera rPPG</div><h2 style="margin:.2rem 0 0">Pulse from the rear camera</h2></div><span class="status-pill status-idle" id="hrStatusPill">IDLE</span></div>
+            <div class="panel-sub">Cover the rear camera lens and its flash completely and gently with a fingertip. The flash illuminates the fingertip tissue; blood volume changes with each heartbeat modulate how much red light the sensor sees back. This measures the real red-channel oscillation and finds its dominant frequency by autocorrelation — the same principle behind pulse-oximeter-style phone apps.</div>
+            <div class="waveform-shell"><canvas id="hrCanvas" width="600" height="70"></canvas></div>
+            <div class="readout-grid two"><div class="readout-box"><div class="label">Estimated pulse</div><div class="value" id="hrBpm">—</div></div><div class="readout-box"><div class="label">Signal quality</div><div class="value" id="hrQuality">—</div></div></div>
+            <div class="btn-row"><button class="btn-soft accent" id="hrStartBtn">▶ Start (needs camera + torch if available)</button><button class="btn-soft" id="hrStopBtn">⏹ stop</button></div>
+          </div>
+          <div class="panel-box">
+            <div class="panel-head"><div><div class="eyebrow">Environment Readout</div><h2 style="margin:.2rem 0 0">Noise &amp; light, honestly banded</h2></div></div>
+            <div class="panel-sub">Noise banding reuses the live microphone dBFS reading (relative, uncalibrated). Light banding reuses the camera's frame-luminance proxy (relative exposure, not calibrated lux — no AmbientLightSensor is exposed here). Start the microphone and camera on the Field Scanner tab, or from the Tools above, to populate these.</div>
+            <div class="list-rows">
+              <div class="list-row"><span class="k">Ambient noise band</span><span class="v" id="envNoiseBand">start microphone to populate</span></div>
+              <div class="list-row"><span class="k">Ambient light band</span><span class="v" id="envLightBand">start camera to populate</span></div>
+              <div class="list-row"><span class="k">Combined read</span><span class="v" id="envCombined">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============== TAB: NAVIGATION & POSITIONING ============== -->
+      <div class="tab-panel" id="tab-nav">
+        <div class="panel-box">
+          <div class="panel-head"><div><div class="eyebrow">GNSS Console</div><h2 style="margin:.2rem 0 0">Live position, course &amp; speed</h2></div><span class="status-pill status-idle" id="navStatusPill">IDLE</span></div>
+          <div class="panel-sub">Every field below is read straight from the real <code>Geolocation</code> fix stream (the same channel as the Field Scanner's GNSS row) — course and speed come from the platform's own position-differencing, not from anything computed on this page. Fields the platform doesn't report for this fix show "n/a".</div>
+          <div class="readout-grid">
+            <div class="readout-box"><div class="label">Latitude</div><div class="value" id="navLat">—</div></div>
+            <div class="readout-box"><div class="label">Longitude</div><div class="value" id="navLon">—</div></div>
+            <div class="readout-box"><div class="label">Altitude</div><div class="value" id="navAlt">—</div></div>
+            <div class="readout-box"><div class="label">Speed</div><div class="value" id="navSpeed">—</div></div>
+            <div class="readout-box"><div class="label">Course (GNSS)</div><div class="value" id="navCourse">—</div></div>
+            <div class="readout-box"><div class="label">Accuracy</div><div class="value" id="navAcc">—</div></div>
+          </div>
+          <div class="btn-row"><button class="btn-soft accent" id="navStartBtn">▶ Start GNSS (needs location permission)</button></div>
+        </div>
+        <div class="two-col">
+          <div class="panel-box">
+            <div class="panel-head"><div><div class="eyebrow">Distance Travelled</div><h2 style="margin:.2rem 0 0">Integrated from real fixes</h2></div></div>
+            <div class="panel-sub">Great-circle (haversine) distance summed between consecutive real GNSS fixes while this tab is open — an honest, if GPS-noise-limited, odometer.</div>
+            <div class="big-digits" id="navDistance">0 m</div>
+            <div class="btn-row"><button class="btn-soft" id="navDistanceResetBtn">reset odometer</button></div>
+          </div>
+          <div class="panel-box">
+            <div class="panel-head"><div><div class="eyebrow">Waypoint Log</div><h2 style="margin:.2rem 0 0">Save &amp; export real fixes</h2></div></div>
+            <div class="panel-sub">Each save captures the most recent real GNSS fix with a timestamp, kept in this browser's local storage and exportable as GeoJSON.</div>
+            <div class="btn-row"><button class="btn-soft accent" id="wpSaveBtn">📍 Save waypoint</button><button class="btn-soft" id="wpExportBtn">⬇ Export GeoJSON</button><button class="btn-soft danger" id="wpClearBtn">clear log</button></div>
+            <div class="list-rows" id="wpLog"></div>
+          </div>
+        </div>
+      </div>
+
       <!-- ============== TAB: ACOUSTIC MODEM ============== -->
       <div class="tab-panel" id="tab-modem">
         <div class="panel-box">
@@ -301,6 +518,15 @@
     let camStream = null, camVideo = null, camCanvas = null, camCtx = null, camRAF = null;
     const lumHistory = [];
 
+    // Shared live motion/orientation state — every Tools-tab widget below reads
+    // from this instead of attaching its own devicemotion/deviceorientation
+    // listener, so one permission grant serves the Field Scanner and every tool.
+    const motionState = { ax:null, ay:null, az:null, gAlpha:null, gBeta:null, gGamma:null, heading:null, lastMotionAt:0, lastOrientAt:0 };
+    const motionListeners = [];
+    const orientationListeners = [];
+    function onMotionSample(fn){ motionListeners.push(fn); }
+    function onOrientationSample(fn){ orientationListeners.push(fn); }
+
     function setStatus(id, status, detail, value){
       const ch = state[id];
       ch.status = status;
@@ -329,6 +555,8 @@
       { label:'PublicKeyCredential — platform authenticator', ok: typeof window.PublicKeyCredential !== 'undefined' },
       { label:'Geolocation — GNSS', ok: !!navigator.geolocation },
       { label:'getBattery — gas gauge', ok: typeof navigator.getBattery === 'function' },
+      { label:'BarcodeDetector — QR / barcode scanner tool', ok: typeof window.BarcodeDetector !== 'undefined' },
+      { label:'MediaStreamTrack torch capability — flashlight tool', ok: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) },
     ];
 
     function renderFeatureChecklist(){
@@ -356,12 +584,15 @@
       if (a && (a.x !== null && a.x !== undefined)){
         const mag = Math.sqrt((a.x||0)**2 + (a.y||0)**2 + (a.z||0)**2);
         setStatus('accel', 'live', `DeviceMotionEvent — accelerationIncludingGravity in m/s², x=${fmt(a.x)} y=${fmt(a.y)} z=${fmt(a.z)}`, mag);
+        motionState.ax = a.x; motionState.ay = a.y; motionState.az = a.z; motionState.lastMotionAt = performance.now();
       }
       const r = e.rotationRate;
       if (r && (r.alpha !== null && r.alpha !== undefined)){
         const mag = Math.sqrt((r.alpha||0)**2 + (r.beta||0)**2 + (r.gamma||0)**2);
         setStatus('gyro', 'live', `DeviceMotionEvent — rotationRate in °/s, α=${fmt(r.alpha)} β=${fmt(r.beta)} γ=${fmt(r.gamma)}`, mag);
+        motionState.gAlpha = r.alpha; motionState.gBeta = r.beta; motionState.gGamma = r.gamma;
       }
+      motionListeners.forEach(fn => fn(motionState));
     }
     function handleOrientation(e){
       let heading = null;
@@ -369,6 +600,8 @@
       else if (e.absolute && typeof e.alpha === 'number') heading = 360 - e.alpha;
       if (heading !== null){
         setStatus('compass', 'live', 'heading from the platform orientation solution', heading);
+        motionState.heading = heading; motionState.lastOrientAt = performance.now();
+        orientationListeners.forEach(fn => fn(heading));
       }
     }
 
@@ -377,6 +610,18 @@
         try { const res = await DeviceMotionEvent.requestPermission(); return res === 'granted'; }
         catch(e){ return false; }
       }
+      return true;
+    }
+
+    let motionListenersAttached = false;
+    async function ensureMotion(){
+      // Lets any Tools-tab widget request the same motion/orientation stream
+      // the Field Scanner uses, without duplicating permission prompts.
+      if (motionListenersAttached) return true;
+      const granted = await requestMotionPermission();
+      if (!granted) return false;
+      startMotionOrientation();
+      motionListenersAttached = true;
       return true;
     }
 
@@ -401,19 +646,26 @@
     }
 
     // ───────────────────────── GNSS ─────────────────────────
-    let geoWatchId = null;
+    let geoWatchId = null, lastGeoPosition = null;
+    const geoListeners = [];
+    function onGeoFix(fn){ geoListeners.push(fn); }
     function startGNSS(){
       if (!navigator.geolocation){
         setStatus('gnss', 'unavailable', 'this browser exposes no Geolocation API');
         return;
       }
+      if (geoWatchId !== null) return; // already watching — avoid a second concurrent watch
       geoWatchId = navigator.geolocation.watchPosition(pos => {
         const c = pos.coords;
         setStatus('gnss', 'live', `Geolocation API — position, accuracy, altitude and altitude accuracy as the platform reports them. Constellation detail is not exposed. lat=${fmt(c.latitude,5)} lon=${fmt(c.longitude,5)} alt=${c.altitude!==null?fmt(c.altitude,1)+'m':'n/a'}`, c.accuracy);
+        lastGeoPosition = pos;
+        geoListeners.forEach(fn => fn(pos));
       }, err => {
         setStatus('gnss', err.code === 1 ? 'denied' : 'unavailable', `Geolocation error: ${err.message}`);
       }, { enableHighAccuracy:true, maximumAge:1000, timeout:10000 });
     }
+    // Lets the Navigation tab request the same GNSS watch the Field Scanner uses.
+    async function ensureGNSS(){ startGNSS(); return true; }
 
     // ───────────────────────── Battery ─────────────────────────
     function startBattery(){
@@ -453,6 +705,11 @@
       pumpMic();
       return true;
     }
+    // Lets any Tools/Vitals widget obtain the same microphone AnalyserNode
+    // without a second getUserMedia prompt.
+    async function ensureMic(){ return micAnalyser ? true : await startMicrophone(); }
+    const micListeners = [];
+    function onMicSample(fn){ micListeners.push(fn); }
     function pumpMic(){
       if (!running.mic || !micAnalyser) return;
       const buf = new Float32Array(micAnalyser.fftSize);
@@ -461,6 +718,7 @@
       const rms = Math.sqrt(sumSq / buf.length);
       const dbfs = rms > 0 ? 20*Math.log10(rms) : -100;
       setStatus('mic', 'live', state.mic.detail, dbfs);
+      micListeners.forEach(fn => fn(buf, dbfs, audioCtx.sampleRate));
       requestAnimationFrame(pumpMic);
     }
 
@@ -469,14 +727,14 @@
       if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)){
         setStatus('flicker', 'unavailable', 'this browser exposes no getUserMedia (camera)');
         setStatus('focus', 'unavailable', 'this browser exposes no getUserMedia (camera)');
-        return;
+        return false;
       }
       try {
         camStream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:'environment' } });
       } catch(e){
         setStatus('flicker', 'denied', `getUserMedia(video) refused: ${e.message}`);
         setStatus('focus', 'denied', `getUserMedia(video) refused: ${e.message}`);
-        return;
+        return false;
       }
       camVideo = document.createElement('video');
       camVideo.srcObject = camStream;
@@ -496,20 +754,28 @@
       setStatus('flicker', 'live', 'estimated from frame-to-frame luminance of the camera array — this is an exposure-compensated proxy, not a photometric sensor');
       running.cam = true;
       pumpCamera();
+      return true;
     }
+    // Lets any Tools/Vitals/QR widget share the one real camera stream
+    // instead of each issuing its own getUserMedia prompt.
+    async function ensureCamera(){ return running.cam ? true : await startCamera(); }
+    const camFrameListeners = [];
+    function onCamFrame(fn){ camFrameListeners.push(fn); }
     function pumpCamera(){
       if (!running.cam || !camVideo) return;
       camCtx.drawImage(camVideo, 0, 0, camCanvas.width, camCanvas.height);
       const frame = camCtx.getImageData(0, 0, camCanvas.width, camCanvas.height).data;
-      let sum = 0;
-      for (let i=0;i<frame.length;i+=4) sum += 0.2126*frame[i] + 0.7152*frame[i+1] + 0.0722*frame[i+2];
+      let sum = 0, rSum = 0;
+      for (let i=0;i<frame.length;i+=4){ sum += 0.2126*frame[i] + 0.7152*frame[i+1] + 0.0722*frame[i+2]; rSum += frame[i]; }
       const lum = sum / (frame.length/4);
+      const rMean = rSum / (frame.length/4);
       lumHistory.push({ t: performance.now(), lum });
       if (lumHistory.length > 180) lumHistory.shift();
       if (lumHistory.length > 20){
         const flickerHz = estimateFlickerHz(lumHistory);
         setStatus('flicker', 'live', state.flicker.detail, flickerHz);
       }
+      camFrameListeners.forEach(fn => fn({ lum, rMean, t: performance.now() }));
       requestAnimationFrame(pumpCamera);
     }
     function estimateFlickerHz(samples){
@@ -774,6 +1040,492 @@
       logTo('modemLog', 'Stopped listening.');
     }
 
+    // ───────────────────────── Shared DSP helper ─────────────────────────
+    // Normalised autocorrelation pitch/periodicity finder, reused by the
+    // Chromatic Tuner (audio, ~tens–thousands of Hz) and the Vitals rPPG
+    // heart-rate estimator (camera red-channel, ~0.6–3.5 Hz). Returns the
+    // dominant frequency in the requested band and a 0–1 confidence score
+    // (the normalised correlation at the winning lag).
+    function estimateDominantFrequency(samples, sampleRate, minHz, maxHz){
+      const n = samples.length;
+      const mean = samples.reduce((a,b)=>a+b,0)/n;
+      const sig = new Float32Array(n);
+      for (let i=0;i<n;i++) sig[i] = samples[i]-mean;
+      let energy = 0; for (let i=0;i<n;i++) energy += sig[i]*sig[i];
+      if (energy <= 0) return { freq:null, confidence:0 };
+      const minLag = Math.max(1, Math.floor(sampleRate/maxHz));
+      const maxLag = Math.min(n-1, Math.ceil(sampleRate/minHz));
+      let bestLag = -1, bestCorr = -Infinity;
+      for (let lag=minLag; lag<=maxLag; lag++){
+        let sum = 0;
+        for (let i=0;i<n-lag;i++) sum += sig[i]*sig[i+lag];
+        if (sum > bestCorr){ bestCorr = sum; bestLag = lag; }
+      }
+      if (bestLag < 0) return { freq:null, confidence:0 };
+      const confidence = Math.max(0, Math.min(1, bestCorr/energy));
+      return { freq: sampleRate/bestLag, confidence };
+    }
+    function noteNameFromFreq(freq){
+      const NOTES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+      const midi = Math.round(69 + 12*Math.log2(freq/440));
+      const exactFreq = 440 * Math.pow(2, (midi-69)/12);
+      const cents = Math.round(1200*Math.log2(freq/exactFreq));
+      const name = NOTES[((midi%12)+12)%12] + (Math.floor(midi/12)-1);
+      return { name, cents };
+    }
+
+    // ───────────────────────── Tool: Spirit Level ─────────────────────────
+    let levelActive = false;
+    function renderLevel(ms){
+      if (!levelActive || ms.ax===null) return;
+      const pitch = Math.atan2(ms.ay, ms.az) * 180/Math.PI;
+      const roll  = Math.atan2(ms.ax, ms.az) * 180/Math.PI;
+      document.getElementById('levelPitch').textContent = fmt(pitch,1);
+      document.getElementById('levelRoll').textContent = fmt(roll,1);
+      const clampedPitch = Math.max(-45, Math.min(45, pitch));
+      const clampedRoll  = Math.max(-45, Math.min(45, roll));
+      const wrap = document.getElementById('levelWrap');
+      const radius = (wrap.clientHeight/2 - 20);
+      const x = 50 + (clampedRoll/45) * (radius/wrap.clientWidth*100);
+      const y = 50 + (clampedPitch/45) * (radius/wrap.clientHeight*100);
+      const bubble = document.getElementById('levelBubble');
+      bubble.style.left = `${x}%`; bubble.style.top = `${y}%`;
+      const level = Math.abs(pitch) < 1 && Math.abs(roll) < 1;
+      bubble.style.background = level ? 'radial-gradient(circle at 35% 30%,#d8ffe3,#30d158 60%,#0f6b2c)' : 'radial-gradient(circle at 35% 30%,#8dffb0,#30d158 60%,#0f6b2c)';
+    }
+    onMotionSample(renderLevel);
+    async function startLevelTool(){
+      const pill = document.getElementById('levelStatusPill');
+      const ok = await ensureMotion();
+      if (!ok){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; }
+      levelActive = true;
+      pill.textContent='LIVE'; pill.className='status-pill status-live';
+    }
+
+    // ───────────────────────── Tool: Compass & bearing-to-target ─────────────────────────
+    let compassToolActive = false, bearingTarget = null;
+    const CARDINALS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    function cardinalFromHeading(h){ return CARDINALS[Math.round(((h%360)+360)%360/22.5)%16]; }
+    function renderCompassTool(heading){
+      if (!compassToolActive) return;
+      document.getElementById('compassNeedle').style.transform = `rotate(${heading}deg)`;
+      document.getElementById('compassHeadingBig').textContent = `${fmt(heading,0)}°`;
+      document.getElementById('compassCardinal').textContent = cardinalFromHeading(heading);
+      if (bearingTarget !== null){
+        let delta = bearingTarget - heading;
+        delta = ((delta+540)%360)-180; // shortest signed turn, -180..180
+        const dir = Math.abs(delta) < 0.5 ? 'on bearing' : (delta > 0 ? `turn right ${fmt(Math.abs(delta),0)}°` : `turn left ${fmt(Math.abs(delta),0)}°`);
+        document.getElementById('bearingDelta').textContent = `${dir} to face ${bearingTarget}°`;
+      }
+    }
+    onOrientationSample(renderCompassTool);
+    async function startCompassTool(){
+      const pill = document.getElementById('compassToolStatusPill');
+      const ok = await ensureMotion();
+      if (!ok){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; }
+      compassToolActive = true;
+      pill.textContent='LIVE'; pill.className='status-pill status-live';
+    }
+    function setBearingTarget(){
+      const v = parseFloat(document.getElementById('bearingTargetInput').value);
+      if (Number.isNaN(v)){ document.getElementById('bearingDelta').textContent = 'enter a bearing between 0 and 359'; return; }
+      bearingTarget = ((v%360)+360)%360;
+      if (motionState.heading !== null) renderCompassTool(motionState.heading);
+    }
+
+    // ───────────────────────── Tool: Decibel meter & hearing-safety dose ─────────────────────────
+    let dbActive = false, dbPeak = -100, dbDoseMs = 0, dbLastFrameAt = 0;
+    function dbBandFor(dbfs){
+      if (dbfs > -12) return { label:'very loud (relative)', color:'#ff647c' };
+      if (dbfs > -28) return { label:'loud (relative)', color:'#f5b942' };
+      if (dbfs > -45) return { label:'moderate (relative)', color:'#30d158' };
+      return { label:'quiet (relative)', color:'#5c6f93' };
+    }
+    function msToClock(ms){
+      const s = Math.floor(ms/1000); return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+    }
+    onMicSample((buf, dbfs) => {
+      if (!dbActive) return;
+      const now = performance.now();
+      const dt = dbLastFrameAt ? (now-dbLastFrameAt) : 0; dbLastFrameAt = now;
+      dbPeak = Math.max(dbPeak, dbfs);
+      const band = dbBandFor(dbfs);
+      const pct = Math.max(0, Math.min(100, (dbfs+100)));
+      document.getElementById('dbMeterFill').style.width = pct+'%';
+      document.getElementById('dbMeterFill').style.background = band.color;
+      document.getElementById('dbLevel').textContent = fmt(dbfs,1)+' dBFS';
+      document.getElementById('dbPeak').textContent = fmt(dbPeak,1)+' dBFS';
+      document.getElementById('dbBand').textContent = band.label;
+      if (dbfs > -28) dbDoseMs += dt; // accumulate exposure time while in the "loud" band or above
+      document.getElementById('dbDoseTime').textContent = msToClock(dbDoseMs);
+      // Reuse this exact stream for the Vitals & Environment noise band, so
+      // starting the meter here also populates that read-only summary.
+      const envEl = document.getElementById('envNoiseBand');
+      if (envEl) envEl.textContent = `${band.label} (${fmt(dbfs,1)} dBFS)`;
+    });
+    async function startDbMeter(){
+      const pill = document.getElementById('dbStatusPill');
+      const ok = await ensureMic();
+      if (!ok){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; }
+      dbActive = true; dbLastFrameAt = performance.now();
+      pill.textContent='LIVE'; pill.className='status-pill status-live';
+    }
+    function resetDbDose(){ dbDoseMs = 0; dbPeak = -100; document.getElementById('dbDoseTime').textContent = '00:00'; document.getElementById('dbPeak').textContent = '—'; }
+
+    // ───────────────────────── Tool: Chromatic tuner ─────────────────────────
+    let tunerActive = false;
+    onMicSample((buf, dbfs, sampleRate) => {
+      if (!tunerActive) return;
+      const { freq, confidence } = estimateDominantFrequency(buf, sampleRate, 60, 1200);
+      if (!freq || confidence < 0.35 || dbfs < -55){
+        document.getElementById('tunerConf').textContent = 'listening…';
+        return;
+      }
+      const { name, cents } = noteNameFromFreq(freq);
+      document.getElementById('tunerNote').textContent = name;
+      document.getElementById('tunerCents').textContent = `${cents>0?'+':''}${cents} cents`;
+      document.getElementById('tunerFreq').textContent = fmt(freq,2)+' Hz';
+      document.getElementById('tunerConf').textContent = fmt(confidence*100,0)+'%';
+    });
+    async function startTuner(){
+      const pill = document.getElementById('tunerStatusPill');
+      const ok = await ensureMic();
+      if (!ok){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; }
+      tunerActive = true;
+      pill.textContent='LIVE'; pill.className='status-pill status-live';
+    }
+
+    // ───────────────────────── Tool: Flashlight / torch ─────────────────────────
+    let torchOn = false;
+    async function toggleTorch(){
+      const btn = document.getElementById('torchBtn'), detail = document.getElementById('torchDetail');
+      const ok = await ensureCamera();
+      if (!ok){ detail.textContent = 'Camera could not be started — see the Field Scanner tab for the exact reason.'; return; }
+      const track = camStream.getVideoTracks()[0];
+      const caps = (track.getCapabilities && track.getCapabilities()) || {};
+      if (!caps.torch){
+        detail.textContent = 'This camera track reports no torch capability — this browser/driver combination does not expose LED control to the web.';
+        return;
+      }
+      try {
+        torchOn = !torchOn;
+        await track.applyConstraints({ advanced:[{ torch: torchOn }] });
+        btn.classList.toggle('on', torchOn);
+        btn.textContent = torchOn ? '🔦 Turn Torch OFF' : '🔦 Turn Torch ON';
+        detail.textContent = `Torch capability confirmed by the driver and set ${torchOn?'ON':'OFF'} via MediaStreamTrack.applyConstraints.`;
+      } catch(e){
+        detail.textContent = `applyConstraints({torch}) rejected: ${e.message}`;
+      }
+    }
+
+    // ───────────────────────── Tool: QR / barcode scanner ─────────────────────────
+    let qrScanning = false, qrDetector = null, qrTimer = null;
+    async function startQr(){
+      const pill = document.getElementById('qrStatusPill');
+      if (typeof window.BarcodeDetector === 'undefined'){
+        pill.textContent='UNAVAILABLE'; pill.className='status-pill status-unavailable';
+        document.getElementById('qrResult').style.display='block';
+        document.getElementById('qrResult').textContent = 'This browser exposes no BarcodeDetector API — try Chrome/Edge on Android or desktop.';
+        return;
+      }
+      const ok = await ensureCamera();
+      if (!ok){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; }
+      const video = document.getElementById('qrVideo');
+      video.srcObject = camStream;
+      await video.play().catch(()=>{});
+      qrDetector = qrDetector || new BarcodeDetector();
+      qrScanning = true;
+      pill.textContent='SCANNING'; pill.className='status-pill status-live';
+      qrTimer = setInterval(async () => {
+        if (!qrScanning) return;
+        try {
+          const codes = await qrDetector.detect(video);
+          if (codes.length){
+            const el = document.getElementById('qrResult');
+            el.style.display='block';
+            el.textContent = codes.map(c => `${c.format}: ${c.rawValue}`).join('\n');
+            pill.textContent='DECODED'; pill.className='status-pill status-live';
+          }
+        } catch(e){ /* a frame that fails to decode is normal and not logged */ }
+      }, 350);
+    }
+    function stopQr(){
+      qrScanning = false;
+      if (qrTimer) clearInterval(qrTimer);
+      document.getElementById('qrStatusPill').textContent='IDLE'; document.getElementById('qrStatusPill').className='status-pill status-idle';
+    }
+
+    // ───────────────────────── Tool: Camera steadiness meter ─────────────────────────
+    let steadyActive = false; const steadyWindow = [];
+    onMotionSample(ms => {
+      if (!steadyActive || ms.gAlpha===null) return;
+      const mag = Math.sqrt(ms.gAlpha**2 + ms.gBeta**2 + ms.gGamma**2);
+      const now = performance.now();
+      steadyWindow.push({ t:now, mag });
+      while (steadyWindow.length && now - steadyWindow[0].t > 1000) steadyWindow.shift();
+      const rms = Math.sqrt(steadyWindow.reduce((a,s)=>a+s.mag*s.mag,0)/steadyWindow.length);
+      document.getElementById('steadyValue').textContent = fmt(rms,1)+' °/s';
+      const pct = Math.max(0, Math.min(100, 100 - rms*2));
+      const fill = document.getElementById('steadyFill');
+      fill.style.width = pct+'%';
+      let verdict, color;
+      if (rms < 3){ verdict='steady — good for a sharp shot'; color='#30d158'; }
+      else if (rms < 12){ verdict='slight motion'; color='#f5b942'; }
+      else { verdict='too much motion — brace the device'; color='#ff647c'; }
+      fill.style.background = color;
+      document.getElementById('steadyVerdict').textContent = verdict;
+    });
+    async function startSteady(){
+      const pill = document.getElementById('steadyStatusPill');
+      const ok = await ensureMotion();
+      if (!ok){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; }
+      steadyActive = true;
+      pill.textContent='LIVE'; pill.className='status-pill status-live';
+    }
+
+    // ───────────────────────── Tool: Pedometer / step counter ─────────────────────────
+    let pedoActive = false, pedoSteps = 0, pedoLastStepAt = 0, pedoAbove = false;
+    const pedoStepTimes = [];
+    const PEDO_THRESHOLD = 11.5, PEDO_MIN_INTERVAL_MS = 280;
+    onMotionSample(ms => {
+      if (!pedoActive || ms.ax===null) return;
+      const mag = Math.sqrt(ms.ax**2 + ms.ay**2 + ms.az**2);
+      const now = performance.now();
+      if (!pedoAbove && mag > PEDO_THRESHOLD && (now - pedoLastStepAt) > PEDO_MIN_INTERVAL_MS){
+        pedoAbove = true; pedoLastStepAt = now; pedoSteps++; pedoStepTimes.push(now);
+        while (pedoStepTimes.length && now - pedoStepTimes[0] > 60000) pedoStepTimes.shift();
+        document.getElementById('stepCount').textContent = String(pedoSteps);
+        document.getElementById('stepCadence').textContent = pedoStepTimes.length > 1 ? fmt(pedoStepTimes.length,0)+' spm' : '— spm';
+        const stride = parseFloat(document.getElementById('strideInput').value);
+        document.getElementById('stepDistance').textContent = (stride > 0) ? fmt(pedoSteps*stride,1)+' m' : '— m (enter stride length)';
+      } else if (mag < PEDO_THRESHOLD - 2){
+        pedoAbove = false;
+      }
+    });
+    async function startPedometer(){
+      const pill = document.getElementById('pedoStatusPill');
+      const ok = await ensureMotion();
+      if (!ok){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; }
+      pedoActive = true;
+      pill.textContent='LIVE'; pill.className='status-pill status-live';
+    }
+    function resetPedometer(){
+      pedoSteps = 0; pedoStepTimes.length = 0;
+      document.getElementById('stepCount').textContent = '0';
+      document.getElementById('stepCadence').textContent = '— spm';
+      document.getElementById('stepDistance').textContent = '— m';
+    }
+
+    // ───────────────────────── Tool: Fall / impact detector ─────────────────────────
+    let fallActive = false, fallLastAt = 0;
+    const FALL_THRESHOLD = 25; // m/s², ≈2.5 g
+    onMotionSample(ms => {
+      if (!fallActive || ms.ax===null) return;
+      const mag = Math.sqrt(ms.ax**2 + ms.ay**2 + ms.az**2);
+      const now = performance.now();
+      if (mag > FALL_THRESHOLD && (now - fallLastAt) > 1000){
+        fallLastAt = now;
+        logTo('fallLog', `Impact event — ${fmt(mag,1)} m/s² (≈${fmt(mag/9.81,1)} g)`);
+      }
+    });
+    async function startFallDetector(){
+      const pill = document.getElementById('fallStatusPill');
+      const ok = await ensureMotion();
+      if (!ok){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; }
+      fallActive = true;
+      pill.textContent='ARMED'; pill.className='status-pill status-live';
+      logTo('fallLog', `Armed — threshold ${FALL_THRESHOLD} m/s² (≈${fmt(FALL_THRESHOLD/9.81,1)} g)`);
+    }
+    function resetFallLog(){
+      document.getElementById('fallLog').innerHTML = '<div class="list-row"><span class="k">Status</span><span class="v">log cleared</span></div>';
+    }
+
+    // ───────────────────────── Tool: Magnetometer field scanner ─────────────────────────
+    let magSensor = null, magBaseline = null;
+    async function startMagnetometer(){
+      const pill = document.getElementById('magStatusPill');
+      if (typeof window.Magnetometer === 'undefined'){
+        pill.textContent='UNAVAILABLE'; pill.className='status-pill status-unavailable';
+        document.getElementById('magField').textContent = 'no Magnetometer API in this browser';
+        return;
+      }
+      try {
+        if (navigator.permissions && navigator.permissions.query){
+          try { const perm = await navigator.permissions.query({ name:'magnetometer' }); if (perm.state === 'denied'){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; } } catch(e){ /* permission name unsupported — proceed and let the constructor decide */ }
+        }
+        magSensor = new Magnetometer({ frequency: 10 });
+        magSensor.addEventListener('reading', () => {
+          const mag = Math.sqrt(magSensor.x**2 + magSensor.y**2 + magSensor.z**2);
+          document.getElementById('magField').textContent = fmt(mag,1)+' µT';
+          if (magBaseline !== null){
+            const delta = mag - magBaseline;
+            document.getElementById('magAnomaly').textContent = `${delta>0?'+':''}${fmt(delta,1)} µT ${Math.abs(delta) > magBaseline*0.25 ? '— anomaly flagged' : ''}`;
+          }
+        });
+        magSensor.addEventListener('error', e => {
+          pill.textContent='DENIED'; pill.className='status-pill status-denied';
+          document.getElementById('magField').textContent = `sensor error: ${e.error && e.error.message}`;
+        });
+        magSensor.start();
+        pill.textContent='LIVE'; pill.className='status-pill status-live';
+      } catch(e){
+        pill.textContent='DENIED'; pill.className='status-pill status-denied';
+        document.getElementById('magField').textContent = `Magnetometer construction refused: ${e.message}`;
+      }
+    }
+    function setMagBaseline(){
+      const el = document.getElementById('magField').textContent;
+      const v = parseFloat(el);
+      if (!Number.isNaN(v)){ magBaseline = v; document.getElementById('magBaseline').textContent = fmt(v,1)+' µT'; document.getElementById('magAnomaly').textContent = '0.0 µT'; }
+    }
+
+    // ───────────────────────── Tool: Stopwatch & lap timer ─────────────────────────
+    let swRunning = false, swStartedAt = 0, swElapsedMs = 0, swTimer = null, swLapCount = 0;
+    function swDigits(ms){
+      const cs = Math.floor((ms%1000)/100), s = Math.floor(ms/1000)%60, m = Math.floor(ms/60000);
+      return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${cs}`;
+    }
+    function toggleStopwatch(){
+      const btn = document.getElementById('stopwatchStartBtn');
+      if (!swRunning){
+        swRunning = true; swStartedAt = performance.now() - swElapsedMs;
+        swTimer = setInterval(() => { swElapsedMs = performance.now() - swStartedAt; document.getElementById('stopwatchDigits').textContent = swDigits(swElapsedMs); }, 50);
+        btn.textContent = '⏸ Pause';
+      } else {
+        swRunning = false; clearInterval(swTimer); btn.textContent = '▶ Resume';
+      }
+    }
+    function lapStopwatch(){
+      if (!swRunning) return;
+      swLapCount++;
+      logTo('lapLog', `Lap ${swLapCount} — ${swDigits(swElapsedMs)}`);
+    }
+    function resetStopwatch(){
+      swRunning = false; clearInterval(swTimer); swElapsedMs = 0; swLapCount = 0;
+      document.getElementById('stopwatchDigits').textContent = '00:00.0';
+      document.getElementById('stopwatchStartBtn').textContent = '▶ Start';
+      document.getElementById('lapLog').innerHTML = '';
+    }
+
+    // ───────────────────────── Vitals: camera rPPG heart rate ─────────────────────────
+    let hrActive = false; const redHistory = [];
+    function drawHrWaveform(){
+      const canvas = document.getElementById('hrCanvas'); if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#03101f'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      if (redHistory.length < 2) return;
+      const vals = redHistory.map(s=>s.rMean);
+      const min = Math.min(...vals), max = Math.max(...vals), span = (max-min)||1;
+      ctx.strokeStyle = '#ff647c'; ctx.lineWidth = 1.5; ctx.beginPath();
+      redHistory.forEach((s, i) => {
+        const x = (i/(redHistory.length-1))*canvas.width;
+        const y = canvas.height - ((s.rMean-min)/span)*canvas.height*0.85 - canvas.height*0.075;
+        if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+    }
+    onCamFrame(frame => {
+      if (!hrActive) return;
+      redHistory.push(frame);
+      while (redHistory.length && frame.t - redHistory[0].t > 10000) redHistory.shift();
+      drawHrWaveform();
+      if (redHistory.length > 40){
+        const dur = (redHistory[redHistory.length-1].t - redHistory[0].t)/1000;
+        const effRate = (redHistory.length-1)/dur;
+        const { freq, confidence } = estimateDominantFrequency(redHistory.map(s=>s.rMean), effRate, 0.6, 3.5);
+        if (freq && confidence > 0.25){
+          document.getElementById('hrBpm').textContent = fmt(freq*60,0)+' bpm';
+          document.getElementById('hrQuality').textContent = confidence > 0.55 ? 'good' : 'fair — hold still';
+        } else {
+          document.getElementById('hrQuality').textContent = 'poor — reposition fingertip over the lens + flash';
+        }
+      }
+    });
+    async function startHr(){
+      const pill = document.getElementById('hrStatusPill');
+      const ok = await ensureCamera();
+      if (!ok){ pill.textContent='DENIED'; pill.className='status-pill status-denied'; return; }
+      const track = camStream.getVideoTracks()[0];
+      const caps = (track.getCapabilities && track.getCapabilities()) || {};
+      if (caps.torch){ try { await track.applyConstraints({ advanced:[{ torch:true }] }); } catch(e){ /* torch is a nice-to-have here, not required */ } }
+      hrActive = true; redHistory.length = 0;
+      pill.textContent='LIVE'; pill.className='status-pill status-live';
+    }
+    function stopHr(){
+      hrActive = false;
+      document.getElementById('hrStatusPill').textContent='IDLE'; document.getElementById('hrStatusPill').className='status-pill status-idle';
+      const track = camStream && camStream.getVideoTracks()[0];
+      if (track){ const caps = (track.getCapabilities && track.getCapabilities()) || {}; if (caps.torch) track.applyConstraints({ advanced:[{ torch:false }] }).catch(()=>{}); }
+    }
+
+    // ───────────────────────── Vitals: environment light band ─────────────────────────
+    function lightBandFor(lum){
+      if (lum < 15) return 'very dark (relative camera-exposure proxy)';
+      if (lum < 60) return 'dim (relative camera-exposure proxy)';
+      if (lum < 150) return 'moderate (relative camera-exposure proxy)';
+      return 'bright (relative camera-exposure proxy)';
+    }
+    onCamFrame(frame => {
+      const el = document.getElementById('envLightBand'); if (!el) return;
+      el.textContent = `${lightBandFor(frame.lum)} — luminance ${fmt(frame.lum,0)}`;
+      const noiseEl = document.getElementById('envNoiseBand'), combinedEl = document.getElementById('envCombined');
+      if (combinedEl){
+        combinedEl.textContent = `${el.textContent.split(' —')[0]} · ${noiseEl ? noiseEl.textContent.split(' (')[0] : 'noise not started'}`;
+      }
+    });
+
+    // ───────────────────────── Navigation & Positioning ─────────────────────────
+    let navDistanceMeters = 0, navLastFixForDistance = null;
+    const waypoints = JSON.parse(localStorage.getItem('pentacorder_waypoints') || '[]');
+    function haversineMeters(lat1, lon1, lat2, lon2){
+      const R = 6371000, toRad = d => d*Math.PI/180;
+      const dLat = toRad(lat2-lat1), dLon = toRad(lon2-lon1);
+      const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+      return R * 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+    function renderWaypointLog(){
+      const el = document.getElementById('wpLog');
+      el.innerHTML = waypoints.length
+        ? waypoints.slice().reverse().map(w => `<div class="list-row"><span class="k">${new Date(w.t).toLocaleTimeString()}</span><span class="v">${fmt(w.lat,5)}, ${fmt(w.lon,5)}${w.alt!==null?` · ${fmt(w.alt,1)}m`:''}</span></div>`).join('')
+        : '<div class="list-row"><span class="k">Status</span><span class="v">no waypoints saved yet</span></div>';
+    }
+    onGeoFix(pos => {
+      const c = pos.coords;
+      document.getElementById('navStatusPill').textContent='LIVE'; document.getElementById('navStatusPill').className='status-pill status-live';
+      document.getElementById('navLat').textContent = fmt(c.latitude,6)+'°';
+      document.getElementById('navLon').textContent = fmt(c.longitude,6)+'°';
+      document.getElementById('navAlt').textContent = c.altitude!==null ? fmt(c.altitude,1)+' m' : 'n/a';
+      document.getElementById('navSpeed').textContent = (c.speed!==null && c.speed!==undefined) ? fmt(c.speed,1)+' m/s' : 'n/a';
+      document.getElementById('navCourse').textContent = (c.heading!==null && c.heading!==undefined && !Number.isNaN(c.heading)) ? fmt(c.heading,0)+'°' : 'n/a (device not moving, or not reported)';
+      document.getElementById('navAcc').textContent = '±'+fmt(c.accuracy,1)+' m';
+      if (navLastFixForDistance){
+        const d = haversineMeters(navLastFixForDistance.latitude, navLastFixForDistance.longitude, c.latitude, c.longitude);
+        if (d > (c.accuracy||5) * 0.5) { navDistanceMeters += d; navLastFixForDistance = c; } // ignore sub-accuracy GPS jitter
+      } else {
+        navLastFixForDistance = c;
+      }
+      document.getElementById('navDistance').textContent = navDistanceMeters > 1000 ? fmt(navDistanceMeters/1000,2)+' km' : fmt(navDistanceMeters,0)+' m';
+    });
+    function resetNavDistance(){ navDistanceMeters = 0; navLastFixForDistance = lastGeoPosition ? lastGeoPosition.coords : null; document.getElementById('navDistance').textContent = '0 m'; }
+    function saveWaypoint(){
+      if (!lastGeoPosition){ alert('Start GNSS and wait for a fix before saving a waypoint.'); return; }
+      const c = lastGeoPosition.coords;
+      waypoints.push({ t: Date.now(), lat: c.latitude, lon: c.longitude, alt: c.altitude, accuracy: c.accuracy });
+      localStorage.setItem('pentacorder_waypoints', JSON.stringify(waypoints));
+      renderWaypointLog();
+    }
+    function clearWaypoints(){
+      waypoints.length = 0; localStorage.removeItem('pentacorder_waypoints'); renderWaypointLog();
+    }
+    function exportWaypointsGeoJSON(){
+      if (!waypoints.length){ alert('No waypoints saved yet.'); return; }
+      const geojson = { type:'FeatureCollection', features: waypoints.map(w => ({ type:'Feature', geometry:{ type:'Point', coordinates:[w.lon, w.lat, w.alt||0] }, properties:{ timestamp: new Date(w.t).toISOString(), accuracy_m: w.accuracy } })) };
+      const blob = new Blob([JSON.stringify(geojson, null, 2)], { type:'application/geo+json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = `pentacorder-waypoints-${Date.now()}.geojson`;
+      document.body.appendChild(a); a.click(); a.remove();
+    }
+
     // ───────────────────────── Rendering ─────────────────────────
     function fmt(v, d){ d = d===undefined?2:d; return (v===null||v===undefined||Number.isNaN(v)) ? '—' : Number(v).toFixed(d); }
     function statusPillHtml(status){
@@ -899,6 +1651,39 @@
       document.getElementById('modemListenBtn').addEventListener('click', listenModem);
       document.getElementById('modemStopBtn').addEventListener('click', stopModemListen);
       document.getElementById('dossierBtn').addEventListener('click', exportDossier);
+
+      // Tools tab
+      document.getElementById('levelStartBtn').addEventListener('click', startLevelTool);
+      document.getElementById('compassToolStartBtn').addEventListener('click', startCompassTool);
+      document.getElementById('bearingSetBtn').addEventListener('click', setBearingTarget);
+      document.getElementById('dbStartBtn').addEventListener('click', startDbMeter);
+      document.getElementById('dbResetBtn').addEventListener('click', resetDbDose);
+      document.getElementById('tunerStartBtn').addEventListener('click', startTuner);
+      document.getElementById('torchBtn').addEventListener('click', toggleTorch);
+      document.getElementById('qrStartBtn').addEventListener('click', startQr);
+      document.getElementById('qrStopBtn').addEventListener('click', stopQr);
+      document.getElementById('steadyStartBtn').addEventListener('click', startSteady);
+      document.getElementById('pedoStartBtn').addEventListener('click', startPedometer);
+      document.getElementById('pedoResetBtn').addEventListener('click', resetPedometer);
+      document.getElementById('fallStartBtn').addEventListener('click', startFallDetector);
+      document.getElementById('fallResetBtn').addEventListener('click', resetFallLog);
+      document.getElementById('magStartBtn').addEventListener('click', startMagnetometer);
+      document.getElementById('magBaselineBtn').addEventListener('click', setMagBaseline);
+      document.getElementById('stopwatchStartBtn').addEventListener('click', toggleStopwatch);
+      document.getElementById('stopwatchLapBtn').addEventListener('click', lapStopwatch);
+      document.getElementById('stopwatchResetBtn').addEventListener('click', resetStopwatch);
+
+      // Vitals & Environment tab
+      document.getElementById('hrStartBtn').addEventListener('click', startHr);
+      document.getElementById('hrStopBtn').addEventListener('click', stopHr);
+
+      // Navigation tab
+      document.getElementById('navStartBtn').addEventListener('click', ensureGNSS);
+      document.getElementById('navDistanceResetBtn').addEventListener('click', resetNavDistance);
+      document.getElementById('wpSaveBtn').addEventListener('click', saveWaypoint);
+      document.getElementById('wpExportBtn').addEventListener('click', exportWaypointsGeoJSON);
+      document.getElementById('wpClearBtn').addEventListener('click', clearWaypoints);
+      renderWaypointLog();
 
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
