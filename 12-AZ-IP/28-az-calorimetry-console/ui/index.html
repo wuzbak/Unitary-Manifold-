@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AZ Calorimetry Console — Product 28</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+  h1 { font-size: 1.4rem; }
+  .epistemic { background: #fff3cd; border: 1px solid #e0b000; padding: 0.75rem 1rem; border-radius: 6px; margin: 1rem 0; }
+  fieldset { margin: 1rem 0; border-radius: 6px; }
+  pre { background: #0d1117; color: #c9d1d9; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+  button { padding: 0.4rem 0.9rem; cursor: pointer; }
+  label { display: inline-block; min-width: 10rem; }
+</style>
+</head>
+<body>
+<h1>AZ Calorimetry Console</h1>
+<p>Phase-0/1 instrumentation software for the cold-fusion falsification protocol. No claim is made that cold fusion occurs.</p>
+<div class="epistemic">
+  <strong>Epistemic status:</strong> This console packages existing, already-tested predictions from
+  <code>src/cold_fusion/</code> and <code>src/physics/lattice_dynamics.py</code> into a runnable run-sheet
+  and live COP tracker. It does not claim excess heat has been observed anywhere.
+</div>
+
+<fieldset>
+  <legend>Generate run-sheet</legend>
+  <label for="loading">Loading target</label>
+  <input id="loading" type="number" step="0.001" value="0.875" /><br />
+  <label for="hold">Hold minutes</label>
+  <input id="hold" type="number" value="120" /><br />
+  <button onclick="getRunSheet()">Generate</button>
+</fieldset>
+
+<fieldset>
+  <legend>Track a COP reading</legend>
+  <label for="pin">Power in (W)</label>
+  <input id="pin" type="number" step="0.01" value="10" /><br />
+  <label for="pout">Power out (W)</label>
+  <input id="pout" type="number" step="0.01" value="10.2" /><br />
+  <button onclick="getTrack()">Track</button>
+</fieldset>
+
+<pre id="output">(results appear here)</pre>
+
+<script>
+async function show(url) {
+  const res = await fetch(url);
+  const data = await res.json();
+  document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+}
+function getRunSheet() {
+  const loading = document.getElementById('loading').value;
+  const hold = document.getElementById('hold').value;
+  show(`/api/run-sheet?loading_target=${loading}&hold_minutes=${hold}`);
+}
+function getTrack() {
+  const pin = document.getElementById('pin').value;
+  const pout = document.getElementById('pout').value;
+  show(`/api/track?power_in_w=${pin}&power_out_w=${pout}`);
+}
+</script>
+</body>
+</html>

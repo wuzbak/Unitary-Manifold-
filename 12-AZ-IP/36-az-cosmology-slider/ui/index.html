@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AZ Differentiable Cosmology Slider — Product 36</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+  .epistemic { background: #fff3cd; border: 1px solid #e0b000; padding: 0.75rem 1rem; border-radius: 6px; }
+  pre { background: #0d1117; color: #c9d1d9; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+  fieldset { margin: 1rem 0; border-radius: 6px; }
+  label { display: inline-block; min-width: 8rem; }
+  input[type=range] { width: 20rem; }
+</style>
+</head>
+<body>
+<h1>AZ Differentiable Cosmology Slider</h1>
+<div class="epistemic">
+  <strong>Epistemic status:</strong> An educational gradient display over an already-tested
+  differentiable backend. Not a new physics claim.
+</div>
+<fieldset>
+  <legend>Slider position</legend>
+  <label>phi0</label><input id="phi0" type="range" min="1" max="30" step="0.1" value="10" oninput="document.getElementById('phi0val').textContent=this.value" />
+  <span id="phi0val">10</span><br />
+  <label>n_w</label><input id="nw" type="number" value="5" /><br />
+  <button onclick="getSlider()">Evaluate</button>
+</fieldset>
+<pre id="output">(results appear here)</pre>
+<script>
+async function show(url) {
+  const res = await fetch(url);
+  document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+}
+function getSlider() {
+  const q = new URLSearchParams({ phi0: document.getElementById('phi0').value, n_w: document.getElementById('nw').value });
+  show(`/api/slider?${q}`);
+}
+</script>
+</body>
+</html>

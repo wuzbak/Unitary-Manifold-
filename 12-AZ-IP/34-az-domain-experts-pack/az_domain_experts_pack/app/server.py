@@ -1,0 +1,61 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+"""Static HTTP server for the AZ Domain Experts Pack UI and JSON API."""
+
+from __future__ import annotations
+
+import json
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
+
+from az_domain_experts_pack.api import dispatch_api_request
+
+UI_DIR = Path(__file__).resolve().parents[2] / "ui"
+
+DEFAULT_PORT = 8134
+
+
+class ExpertsRequestHandler(SimpleHTTPRequestHandler):
+    def __init__(self, *args, directory: str | None = None, **kwargs):
+        super().__init__(*args, directory=directory or str(UI_DIR), **kwargs)
+
+    def log_message(self, format: str, *args) -> None:  # noqa: A002
+        pass
+
+    def do_GET(self) -> None:  # noqa: N802
+        parsed = urlsplit(self.path)
+        if parsed.path.startswith("/api/"):
+            try:
+                payload = dispatch_api_request(parsed.path, parse_qs(parsed.query, keep_blank_values=True))
+                status = 200
+            except KeyError as exc:
+                payload = {"error": str(exc)}
+                status = 404
+            except (ValueError, TypeError) as exc:
+                payload = {"error": str(exc)}
+                status = 400
+            body = json.dumps(payload, sort_keys=True).encode("utf-8")
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+        super().do_GET()
+
+
+def build_server(host: str = "127.0.0.1", port: int = DEFAULT_PORT) -> ThreadingHTTPServer:
+    handler = partial(ExpertsRequestHandler, directory=str(UI_DIR))
+    return ThreadingHTTPServer((host, port), handler)
+
+
+def serve(host: str = "127.0.0.1", port: int = DEFAULT_PORT) -> None:
+    server = build_server(host, port)
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        server.server_close()

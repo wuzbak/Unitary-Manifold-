@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AZ Braided Qubit Ansatz Studio — Product 31</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+  .epistemic { background: #fff3cd; border: 1px solid #e0b000; padding: 0.75rem 1rem; border-radius: 6px; }
+  pre { background: #0d1117; color: #c9d1d9; padding: 1rem; border-radius: 6px; overflow-x: auto; max-height: 24rem; }
+  fieldset { margin: 1rem 0; border-radius: 6px; }
+  label { display: inline-block; min-width: 8rem; }
+</style>
+</head>
+<body>
+<h1>AZ Braided Qubit Ansatz Studio</h1>
+<div class="epistemic">
+  <strong>Epistemic status:</strong> No real quantum hardware is run here. This is a
+  simulation-validated gate-list export only.
+</div>
+<fieldset>
+  <legend>Build + validate a circuit</legend>
+  <label>n_qubits</label><input id="nq" type="number" value="8" /><br />
+  <label>n_layers</label><input id="nl" type="number" value="2" /><br />
+  <label>seed</label><input id="seed" type="number" value="42" /><br />
+  <button onclick="getCircuit()">Build circuit</button>
+</fieldset>
+<pre id="output">(results appear here)</pre>
+<script>
+async function show(url) {
+  const res = await fetch(url);
+  document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+}
+function getCircuit() {
+  const q = new URLSearchParams({
+    n_qubits: document.getElementById('nq').value,
+    n_layers: document.getElementById('nl').value,
+    seed: document.getElementById('seed').value,
+  });
+  show(`/api/circuit?${q}`);
+}
+</script>
+</body>
+</html>
