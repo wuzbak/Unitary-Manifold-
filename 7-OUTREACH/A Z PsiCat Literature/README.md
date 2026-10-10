@@ -42,7 +42,7 @@ No grounded rewrite source is assigned to these works, because none exists. Book
 
 Coverage so far: **50 / 50 books**, **354 / 354 articles**.
 
-Original works (not rewrites): **7** — Books 51, 52, 53, 54, 55; Articles 353, 354.
+Original works (not rewrites): **8** — Books 51, 52, 53, 54, 55, 56; Articles 353, 354.
 
 ### Books
 
@@ -106,6 +106,7 @@ Original works (not rewrites): **7** — Books 51, 52, 53, 54, 55; Articles 353,
 5. `book-55-the-architecture-of-impunity.md` — *The Architecture of Impunity* (reading index; 11 part-files `book-55-part-*.md`, the last two of which are Appendix A and Appendix B; 27 chapters, 9 narrative Parts, 2 appendices; synthesis of Books 9, 39, 45-v2, 48/51, 52, and 54 into a single through-lined investigation)
 6. `article-353-the-state-of-the-manifold-october-2026.md` — *The State of the Manifold: A Full Inspection, October 2026* (first original-work article; full-repository audit, not grounded in any substack source)
 7. `article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md` — *The Untouched Manifold: What This Monorepo Could Still Become* (second original-work article; expanded commissioned technology-transfer essay with phased roadmaps for 8 adjacent-track directions plus 5 additional directions — differentiable JAX backend, holographic dual-CFT dictionary, Z3 formal verification, the MAS Wave Engine gap-tracker, and the live-public-data ingestion pattern — researched via `bot/rag_index.py`; not grounded in any substack source)
+8. `book-56-the-complete-pillar-guide.md` — *The Complete Pillar Guide* (reading index; 10 part-files `book-56-part-*.md`; 47 chapters across 10 Parts covering every hardgate pillar 1–208 by domain, the adjacent-track economy 218+ by theme, and a corrected epistemic ledger; researched directly against `docs/mas_tracker.yml`, `STATUS.md`, `docs/TRUTH_LAYER.md`, `FALLIBILITY.md`, `PILLARS/README.md`, and `bot/rag_index.py`, with the frozen v18.5 `7-OUTREACH/pillar-guide/` descriptions adapted and corrected against current status; not grounded in any substack source)
 
 ### Articles
 
