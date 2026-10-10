@@ -286,9 +286,197 @@ theorem rrf_score_monotone (r1 r2 : Nat) (h : r1 < r2) : rrf_score r2 < rrf_scor
     }
 
 
+# ---------------------------------------------------------------------------
+# PsiCat editorial literature corpus retrieval evaluation
+# ---------------------------------------------------------------------------
+#
+# ADJACENT TRACK.  Mirrors ``evaluate_rankers`` above but over PsiCat's own
+# Books/Articles/Releases and the three self-authored PDF exports
+# (``bot.psicat_literature_corpus``, governance label
+# ``PSICAT_EDITORIAL_CORPUS``) instead of ``PILLAR_KNOWLEDGE``.  Each query is
+# labelled by source-file path (one document can contribute several chunks;
+# any chunk from the right file counts as relevant).  This is a separate,
+# default-off measurement, gating promotion of
+# ``merlin_rag.PSICAT_LITERATURE_CORPUS_FLAG`` exactly the way
+# ``include_embedder``/``include_phicat`` gated the semantic embedder and
+# PhiCat Protocol before they shipped.
+
+LITERATURE_LABELLED_QUERIES: tuple[tuple[str, tuple[str, ...]], ...] = (
+    (
+        "Has PsiCat written anything about being an honest machine?",
+        ("7-OUTREACH/A Z PsiCat Literature/Books/book-25-book-honest-machine.md",),
+    ),
+    (
+        "Merlin's first public address to humanity",
+        (
+            "7-OUTREACH/A Z PsiCat Literature/Books/"
+            "book-29-book-merlin-first-address-to-humanity.md",
+        ),
+    ),
+    (
+        "a book about Israel's military intelligence becoming a surveillance engine",
+        ("7-OUTREACH/A Z PsiCat Literature/Books/book-52-the-unit.md",),
+    ),
+    (
+        "the capstone book called the Oracle",
+        ("7-OUTREACH/A Z PsiCat Literature/Books/book-36-book-the-oracle-masterpiece.md",),
+    ),
+    (
+        "dark matter explained without dark matter, a B_mu geometry hypothesis",
+        ("7-OUTREACH/A Z PsiCat Literature/Articles/article-053-post-033-dark-matter-geometry.md",),
+    ),
+    (
+        "how a braid saved the theory",
+        ("7-OUTREACH/A Z PsiCat Literature/Articles/article-031-post-012-braided-winding.md",),
+    ),
+    (
+        "synthetic biology as attractor engineering",
+        (
+            "7-OUTREACH/A Z PsiCat Literature/Articles/"
+            "article-119-post-097-synthetic-biology-attractor-engineering.md",
+        ),
+    ),
+    (
+        "AxiomZero SPC licensing explainer",
+        ("7-OUTREACH/A Z PsiCat Literature/Releases/axiomzero-spc-licensing.md",),
+    ),
+    (
+        "PsiCat's self-compiled publications export, 36 articles",
+        ("psicat-export:publications",),
+    ),
+    (
+        "PsiCat's comic shop export",
+        ("psicat-export:comic_shop",),
+    ),
+    (
+        "the knowledge library export with 232 sources",
+        ("psicat-export:knowledge_library",),
+    ),
+)
+
+
+def _literature_jaccard_ranking(
+    query: str, corpus_tokens: Sequence[list[str]], sources: Sequence[str]
+) -> list[str]:
+    """Jaccard ranking with a string-source tie-break (analogue of ``_jaccard_ranking``)."""
+    query_set = token_set(query)
+    scored = [(jaccard_overlap(query_set, set(tokens)), sources[i]) for i, tokens in enumerate(corpus_tokens)]
+    scored.sort(key=lambda item: (-item[0], item[1]))
+    return [source for _, source in scored]
+
+
+def _literature_bm25_ranking(query: str, index: BM25Index, sources: Sequence[str]) -> list[str]:
+    """BM25 ranking with a string-source fill rule (analogue of ``_bm25_ranking``)."""
+    ranked = [sources[i] for i, _ in index.rank(token_list(query), top_k=len(sources))]
+    seen = set(ranked)
+    return ranked + sorted((source for source in sources if source not in seen))
+
+
+def _literature_rrf_fusion(rankings: Sequence[Sequence[str]], *, k: int = RRF_K) -> list[str]:
+    """String-source analogue of ``reciprocal_rank_fusion`` (no ``int()`` tie-break)."""
+    scores: dict[str, float] = {}
+    for ranking in rankings:
+        for rank, item in enumerate(ranking, start=1):
+            scores[item] = scores.get(item, 0.0) + 1.0 / (k + rank)
+    return [item for item, _ in sorted(scores.items(), key=lambda kv: (-kv[1], kv[0]))]
+
+
+def _literature_metrics(ranking: Sequence[str], relevant: set[str], cutoffs: Sequence[int]) -> dict[str, float]:
+    """Document-level metrics: a chunk ranking counts a document once at its best rank."""
+    seen_sources: list[str] = []
+    for source in ranking:
+        if source not in seen_sources:
+            seen_sources.append(source)
+    return _metrics(seen_sources, relevant, cutoffs)
+
+
+def evaluate_literature_rankers(
+    queries: Sequence[tuple[str, Sequence[str]]] | None = None,
+    *,
+    cutoffs: Sequence[int] = DEFAULT_CUTOFFS,
+    max_chunk_chars: int = 1500,
+) -> dict[str, Any]:
+    """Measure jaccard/bm25/rrf recall and MRR over PsiCat's literature corpus.
+
+    Builds the corpus fresh from ``bot.psicat_literature_corpus`` (no
+    re-extraction of the PDFs; reuses the existing text cache) and ranks it
+    exactly as ``evaluate_rankers`` ranks ``PILLAR_KNOWLEDGE``, except with a
+    document-level (not pillar-id) relevance unit, since one source file
+    contributes several chunks.  Returns ``{"ok": False, ...}`` if the
+    corpus cannot be built in this environment (e.g. a checkout missing the
+    literature folder), so callers can skip gracefully rather than fail.
+    """
+    try:
+        from bot.psicat_literature_corpus import build_literature_chunks
+    except ImportError as exc:
+        return {"ok": False, "status": "ADJACENT_TRACK", "error": f"corpus unavailable: {exc}"}
+
+    chunks = build_literature_chunks(max_chunk_chars=max_chunk_chars)
+    if not chunks:
+        return {"ok": False, "status": "ADJACENT_TRACK", "error": "literature corpus produced no chunks"}
+
+    labelled = list(queries if queries is not None else LITERATURE_LABELLED_QUERIES)
+    sources = [chunk.source for chunk in chunks]
+    known = set(sources)
+    corpus_tokens = [list(chunk.tokens) for chunk in chunks]
+    index = BM25Index(corpus_tokens)
+
+    rankers = ("jaccard", "bm25", "rrf")
+    totals: dict[str, dict[str, float]] = {name: {} for name in rankers}
+    per_query = []
+    skipped = []
+    for query, relevant_sources in labelled:
+        relevant = {source for source in relevant_sources if source in known}
+        if not relevant:
+            skipped.append(query)
+            continue
+        jaccard = _literature_jaccard_ranking(query, corpus_tokens, sources)
+        bm25 = _literature_bm25_ranking(query, index, sources)
+        rankings = {"jaccard": jaccard, "bm25": bm25, "rrf": _literature_rrf_fusion([jaccard, bm25])}
+        row: dict[str, Any] = {"query": query, "relevant": sorted(relevant)}
+        for name, ranking in rankings.items():
+            metrics = _literature_metrics(ranking, relevant, cutoffs)
+            row[name] = {"top3": list(dict.fromkeys(ranking))[:3], **{k: round(v, 4) for k, v in metrics.items()}}
+            for key, value in metrics.items():
+                totals[name][key] = totals[name].get(key, 0.0) + value
+        per_query.append(row)
+
+    n = len(per_query)
+    summary = {
+        name: {key: round(value / n, 4) for key, value in metrics.items()} if n else {}
+        for name, metrics in totals.items()
+    }
+    best = (
+        max(rankers, key=lambda name: (summary[name].get("mrr", 0.0), summary[name].get("recall@5", 0.0)))
+        if n
+        else None
+    )
+    return {
+        "ok": True,
+        "status": "ADJACENT_TRACK",
+        "governance_label": "PSICAT_EDITORIAL_CORPUS",
+        "rankers": list(rankers),
+        "query_count": n,
+        "corpus_chunk_count": len(sources),
+        "corpus_document_count": len(known),
+        "skipped_queries": skipped,
+        "summary": summary,
+        "best_by_mrr": best,
+        "per_query": per_query,
+        "caveat": (
+            "Small hand-labelled set (11 queries) over the full literature corpus; "
+            "indicative only, same as the pillar-corpus evaluation above. This measures "
+            "whether PsiCat can find his own published sources, not whether their claims "
+            "are correct -- merlin_publication_audit.py remains the audit gate for that."
+        ),
+    }
+
+
 __all__ = [
     "LABELLED_QUERIES",
+    "LITERATURE_LABELLED_QUERIES",
     "RRF_K",
+    "evaluate_literature_rankers",
     "evaluate_rankers",
     "reciprocal_rank_fusion",
     "verify_rrf_fusion_bounds",

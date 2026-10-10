@@ -221,6 +221,59 @@ def _rrf_fusion_pillars(query: str, max_chunks: int) -> list[dict[str, Any]]:
     return [by_id[pid] for pid in order[: max(0, int(max_chunks))]]
 
 
+PSICAT_LITERATURE_CORPUS_FLAG = "MERLIN_PSICAT_LITERATURE_CORPUS"
+
+
+def psicat_literature_corpus_enabled() -> bool:
+    """Opt-in only (default OFF): literature context is empty unless the flag is set.
+
+    Governs whether ``retrieve_context`` surfaces PsiCat's own Books,
+    Articles, Releases, and the three self-authored PDF exports
+    (``bot.psicat_literature_corpus``, governance label
+    ``PSICAT_EDITORIAL_CORPUS``) as additional reference context.  This is a
+    separate opt-in from, and never substitutes for, the hardgate physics
+    pillar context above: it answers "what has PsiCat published about
+    himself", not "what does the repository's physics claim".
+    """
+    return (os.environ.get(PSICAT_LITERATURE_CORPUS_FLAG) or "").strip().lower() in {
+        "1", "true", "yes", "on",
+    }
+
+
+def _psicat_literature_context(query: str, max_chunks: int) -> list[dict[str, Any]]:
+    """Top-``max_chunks`` PsiCat literature chunks for ``query``, BM25-ranked.
+
+    Returns plain dicts (not ``DocumentChunk`` objects) so this stays
+    JSON-serialisable in the same shape as the rest of ``retrieve_context``'s
+    output.  Any import/loading failure is non-fatal and yields an empty
+    list, matching the fail-open convention of ``_monorepo_index_chunks``.
+    """
+    try:
+        from bot.psicat_literature_corpus import build_literature_chunks
+        from .merlin_retrieval_scoring import BM25Index, token_list
+    except ImportError:
+        return []
+    try:
+        chunks = build_literature_chunks()
+    except OSError:
+        return []
+    if not chunks:
+        return []
+    corpus_tokens = [list(chunk.tokens) for chunk in chunks]
+    index = BM25Index(corpus_tokens)
+    ranked = index.rank(token_list(query), top_k=max(0, int(max_chunks)))
+    return [
+        {
+            "source": chunks[i].source,
+            "title": chunks[i].title,
+            "text": chunks[i].text,
+            "governance_label": chunks[i].governance_label,
+            "bm25_score": round(float(score), 4),
+        }
+        for i, score in ranked
+    ]
+
+
 def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
     """Return pillar, prediction, fallibility, and interrogator context."""
     query_tokens = _tokens(query)
@@ -245,12 +298,16 @@ def retrieve_context(query: str, max_chunks: int = 5) -> dict[str, Any]:
     if rrf_fusion_ranking_enabled():
         pillars = _rrf_fusion_pillars(query, max_chunks)
     interrogator_hits = search_kb(INTERROGATOR_ENTRIES, query)[:3]
+    psicat_literature = (
+        _psicat_literature_context(query, max_chunks) if psicat_literature_corpus_enabled() else []
+    )
     return {
         "pillars": pillars,
         "predictions": PREDICTIONS_TEXT,
         "fallibility": FALLIBILITY_TEXT,
         "interrogator_hits": interrogator_hits,
         "kb_match": lookup_kb(query),
+        "psicat_literature": psicat_literature,
     }
 
 
