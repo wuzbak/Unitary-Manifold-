@@ -23,9 +23,11 @@ from contextlib import contextmanager
 from typing import Any
 
 from .merlin_benchmark import evaluate_benchmark_response, get_benchmark_corpus
+from .merlin_hosting_retention_guard import HOSTING_RETENTION_GUARD_FLAG
 from .merlin_rag import (
     BM25_PILLAR_RANKING_FLAG,
     PHICAT_PROTOCOL_FLAG,
+    PSICAT_LITERATURE_CORPUS_FLAG,
     RRF_FUSION_RANKING_FLAG,
     SEMANTIC_EMBEDDER_RANKING_FLAG,
     TOROIDAL_CREASE_FUSION_FLAG,
@@ -37,6 +39,8 @@ OPT_IN_FLAGS = (
     SEMANTIC_EMBEDDER_RANKING_FLAG,
     PHICAT_PROTOCOL_FLAG,
     RRF_FUSION_RANKING_FLAG,
+    PSICAT_LITERATURE_CORPUS_FLAG,
+    HOSTING_RETENTION_GUARD_FLAG,
 )
 _ENV_LOCK = threading.Lock()
 
@@ -128,6 +132,8 @@ def run_flag_ab(
         "semantic_embedder": (SEMANTIC_EMBEDDER_RANKING_FLAG,),
         "phicat_protocol": (PHICAT_PROTOCOL_FLAG,),
         "rrf_fusion": (RRF_FUSION_RANKING_FLAG,),
+        "psicat_literature_corpus": (PSICAT_LITERATURE_CORPUS_FLAG,),
+        "hosting_retention_guard": (HOSTING_RETENTION_GUARD_FLAG,),
         "all_flags": OPT_IN_FLAGS,
     }
     if "baseline" not in variant_map:

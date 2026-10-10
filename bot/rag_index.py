@@ -44,6 +44,9 @@ __all__ = [
     "detect_query_lane",
     "render_context_scaffold",
     "retrieve_intent",
+    "REPOSITORY_CORE_LABEL",
+    "PSICAT_EDITORIAL_CORPUS_FLAG",
+    "psicat_editorial_corpus_enabled",
 ]
 
 _TOKEN_ALIASES = {
@@ -72,6 +75,7 @@ _TOKEN_ALIASES = {
 HILS_SESSION_WEIGHT = 1.35
 CO_EMERGENCE_WEIGHT = 1.20
 DOCS_WEIGHT = 1.10
+PSICAT_EDITORIAL_CORPUS_WEIGHT = 0.85
 TITLE_BONUS_WEIGHT = 0.25
 PHRASE_MATCH_BONUS = 0.15
 KB_PHRASE_MATCH_BONUS = 0.20
@@ -786,6 +790,25 @@ def _monorepo_index_chunks(repo_root: Path, max_chunk_chars: int) -> List["Docum
     return chunks
 
 
+def _psicat_literature_chunks(repo_root: Path, max_chunk_chars: int) -> List["DocumentChunk"]:
+    """Opt-in chunks for PsiCat's own editorial corpus (see module docstring above).
+
+    Thin wrapper around ``bot.psicat_literature_corpus.build_literature_chunks``,
+    imported lazily to avoid a import-time cycle (that module imports
+    ``DocumentChunk`` from here).  Any failure to load is non-fatal: retrieval
+    falls back to the hardgate/governance corpus exactly as if the flag were
+    unset.
+    """
+    try:
+        from bot.psicat_literature_corpus import build_literature_chunks
+    except ImportError:
+        return []
+    try:
+        return list(build_literature_chunks(repo_root=repo_root, max_chunk_chars=max_chunk_chars))
+    except OSError:
+        return []
+
+
 def _matches_lane_keyword(query_tokens: Set[str], normalized_query: str, keyword: str) -> bool:
     normalized_keyword = str(keyword or "").strip().lower()
     if not normalized_keyword:
@@ -1169,18 +1192,46 @@ def render_context_scaffold(scaffold: Dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+#: Default governance label for chunks indexed from the hardgate/governance
+#: document set in ``RAGIndex.build()``/``build_intent_index()``.  Chunks from
+#: the separately opt-in PsiCat editorial corpus (see ``bot.psicat_literature_corpus``)
+#: carry ``PSICAT_EDITORIAL_CORPUS`` instead, so callers can tell the two apart.
+REPOSITORY_CORE_LABEL = "REPOSITORY_CORE"
+
+#: Opt-in flag for including PsiCat's own Books/Articles/Releases and the three
+#: self-authored PDF exports in ``RAGIndex.build()``. Default OFF: unset or any
+#: value other than one of the truthy strings below leaves existing retrieval
+#: behaviour unchanged.
+PSICAT_EDITORIAL_CORPUS_FLAG = "UM_PSICAT_EDITORIAL_CORPUS"
+
+
+def psicat_editorial_corpus_enabled() -> bool:
+    """Opt-in only (default OFF): literature corpus is excluded unless set."""
+    return (os.environ.get(PSICAT_EDITORIAL_CORPUS_FLAG) or "").strip().lower() in {
+        "1", "true", "yes", "on",
+    }
+
+
 class DocumentChunk:
     """A searchable chunk of text from the repository."""
 
-    __slots__ = ("source", "title", "text", "text_lower", "tokens", "title_tokens")
+    __slots__ = ("source", "title", "text", "text_lower", "tokens", "title_tokens", "governance_label")
 
-    def __init__(self, source: str, title: str, text: str) -> None:
+    def __init__(
+        self,
+        source: str,
+        title: str,
+        text: str,
+        *,
+        governance_label: str = REPOSITORY_CORE_LABEL,
+    ) -> None:
         self.source = source
         self.title = title
         self.text = text
         self.text_lower = text.lower()
         self.tokens = _tokenize(" ".join((source, title, text)))
         self.title_tokens = _tokenize(title)
+        self.governance_label = governance_label
 
     def score(self, query_tokens: set, query_text: str = "") -> float:
         """TF-IDF-like score: fraction of query tokens present in chunk."""
@@ -1218,6 +1269,8 @@ class RAGIndex:
         cls,
         repo_root: Optional[Path] = None,
         max_chunk_chars: int = 1500,
+        *,
+        include_psicat_literature: Optional[bool] = None,
     ) -> "RAGIndex":
         """Build an index from the repository.
 
@@ -1227,6 +1280,12 @@ class RAGIndex:
             Root of the repository.  Defaults to two levels up from this file.
         max_chunk_chars : int
             Maximum characters per chunk.
+        include_psicat_literature : bool, optional
+            Whether to also index PsiCat's own Books/Articles/Releases and the
+            three self-authored PDF exports (tagged ``PSICAT_EDITORIAL_CORPUS``).
+            Defaults to ``None``, which falls back to the opt-in
+            ``UM_PSICAT_EDITORIAL_CORPUS`` environment flag (OFF unless set) so
+            default retrieval behaviour is unchanged.
 
         Returns
         -------
@@ -1260,6 +1319,13 @@ class RAGIndex:
                     pass
 
         chunks.extend(_monorepo_index_chunks(repo_root, max_chunk_chars))
+        enable_literature = (
+            include_psicat_literature
+            if include_psicat_literature is not None
+            else psicat_editorial_corpus_enabled()
+        )
+        if enable_literature:
+            chunks.extend(_psicat_literature_chunks(repo_root, max_chunk_chars))
         return cls(chunks=chunks, knowledge_base=build_runtime_knowledge_base(repo_root))
 
     @classmethod
@@ -1267,6 +1333,8 @@ class RAGIndex:
         cls,
         repo_root: Optional[Path] = None,
         max_chunk_chars: int = 1500,
+        *,
+        include_psicat_literature: Optional[bool] = None,
     ) -> "RAGIndex":
         """Build an index weighted toward session-intent memory sources.
 
@@ -1324,6 +1392,13 @@ class RAGIndex:
                     pass
 
         chunks.extend(_monorepo_index_chunks(repo_root, max_chunk_chars))
+        enable_literature = (
+            include_psicat_literature
+            if include_psicat_literature is not None
+            else psicat_editorial_corpus_enabled()
+        )
+        if enable_literature:
+            chunks.extend(_psicat_literature_chunks(repo_root, max_chunk_chars))
         return cls(chunks=chunks, knowledge_base=build_runtime_knowledge_base(repo_root))
 
     def search(self, query: str, top_k: int = 5) -> List[Tuple[float, DocumentChunk]]:
@@ -1602,4 +1677,8 @@ def _source_weight(source: str) -> float:
         return CO_EMERGENCE_WEIGHT
     if lower.startswith("docs/"):
         return DOCS_WEIGHT
+    if lower.startswith("7-outreach/a z psicat literature/") or lower.startswith("psicat-export:"):
+        # Read-only editorial reference material, not hardgate physics authority;
+        # see bot.psicat_literature_corpus and merlin_publication_audit's audit gate.
+        return PSICAT_EDITORIAL_CORPUS_WEIGHT
     return 1.0

@@ -7400,6 +7400,137 @@ def build_training_dataset_bundle(
     }
 
 
+# ---------------------------------------------------------------------------
+# PsiCat editorial literature training split (ADJACENT TRACK)
+# ---------------------------------------------------------------------------
+#
+# Separate, additive, opt-in training-data path over the PsiCat editorial
+# literature corpus (``bot.psicat_literature_corpus``, governance label
+# ``PSICAT_EDITORIAL_CORPUS``).  Deliberately NOT folded into
+# ``build_training_dataset_bundle`` above: that function's dedup/validation/
+# kernel-routing logic is large and already gated for the kernel-S/P/R/A/G
+# physics+governance splits, and this is reference/editorial material with a
+# different provenance story (PsiCat's own published voice, not repository
+# physics or Pentad governance). Reuses the same record schema and the same
+# ``_validate_training_record`` / ``_passes_training_quality_filter`` /
+# ``_dedupe_key`` / ``_estimate_sample_tokens`` helpers so records from this
+# split are structurally compatible with the existing training pipeline if a
+# future PR chooses to merge the two, without requiring that merge today.
+
+PSICAT_LITERATURE_TRAINING_KERNEL_ID = "kernel_s"
+
+
+def build_psicat_literature_training_split(
+    *,
+    limit: int | None = None,
+    split_ratios: tuple[float, float, float] = (0.8, 0.1, 0.1),
+) -> dict[str, Any]:
+    """Build a self-knowledge training split from PsiCat's own literature.
+
+    Each record is a "what does PsiCat say about X" instruction whose
+    response target quotes a real excerpt from a real Book/Article/Release
+    or self-authored PDF export, with ``provenance_sources`` pointing at the
+    exact source path. Returns ``{"ok": False, ...}`` if the corpus cannot be
+    built in this environment, so callers can skip gracefully.
+    """
+    try:
+        from bot.psicat_literature_corpus import build_literature_chunks
+    except ImportError as exc:
+        return {"ok": False, "status": "ADJACENT_TRACK", "error": f"corpus unavailable: {exc}"}
+
+    chunks = build_literature_chunks()
+    if not chunks:
+        return {"ok": False, "status": "ADJACENT_TRACK", "error": "literature corpus produced no chunks"}
+
+    by_source: dict[str, Any] = {}
+    for chunk in chunks:
+        by_source.setdefault(chunk.source, chunk)
+    sources = sorted(by_source.items())
+    if limit is not None:
+        sources = sources[: max(0, int(limit))]
+
+    train_ratio, dev_ratio, _test_ratio = split_ratios
+    n = max(len(sources), 1)
+    train_cut = int(round(n * train_ratio))
+    dev_cut = train_cut + int(round(n * dev_ratio))
+
+    splits: dict[str, list[dict[str, Any]]] = {"train": [], "dev": [], "test": []}
+    dedupe_registry: dict[str, str] = {}
+    quality_rejections: list[dict[str, Any]] = []
+    validation_errors: list[dict[str, Any]] = []
+
+    for index, (source, chunk) in enumerate(sources):
+        split_name = "train" if index < train_cut else ("dev" if index < dev_cut else "test")
+        title = str(getattr(chunk, "title", "") or source)
+        excerpt = str(getattr(chunk, "text", "") or "")[:800].strip()
+        record = {
+            "format_version": "merlin_training_jsonl_v1",
+            "record_id": f"psicat_literature::{source}",
+            "split": split_name,
+            "kernel_id": PSICAT_LITERATURE_TRAINING_KERNEL_ID,
+            "track": "psicat_editorial_literature",
+            "task_family": "self_knowledge_grounded_citation",
+            "instruction": f"What does PsiCat say in \"{title}\"? Quote and cite the source.",
+            "response_target": {
+                "answer": excerpt,
+                "contradictions": [],
+            },
+            "required_gates": ["ADJACENT_TRACK", "GOVERNANCE"],
+            "provenance_sources": [source],
+            "governance_label": "PSICAT_EDITORIAL_CORPUS",
+        }
+        key = _dedupe_key(record, kind="training")
+        if key in dedupe_registry:
+            quality_rejections.append({
+                "kind": "training",
+                "record_id": record["record_id"],
+                "reason": "deduplicated_duplicate",
+                "duplicate_of": dedupe_registry[key],
+            })
+            continue
+        errors = _validate_training_record(record)
+        if errors:
+            validation_errors.append({"kind": "training", "record_id": record["record_id"], "errors": errors})
+            continue
+        if not _passes_training_quality_filter(record):
+            quality_rejections.append({
+                "kind": "training",
+                "record_id": record["record_id"],
+                "reason": "quality_filter_failed",
+            })
+            continue
+        dedupe_registry[key] = record["record_id"]
+        splits[split_name].append(record)
+
+    token_estimate = sum(_estimate_sample_tokens(row) for rows in splits.values() for row in rows)
+    return {
+        "ok": True,
+        "status": "ADJACENT_TRACK",
+        "governance_label": "PSICAT_EDITORIAL_CORPUS",
+        "format_version": "merlin_training_jsonl_v1",
+        "kernel_id": PSICAT_LITERATURE_TRAINING_KERNEL_ID,
+        "source_document_count": len(sources),
+        "splits": splits,
+        "split_counts": {name: len(rows) for name, rows in splits.items()},
+        "token_estimate": token_estimate,
+        "quality_filters": {
+            "rejection_count": len(quality_rejections),
+            "rejections": quality_rejections[:50],
+        },
+        "validation": {
+            "status": "failed" if validation_errors else "passed",
+            "error_count": len(validation_errors),
+            "errors": validation_errors[:50],
+        },
+        "caveat": (
+            "Separate and additive to build_training_dataset_bundle(); not merged into the "
+            "kernel-S/P/R/A/G physics+governance training splits, and not promoted into any "
+            "default training run. This is PsiCat's own editorial voice, grounded by direct "
+            "quotation and source citation, not a hardgate physics or governance claim."
+        ),
+    }
+
+
 def get_training_curation_ledger(
     limit: int | None = None,
     *,

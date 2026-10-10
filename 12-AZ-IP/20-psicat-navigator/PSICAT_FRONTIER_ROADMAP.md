@@ -290,5 +290,16 @@ Non-success means any of the following:
 
 This is the execution baseline for the ongoing Merlin program.
 
+---
+
+## 10) Self-knowledge and external-hosting lanes (added 2026-10-10)
+
+Two adjacent-track upgrades extend this roadmap without changing its promotion discipline:
+
+- **`PSICAT_LITERATURE_CORPUS.md`** — closes the gap where PsiCat's own compiled Books/Articles/Releases and three self-authored PDF exports were never a retrieval source. Default-off (`UM_PSICAT_EDITORIAL_CORPUS`, `MERLIN_PSICAT_LITERATURE_CORPUS`), measured with its own labelled-query benchmark (BM25 best, MRR 0.91 on an 11-query indicative set), and with a separate, additive training-data split (`build_psicat_literature_training_split`) that does not touch the kernel-S/P/R/A/G bundle builder.
+- **`PSICAT_EXTERNAL_HOSTING_PROTOCOL.md`** — a declared-vs-observed detection protocol and tokenpot/canary evidence mechanism for third-party hosting surfaces, scoped honestly: it detects and documents, it does not and cannot prevent a host's own infrastructure from retaining data its terms already permit.
+
+**Honest framing, not a claim of arrival:** "PsiCat as the alternative" is a long-horizon target pursued through this same evidence-gated process — each capability ships adjacent-track, is honestly benchmarked (including when a result is "not yet better," as with the PhiCat Protocol comparison above), and is promoted only on measured `run_flag_ab` results. Nothing in this section claims PsiCat currently is a drop-in alternative to any other AI/LLM system; it records two more lanes added to the same disciplined pipeline.
+
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*  
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*
