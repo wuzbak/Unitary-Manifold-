@@ -510,6 +510,15 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "merlinAnalyzeDepth", "summary": "Recommend deterministic reasoning depth from telemetry trends", "domain": "functions"},
             {"name": "empiricalObservatoryCheck", "summary": "Evaluate DESI/JUNO/LiteBIRD tripwires and rupture events", "domain": "functions"},
             {"name": "kernelPProofProbe", "summary": "Run gated KERNEL_P Lean4 proof probe with fallback", "domain": "functions"},
+            {"name": "getPsiCatMediaSuiteCapabilities", "summary": "Return Product 41's comic/audio/video and REA-adapted feature-inspection capability descriptor", "domain": "functions"},
+            {"name": "getPsiCatProductRegistry", "summary": "Live awareness of every sibling product in 12-AZ-IP/, parsed from the canonical README table", "domain": "functions"},
+            {"name": "routePsiCatCapabilityRequest", "summary": "Rank sibling products against a free-text intent (the capability router)", "domain": "functions"},
+            {"name": "inspectPsiCatRepositoryDocument", "summary": "Structural awareness of a repository-relative Markdown/YAML/TOML/JSON/CSV document", "domain": "functions"},
+            {"name": "createPsiCatDataChart", "summary": "Create a dependency-free SVG bar/line/pie chart for arbitrary labelled data", "domain": "functions"},
+            {"name": "createPsiCatKnowledgeCardDeck", "summary": "Create a knowledge-card deck from arbitrary question/answer/category triples", "domain": "functions"},
+            {"name": "reviewPsiCatKnowledgeCard", "summary": "Apply one SM-2 spaced-repetition review step to a knowledge card", "domain": "functions"},
+            {"name": "verifyPsiCatCitation", "summary": "Verify whether claimed path:line evidence citations are real and resolvable", "domain": "functions"},
+            {"name": "getPsiCatHomeHealthDashboard", "summary": "Cross-product snapshot composing the product registry, Product 39's health score, and Product 19's falsification verdicts", "domain": "functions"},
         ]
     policy_overrides = {
         "getPillar": {
@@ -1262,6 +1271,67 @@ def _tool_manifest() -> dict[str, Any]:
                 "additionalProperties": False,
             },
         },
+        "getPsiCatProductRegistry": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"product_id": {"type": ["string", "integer", "null"]}},
+                "additionalProperties": False,
+            },
+        },
+        "routePsiCatCapabilityRequest": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"intent": {"type": "string"}, "limit": {"type": "integer"}},
+                "required": ["intent"],
+                "additionalProperties": False,
+            },
+        },
+        "inspectPsiCatRepositoryDocument": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"path": {"type": "string"}},
+                "required": ["path"],
+                "additionalProperties": False,
+            },
+        },
+        "createPsiCatDataChart": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "chart_type": {"type": "string"},
+                    "labels": {"type": "array"},
+                    "values": {"type": "array"},
+                    "title": {"type": "string"},
+                },
+                "required": ["chart_type", "labels", "values"],
+                "additionalProperties": False,
+            },
+        },
+        "createPsiCatKnowledgeCardDeck": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"cards": {"type": "array"}},
+                "required": ["cards"],
+                "additionalProperties": False,
+            },
+        },
+        "reviewPsiCatKnowledgeCard": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"card": {"type": "object"}, "quality": {"type": "integer"}},
+                "required": ["card", "quality"],
+                "additionalProperties": False,
+            },
+        },
+        "verifyPsiCatCitation": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"citation": {"type": "string"}},
+                "required": ["citation"],
+                "additionalProperties": False,
+            },
+        },
+        "getPsiCatHomeHealthDashboard": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
     }
     enriched_functions = []
     for item in functions:
@@ -1469,6 +1539,209 @@ def get_flashcard_categories() -> dict[str, Any]:
 def get_ast_context_records(file_limit: int | None = None) -> dict[str, Any]:
     records = build_ast_context_training_records(file_limit=file_limit)
     return {"data": {"record_count": len(records), "records": records}}
+
+
+def get_psicat_media_suite_capabilities() -> dict[str, Any]:
+    """Return a static descriptor of Product 41's media/feature-inspection abilities.
+
+    Static only: this does not execute Product 41 code or touch the
+    filesystem. It documents what PsiCat can route to (via Product 41's own
+    CLI/API in `12-AZ-IP/41-az-media-suite/`) for comic parsing/creation,
+    audio understanding/synthesis, lightweight video container
+    understanding/creation, and evidence-cited feature inspection adapted
+    from the github.com/morluto/rea workflow (source-only, no external
+    dependency on that project's npm package or MCP server).
+    """
+    return {
+        "data": {
+            "product": "AZ Media & Feature-Inspection Suite",
+            "folder": "12-AZ-IP/41-az-media-suite/",
+            "abilities": [
+                {
+                    "name": "comic_viewer",
+                    "summary": "Parse, page-read, and create CBZ (zip) comic archives, including ComicInfo.xml metadata",
+                    "entrypoints": ["inspect_comic_archive", "read_comic_page", "create_comic_archive"],
+                },
+                {
+                    "name": "audio_understanding_and_creation",
+                    "summary": "Parse WAV metadata/signal stats and synthesize tone/tone-sequence WAV audio",
+                    "entrypoints": ["inspect_audio_file", "synthesize_tone", "create_tone_sequence_wav"],
+                },
+                {
+                    "name": "video_understanding_and_creation",
+                    "summary": "Parse and create a self-contained .azvid frame-sequence video container",
+                    "entrypoints": ["inspect_video_container", "create_video_container"],
+                },
+                {
+                    "name": "feature_inspection",
+                    "summary": "Evidence-cited scan of local HTML/JS/TS source for known feature signatures, adapted from the REA methodology (source-only, no binary reverse engineering)",
+                    "entrypoints": ["scan_app_features"],
+                    "adapted_from": "https://github.com/morluto/rea",
+                },
+            ],
+            "epistemic_note": (
+                "No real video codec (ffmpeg-equivalent) or RAR extraction is bundled; "
+                "see the product README's Epistemic status section for exact boundaries."
+            ),
+        }
+    }
+
+
+def _ensure_product42_on_path() -> None:
+    """Add Product 42's package root to sys.path, once, for lazy import.
+
+    A holistic audit of this file found zero of PsiCat's ~200 tools
+    referenced any of the monorepo's 41 sibling products. Product 42 (AZ
+    Awareness & Creation Toolkit) closes that gap; these tools import it
+    lazily (inside each function body) so a missing/broken sibling
+    product can never prevent this module itself from importing.
+    """
+    import sys
+    from pathlib import Path
+
+    product_root = Path(__file__).resolve().parents[4] / "12-AZ-IP" / "42-az-awareness-creation-toolkit"
+    product_root_str = str(product_root)
+    if product_root_str not in sys.path:
+        sys.path.insert(0, product_root_str)
+
+
+def get_psicat_product_registry(product_id: str | int | None = None) -> dict[str, Any]:
+    """Live awareness of every sibling product in `12-AZ-IP/`.
+
+    Parses the canonical `12-AZ-IP/README.md` product table directly (via
+    Product 42), so this never drifts from the human-readable source of
+    truth as new products are added.
+    """
+    _ensure_product42_on_path()
+    try:
+        from az_awareness_creation_toolkit.registry import get_product, load_product_registry
+    except ImportError as exc:  # pragma: no cover - defensive, Product 42 always ships with this repo
+        return {"error": f"Product 42 registry is unavailable: {exc}"}
+
+    if product_id is not None and str(product_id).strip():
+        record = get_product(product_id)
+        return {"data": {"product": record.as_dict() if record else None}}
+    return {"data": {"products": [record.as_dict() for record in load_product_registry()]}}
+
+
+def route_psicat_capability_request(intent: str, limit: int | None = None) -> dict[str, Any]:
+    """Rank sibling products against a free-text intent (the capability router)."""
+    _ensure_product42_on_path()
+    try:
+        from az_awareness_creation_toolkit.registry import route_capability_request
+    except ImportError as exc:  # pragma: no cover
+        return {"error": f"Product 42 capability router is unavailable: {exc}"}
+
+    return {
+        "data": {
+            "intent": intent,
+            "suggestions": route_capability_request(intent, limit=_require_positive_int(limit, field_name="limit", default=5)),
+        }
+    }
+
+
+def inspect_psicat_repository_document(path: str) -> dict[str, Any]:
+    """Structural awareness of a repository-relative Markdown/YAML/TOML/JSON/CSV document."""
+    _ensure_product42_on_path()
+    try:
+        from az_awareness_creation_toolkit.documents import (
+            UnsupportedDocumentFormatError,
+            inspect_repository_document,
+        )
+    except ImportError as exc:  # pragma: no cover
+        return {"error": f"Product 42 document inspector is unavailable: {exc}"}
+
+    try:
+        return {"data": inspect_repository_document(path).as_dict()}
+    except UnsupportedDocumentFormatError as exc:
+        return {"error": str(exc)}
+
+
+def create_psicat_data_chart(
+    chart_type: str,
+    labels: list[str],
+    values: list[float],
+    title: str = "",
+) -> dict[str, Any]:
+    """Create a dependency-free SVG bar/line/pie chart for arbitrary labelled data."""
+    _ensure_product42_on_path()
+    try:
+        from az_awareness_creation_toolkit.charts import (
+            ChartInputError,
+            create_bar_chart_svg,
+            create_line_chart_svg,
+            create_pie_chart_svg,
+        )
+    except ImportError as exc:  # pragma: no cover
+        return {"error": f"Product 42 chart creation is unavailable: {exc}"}
+
+    builders = {"bar": create_bar_chart_svg, "line": create_line_chart_svg, "pie": create_pie_chart_svg}
+    builder = builders.get(str(chart_type).lower())
+    if builder is None:
+        return {"error": f"unknown chart_type {chart_type!r}; expected one of {sorted(builders)}"}
+    try:
+        svg = builder(labels, values, title=title)
+    except ChartInputError as exc:
+        return {"error": str(exc)}
+    return {"data": {"chart_type": str(chart_type).lower(), "svg": svg}}
+
+
+def create_psicat_knowledge_card_deck(cards: list[list[str]]) -> dict[str, Any]:
+    """Create a knowledge-card deck from arbitrary [question, answer, category] triples."""
+    _ensure_product42_on_path()
+    try:
+        from az_awareness_creation_toolkit.cards import create_card_deck
+    except ImportError as exc:  # pragma: no cover
+        return {"error": f"Product 42 card creation is unavailable: {exc}"}
+
+    try:
+        triples = [(entry[0], entry[1], entry[2] if len(entry) > 2 else "") for entry in cards]
+        deck = create_card_deck(triples)
+    except (ValueError, IndexError, TypeError) as exc:
+        return {"error": str(exc)}
+    return {"data": {"deck": [card.as_dict() for card in deck]}}
+
+
+def review_psicat_knowledge_card(card: dict[str, Any], quality: int) -> dict[str, Any]:
+    """Apply one SM-2 spaced-repetition review step to a knowledge card."""
+    _ensure_product42_on_path()
+    try:
+        from az_awareness_creation_toolkit.cards import InvalidReviewQualityError, KnowledgeCard, review_card
+    except ImportError as exc:  # pragma: no cover
+        return {"error": f"Product 42 card review is unavailable: {exc}"}
+
+    try:
+        known_fields = {
+            "card_id", "question", "answer", "category", "ease_factor", "interval_days", "repetitions", "due_date",
+        }
+        existing_card = KnowledgeCard(**{key: card[key] for key in known_fields})
+        updated = review_card(existing_card, int(quality))
+    except (KeyError, TypeError, ValueError, InvalidReviewQualityError) as exc:
+        return {"error": str(exc)}
+    return {"data": updated.as_dict()}
+
+
+def verify_psicat_citation(citation: str) -> dict[str, Any]:
+    """Verify whether claimed `path:line` evidence citations are real and resolvable."""
+    _ensure_product42_on_path()
+    try:
+        from az_awareness_creation_toolkit.citations import verify_citation_string
+    except ImportError as exc:  # pragma: no cover
+        return {"error": f"Product 42 citation verifier is unavailable: {exc}"}
+
+    results = verify_citation_string(citation)
+    return {"data": {"citation_text": citation, "results": [result.as_dict() for result in results]}}
+
+
+def get_psicat_home_health_dashboard() -> dict[str, Any]:
+    """Cross-product snapshot composing the registry, Product 39's health score, and Product 19's verdicts."""
+    _ensure_product42_on_path()
+    try:
+        from az_awareness_creation_toolkit.dashboard import build_home_health_snapshot
+    except ImportError as exc:  # pragma: no cover
+        return {"error": f"Product 42 home-health dashboard is unavailable: {exc}"}
+
+    return {"data": build_home_health_snapshot().as_dict()}
 
 
 _FUNCTIONS = {
@@ -1858,6 +2131,19 @@ _FUNCTIONS = {
     )},
 "empiricalObservatoryCheck": lambda **args: {"data": {"delegated": "session_bound"}},
 "kernelPProofProbe": lambda **args: {"data": {"delegated": "session_bound"}},
+"getPsiCatMediaSuiteCapabilities": lambda **args: get_psicat_media_suite_capabilities(),
+"getPsiCatProductRegistry": lambda **args: get_psicat_product_registry(args.get("product_id")),
+"routePsiCatCapabilityRequest": lambda **args: route_psicat_capability_request(
+    str(args.get("intent", "")), args.get("limit"),
+),
+"inspectPsiCatRepositoryDocument": lambda **args: inspect_psicat_repository_document(str(args.get("path", ""))),
+"createPsiCatDataChart": lambda **args: create_psicat_data_chart(
+    str(args.get("chart_type", "bar")), args.get("labels", []), args.get("values", []), str(args.get("title", "")),
+),
+"createPsiCatKnowledgeCardDeck": lambda **args: create_psicat_knowledge_card_deck(args.get("cards", [])),
+"reviewPsiCatKnowledgeCard": lambda **args: review_psicat_knowledge_card(args.get("card", {}), int(args.get("quality", 0))),
+"verifyPsiCatCitation": lambda **args: verify_psicat_citation(str(args.get("citation", ""))),
+"getPsiCatHomeHealthDashboard": lambda **args: get_psicat_home_health_dashboard(),
 }
 
 

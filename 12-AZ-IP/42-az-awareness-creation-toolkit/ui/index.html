@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AZ Awareness &amp; Creation Toolkit — Product 42</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+  h1 { font-size: 1.4rem; }
+  pre { background: #111; color: #0f0; padding: 1rem; overflow-x: auto; border-radius: 6px; max-height: 420px; }
+  button { margin: 0.25rem 0.5rem 0.25rem 0; }
+  input { width: 18rem; }
+</style>
+</head>
+<body>
+<h1>AZ Awareness &amp; Creation Toolkit</h1>
+<p>Product-registry awareness, a capability router, document structural awareness,
+   SVG chart creation, knowledge-card spaced repetition, citation verification, and
+   a cross-product "home health" dashboard — the fix for a holistic audit finding
+   that PsiCat's ~200 tool functions referenced none of this monorepo's 41 sibling
+   products.</p>
+<p>
+  <button onclick="call('/api/status')">Status</button>
+  <button onclick="call('/api/registry')">Product registry</button>
+  <button onclick="call('/api/chart/demo?type=bar')">Chart demo</button>
+  <button onclick="call('/api/cards/demo')">Knowledge-card demo</button>
+  <button onclick="call('/api/dashboard')">Home-health dashboard</button>
+</p>
+<p>
+  Capability router intent: <input id="intent" value="comic video audio media" />
+  <button onclick="route()">Route</button>
+</p>
+<p>
+  Citation to verify: <input id="citation" value="src/core/metric.py:1-5" />
+  <button onclick="verifyCitation()">Verify</button>
+</p>
+<pre id="out">Click a button above.</pre>
+<script>
+async function call(path) {
+  const out = document.getElementById('out');
+  out.textContent = 'Loading ' + path + ' ...';
+  try {
+    const resp = await fetch(path);
+    const data = await resp.json();
+    out.textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    out.textContent = 'Error: ' + err;
+  }
+}
+function route() {
+  const intent = encodeURIComponent(document.getElementById('intent').value);
+  call('/api/registry/route?intent=' + intent);
+}
+function verifyCitation() {
+  const citation = encodeURIComponent(document.getElementById('citation').value);
+  call('/api/citations/verify?citation=' + citation);
+}
+</script>
+</body>
+</html>
