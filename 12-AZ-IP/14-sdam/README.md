@@ -139,6 +139,12 @@ The Android Studio project will live in `SDAM/app/` once scaffolded (Phase S1).
   maps directly to the manifold's irreversibility constraint.
 - **`BV9900Pro-HomeTest/`** — Primary field test device. Waterproof membrane
   may cause FSK roll-off below ~2 kHz; near-ultrasonic band avoids this.
+- **`public-site/az-apps/15-pentacorder.html`** — Browser companion that
+  implements a real (simplified, single-tone-per-nibble FSK) acoustic
+  transmit/decode link over `Web Audio API` oscillators and an `AnalyserNode`,
+  alongside the Pentacorder field-sensor channels. It is a working proof of
+  the acoustic channel for anyone without the native Android build — not a
+  replacement for the full OFDM stack documented above.
 
 ---
 

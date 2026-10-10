@@ -226,6 +226,54 @@ Predictions tested by this app:
 
 ---
 
+## Browser Companion — Pentacorder + SDAM Field Scanner
+
+`public-site/az-apps/15-pentacorder.html` is a zero-install browser surface that reads
+real sensor and I/O channels directly from whatever device loads the page — no
+Android build, no install script required. It is not a substitute for the native
+app above; it is an honest, lower-ceiling companion that anyone can open in a
+mobile or desktop browser. It is organised into seven tabs:
+
+1. **📡 Field Scanner** — the 15-channel raw sensor readout (table below).
+2. **🧰 Hardware Inventory** — feature-detection checklist and `navigator` device summary.
+3. **🛠️ Tools** — an 11-tool sensor-driven multitool: spirit level, compass with
+   bearing-to-target, decibel meter with hearing-safety exposure dose, chromatic
+   tuner (autocorrelation pitch detection), flashlight/torch control, QR/barcode
+   scanner (`BarcodeDetector`), camera steadiness meter, pedometer/step counter,
+   fall/impact detector, magnetometer field scanner, and a stopwatch/lap timer.
+   Every tool reuses the already-granted motion/mic/camera permissions instead of
+   re-prompting, and honestly reports when a browser exposes no API for a tool
+   (e.g. `BarcodeDetector` on Firefox/Safari, `Magnetometer` almost everywhere).
+4. **🫀 Vitals & Environment** — camera-based pulse estimation (remote
+   photoplethysmography via red-channel autocorrelation; a field-test utility,
+   **not a medical device**) plus honestly-banded ambient noise/light readouts.
+5. **🧭 Navigation** — a live GNSS console (position/speed/course/accuracy),
+   a haversine-integrated distance-travelled odometer, and a waypoint log
+   exportable as GeoJSON.
+6. **📶 Acoustic Modem** — the real FSK sound-wave data link (table below).
+7. **📄 Field Report** — exports a PDF dossier of the session's live readings.
+
+| Channel | Browser API | Honesty behaviour |
+|---|---|---|
+| Accelerometer / gyroscope | `DeviceMotionEvent` | live reading or "no DeviceMotionEvent" |
+| Compass heading | `DeviceOrientationEvent` | live reading or unavailable |
+| Barometer / proximity / ambient light | — | always reported **unavailable** — no web standard exposes these sensors in any current browser |
+| Flicker / focus distance | camera `getUserMedia` + `MediaStreamTrack.getCapabilities()` | luminance-proxy flicker estimate; focus distance only if the driver reports a `focusDistance` capability |
+| Microphone level | `getUserMedia` + `AnalyserNode` | live dBFS from the real mic stream |
+| S Pen / touch digitizer | `PointerEvent` (pressure, tilt, twist, altitude/azimuth, contact geometry) | live while drawing; pen-only fields marked "pen-only" for touch/mouse |
+| NFC | `NDEFReader` (Web NFC) | live tag reads on Chrome/Android over HTTPS; unavailable elsewhere |
+| Ultrasonic fingerprint | `PublicKeyCredential` / WebAuthn platform authenticator | enrol/verify a real passkey bound to the page's hostname — the ridge map itself is never exposed to the page |
+| GNSS | `Geolocation` | live position/accuracy/altitude or denied/unavailable |
+| Battery gas gauge | `Battery Status API` | live level/charging state where Chrome exposes it |
+| Acoustic data link | `Web Audio API` (`OscillatorNode` + `AnalyserNode`) | a genuine (simple, single-tone-per-nibble FSK) sound-wave transmit/decode link — a real, working proof of the acoustic channel the native SDAM/Pentacorder apps implement with a full OFDM stack |
+| Torch / flashlight | `MediaStreamTrack.applyConstraints({ torch })` | real LED control where the camera driver exposes a torch capability |
+| QR / barcode | `BarcodeDetector` | live decode of real camera frames; unavailable on browsers without the API |
+| Magnetic field | Generic Sensor API `Magnetometer` | live µT magnitude where supported; almost always reported unavailable today |
+
+Every reading on that page is live hardware data; nothing is simulated, and every
+channel the browser cannot reach is reported with the specific reason (no API,
+no hardware, or a refused permission) instead of a placeholder value.
+
 ## Further Reading
 
 | Document | Content |
@@ -235,6 +283,7 @@ Predictions tested by this app:
 | `scripts/` | ADB install/uninstall scripts for all devices |
 | `sessions/` | Per-session handoff notes |
 | `../../sessions/SESSION_006.md` | Session where the living assistant was integrated |
+| `../../public-site/az-apps/15-pentacorder.html` | Browser companion field scanner (real sensors, no install) |
 
 ---
 
