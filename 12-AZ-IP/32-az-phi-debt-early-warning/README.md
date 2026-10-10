@@ -1,9 +1,9 @@
 # AZ Phi-Debt Early Warning Library — Product 32
 
 **Folder:** `12-AZ-IP/32-az-phi-debt-early-warning/`
-**Version:** 1.0.0
+**Version:** 1.1.0
 **TRL:** TRL-3 (domain-agnostic library, cross-checked against one real internal source)
-**Status:** Active — Phase 0 + partial Phase 1 of article-354's φ-debt roadmap
+**Status:** Active — Phase 0 + partial Phase 1 of article-354's φ-debt roadmap, now a runnable web product
 
 ## What this is
 
@@ -43,6 +43,18 @@ monitor = DebtMonitor(capacity=100.0, discharge_rate=2.0)
 monitor.accumulate(amount=15.0, dt=1.0)
 print(monitor.to_report())
 ```
+
+## Running as a web product
+
+A stdlib-only JSON API plus a static dashboard sits over the same monitor above
+(`app/server.py` dispatches to `dispatch_api_request`, covered by `tests/test_api.py`):
+
+```bash
+python 12-AZ-IP/32-az-phi-debt-early-warning/run.py serve --port 8132
+# then open http://127.0.0.1:8132/
+```
+
+Endpoints: `GET /api/status`, `GET /api/monitor?capacity=&discharge_rate=&warning_fraction=&steps=amount:dt,amount:dt,...`.
 
 ## Tests
 

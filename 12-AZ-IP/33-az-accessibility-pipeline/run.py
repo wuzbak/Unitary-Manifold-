@@ -20,6 +20,20 @@ _DEMO_TEXT = (
 
 
 def main(argv: list[str] | None = None) -> int:
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] == "serve":
+        import argparse
+
+        serve_parser = argparse.ArgumentParser(prog="run.py serve")
+        serve_parser.add_argument("--host", default="127.0.0.1")
+        serve_parser.add_argument("--port", type=int, default=8133)
+        args = serve_parser.parse_args(argv[1:])
+
+        from az_accessibility_pipeline.app.server import serve
+
+        serve(host=args.host, port=args.port)
+        return 0
+
     text = " ".join(argv) if argv else _DEMO_TEXT
     report = build_accessibility_report(text)
     print(
@@ -32,8 +46,9 @@ def main(argv: list[str] | None = None) -> int:
             indent=2,
         )
     )
+    print("Run `serve` to start the live HTTP product.")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1:]))
+    raise SystemExit(main())

@@ -25,7 +25,15 @@ Phase 2 external release are not part of this version.
 
 from .debt_monitor import DebtMonitor, DebtReading, DebtStatus
 from .recycling_dogfood import run_recycling_dogfood
+from .api import API_ENDPOINTS, dispatch_api_request
 
-__all__ = ["DebtMonitor", "DebtReading", "DebtStatus", "run_recycling_dogfood"]
+__all__ = [
+    "DebtMonitor",
+    "DebtReading",
+    "DebtStatus",
+    "run_recycling_dogfood",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
+]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

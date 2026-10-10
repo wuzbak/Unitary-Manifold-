@@ -21,6 +21,7 @@ from .pipeline import (
     route_recognizable_claims,
     build_accessibility_report,
 )
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "ReadingSegment",
@@ -30,6 +31,8 @@ __all__ = [
     "suggest_visual_concepts",
     "route_recognizable_claims",
     "build_accessibility_report",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

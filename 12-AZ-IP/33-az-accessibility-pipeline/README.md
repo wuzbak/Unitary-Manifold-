@@ -1,9 +1,9 @@
 # AZ Accessibility Pipeline — Product 33
 
 **Folder:** `12-AZ-IP/33-az-accessibility-pipeline/`
-**Version:** 1.0.0
+**Version:** 1.1.0
 **TRL:** TRL-2 (orchestration layer over three existing products; claim recognition is keyword-based)
-**Status:** Active — Phases 0-2 (narrow slice) of article-354's accessibility roadmap
+**Status:** Active — Phases 0-2 (narrow slice) of article-354's accessibility roadmap, now a runnable web product
 
 ## What this is
 
@@ -42,6 +42,18 @@ respectively.
 python 12-AZ-IP/33-az-accessibility-pipeline/run.py
 python 12-AZ-IP/33-az-accessibility-pipeline/run.py "Your own passage about birefringence here."
 ```
+
+## Running as a web product
+
+A stdlib-only JSON API plus a static dashboard sits over the same pipeline above
+(`app/server.py` dispatches to `dispatch_api_request`, covered by `tests/test_api.py`):
+
+```bash
+python 12-AZ-IP/33-az-accessibility-pipeline/run.py serve --port 8133
+# then open http://127.0.0.1:8133/
+```
+
+Endpoints: `GET /api/status`, `GET /api/report?text=`.
 
 ## Tests
 
