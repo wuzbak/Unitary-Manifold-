@@ -20,14 +20,35 @@ end-to-end production suite: development → prep → shoot → post → deliver
 |--------|--------|------------------------------|
 | `production_suite/` | Producer/UPM dashboard, Script Studio (text/Fountain/FDX import-export, revisions), breakdown across 17 departments, scheduling/DOOD/stripboard, post/delivery tracking | Trelby (`trelby/trelby`) for screenplay format/report conventions; Fountain for plain-text markup |
 | `cinematography/` | Coverage suggestions, inverse-square-law lighting, shot-list validation | — |
-| `locations/` | Scout reports, permit tracking, unconfirmed-location alerts | — |
+| `locations/` | Scout reports, permit tracking, unconfirmed-location alerts, geo-coordinate mapping (`mapping.py`): haversine distance, map-coverage summary, company-move distance planning, KML export | KML (OGC open standard, Google Earth/QGIS compatible) |
 | `finance/` | Budget builder, ROI calculator, DOOD, burn-rate alerts | — |
 | `ad_suite/` | Call sheets, turnaround compliance, one-liner scene lists | — |
-| `accounting/` **(new)** | Chart of accounts, vendors/clients, AP invoices (vendor bills), AR invoices (client/distributor billing), payments, aging reports, general-ledger CSV export | GnuCash (double-entry bookkeeping shape), ledger-cli/hledger (plain-text accounting, CSV→journal compatible) |
-| `marketing/` **(new)** | Campaigns, trailer/teaser/poster/EPK/press-release/social-clip/key-art assets, press contacts, release/social calendar | Mautic (campaign automation shape), Matomo (privacy-respecting analytics for self-hosted EPK/microsites) |
-| `post_pipeline/` **(new)** | DaVinci Resolve scripting bridge (offline-safe auto-detect of `DaVinciResolveScript`), CMX3600 EDL export, OpenTimelineIO JSON export, shot-list CSV export | DaVinci Resolve (Blackmagic Design, free edition) scripting API; OpenTimelineIO (Academy Software Foundation); CMX3600 EDL (open de facto standard) |
+| `accounting/` | Chart of accounts, vendors/clients, AP invoices (vendor bills), AR invoices (client/distributor billing), payments, overdue-aware aging reports, general-ledger CSV export | GnuCash (double-entry bookkeeping shape), ledger-cli/hledger (plain-text accounting, CSV→journal compatible) |
+| `marketing/` | Campaigns, trailer/teaser/poster/EPK/press-release/social-clip/key-art assets, press contacts, release/social calendar, overdue-asset detection | Mautic (campaign automation shape), Matomo (privacy-respecting analytics for self-hosted EPK/microsites) |
+| `post_pipeline/` | DaVinci Resolve scripting bridge (offline-safe auto-detect of `DaVinciResolveScript`), CMX3600 EDL export, OpenTimelineIO JSON export, shot-list CSV export — now storyboard-duration-aware (real per-shot timing when storyboarded) | DaVinci Resolve (Blackmagic Design, free edition) scripting API; OpenTimelineIO (Academy Software Foundation); CMX3600 EDL (open de facto standard) |
 
-## Design Philosophy (unchanged by the v2.4 pass)
+## v2.5 Hardening Pass (this entry's update)
+
+- **Location/trailer mapping**: `locations/mapping.py` adds geo-coordinates to
+  the `locations` table (additive SQLite migration), haversine-based
+  company-move distance planning between consecutive `schedule_days`
+  locations (serving the 1st AD / transportation department's trailer and
+  basecamp logistics), a map-coverage summary, and KML export — all pure
+  stdlib (`math`), no mapping-library dependency.
+- **Validation hardening**: `accounting` and `marketing` services now reject
+  blank names, non-positive amounts, and references to unknown
+  vendors/clients/campaigns, and enumerate valid asset/campaign statuses
+  instead of accepting arbitrary strings.
+- **Overdue intelligence**: AP/AR aging reports and the marketing dashboard
+  now flag overdue invoices/assets (`overdue`, `total_overdue`,
+  `overdue_count`, `overdue_assets`) against a deterministic `as_of` date.
+- **Post-pipeline duration fidelity**: EDL/OTIO export reads real
+  `storyboard_panels.duration_sec` per shot (positionally matched within
+  each scene) instead of a fixed 5-second placeholder, falling back
+  gracefully when no storyboard exists for a shot.
+- 27 new tests; full desktop suite at 164/164 passing.
+
+## Design Philosophy (unchanged by the hardening pass)
 
 - Offline-first: full functionality without internet; local LLM (Ollama) supported
 - Agent resolver chain: Remote LLM → Ollama → Static KB (always answers)

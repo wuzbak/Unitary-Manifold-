@@ -54,6 +54,25 @@ def test_export_edl_contains_clips(db_path, seeded_project):
     assert "SC1_SH002" in edl
 
 
+def test_export_edl_uses_storyboard_panel_durations(db_path, seeded_project):
+    with get_conn(db_path) as conn:
+        scene = conn.execute(
+            "SELECT id FROM scenes WHERE project_id=?", (seeded_project,)
+        ).fetchone()
+        for panel_number, duration in enumerate([10.0, 2.0], start=1):
+            conn.execute(
+                """INSERT INTO storyboard_panels
+                   (id, project_id, scene_id, panel_number, duration_sec)
+                   VALUES (?, ?, ?, ?, ?)""",
+                (str(uuid.uuid4()), seeded_project, scene["id"], panel_number, duration),
+            )
+    bridge = PostPipelineBridge(db_path)
+    edl = bridge.export_edl(seeded_project)
+    # 10s clip -> src_out at frame 240 (24fps); 2s clip rec_in starts at 00:00:10:00.
+    assert "00:00:10:00" in edl
+    assert "00:00:12:00" in edl
+
+
 def test_export_shotlist_csv(db_path, seeded_project):
     bridge = PostPipelineBridge(db_path)
     csv_text = bridge.export_shotlist_csv(seeded_project)
@@ -67,6 +86,25 @@ def test_export_otio_json(db_path, seeded_project):
     assert timeline["OTIO_SCHEMA"] == "Timeline.1"
     clips = timeline["tracks"]["children"][0]["children"]
     assert len(clips) == 2
+
+
+def test_export_otio_json_uses_storyboard_panel_durations(db_path, seeded_project):
+    with get_conn(db_path) as conn:
+        scene = conn.execute(
+            "SELECT id FROM scenes WHERE project_id=?", (seeded_project,)
+        ).fetchone()
+        conn.execute(
+            """INSERT INTO storyboard_panels
+               (id, project_id, scene_id, panel_number, duration_sec)
+               VALUES (?, ?, ?, 1, 8.0)""",
+            (str(uuid.uuid4()), seeded_project, scene["id"]),
+        )
+    bridge = PostPipelineBridge(db_path)
+    timeline = bridge.export_otio_json(seeded_project)
+    clips = timeline["tracks"]["children"][0]["children"]
+    assert clips[0]["source_range"]["duration"]["value"] == 8.0 * 24
+    # Second shot falls back to the default 5s clip since no panel covers it.
+    assert clips[1]["source_range"]["duration"]["value"] == 5.0 * 24
 
 
 def test_list_exports_records_history(db_path, seeded_project):

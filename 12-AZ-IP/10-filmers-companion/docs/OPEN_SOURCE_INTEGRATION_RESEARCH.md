@@ -51,6 +51,13 @@ New `marketing` module: campaigns, deliverable assets (trailer/teaser/poster/EPK
 
 **Why not vendor DaVinci Resolve itself:** Resolve is a proprietary (though free-to-use) Blackmagic Design application; it cannot be bundled or run headless inside this repository/CI. The bridge is deliberately **optional and offline-safe**: it detects a live Resolve install when present and otherwise produces the EDL/CSV/OTIO files Resolve can import directly.
 
+### 2.4 Location / trailer / basecamp mapping (added in the v2.5 hardening pass)
+
+| Tool/format | What | Why | Integration |
+|------|------|-----|--------------|
+| **KML** (Keyhole Markup Language, OGC open standard) | Open, documented XML schema for geographic placemarks; readable by Google Earth, Google Maps, QGIS, and most GIS tooling. | "Location and trailer mapping" from the original brief covers both scouted shoot locations and production-trailer/basecamp logistics (company moves between locations). KML is free/open and needs no account or API key, consistent with the offline-first mandate. | `locations/mapping.py` adds `latitude`/`longitude`/`basecamp_notes` columns to `locations` (additive SQLite migration) and `export_kml()` renders mapped locations as a KML placemark document. |
+| **Haversine great-circle distance** (public-domain formula) | Pure-math distance between two lat/lng points on a sphere. | No geocoding/mapping library dependency needed for company-move distance planning — just stdlib `math`. | `haversine_km()` computes point-to-point distance; `company_move_plan()` chains it across consecutive `schedule_days` locations so the 1st AD / transportation department can see mileage (and missing-coordinate gaps) per company move. |
+
 ## 3. Reviewed and deliberately deferred (stretch goals, tracked in `ROADMAP.md`)
 
 | Tool | What | Why deferred |
@@ -66,8 +73,30 @@ New `marketing` module: campaigns, deliverable assets (trailer/teaser/poster/EPK
 - `desktop/app/accounting/` — chart of accounts, vendors, clients, AP/AR invoices, payments, aging reports, general-ledger CSV export (GnuCash/ledger-cli compatible).
 - `desktop/app/marketing/` — campaigns, marketing/distribution assets (trailer, poster, EPK, press-release, social-clip, key-art, BTS), press contacts, release/social calendar.
 - `desktop/app/post_pipeline/` — DaVinci Resolve scripting bridge (offline-safe auto-detect), CMX3600 EDL export, OpenTimelineIO JSON export, shot-list CSV export, export history.
+- `desktop/app/locations/mapping.py` — geo-coordinates on locations, haversine company-move distance planning, map-coverage summary, KML export.
 
-All three modules follow the existing FilmersCompanion conventions: a `service.py` with a plain class operating over the shared SQLite schema (`db/schema.py`), a thin FastAPI `router.py` mounted under `/api`, and dedicated pytest coverage in `desktop/tests/`.
+All modules follow the existing FilmersCompanion conventions: a `service.py` with a plain class operating over the shared SQLite schema (`db/schema.py`), a thin FastAPI `router.py` mounted under `/api`, and dedicated pytest coverage in `desktop/tests/`.
+
+## 5. v2.5 hardening pass — validation and overdue intelligence
+
+Beyond adding new surface area, this pass tightened the modules shipped in
+v2.4 so they fail loudly instead of silently accepting bad data:
+
+- `accounting/service.py` now rejects blank vendor/client names, non-positive
+  invoice/payment amounts, and invoices referencing unknown vendors/clients;
+  AP/AR aging reports accept a deterministic `as_of` date and flag overdue
+  invoices (`overdue`, `total_overdue`, `overdue_count`).
+- `marketing/service.py` now validates `asset_type` and campaign/asset
+  `status` against explicit enumerations, rejects assets referencing unknown
+  campaigns, and the marketing dashboard flags overdue (past-due,
+  not-yet-delivered) assets.
+- `post_pipeline/service.py` EDL/OTIO export now reads real
+  `storyboard_panels.duration_sec` per shot (positionally matched within
+  each scene) instead of a fixed 5-second placeholder, so cut timing
+  reflects actual storyboarded pacing when available.
+- 27 new tests across `test_location_mapping.py`, `test_accounting.py`,
+  `test_marketing.py`, and `test_post_pipeline.py`; full desktop suite at
+  164/164 passing.
 
 ---
 

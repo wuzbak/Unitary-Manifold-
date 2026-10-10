@@ -44,13 +44,21 @@
 - [ ] Scenario scheduling and contingency simulations
 - [ ] Richer producer forecasting for burn, overages, and pickup risk
 
-## v2.4 — Accounting, Marketing, and Post-Pipeline Interchange ✅ (Current)
+## v2.4 — Accounting, Marketing, and Post-Pipeline Interchange ✅
 
 - [x] Open-source integration research pass (`docs/OPEN_SOURCE_INTEGRATION_RESEARCH.md`): GnuCash, ledger-cli, Mautic, Matomo, DaVinci Resolve, OpenTimelineIO, OpenAssetIO, OpenColorIO, Kitsu, OpenCue, Blender
 - [x] Accounting module: chart of accounts, vendors/clients, AP/AR invoices, payments, aging reports, GnuCash/ledger-cli-compatible general-ledger CSV export
 - [x] Marketing/distribution module: campaigns, trailer/poster/EPK/press-release asset tracking, press contacts, release calendar
 - [x] Post-pipeline module: offline-safe DaVinci Resolve scripting bridge (auto-detects `DaVinciResolveScript`), CMX3600 EDL export, OpenTimelineIO JSON export, shot-list CSV export
 - [x] PsiCat knowledge-library entry covering the full FilmersCompanion module surface
+
+## v2.5 — Hardening Pass: Mapping, Validation, Overdue Intelligence ✅ (Current)
+
+- [x] Location/trailer mapping (`locations/mapping.py`): geo-coordinates on locations, haversine-based company-move distance planning between consecutive `schedule_days` locations, map-coverage summary, and open-format KML export (Google Earth/QGIS compatible)
+- [x] Accounting validation hardening: vendor/client name and existence checks, positive-amount enforcement on AP/AR invoices and payments, `list_vendors`/`list_clients`, overdue flagging (`overdue`, `total_overdue`, `overdue_count`, `as_of`) in AP/AR aging reports
+- [x] Marketing validation hardening: `asset_type`/status/campaign-status enumeration checks, campaign-reference validation, `list_campaigns`/`list_assets`, overdue-asset detection in the marketing dashboard
+- [x] Post-pipeline duration fidelity: EDL/OTIO export now uses real `storyboard_panels.duration_sec` per shot (positionally matched within each scene) instead of a fixed 5-second placeholder, falling back gracefully when no storyboard exists
+- [x] 27 new tests (location mapping, accounting, marketing, post-pipeline) — full desktop suite at 164/164 passing
 
 ## Stretch Goals
 

@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 8250,
+  "file_count": 8252,
   "lanes": {
-    "az_ip": 2416,
+    "az_ip": 2418,
     "compactification": 9,
     "other": 5375,
     "psicat_articles": 354,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2416,
+    "12-AZ-IP": 2418,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -1388,6 +1388,7 @@
       "12-AZ-IP/10-filmers-companion/desktop/app/kb/__init__.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/kb/film_kb.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/locations/__init__.py",
+      "12-AZ-IP/10-filmers-companion/desktop/app/locations/mapping.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/locations/router.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/locations/ui.py",
       "12-AZ-IP/10-filmers-companion/desktop/app/main.py",
@@ -1409,6 +1410,7 @@
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_db.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_finance.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_kb.py",
+      "12-AZ-IP/10-filmers-companion/desktop/tests/test_location_mapping.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_marketing.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_post_pipeline.py",
       "12-AZ-IP/10-filmers-companion/desktop/tests/test_production_suite.py",
@@ -12466,6 +12468,13 @@
       "product": "10-filmers-companion"
     },
     {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/app/locations/mapping.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
       "path": "12-AZ-IP/10-filmers-companion/desktop/app/locations/router.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -12607,6 +12616,13 @@
     },
     {
       "path": "12-AZ-IP/10-filmers-companion/desktop/tests/test_kb.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "10-filmers-companion"
+    },
+    {
+      "path": "12-AZ-IP/10-filmers-companion/desktop/tests/test_location_mapping.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",

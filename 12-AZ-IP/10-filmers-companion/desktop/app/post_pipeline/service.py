@@ -71,6 +71,19 @@ def _frames_to_timecode(total_frames: int, fps: int = _DEFAULT_FPS) -> str:
     return f"{hours:02d}:{minutes:02d}:{seconds:02d}:{frames:02d}"
 
 
+def _group_by_scene(shot_rows) -> list[tuple[str, list[int]]]:
+    """Group ordered (scene_id, shot_number) rows into per-scene shot sequences."""
+    grouped: dict[str, list[int]] = {}
+    order: list[str] = []
+    for row in shot_rows:
+        scene_id = row["scene_id"]
+        if scene_id not in grouped:
+            grouped[scene_id] = []
+            order.append(scene_id)
+        grouped[scene_id].append(row["shot_number"])
+    return [(scene_id, grouped[scene_id]) for scene_id in order]
+
+
 class PostPipelineBridge:
     """DaVinci Resolve / OTIO / EDL interchange for FilmersCompanion."""
 
@@ -113,6 +126,37 @@ class PostPipelineBridge:
     # File-based interchange (always available)
     # ------------------------------------------------------------------
 
+    def _scene_panel_durations(self, conn, project_id: str) -> dict[tuple[str, int], float]:
+        """Map (scene_id, nth-shot-in-scene) -> storyboard panel duration_sec.
+
+        Storyboard panels and shot-list rows aren't linked by a shared key,
+        but both are ordered per-scene sequences (panel_number / shot_number).
+        We zip them positionally within each scene so real per-shot timing
+        (when storyboarded) flows into EDL/OTIO export instead of the fixed
+        5-second placeholder.
+        """
+        panel_rows = conn.execute(
+            """SELECT scene_id, panel_number, duration_sec FROM storyboard_panels
+               WHERE project_id=? ORDER BY scene_id, panel_number""",
+            (project_id,),
+        ).fetchall()
+        by_scene: dict[str, list[float]] = {}
+        for row in panel_rows:
+            by_scene.setdefault(row["scene_id"], []).append(float(row["duration_sec"] or 0.0))
+        shot_rows = conn.execute(
+            """SELECT sl.scene_id, sl.shot_number FROM shot_lists sl
+               JOIN scenes sc ON sc.id = sl.scene_id
+               WHERE sc.project_id=? ORDER BY sl.scene_id, sl.shot_number""",
+            (project_id,),
+        ).fetchall()
+        durations: dict[tuple[str, int], float] = {}
+        for scene_id, shot_numbers in _group_by_scene(shot_rows):
+            panel_durations = by_scene.get(scene_id, [])
+            for index, shot_number in enumerate(shot_numbers):
+                if index < len(panel_durations) and panel_durations[index] > 0:
+                    durations[(scene_id, shot_number)] = panel_durations[index]
+        return durations
+
     def export_edl(self, project_id: str, fps: int = _DEFAULT_FPS) -> str:
         """Render scheduled/shot-listed scenes as a CMX3600 EDL."""
         with get_conn(self.db_path) as conn:
@@ -126,12 +170,14 @@ class PostPipelineBridge:
                    ORDER BY sc.scene_number, sl.shot_number""",
                 (project_id,),
             ).fetchall()
+            panel_durations = self._scene_panel_durations(conn, project_id)
         title = (project["title"] if project else project_id) or project_id
         lines = [f"TITLE: {title}", "FCM: NON-DROP FRAME", ""]
-        frames_per_clip = int(round(_DEFAULT_CLIP_SECONDS * fps))
         cursor = 0
         for index, row in enumerate(rows, start=1):
             clip_name = f"SC{row['scene_number']}_SH{row['shot_number']:03d}"
+            clip_seconds = panel_durations.get((row["scene_id"], row["shot_number"]), _DEFAULT_CLIP_SECONDS)
+            frames_per_clip = int(round(clip_seconds * fps))
             src_in = _frames_to_timecode(0, fps)
             src_out = _frames_to_timecode(frames_per_clip, fps)
             rec_in = _frames_to_timecode(cursor, fps)
@@ -173,16 +219,19 @@ class PostPipelineBridge:
         with get_conn(self.db_path) as conn:
             project = conn.execute("SELECT * FROM projects WHERE id=?", (project_id,)).fetchone()
             rows = conn.execute(
-                """SELECT sl.shot_number, sc.scene_number
+                """SELECT sl.shot_number, sc.scene_number, sc.id AS scene_id
                    FROM shot_lists sl
                    JOIN scenes sc ON sc.id = sl.scene_id
                    WHERE sc.project_id = ?
                    ORDER BY sc.scene_number, sl.shot_number""",
                 (project_id,),
             ).fetchall()
-        frames_per_clip = int(round(_DEFAULT_CLIP_SECONDS * fps))
-        clips = [
-            {
+            panel_durations = self._scene_panel_durations(conn, project_id)
+        clips = []
+        for row in rows:
+            clip_seconds = panel_durations.get((row["scene_id"], row["shot_number"]), _DEFAULT_CLIP_SECONDS)
+            frames_per_clip = int(round(clip_seconds * fps))
+            clips.append({
                 "OTIO_SCHEMA": "Clip.1",
                 "name": f"SC{row['scene_number']}_SH{row['shot_number']:03d}",
                 "source_range": {
@@ -190,9 +239,7 @@ class PostPipelineBridge:
                     "start_time": {"OTIO_SCHEMA": "RationalTime.1", "value": 0, "rate": fps},
                     "duration": {"OTIO_SCHEMA": "RationalTime.1", "value": frames_per_clip, "rate": fps},
                 },
-            }
-            for row in rows
-        ]
+            })
         timeline = {
             "OTIO_SCHEMA": "Timeline.1",
             "name": (project["title"] if project else project_id) or project_id,
