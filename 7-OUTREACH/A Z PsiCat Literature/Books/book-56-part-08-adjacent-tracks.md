@@ -129,15 +129,17 @@ Five companion files carry Chapters 40 through 44, continuing this Part's number
 - **Chapter 44** — `book-56-part-08e-catalog-946-1131.md` — Pillars 946–1131 (186 entries)
 
 That is 914 entries in total — every integer from 218 through 1131 inclusive, with no gaps and no silent
-omissions. Most of those 914 correspond to a real file under `src/` with its own paired test file under
-`tests/`. A handful do not, and each is named as such rather than skipped: one slot (Pillar 574) is a
-cross-surface documentation sync recorded only in `STATUS.md`, with no standalone module; seven slots
-(Pillars 283, 284, 845, 847, 848, 851, and 857) could not be found anywhere in the repository — no module, no
-test file, and no prose entry in `STATUS.md` or `docs/mas_tracker.yml` — and are marked "reserved slot" rather
-than silently dropped from the count or filled in with invented content. As of Sprint CY, this book's
-publication sprint, Pillar 1131 is confirmed as the highest pillar that exists anywhere in the live repository,
-with the next slot standing at 1132; this book does not describe any pillar beyond 1131, because none yet
-exists to describe.
+omissions. Every one of those 914 now corresponds to a real file under `src/` with its own paired test file
+under `tests/`. That was not true when this Part was first drafted: eight slots — Pillar 574, and Pillars 283,
+284, 845, 847, 848, 851, and 857 — were reserved or skipped in earlier sprints, with no standalone module
+anywhere in the repository. A 2026-10-10 backfill (merged as part of this same publication cycle) closed all
+eight: Pillar 574 was brought to parity with sibling sync pillars 575 and 616, and the other seven each
+received a standalone PARTIAL or 🔵 ADJACENT TRACK module and test — none of them a new hardgate physics
+closure, none adding a Lean4 theorem, and none modifying any existing pillar's constants or conclusions. The
+catalog chapters below were updated the same day to replace their "reserved slot" placeholders with these
+modules' real titles, statuses, and file paths. As of Sprint CY, this book's publication sprint, Pillar 1131
+is confirmed as the highest pillar that exists anywhere in the live repository, with the next slot standing
+at 1132; this book does not describe any pillar beyond 1131, because none yet exists to describe.
 
 ---
 
