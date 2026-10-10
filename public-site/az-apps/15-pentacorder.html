@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pentacorder — 5-Pillar Field Scanner — AxiomZero</title>
-  <meta name="description" content="Interactive 5-sensor field scanner simulator with live gauges, sparkline history, geolocation status, Pentad axiom checking, and PDF dossier export." />
+  <title>Pentacorder + SDAM — Real-Sensor Field Scanner — AxiomZero</title>
+  <meta name="description" content="Real device-sensor field scanner: accelerometer, gyroscope, compass, GNSS, battery, microphone, camera, S Pen/touch digitizer, Web NFC and WebAuthn — every reading is a live hardware measurement, or honestly reported as unavailable. Includes a real acoustic (sound-wave) data link." />
   <link rel="canonical" href="https://axiomzerospc.org/az-apps/15-pentacorder.html" />
   <meta name="theme-color" content="#050a1a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,20 +15,85 @@
   <script src="../js/dossier.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <style>
-    :root{--color-card:#0d1830;--color-border:rgba(122,139,168,.22);--color-muted:#8da0c4;--color-text:#edf3ff;--color-accent:#3b8bff;--font-mono:'JetBrains Mono',monospace;--radius:18px;--color-good:#30d158;--color-amber:#f5b942;--color-bad:#ff647c}
-    body{background:#050a1a;color:var(--color-text)} .dashboard-shell{padding:2rem 0 3rem} .hero-note{max-width:760px;color:var(--color-muted);line-height:1.65;font-size:.95rem;margin-top:.65rem}
-    .control-bar,.panel-box,.gauge-card{background:linear-gradient(180deg,rgba(13,24,48,.98),rgba(8,16,34,.98));border:1px solid var(--color-border);border-radius:var(--radius);box-shadow:0 18px 44px rgba(0,0,0,.22)} .control-bar{padding:1rem 1.2rem;display:grid;grid-template-columns:auto auto auto 1fr;gap:.85rem;align-items:center;margin-bottom:1.25rem}
-    .control-bar button,.control-bar select{border-radius:12px;border:1px solid rgba(122,139,168,.2);padding:.75rem .9rem;font:inherit;background:rgba(255,255,255,.04);color:var(--color-text)} .control-bar button.primary{background:linear-gradient(135deg,rgba(59,139,255,.98),rgba(97,175,255,.92));border-color:transparent;font-weight:700;color:#fff}
-    .gps-box{justify-self:end;text-align:right;color:var(--color-muted);font-size:.82rem;line-height:1.45} .gauge-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1rem}
-    .gauge-card{padding:1rem;position:relative;overflow:hidden} .gauge-top{display:flex;justify-content:space-between;gap:.5rem;align-items:flex-start} .pillar-badge{font-family:var(--font-mono);font-size:.7rem;color:var(--color-accent);background:rgba(59,139,255,.12);border:1px solid rgba(59,139,255,.22);border-radius:999px;padding:.2rem .55rem;white-space:nowrap}
-    .gauge-title{font-size:.86rem;color:var(--color-muted);line-height:1.45;margin-top:.15rem} .gauge-ring{width:112px;height:112px;border-radius:50%;margin:1rem auto .9rem;display:grid;place-items:center;background:conic-gradient(var(--color-accent) 0deg,rgba(255,255,255,.08) 0deg 360deg);position:relative}
-    .gauge-ring::after{content:'';position:absolute;inset:10px;border-radius:50%;background:#091325;border:1px solid rgba(122,139,168,.12)} .gauge-ring-inner{position:relative;z-index:1;text-align:center;padding:0 .45rem} .gauge-value{font-family:var(--font-mono);font-size:2rem;color:var(--color-accent);line-height:1.05;letter-spacing:-.04em} .gauge-unit{font-family:var(--font-mono);font-size:.74rem;color:var(--color-muted);margin-top:.2rem}
-    .delta{text-align:center;font-size:.84rem;margin-bottom:.65rem;color:var(--color-muted)} .delta strong{font-family:var(--font-mono);font-size:.94rem;display:block;margin-top:.2rem} .spark-wrap{background:rgba(255,255,255,.03);border:1px solid rgba(122,139,168,.14);border-radius:12px;padding:.45rem} .spark-wrap canvas{width:100%;height:auto;display:block}
-    .detail-grid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:1rem;margin-top:1.35rem;align-items:start} .panel-box{padding:1.1rem} .panel-head{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.85rem} .eyebrow{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--color-muted)}
-    .panel-list,.axiom-list,.snapshot-list{display:grid;gap:.75rem} .row-card,.axiom-item{background:rgba(255,255,255,.03);border:1px solid rgba(122,139,168,.14);border-radius:12px;padding:.8rem .9rem} .row-card strong,.snapshot-list strong{display:block;margin-bottom:.28rem} .row-card p,.snapshot-list p,.helper,.gps-box p{margin:0;color:var(--color-muted);font-size:.82rem;line-height:1.55}
-    .axiom-item{display:flex;align-items:center;gap:.7rem;padding:.72rem .8rem} .axiom-item input{width:18px;height:18px;margin:0;accent-color:var(--color-good)} .coherence-box{margin-top:.95rem;padding:.9rem;border-radius:12px;background:rgba(59,139,255,.08);border:1px solid rgba(59,139,255,.15)} .coherence-value{font-family:var(--font-mono);font-size:1.7rem;color:var(--color-accent);margin-top:.35rem}
-    .snapshot-list .mono{font-family:var(--font-mono);color:var(--color-text);font-size:.88rem} .dossier-bar{margin-top:1rem}
-    @media (max-width:1240px){.gauge-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.detail-grid{grid-template-columns:1fr}} @media (max-width:960px){.control-bar{grid-template-columns:1fr}.gps-box{justify-self:start;text-align:left}.gauge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}} @media (max-width:640px){.gauge-grid{grid-template-columns:1fr}}
+    :root{--color-card:#0d1830;--color-border:rgba(122,139,168,.22);--color-muted:#8da0c4;--color-text:#edf3ff;--color-accent:#3b8bff;--font-mono:'JetBrains Mono',monospace;--radius:18px;--color-good:#30d158;--color-amber:#f5b942;--color-bad:#ff647c;--color-idle:#5c6f93}
+    body{background:#050a1a;color:var(--color-text)}
+    .dashboard-shell{padding:2rem 0 3rem}
+    .hero-note{max-width:820px;color:var(--color-muted);line-height:1.65;font-size:.95rem;margin-top:.65rem}
+
+    .tab-bar{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.1rem}
+    .tab-btn{border-radius:12px;border:1px solid var(--color-border);background:rgba(255,255,255,.04);color:var(--color-text);padding:.65rem 1rem;font:inherit;font-weight:600;cursor:pointer}
+    .tab-btn.active{background:linear-gradient(135deg,rgba(48,209,88,.95),rgba(48,209,88,.65));border-color:transparent;color:#021407}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block}
+
+    .control-bar{background:linear-gradient(180deg,rgba(13,24,48,.98),rgba(8,16,34,.98));border:1px solid var(--color-border);border-radius:var(--radius);box-shadow:0 18px 44px rgba(0,0,0,.22);padding:1rem 1.2rem;display:flex;flex-wrap:wrap;gap:.65rem;align-items:center;margin-bottom:1.1rem}
+    .control-bar button{border-radius:12px;border:1px solid rgba(122,139,168,.2);padding:.75rem .95rem;font:inherit;font-weight:600;background:rgba(255,255,255,.04);color:var(--color-text);cursor:pointer}
+    .control-bar button.primary{background:linear-gradient(135deg,rgba(59,139,255,.98),rgba(97,175,255,.92));border-color:transparent;color:#fff}
+    .control-bar button:disabled{opacity:.45;cursor:not-allowed}
+    .control-status{margin-left:auto;font-family:var(--font-mono);font-size:.8rem;color:var(--color-muted)}
+
+    .warn-banner{background:rgba(245,185,66,.08);border:1px solid rgba(245,185,66,.3);border-radius:14px;padding:.9rem 1.1rem;font-size:.84rem;line-height:1.6;color:#f3dba8;margin-bottom:1.25rem}
+    .warn-banner a{color:#f5b942}
+
+    .panel-box{background:linear-gradient(180deg,rgba(13,24,48,.98),rgba(8,16,34,.98));border:1px solid var(--color-border);border-radius:var(--radius);box-shadow:0 18px 44px rgba(0,0,0,.22);padding:1.1rem;margin-bottom:1.25rem}
+    .panel-head{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.85rem}
+    .eyebrow{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--color-muted)}
+    .panel-sub{color:var(--color-muted);font-size:.85rem;line-height:1.6;margin:-.3rem 0 .85rem}
+
+    table.report-table{width:100%;border-collapse:collapse;font-size:.84rem}
+    table.report-table th{text-align:left;color:var(--color-muted);font-family:var(--font-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;padding:.4rem .5rem;border-bottom:1px solid var(--color-border)}
+    table.report-table td{padding:.55rem .5rem;border-bottom:1px solid rgba(122,139,168,.1);vertical-align:top}
+    table.report-table td.chan{font-weight:600;white-space:nowrap}
+    table.report-table td.detail{color:var(--color-muted)}
+    .status-pill{font-family:var(--font-mono);font-size:.72rem;border-radius:999px;padding:.2rem .6rem;white-space:nowrap;display:inline-block}
+    .status-idle{color:var(--color-idle);background:rgba(92,111,147,.14);border:1px solid rgba(92,111,147,.3)}
+    .status-live{color:var(--color-good);background:rgba(48,209,88,.12);border:1px solid rgba(48,209,88,.3)}
+    .status-unavailable{color:var(--color-bad);background:rgba(255,100,124,.1);border:1px solid rgba(255,100,124,.28)}
+    .status-denied{color:var(--color-amber);background:rgba(245,185,66,.12);border:1px solid rgba(245,185,66,.3)}
+
+    .api-checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem .9rem;margin-top:.6rem;font-size:.82rem}
+    .api-checklist span.yes{color:var(--color-good)}
+    .api-checklist span.no{color:var(--color-muted)}
+
+    .gauge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-bottom:1.25rem}
+    .gauge-card{background:linear-gradient(180deg,rgba(13,24,48,.98),rgba(8,16,34,.98));border:1px solid var(--color-border);border-radius:var(--radius);box-shadow:0 18px 44px rgba(0,0,0,.22);padding:1rem;position:relative}
+    .gauge-top{display:flex;justify-content:space-between;gap:.5rem;align-items:flex-start}
+    .pillar-badge{font-family:var(--font-mono);font-size:.68rem;color:var(--color-accent);background:rgba(59,139,255,.12);border:1px solid rgba(59,139,255,.22);border-radius:999px;padding:.18rem .5rem;white-space:nowrap}
+    .gauge-title{font-size:.86rem;color:var(--color-text);font-weight:600;margin-top:.1rem}
+    .gauge-ring{width:104px;height:104px;border-radius:50%;margin:.9rem auto .7rem;display:grid;place-items:center;background:conic-gradient(var(--color-idle) 0deg,rgba(255,255,255,.08) 0deg 360deg);position:relative}
+    .gauge-ring::after{content:'';position:absolute;inset:9px;border-radius:50%;background:#091325;border:1px solid rgba(122,139,168,.12)}
+    .gauge-ring-inner{position:relative;z-index:1;text-align:center;padding:0 .4rem}
+    .gauge-value{font-family:var(--font-mono);font-size:1.5rem;color:var(--color-text);line-height:1.05;letter-spacing:-.03em}
+    .gauge-unit{font-family:var(--font-mono);font-size:.68rem;color:var(--color-muted);margin-top:.15rem}
+    .gauge-foot{text-align:center;font-size:.78rem;color:var(--color-muted);min-height:2.4em;line-height:1.4}
+
+    .spen-canvas-wrap{background:rgba(2,6,16,.96);border:1px solid rgba(122,139,168,.2);border-radius:14px;padding:.4rem;margin-top:.4rem}
+    #spenCanvas{width:100%;height:220px;display:block;border-radius:10px;background:#03101f;touch-action:none}
+    .readout-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin-top:.9rem}
+    .readout-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .readout-box{background:rgba(255,255,255,.03);border:1px solid rgba(122,139,168,.14);border-radius:12px;padding:.7rem .8rem}
+    .readout-box .label{color:var(--color-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;font-family:var(--font-mono)}
+    .readout-box .value{margin-top:.3rem;font-family:var(--font-mono);font-size:1rem;color:var(--color-text);word-break:break-word}
+
+    .two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem}
+    .helper{color:var(--color-muted);font-size:.78rem;line-height:1.6}
+    .btn-row{display:flex;gap:.65rem;flex-wrap:wrap;margin-top:.8rem}
+    .btn-soft{border-radius:12px;border:1px solid rgba(122,139,168,.22);padding:.7rem .95rem;font:inherit;font-weight:600;background:rgba(255,255,255,.04);color:var(--color-text);cursor:pointer}
+    .btn-soft.danger{border-color:rgba(255,100,124,.4);color:var(--color-bad)}
+    .btn-soft.accent{background:linear-gradient(135deg,rgba(59,139,255,.98),rgba(97,175,255,.92));border-color:transparent;color:#fff}
+    .btn-soft:disabled{opacity:.45;cursor:not-allowed}
+
+    .list-rows{display:grid;gap:.6rem;margin-top:.3rem}
+    .list-row{display:flex;justify-content:space-between;gap:1rem;font-size:.83rem;padding:.55rem .7rem;background:rgba(255,255,255,.03);border:1px solid rgba(122,139,168,.14);border-radius:10px}
+    .list-row span.k{color:var(--color-muted)}
+    .list-row span.v{font-family:var(--font-mono);color:var(--color-text)}
+
+    .canvas-shell{margin-top:.9rem;background:rgba(2,6,16,.96);border:1px solid rgba(122,139,168,.2);border-radius:14px;padding:.75rem}
+    #modemCanvas{width:100%;height:110px;display:block;border-radius:10px}
+    textarea.field-input{width:100%;background:rgba(4,9,23,.85);color:var(--color-text);border:1px solid rgba(122,139,168,.24);border-radius:12px;padding:.8rem .9rem;font:inherit;resize:vertical;min-height:90px}
+
+    @media (max-width:1100px){.gauge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}}
+    @media (max-width:640px){.gauge-grid{grid-template-columns:1fr}.readout-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -50,61 +115,148 @@
         <div class="app-hero-inner">
           <div class="app-icon-lg">📲</div>
           <div class="app-meta">
-            <div class="app-id-badge">Product 15 · 12-AZ-IP/15-pentacorder · Browser Dashboard</div>
-            <div class="app-title">Pentacorder — 5-Pillar Field Scanner</div>
-            <div class="app-subtitle">Real-time 5-sensor dashboard. Each sensor axis maps to a Unitary Manifold pillar. Compare measured readings to UM theoretical predictions.</div>
-            <div class="app-tags"><span class="tag tag-green">🟢 Runs in Browser</span><span class="tag tag-physics">5 Pillars</span><span class="tag tag-dep">Live Scan Simulator</span></div>
-            <div class="hero-note">Pentacorder fuses five simulated sensor feeds into a single dashboard: metric, holographic entropy, consciousness coupling, atmosphere, and FTUM fixed-point light proxy. Gauges update live, sparkline histories track the last 30 readings, and the Pentad Axiom Checker evaluates current coherence.</div>
+            <div class="app-id-badge">Product 15 · 12-AZ-IP/15-pentacorder · Browser Field Scanner</div>
+            <div class="app-title">Pentacorder + SDAM — Field Sensing &amp; Acoustic Comms</div>
+            <div class="app-subtitle">Up to fifteen live channels read straight from this device's own hardware — motion, orientation, GNSS, battery, microphone, camera, S&nbsp;Pen/touch digitizer, Web NFC and the platform authenticator — plus a real sound-wave data link to a second device (the browser companion to the native SDAM / Pentacorder Android apps).</div>
+            <div class="app-tags"><span class="tag tag-green">🟢 Real Sensors</span><span class="tag tag-physics">15 Channels</span><span class="tag tag-dep">No Simulation</span></div>
+            <div class="hero-note">Every value on this page comes from a browser Web API reading this device's actual hardware. Nothing is invented, interpolated, or filled in: a channel the browser cannot reach stays empty and is labelled with the reason — no such sensor, no browser API for it, or a permission that was refused — rather than showing a plausible number. The Unitary Manifold pillar mapped to each channel is an <strong>adjacent-track conceptual comparison</strong>, not an experimental validation of the physics. See <code>12-AZ-IP/15-pentacorder/</code> for the full native Android implementation and <code>12-AZ-IP/14-sdam/</code> for the dedicated acoustic-modem product.</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="container dashboard-shell">
-      <div class="control-bar">
-        <button class="primary" id="toggleScanBtn">Pause scanning</button>
-        <select id="intervalSelect" aria-label="Scan interval selector"><option value="500">0.5s</option><option value="1000" selected>1s</option><option value="2000">2s</option><option value="5000">5s</option></select>
-        <button id="resetBtn">Reset baselines</button>
-        <div class="gps-box"><strong style="color:var(--color-text)">Location</strong><p id="gpsStatus">Resolving GPS…</p><p class="helper">Boot cadence starts at 0.8 s; selector overrides subsequent scan interval.</p></div>
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="scanner">📡 Field Scanner</button>
+        <button class="tab-btn" data-tab="inventory">🧰 Hardware Inventory</button>
+        <button class="tab-btn" data-tab="modem">📶 Acoustic Modem</button>
+        <button class="tab-btn" data-tab="report">📄 Field Report</button>
       </div>
 
-      <section class="gauge-grid" id="gaugeGrid">
-        <article class="gauge-card" data-sensor="metric"><div class="gauge-top"><div><div class="eyebrow">Pillar 1 — Metric</div><div class="gauge-title">Accelerometer proxy → KK metric deviation</div></div><span class="pillar-badge">FLAT LOCAL</span></div><div class="gauge-ring" id="ring-metric"><div class="gauge-ring-inner"><div class="gauge-value" id="value-metric">0.0000</div><div class="gauge-unit">Δg</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-metric">Δ 0.0000</strong></div><div class="spark-wrap"><canvas id="spark-metric" width="120" height="40"></canvas></div></article>
-        <article class="gauge-card" data-sensor="entropy"><div class="gauge-top"><div><div class="eyebrow">Pillar 4 — Holographic Entropy</div><div class="gauge-title">Magnetometer proxy → area entropy field</div></div><span class="pillar-badge">EARTH NOMINAL</span></div><div class="gauge-ring" id="ring-entropy"><div class="gauge-ring-inner"><div class="gauge-value" id="value-entropy">47.2</div><div class="gauge-unit">µT</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-entropy">Δ 0.0</strong></div><div class="spark-wrap"><canvas id="spark-entropy" width="120" height="40"></canvas></div></article>
-        <article class="gauge-card" data-sensor="consciousness"><div class="gauge-top"><div><div class="eyebrow">Pillar 9 — Consciousness Coupling</div><div class="gauge-title">Audio proxy → φ-coupling strength</div></div><span class="pillar-badge">QUIET ROOM</span></div><div class="gauge-ring" id="ring-consciousness"><div class="gauge-ring-inner"><div class="gauge-value" id="value-consciousness">40.0</div><div class="gauge-unit">dB</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-consciousness">Δ 0.0</strong></div><div class="spark-wrap"><canvas id="spark-consciousness" width="120" height="40"></canvas></div></article>
-        <article class="gauge-card" data-sensor="climate"><div class="gauge-top"><div><div class="eyebrow">Pillar 22 — Climate / Atmosphere</div><div class="gauge-title">Barometer proxy → atmospheric field</div></div><span class="pillar-badge">ISA BASELINE</span></div><div class="gauge-ring" id="ring-climate"><div class="gauge-ring-inner"><div class="gauge-value" id="value-climate">1013.3</div><div class="gauge-unit">hPa</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-climate">Δ 0.0</strong></div><div class="spark-wrap"><canvas id="spark-climate" width="120" height="40"></canvas></div></article>
-        <article class="gauge-card" data-sensor="ftum"><div class="gauge-top"><div><div class="eyebrow">Pillar 5 — FTUM Fixed-Point</div><div class="gauge-title">Light proxy → multiverse convergence proxy</div></div><span class="pillar-badge">OFFICE LUX</span></div><div class="gauge-ring" id="ring-ftum"><div class="gauge-ring-inner"><div class="gauge-value" id="value-ftum">500</div><div class="gauge-unit">lux</div></div></div><div class="delta">Measured vs Theoretical<strong id="delta-ftum">Δ 0</strong></div><div class="spark-wrap"><canvas id="spark-ftum" width="120" height="40"></canvas></div></article>
-      </section>
+      <div class="control-bar">
+        <button class="primary" id="startSensorsBtn">▶ Start Sensors</button>
+        <button id="startMicBtn">🎙 Enable Microphone</button>
+        <button id="startCamBtn">📷 Camera — light · flicker · focus</button>
+        <button id="recordBtn">⏺ Record 60s</button>
+        <button id="resetBtn">↺ Reset</button>
+        <span class="control-status" id="controlStatus">idle</span>
+      </div>
 
-      <section class="detail-grid">
+      <div class="warn-banner">
+        ⚠️ Every number below is a <strong>real measurement from this device's own hardware</strong>. Nothing is simulated, interpolated or filled in: a channel that cannot be read reports <em>why</em> — no such sensor, no browser API for it, or a refused permission — and stays empty rather than showing a plausible value. On iOS the motion prompt must be answered from the Start-Sensors button; the microphone and camera each ask separately, only when their own button is pressed.
+      </div>
+
+      <!-- ============== TAB: FIELD SCANNER ============== -->
+      <div class="tab-panel active" id="tab-scanner">
         <div class="panel-box">
-          <div class="panel-head"><div><div class="eyebrow">Sensor Model</div><h2 style="margin:.2rem 0 0">Theoretical baselines</h2></div><span class="pillar-badge">SIM MATH</span></div>
-          <div class="panel-list">
-            <div class="row-card"><strong>Pillar 1 — Metric</strong><p>Theoretical 0.000 local metric deviation. Simulated with Gaussian noise in the ±0.005 band to emulate accelerometer jitter.</p></div>
-            <div class="row-card"><strong>Pillar 4 — Holographic Entropy</strong><p>Theoretical 47.2 µT, matching nominal terrestrial magnetic field conditions with ±2 µT sensor variation.</p></div>
-            <div class="row-card"><strong>Pillar 9 — Consciousness Coupling</strong><p>Theoretical 40 dB quiet-room acoustic floor with ±5 dB ambient fluctuation mapped onto φ-coupling amplitude.</p></div>
-            <div class="row-card"><strong>Pillar 22 &amp; 5</strong><p>Atmospheric ISA baseline 1013.25 hPa with ±2 hPa drift. FTUM light proxy targets 500 lux with ±50 lux illumination noise.</p></div>
+          <div class="panel-head"><div><div class="eyebrow">Sensor Access Report</div><h2 style="margin:.2rem 0 0">What this browser and device actually allow</h2></div></div>
+          <table class="report-table">
+            <thead><tr><th>Channel</th><th>Status</th><th>Detail</th></tr></thead>
+            <tbody id="reportTableBody"></tbody>
+          </table>
+        </div>
+
+        <section class="gauge-grid" id="gaugeGrid"></section>
+
+        <div class="two-col">
+          <div class="panel-box">
+            <div class="panel-head"><div><div class="eyebrow">S Pen Digitizer (EMR) &amp; Touch Geometry</div><h2 style="margin:.2rem 0 0">Pointer contact surface</h2></div><button class="btn-soft" id="clearSpenBtn">clear</button></div>
+            <div class="panel-sub">Draw with a stylus or finger. Pressure, tilt, twist, contact width/height and (pen-only) altitude/azimuth stream live from <code>PointerEvent</code>. The radius is reported in this page's own CSS pixels — no API exposes screen density to a page, so a millimetre figure would be an assumption, not a measurement.</div>
+            <div class="spen-canvas-wrap"><canvas id="spenCanvas"></canvas></div>
+            <div class="readout-grid">
+              <div class="readout-box"><div class="label">Pointer type</div><div class="value" id="spenType">—</div></div>
+              <div class="readout-box"><div class="label">Pressure</div><div class="value" id="spenPressure">—</div></div>
+              <div class="readout-box"><div class="label">Contact W×H (css px)</div><div class="value" id="spenRadius">—</div></div>
+              <div class="readout-box"><div class="label">Tilt X / Y</div><div class="value" id="spenTilt">—</div></div>
+              <div class="readout-box"><div class="label">Twist</div><div class="value" id="spenTwist">—</div></div>
+              <div class="readout-box"><div class="label">Altitude / Azimuth</div><div class="value" id="spenAngles">—</div></div>
+            </div>
+          </div>
+
+          <div class="panel-box">
+            <div class="panel-head"><div><div class="eyebrow">NFC Module</div><h2 style="margin:.2rem 0 0">Web NFC (NDEFReader)</h2></div><span class="status-pill status-idle" id="nfcStatusPill">IDLE</span></div>
+            <div class="panel-sub">Reads a real induction-coupled tag through the device's NFC radio: the tag's serial number and its NDEF records. It only answers while a tag is physically present, so this is an event, not a stream. Requires Chrome on Android over a secure context — other browsers report that they expose no Web NFC.</div>
+            <button class="btn-soft accent" id="nfcScanBtn">Start NFC scan</button>
+            <div class="list-rows" id="nfcLog"><div class="list-row"><span class="k">Status</span><span class="v">not requested yet</span></div></div>
+
+            <div class="panel-head" style="margin-top:1.3rem"><div><div class="eyebrow">Ultrasonic Fingerprint Sensor</div><h2 style="margin:.2rem 0 0">Platform authenticator (WebAuthn)</h2></div><span class="status-pill status-idle" id="webauthnStatusPill">IDLE</span></div>
+            <div class="panel-sub">The under-display sensor is reachable only as a platform authenticator: the page can ask the OS to use it, but the ridge map itself is never exposed to the page — only a pass/fail credential result. Enrolling writes a real passkey bound to this hostname; no biometric data ever leaves the device, and the credential can be removed from the device's passkey settings at any time.</div>
+            <div class="btn-row">
+              <button class="btn-soft" id="webauthnCheckBtn">Check authenticator</button>
+              <button class="btn-soft" id="webauthnEnrollBtn">Enrol passkey</button>
+              <button class="btn-soft danger" id="webauthnVerifyBtn">Exercise sensor — verify</button>
+            </div>
+            <div class="list-rows" id="webauthnLog"><div class="list-row"><span class="k">Status</span><span class="v">not requested yet</span></div></div>
           </div>
         </div>
 
-        <div class="panel-box">
-          <div class="panel-head"><div><div class="eyebrow">Pentad Axiom Checker</div><h2 style="margin:.2rem 0 0">Axiom pass / fail</h2></div><span class="pillar-badge">READ ONLY</span></div>
-          <div class="axiom-list">
-            <label class="axiom-item"><input type="checkbox" id="axiom1" disabled /><span>Axiom 1 — Metric within tolerance</span></label>
-            <label class="axiom-item"><input type="checkbox" id="axiom2" disabled /><span>Axiom 2 — Entropy above floor</span></label>
-            <label class="axiom-item"><input type="checkbox" id="axiom3" disabled /><span>Axiom 3 — φ-coupling non-zero</span></label>
-            <label class="axiom-item"><input type="checkbox" id="axiom4" disabled /><span>Axiom 4 — Pressure in standard range</span></label>
-            <label class="axiom-item"><input type="checkbox" id="axiom5" disabled /><span>Axiom 5 — Lux &gt; 0</span></label>
+        <div class="two-col">
+          <div class="panel-box">
+            <div class="panel-head"><div><div class="eyebrow">Measured Statistics</div><h2 style="margin:.2rem 0 0">Rolling min / mean / max</h2></div></div>
+            <div class="panel-sub">Computed live from every sample this page has actually received since the last reset — no channel is backfilled.</div>
+            <div class="list-rows" id="statsRows"></div>
           </div>
-          <div class="coherence-box"><div class="eyebrow">Overall Pentad coherence score</div><div class="coherence-value" id="coherenceValue">100%</div><div class="helper">Computed as <span class="mono">(passing axioms / 5) × 100%</span>.</div></div>
+          <div class="panel-box">
+            <div class="panel-head"><div><div class="eyebrow">Live Readings</div><h2 style="margin:.2rem 0 0">Most recent sample per channel</h2></div></div>
+            <div class="panel-sub">Timestamp of last update and current status for every channel this page knows how to ask for.</div>
+            <div class="list-rows" id="liveRows"></div>
+          </div>
         </div>
+      </div>
 
+      <!-- ============== TAB: HARDWARE INVENTORY ============== -->
+      <div class="tab-panel" id="tab-inventory">
         <div class="panel-box">
-          <div class="panel-head"><div><div class="eyebrow">Snapshot</div><h2 style="margin:.2rem 0 0">Last scan reading set</h2></div><span class="pillar-badge">LATEST</span></div>
-          <div class="snapshot-list" id="snapshotList"><div class="row-card"><strong>Awaiting scan</strong><p>Start the scanner to populate the latest Pentacorder reading set.</p></div></div>
-          <div class="dossier-bar"><div class="dossier-bar-label">Export the most recent scan set as a Pentacorder dossier.</div><button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button></div>
+          <div class="panel-head"><div><div class="eyebrow">Browser API Surface</div><h2 style="margin:.2rem 0 0">Feature detection — this browser, this load</h2></div></div>
+          <div class="panel-sub">Detected once on page load via <code>typeof</code> / <code>in window</code> checks. A ✓ means the API exists in this browser; it does not guarantee the underlying hardware is present or that permission will be granted.</div>
+          <div class="api-checklist" id="apiChecklist"></div>
         </div>
-      </section>
+        <div class="panel-box">
+          <div class="panel-head"><div><div class="eyebrow">Device Summary</div><h2 style="margin:.2rem 0 0">What <code>navigator</code> reports</h2></div></div>
+          <div class="list-rows" id="deviceSummaryRows"></div>
+        </div>
+      </div>
+
+      <!-- ============== TAB: ACOUSTIC MODEM ============== -->
+      <div class="tab-panel" id="tab-modem">
+        <div class="panel-box">
+          <div class="panel-head"><div><div class="eyebrow">SDAM — Software-Defined Acoustic Modem</div><h2 style="margin:.2rem 0 0">Real sound-wave data link</h2></div><span class="status-pill status-idle" id="modemStatusPill">IDLE</span></div>
+          <div class="panel-sub">This encoder genuinely plays audio through the device speaker and genuinely listens through the microphone — it is a real (if simple) single-tone-per-nibble FSK scheme over the Web Audio API, not a math illustration. It is far simpler than the full OFDM link in the native <code>12-AZ-IP/14-sdam</code> product: treat it as a working proof of an air-gapped acoustic channel, tested loopback on one device or between two devices placed near each other.</div>
+          <div class="two-col">
+            <div>
+              <label class="helper" for="modemMessage">Message to transmit (ASCII, ≤ 64 chars)</label>
+              <textarea class="field-input" id="modemMessage" maxlength="64" placeholder="Pentacorder field test — tone link online.">Pentacorder field test</textarea>
+              <div class="btn-row">
+                <button class="btn-soft accent" id="modemTransmitBtn">🔊 Transmit (plays audio)</button>
+                <button class="btn-soft" id="modemListenBtn">🎧 Listen &amp; decode (needs microphone)</button>
+                <button class="btn-soft" id="modemStopBtn">⏹ Stop listening</button>
+              </div>
+              <div class="canvas-shell"><canvas id="modemCanvas" width="600" height="110"></canvas></div>
+            </div>
+            <div>
+              <div class="readout-grid two">
+                <div class="readout-box"><div class="label">Base frequency</div><div class="value">1760 Hz (A6) · 125 Hz/step, 16 tones</div></div>
+                <div class="readout-box"><div class="label">Symbol duration</div><div class="value">120 ms/nibble + 30 ms gap</div></div>
+                <div class="readout-box"><div class="label">Encoding</div><div class="value">UTF-8 byte → 2 nibbles → 2 tones, start/stop sentinel tones</div></div>
+                <div class="readout-box"><div class="label">Decode method</div><div class="value">Live FFT (AnalyserNode) peak-bin matching, 48000 Hz</div></div>
+              </div>
+              <div class="list-rows" style="margin-top:.9rem" id="modemLog">
+                <div class="list-row"><span class="k">Status</span><span class="v">idle — press Transmit or Listen</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============== TAB: FIELD REPORT ============== -->
+      <div class="tab-panel" id="tab-report">
+        <div class="panel-box">
+          <div class="panel-head"><div><div class="eyebrow">Field Report</div><h2 style="margin:.2rem 0 0">Export this session's honest reading set</h2></div></div>
+          <div class="panel-sub">Builds a PDF dossier from exactly the channels that have reported at least one real sample, plus an explicit list of every channel that stayed unavailable and why.</div>
+          <div class="list-rows" id="reportSnapshot"><div class="list-row"><span class="k">Status</span><span class="v">start the scanner to populate a snapshot</span></div></div>
+          <div class="dossier-bar"><div class="dossier-bar-label">Export the current channel set, statistics, and acoustic modem session as a Pentacorder dossier.</div><button class="btn-dossier" id="dossierBtn">📄 Export Dossier</button></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -116,192 +268,650 @@
   </div>
 
   <script>
-    const sensors=[{id:'metric',pillar:'Pillar 1',name:'Metric',unit:'Δg',theoretical:0,range:.005,decimals:4},{id:'entropy',pillar:'Pillar 4',name:'Holographic Entropy',unit:'µT',theoretical:47.2,range:2,decimals:1},{id:'consciousness',pillar:'Pillar 9',name:'Consciousness Coupling',unit:'dB',theoretical:40,range:5,decimals:1},{id:'climate',pillar:'Pillar 22',name:'Climate / Atmosphere',unit:'hPa',theoretical:1013.25,range:2,decimals:2},{id:'ftum',pillar:'Pillar 5',name:'FTUM Fixed-Point',unit:'lux',theoretical:500,range:50,decimals:0}];
-    const state={running:true,intervalMs:800,timer:null,histories:{},latest:{},baselines:{},gps:'GPS unavailable — using simulated coordinates',scanIndex:0}; sensors.forEach(sensor=>{state.histories[sensor.id]=[]; state.baselines[sensor.id]=sensor.theoretical;});
-    function gaussian(){let u=0,v=0; while(u===0) u=Math.random(); while(v===0) v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);} const formatNumber=(value,decimals)=>Number(value).toFixed(decimals);
-    function toleranceColor(absDelta,sigma){if(absDelta<=2*sigma) return {color:'var(--color-good)',label:'within ±2σ'}; if(absDelta<=3*sigma) return {color:'var(--color-amber)',label:'within ±3σ'}; return {color:'var(--color-bad)',label:'outside tolerance'};}
-    const simulateValue=(sensor)=>sensor.theoretical+(gaussian()*(sensor.range/2));
-    function updateGauge(sensor,measured){const sigma=sensor.range/2,delta=measured-sensor.theoretical,absDelta=Math.abs(delta),rating=toleranceColor(absDelta,sigma),normalized=Math.max(0,1-Math.min(absDelta/(sensor.range*1.5),1)),degrees=Math.round(40+normalized*280); document.getElementById(`value-${sensor.id}`).textContent=formatNumber(measured,sensor.decimals); const deltaEl=document.getElementById(`delta-${sensor.id}`); deltaEl.textContent=`Δ ${delta>=0?'+':''}${formatNumber(delta,sensor.decimals)} · ${rating.label}`; deltaEl.style.color=rating.color; document.getElementById(`ring-${sensor.id}`).style.background=`conic-gradient(${rating.color} ${degrees}deg, rgba(255,255,255,.08) ${degrees}deg 360deg)`; state.latest[sensor.id]={measured,delta,rating:rating.label,sigma};}
-    function drawSparkline(sensor){const canvas=document.getElementById(`spark-${sensor.id}`),ctx=canvas.getContext('2d'),width=canvas.width,height=canvas.height; ctx.clearRect(0,0,width,height); ctx.fillStyle='#081122'; ctx.fillRect(0,0,width,height); const history=state.histories[sensor.id]; if(!history.length) return; const values=history.map(entry=>entry.measured),min=Math.min(...values,sensor.theoretical-sensor.range),max=Math.max(...values,sensor.theoretical+sensor.range),span=max-min||1; ctx.strokeStyle='rgba(141,160,196,.12)'; ctx.beginPath(); ctx.moveTo(0,height/2); ctx.lineTo(width,height/2); ctx.stroke(); ctx.beginPath(); ctx.lineWidth=1.6; ctx.strokeStyle='#3b8bff'; values.forEach((value,index)=>{const x=(index/Math.max(values.length-1,1))*width,y=height-((value-min)/span)*(height-6)-3; if(index===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);}); ctx.stroke();}
-    function updateAxioms(){const metricPass=Math.abs(state.latest.metric.delta)<=.01,entropyPass=state.latest.entropy.measured>=45,consciousnessPass=state.latest.consciousness.measured>0,climatePass=state.latest.climate.measured>=1008&&state.latest.climate.measured<=1018,ftumPass=state.latest.ftum.measured>0,passes=[metricPass,entropyPass,consciousnessPass,climatePass,ftumPass]; document.getElementById('axiom1').checked=metricPass; document.getElementById('axiom2').checked=entropyPass; document.getElementById('axiom3').checked=consciousnessPass; document.getElementById('axiom4').checked=climatePass; document.getElementById('axiom5').checked=ftumPass; state.coherence=Math.round((passes.filter(Boolean).length/5)*100); document.getElementById('coherenceValue').textContent=`${state.coherence}%`;}
-    function updateSnapshot(){const list=document.getElementById('snapshotList'),timestamp=new Date().toLocaleTimeString(); list.innerHTML=`<div class="row-card"><strong>Scan ${state.scanIndex}</strong><p class="mono">${timestamp}</p></div><div class="row-card"><strong>Metric</strong><p class="mono">${formatNumber(state.latest.metric.measured,4)} Δg</p></div><div class="row-card"><strong>Entropy</strong><p class="mono">${formatNumber(state.latest.entropy.measured,1)} µT</p></div><div class="row-card"><strong>Consciousness</strong><p class="mono">${formatNumber(state.latest.consciousness.measured,1)} dB</p></div><div class="row-card"><strong>Pressure</strong><p class="mono">${formatNumber(state.latest.climate.measured,2)} hPa</p></div><div class="row-card"><strong>FTUM lux</strong><p class="mono">${formatNumber(state.latest.ftum.measured,0)} lux</p></div><div class="row-card"><strong>Pentad coherence</strong><p class="mono">${state.coherence}%</p></div>`;}
-    function scanOnce(){state.scanIndex+=1; sensors.forEach(sensor=>{const measured=simulateValue(sensor),history=state.histories[sensor.id]; history.push({measured,timestamp:Date.now()}); if(history.length>30) history.shift(); updateGauge(sensor,measured); drawSparkline(sensor);}); updateAxioms(); updateSnapshot();}
-    function startScanner(){stopScanner(); state.timer=setInterval(scanOnce,state.intervalMs); state.running=true; document.getElementById('toggleScanBtn').textContent='Pause scanning';}
-    function stopScanner(){if(state.timer) clearInterval(state.timer); state.timer=null; state.running=false; document.getElementById('toggleScanBtn').textContent='Start scanning';}
-    function resetBaselines(){sensors.forEach(sensor=>{state.histories[sensor.id]=[]; state.baselines[sensor.id]=sensor.theoretical;}); state.scanIndex=0; scanOnce(); if(state.running) startScanner();}
-    function resolveGPS(){const fallbackLat=47.6062+(Math.random()-.5)*.08,fallbackLon=-122.3321+(Math.random()-.5)*.08,fallback=`GPS unavailable — using simulated coordinates ${fallbackLat.toFixed(4)}, ${fallbackLon.toFixed(4)}`; if(!navigator.geolocation){state.gps=fallback; document.getElementById('gpsStatus').textContent=fallback; return;} navigator.geolocation.getCurrentPosition(position=>{const {latitude,longitude}=position.coords; state.gps=`GPS lock ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`; document.getElementById('gpsStatus').textContent=state.gps;},()=>{state.gps=fallback; document.getElementById('gpsStatus').textContent=fallback;},{enableHighAccuracy:false,timeout:3000,maximumAge:300000});}
-    function exportDossier(){if(!state.latest.metric){alert('Run at least one scan before exporting a dossier.');return;} AZDossier.export({appName:'Pentacorder — 5-Pillar Field Scanner',appId:'15-pentacorder',version:'v20.1',epistemic:'🟢 Browser simulator',inputs:[{label:'GPS status',value:state.gps},{label:'Scan interval',value:`${state.intervalMs} ms`},{label:'Scan index',value:String(state.scanIndex)}],outputs:sensors.map(sensor=>({label:`${sensor.pillar} — ${sensor.name}`,value:`${formatNumber(state.latest[sensor.id].measured,sensor.decimals)} ${sensor.unit} (Δ ${formatNumber(state.latest[sensor.id].delta,sensor.decimals)})`})).concat([{label:'Pentad coherence',value:`${state.coherence}%`}]),notes:'Gauge state compares measured values against Unitary Manifold theoretical baselines. Green status indicates within ±2σ, amber within ±3σ, red outside tolerance. Readings are simulated with Gaussian noise and last-30 sparkline history.',dependencies:['JavaScript (browser)','Canvas 2D','Geolocation API','jsPDF']});}
-    document.getElementById('toggleScanBtn').addEventListener('click',()=>{if(state.running) stopScanner(); else {state.running=true; startScanner();}}); document.getElementById('intervalSelect').addEventListener('change',event=>{state.intervalMs=Number(event.target.value); if(state.running) startScanner();}); document.getElementById('resetBtn').addEventListener('click',resetBaselines); document.getElementById('dossierBtn').addEventListener('click',exportDossier); window.addEventListener('load',()=>{resolveGPS(); scanOnce(); state.running=true; startScanner();});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  (function(){
+    'use strict';
+
+    // ───────────────────────── Channel registry ─────────────────────────
+    // Every channel is either: fed by a real browser reading (status becomes
+    // "live"), refused by the user/OS ("denied"), or never exposed by this
+    // browser at all ("unavailable"). Nothing here is ever set from random
+    // numbers — the "—" placeholder means no sample has arrived yet.
+    const CHANNELS = [
+      { id:'accel',    pillar:'Pillar 1',  name:'Accelerometer',          unit:'m/s²', decimals:3 },
+      { id:'gyro',     pillar:'Pillar 1',  name:'Rate Gyroscope',         unit:'°/s',  decimals:3 },
+      { id:'compass',  pillar:'Pillar 3',  name:'Magnetometer / Compass', unit:'°',    decimals:1 },
+      { id:'baro',     pillar:'Pillar 3',  name:'Barometer',              unit:'hPa',  decimals:2, unavailable:"this browser exposes no AmbientPressureSensor — there is no web API for this sensor here" },
+      { id:'proximity',pillar:'Pillar 4',  name:'Proximity (IR)',         unit:'cm',   decimals:1, unavailable:"this browser exposes no ProximitySensor — there is no web API for this sensor here" },
+      { id:'light',    pillar:'Pillar 7',  name:'Ambient Light',          unit:'lx',   decimals:0, unavailable:"this browser exposes no AmbientLightSensor — there is no web API for this sensor here" },
+      { id:'flicker',  pillar:'Pillar 7',  name:'Flicker Sensor',         unit:'Hz',   decimals:1 },
+      { id:'focus',    pillar:'Pillar 5',  name:'Laser AF / ToF',         unit:'dpt',  decimals:2 },
+      { id:'mic',      pillar:'Pillar 9',  name:'Microphone',             unit:'dBFS', decimals:1 },
+      { id:'spen',     pillar:'Pillar 11', name:'S Pen Digitizer (EMR)',  unit:'p',    decimals:2 },
+      { id:'touch',    pillar:'Pillar 11', name:'Touch Digitizer',        unit:'px',   decimals:0 },
+      { id:'nfc',      pillar:'Pillar 10', name:'NFC Module',             unit:'',     decimals:0 },
+      { id:'fingerprint', pillar:'Pillar 12', name:'Ultrasonic Fingerprint', unit:'', decimals:0 },
+      { id:'gnss',     pillar:'Pillar 9',  name:'GNSS',                   unit:'m',    decimals:1 },
+      { id:'battery',  pillar:'Pillar 12', name:'Battery Gas Gauge',      unit:'%',    decimals:0 },
+    ];
+
+    const state = {};
+    CHANNELS.forEach(c => { state[c.id] = { status:'idle', value:null, detail:'not requested yet', updatedAt:null, history:[] }; });
+    const running = { sensors:false, mic:false, cam:false, recording:false, recordUntil:0 };
+    let audioCtx = null, micAnalyser = null, micSource = null, micStream = null;
+    let camStream = null, camVideo = null, camCanvas = null, camCtx = null, camRAF = null;
+    const lumHistory = [];
+
+    function setStatus(id, status, detail, value){
+      const ch = state[id];
+      ch.status = status;
+      if (detail !== undefined) ch.detail = detail;
+      if (value !== undefined && value !== null){
+        ch.value = value;
+        ch.updatedAt = Date.now();
+        ch.history.push(value);
+        if (ch.history.length > 240) ch.history.shift();
+      }
+      render();
+    }
+
+    // ───────────────────────── Feature detection ─────────────────────────
+    const FEATURES = [
+      { label:'DeviceMotionEvent — accelerometer &amp; gyroscope', ok: typeof window.DeviceMotionEvent !== 'undefined' },
+      { label:'DeviceOrientationEvent — magnetometer heading', ok: typeof window.DeviceOrientationEvent !== 'undefined' },
+      { label:'Magnetometer — raw field vector (µT)', ok: typeof window.Magnetometer !== 'undefined' },
+      { label:'AmbientPressureSensor — barometer', ok: typeof window.AmbientPressureSensor !== 'undefined' },
+      { label:'ProximitySensor — IR proximity', ok: typeof window.ProximitySensor !== 'undefined' },
+      { label:'AmbientLightSensor — hardware lux', ok: typeof window.AmbientLightSensor !== 'undefined' },
+      { label:'getUserMedia — camera array (light, flicker, focus distance)', ok: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) },
+      { label:'getUserMedia — microphone', ok: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) },
+      { label:'PointerEvent — S&nbsp;Pen digitizer', ok: typeof window.PointerEvent !== 'undefined' },
+      { label:'NDEFReader — Web NFC', ok: typeof window.NDEFReader !== 'undefined' },
+      { label:'PublicKeyCredential — platform authenticator', ok: typeof window.PublicKeyCredential !== 'undefined' },
+      { label:'Geolocation — GNSS', ok: !!navigator.geolocation },
+      { label:'getBattery — gas gauge', ok: typeof navigator.getBattery === 'function' },
+    ];
+
+    function renderFeatureChecklist(){
+      const el = document.getElementById('apiChecklist');
+      el.innerHTML = FEATURES.map(f => `<span class="${f.ok ? 'yes' : 'no'}">${f.ok ? '✓' : '·'} ${f.label}</span>`).join('');
+    }
+
+    function renderDeviceSummary(){
+      const rows = [
+        ['User agent', navigator.userAgent || '—'],
+        ['Platform', navigator.platform || '—'],
+        ['Hardware concurrency', (navigator.hardwareConcurrency || '—') + ' logical cores'],
+        ['Device memory', navigator.deviceMemory ? navigator.deviceMemory + ' GB (coarse, Chrome-only)' : 'not reported'],
+        ['Max touch points', String(navigator.maxTouchPoints || 0)],
+        ['Online', navigator.onLine ? 'yes' : 'no'],
+        ['Secure context', (window.isSecureContext ? 'yes — https/localhost' : 'no — many APIs below will refuse to run')],
+      ];
+      document.getElementById('deviceSummaryRows').innerHTML = rows.map(r =>
+        `<div class="list-row"><span class="k">${r[0]}</span><span class="v">${r[1]}</span></div>`).join('');
+    }
+
+    // ───────────────────────── Motion / orientation ─────────────────────────
+    function handleMotion(e){
+      const a = e.accelerationIncludingGravity || e.acceleration;
+      if (a && (a.x !== null && a.x !== undefined)){
+        const mag = Math.sqrt((a.x||0)**2 + (a.y||0)**2 + (a.z||0)**2);
+        setStatus('accel', 'live', `DeviceMotionEvent — accelerationIncludingGravity in m/s², x=${fmt(a.x)} y=${fmt(a.y)} z=${fmt(a.z)}`, mag);
+      }
+      const r = e.rotationRate;
+      if (r && (r.alpha !== null && r.alpha !== undefined)){
+        const mag = Math.sqrt((r.alpha||0)**2 + (r.beta||0)**2 + (r.gamma||0)**2);
+        setStatus('gyro', 'live', `DeviceMotionEvent — rotationRate in °/s, α=${fmt(r.alpha)} β=${fmt(r.beta)} γ=${fmt(r.gamma)}`, mag);
+      }
+    }
+    function handleOrientation(e){
+      let heading = null;
+      if (typeof e.webkitCompassHeading === 'number') heading = e.webkitCompassHeading;
+      else if (e.absolute && typeof e.alpha === 'number') heading = 360 - e.alpha;
+      if (heading !== null){
+        setStatus('compass', 'live', 'heading from the platform orientation solution', heading);
+      }
+    }
+
+    async function requestMotionPermission(){
+      if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function'){
+        try { const res = await DeviceMotionEvent.requestPermission(); return res === 'granted'; }
+        catch(e){ return false; }
+      }
+      return true;
+    }
+
+    function startMotionOrientation(){
+      if (typeof window.DeviceMotionEvent === 'undefined'){
+        setStatus('accel', 'unavailable', 'this browser exposes no DeviceMotionEvent — there is no web API for this sensor here');
+        setStatus('gyro', 'unavailable', 'this browser exposes no DeviceMotionEvent — there is no web API for this sensor here');
+      } else {
+        window.addEventListener('devicemotion', handleMotion);
+        setStatus('accel', 'live', 'DeviceMotionEvent — accelerationIncludingGravity in m/s²');
+        setStatus('gyro', 'live', 'DeviceMotionEvent — rotationRate in °/s');
+      }
+      if (typeof window.DeviceOrientationEvent === 'undefined'){
+        setStatus('compass', 'unavailable', 'this browser exposes no DeviceOrientationEvent — there is no web API for this sensor here');
+      } else {
+        window.addEventListener('deviceorientation', handleOrientation);
+        setStatus('compass', 'live', 'heading from the platform orientation solution');
+      }
+      setStatus('baro', 'unavailable', CHANNELS.find(c=>c.id==='baro').unavailable);
+      setStatus('proximity', 'unavailable', CHANNELS.find(c=>c.id==='proximity').unavailable);
+      setStatus('light', 'unavailable', CHANNELS.find(c=>c.id==='light').unavailable);
+    }
+
+    // ───────────────────────── GNSS ─────────────────────────
+    let geoWatchId = null;
+    function startGNSS(){
+      if (!navigator.geolocation){
+        setStatus('gnss', 'unavailable', 'this browser exposes no Geolocation API');
+        return;
+      }
+      geoWatchId = navigator.geolocation.watchPosition(pos => {
+        const c = pos.coords;
+        setStatus('gnss', 'live', `Geolocation API — position, accuracy, altitude and altitude accuracy as the platform reports them. Constellation detail is not exposed. lat=${fmt(c.latitude,5)} lon=${fmt(c.longitude,5)} alt=${c.altitude!==null?fmt(c.altitude,1)+'m':'n/a'}`, c.accuracy);
+      }, err => {
+        setStatus('gnss', err.code === 1 ? 'denied' : 'unavailable', `Geolocation error: ${err.message}`);
+      }, { enableHighAccuracy:true, maximumAge:1000, timeout:10000 });
+    }
+
+    // ───────────────────────── Battery ─────────────────────────
+    function startBattery(){
+      if (typeof navigator.getBattery !== 'function'){
+        setStatus('battery', 'unavailable', 'this browser exposes no Battery Status API');
+        return;
+      }
+      navigator.getBattery().then(battery => {
+        const report = () => setStatus('battery', 'live',
+          `Battery Status API — level, charging state and time estimates. Cycle count, cell impedance and chemical degradation have no web API and remain unreachable. charging=${battery.charging}`,
+          Math.round(battery.level * 100));
+        report();
+        battery.addEventListener('levelchange', report);
+        battery.addEventListener('chargingchange', report);
+      }).catch(() => setStatus('battery', 'unavailable', 'Battery Status API call rejected by this browser'));
+    }
+
+    // ───────────────────────── Microphone ─────────────────────────
+    async function startMicrophone(){
+      if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)){
+        setStatus('mic', 'unavailable', 'this browser exposes no getUserMedia');
+        return false;
+      }
+      try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio:{ echoCancellation:false, noiseSuppression:false, autoGainControl:false } });
+      } catch(e){
+        setStatus('mic', 'denied', `getUserMedia(audio) refused: ${e.message}`);
+        return false;
+      }
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      micSource = audioCtx.createMediaStreamSource(micStream);
+      micAnalyser = audioCtx.createAnalyser();
+      micAnalyser.fftSize = 2048;
+      micSource.connect(micAnalyser);
+      running.mic = true;
+      setStatus('mic', 'live', `AnalyserNode on the live microphone stream — ${audioCtx.sampleRate} Hz sample rate, FFT ${micAnalyser.fftSize}`);
+      pumpMic();
+      return true;
+    }
+    function pumpMic(){
+      if (!running.mic || !micAnalyser) return;
+      const buf = new Float32Array(micAnalyser.fftSize);
+      micAnalyser.getFloatTimeDomainData(buf);
+      let sumSq = 0; for (let i=0;i<buf.length;i++) sumSq += buf[i]*buf[i];
+      const rms = Math.sqrt(sumSq / buf.length);
+      const dbfs = rms > 0 ? 20*Math.log10(rms) : -100;
+      setStatus('mic', 'live', state.mic.detail, dbfs);
+      requestAnimationFrame(pumpMic);
+    }
+
+    // ───────────────────────── Camera: light / flicker / focus ─────────────────────────
+    async function startCamera(){
+      if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)){
+        setStatus('flicker', 'unavailable', 'this browser exposes no getUserMedia (camera)');
+        setStatus('focus', 'unavailable', 'this browser exposes no getUserMedia (camera)');
+        return;
+      }
+      try {
+        camStream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:'environment' } });
+      } catch(e){
+        setStatus('flicker', 'denied', `getUserMedia(video) refused: ${e.message}`);
+        setStatus('focus', 'denied', `getUserMedia(video) refused: ${e.message}`);
+        return;
+      }
+      camVideo = document.createElement('video');
+      camVideo.srcObject = camStream;
+      camVideo.muted = true;
+      await camVideo.play().catch(()=>{});
+      camCanvas = document.createElement('canvas');
+      camCanvas.width = 64; camCanvas.height = 48;
+      camCtx = camCanvas.getContext('2d', { willReadFrequently:true });
+
+      const track = camStream.getVideoTracks()[0];
+      const caps = (track.getCapabilities && track.getCapabilities()) || {};
+      if (caps.focusDistance){
+        setStatus('focus', 'live', `MediaStreamTrack capabilities — focusDistance range reported by driver: ${caps.focusDistance.min}–${caps.focusDistance.max} dpt`);
+      } else {
+        setStatus('focus', 'unavailable', 'this camera track exposes no focusDistance capability — no web API for the laser AF / ToF module here');
+      }
+      setStatus('flicker', 'live', 'estimated from frame-to-frame luminance of the camera array — this is an exposure-compensated proxy, not a photometric sensor');
+      running.cam = true;
+      pumpCamera();
+    }
+    function pumpCamera(){
+      if (!running.cam || !camVideo) return;
+      camCtx.drawImage(camVideo, 0, 0, camCanvas.width, camCanvas.height);
+      const frame = camCtx.getImageData(0, 0, camCanvas.width, camCanvas.height).data;
+      let sum = 0;
+      for (let i=0;i<frame.length;i+=4) sum += 0.2126*frame[i] + 0.7152*frame[i+1] + 0.0722*frame[i+2];
+      const lum = sum / (frame.length/4);
+      lumHistory.push({ t: performance.now(), lum });
+      if (lumHistory.length > 180) lumHistory.shift();
+      if (lumHistory.length > 20){
+        const flickerHz = estimateFlickerHz(lumHistory);
+        setStatus('flicker', 'live', state.flicker.detail, flickerHz);
+      }
+      requestAnimationFrame(pumpCamera);
+    }
+    function estimateFlickerHz(samples){
+      // Zero-crossing rate of the de-meaned luminance signal over the sampled window.
+      const vals = samples.map(s=>s.lum);
+      const mean = vals.reduce((a,b)=>a+b,0)/vals.length;
+      let crossings = 0;
+      for (let i=1;i<vals.length;i++){
+        if ((vals[i-1]-mean) <= 0 && (vals[i]-mean) > 0) crossings++;
+      }
+      const span = (samples[samples.length-1].t - samples[0].t) / 1000;
+      return span > 0 ? crossings / span : 0;
+    }
+
+    // ───────────────────────── S Pen / touch digitizer ─────────────────────────
+    function setupSpenCanvas(){
+      const canvas = document.getElementById('spenCanvas');
+      function resize(){
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width; canvas.height = rect.height;
+        drawSpenPlaceholder(canvas);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      const ctx = canvas.getContext('2d');
+      let drawing = false;
+      canvas.addEventListener('pointerdown', e => { drawing = true; canvas.setPointerCapture(e.pointerId); handlePointer(e, ctx, true); });
+      canvas.addEventListener('pointermove', e => { if (!drawing) { handlePointer(e, ctx, false); return; } handlePointer(e, ctx, true); });
+      canvas.addEventListener('pointerup', () => { drawing = false; });
+      canvas.addEventListener('pointercancel', () => { drawing = false; });
+    }
+    function drawSpenPlaceholder(canvas){
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#03101f'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle = 'rgba(141,160,196,.5)'; ctx.font = '13px Inter, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('Draw here with a stylus, or rest a finger, for contact geometry.', canvas.width/2, canvas.height/2 - 8);
+      ctx.fillText('Pressure, tilt and (pen-only) altitude/azimuth stream into the live session.', canvas.width/2, canvas.height/2 + 12);
+    }
+    function handlePointer(e, ctx, draw){
+      const isPen = e.pointerType === 'pen';
+      const isTouch = e.pointerType === 'touch';
+      const channel = isPen ? 'spen' : 'touch';
+      document.getElementById('spenType').textContent = e.pointerType || 'mouse';
+      document.getElementById('spenPressure').textContent = e.pressure !== undefined ? e.pressure.toFixed(3) : '—';
+      document.getElementById('spenRadius').textContent = (e.width !== undefined && e.height !== undefined) ? `${fmt(e.width,1)} × ${fmt(e.height,1)}` : '—';
+      document.getElementById('spenTilt').textContent = (e.tiltX !== undefined) ? `${fmt(e.tiltX,1)} / ${fmt(e.tiltY,1)}` : '—';
+      document.getElementById('spenTwist').textContent = (e.twist !== undefined) ? fmt(e.twist,1) : '—';
+      document.getElementById('spenAngles').textContent = (e.altitudeAngle !== undefined && e.altitudeAngle !== null) ? `${fmt(e.altitudeAngle,2)} / ${fmt(e.azimuthAngle,2)} rad` : (isPen ? 'not reported by this pen driver' : 'pen-only');
+
+      if (isPen){
+        setStatus('spen', 'live', `PointerEvent — pressure, tilt, twist${e.altitudeAngle!==undefined?', altitude/azimuth':''} from the real stylus digitizer`, e.pressure);
+      } else if (isTouch){
+        setStatus('touch', 'live', `PointerEvent — contact radius ${fmt(e.width,1)}×${fmt(e.height,1)} css px, force=${e.pressure!==undefined?e.pressure.toFixed(2):'n/a'}`, Math.max(e.width||0, e.height||0));
+      }
+
+      if (draw){
+        ctx.fillStyle = isPen ? `rgba(59,139,255,${Math.max(0.25, e.pressure||0.5)})` : 'rgba(48,209,88,.6)';
+        const r = Math.max(1.5, (e.width||4)/2);
+        ctx.beginPath(); ctx.arc(e.offsetX, e.offsetY, r, 0, Math.PI*2); ctx.fill();
+      }
+    }
+
+    // ───────────────────────── NFC ─────────────────────────
+    function logTo(elId, line){
+      const el = document.getElementById(elId);
+      const row = document.createElement('div');
+      row.className = 'list-row';
+      row.innerHTML = `<span class="k">${new Date().toLocaleTimeString()}</span><span class="v">${line}</span>`;
+      el.prepend(row);
+      while (el.children.length > 8) el.removeChild(el.lastChild);
+    }
+    async function startNFC(){
+      const pill = document.getElementById('nfcStatusPill');
+      if (typeof window.NDEFReader === 'undefined'){
+        setStatus('nfc', 'unavailable', 'this browser exposes no NDEFReader — Web NFC requires Chrome on Android over a secure context');
+        pill.textContent = 'UNAVAILABLE'; pill.className = 'status-pill status-unavailable';
+        logTo('nfcLog', 'Web NFC is not available in this browser/platform.');
+        return;
+      }
+      try {
+        const reader = new NDEFReader();
+        await reader.scan();
+        pill.textContent = 'LIVE — hold a tag near the device'; pill.className = 'status-pill status-live';
+        setStatus('nfc', 'live', 'NDEFReader — scanning for a tag in range');
+        reader.onreading = (event) => {
+          const records = Array.from(event.message.records).map(r => `${r.recordType}: ${r.mediaType||''}`).join(', ') || 'no NDEF records';
+          setStatus('nfc', 'live', `NDEFReader — tag serial ${event.serialNumber}`, 1);
+          logTo('nfcLog', `Tag ${event.serialNumber} — ${records}`);
+        };
+        reader.onreadingerror = () => logTo('nfcLog', 'A tag was detected but could not be read.');
+      } catch(e){
+        pill.textContent = 'DENIED'; pill.className = 'status-pill status-denied';
+        setStatus('nfc', 'denied', `NDEFReader.scan() refused: ${e.message}`);
+        logTo('nfcLog', `Scan refused: ${e.message}`);
+      }
+    }
+
+    // ───────────────────────── WebAuthn / platform authenticator ─────────────────────────
+    function b64url(bytes){ return btoa(String.fromCharCode(...bytes)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+    async function checkAuthenticator(){
+      const pill = document.getElementById('webauthnStatusPill');
+      if (typeof window.PublicKeyCredential === 'undefined'){
+        pill.textContent = 'UNAVAILABLE'; pill.className = 'status-pill status-unavailable';
+        setStatus('fingerprint', 'unavailable', 'this browser exposes no PublicKeyCredential / WebAuthn');
+        logTo('webauthnLog', 'WebAuthn is not available in this browser.');
+        return;
+      }
+      try {
+        const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+        pill.textContent = available ? 'AVAILABLE' : 'NO PLATFORM AUTHENTICATOR';
+        pill.className = 'status-pill ' + (available ? 'status-live' : 'status-unavailable');
+        setStatus('fingerprint', available ? 'idle' : 'unavailable', available ? 'platform authenticator detected — enrol a passkey to exercise the sensor' : 'no platform authenticator reachable on this device/browser');
+        logTo('webauthnLog', `Platform authenticator available: ${available}`);
+      } catch(e){
+        logTo('webauthnLog', `Availability check failed: ${e.message}`);
+      }
+    }
+    async function enrollPasskey(){
+      try {
+        const challenge = crypto.getRandomValues(new Uint8Array(32));
+        const userId = crypto.getRandomValues(new Uint8Array(16));
+        const cred = await navigator.credentials.create({ publicKey: {
+          challenge, rp: { name: 'AxiomZero Pentacorder' },
+          user: { id: userId, name: 'pentacorder-field-user', displayName: 'Pentacorder Field User' },
+          pubKeyCredParams: [{ type:'public-key', alg:-7 }, { type:'public-key', alg:-257 }],
+          authenticatorSelection: { authenticatorAttachment:'platform', userVerification:'required' },
+          timeout: 60000,
+        }});
+        setStatus('fingerprint', 'live', `WebAuthn credential enrolled, id=${cred.id.slice(0,16)}…`, 1);
+        logTo('webauthnLog', `Passkey created: ${cred.id.slice(0,20)}…`);
+      } catch(e){
+        logTo('webauthnLog', `Enrolment failed/cancelled: ${e.message}`);
+      }
+    }
+    async function verifySensor(){
+      try {
+        const challenge = crypto.getRandomValues(new Uint8Array(32));
+        const assertion = await navigator.credentials.get({ publicKey: {
+          challenge, userVerification:'required', timeout:60000,
+        }});
+        setStatus('fingerprint', 'live', `WebAuthn assertion verified via platform authenticator, id=${assertion.id.slice(0,16)}…`, 1);
+        logTo('webauthnLog', `Verification succeeded: ${assertion.id.slice(0,20)}…`);
+      } catch(e){
+        logTo('webauthnLog', `Verification failed/cancelled: ${e.message}`);
+      }
+    }
+
+    // ───────────────────────── Acoustic modem (real FSK over Web Audio) ─────────────────────────
+    const MODEM_BASE_HZ = 1760, MODEM_STEP_HZ = 125, MODEM_TONES = 16;
+    const MODEM_SENTINEL_START = MODEM_BASE_HZ - MODEM_STEP_HZ; // just below tone 0
+    const MODEM_SENTINEL_STOP  = MODEM_BASE_HZ + MODEM_TONES*MODEM_STEP_HZ; // just above tone 15
+    const MODEM_SYM_MS = 120, MODEM_GAP_MS = 30;
+
+    function nibbleFreq(n){ return MODEM_BASE_HZ + n*MODEM_STEP_HZ; }
+    function bytesToNibbles(bytes){
+      const out = [];
+      for (const b of bytes){ out.push((b>>4)&0xF, b&0xF); }
+      return out;
+    }
+
+    function drawModemWave(freqSeq){
+      const canvas = document.getElementById('modemCanvas'), ctx = canvas.getContext('2d');
+      ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#03101f'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      if (!freqSeq.length) return;
+      const segW = canvas.width/freqSeq.length;
+      ctx.strokeStyle = '#3b8bff'; ctx.lineWidth = 1.5; ctx.beginPath();
+      freqSeq.forEach((f, idx) => {
+        const x0 = idx*segW;
+        for (let i=0;i<=segW;i++){
+          const x = x0+i, t = i/segW, y = canvas.height/2 + Math.sin(t*Math.PI*2*(f/400))*(canvas.height*0.38);
+          if (idx===0 && i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+      });
+      ctx.stroke();
+    }
+
+    async function transmitModem(){
+      const msg = document.getElementById('modemMessage').value.slice(0,64);
+      if (!msg.trim()){ alert('Enter a message to transmit.'); return; }
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') await audioCtx.resume();
+      const bytes = new TextEncoder().encode(msg);
+      const nibbles = bytesToNibbles(bytes);
+      const freqSeq = [MODEM_SENTINEL_START, ...nibbles.map(nibbleFreq), MODEM_SENTINEL_STOP];
+      drawModemWave(freqSeq);
+      document.getElementById('modemStatusPill').textContent = 'TRANSMITTING'; document.getElementById('modemStatusPill').className = 'status-pill status-live';
+      logTo('modemLog', `Transmitting ${bytes.length} bytes as ${freqSeq.length} tones (real audio output)`);
+      const symSec = MODEM_SYM_MS/1000, gapSec = MODEM_GAP_MS/1000;
+      let t = audioCtx.currentTime + 0.05;
+      freqSeq.forEach(f => {
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+        osc.frequency.value = f; osc.type = 'sine';
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.35, t + 0.008);
+        gain.gain.setValueAtTime(0.35, t + symSec - 0.008);
+        gain.gain.linearRampToValueAtTime(0, t + symSec);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(t); osc.stop(t + symSec);
+        t += symSec + gapSec;
+      });
+      setTimeout(() => {
+        document.getElementById('modemStatusPill').textContent = 'IDLE'; document.getElementById('modemStatusPill').className = 'status-pill status-idle';
+        logTo('modemLog', 'Transmission complete.');
+      }, (t - audioCtx.currentTime) * 1000 + 100);
+    }
+
+    let modemListening = false, modemDecodeBuf = [], modemLastToneAt = 0, modemCurrentTone = null;
+    async function listenModem(){
+      if (!(await ensureMicForModem())) return;
+      modemListening = true; modemDecodeBuf = []; modemCurrentTone = null;
+      document.getElementById('modemStatusPill').textContent = 'LISTENING'; document.getElementById('modemStatusPill').className = 'status-pill status-live';
+      logTo('modemLog', 'Listening for an acoustic FSK frame via the real microphone…');
+      pumpModemDecode();
+    }
+    async function ensureMicForModem(){
+      if (micAnalyser) return true;
+      return await startMicrophone();
+    }
+    function freqBinToTone(freq){
+      for (let n=0;n<MODEM_TONES;n++){
+        if (Math.abs(freq - nibbleFreq(n)) < MODEM_STEP_HZ/2.2) return n;
+      }
+      if (Math.abs(freq - MODEM_SENTINEL_START) < MODEM_STEP_HZ/2.2) return 'start';
+      if (Math.abs(freq - MODEM_SENTINEL_STOP) < MODEM_STEP_HZ/2.2) return 'stop';
+      return null;
+    }
+    function pumpModemDecode(){
+      if (!modemListening || !micAnalyser) return;
+      const bins = new Float32Array(micAnalyser.frequencyBinCount);
+      micAnalyser.getFloatFrequencyData(bins);
+      const binHz = audioCtx.sampleRate / micAnalyser.fftSize;
+      let bestIdx = -1, bestDb = -Infinity;
+      const loBin = Math.floor((MODEM_SENTINEL_START - 100) / binHz), hiBin = Math.ceil((MODEM_SENTINEL_STOP + 100) / binHz);
+      for (let i=Math.max(0,loBin); i<Math.min(bins.length,hiBin); i++){
+        if (bins[i] > bestDb){ bestDb = bins[i]; bestIdx = i; }
+      }
+      if (bestIdx >= 0 && bestDb > -55){
+        const freq = bestIdx * binHz;
+        const tone = freqBinToTone(freq);
+        const now = performance.now();
+        if (tone !== null && tone !== modemCurrentTone && (now - modemLastToneAt) > (MODEM_GAP_MS*0.6)){
+          modemCurrentTone = tone; modemLastToneAt = now;
+          if (tone === 'start'){ modemDecodeBuf = []; }
+          else if (tone === 'stop'){ finishModemDecode(); }
+          else { modemDecodeBuf.push(tone); }
+        }
+      }
+      requestAnimationFrame(pumpModemDecode);
+    }
+    function finishModemDecode(){
+      const nibbles = modemDecodeBuf;
+      const bytes = [];
+      for (let i=0;i+1<nibbles.length;i+=2) bytes.push((nibbles[i]<<4)|nibbles[i+1]);
+      let text = '(decode incomplete — try closer microphone placement or re-transmit)';
+      try { text = new TextDecoder().decode(new Uint8Array(bytes)); } catch(e){ /* leave fallback text */ }
+      logTo('modemLog', `Decoded ${bytes.length} bytes from ${nibbles.length} tones: "${text}"`);
+      document.getElementById('modemStatusPill').textContent = 'DECODED'; document.getElementById('modemStatusPill').className = 'status-pill status-live';
+    }
+    function stopModemListen(){
+      modemListening = false;
+      document.getElementById('modemStatusPill').textContent = 'IDLE'; document.getElementById('modemStatusPill').className = 'status-pill status-idle';
+      logTo('modemLog', 'Stopped listening.');
+    }
+
+    // ───────────────────────── Rendering ─────────────────────────
+    function fmt(v, d){ d = d===undefined?2:d; return (v===null||v===undefined||Number.isNaN(v)) ? '—' : Number(v).toFixed(d); }
+    function statusPillHtml(status){
+      const map = { idle:['IDLE','status-idle'], live:['LIVE','status-live'], unavailable:['UNAVAILABLE','status-unavailable'], denied:['DENIED','status-denied'] };
+      const [label, cls] = map[status] || map.idle;
+      return `<span class="status-pill ${cls}">${label}</span>`;
+    }
+
+    function render(){
+      // Sensor Access Report
+      const reportBody = document.getElementById('reportTableBody');
+      reportBody.innerHTML = CHANNELS.map(c => {
+        const s = state[c.id];
+        return `<tr><td class="chan">${c.name}</td><td>${statusPillHtml(s.status)}</td><td class="detail">${s.detail}</td></tr>`;
+      }).join('');
+
+      // Gauge grid
+      const grid = document.getElementById('gaugeGrid');
+      if (!grid.dataset.built){
+        grid.innerHTML = CHANNELS.map(c => `
+          <article class="gauge-card" data-chan="${c.id}">
+            <div class="gauge-top"><div><span class="pillar-badge">${c.pillar}</span><div class="gauge-title">${c.name}</div></div><span class="status-pill status-idle" id="pill-${c.id}">IDLE</span></div>
+            <div class="gauge-ring" id="ring-${c.id}"><div class="gauge-ring-inner"><div class="gauge-value" id="value-${c.id}">—</div><div class="gauge-unit">${c.unit}</div></div></div>
+            <div class="gauge-foot" id="foot-${c.id}">no data</div>
+          </article>`).join('');
+        grid.dataset.built = '1';
+      }
+      CHANNELS.forEach(c => {
+        const s = state[c.id];
+        document.getElementById(`value-${c.id}`).textContent = fmt(s.value, c.decimals);
+        document.getElementById(`pill-${c.id}`).outerHTML = statusPillHtml(s.status).replace('<span class="status-pill', `<span id="pill-${c.id}" class="status-pill`);
+        const colors = { idle:'var(--color-idle)', live:'var(--color-good)', unavailable:'var(--color-bad)', denied:'var(--color-amber)' };
+        document.getElementById(`ring-${c.id}`).style.background = `conic-gradient(${colors[s.status]} ${s.value!==null?300:0}deg, rgba(255,255,255,.08) 0deg 360deg)`;
+        document.getElementById(`foot-${c.id}`).textContent = s.history.length ? `${s.history.length} samples · ${s.updatedAt ? new Date(s.updatedAt).toLocaleTimeString() : ''}` : 'no samples yet';
+      });
+
+      // Stats + live readings
+      document.getElementById('statsRows').innerHTML = CHANNELS.map(c => {
+        const h = state[c.id].history;
+        if (!h.length) return `<div class="list-row"><span class="k">${c.name}</span><span class="v">awaiting samples</span></div>`;
+        const min = Math.min(...h), max = Math.max(...h), mean = h.reduce((a,b)=>a+b,0)/h.length;
+        return `<div class="list-row"><span class="k">${c.name}</span><span class="v">min ${fmt(min,c.decimals)} · mean ${fmt(mean,c.decimals)} · max ${fmt(max,c.decimals)} (n=${h.length})</span></div>`;
+      }).join('');
+      document.getElementById('liveRows').innerHTML = CHANNELS.map(c => {
+        const s = state[c.id];
+        return `<div class="list-row"><span class="k">${c.name}</span><span class="v">${fmt(s.value,c.decimals)} ${c.unit} — ${s.status}</span></div>`;
+      }).join('');
+
+      // Field report snapshot
+      const live = CHANNELS.filter(c => state[c.id].status === 'live' && state[c.id].value !== null);
+      const unavail = CHANNELS.filter(c => state[c.id].status !== 'live');
+      document.getElementById('reportSnapshot').innerHTML =
+        live.map(c => `<div class="list-row"><span class="k">${c.pillar} — ${c.name}</span><span class="v">${fmt(state[c.id].value,c.decimals)} ${c.unit}</span></div>`).join('') +
+        (unavail.length ? `<div class="list-row"><span class="k">Not live</span><span class="v">${unavail.map(c=>c.name).join(', ')}</span></div>` : '');
+    }
+
+    function exportDossier(){
+      const live = CHANNELS.filter(c => state[c.id].status === 'live' && state[c.id].value !== null);
+      const unavail = CHANNELS.filter(c => state[c.id].status !== 'live');
+      if (!live.length){ alert('Start the sensors (and optionally microphone/camera) before exporting a dossier.'); return; }
+      AZDossier.export({
+        appName: 'Pentacorder + SDAM — Field Sensing & Acoustic Comms',
+        appId: '15-pentacorder',
+        version: 'v37.7',
+        epistemic: '🟢 Real device sensors — no simulation',
+        inputs: [
+          { label:'Secure context', value: window.isSecureContext ? 'yes' : 'no' },
+          { label:'Channels live', value: String(live.length) + ' / ' + String(CHANNELS.length) },
+        ],
+        outputs: live.map(c => ({ label:`${c.pillar} — ${c.name}`, value:`${fmt(state[c.id].value,c.decimals)} ${c.unit}` }))
+          .concat(unavail.map(c => ({ label:`${c.pillar} — ${c.name} (not live)`, value: state[c.id].detail }))),
+        notes: 'Every "live" value above is a genuine sample read from this device through the listed browser API. Every "not live" row names the exact reason the channel could not be read — no sensor substitutes for another, and no reading is interpolated or invented. The Unitary Manifold pillar label on each row is an adjacent-track conceptual comparison, not an experimental validation.',
+        dependencies: ['Web Audio API', 'DeviceMotionEvent/DeviceOrientationEvent', 'Geolocation API', 'Battery Status API', 'getUserMedia', 'PointerEvent', 'Web NFC (NDEFReader)', 'WebAuthn (PublicKeyCredential)', 'jsPDF'],
+      });
+    }
+
+    // ───────────────────────── Control bar wiring ─────────────────────────
+    async function startSensors(){
+      document.getElementById('controlStatus').textContent = 'requesting permissions…';
+      await requestMotionPermission();
+      startMotionOrientation();
+      startGNSS();
+      startBattery();
+      running.sensors = true;
+      document.getElementById('controlStatus').textContent = 'sensors running';
+    }
+    function resetAll(){
+      CHANNELS.forEach(c => { state[c.id] = { status:'idle', value:null, detail:'not requested yet', updatedAt:null, history:[] }; });
+      lumHistory.length = 0;
+      document.getElementById('controlStatus').textContent = 'reset — press Start Sensors';
+      render();
+    }
+    function recordWindow(){
+      running.recording = true;
+      running.recordUntil = Date.now() + 60000;
+      document.getElementById('controlStatus').textContent = 'recording 60s window…';
+      const timer = setInterval(() => {
+        if (Date.now() >= running.recordUntil){
+          clearInterval(timer);
+          running.recording = false;
+          document.getElementById('controlStatus').textContent = '60s window complete — see Measured Statistics';
+        }
+      }, 500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderFeatureChecklist();
+      renderDeviceSummary();
+      setupSpenCanvas();
+      render();
+
+      document.getElementById('startSensorsBtn').addEventListener('click', startSensors);
+      document.getElementById('startMicBtn').addEventListener('click', startMicrophone);
+      document.getElementById('startCamBtn').addEventListener('click', startCamera);
+      document.getElementById('recordBtn').addEventListener('click', recordWindow);
+      document.getElementById('resetBtn').addEventListener('click', resetAll);
+      document.getElementById('clearSpenBtn').addEventListener('click', () => drawSpenPlaceholder(document.getElementById('spenCanvas')));
+      document.getElementById('nfcScanBtn').addEventListener('click', startNFC);
+      document.getElementById('webauthnCheckBtn').addEventListener('click', checkAuthenticator);
+      document.getElementById('webauthnEnrollBtn').addEventListener('click', enrollPasskey);
+      document.getElementById('webauthnVerifyBtn').addEventListener('click', verifySensor);
+      document.getElementById('modemTransmitBtn').addEventListener('click', transmitModem);
+      document.getElementById('modemListenBtn').addEventListener('click', listenModem);
+      document.getElementById('modemStopBtn').addEventListener('click', stopModemListen);
+      document.getElementById('dossierBtn').addEventListener('click', exportDossier);
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        });
+      });
+
+      setInterval(render, 1000);
+    });
+  })();
   </script>
 </body>
 </html>
