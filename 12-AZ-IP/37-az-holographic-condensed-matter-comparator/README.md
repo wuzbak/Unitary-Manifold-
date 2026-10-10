@@ -1,9 +1,9 @@
 # AZ Holographic Condensed-Matter Comparator — Product 37
 
 **Folder:** `12-AZ-IP/37-az-holographic-condensed-matter-comparator/`
-**Version:** 1.0.0
-**TRL:** TRL-2 (scaffold-to-scaffold comparison tool; illustrative benchmarks only)
-**Status:** Active — Phase 1 of article-354's "Holographic dictionary -> condensed-matter comparison" roadmap
+**Version:** 1.1.0
+**TRL:** TRL-3 (scaffold-to-scaffold comparison tool, now a runnable web product; illustrative benchmarks only)
+**Status:** Active — Phases 1-2 of article-354's "Holographic dictionary -> condensed-matter comparison" roadmap
 
 ## What this is
 
@@ -36,6 +36,20 @@ direction.
 ```bash
 python 12-AZ-IP/37-az-holographic-condensed-matter-comparator/run.py
 ```
+
+## Running as a web product
+
+```bash
+python 12-AZ-IP/37-az-holographic-condensed-matter-comparator/run.py --serve --port 8137
+```
+
+Then visit `http://127.0.0.1:8137/` for the comparator dashboard, or query
+the JSON API directly:
+
+- `GET /api/status` — product metadata, benchmark count
+- `GET /api/benchmarks` — the illustrative reference benchmark table
+- `GET /api/compare?n_max=` — every KK-tower level up to `n_max` vs every benchmark
+- `GET /api/closest?n=` — the benchmark closest to KK-tower level `n`
 
 ## Tests
 

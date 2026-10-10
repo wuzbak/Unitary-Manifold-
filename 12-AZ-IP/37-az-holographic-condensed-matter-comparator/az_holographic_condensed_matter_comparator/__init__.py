@@ -20,6 +20,7 @@ from .comparator import (
     compare_kk_tower_to_all_benchmarks,
     closest_benchmark,
 )
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "HolographicBenchmark",
@@ -28,6 +29,8 @@ __all__ = [
     "compare_kk_level_to_benchmark",
     "compare_kk_tower_to_all_benchmarks",
     "closest_benchmark",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

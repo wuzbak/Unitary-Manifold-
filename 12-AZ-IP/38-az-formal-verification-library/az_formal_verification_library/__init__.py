@@ -26,6 +26,7 @@ from .checker import (
     run_suite,
 )
 from .pentad_example import PENTAD_SAFETY_PROPERTIES
+from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
     "Z3_AVAILABLE",
@@ -35,6 +36,8 @@ __all__ = [
     "run_property",
     "run_suite",
     "PENTAD_SAFETY_PROPERTIES",
+    "API_ENDPOINTS",
+    "dispatch_api_request",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
