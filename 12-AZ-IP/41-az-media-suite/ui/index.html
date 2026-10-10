@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AZ Media &amp; Feature-Inspection Suite — Product 41</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+  h1 { font-size: 1.4rem; }
+  pre { background: #111; color: #0f0; padding: 1rem; overflow-x: auto; border-radius: 6px; }
+  button { margin: 0.25rem 0.5rem 0.25rem 0; }
+</style>
+</head>
+<body>
+<h1>AZ Media &amp; Feature-Inspection Suite</h1>
+<p>Comic viewer, audio understanding/creation, lightweight video container, and an
+   evidence-cited feature inspector for PsiCat/Merlin.</p>
+<p>
+  <button onclick="call('/api/status')">Status</button>
+  <button onclick="call('/api/comic/demo')">Comic demo</button>
+  <button onclick="call('/api/audio/demo')">Audio demo</button>
+  <button onclick="call('/api/video/demo')">Video demo</button>
+  <button onclick="call('/api/inspect/self')">Inspect this UI</button>
+</p>
+<pre id="out">Click a button above.</pre>
+<script>
+async function call(path) {
+  const out = document.getElementById('out');
+  out.textContent = 'Loading ' + path + ' ...';
+  try {
+    const resp = await fetch(path);
+    const data = await resp.json();
+    out.textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    out.textContent = 'Error: ' + err;
+  }
+}
+</script>
+</body>
+</html>

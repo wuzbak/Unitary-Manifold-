@@ -510,6 +510,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "merlinAnalyzeDepth", "summary": "Recommend deterministic reasoning depth from telemetry trends", "domain": "functions"},
             {"name": "empiricalObservatoryCheck", "summary": "Evaluate DESI/JUNO/LiteBIRD tripwires and rupture events", "domain": "functions"},
             {"name": "kernelPProofProbe", "summary": "Run gated KERNEL_P Lean4 proof probe with fallback", "domain": "functions"},
+            {"name": "getPsiCatMediaSuiteCapabilities", "summary": "Return Product 41's comic/audio/video and REA-adapted feature-inspection capability descriptor", "domain": "functions"},
         ]
     policy_overrides = {
         "getPillar": {
@@ -1471,6 +1472,52 @@ def get_ast_context_records(file_limit: int | None = None) -> dict[str, Any]:
     return {"data": {"record_count": len(records), "records": records}}
 
 
+def get_psicat_media_suite_capabilities() -> dict[str, Any]:
+    """Return a static descriptor of Product 41's media/feature-inspection abilities.
+
+    Static only: this does not execute Product 41 code or touch the
+    filesystem. It documents what PsiCat can route to (via Product 41's own
+    CLI/API in `12-AZ-IP/41-az-media-suite/`) for comic parsing/creation,
+    audio understanding/synthesis, lightweight video container
+    understanding/creation, and evidence-cited feature inspection adapted
+    from the github.com/morluto/rea workflow (source-only, no external
+    dependency on that project's npm package or MCP server).
+    """
+    return {
+        "data": {
+            "product": "AZ Media & Feature-Inspection Suite",
+            "folder": "12-AZ-IP/41-az-media-suite/",
+            "abilities": [
+                {
+                    "name": "comic_viewer",
+                    "summary": "Parse, page-read, and create CBZ (zip) comic archives, including ComicInfo.xml metadata",
+                    "entrypoints": ["inspect_comic_archive", "read_comic_page", "create_comic_archive"],
+                },
+                {
+                    "name": "audio_understanding_and_creation",
+                    "summary": "Parse WAV metadata/signal stats and synthesize tone/tone-sequence WAV audio",
+                    "entrypoints": ["inspect_audio_file", "synthesize_tone", "create_tone_sequence_wav"],
+                },
+                {
+                    "name": "video_understanding_and_creation",
+                    "summary": "Parse and create a self-contained .azvid frame-sequence video container",
+                    "entrypoints": ["inspect_video_container", "create_video_container"],
+                },
+                {
+                    "name": "feature_inspection",
+                    "summary": "Evidence-cited scan of local HTML/JS/TS source for known feature signatures, adapted from the REA methodology (source-only, no binary reverse engineering)",
+                    "entrypoints": ["scan_app_features"],
+                    "adapted_from": "https://github.com/morluto/rea",
+                },
+            ],
+            "epistemic_note": (
+                "No real video codec (ffmpeg-equivalent) or RAR extraction is bundled; "
+                "see the product README's Epistemic status section for exact boundaries."
+            ),
+        }
+    }
+
+
 _FUNCTIONS = {
     "fetchRepoContext": fetch_repo_context,
     "listPillars": list_pillars,
@@ -1858,6 +1905,7 @@ _FUNCTIONS = {
     )},
 "empiricalObservatoryCheck": lambda **args: {"data": {"delegated": "session_bound"}},
 "kernelPProofProbe": lambda **args: {"data": {"delegated": "session_bound"}},
+"getPsiCatMediaSuiteCapabilities": lambda **args: get_psicat_media_suite_capabilities(),
 }
 
 

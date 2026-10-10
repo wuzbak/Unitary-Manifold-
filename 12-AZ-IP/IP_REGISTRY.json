@@ -328,10 +328,16 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-10-10",
-      "sha256": "5c2009d1a824cc55b9e17b1aa0f545cf2c07603169e5d6a9eaac1d9d2ce94280",
-      "size_bytes": 16616,
-      "reseal_note": "Refreshed 2026-10-10 to bump Products 28-40 to version 1.1.0 ('CLI / Python library + web', updated test counts) after each gained a Phase 2 read-only JSON API + static UI web-product layer. Previous seal: c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65 (16527 bytes), which registered Products 28-40 in the registry table, bumping the canonical count from 27 to 40. Earlier seal: e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61 (12750 bytes).",
+      "sha256": "0f2dbfe3e8ef03bebd5b5883be7c5d4160b8e9cee18e186a568f10aa2e2898a7",
+      "size_bytes": 17037,
+      "reseal_note": "Refreshed 2026-10-10 to register Product 41 AZ Media & Feature-Inspection Suite, bumping the canonical count from 40 to 41. Previous seal: 5c2009d1a824cc55b9e17b1aa0f545cf2c07603169e5d6a9eaac1d9d2ce94280 (16616 bytes), which bumped Products 28-40 to version 1.1.0 ('CLI / Python library + web', updated test counts) after each gained a Phase 2 read-only JSON API + static UI web-product layer. Earlier seal: c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65 (16527 bytes), which registered Products 28-40 in the registry table, bumping the canonical count from 27 to 40. Earliest retained seal: e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61 (12750 bytes).",
       "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "5c2009d1a824cc55b9e17b1aa0f545cf2c07603169e5d6a9eaac1d9d2ce94280",
+          "size_bytes": 16616,
+          "reseal_note": "Refreshed 2026-10-10 to bump Products 28-40 to version 1.1.0 ('CLI / Python library + web', updated test counts) after each gained a Phase 2 read-only JSON API + static UI web-product layer. Previous seal: c84754829810fdf895101754b30095c20416c944fe862091d42d480903ef0c65 (16527 bytes), which registered Products 28-40 in the registry table, bumping the canonical count from 27 to 40. Earlier seal: e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61 (12750 bytes)."
+        },
         {
           "updated": "2026-10-08",
           "sha256": "e1e09235927f4960d2f1b40e62a8774c9476ca19ff708ddb3ad8b5b53096be61",
@@ -633,6 +639,14 @@
       "updated": "2026-10-10",
       "sha256": "d01d560c6ead556f17ad2d8a1a540f511a2b8d074c23c0e43643afb56e6f1886",
       "size_bytes": 3377
+    },
+    "12-AZ-IP/41-az-media-suite/README.md": {
+      "description": "Product 41 AZ Media & Feature-Inspection Suite README with epistemic-status section and REA-adaptation note",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-10-10",
+      "sha256": "68be8d1333f98bdfa1b01708c242e8718c79f309541a6e9a36599fcad49ae7c9",
+      "size_bytes": 4289
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -1032,6 +1046,15 @@
       "tests": "8",
       "description": "Shared fetch/normalize/fallback/verdict harness demonstrated against src/data/fetch_planck.py.",
       "link": "40-az-live-data-harness/"
+    },
+    {
+      "name": "AZ Media & Feature-Inspection Suite",
+      "version": "1.0.0",
+      "trl": "TRL-2",
+      "port": "CLI / Python library + web",
+      "tests": "28",
+      "description": "Comic (CBZ) viewer, WAV audio understanding/synthesis, lightweight .azvid video container understanding/creation, and an evidence-cited feature inspector for PsiCat adapted from the github.com/morluto/rea workflow.",
+      "link": "41-az-media-suite/"
     }
   ]
 }

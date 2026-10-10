@@ -120,6 +120,7 @@ canonical product count from 27 to 40; its previous seal is retained in
 | `12-AZ-IP/38-az-formal-verification-library/README.md` | `b5ddd72e4b2d4b9e936f67c3a5c53318d058a6b3828a3734a181e5ccb16376b9` | 2075 |
 | `12-AZ-IP/39-az-research-debt-tracker/README.md` | `26dde18b809cf351cf11828b3b6c6c9af715d5fb52e0acc60ee213e7d7e6dce3` | 2109 |
 | `12-AZ-IP/40-az-live-data-harness/README.md` | `cb80dd007ad1d36a221349debdf5d680fa00f326993d70ac535f5467f0e94669` | 2632 |
+| `12-AZ-IP/41-az-media-suite/README.md` | `68be8d1333f98bdfa1b01708c242e8718c79f309541a6e9a36599fcad49ae7c9` | 4289 |
 
 ---
 
