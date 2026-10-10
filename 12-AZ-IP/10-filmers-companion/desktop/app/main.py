@@ -57,12 +57,18 @@ def create_app():
     from .finance.router import router as fin_router
     from .ad_suite.router import router as ad_router
     from .production_suite.router import router as suite_router
+    from .accounting.router import router as accounting_router
+    from .marketing.router import router as marketing_router
+    from .post_pipeline.router import router as post_pipeline_router
 
     app.include_router(cine_router, prefix="/api")
     app.include_router(loc_router, prefix="/api")
     app.include_router(fin_router, prefix="/api")
     app.include_router(ad_router, prefix="/api")
     app.include_router(suite_router, prefix="/api")
+    app.include_router(accounting_router, prefix="/api")
+    app.include_router(marketing_router, prefix="/api")
+    app.include_router(post_pipeline_router, prefix="/api")
 
     @app.get("/api/health")
     def health():

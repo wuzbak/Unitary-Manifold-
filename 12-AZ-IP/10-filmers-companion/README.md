@@ -37,6 +37,9 @@ FilmersCompanion is a **dual-platform** (Python desktop + Android) AI production
 | 📍 **Locations** | Scout reports, permit tracking, unconfirmed location alerts |
 | 💰 **Finance** | Budget builder, ROI calculator, DOOD, burn-rate alerts |
 | 📋 **AD Suite** | Call sheets, turnaround compliance, one-liner scene lists |
+| 🧾 **Accounting (AP/AR)** | Chart of accounts, vendor/client ledgers, invoices, payments, aging reports, GnuCash/ledger-cli-compatible CSV export |
+| 📣 **Marketing / Distribution** | Campaigns, trailer/poster/EPK/press-release asset tracking, press contacts, release calendar |
+| 🎛️ **Post Pipeline (DaVinci Resolve)** | Offline-safe Resolve scripting bridge, CMX3600 EDL export, OpenTimelineIO JSON export, shot-list CSV |
 
 ### Design Philosophy
 
@@ -45,6 +48,8 @@ FilmersCompanion is a **dual-platform** (Python desktop + Android) AI production
 - **Deterministic seed**: Ships with "THE OMEGA PROTOCOL" sample project (ID: `omega-001`)
 - **Guild-aware**: SAG/DGA/WGA/IATSE minimums baked into KB
 - **Axiom Omega**: 10 production principles embedded in the knowledge base
+
+See [`docs/OPEN_SOURCE_INTEGRATION_RESEARCH.md`](docs/OPEN_SOURCE_INTEGRATION_RESEARCH.md) for the exhaustive survey of free/open-source film-production tooling (accounting, marketing, DaVinci Resolve/EDL/OTIO) behind the modules below.
 
 ---
 
@@ -70,14 +75,18 @@ apps/filmmakers-companion/
 │   │   │   └── master.py       ← ProductionMasterAgent
 │   │   ├── production_suite/   ← unified service + router for dashboard/script/breakdown/post
 │   │   ├── cinematography/     ← FastAPI router + Gradio UI
-│   │   ├── locations/
+│   │   ├── locations/           ← scouting, scheduling + mapping.py (geo-coordinates, haversine,
+│   │   │                          company-move distance planning, KML export)
 │   │   ├── finance/
-│   │   └── ad_suite/
+│   │   ├── ad_suite/
+│   │   ├── accounting/         ← chart of accounts, vendors/clients, AP/AR, payments, overdue aging
+│   │   ├── marketing/          ← campaigns, trailer/poster/EPK assets, press contacts, overdue tracking
+│   │   └── post_pipeline/      ← DaVinci Resolve bridge, EDL/OTIO/CSV interchange (storyboard-duration-aware)
 │   ├── deploy/
 │   │   ├── requirements.txt
 │   │   ├── install.sh
 │   │   └── install.py
-│   └── tests/                  ← 122 pytest tests (8 files)
+│   └── tests/                  ← 164 pytest tests (15 files)
 │       ├── conftest.py
 │       ├── test_config.py      ← 10 tests
 │       ├── test_db.py          ← 20 tests
@@ -85,7 +94,11 @@ apps/filmmakers-companion/
 │       ├── test_agents.py      ← 25 tests
 │       ├── test_finance.py     ← 15 tests
 │       ├── test_cinematography.py ← 14 tests (+ 4 via test_agents)
-│       └── test_production_suite.py ← unified dashboard, script import, department, DOOD, post
+│       ├── test_production_suite.py ← unified dashboard, script import, department, DOOD, post
+│       ├── test_accounting.py  ← chart of accounts, AP/AR, payments, validation, overdue aging
+│       ├── test_marketing.py   ← campaigns, assets, press contacts, validation, overdue tracking
+│       ├── test_post_pipeline.py ← Resolve bridge, EDL/OTIO/CSV, storyboard-duration-aware export
+│       └── test_location_mapping.py ← haversine, coordinates, map coverage, company moves, KML
 └── android/                    ← Kotlin/Compose/Hilt/Room Android app
     ├── app/
     │   └── src/main/
