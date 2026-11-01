@@ -183,6 +183,29 @@ class TestCanonicalLedgerSyncRequirement:
         )
         assert report["requires_sync"] is False
 
+    def test_pillar_directory_relocation_preserves_identity_without_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar_0879_0918/pillar879_desi_dr3_routing_update.py"],
+            name_status_lines=[
+                "R100\tsrc/core/pillar879_desi_dr3_routing_update.py"
+                "\tsrc/core/pillar_0879_0918/pillar879_desi_dr3_routing_update.py"
+            ],
+            patch_by_path={
+                "src/core/pillar_0879_0918/pillar879_desi_dr3_routing_update.py": (
+                    "@@ -1 +1 @@\n+helper = 1\n"
+                )
+            },
+        )
+        assert report["requires_sync"] is False
+
+    def test_new_pillar_in_organized_directory_requires_sync(self):
+        report = canonical_ledger_sync_requirement(
+            changed_files=["src/core/pillar_0879_0918/pillar879_new_thing.py"],
+            name_status_lines=["A\tsrc/core/pillar_0879_0918/pillar879_new_thing.py"],
+        )
+        assert report["requires_sync"] is True
+        assert report["missing_required_paths"] == list(LEDGER_SYNC_REQUIRED_PATHS)
+
     def test_rename_from_pillar_to_nonpillar_path_requires_sync(self):
         report = canonical_ledger_sync_requirement(
             changed_files=["src/core/history_variant.py"],
