@@ -519,6 +519,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "reviewPsiCatKnowledgeCard", "summary": "Apply one SM-2 spaced-repetition review step to a knowledge card", "domain": "functions"},
             {"name": "verifyPsiCatCitation", "summary": "Verify whether claimed path:line evidence citations are real and resolvable", "domain": "functions"},
             {"name": "getPsiCatHomeHealthDashboard", "summary": "Cross-product snapshot composing the product registry, Product 39's health score, and Product 19's falsification verdicts", "domain": "functions"},
+            {"name": "getToriTransformerGeometry", "summary": "Return Product 43's toroidal rotary-encoding orbit periods and relative-bias index report", "domain": "functions"},
+            {"name": "getToriTransformerDemo", "summary": "Run Product 43's cyclic toroidal-copy training demo and return the loss/accuracy report", "domain": "functions"},
         ]
     policy_overrides = {
         "getPillar": {
@@ -1332,6 +1334,26 @@ def _tool_manifest() -> dict[str, Any]:
             },
         },
         "getPsiCatHomeHealthDashboard": {"args_schema": {"type": "object", "properties": {}, "additionalProperties": False}},
+        "getToriTransformerGeometry": {
+            "args_schema": {
+                "type": "object",
+                "properties": {"head_dim": {"type": "integer"}, "seq_len": {"type": "integer"}},
+                "additionalProperties": False,
+            },
+        },
+        "getToriTransformerDemo": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "seq_len": {"type": "integer"},
+                    "vocab_size": {"type": "integer"},
+                    "shift": {"type": "integer"},
+                    "steps": {"type": "integer"},
+                    "seed": {"type": "integer"},
+                },
+                "additionalProperties": False,
+            },
+        },
     }
     enriched_functions = []
     for item in functions:
@@ -1744,6 +1766,76 @@ def get_psicat_home_health_dashboard() -> dict[str, Any]:
     return {"data": build_home_health_snapshot().as_dict()}
 
 
+def _ensure_product43_on_path() -> None:
+    """Add Product 43's package root to sys.path, once, for lazy import.
+
+    Product 43 (AZ Geometric Tori Transformer) is a from-scratch transformer
+    whose positional encoding is built from this file's own toroidal Z_74
+    lattice constants (see ``merlin_toroidal_geometry.py``). Following the
+    Product 42 precedent above, it is imported lazily inside each tool
+    function body so a missing/broken sibling product can never prevent this
+    module itself from importing.
+    """
+    import sys
+    from pathlib import Path
+
+    product_root = Path(__file__).resolve().parents[4] / "12-AZ-IP" / "43-az-geometric-tori-transformer"
+    product_root_str = str(product_root)
+    if product_root_str not in sys.path:
+        sys.path.insert(0, product_root_str)
+
+
+def get_tori_transformer_geometry(head_dim: int | None = None, seq_len: int | None = None) -> dict[str, Any]:
+    """Product 43's toroidal rotary-encoding orbit periods and relative-bias index report."""
+    _ensure_product43_on_path()
+    try:
+        from az_tori_transformer import rotation_orbit_periods, toroidal_relative_bias_indices
+    except ImportError as exc:  # pragma: no cover - defensive, Product 43 always ships with this repo
+        return {"error": f"Product 43 is unavailable: {exc}"}
+
+    resolved_head_dim = _require_positive_int(head_dim, field_name="head_dim", default=8)
+    resolved_seq_len = _require_positive_int(seq_len, field_name="seq_len", default=16)
+    if resolved_head_dim % 2 != 0:
+        return {"error": "head_dim must be even (rotation acts on channel pairs)"}
+    periods = rotation_orbit_periods(resolved_head_dim)
+    bias_idx = toroidal_relative_bias_indices(resolved_seq_len)
+    sample_n = min(resolved_seq_len, 8)
+    return {
+        "data": {
+            "head_dim": resolved_head_dim,
+            "seq_len": resolved_seq_len,
+            "rotation_orbit_periods": periods.tolist(),
+            "relative_bias_index_sample": bias_idx[:sample_n, :sample_n].tolist(),
+        }
+    }
+
+
+def run_tori_transformer_demo(
+    seq_len: int | None = None,
+    vocab_size: int | None = None,
+    shift: int | None = None,
+    steps: int | None = None,
+    seed: int | None = None,
+) -> dict[str, Any]:
+    """Run Product 43's cyclic toroidal-copy training demo; steps capped at 500 per call."""
+    _ensure_product43_on_path()
+    try:
+        from az_tori_transformer import run_toroidal_copy_demo
+    except ImportError as exc:  # pragma: no cover - defensive, Product 43 always ships with this repo
+        return {"error": f"Product 43 is unavailable: {exc}"}
+
+    bounded_steps = min(_require_positive_int(steps, field_name="steps", default=200), 500)
+    report = run_toroidal_copy_demo(
+        seq_len=_require_positive_int(seq_len, field_name="seq_len", default=16),
+        vocab_size=_require_positive_int(vocab_size, field_name="vocab_size", default=12),
+        shift=int(shift) if shift is not None else 5,
+        steps=bounded_steps,
+        seed=int(seed) if seed is not None else 0,
+    )
+    report.pop("loss_trace", None)
+    return {"data": report}
+
+
 _FUNCTIONS = {
     "fetchRepoContext": fetch_repo_context,
     "listPillars": list_pillars,
@@ -2144,6 +2236,10 @@ _FUNCTIONS = {
 "reviewPsiCatKnowledgeCard": lambda **args: review_psicat_knowledge_card(args.get("card", {}), int(args.get("quality", 0))),
 "verifyPsiCatCitation": lambda **args: verify_psicat_citation(str(args.get("citation", ""))),
 "getPsiCatHomeHealthDashboard": lambda **args: get_psicat_home_health_dashboard(),
+"getToriTransformerGeometry": lambda **args: get_tori_transformer_geometry(args.get("head_dim"), args.get("seq_len")),
+"getToriTransformerDemo": lambda **args: run_tori_transformer_demo(
+    args.get("seq_len"), args.get("vocab_size"), args.get("shift"), args.get("steps"), args.get("seed"),
+),
 }
 
 
