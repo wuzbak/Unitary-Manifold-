@@ -13,8 +13,10 @@ BOOKS_DIR = PSICAT_ROOT / "Books"
 ARTICLES_DIR = PSICAT_ROOT / "Articles"
 README_PATH = PSICAT_ROOT / "README.md"
 EXPECTED_BOOK_COUNT = 50
-EXPECTED_ARTICLE_COUNT = 352
+EXPECTED_ARTICLE_COUNT = 354
+EXPECTED_REWRITE_ARTICLE_COUNT = 352
 EXPECTED_ORIGINAL_WORKS = {"51", "52", "53", "54", "55", "56"}
+EXPECTED_ORIGINAL_ARTICLES = {"353", "354"}
 
 ORIGINAL_WORK_MARKERS = (
     "PsiCat Original Work v1 · Series/Season One",
@@ -30,6 +32,7 @@ REQUIRED_MARKERS = (
 
 SOURCE_PATTERN = re.compile(r"^\*Grounded rewrite source:\s+`([^`]+)`\*$", re.MULTILINE)
 BOOK_NUMBER_PATTERN = re.compile(r"^book-(\d+)-")
+ARTICLE_NUMBER_PATTERN = re.compile(r"^article-(\d+)-")
 ORIGINAL_COUNT_PATTERN = re.compile(r"Original works \(not rewrites\):\s+\*\*(\d+)\*\*")
 COVERAGE_PATTERN = re.compile(
     r"Coverage so far:\s+\*\*(\d+)\s*/\s*(\d+)\s+books\*\*,\s+\*\*(\d+)\s*/\s*(\d+)\s+articles\*\*\."
@@ -50,6 +53,14 @@ def _rewrite_books() -> list[Path]:
 
 def _original_book_files() -> list[Path]:
     return [path for path in _markdown_files(BOOKS_DIR) if _is_original_work(path)]
+
+
+def _rewrite_articles() -> list[Path]:
+    return [path for path in _markdown_files(ARTICLES_DIR) if not _is_original_work(path)]
+
+
+def _original_article_files() -> list[Path]:
+    return [path for path in _markdown_files(ARTICLES_DIR) if _is_original_work(path)]
 
 
 def _assert_piece_contract(path: Path) -> None:
@@ -86,14 +97,15 @@ def test_all_psicat_books_follow_curated_contract() -> None:
 
 
 def test_all_psicat_articles_follow_curated_contract() -> None:
-    files = _markdown_files(ARTICLES_DIR)
-    assert len(files) == EXPECTED_ARTICLE_COUNT
+    files = _rewrite_articles()
+    assert len(files) == EXPECTED_REWRITE_ARTICLE_COUNT
     for path in files:
         _assert_piece_contract(path)
 
 
-def test_psicat_original_works_follow_original_contract() -> None:
-    files = _original_book_files()
+def _check_original_lane(
+    files: list[Path], number_pattern: re.Pattern[str], label: str
+) -> set[str]:
     works = set()
     for path in files:
         text = path.read_text(encoding="utf-8")
@@ -103,19 +115,34 @@ def test_psicat_original_works_follow_original_contract() -> None:
         assert not SOURCE_PATTERN.search(text), (
             f"{path.name} is an original work and must not claim a grounded rewrite source"
         )
-        match = BOOK_NUMBER_PATTERN.match(path.name)
-        assert match, f"{path.name} must follow the book-NN- naming scheme"
+        match = number_pattern.match(path.name)
+        assert match, f"{path.name} must follow the {label}-NN- naming scheme"
         works.add(match.group(1))
-    assert works == EXPECTED_ORIGINAL_WORKS
+    return works
+
+
+def test_psicat_original_works_follow_original_contract() -> None:
+    book_files = _original_book_files()
+    article_files = _original_article_files()
+
+    book_works = _check_original_lane(book_files, BOOK_NUMBER_PATTERN, "book")
+    article_works = _check_original_lane(article_files, ARTICLE_NUMBER_PATTERN, "article")
+
+    assert book_works == EXPECTED_ORIGINAL_WORKS
+    assert article_works == EXPECTED_ORIGINAL_ARTICLES
 
     readme = README_PATH.read_text(encoding="utf-8")
     count = ORIGINAL_COUNT_PATTERN.search(readme)
     assert count, "README original-works count is missing"
-    assert int(count.group(1)) == len(EXPECTED_ORIGINAL_WORKS)
+    assert int(count.group(1)) == len(EXPECTED_ORIGINAL_WORKS) + len(EXPECTED_ORIGINAL_ARTICLES)
     for number in EXPECTED_ORIGINAL_WORKS:
-        primaries = [p for p in files if p.name.startswith(f"book-{number}-") and "-part-" not in p.name
+        primaries = [p for p in book_files if p.name.startswith(f"book-{number}-") and "-part-" not in p.name
                      and not p.name.endswith("-FULL.md")]
         assert len(primaries) == 1, f"Original work {number} must have exactly one primary file"
+        assert f"`{primaries[0].name}`" in readme, f"README must list {primaries[0].name}"
+    for number in EXPECTED_ORIGINAL_ARTICLES:
+        primaries = [p for p in article_files if p.name.startswith(f"article-{number}-")]
+        assert len(primaries) == 1, f"Original article {number} must have exactly one primary file"
         assert f"`{primaries[0].name}`" in readme, f"README must list {primaries[0].name}"
 
 

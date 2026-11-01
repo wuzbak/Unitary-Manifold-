@@ -126,6 +126,28 @@
       ]
     },
     {
+      "slice_id": "python-azip-products-28-42",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/28-az-calorimetry-console",
+        "12-AZ-IP/29-az-polariton-vortex-analyzer",
+        "12-AZ-IP/30-az-materials-screening-engine",
+        "12-AZ-IP/31-az-braided-qubit-ansatz-studio",
+        "12-AZ-IP/32-az-phi-debt-early-warning",
+        "12-AZ-IP/33-az-accessibility-pipeline",
+        "12-AZ-IP/34-az-domain-experts-pack",
+        "12-AZ-IP/35-az-uos-kernel-bridge",
+        "12-AZ-IP/36-az-cosmology-slider",
+        "12-AZ-IP/37-az-holographic-condensed-matter-comparator",
+        "12-AZ-IP/38-az-formal-verification-library",
+        "12-AZ-IP/39-az-research-debt-tracker",
+        "12-AZ-IP/40-az-live-data-harness",
+        "12-AZ-IP/41-az-media-suite",
+        "12-AZ-IP/42-az-awareness-creation-toolkit"
+      ]
+    },
+    {
       "slice_id": "python-repository-tooling",
       "language": "python",
       "build_mode": "none",

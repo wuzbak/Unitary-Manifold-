@@ -143,14 +143,22 @@ def test_repo_rel_preserves_relative_in_repo_hint() -> None:
     assert rel == "tmp/not-yet-created.json"
 
 
-def test_repo_rel_canonicalizes_in_repo_symlink_alias() -> None:
-    repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
+def test_repo_rel_canonicalizes_in_repo_symlink_alias(tmp_path: Path) -> None:
+    repo_root = tmp_path
+    target = repo_root / "12-AZ-IP" / "01-axiom-os"
+    target.mkdir(parents=True)
+    (target / "README.md").write_text("alias target", encoding="utf-8")
+    (repo_root / "az-os").symlink_to(Path("12-AZ-IP") / "01-axiom-os")
     rel = repo_rel("az-os/README.md", repo_root)
     assert rel == "12-AZ-IP/01-axiom-os/README.md"
 
 
-def test_repo_rel_supports_explicit_base_dir() -> None:
-    repo_root = Path("/home/runner/work/Unitary-Manifold-/Unitary-Manifold-")
+def test_repo_rel_supports_explicit_base_dir(tmp_path: Path) -> None:
+    repo_root = tmp_path
+    target = repo_root / "12-AZ-IP" / "01-axiom-os"
+    target.mkdir(parents=True)
+    (target / "README.md").write_text("alias target", encoding="utf-8")
+    (repo_root / "az-os").symlink_to(Path("12-AZ-IP") / "01-axiom-os")
     rel = repo_rel(Path("README.md"), repo_root, base_dir=repo_root / "az-os")
     assert rel == "12-AZ-IP/01-axiom-os/README.md"
 

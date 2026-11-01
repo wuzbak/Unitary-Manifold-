@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 8252,
+  "file_count": 8293,
   "lanes": {
-    "az_ip": 2418,
+    "az_ip": 2458,
     "compactification": 9,
-    "other": 5375,
+    "other": 5376,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2418,
+    "12-AZ-IP": 2458,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -108,7 +108,7 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1631,
+    "src": 1632,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
     "tests": 1559,
@@ -2577,6 +2577,50 @@
       "12-AZ-IP/40-az-live-data-harness/tests/test_api.py",
       "12-AZ-IP/40-az-live-data-harness/tests/test_live_data_harness.py",
       "12-AZ-IP/40-az-live-data-harness/ui/index.html"
+    ],
+    "41-az-media-suite": [
+      "12-AZ-IP/41-az-media-suite/README.md",
+      "12-AZ-IP/41-az-media-suite/az_media_suite/__init__.py",
+      "12-AZ-IP/41-az-media-suite/az_media_suite/api.py",
+      "12-AZ-IP/41-az-media-suite/az_media_suite/app/__init__.py",
+      "12-AZ-IP/41-az-media-suite/az_media_suite/app/server.py",
+      "12-AZ-IP/41-az-media-suite/az_media_suite/audio.py",
+      "12-AZ-IP/41-az-media-suite/az_media_suite/comic.py",
+      "12-AZ-IP/41-az-media-suite/az_media_suite/feature_inspection.py",
+      "12-AZ-IP/41-az-media-suite/az_media_suite/video.py",
+      "12-AZ-IP/41-az-media-suite/run.py",
+      "12-AZ-IP/41-az-media-suite/tests/__init__.py",
+      "12-AZ-IP/41-az-media-suite/tests/test_api.py",
+      "12-AZ-IP/41-az-media-suite/tests/test_audio.py",
+      "12-AZ-IP/41-az-media-suite/tests/test_comic.py",
+      "12-AZ-IP/41-az-media-suite/tests/test_feature_inspection.py",
+      "12-AZ-IP/41-az-media-suite/tests/test_video.py",
+      "12-AZ-IP/41-az-media-suite/ui/index.html"
+    ],
+    "42-az-awareness-creation-toolkit": [
+      "12-AZ-IP/42-az-awareness-creation-toolkit/README.md",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/ROADMAP.md",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/__init__.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/_repo.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/api.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/app/__init__.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/app/server.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/cards.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/charts.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/citations.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/dashboard.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/documents.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/registry.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/run.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/tests/__init__.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_api.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_cards.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_charts.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_citations.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_dashboard.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_documents.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_registry.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/ui/index.html"
     ]
   },
   "psicat_literature": {
@@ -20369,6 +20413,286 @@
       "kind": "file",
       "lane": "az_ip",
       "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/az_media_suite/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/az_media_suite/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/az_media_suite/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/az_media_suite/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/az_media_suite/audio.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/az_media_suite/comic.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/az_media_suite/feature_inspection.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/az_media_suite/video.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/tests/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/tests/test_audio.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/tests/test_comic.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/tests/test_feature_inspection.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/tests/test_video.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/ROADMAP.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/_repo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/cards.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/charts.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/citations.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/dashboard.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/documents.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/az_awareness_creation_toolkit/registry.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/tests/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_cards.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_charts.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_citations.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_dashboard.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_documents.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_registry.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
     },
     {
       "path": "12-AZ-IP/BRAND_SEPARATION_NOTICE_PSICAT.md",
@@ -42925,25 +43249,7 @@
       "lane": "other"
     },
     {
-      "path": "src/core/pillar879_desi_dr3_routing_update.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
       "path": "src/core/pillar880_birefringence_litebird_prep.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "src/core/pillar882_lean4_ckm_pmns_unified.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "src/core/pillar883_lean4_architecture_limits_registry.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -43568,6 +43874,30 @@
     },
     {
       "path": "src/core/pillar999_cmb_amplitude_calibration_boundary.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_0879_0918/__init__.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_0879_0918/pillar879_desi_dr3_routing_update.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_0879_0918/pillar882_lean4_ckm_pmns_unified.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_0879_0918/pillar883_lean4_architecture_limits_registry.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -45932,6 +46262,246 @@
     },
     {
       "path": "tests/pillar_0859_0878/test_pillar878_swampland_extended_duality.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar879_desi_dr3_routing_update.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar880_birefringence_litebird_prep.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar881_baryogenesis_dn_update.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar882_lean4_ckm_pmns_unified.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar883_lean4_architecture_limits_registry.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar884_lean4_sprint_bb_master_bridge.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar885_lean4_theorem_audit.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar886_sprint_bb_regression_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar887_fn_charge_assignment.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar888_ckm_7d_fn_correction.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar889_jarlskog_fn.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar890_pmns_fn_bridge.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar891_sprint_bc_phase1_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar892_ngen_bundle_third_filter.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar893_e8_breaking_third_filter.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar894_alpha_s_vol_pinning.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar895_tcc_efold_nlo.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar896_cmb_amplitude_beyond_eft.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar897_sprint_bc_phase2_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar898_quark_mass_ratios_fn.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar899_lepton_mass_ratios_fn.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar900_neutrino_mass_ordering.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar901_yukawa_svd_fn_unified.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar902_fermion_mass_chain_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar903_sprint_bc_phase3_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar904_lean4_fn_hierarchy.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar905_lean4_bundle_degeneracy.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar906_desi_euclid_joint_preregistration.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar907_nedm_preregistration.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar908_litebird_discrimination_refined.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar909_sprint_bc_master_bridge.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar910_sprint_bc_regression_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar911_sp2r_null_cone_radion.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar912_alpha_s_13d_gauge_kinetic.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar913_ckm_sp2r_shadow_gauge.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar914_ngen_aps_index_cy4.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar915_cmb_amp_13d_radion.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar916_rung8_master_certificate.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar917_lean4_itheory_bridge.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/pillar_0879_0918/test_pillar918_sprint_bd_regression_certificate.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
@@ -53144,246 +53714,6 @@
     },
     {
       "path": "tests/test_pillar828_aps_eta_invariant_lean4_bridge.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar879_desi_dr3_routing_update.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar880_birefringence_litebird_prep.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar881_baryogenesis_dn_update.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar882_lean4_ckm_pmns_unified.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar883_lean4_architecture_limits_registry.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar884_lean4_sprint_bb_master_bridge.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar885_lean4_theorem_audit.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar886_sprint_bb_regression_certificate.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar887_fn_charge_assignment.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar888_ckm_7d_fn_correction.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar889_jarlskog_fn.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar890_pmns_fn_bridge.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar891_sprint_bc_phase1_certificate.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar892_ngen_bundle_third_filter.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar893_e8_breaking_third_filter.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar894_alpha_s_vol_pinning.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar895_tcc_efold_nlo.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar896_cmb_amplitude_beyond_eft.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar897_sprint_bc_phase2_certificate.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar898_quark_mass_ratios_fn.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar899_lepton_mass_ratios_fn.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar900_neutrino_mass_ordering.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar901_yukawa_svd_fn_unified.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar902_fermion_mass_chain_certificate.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar903_sprint_bc_phase3_certificate.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar904_lean4_fn_hierarchy.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar905_lean4_bundle_degeneracy.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar906_desi_euclid_joint_preregistration.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar907_nedm_preregistration.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar908_litebird_discrimination_refined.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar909_sprint_bc_master_bridge.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar910_sprint_bc_regression_certificate.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar911_sp2r_null_cone_radion.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar912_alpha_s_13d_gauge_kinetic.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar913_ckm_sp2r_shadow_gauge.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar914_ngen_aps_index_cy4.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar915_cmb_amp_13d_radion.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar916_rung8_master_certificate.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar917_lean4_itheory_bridge.py",
-      "top_level": "tests",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "tests/test_pillar918_sprint_bd_regression_certificate.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

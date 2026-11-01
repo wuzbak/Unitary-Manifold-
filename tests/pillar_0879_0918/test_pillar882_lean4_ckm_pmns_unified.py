@@ -3,7 +3,7 @@
 """Tests for Pillar 882 — unified Lean4 CKM/PMNS derivation."""
 from __future__ import annotations
 
-from src.core.pillar882_lean4_ckm_pmns_unified import (
+from src.core.pillar_0879_0918.pillar882_lean4_ckm_pmns_unified import (
     LEAN4_FILE,
     LEAN4_NAMESPACE,
     LEAN4_THEOREM_COUNT,

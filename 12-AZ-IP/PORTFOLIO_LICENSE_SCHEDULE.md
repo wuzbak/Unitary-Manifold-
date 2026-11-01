@@ -14,8 +14,8 @@ license, including the Defensive Public Commons License where stated.
 
 ## Canonical software portfolio
 
-The following 27 products and surfaces are listed in the canonical registry at
-[`README.md`](README.md#product-registry-27-canonical-software-products--surfaces).
+The following 42 products and surfaces are listed in the canonical registry at
+[`README.md`](README.md#product-registry-42-canonical-software-products--surfaces).
 
 | # | Product | Portfolio type | Canonical location |
 |---|---|---|---|
@@ -46,6 +46,21 @@ The following 27 products and surfaces are listed in the canonical registry at
 | 25 | **PsiCat Braided Brain** | Simulator and learning application | `12-AZ-IP/25-psicat-braided-brain/` |
 | 26 | UM-ARTS | Regression and evidence tooling application | `12-AZ-IP/26-um-arts/` |
 | 27 | **PsiCat's Vite Web Workbench** | Developer tool and application | `12-AZ-IP/27-psicat-vite-web-workbench/` |
+| 28 | AZ Calorimetry Console | Run-sheet generator and tracker application | `12-AZ-IP/28-az-calorimetry-console/` |
+| 29 | AZ Polariton Vortex Analyzer | Feature extraction and comparison tool | `12-AZ-IP/29-az-polariton-vortex-analyzer/` |
+| 30 | AZ Materials Screening Engine | Screening and ranking engine | `12-AZ-IP/30-az-materials-screening-engine/` |
+| 31 | AZ Braided Qubit Ansatz Studio | Gate-list export and simulation studio | `12-AZ-IP/31-az-braided-qubit-ansatz-studio/` |
+| 32 | AZ Phi-Debt Early Warning Library | Monitoring library | `12-AZ-IP/32-az-phi-debt-early-warning/` |
+| 33 | AZ Accessibility Pipeline | Routing pipeline application | `12-AZ-IP/33-az-accessibility-pipeline/` |
+| 34 | AZ Domain Experts Pack | Retrieval library | `12-AZ-IP/34-az-domain-experts-pack/` |
+| 35 | AZ UOS/AZ-KERNEL Bridge | Interface contract and bridge library | `12-AZ-IP/35-az-uos-kernel-bridge/` |
+| 36 | AZ Differentiable Cosmology Slider | Interactive slider application | `12-AZ-IP/36-az-cosmology-slider/` |
+| 37 | AZ Holographic Condensed-Matter Comparator | Comparison tool | `12-AZ-IP/37-az-holographic-condensed-matter-comparator/` |
+| 38 | AZ Formal Verification Library | Z3 verification library | `12-AZ-IP/38-az-formal-verification-library/` |
+| 39 | AZ Research-Debt Tracker | Project-health tracker application | `12-AZ-IP/39-az-research-debt-tracker/` |
+| 40 | AZ Live-Data Harness | Fetch/normalize/fallback harness library | `12-AZ-IP/40-az-live-data-harness/` |
+| 41 | AZ Media & Feature-Inspection Suite | Media viewer and feature-inspection suite | `12-AZ-IP/41-az-media-suite/` |
+| 42 | AZ Awareness & Creation Toolkit | Awareness, routing, and creation toolkit | `12-AZ-IP/42-az-awareness-creation-toolkit/` |
 
 The PsiCat portfolio comprises Products 20, 23, 24, 25, and 27. Its name and
 product identities are subject to the separate

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.core.pillar879_desi_dr3_routing_update import (
+from src.core.pillar_0879_0918.pillar879_desi_dr3_routing_update import (
     DESI_DR3_EXPECTED_YEAR,
     DR2_TENSION_SIGMA,
     DR3_DATA_AVAILABLE,

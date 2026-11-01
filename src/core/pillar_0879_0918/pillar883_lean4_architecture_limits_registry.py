@@ -68,7 +68,7 @@ REMAINING_OPEN: list[str] = [
     "of work inside the framework.",
 ]
 
-_LEAN4_PATH = Path(__file__).resolve().parents[2] / "lean4" / "UnitaryManifold" / LEAN4_FILE
+_LEAN4_PATH = Path(__file__).resolve().parents[3] / "lean4" / "UnitaryManifold" / LEAN4_FILE
 
 __all__ = [
     "PILLAR_NUMBER",
