@@ -11,7 +11,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 - External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
-## Product registry (42 canonical software products / surfaces)
+## Product registry (43 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -57,6 +57,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 40 | AZ Live-Data Harness | 1.1.0 | TRL-4 | CLI / Python library + web | 13 | Shared fetch/normalize/fallback/verdict harness demonstrated against `src/data/fetch_planck.py`. | [40-az-live-data-harness/](40-az-live-data-harness/) |
 | 41 | AZ Media & Feature-Inspection Suite | 1.0.0 | TRL-2 | CLI / Python library + web (http://localhost:8141) | 28 | Comic (CBZ) viewer, WAV audio understanding/synthesis, lightweight `.azvid` video container understanding/creation, and an evidence-cited feature inspector for PsiCat adapted from the `github.com/morluto/rea` workflow (source-only, no external dependency). | [41-az-media-suite/](41-az-media-suite/) |
 | 42 | AZ Awareness & Creation Toolkit | 1.0.0 | TRL-2 | CLI / Python library + web (http://localhost:8142) | 58 | Live sibling-product registry awareness, a capability router, document/config structural awareness, dependency-free SVG chart creation, SM-2 spaced-repetition knowledge-card decks, path:line citation verification, and a cross-product home-health dashboard — all wired as native PsiCat tools. | [42-az-awareness-creation-toolkit/](42-az-awareness-creation-toolkit/) |
+| 43 | AZ Geometric Tori Transformer | 1.0.0 | TRL-1 | CLI / Python library + web (http://localhost:8143) | 46 | From-scratch (NumPy-only, custom autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5²+7², (5,7) braid winding) instead of standard sinusoidal RoPE — toroidal rotary encoding with finite orbit periods plus a toroidal relative-distance attention bias; wired as `getToriTransformerGeometry`/`getToriTransformerDemo` native PsiCat tools, exposed via PsiCat Browser through the Navigator's generic `/api/psicat` surface. ADJACENT TRACK, not a hardgate physics claim. | [43-az-geometric-tori-transformer/](43-az-geometric-tori-transformer/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
