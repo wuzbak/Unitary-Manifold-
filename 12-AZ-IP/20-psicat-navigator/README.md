@@ -67,6 +67,31 @@ Related reading outside this product folder:
 - No real API key is stored in source.
 - Missing-key behavior is explicit through `OxApiKeyMissingError`.
 - OpenRouter is not the primary path; PsiCat defaults to sovereign local/offline-first behavior.
+
+### Local context integration (opt-in)
+
+`MERLIN_LOCAL_CONTEXT_PARITY=1` sends the query pipeline's assembled role/content
+messages to a configured self-hosted inference provider: persona, accumulated
+learnings, geometric landmarks, typed retrieval scaffold, conversation summary
+and history, and consented web context. Default OFF preserves the legacy
+single grounded prompt; deterministic retrieval remains available without a
+model. This adds no automatic local-model tool execution or memory-promotion
+authority.
+
+Enabling this flag shares more session context with the operator-configured
+endpoint, which is not necessarily loopback. Review endpoint trust, user consent
+and model capacity first. Structured transport accepts at most 64 messages and
+48,000 content characters; malformed/over-budget context, request errors and
+empty model output return an explicitly attributed deterministic fallback.
+Character ceilings are not token-count guarantees, and context is not silently
+truncated. `router_decision.local_context_transport` reports requested/actual
+context mode and submitted/sent message counts without recording message text.
+Sent counts describe the attempted transport, not proof of server receipt.
+
+The [ecosystem integration master plan](../../docs/PSICAT_ECOSYSTEM_INTEGRATION_MASTER_PLAN.md)
+defines the party method, existing owners, remaining contracts and staged
+acceptance gates. This context tranche is not a complete Base44 migration,
+verified model reasoning, browser-WASM runtime, or production deployment.
 - OpenRouter compat only activates when router confidence is low and compatibility mode is explicitly enabled.
 
 ## PsiCat response contract

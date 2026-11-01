@@ -19,7 +19,7 @@ from .constants import API_BASE, DEFAULT_TEMPERATURE, MODEL_ID
 from .gate_parser import extract_gate_badges
 from .merlin_benchmark import infer_kernel_for_benchmark_definition, match_benchmark_for_query
 from .merlin_identity import authorize_privileged_request, get_identity_policy
-from .merlin_local_inference import choose_inference_provider, generate_inference_response
+from .merlin_local_inference import choose_inference_provider, generate_inference_response, local_context_parity_enabled
 from .merlin_memory import MerlinSession
 from .merlin_persona import (
     build_system_prompt,
@@ -947,9 +947,15 @@ async def query_merlin(
             lane=str(router_decision.get("lane") or "medium_reasoner_default"),
             preferred_provider=str(router_decision.get("inference_provider") or ""),
             temperature=temperature,
+            messages=messages if local_context_parity_enabled() else None,
         )
         response_text = local_candidate["body"]
         router_decision["local_candidate_provider"] = str(local_candidate.get("provider_variant") or "deterministic_retrieval")
+        router_decision["local_context_transport"] = {
+            key: local_candidate[key]
+            for key in ("requested_context_mode", "context_mode", "submitted_message_count", "sent_message_count")
+            if key in local_candidate
+        }
         if local_candidate.get("fallback_reason"):
             router_decision["local_candidate_fallback_reason"] = str(local_candidate.get("fallback_reason"))
         if (

@@ -225,12 +225,34 @@ async function boot() {
     const name = window.prompt('Workspace name', 'Research split');
     if (name !== null) await window.psicatBrowser.saveWorkspace(name);
   };
+  let activeQueryId = null;
+  byId('cancel-psicat').onclick = async () => {
+    if (activeQueryId) await window.psicatBrowser.cancelPsiCat(activeQueryId);
+  };
   byId('ask-psicat').onclick = async () => {
     const question = byId('question').value.trim();
     if (!question) return;
+    const requestId = crypto.randomUUID();
+    activeQueryId = requestId;
+    byId('ask-psicat').disabled = true;
+    byId('cancel-psicat').disabled = false;
     byId('answer').textContent = 'Thinking…';
-    const answer = await window.psicatBrowser.queryPsiCat({ question });
-    byId('answer').textContent = answer.answer || JSON.stringify(answer, null, 2);
+    try {
+      const answer = await window.psicatBrowser.queryPsiCat({
+        question, requestId, includeLibrary: byId('share-library').checked,
+      });
+      if (answer.request_id !== requestId) throw new Error('PsiCat response correlation mismatch.');
+      const attribution = answer.mode === 'psicat'
+        ? `\n\n[${answer.mode}; ${answer.sharing}; source: ${answer.source_url || 'no captured page'}; request: ${requestId}]\nProvenance: ${JSON.stringify(answer.provenance)}`
+        : `\n\n[${answer.mode}; request: ${requestId}]`;
+      byId('answer').textContent = `${answer.answer}${attribution}`;
+    } catch (error) {
+      byId('answer').textContent = `Query failed: ${error.message || error}`;
+    } finally {
+      activeQueryId = null;
+      byId('ask-psicat').disabled = false;
+      byId('cancel-psicat').disabled = true;
+    }
   };
   byId('save-settings').onclick = async () => {
     await window.psicatBrowser.updateSettings({

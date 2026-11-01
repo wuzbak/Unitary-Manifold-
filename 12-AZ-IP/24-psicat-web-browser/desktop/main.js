@@ -7,6 +7,7 @@ const { spawn } = require('node:child_process');
 const core = require('./lib/browser-core');
 const pageContext = require('./lib/page-context');
 const syncPolicy = require('./lib/sync-policy');
+const psiCatClient = require('./lib/psicat-client');
 
 const PRODUCT_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(PRODUCT_ROOT, '..', '..');
@@ -28,6 +29,8 @@ let psiCatProcess = null;
 let syncBackend = { status: 'not_started', pid: null, baseUrl: `http://${SYNC_HOST}:${SYNC_PORT}`, error: '' };
 let syncBackendProcess = null;
 const trackedSessions = new WeakSet();
+const queryControllers = new Map();
+const psiCatQuerySession = { cookie: '' };
 
 function sha256(text) {
   return crypto.createHash('sha256').update(text).digest('hex');
@@ -435,49 +438,43 @@ async function startSyncBackend() {
   broadcastState();
 }
 
-async function callPsiCat(question) {
-  const envelope = pageContext.buildContextEnvelope(state);
-  const activeText = envelope.current_page ? (envelope.current_page.excerpt || envelope.current_page.bullets.join(' ')) : '';
-  if (psiCatSidecar.status !== 'ready') {
+async function callPsiCat({ question, requestId, includeLibrary = false }) {
+  let body;
+  try {
+    body = psiCatClient.buildPageQuery({ state, question, requestId, includeLibrary });
+  } catch (error) {
+    return { mode: 'blocked', request_id: requestId, answer: `Query blocked: ${error.message}` };
+  }
+  if (!['ready', 'degraded'].includes(psiCatSidecar.status)) {
     return {
       mode: 'local',
-      answer: `[Local research mode]\n${pageContext.summarizeResearchBundle({ question, state })}`,
+      request_id: requestId,
+      answer: `[Local research only; PsiCat unavailable: ${psiCatSidecar.error || psiCatSidecar.status}]\n${pageContext.summarizeResearchBundle({ question, state })}`,
     };
   }
+  if (queryControllers.size) return { mode: 'blocked', request_id: requestId, answer: 'A PsiCat query is already running.' };
+  const controller = new AbortController();
+  queryControllers.set(requestId, controller);
   try {
-    const statusResponse = await fetch(`${psiCatSidecar.baseUrl}/api/psicat/status`);
-    const statusPayload = await statusResponse.json();
-    const challenge = statusResponse.headers.get('X-PsiCat-Handshake-Challenge') || statusPayload?.session_contract?.handshake?.challenge;
-    const receipt = statusResponse.headers.get('X-PsiCat-Handshake-Receipt') || statusPayload?.session_contract?.handshake?.receipt;
-    const token = statusPayload?.memory_profile_token;
-    if (!challenge || !receipt || !token) throw new Error('Missing PsiCat handshake material');
-    const response = await fetch(`${psiCatSidecar.baseUrl}/api/psicat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: question,
-        page_context: activeText,
-        user_context: 'PsiCat Browser Product 24 desktop shell',
-        context_envelope: envelope,
-        memory_profile_token: token,
-        psicat_handshake_challenge: challenge,
-        psicat_handshake_receipt: receipt,
-        psicat_handshake_proof: sha256(`${challenge}:${token}`),
-      }),
+    const result = await psiCatClient.queryPsiCat({
+      baseUrl: psiCatSidecar.baseUrl, body, signal: controller.signal, session: psiCatQuerySession,
     });
-    const payload = await response.json();
-    return {
-      mode: 'psicat',
-      answer: payload.answer || payload.body || JSON.stringify(payload, null, 2),
-      raw: payload,
-    };
+    psiCatSidecar = { ...psiCatSidecar, status: 'ready', error: '' };
+    broadcastState();
+    return result;
   } catch (error) {
+    if (controller.signal.aborted) {
+      return { mode: 'cancelled', request_id: requestId, answer: 'Query cancelled locally. Server work may already have begun.' };
+    }
     psiCatSidecar = { ...psiCatSidecar, status: 'degraded', error: String(error.message || error) };
     broadcastState();
     return {
       mode: 'local-fallback',
-      answer: `[Local fallback]\n${pageContext.summarizeResearchBundle({ question, state })}`,
+      request_id: requestId,
+      answer: `[PsiCat failed: ${error.message || error}; local research fallback only]\n${pageContext.summarizeResearchBundle({ question, state })}`,
     };
+  } finally {
+    queryControllers.delete(requestId);
   }
 }
 
@@ -684,7 +681,17 @@ function installIpc() {
     broadcastState();
     return serializeState();
   });
-  ipcMain.handle('browser:query-psicat', async (_event, payload) => callPsiCat(String((payload || {}).question || '')));
+  ipcMain.handle('browser:query-psicat', async (_event, payload) => callPsiCat({
+    question: String(payload?.question || ''),
+    requestId: payload?.requestId || crypto.randomUUID(),
+    includeLibrary: payload?.includeLibrary === true,
+  }));
+  ipcMain.handle('browser:cancel-psicat', (_event, requestId) => {
+    const controller = queryControllers.get(requestId);
+    if (!controller) return false;
+    controller.abort();
+    return true;
+  });
   ipcMain.handle('browser:import-research-files', async () => handleImportResearchFiles());
   ipcMain.handle('browser:export-research-bundle', async () => handleExportResearchBundle());
   ipcMain.handle('browser:export-sync-packet', async () => handleExportSyncPacket());
@@ -718,6 +725,8 @@ app.whenReady().then(async () => {
 });
 
 app.on('window-all-closed', () => {
+  psiCatQuerySession.cookie = '';
+  for (const controller of queryControllers.values()) controller.abort();
   if (psiCatProcess && !psiCatProcess.killed) psiCatProcess.kill();
   if (syncBackendProcess && !syncBackendProcess.killed) syncBackendProcess.kill();
   if (process.platform !== 'darwin') app.quit();

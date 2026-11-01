@@ -20,6 +20,7 @@ contextBridge.exposeInMainWorld('psicatBrowser', {
   addNotebookEntry: (entry) => ipcRenderer.invoke('browser:add-notebook-entry', entry),
   updateSettings: (patch) => ipcRenderer.invoke('browser:update-settings', patch),
   queryPsiCat: (payload) => ipcRenderer.invoke('browser:query-psicat', payload),
+  cancelPsiCat: (requestId) => ipcRenderer.invoke('browser:cancel-psicat', requestId),
   importResearchFiles: () => ipcRenderer.invoke('browser:import-research-files'),
   exportResearchBundle: () => ipcRenderer.invoke('browser:export-research-bundle'),
   importSyncPacket: () => ipcRenderer.invoke('browser:import-sync-packet'),

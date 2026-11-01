@@ -72,7 +72,25 @@ test.beforeEach(async ({ page }) => {
         broadcast();
         return clone(state);
       },
-      queryPsiCat: async ({ question }) => ({ answer: `Stubbed answer: ${question}` }),
+      queryPsiCat: async ({ question, requestId, includeLibrary }) => {
+        window.lastPsiCatQuery = { question, requestId, includeLibrary };
+        if (question === 'wait for cancellation') {
+          return new Promise((resolve) => { window.resolvePsiCatQuery = resolve; });
+        }
+        return {
+          mode: 'psicat', request_id: requestId,
+          answer: `Stubbed answer: ${question}`, source_url: 'https://example.com',
+          sharing: includeLibrary ? 'page_and_nonprivate_library' : 'current_page_only',
+          provenance: { complete: true, sources: ['synthetic-fixture'] },
+        };
+      },
+      cancelPsiCat: async (requestId) => {
+        window.resolvePsiCatQuery({
+          mode: 'cancelled', request_id: requestId,
+          answer: 'Query cancelled locally. Server work may already have begun.',
+        });
+        return true;
+      },
       importResearchFiles: async () => clone(state),
       exportResearchBundle: async () => '/tmp/research.json',
       importSyncPacket: async () => clone(state),
@@ -134,4 +152,28 @@ test('desktop UI reflects local-only sync pull behavior in the browser shell', a
   await page.getByRole('button', { name: 'Save settings' }).click();
   await page.getByRole('button', { name: 'Pull sync' }).click();
   await expect(page.locator('#answer')).toContainText('Local-only mode leaves remote pull disabled.');
+});
+
+test('explicit interrogation displays correlation and provenance with library sharing off by default', async ({ page }) => {
+  await page.getByLabel('PsiCat question').fill('Explain this page');
+  await expect(page.locator('#share-library')).not.toBeChecked();
+  await page.getByRole('button', { name: 'Interrogate', exact: true }).click();
+  await expect(page.locator('#answer')).toContainText('Stubbed answer: Explain this page');
+  await expect(page.locator('#answer')).toContainText('current_page_only');
+  await expect(page.locator('#answer')).toContainText('synthetic-fixture');
+  const request = await page.evaluate(() => window.lastPsiCatQuery);
+  expect(request.includeLibrary).toBe(false);
+  await expect(page.locator('#answer')).toContainText(request.requestId);
+  await expect(page.locator('#cancel-psicat')).toBeDisabled();
+});
+
+test('desktop query cancellation restores controls and remains explicitly local', async ({ page }) => {
+  await page.getByLabel('PsiCat question').fill('wait for cancellation');
+  await page.getByRole('button', { name: 'Interrogate', exact: true }).click();
+  await expect(page.locator('#ask-psicat')).toBeDisabled();
+  await page.getByRole('button', { name: 'Cancel query', exact: true }).click();
+  await expect(page.locator('#answer')).toContainText('Query cancelled locally');
+  await expect(page.locator('#answer')).toContainText('Server work may already have begun');
+  await expect(page.locator('#ask-psicat')).toBeEnabled();
+  await expect(page.locator('#cancel-psicat')).toBeDisabled();
 });

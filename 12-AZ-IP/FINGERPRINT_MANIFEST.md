@@ -188,6 +188,21 @@ retained in `IP_REGISTRY.json` reseal history.
 
 ---
 
+### Product 24 desktop integration reseal — 2026-11-01
+
+Authorized integration strengthens the existing Product 24-to-Product 20 query
+path with explicit context sharing, correct session-cookie handshake, bounded
+transport, cancellation, correlation and visible failures. Prior registry-recorded
+seals remain in `IP_REGISTRY.json` reseal history; these historical records are
+not a claim that the prior working files matched their stored seals.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/24-psicat-web-browser/README.md` | `b4c6e81a47e5e6f516104278e3cc3017dc5a8edf5dbc6525d6dee1401079c2e6` | 8246 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/main.js` | `23d00f8f6146a47d04b06a70b4f09cec118534b9a7edfc4bb1e89fca75152620` | 28007 |
+
+---
+
 ## Authorship Declaration
 
 All assets listed in this manifest are the intellectual property of
