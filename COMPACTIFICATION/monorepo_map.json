@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 8293,
+  "file_count": 8297,
   "lanes": {
-    "az_ip": 2458,
+    "az_ip": 2461,
     "compactification": 9,
-    "other": 5376,
+    "other": 5377,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2458,
+    "12-AZ-IP": 2461,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -88,7 +88,7 @@
     "data": 4,
     "demo.ipynb": 1,
     "docker-compose.yml": 1,
-    "docs": 97,
+    "docs": 98,
     "dvc.yaml": 1,
     "firebase.json": 1,
     "hf-spaces": 54,
@@ -2122,6 +2122,7 @@
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_kernel_runtime.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_lean_bridge.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_literature_retrieval.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_local_context.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_local_execution.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_masterclass_runtime.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_memory_and_telemetry.py",
@@ -2315,6 +2316,7 @@
       "12-AZ-IP/24-psicat-web-browser/android/settings.gradle.kts",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/browser-core.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/page-context.js",
+      "12-AZ-IP/24-psicat-web-browser/desktop/lib/psicat-client.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/sync-policy.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/main.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/preload.js",
@@ -2333,6 +2335,7 @@
       "12-AZ-IP/24-psicat-web-browser/tests/browser-core.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/e2e/desktop-ui.spec.js",
       "12-AZ-IP/24-psicat-web-browser/tests/page-context.test.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/psicat-client.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/test_product24_structure.py",
       "12-AZ-IP/24-psicat-web-browser/tests/test_sync_backend.py"
     ],
@@ -17510,6 +17513,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_local_context.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_local_execution.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -18805,6 +18815,13 @@
       "product": "24-psicat-web-browser"
     },
     {
+      "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/psicat-client.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
       "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/sync-policy.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -18925,6 +18942,13 @@
     },
     {
       "path": "12-AZ-IP/24-psicat-web-browser/tests/page-context.test.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/psicat-client.test.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -33548,6 +33572,12 @@
     },
     {
       "path": "docs/POST_MAS_ROBUSTNESS_CERTIFICATE.md",
+      "top_level": "docs",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "docs/PSICAT_ECOSYSTEM_INTEGRATION_MASTER_PLAN.md",
       "top_level": "docs",
       "kind": "file",
       "lane": "other"
