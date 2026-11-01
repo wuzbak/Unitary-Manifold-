@@ -25,6 +25,12 @@ jobs:
         os: [ubuntu-latest, macos-14]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
+    # macOS hosted runners are not reliably provisioned for this account (the
+    # macos-14 leg is observed to be cancelled before a runner is even
+    # assigned). Treat that leg as advisory/non-blocking so a macOS
+    # runner-allocation outage can't fail CI for everyone; ubuntu-latest
+    # remains a hard requirement.
+    continue-on-error: ${{ matrix.os == 'macos-14' }}
     permissions:
       contents: read
     steps:
