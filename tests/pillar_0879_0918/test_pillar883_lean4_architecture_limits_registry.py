@@ -3,7 +3,7 @@
 """Tests for Pillar 883 — Lean4 architecture-limit registry."""
 from __future__ import annotations
 
-from src.core.pillar883_lean4_architecture_limits_registry import (
+from src.core.pillar_0879_0918.pillar883_lean4_architecture_limits_registry import (
     ALL_ENTRIES_OPEN,
     LEAN4_FILE,
     LEAN4_NAMESPACE,

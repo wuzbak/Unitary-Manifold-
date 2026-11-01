@@ -35,7 +35,7 @@ REMAINING_OPEN: list[str] = [
     "both the quark and lepton sectors.",
 ]
 
-_LEAN4_PATH = Path(__file__).resolve().parents[2] / "lean4" / "UnitaryManifold" / LEAN4_FILE
+_LEAN4_PATH = Path(__file__).resolve().parents[3] / "lean4" / "UnitaryManifold" / LEAN4_FILE
 
 __all__ = [
     "PILLAR_NUMBER",

@@ -71,7 +71,7 @@ def test_portfolio_schedule_matches_canonical_product_registry():
             assert location is not None
             schedule_entries[cells[0]] = (name, location.group(1))
 
-    assert len(registry_entries) == 27
+    assert len(registry_entries) == 42
     assert schedule_entries == registry_entries
     assert {
         number: schedule_entries[number][0]

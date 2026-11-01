@@ -68,8 +68,8 @@ LEDGER_SYNC_REQUIRED_PATHS: tuple[str, ...] = (
     "docs/WAVE_CHANGELOG.md",
 )
 
-PILLAR_PATH_RE = re.compile(r"^src/core/pillar[0-9A-Za-z_.-]*\.py$")
-PILLAR_IDENTITY_RE = re.compile(r"^src/core/pillar([0-9]+)")
+PILLAR_PATH_RE = re.compile(r"^src/core/(?:[^/]+/)*pillar[0-9A-Za-z_.-]*\.py$")
+PILLAR_IDENTITY_RE = re.compile(r"^src/core/(?:[^/]+/)*pillar([0-9]+)")
 STATUS_BEARING_PILLAR_TOKENS: tuple[str, ...] = (
     "PILLAR_NUMBER",
     "PILLAR_GATE",
