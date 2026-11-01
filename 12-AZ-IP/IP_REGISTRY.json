@@ -418,9 +418,17 @@
       "description": "Product 24 documentation — desktop, Android, extension, workspace, and sync scaffold",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-09-10",
-      "sha256": "ecd8903e70ff395b3115f54942e7ac3e857e8097634b9e61d1fcae5773bcbf43",
-      "size_bytes": 5802
+      "updated": "2026-11-01",
+      "sha256": "b4c6e81a47e5e6f516104278e3cc3017dc5a8edf5dbc6525d6dee1401079c2e6",
+      "size_bytes": 8246,
+      "reseal_note": "Authorized desktop integration follow-through: explicit context sharing, session-cookie handshake, deadlines, cancellation and honest limits. Previous registry-recorded seal retained; no claim it matched the pre-change working file.",
+      "reseal_history": [
+        {
+          "updated": "2026-09-10",
+          "sha256": "ecd8903e70ff395b3115f54942e7ac3e857e8097634b9e61d1fcae5773bcbf43",
+          "size_bytes": 5802
+        }
+      ]
     },
     "12-AZ-IP/24-psicat-web-browser/package.json": {
       "description": "Product 24 Electron package manifest and Playwright-first test scripts",
@@ -434,9 +442,17 @@
       "description": "Product 24 Electron runtime — tabs, split workspaces, PsiCat sidecar, sync backend integration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-09-10",
-      "sha256": "db59a3f46485e24cd5868cbf9085911d05ab189de0f4c6dc13eef8e97861f119",
-      "size_bytes": 27735
+      "updated": "2026-11-01",
+      "sha256": "23d00f8f6146a47d04b06a70b4f09cec118534b9a7edfc4bb1e89fca75152620",
+      "size_bytes": 28007,
+      "reseal_note": "Authorized desktop integration follow-through: reusable bounded PsiCat query adapter, correlated responses, cancellation, private-context gate and visible transport failures. Previous registry-recorded seal retained; no claim it matched the pre-change working file.",
+      "reseal_history": [
+        {
+          "updated": "2026-09-10",
+          "sha256": "db59a3f46485e24cd5868cbf9085911d05ab189de0f4c6dc13eef8e97861f119",
+          "size_bytes": 27735
+        }
+      ]
     },
     "12-AZ-IP/24-psicat-web-browser/extension/manifest.json": {
       "description": "Product 24 Chrome/Edge extension manifest with side panel companion",

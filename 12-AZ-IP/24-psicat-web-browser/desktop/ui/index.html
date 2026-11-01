@@ -47,8 +47,11 @@
           <div id="current-page"></div>
           <label for="question">PsiCat question</label>
           <textarea id="question" placeholder="Ask PsiCat about this page, remembered pages, notebook notes, or imported research"></textarea>
+          <label><input id="share-library" type="checkbox"> Also share non-private saved research and notebook context</label>
+          <div class="muted">Interrogate sends the current captured page or selection to the local PsiCat sidecar. Private tabs are blocked. PsiCat session handling still applies.</div>
           <div class="row">
             <button id="ask-psicat">Interrogate</button>
+            <button id="cancel-psicat" disabled>Cancel query</button>
             <button id="remember-page">Remember page</button>
             <button id="sync-now">Sync now</button>
             <button id="sync-pull">Pull sync</button>

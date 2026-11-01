@@ -41,6 +41,39 @@ npm start
 - Backend sync requires both a sync account email and a sync access token; the scaffold uses that token to guard account-scoped packet push/pull on the trusted endpoint.
 - If Product 20 is unavailable, PsiCat falls back to clearly labeled local research summarization.
 
+### Accountable desktop interrogation
+
+Interrogate sends only the active captured page/selection by default. The
+unchecked sharing control explicitly adds non-private saved pages, notebook
+entries and imports; private artifacts are excluded, and private-tab queries
+are blocked before any network request. Context is capped at 32,000 UTF-8
+bytes and the question at 4,000 characters. Over-budget input is rejected
+visibly rather than silently truncated as a whole.
+
+The Product 20 handshake now carries the returned session cookies and uses the
+dedicated handshake-profile token field, not the separately protected
+profile-resume field. Status and query HTTP failures,
+missing handshake material and invalid answers are explicit; local fallback is
+never labeled as successful PsiCat inference. Responses display request
+correlation, source URL, sharing scope and returned provenance, without
+exposing handshake credentials. No web crawl is requested by this client.
+The desktop keeps its sidecar cookie only in main-process memory between
+questions, so successive queries resume the same server session; it is not
+included in browser state, notebook/sync records, or UI responses, and is
+cleared when all windows close.
+
+Queries have a 35-second combined handshake/query deadline and a Cancel query
+control. Cancellation stops the local HTTP wait; it does not promise to undo
+server work or erase a session already received by Product 20. This adapter
+does not write notebook entries, sync records, or promote memory, but existing
+Product 20 session/retention behavior still applies. Existing automatic browser
+capture/storage is unchanged. The reported source is the captured snapshot,
+which may be older than a page changed since capture.
+
+This tranche covers desktop transport and UI, not production identity/sync,
+Android/extension parity, a Base44 page-agent port, or model reasoning
+certification. See the [integration master plan](../../docs/PSICAT_ECOSYSTEM_INTEGRATION_MASTER_PLAN.md).
+
 ## Vite Web Workbench
 
 Product 27 is a separate local Vite development tool with native Product 20 actions. When its loopback service is running, open `http://127.0.0.1:8327/` in a normal browser tab to scaffold, preview, and build workbench projects. The Product 24 Electron browser can use the same address through its address bar; Vite previews open as separate loopback origins. Keep the service local and only preview project code you trust.

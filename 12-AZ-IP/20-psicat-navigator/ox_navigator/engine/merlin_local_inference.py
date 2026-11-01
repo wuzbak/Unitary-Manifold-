@@ -12,6 +12,13 @@ import httpx
 
 from .merlin_local_provider import generate_local_response
 
+MAX_LOCAL_CONTEXT_MESSAGES = 64
+MAX_LOCAL_CONTEXT_CHARACTERS = 48_000
+
+
+def local_context_parity_enabled() -> bool:
+    return _bool_env("MERLIN_LOCAL_CONTEXT_PARITY")
+
 
 def _bool_env(name: str, default: bool = False) -> bool:
     value = str(os.environ.get(name) or "").strip().lower()
@@ -164,25 +171,36 @@ async def _call_local_chat(
     model: str,
     prompt: str,
     temperature: float,
+    messages: list[dict[str, str]] | None = None,
 ) -> str:
     payload = {
         "model": model,
         "temperature": float(temperature),
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": messages if messages is not None else [{"role": "user", "content": prompt}],
     }
     endpoint_url = f"{base_url.rstrip('/')}/{chat_path.lstrip('/')}"
     async with httpx.AsyncClient(timeout=30.0) as client:
         response = await client.post(endpoint_url, json=payload)
         response.raise_for_status()
         data = response.json()
-    choices = list(data.get("choices") or [])
+    if not isinstance(data, dict):
+        raise ValueError("Local inference response must be a JSON object.")
+    choices = data.get("choices", [])
+    if not isinstance(choices, list):
+        raise ValueError("Local inference choices must be a JSON array.")
     if not choices:
         return ""
-    message = dict(choices[0].get("message") or {})
+    if not isinstance(choices[0], dict) or not isinstance(choices[0].get("message"), dict):
+        raise ValueError("Local inference choice must contain a message object.")
+    message = choices[0]["message"]
     content = message.get("content", "")
     if isinstance(content, list):
-        return "".join(part.get("text", "") for part in content if isinstance(part, dict))
-    return str(content)
+        if any(not isinstance(part, dict) or not isinstance(part.get("text"), str) for part in content):
+            raise ValueError("Local inference content parts must contain text strings.")
+        return "".join(part["text"] for part in content)
+    if not isinstance(content, str):
+        raise ValueError("Local inference content must be a string or text-part array.")
+    return content
 
 
 def _build_grounded_prompt(
@@ -248,6 +266,7 @@ async def generate_inference_response(
     lane: str,
     preferred_provider: str | None = None,
     temperature: float = 0.2,
+    messages: list[dict[str, str]] | None = None,
 ) -> dict[str, Any]:
     deterministic = generate_local_response(
         query=query,
@@ -256,10 +275,17 @@ async def generate_inference_response(
         fourth_wall=fourth_wall,
     )
     target = preferred_provider or choose_inference_provider(lane)
+    context_transport = {
+        "requested_context_mode": "assembled_messages" if messages is not None else "grounded_prompt",
+        "context_mode": "deterministic_retrieval",
+        "submitted_message_count": len(messages) if isinstance(messages, list) else 0,
+        "sent_message_count": 0,
+    }
     provider = get_inference_provider(target)
     if not isinstance(provider, dict):
         return {
             **deterministic,
+            **context_transport,
             "provider_variant": "deterministic_retrieval",
             "requested_provider_variant": target,
             "fallback_reason": "unknown_provider",
@@ -267,16 +293,44 @@ async def generate_inference_response(
     if provider["name"] == "deterministic_retrieval":
         return {
             **deterministic,
+            **context_transport,
             "provider_variant": "deterministic_retrieval",
             "requested_provider_variant": target,
         }
     if not provider.get("available"):
         return {
             **deterministic,
+            **context_transport,
             "provider_variant": "deterministic_retrieval",
             "requested_provider_variant": target,
             "fallback_reason": provider.get("reason", "provider_unavailable"),
         }
+    if messages is not None:
+        invalid_context = (
+            not isinstance(messages, list)
+            or not messages
+            or any(
+                not isinstance(message, dict)
+                or set(message) != {"role", "content"}
+                or not isinstance(message["role"], str)
+                or message["role"] not in {"system", "user", "assistant"}
+                or not isinstance(message["content"], str)
+                for message in messages
+            )
+        )
+        over_budget = not invalid_context and (
+            len(messages) > MAX_LOCAL_CONTEXT_MESSAGES
+            or sum(len(message["content"]) for message in messages) > MAX_LOCAL_CONTEXT_CHARACTERS
+        )
+        if invalid_context or over_budget:
+            return {
+                **deterministic,
+                **context_transport,
+                "provider_variant": "deterministic_retrieval",
+                "requested_provider_variant": target,
+                "fallback_reason": "invalid_context_messages" if invalid_context else "context_budget_exceeded",
+            }
+    context_transport["sent_message_count"] = len(messages) if messages is not None else 1
     try:
         body = await _call_local_chat(
             base_url=str(provider.get("endpoint") or ""),
@@ -291,10 +345,12 @@ async def generate_inference_response(
                 lane=lane,
             ),
             temperature=temperature,
+            messages=messages,
         )
-    except Exception as exc:
+    except (httpx.HTTPError, ValueError, TypeError) as exc:
         return {
             **deterministic,
+            **context_transport,
             "provider_variant": "deterministic_retrieval",
             "requested_provider_variant": target,
             "fallback_reason": f"{provider['name']}_request_failed: {exc}",
@@ -302,11 +358,14 @@ async def generate_inference_response(
     if not str(body).strip():
         return {
             **deterministic,
+            **context_transport,
             "provider_variant": "deterministic_retrieval",
             "requested_provider_variant": target,
             "fallback_reason": f"{provider['name']}_empty_response",
         }
     return {
+        **context_transport,
+        "context_mode": context_transport["requested_context_mode"],
         "provider": "sovereign_local_model",
         "provider_variant": provider["name"],
         "requested_provider_variant": target,

@@ -1,5 +1,22 @@
 # Wave Changelog
 
+## PsiCat integration follow-through (2026-11-01; adjacent software only)
+
+Added an evidence-led ecosystem integration plan and default-off assembled
+context transport for Product 20 local inference. Strengthened the existing
+Product 24 desktop query path with explicit sharing, private-context denial,
+correct session-cookie handshake, multi-query continuity, bounded requests,
+local cancellation and visible provenance/errors. Updated reviewed UM-ARTS
+suite selection to include the new tests and resealed registered browser assets.
+
+The documented marker-filtered combined regression passed 65,312 tests
+(66 skipped, 38 deselected); touched Python coverage passed 256 tests,
+and browser checks passed 22 Node and 4 Chromium UI tests. Real HTTP fixtures
+verify transport/session contracts, not live model reasoning. No version,
+pillar, epistemic-label, TOE-score or falsification change is made. Production
+identity/sync, packaged-runtime validation and dependency-advisory triage remain
+open. See the [master plan](PSICAT_ECOSYSTEM_INTEGRATION_MASTER_PLAN.md).
+
 ## Health repair (2026-10-09; no new pillar)
 
 Recovered the interrupted health-check work and corrected the live P759/P777

@@ -40,17 +40,18 @@ function searchResearchCorpus(corpus, query) {
     .map((row) => row.item);
 }
 
-function buildContextEnvelope(state) {
+function buildContextEnvelope(state, { includeLibrary = true } = {}) {
   const tabs = Array.isArray(state.tabs) ? state.tabs : [];
   const activeTab = tabs.find((tab) => tab.id === state.activeTabId) || tabs[0] || null;
   const currentPage = summarizeSnapshot(activeTab && activeTab.lastSnapshot ? activeTab.lastSnapshot : activeTab);
-  const rememberedPages = (state.rememberedPages || []).slice(0, 8).map(summarizeSnapshot).filter(Boolean);
-  const notebookEntries = (state.notebookEntries || []).slice(0, 12).map((entry) => ({
+  const shareLibrary = includeLibrary && !activeTab?.private && !activeTab?.lastSnapshot?.private;
+  const rememberedPages = (shareLibrary ? state.rememberedPages || [] : []).filter((entry) => !entry.private).slice(0, 8).map(summarizeSnapshot).filter(Boolean);
+  const notebookEntries = (shareLibrary ? state.notebookEntries || [] : []).filter((entry) => !entry.private).slice(0, 12).map((entry) => ({
     title: entry.title,
     text: normalizeText(entry.text).slice(0, 1200),
     tags: entry.tags || [],
   }));
-  const importedResearch = (state.importedResearch || []).slice(0, 12).map((entry) => ({
+  const importedResearch = (shareLibrary ? state.importedResearch || [] : []).filter((entry) => !entry.private).slice(0, 12).map((entry) => ({
     title: entry.title,
     text: normalizeText(entry.text).slice(0, 1200),
     source: entry.source,
