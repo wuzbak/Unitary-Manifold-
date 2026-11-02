@@ -232,6 +232,17 @@ entry; its previous seal is retained in `IP_REGISTRY.json` reseal history.
 
 ---
 
+### AZ-KERNEL manifest reseal — 2026-11-02
+
+The AZ-KERNEL manifest fingerprint was refreshed after the kernel-owned heap
+allocator update. The earlier registration record above remains unchanged.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `az-kernel/Cargo.toml` | `90d098aa8f3f9dc2e3ebe5e8a3e6d7ae633a460bbaf81d08d67ed427a3620667` | 1555 |
+
+---
+
 ## Authorship Declaration
 
 All assets listed in this manifest are the intellectual property of

@@ -55,11 +55,21 @@
       "size_bytes": 11199
     },
     "az-kernel/Cargo.toml": {
-      "sha256": "74395c134fffc3f945ce33ed83cfbc1887343049c6bd21de51d5107aff6db5ce",
+      "sha256": "90d098aa8f3f9dc2e3ebe5e8a3e6d7ae633a460bbaf81d08d67ed427a3620667",
       "description": "AZ-KERNEL Rust manifest — UEFI bare-metal kernel",
       "category": "os",
       "status": "REGISTERED",
-      "size_bytes": 1038
+      "updated": "2026-11-02",
+      "size_bytes": 1555,
+      "reseal_note": "Refreshed 2026-11-02 after the kernel-owned heap allocator update. Previous recorded seal retained in reseal_history.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-02",
+          "sha256": "74395c134fffc3f945ce33ed83cfbc1887343049c6bd21de51d5107aff6db5ce",
+          "size_bytes": 1038,
+          "reseal_note": "Previous recorded seal before the kernel-owned heap allocator update."
+        }
+      ]
     },
     "az-kernel/rust-toolchain.toml": {
       "sha256": "5d6aa74cb567effffacb8cc438e46132ca9034c8db08c51ea5527e666f54c268",
