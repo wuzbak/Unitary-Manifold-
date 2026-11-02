@@ -1,7 +1,7 @@
 {
   "format": "unitary-monorepo-map-v1",
-  "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
-  "source": "git ls-files --cached --others --exclude-standard",
+  "scope": "repository entries in the Git index, including symlinks",
+  "source": "git ls-files --cached",
   "file_count": 8320,
   "lanes": {
     "az_ip": 2484,

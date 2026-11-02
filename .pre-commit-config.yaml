@@ -53,7 +53,7 @@ repos:
         name: Regenerate COMPACTIFICATION repository maps
         description: >-
           Keeps COMPACTIFICATION/monorepo_map.json and kernel_map.json in
-          sync with the tracked file inventory so CI's
+          sync with the Git-index file inventory so CI's
           test_maps_match_repository_inventory gate never goes stale.
         entry: python COMPACTIFICATION/build_maps.py
         language: system
