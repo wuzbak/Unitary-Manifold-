@@ -62,7 +62,7 @@ def test_matmul_add_mul_gradients(seed: int) -> None:
     b_t = Tensor(b_data)
     out = (a_t @ b_t) * 2.0 + 1.0
     out.sum().backward()
-    assert np.allclose(a_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE)
+    assert np.allclose(a_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE, rtol=0.0)
 
 
 def test_softmax_gradient() -> None:
