@@ -220,6 +220,9 @@ refreshed to register it and bump the canonical product count from 42 to 43.
 This is an ADJACENT TRACK compute-architecture application of the lattice
 constants, not a hardgate physics claim.
 
+The master registry README was resealed on 2026-11-02 with the Product 43
+entry; its previous seal is retained in `IP_REGISTRY.json` reseal history.
+
 | Asset | SHA-256 | Size |
 |-------|---------|-----:|
 | `12-AZ-IP/README.md` | `95f2f76489525d09ae2f5cf242c4b888e57fc78e236e40166053d4680cd1b3e1` | 18267 |

@@ -71,7 +71,16 @@ def test_portfolio_schedule_matches_canonical_product_registry():
             assert location is not None
             schedule_entries[cells[0]] = (name, location.group(1))
 
-    assert len(registry_entries) == 42
+    registry_count = re.search(
+        r"Product registry \((\d+) canonical software products / surfaces\)",
+        registry,
+    )
+    schedule_count = re.search(r"The following (\d+) products and surfaces", schedule)
+    assert registry_count is not None
+    assert schedule_count is not None
+    assert len(registry_entries) == int(registry_count.group(1))
+    assert len(schedule_entries) == int(schedule_count.group(1))
+    assert schedule_count.group(1) == registry_count.group(1)
     assert schedule_entries == registry_entries
     assert {
         number: schedule_entries[number][0]
