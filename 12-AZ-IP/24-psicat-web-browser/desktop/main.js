@@ -8,6 +8,7 @@ const core = require('./lib/browser-core');
 const pageContext = require('./lib/page-context');
 const syncPolicy = require('./lib/sync-policy');
 const psiCatClient = require('./lib/psicat-client');
+const syncTransport = require('./lib/sync-transport');
 
 const PRODUCT_ROOT = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(PRODUCT_ROOT, '..', '..');
@@ -526,61 +527,30 @@ async function writeSyncMirror(source = 'local-mirror') {
 }
 
 async function pushSyncToBackend() {
-  if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
-  if (!state.settings.syncAccessToken) throw new Error('Sync access token is required before backend sync.');
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
-  const packet = core.createSyncPacket(state);
-  const response = await fetch(`${endpoint}/api/sync/push`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Sync-Token': state.settings.syncAccessToken,
-    },
-    body: JSON.stringify({
-      account_email: state.sync.accountEmail,
-      packet,
-    }),
+  const result = await syncTransport.pushSyncToBackend({
+    state,
+    endpoint,
+    core,
   });
-  if (!response.ok) throw new Error(`Sync push failed with status ${response.status}`);
-  const payload = await response.json();
-  state = core.normalizeState({
-    ...state,
-    sync: {
-      ...state.sync,
-      lastSyncAt: payload.updated_at || packet.exportedAt,
-      lastSyncSource: 'backend-push',
-    },
-  });
+  state = result.state;
   await persistState();
   broadcastState();
-  return payload;
+  return result.payload;
 }
 
 async function pullSyncFromBackend() {
-  if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
-  if (!state.settings.syncAccessToken) throw new Error('Sync access token is required before backend sync.');
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
-  const response = await fetch(`${endpoint}/api/sync/pull?account_email=${encodeURIComponent(state.sync.accountEmail)}`, {
-    headers: {
-      'X-Sync-Token': state.settings.syncAccessToken,
-    },
+  const result = await syncTransport.pullSyncFromBackend({
+    state,
+    endpoint,
+    core,
   });
-  if (response.status === 404) throw new Error('No backend sync packet found for this account.');
-  if (!response.ok) throw new Error(`Sync pull failed with status ${response.status}`);
-  const payload = await response.json();
-  state = core.mergeSyncPacket(state, payload.packet || {});
-  state = core.normalizeState({
-    ...state,
-    sync: {
-      ...state.sync,
-      lastSyncAt: payload.updated_at || new Date().toISOString(),
-      lastSyncSource: 'backend-pull',
-    },
-  });
+  state = result.state;
   ensureWorkspaceViews();
   await persistState();
   broadcastState();
-  return payload;
+  return result.payload;
 }
 
 async function handleExportSyncPacket() {

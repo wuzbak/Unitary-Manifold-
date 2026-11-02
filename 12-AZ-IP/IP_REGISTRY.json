@@ -458,11 +458,16 @@
       "description": "Product 24 Electron runtime — tabs, split workspaces, PsiCat sidecar, sync backend integration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-01",
-      "sha256": "23d00f8f6146a47d04b06a70b4f09cec118534b9a7edfc4bb1e89fca75152620",
-      "size_bytes": 28007,
-      "reseal_note": "Authorized desktop integration follow-through: reusable bounded PsiCat query adapter, correlated responses, cancellation, private-context gate and visible transport failures. Previous registry-recorded seal retained; no claim it matched the pre-change working file.",
+      "updated": "2026-11-02",
+      "sha256": "e288b9bc05db95d60fd7aa36cc051ddfac6b455a883921efc9e7fac4ad82e151",
+      "size_bytes": 26539,
+      "reseal_note": "Authorized transport-test follow-through: main-process sync push/pull now use the shared production transport tested against observable loopback servers after hostile settings and packet imports. Prior registry seal retained in reseal history.",
       "reseal_history": [
+        {
+          "updated": "2026-11-01",
+          "sha256": "23d00f8f6146a47d04b06a70b4f09cec118534b9a7edfc4bb1e89fca75152620",
+          "size_bytes": 28007
+        },
         {
           "updated": "2026-09-10",
           "sha256": "db59a3f46485e24cd5868cbf9085911d05ab189de0f4c6dc13eef8e97861f119",

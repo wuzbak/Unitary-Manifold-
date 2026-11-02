@@ -243,6 +243,19 @@ allocator update. The earlier registration record above remains unchanged.
 
 ---
 
+### Product 24 main-process transport regression reseal — 2026-11-02
+
+The registered desktop main process now delegates sync push/pull to the shared
+production transport exercised against observable loopback servers, including
+after hostile settings updates and imported sync packets. The preceding seal is
+retained in `IP_REGISTRY.json` reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/24-psicat-web-browser/desktop/main.js` | `e288b9bc05db95d60fd7aa36cc051ddfac6b455a883921efc9e7fac4ad82e151` | 26539 |
+
+---
+
 ## Authorship Declaration
 
 All assets listed in this manifest are the intellectual property of
