@@ -1100,6 +1100,15 @@
       "tests": "58",
       "description": "Live sibling-product registry awareness, a capability router, document/config structural awareness, dependency-free SVG chart creation, SM-2 spaced-repetition knowledge-card decks, path:line citation verification, and a cross-product home-health dashboard; all wired as native PsiCat tools, closing a holistic-audit finding that PsiCat's ~200 tools referenced none of its 41 sibling products.",
       "link": "42-az-awareness-creation-toolkit/"
+    },
+    {
+      "name": "AZ Geometric Tori Transformer",
+      "version": "1.0.0",
+      "trl": "TRL-1",
+      "port": "CLI / Python library + web (http://localhost:8143)",
+      "tests": "46",
+      "description": "From-scratch (NumPy-only, custom reverse-mode autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5\u00b2+7\u00b2, (5,7) braid winding) instead of standard sinusoidal RoPE: a toroidal rotary encoding with finite per-channel orbit periods, plus a toroidal relative-distance attention bias. Verified end-to-end training on a toroidal-copy toy task (loss 2.94\u21920.38, accuracy ~96%). Wired as getToriTransformerGeometry/getToriTransformerDemo native PsiCat Navigator tools and exposed to PsiCat Browser via the Navigator's generic /api/psicat surface (no separate Browser code required). ADJACENT TRACK: a compute-architecture application of the lattice constants, not a hardgate physics claim.",
+      "link": "43-az-geometric-tori-transformer/"
     }
   ]
 }

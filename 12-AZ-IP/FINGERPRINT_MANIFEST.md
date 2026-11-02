@@ -203,16 +203,32 @@ not a claim that the prior working files matched their stored seals.
 
 ---
 
-### Product 43 registration — master README reseal — 2026-11-02
+### Product 43 registration — AZ Geometric Tori Transformer — 2026-11-01
 
-Product 43, the AZ Geometric Tori Transformer, was registered. The master
-registry README was refreshed to register it and bump the canonical product
-count from 42 to 43; the previous seal is retained in `IP_REGISTRY.json`
-reseal history.
+Product 43, the AZ Geometric Tori Transformer, was registered: a from-scratch
+(NumPy-only, custom reverse-mode autograd) transformer whose positional
+encoding and attention bias are derived directly from the repository's own
+Z_74 toroidal phase lattice (K_CS=74=5²+7², (5,7) braid winding) instead of
+standard sinusoidal RoPE — a toroidal rotary encoding with finite per-channel
+orbit periods, plus a toroidal relative-distance attention bias. It is wired
+as `getToriTransformerGeometry`/`getToriTransformerDemo` native PsiCat
+Navigator tools (`ox_navigator/engine/merlin_tools.py`) and a
+`/api/psicat/tori-transformer` route (`ox_navigator/app/server.py`), exposed
+to PsiCat Browser via the Navigator's existing generic `/api/psicat` surface
+with no separate Browser code required. The master registry README was
+refreshed to register it and bump the canonical product count from 42 to 43.
+This is an ADJACENT TRACK compute-architecture application of the lattice
+constants, not a hardgate physics claim.
+
+The master registry README was resealed on 2026-11-02 with the Product 43
+entry; its previous seal is retained in `IP_REGISTRY.json` reseal history.
 
 | Asset | SHA-256 | Size |
 |-------|---------|-----:|
 | `12-AZ-IP/README.md` | `95f2f76489525d09ae2f5cf242c4b888e57fc78e236e40166053d4680cd1b3e1` | 18267 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `6e605fb0fea605c86c317f6f13d847dc95814be93f43c9ecdbeec40d70238f3b` | 7994 |
+| `12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tools.py` | `72ad38b258669ee69a6d985da06a78a3d04db5b6139d569dd7d52f5a3c11cb40` | 154328 |
+| `12-AZ-IP/20-psicat-navigator/ox_navigator/app/server.py` | `daaad05fc976673ced7fbb7d1f1d359e46d2a499c5ece07a1a6b4e8f633c4cf2` | 123370 |
 
 ---
 

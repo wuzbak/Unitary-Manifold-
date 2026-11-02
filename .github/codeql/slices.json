@@ -148,6 +148,14 @@
       ]
     },
     {
+      "slice_id": "python-azip-product-43",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/43-az-geometric-tori-transformer"
+      ]
+    },
+    {
       "slice_id": "python-repository-tooling",
       "language": "python",
       "build_mode": "none",
