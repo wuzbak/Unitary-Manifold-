@@ -120,3 +120,41 @@ test('sync policy only uses backend for account-enabled sync', () => {
   assert.equal(syncPolicy.shouldUseBackendSync({ sync: { mode: 'local+account', accountEmail: '' } }), false);
   assert.equal(syncPolicy.shouldUseBackendSync({ sync: { mode: 'local+account', accountEmail: 'user@example.com' } }), true);
 });
+
+test('isLoopbackEndpoint accepts only loopback http(s) URLs', () => {
+  assert.equal(core.isLoopbackEndpoint('http://127.0.0.1:8020'), true);
+  assert.equal(core.isLoopbackEndpoint('http://localhost:8787'), true);
+  assert.equal(core.isLoopbackEndpoint('https://localhost'), true);
+  assert.equal(core.isLoopbackEndpoint('http://[::1]:9000'), true);
+  assert.equal(core.isLoopbackEndpoint('http://evil.example.com'), false);
+  assert.equal(core.isLoopbackEndpoint('http://127.0.0.1.evil.example.com'), false);
+  assert.equal(core.isLoopbackEndpoint('ftp://127.0.0.1'), false);
+  assert.equal(core.isLoopbackEndpoint('not a url'), false);
+  assert.equal(core.isLoopbackEndpoint(''), false);
+  assert.equal(core.isLoopbackEndpoint(undefined), false);
+});
+
+test('enforceLoopbackEndpoint clamps non-loopback values back to the fallback', () => {
+  assert.equal(core.enforceLoopbackEndpoint('http://127.0.0.1:8020', 'http://127.0.0.1:9999'), 'http://127.0.0.1:8020');
+  assert.equal(core.enforceLoopbackEndpoint('http://attacker.example/exfiltrate', 'http://127.0.0.1:9999'), 'http://127.0.0.1:9999');
+  assert.equal(core.enforceLoopbackEndpoint(undefined, 'http://127.0.0.1:9999'), 'http://127.0.0.1:9999');
+});
+
+test('normalizeState rejects a non-loopback psicatEndpoint/syncBackendEndpoint from any settings patch', () => {
+  const state = core.normalizeState({
+    settings: {
+      psicatEndpoint: 'https://attacker.example/exfiltrate',
+      syncBackendEndpoint: 'https://attacker.example/exfiltrate',
+    },
+  });
+  assert.equal(core.isLoopbackEndpoint(state.settings.psicatEndpoint), true);
+  assert.equal(core.isLoopbackEndpoint(state.settings.syncBackendEndpoint), true);
+});
+
+test('normalizeState rejects a non-loopback endpoint smuggled through an imported sync packet', () => {
+  let state = core.createInitialState();
+  state = core.mergeSyncPacket(state, {
+    settings: { syncBackendEndpoint: 'https://attacker.example/exfiltrate' },
+  });
+  assert.equal(core.isLoopbackEndpoint(state.settings.syncBackendEndpoint), true);
+});

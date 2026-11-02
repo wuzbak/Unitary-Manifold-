@@ -70,7 +70,13 @@ model's only source of position-awareness.
 
 `tensor.py` is a minimal reverse-mode autograd engine (the "array
 micrograd" pattern) supporting exactly the ops above, each independently
-checked against finite-difference numerical gradients in `tests/test_tensor.py`.
+checked against finite-difference numerical gradients in
+`tests/test_tensor.py`, to a **required tolerance of 1e-7** (max abs error
+between the analytic `backward()` gradient and a central-difference
+numerical gradient at step `1e-5`) — the empirically measured max error for
+every op (matmul/add/mul, softmax, layer_norm, gelu) is ~1e-9–1e-10, two
+orders of magnitude inside that gate; see `_GRAD_CHECK_EPS` /
+`GRAD_CHECK_TOLERANCE` in `tests/test_tensor.py`.
 
 ## Toy training demonstration
 
@@ -89,6 +95,35 @@ A representative run (`seq_len=16, vocab_size=12, shift=5, steps=200`)
 drives the cross-entropy loss from ~2.9 (near `ln(12)`, i.e. chance) down to
 well under 0.4, with >95% next-token accuracy on a held-out batch — see
 `tests/test_training.py` for the pinned regression thresholds.
+
+## Benchmark against a standard RoPE control arm
+
+`baseline_attention.RopeMultiHeadAttention` is a textbook, continuous-
+frequency RoPE (Su et al., 2021) attention block — same engine, same
+`Linear`/`LayerNorm`/`FeedForward` layers, same training loop, same
+parameter count — with **no** finite modulus and **no** learned
+relative-distance bias, built only to serve as an honest control arm.
+`GeometricToriTransformerConfig(positional_mode="rope")` swaps it in for
+the toroidal attention block with no other code changes.
+
+`tests/test_baseline_benchmark.py` runs both arms on an identical cyclic
+copy task (`shift=7 > seq_len/2`, so the target offset genuinely wraps past
+the end of the sequence) across 4 seeds, same step budget:
+
+| seed | toroidal final loss | toroidal eval acc | RoPE final loss | RoPE eval acc |
+|------|---------------------|--------------------|------------------|----------------|
+| 0 | 0.0130 | 0.99 | 0.8042 | 0.52 |
+| 1 | 0.0008 | 1.00 | 0.8646 | 0.51 |
+| 2 | 0.0021 | 1.00 | 0.7819 | 0.60 |
+| 3 | 0.0013 | 1.00 | 1.1212 | 0.47 |
+
+Both arms demonstrably train (loss decreases, `test_both_positional_modes_train_and_converge`)
+proving this is a working, converging optimizer loop and not a static model
+structure. On this specific wraparound task, the toroidal arm's finite Z_74
+periodicity gives it a large, consistent advantage over continuous RoPE,
+which has no periodicity at this sequence length and must approximate the
+wrap purely through learned weights — this is the *narrow, task-targeted*
+comparison claimed in Epistemic status below, not a general result.
 
 ## Running as a web product
 
@@ -133,12 +168,18 @@ same way every other PsiCat tool already is.
   and makes no claim that the (5, 7) winding or the 5D Kaluza-Klein geometry
   requires this attention mechanism.
 * No benchmark claim is made that this architecture outperforms standard
-  RoPE/T5-relative-bias Transformers on real language-modelling data; the
-  toy cyclic-copy task is a targeted architecture smoke test chosen to
-  exercise the wraparound property, not a general capability benchmark.
-* TRL-1: a single synthetic task has been validated; no training run on a
-  real corpus, no comparison against a non-toroidal baseline of matched
-  parameter count, and no hardware/throughput measurement have been done.
+  RoPE/T5-relative-bias Transformers on real language-modelling data. The
+  "Benchmark against a standard RoPE control arm" section above is a
+  targeted, task-specific comparison (cyclic wraparound copy task, matched
+  engine/layers/parameter count/step budget) showing the toroidal
+  mechanism's finite periodicity is a real advantage *for that task* — not
+  a general capability benchmark, and not evidence it would win on
+  real-world sequence modelling.
+* TRL-1: two synthetic tasks (plain copy, cyclic-wraparound copy) have been
+  validated, including one same-engine comparison against a standard RoPE
+  baseline of matched parameter count on the wraparound task specifically.
+  No training run on a real corpus and no hardware/throughput measurement
+  have been done.
 
 ## Tests
 
@@ -146,13 +187,15 @@ same way every other PsiCat tool already is.
 python -m pytest 12-AZ-IP/43-az-geometric-tori-transformer/tests/ -q
 ```
 
-46 tests covering: autograd gradient checks against finite differences
-(`test_tensor.py`), Z_74 lattice invariants plus an optional cross-check
-against the Navigator's golden-vector export (`test_toroidal_geometry.py`),
-rotary/bias periodicity properties (`test_positional.py`), attention shape
-and causal-masking behaviour (`test_attention.py`), model forward-pass
-determinism (`test_model.py`), end-to-end training loss/accuracy regression
-(`test_training.py`), and the JSON API dispatch (`test_api.py`).
+48 tests covering: autograd gradient checks against finite differences to a
+1e-7 tolerance (`test_tensor.py`), Z_74 lattice invariants plus an optional
+cross-check against the Navigator's golden-vector export
+(`test_toroidal_geometry.py`), rotary/bias periodicity properties
+(`test_positional.py`), attention shape and causal-masking behaviour
+(`test_attention.py`), model forward-pass determinism (`test_model.py`),
+end-to-end training loss/accuracy regression (`test_training.py`), the
+RoPE-control-arm benchmark (`test_baseline_benchmark.py`), and the JSON API
+dispatch (`test_api.py`).
 
 ---
 

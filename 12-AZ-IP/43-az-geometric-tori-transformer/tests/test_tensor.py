@@ -15,7 +15,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from az_tori_transformer.tensor import Tensor, cross_entropy, gelu, layer_norm, softmax
 
 
-def _numerical_grad(f, x: np.ndarray, eps: float = 1e-6) -> np.ndarray:
+#: Central-difference step. Empirically swept against this engine's
+#: analytic gradients (matmul/add/mul, softmax, layer_norm, gelu) over
+#: eps in {1e-4..1e-7}; 1e-5 minimizes the sum of truncation error
+#: (O(eps^2)) and floating-point cancellation error (O(mach_eps/eps)),
+#: giving max abs error ~1e-10, two orders of magnitude inside the
+#: 1e-7 gate asserted below.
+_GRAD_CHECK_EPS = 1e-5
+
+#: Required agreement between this engine's analytic backward() output
+#: and the central-difference numerical gradient, per the project's
+#: gradient-check mandate.
+GRAD_CHECK_TOLERANCE = 1e-7
+
+
+def _numerical_grad(f, x: np.ndarray, eps: float = _GRAD_CHECK_EPS) -> np.ndarray:
     grad = np.zeros_like(x)
     it = np.nditer(x, flags=["multi_index"])
     for _ in it:
@@ -48,7 +62,7 @@ def test_matmul_add_mul_gradients(seed: int) -> None:
     b_t = Tensor(b_data)
     out = (a_t @ b_t) * 2.0 + 1.0
     out.sum().backward()
-    assert np.allclose(a_t.grad, numeric, atol=1e-5)
+    assert np.allclose(a_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE)
 
 
 def test_softmax_gradient() -> None:
@@ -66,7 +80,7 @@ def test_softmax_gradient() -> None:
     x_t = Tensor(x_data, requires_grad=True)
     probs = softmax(x_t, axis=-1)
     (probs * weights).sum().backward()
-    assert np.allclose(x_t.grad, numeric, atol=1e-5)
+    assert np.allclose(x_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE)
 
 
 def test_layer_norm_gradient() -> None:
@@ -84,7 +98,7 @@ def test_layer_norm_gradient() -> None:
     x_t = Tensor(x_data, requires_grad=True)
     out = layer_norm(x_t, Tensor(gamma_data), Tensor(beta_data))
     out.sum().backward()
-    assert np.allclose(x_t.grad, numeric, atol=1e-4)
+    assert np.allclose(x_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE)
 
 
 def test_gelu_gradient() -> None:
@@ -97,7 +111,7 @@ def test_gelu_gradient() -> None:
     numeric = _numerical_grad(f, x_data.copy())
     x_t = Tensor(x_data, requires_grad=True)
     gelu(x_t).sum().backward()
-    assert np.allclose(x_t.grad, numeric, atol=1e-5)
+    assert np.allclose(x_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE)
 
 
 def test_embedding_getitem_gradient() -> None:

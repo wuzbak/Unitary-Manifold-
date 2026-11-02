@@ -1,0 +1,141 @@
+name: 12-AZ-IP Pillar Verification
+
+# Strict, parallel verification for the three 12-AZ-IP engineering pillars
+# named explicitly by the product brief: the bare-metal kernel memory model
+# (Product 02), the browser network sandbox (Product 24), and the
+# from-scratch autograd math (Product 43). Each job is an independent,
+# fail-closed verification gate; none depends on the others, and a failure
+# in any one job fails the overall check.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "12-AZ-IP/02-az-kernel/**"
+      - "12-AZ-IP/24-psicat-web-browser/**"
+      - "12-AZ-IP/43-az-geometric-tori-transformer/**"
+      - ".github/workflows/az-ip-pillars-ci.yml"
+  pull_request:
+    paths:
+      - "12-AZ-IP/02-az-kernel/**"
+      - "12-AZ-IP/24-psicat-web-browser/**"
+      - "12-AZ-IP/43-az-geometric-tori-transformer/**"
+      - ".github/workflows/az-ip-pillars-ci.yml"
+
+concurrency:
+  group: az-ip-pillars-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # ---------------------------------------------------------------------
+  # System Check: compile 02-az-kernel and run its memory-safety tests.
+  # Gate: must pass without panic or undefined behavior.
+  # ---------------------------------------------------------------------
+  system-check:
+    name: "System Check — cargo test (02-az-kernel)"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 12-AZ-IP/02-az-kernel
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust nightly (kernel toolchain)
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly-2024-09-01
+          targets: x86_64-unknown-uefi
+          components: rust-src, llvm-tools-preview
+
+      - name: Cache Cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            12-AZ-IP/02-az-kernel/target
+          key: ${{ runner.os }}-cargo-az-kernel-${{ hashFiles('12-AZ-IP/02-az-kernel/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-az-kernel-
+
+      - name: Compile the bare-metal UEFI kernel (release)
+        run: cargo build --release --target x86_64-unknown-uefi
+
+      - name: Run heap allocator / mm / fs / ipc unit tests (host target)
+        # scripts/test_lib.sh temporarily relocates .cargo/config.toml
+        # (which forces target=x86_64-unknown-uefi + -Zbuild-std for every
+        # invocation in this directory) so `cargo test` can run the
+        # hardware-independent lib crate on the host target, then restores
+        # it via a trap — this is the only way to get real `cargo test`
+        # execution against a no_std/no_main UEFI kernel without a VM.
+        run: bash scripts/test_lib.sh
+
+  # ---------------------------------------------------------------------
+  # Runtime Check: Playwright headless tests on 24-psicat-web-browser.
+  # Gate: must prove zero data leakage outside loopback.
+  # ---------------------------------------------------------------------
+  runtime-check:
+    name: "Runtime Check — npm test (24-psicat-web-browser)"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 12-AZ-IP/24-psicat-web-browser
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: 12-AZ-IP/24-psicat-web-browser/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright's Chromium (matched to the local package version)
+        run: npx --no-install playwright install --with-deps chromium
+
+      - name: Lint (syntax check every desktop/extension entry point)
+        run: npm run lint
+
+      - name: Run full test suite (Playwright e2e + Node unit tests)
+        # Includes tests/e2e/network-sandbox.spec.js, which captures every
+        # real outbound request Chromium issues across a full interaction
+        # session (navigation, notebook entry, PsiCat query, and an
+        # explicit attempt to redirect settings to a remote attacker host)
+        # and asserts zero of them leave 127.0.0.1/localhost/::1.
+        run: npm test
+
+  # ---------------------------------------------------------------------
+  # Math Check: numerical gradient checks on the tori-transformer autograd.
+  # Gate: custom autograd must match analytical gradients within 1e-7.
+  # ---------------------------------------------------------------------
+  math-check:
+    name: "Math Check — pytest (43-az-geometric-tori-transformer)"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 12-AZ-IP/43-az-geometric-tori-transformer
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install numpy pytest
+
+      - name: Run gradient-check + benchmark test suite
+        # test_tensor.py asserts every autograd op's analytic gradient
+        # matches a central-difference numerical gradient within
+        # GRAD_CHECK_TOLERANCE = 1e-7; test_baseline_benchmark.py proves
+        # the toroidal attention mechanism actually trains/converges,
+        # benchmarked same-engine against a standard RoPE control arm.
+        run: python -m pytest tests/ -v
