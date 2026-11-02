@@ -33,7 +33,6 @@ def test_maps_match_repository_inventory():
     assert monorepo["file_count"] == len(paths) == len(set(paths))
     assert {entry["path"] for entry in monorepo["files"]} == set(paths)
 
-
 def test_ip_and_editorial_catalogues_are_complete():
     paths = build_maps.tracked_paths()
     monorepo = build_maps.build_monorepo_map(paths)
