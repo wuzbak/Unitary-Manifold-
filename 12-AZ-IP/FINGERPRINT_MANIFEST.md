@@ -203,6 +203,19 @@ not a claim that the prior working files matched their stored seals.
 
 ---
 
+### Product 43 registration — master README reseal — 2026-11-02
+
+Product 43, the AZ Geometric Tori Transformer, was registered. The master
+registry README was refreshed to register it and bump the canonical product
+count from 42 to 43; the previous seal is retained in `IP_REGISTRY.json`
+reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/README.md` | `95f2f76489525d09ae2f5cf242c4b888e57fc78e236e40166053d4680cd1b3e1` | 18267 |
+
+---
+
 ## Authorship Declaration
 
 All assets listed in this manifest are the intellectual property of

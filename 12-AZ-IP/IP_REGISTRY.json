@@ -327,11 +327,17 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "bfda7ce884d5b2c72c3f7085511e1bdb1afcd747a291a181d40c431b34d46700",
-      "size_bytes": 17521,
-      "reseal_note": "Refreshed 2026-10-10 to register Product 42 AZ Awareness & Creation Toolkit, bumping the canonical count from 41 to 42. Previous seal: 0f2dbfe3e8ef03bebd5b5883be7c5d4160b8e9cee18e186a568f10aa2e2898a7 (17037 bytes), which registered Product 41 AZ Media & Feature-Inspection Suite, bumping the canonical count from 40 to 41. Earlier reseal provenance is retained in reseal_history.",
+      "updated": "2026-11-02",
+      "sha256": "95f2f76489525d09ae2f5cf242c4b888e57fc78e236e40166053d4680cd1b3e1",
+      "size_bytes": 18267,
+      "reseal_note": "Refreshed 2026-11-02 to register Product 43 AZ Geometric Tori Transformer, bumping the canonical count from 42 to 43. Previous seal retained in reseal_history.",
       "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "bfda7ce884d5b2c72c3f7085511e1bdb1afcd747a291a181d40c431b34d46700",
+          "size_bytes": 17521,
+          "reseal_note": "Refreshed 2026-10-10 to register Product 42 AZ Awareness & Creation Toolkit, bumping the canonical count from 41 to 42. Previous seal: 0f2dbfe3e8ef03bebd5b5883be7c5d4160b8e9cee18e186a568f10aa2e2898a7 (17037 bytes), which registered Product 41 AZ Media & Feature-Inspection Suite, bumping the canonical count from 40 to 41. Earlier reseal provenance is retained in reseal_history."
+        },
         {
           "updated": "2026-10-10",
           "sha256": "0f2dbfe3e8ef03bebd5b5883be7c5d4160b8e9cee18e186a568f10aa2e2898a7",
