@@ -77,23 +77,6 @@ jobs:
           print(f"next_slot={next_slot}, version={version}, week={week}")
           EOF
 
-      - name: Close superseded sprint trigger issues
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WEEK: ${{ steps.frontier.outputs.week }}
-        run: |
-          # Each week's trigger supersedes the previous one; close older open
-          # triggers so they don't accumulate indefinitely (see backlog cleanup
-          # in PR fixing this workflow).
-          mapfile -t open_numbers < <(gh issue list --repo "${{ github.repository }}" \
-            --search '[SPRINT TRIGGER] in:title' --state open --limit 200 --json number \
-            --jq '.[].number')
-          for n in "${open_numbers[@]}"; do
-            gh issue comment "$n" --repo "${{ github.repository }}" \
-              --body "Superseded by this week's (${WEEK}) sprint trigger. Closing automatically." || true
-            gh issue close "$n" --repo "${{ github.repository }}" --reason "not planned" || true
-          done
-
       - name: Create sprint trigger issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -101,6 +84,12 @@ jobs:
           VERSION: ${{ steps.frontier.outputs.version }}
           WEEK: ${{ steps.frontier.outputs.week }}
         run: |
+          # Collect existing triggers before creating the replacement. They are
+          # closed only after the new issue has been created successfully.
+          open_numbers=$(gh issue list --repo "${{ github.repository }}" \
+            --search '[SPRINT TRIGGER] in:title' --state open --limit 200 --json number \
+            --jq '.[].number')
+
           cat > /tmp/sprint_body.md << BODY
           ## [SPRINT TRIGGER] — Week of ${WEEK}
 
@@ -171,3 +160,10 @@ jobs:
             --body-file /tmp/sprint_body.md \
             "${label_args[@]}" \
             --repo "${{ github.repository }}"
+
+          while IFS= read -r n; do
+            [[ -z "$n" ]] && continue
+            gh issue comment "$n" --repo "${{ github.repository }}" \
+              --body "Superseded by this week's (${WEEK}) sprint trigger. Closing automatically." || true
+            gh issue close "$n" --repo "${{ github.repository }}" --reason "not planned" || true
+          done <<< "$open_numbers"
