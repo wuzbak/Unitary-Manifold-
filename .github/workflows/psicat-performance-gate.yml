@@ -48,7 +48,13 @@ jobs:
             -q
 
   lane-e-dynamic-batch-sweep:
-    if: github.event_name != 'pull_request'
+    # This lane targets a dedicated [self-hosted, linux, x64, psicat] runner
+    # pool. No such runner is currently registered for this repository, so
+    # letting `push` auto-trigger it only produces permanently "queued" runs
+    # that never execute and clutter the Actions tab. Restrict it to
+    # workflow_dispatch until that runner pool exists; it remains available
+    # for manual runs once self-hosted capacity is online.
+    if: github.event_name == 'workflow_dispatch'
     name: lane-e sweep (bs=${{ matrix.batch_size }}, ga=${{ matrix.grad_accum }})
     runs-on: [self-hosted, linux, x64, psicat]
     strategy:

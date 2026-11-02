@@ -32,6 +32,7 @@ jobs:
         id: monitor
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           python3 - <<'PYEOF'
           import json
@@ -107,6 +108,39 @@ jobs:
               print(f"Warning: could not read OBSERVATION_TRACKER.md: {e}")
 
           print(f"Known arXiv IDs in tracker: {len(known_ids)}")
+
+          # ---- Load known arXiv IDs from existing GitHub issues (any state) ----
+          # The tracker file is only updated once a human/AI finishes triaging an
+          # alert (see "Required actions" step 3 in the issue body). Until that
+          # happens, relying on the tracker alone lets the same still-untriaged
+          # paper (which can remain in arXiv's "most recent 10" window for several
+          # weeks) be re-alerted every run, producing duplicate issues. Querying
+          # existing issue titles directly closes that gap regardless of whether
+          # triage has happened yet.
+          try:
+              search_result = subprocess.run(
+                  [
+                      "gh", "issue", "list",
+                      "--repo", os.environ["GH_REPO"],
+                      "--search", "[FALSIFIER ALERT] in:title",
+                      "--state", "all",
+                      "--limit", "500",
+                      "--json", "title",
+                  ],
+                  capture_output=True, text=True, check=True,
+              )
+              issue_titles = [row["title"] for row in json.loads(search_result.stdout)]
+              issue_ids = set()
+              for title in issue_titles:
+                  m = re.search(r"arXiv:(\d{4}\.\d{4,5})", title)
+                  if m:
+                      issue_ids.add(m.group(1))
+              print(f"Known arXiv IDs already filed as issues: {len(issue_ids)}")
+              known_ids |= issue_ids
+          except Exception as e:
+              print(f"Warning: could not query existing falsifier-alert issues: {e}")
+
+          print(f"Total known arXiv IDs (tracker + issues): {len(known_ids)}")
 
           # ---- Query arXiv API ----
           BASE = "http://export.arxiv.org/api/query"

@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
   "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 8297,
+  "file_count": 8320,
   "lanes": {
-    "az_ip": 2461,
+    "az_ip": 2484,
     "compactification": 9,
     "other": 5377,
     "psicat_articles": 354,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2461,
+    "12-AZ-IP": 2484,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2624,6 +2624,31 @@
       "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_documents.py",
       "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_registry.py",
       "12-AZ-IP/42-az-awareness-creation-toolkit/ui/index.html"
+    ],
+    "43-az-geometric-tori-transformer": [
+      "12-AZ-IP/43-az-geometric-tori-transformer/README.md",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/__init__.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/api.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/app/__init__.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/app/server.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/attention.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/layers.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/model.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/optim.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/positional.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/tensor.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/toroidal_geometry.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/train_demo.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/run.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/__init__.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_api.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_attention.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_model.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_positional.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_tensor.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_toroidal_geometry.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_training.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/ui/index.html"
     ]
   },
   "psicat_literature": {
@@ -20717,6 +20742,167 @@
       "kind": "file",
       "lane": "az_ip",
       "product": "42-az-awareness-creation-toolkit"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/app/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/attention.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/layers.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/model.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/optim.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/positional.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/tensor.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/toroidal_geometry.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/train_demo.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_attention.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_model.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_positional.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_tensor.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_toroidal_geometry.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_training.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
     },
     {
       "path": "12-AZ-IP/BRAND_SEPARATION_NOTICE_PSICAT.md",

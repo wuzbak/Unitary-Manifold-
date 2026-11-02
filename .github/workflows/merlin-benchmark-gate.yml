@@ -51,7 +51,13 @@ jobs:
             -q
 
   merlin-stage-a-gate:
-    if: github.event_name != 'pull_request'
+    # This lane targets a dedicated [self-hosted, linux, x64, psicat] runner
+    # pool. No such runner is currently registered for this repository, so
+    # letting `schedule`/`push` auto-trigger it only produces permanently
+    # "queued" runs that never execute and clutter the Actions tab. Restrict
+    # it to workflow_dispatch until that runner pool exists; it remains
+    # available for manual runs once self-hosted capacity is online.
+    if: github.event_name == 'workflow_dispatch'
     runs-on: [self-hosted, linux, x64, psicat]
     permissions:
       contents: read
