@@ -2,7 +2,8 @@
 # Theory: ThomasCory Walker-Pearson | Code: GitHub Copilot (AI)
 
 .PHONY: install install-dev test test-core test-pentad test-axiomzero lint fmt \
-        build-all docker-up docker-down docs clean run-api run-um-sos
+        build-all docker-up docker-down docs clean run-api run-um-sos \
+        sync-maps check-maps
 
 # ── Paths ──────────────────────────────────────────────────────────────────
 PYTHON   ?= python3
@@ -36,6 +37,18 @@ test-cov:
 	$(PYTEST) tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" \
 	    --cov=src --cov=AxiomZero --cov="5-GOVERNANCE/Unitary Pentad" \
 	    --cov-report=term-missing --cov-report=html:htmlcov -q
+
+# ── Repository maps ───────────────────────────────────────────────────────────
+# COMPACTIFICATION/test_maps.py asserts the committed monorepo/kernel maps
+# match the live tracked-file inventory byte-for-byte. Run this after adding,
+# renaming, or removing any tracked file so the maps never go stale. The
+# sync-repository-maps pre-commit hook does this automatically for local
+# commits; run it manually for bot/automation commits that skip pre-commit.
+sync-maps:
+	$(PYTHON) COMPACTIFICATION/build_maps.py
+
+check-maps:
+	$(PYTHON) COMPACTIFICATION/build_maps.py --check
 
 # ── Lint / Format ────────────────────────────────────────────────────────────
 lint:

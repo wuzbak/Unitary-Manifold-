@@ -38,6 +38,7 @@ jobs:
       - name: Run smoke tests and compactified preflight
         run: |
           python TOOLS/checks/check_licensing_policy.py
+          python COMPACTIFICATION/build_maps.py --check
           python3 -m pytest \
             tests/test_licensing_policy.py \
             tests/test_metric.py \
@@ -89,6 +90,7 @@ jobs:
       - name: Run smoke tests and compactified preflight
         run: |
           python TOOLS/checks/check_licensing_policy.py
+          python COMPACTIFICATION/build_maps.py --check
           python3 -m pytest \
             tests/test_licensing_policy.py \
             tests/test_metric.py \

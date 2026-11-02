@@ -19,16 +19,12 @@ PRODUCT = re.compile(r"^(0[1-9]|[1-9][0-9]+)-[^/]+$")
 
 
 def tracked_paths() -> list[str]:
-    """Use Git's index, plus new non-ignored files, rather than walking build outputs."""
+    """Use only Git's index rather than walking build outputs or local drafts."""
     result = subprocess.run(
-        ["git", "-C", str(ROOT), "ls-files", "--cached", "--others",
-         "--exclude-standard", "-z"],
+        ["git", "-C", str(ROOT), "ls-files", "--cached", "-z"],
         check=True, capture_output=True,
     )
-    paths = {path for path in result.stdout.decode("utf-8").split("\0") if path}
-    # The maps must index themselves even on the first build, before they exist.
-    paths.update({"COMPACTIFICATION/kernel_map.json", "COMPACTIFICATION/monorepo_map.json"})
-    return sorted(paths)
+    return sorted(path for path in result.stdout.decode("utf-8").split("\0") if path)
 
 
 def classify(path: str) -> dict[str, str]:
@@ -64,8 +60,8 @@ def build_monorepo_map(paths: list[str]) -> dict:
     }
     return {
         "format": "unitary-monorepo-map-v1",
-        "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
-        "source": "git ls-files --cached --others --exclude-standard",
+        "scope": "repository entries in the Git index, including symlinks",
+        "source": "git ls-files --cached",
         "file_count": len(files),
         "lanes": dict(sorted(lanes.items())),
         "top_levels": dict(sorted(top_levels.items())),

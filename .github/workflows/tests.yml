@@ -34,6 +34,8 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt pytest pytest-xdist
+      - name: Repository map freshness gate
+        run: python COMPACTIFICATION/build_maps.py --check
       - name: Run compactified preflight
         run: python TOOLS/checks/run_supervised_pytest_batch.py --suite compactified-preflight --evidence-dir "$GITHUB_WORKSPACE/.um-arts/preflight"
       - name: Preserve preflight evidence

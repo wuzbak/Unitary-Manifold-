@@ -3,8 +3,23 @@
 """Regression tests for the compact and repository navigation maps."""
 
 import json
+import subprocess
 
 from COMPACTIFICATION import build_maps
+
+
+def test_tracked_paths_uses_git_index_only(tmp_path, monkeypatch):
+    subprocess.run(["git", "init", str(tmp_path)], check=True, capture_output=True)
+    indexed = tmp_path / "indexed.txt"
+    indexed.write_text("indexed")
+    subprocess.run(
+        ["git", "-C", str(tmp_path), "add", "indexed.txt"],
+        check=True, capture_output=True,
+    )
+    (tmp_path / "untracked.txt").write_text("untracked")
+    monkeypatch.setattr(build_maps, "ROOT", tmp_path)
+    assert build_maps.tracked_paths() == ["indexed.txt"]
+    assert build_maps.tracked_paths() == ["indexed.txt"]
 
 
 def test_maps_match_repository_inventory():
@@ -13,6 +28,8 @@ def test_maps_match_repository_inventory():
     compact = json.loads((build_maps.COMPACT / "kernel_map.json").read_text())
     assert monorepo == build_maps.build_monorepo_map(paths)
     assert compact == build_maps.build_kernel_map(paths)
+    assert monorepo["scope"] == "repository entries in the Git index, including symlinks"
+    assert monorepo["source"] == "git ls-files --cached"
     assert monorepo["file_count"] == len(paths) == len(set(paths))
     assert {entry["path"] for entry in monorepo["files"]} == set(paths)
 
