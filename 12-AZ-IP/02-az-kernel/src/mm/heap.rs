@@ -231,8 +231,28 @@ impl FreeListAllocator {
     /// `ptr` must have been returned by `allocate` on this instance with an
     /// identical `layout`, and must not be used again afterwards.
     pub unsafe fn deallocate(&mut self, ptr: *mut u8, layout: Layout) {
+        if ptr.is_null() {
+            return;
+        }
+
+        let addr = ptr as usize;
         let size = layout.size().max(MIN_BLOCK_SIZE);
-        self.insert_and_coalesce(ptr as usize, size);
+        let end = match addr.checked_add(size) {
+            Some(v) => v,
+            None => return,
+        };
+
+        // Defensive validation: reject pointers/ranges that cannot belong to
+        // this allocator arena. This prevents invalid raw-pointer writes when
+        // callers violate the deallocation contract.
+        if addr < self.arena_start
+            || end > self.arena_end
+            || addr % align_of::<FreeBlock>() != 0
+        {
+            return;
+        }
+
+        self.insert_and_coalesce(addr, size);
     }
 }
 
