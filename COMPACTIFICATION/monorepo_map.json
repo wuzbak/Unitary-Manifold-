@@ -1,12 +1,12 @@
 {
   "format": "unitary-monorepo-map-v1",
-  "scope": "repository entries in Git index and non-ignored new entries at generation time, including symlinks",
-  "source": "git ls-files --cached --others --exclude-standard",
-  "file_count": 8327,
+  "scope": "repository entries in the Git index, including symlinks",
+  "source": "git ls-files --cached",
+  "file_count": 8329,
   "lanes": {
     "az_ip": 2490,
     "compactification": 9,
-    "other": 5378,
+    "other": 5380,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -108,10 +108,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1632,
+    "src": 1633,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1559,
+    "tests": 1560,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -39487,6 +39487,12 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pillar183_cl_spectrum_subleading.py",
       "top_level": "src",
       "kind": "file",
@@ -50246,6 +50252,12 @@
     },
     {
       "path": "tests/test_pillar1131_offdiagonal_exact_reduction_closure.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar1132_adm_homogeneous_hyperbolic_evolution.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

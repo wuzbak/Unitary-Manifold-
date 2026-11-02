@@ -75,12 +75,26 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v38.3 (2026-10-09)**
+**Current version: v38.4 (2026-11-02)**
 **Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record; latest verified full regression in branch history)
-**Next pillar slot:** 1132
+**Next pillar slot:** 1133
 
 
 
+
+## v38.4 (2026-11-02 — Sprint CZ: Pillar 1132)
+
+**What changed:**
+Pillar 1132 adds a new, independently-scoped capability alongside — not closing — Pillar 1130's two remaining residual obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`), both of which remain open and untouched. `src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py` performs a genuine ADM (3+1) canonical decomposition of the circle-reduced Einstein-frame action restricted to a declared homogeneous perimeter (x^2,x^3 flat/spectator, gauge field B_mu excluded this sprint), with lapse, shift, spatial-metric and scalar fields depending on real coordinate time t = x^0 and one spatial coordinate x = x^1 — the first derivation in the repository to vary the action with genuine second time derivatives. `adm_homogeneous_hyperbolic_evolution_certificate()` certifies the lapse/shift equations are non-dynamical constraints, the spatial-metric equation has an exactly-zero d^2h/dt^2 coefficient (no propagating graviton in 1 spatial dimension), the scalar equation has a nonzero d^2p/dt^2 coefficient (genuine hyperbolic evolution), and the static (t-independent, zero-shift) reduction reproduces the repository's own already-certified static system as an exact symbolic identity (not a sample-point check), built directly from `action_derived_flow.py`'s own helper functions.
+
+**Why:**
+The existing action-derived flow's "t" is a fictitious relaxation parameter, not coordinate time, and its field equations are static (elliptic). Deriving a genuine, narrowly-scoped hyperbolic (real coordinate-time) evolution system — cross-checked exactly against the existing certified static sector — closes a concretely scoped new gap without overclaiming resolution of the full action-to-evolution problem.
+
+**What it does not do:**
+It does not cover the gauge field's physical-time evolution, the inhomogeneous sector, or the Z2 orbifold; it does not reinterpret the existing t-relaxation parameter as coordinate time; it does not close either of Pillar 1130's residual obligations or change framework-level `closure_earned = false`. The action-to-evolution contract still reports `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`; `promotion_ready` stays false. No new hardgate physics closure is claimed.
+
+**Verification:** Pillar 1132 suite (new), `tests/test_action_derived_flow.py`, `tests/test_action_to_evolution_contract.py`, and `tests/test_pillar1131_offdiagonal_exact_reduction_closure.py` pass; recorded in docs/TRUTH_LAYER.md.
+**Next pillar slot:** 1133
 
 ## v38.3 (2026-10-09 — Sprint CY: Pillar 1131)
 

@@ -26,13 +26,14 @@ standalone implementation behaves as tested.
 | `monorepo_map.json` | Machine-readable file inventory for the **whole tracked repository** |
 | `build_maps.py` | Rebuild and staleness-check both maps using Git and the Python standard library |
 
-The monorepo map includes every tracked entry, including symlinks (and new,
-non-ignored entries at generation time). Each entry has a repo-relative path, top-level folder, kind and
-navigation lane. It groups **all** `12-AZ-IP/` products (01–25), shared IP
-assets and every file in the PsiCat Literature `Books/` and `Articles/`
-directories. These are navigational inventories, not attestations of product
-readiness, editorial quality, scientific validity, or a cross-link inferred
-from article titles. Binary contents are *not* copied into the compact kernel.
+The monorepo map includes every Git-indexed entry, including symlinks. Each
+entry has a repo-relative path, top-level folder, kind and navigation lane. It
+groups **all** `12-AZ-IP/` products (01–25), shared IP assets and every indexed
+file in the PsiCat Literature `Books/` and `Articles/` directories. Untracked
+files are excluded so the commit-time inventory matches the Git index. These
+are navigational inventories, not attestations of product readiness, editorial
+quality, scientific validity, or a cross-link inferred from article titles.
+Binary contents are *not* copied into the compact kernel.
 The authoritative product descriptions live in
 [`12-AZ-IP/README.md`](../12-AZ-IP/README.md); the editorial catalogue lives in
 [`7-OUTREACH/A Z PsiCat Literature/README.md`](../7-OUTREACH/A%20Z%20PsiCat%20Literature/README.md).
