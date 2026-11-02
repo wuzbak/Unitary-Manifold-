@@ -56,9 +56,11 @@ def run_toroidal_copy_demo(
     batch_size: int = 8,
     lr: float = 0.02,
     seed: int = 0,
+    positional_mode: str = "toroidal",
 ) -> dict[str, Any]:
     cfg = GeometricToriTransformerConfig(
         vocab_size=vocab_size, dim=dim, num_heads=num_heads, num_layers=num_layers, causal=False, seed=seed,
+        positional_mode=positional_mode,
     )
     model = GeometricToriTransformer(cfg)
     optimizer = Adam(model.parameters(), lr=lr)
@@ -82,6 +84,7 @@ def run_toroidal_copy_demo(
         "config": {
             "seq_len": seq_len, "vocab_size": vocab_size, "shift": shift, "dim": dim,
             "num_heads": num_heads, "num_layers": num_layers, "steps": steps, "batch_size": batch_size, "lr": lr,
+            "positional_mode": positional_mode,
         },
         "num_parameters": model.num_parameters(),
         "initial_loss": losses[0],

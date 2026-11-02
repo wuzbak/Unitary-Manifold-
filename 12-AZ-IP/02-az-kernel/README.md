@@ -28,6 +28,40 @@ bash 12-AZ-IP/02-az-kernel/scripts/build.sh
 python3 -m pytest 12-AZ-IP/02-az-kernel/tests/test_layout.py -q
 ```
 
+### Kernel unit tests (`cargo test`)
+
+The hardware-independent kernel logic — the heap allocator, memory
+bookkeeping, φ-debt RAM filesystem, and IPC ring buffers/channel table — is
+factored into a library crate (`src/lib.rs`, `az_kernel`) that compiles with
+`std` under `#[cfg(test)]`, so it runs on the ordinary host `cargo test`
+harness instead of requiring a UEFI test runner:
+
+```bash
+bash 12-AZ-IP/02-az-kernel/scripts/test_lib.sh
+# or: make -C 12-AZ-IP/02-az-kernel test
+```
+
+(`.cargo/config.toml` pins every cargo invocation in this directory to the
+`x86_64-unknown-uefi` target with `-Zbuild-std`, which collides with a plain
+host `cargo test`; the script above temporarily relocates that config file
+for the one host-targeted test invocation and always restores it on exit —
+see the script's header comment for the full rationale.) The `[[bin]]`
+target (`az-kernel`, the actual bootable UEFI image) is unaffected and keeps
+building exclusively for `x86_64-unknown-uefi` via `cargo build`/`cargo check`.
+
+### AZ-HEAP: kernel-owned allocator
+
+`src/mm/heap.rs` is a first-fit, coalescing free-list allocator (`unsafe impl
+GlobalAlloc`) backed by a static arena compiled into the kernel image. It
+replaces the `uefi` crate's `global_allocator` feature, which serviced every
+allocation via the UEFI `AllocatePool`/`FreePool` boot services — services
+that become invalid the instant `boot::exit_boot_services` runs, while the
+kernel kept calling `alloc::format!` afterwards. `mm::heap` owns its memory
+for the kernel's entire lifetime instead, so allocation never depends on a
+firmware (or host) shortcut. Covered by 7 unit tests (round-trip, no
+overlapping allocations, alignment-padding recovery, coalescing back to full
+capacity, first-fit reuse, and graceful out-of-memory behaviour).
+
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Code architecture, kernel engineering, and consolidation: **GitHub Copilot** (AI).
 

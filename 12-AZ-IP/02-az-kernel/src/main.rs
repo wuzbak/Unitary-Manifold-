@@ -32,17 +32,32 @@ use uefi::mem::memory_map::MemoryType;
 use uefi::mem::memory_map::MemoryMapOwned;
 use uefi::proto::console::gop::GraphicsOutput;
 
-mod framebuffer;
-mod mm;
-mod sched;
-mod ipc;
-mod fs;
-mod drv;
 mod panic_handler;
 
-use framebuffer::{AxiomFramebuffer, Color};
+use az_kernel::framebuffer::{AxiomFramebuffer, Color};
+use az_kernel::{drv, fs, ipc, mm, sched};
 use mm::AxiomMemoryManager;
 use sched::AxiomScheduler;
+
+// ---------------------------------------------------------------------------
+// AZ-HEAP: kernel-owned global allocator
+// ---------------------------------------------------------------------------
+//
+// Backed by a static arena compiled into the kernel image, so it is valid
+// identically before and after `boot::exit_boot_services` — unlike the
+// UEFI-provided allocator it replaces (see Cargo.toml and mm::heap for the
+// full rationale). 8 MiB comfortably covers Sprint 1's heap usage
+// (framebuffer banner strings, scheduler/IPC/fs bookkeeping); later sprints
+// extend the arena with pages reclaimed from AZ-PMM once paging is live.
+const HEAP_SIZE: usize = 8 * 1024 * 1024;
+
+#[repr(align(16))]
+struct HeapArena([u8; HEAP_SIZE]);
+
+static mut HEAP_ARENA: HeapArena = HeapArena([0u8; HEAP_SIZE]);
+
+#[global_allocator]
+static ALLOCATOR: mm::heap::LockedHeap = mm::heap::LockedHeap::empty();
 
 // ---------------------------------------------------------------------------
 // Kernel version constants (from the Unitary Manifold framework)
@@ -62,6 +77,22 @@ const AZ_INTERRUPT_RINGS: u32 = 5;  // mirrors the winding number — topologica
 /// map becomes authoritative and boot services are no longer callable.
 #[entry]
 fn kernel_main() -> Status {
+    // -----------------------------------------------------------------------
+    // Phase 0 — AZ-HEAP online
+    // Initialise the kernel-owned allocator *before* anything that might
+    // call into `alloc` (including uefi::helpers), and well before
+    // `exit_boot_services`, so there is never a window where `alloc` is
+    // backed by a firmware service this kernel does not itself own.
+    //
+    // SAFETY: `HEAP_ARENA` is a `static mut` accessed exactly once, here,
+    // before any other code (this kernel is single-threaded at this point
+    // in boot and `kernel_main` is only ever invoked once by firmware).
+    // -----------------------------------------------------------------------
+    unsafe {
+        let arena_ptr = core::ptr::addr_of_mut!(HEAP_ARENA.0) as *mut u8;
+        ALLOCATOR.init(arena_ptr as usize, HEAP_SIZE);
+    }
+
     // -----------------------------------------------------------------------
     // Phase 1 — Metric Initialisation
     // Identify the hardware topology (memory, framebuffer, CPU topology).

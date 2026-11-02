@@ -24,6 +24,7 @@
 //!   - `PHI_DEBT_THRESHOLD`  → page reclamation trigger (Pillar 16 φ-debt)
 
 pub mod fiber_bundle;
+pub mod heap;
 pub mod pmm;
 pub mod vmm;
 pub mod phi_debt;
@@ -32,6 +33,7 @@ use uefi::mem::memory_map::MemoryMap;
 
 #[allow(unused_imports)]
 pub use fiber_bundle::{FiberBundle, CompactificationDomain};
+pub use heap::{FreeListAllocator, LockedHeap};
 pub use pmm::PhysicalMemoryManager;
 pub use vmm::VirtualMemoryManager;
 pub use phi_debt::PhiDebtAccounting;

@@ -9,6 +9,7 @@ from dataclasses import dataclass
 import numpy as np
 
 from .attention import ToroidalMultiHeadAttention
+from .baseline_attention import RopeMultiHeadAttention
 from .layers import Embedding, FeedForward, Linear, LayerNorm
 from .tensor import Tensor
 
@@ -24,17 +25,28 @@ class GeometricToriTransformerConfig:
     ff_hidden_dim: int = 64
     causal: bool = True
     seed: int = 0
+    #: "toroidal" (default): Z_74 toroidal rotary encoding + relative bias
+    #: (this product's architecture). "rope": standard continuous RoPE with
+    #: no relative bias — a same-engine control arm used only by
+    #: ``tests/test_baseline_benchmark.py`` to benchmark the two mechanisms
+    #: on an identical task/optimizer/budget; never the default.
+    positional_mode: str = "toroidal"
 
     def __post_init__(self) -> None:
         if self.dim % self.num_heads != 0:
             raise ValueError("dim must be divisible by num_heads")
         if (self.dim // self.num_heads) % 2 != 0:
             raise ValueError("head_dim (dim / num_heads) must be even for pairwise rotation")
+        if self.positional_mode not in ("toroidal", "rope"):
+            raise ValueError(f"positional_mode must be 'toroidal' or 'rope', got {self.positional_mode!r}")
 
 
 class TransformerBlock:
     def __init__(self, cfg: GeometricToriTransformerConfig, rng: np.random.Generator):
-        self.attn = ToroidalMultiHeadAttention(cfg.dim, cfg.num_heads, rng, causal=cfg.causal)
+        if cfg.positional_mode == "rope":
+            self.attn = RopeMultiHeadAttention(cfg.dim, cfg.num_heads, rng, causal=cfg.causal)
+        else:
+            self.attn = ToroidalMultiHeadAttention(cfg.dim, cfg.num_heads, rng, causal=cfg.causal)
         self.ff = FeedForward(cfg.dim, cfg.ff_hidden_dim, rng)
         self.ln1 = LayerNorm(cfg.dim)
         self.ln2 = LayerNorm(cfg.dim)

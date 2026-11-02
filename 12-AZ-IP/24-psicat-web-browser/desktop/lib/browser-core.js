@@ -11,6 +11,37 @@ function createSyncAccessToken() {
   return crypto.randomUUID().replace(/-/g, '');
 }
 
+// A loopback literal or hostname Node/Chromium resolve to 127.0.0.1/::1 on
+// every platform without depending on DNS or /etc/hosts contents.
+const LOOPBACK_HOSTS = new Set(['127.0.0.1', 'localhost', '::1', '[::1]']);
+
+// True iff `endpoint` is a well-formed `http(s)://` URL whose host is a
+// loopback address. This is the sandbox boundary for the PsiCat/sync local
+// bridge: the UI's own privacy claim ("local-compute", "privacy-first") is
+// only true if these endpoints can never be pointed off-box, so this check
+// is applied unconditionally in `normalizeState` -- the single chokepoint
+// every settings-update path (IPC handler, sync packet import, workspace
+// restore) passes through -- rather than trusted to each call site.
+function isLoopbackEndpoint(endpoint) {
+  if (typeof endpoint !== 'string') return false;
+  let parsed;
+  try {
+    parsed = new URL(endpoint);
+  } catch {
+    return false;
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return false;
+  return LOOPBACK_HOSTS.has(parsed.hostname.toLowerCase());
+}
+
+// Clamp a user- or import-supplied local-service endpoint back to its safe
+// loopback default whenever it is missing or points off-box. Never throws:
+// an invalid/remote endpoint degrades to "local service unreachable"
+// behaviour in the caller, not a silent network request to an attacker.
+function enforceLoopbackEndpoint(endpoint, fallback) {
+  return isLoopbackEndpoint(endpoint) ? endpoint : fallback;
+}
+
 function createDefaultSettings() {
   return {
     homePage: DEFAULT_HOME,
@@ -112,9 +143,20 @@ function normalizeState(state) {
   if (!merged.settings.syncAccessToken) {
     merged.settings.syncAccessToken = createSyncAccessToken();
   }
-  if (!merged.settings.syncBackendEndpoint) {
-    merged.settings.syncBackendEndpoint = 'http://127.0.0.1:8787';
-  }
+  // Sandbox boundary: psicatEndpoint/syncBackendEndpoint drive every
+  // outbound request this app makes to a "local service" (see main.js's
+  // callPsiCat/writeSyncMirror). Enforcing loopback-only here means no
+  // settings patch, sync-packet import, or workspace restore can ever
+  // redirect those calls off-box, regardless of which caller produced the
+  // patch.
+  merged.settings.psicatEndpoint = enforceLoopbackEndpoint(
+    merged.settings.psicatEndpoint,
+    createDefaultSettings().psicatEndpoint,
+  );
+  merged.settings.syncBackendEndpoint = enforceLoopbackEndpoint(
+    merged.settings.syncBackendEndpoint,
+    'http://127.0.0.1:8787',
+  );
   if (!merged.tabs.some((tab) => tab.id === merged.workspace.secondaryTabId)) {
     merged.workspace.secondaryTabId = null;
   }
@@ -431,6 +473,8 @@ module.exports = {
   createDefaultSettings,
   createInitialState,
   normalizeState,
+  isLoopbackEndpoint,
+  enforceLoopbackEndpoint,
   sanitizeUrl,
   addTab,
   activateTab,

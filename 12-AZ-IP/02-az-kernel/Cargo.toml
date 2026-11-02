@@ -20,8 +20,16 @@ codegen-units = 1
 strip = "debuginfo"
 
 [dependencies]
-# UEFI boot services (Sprint 0)
-uefi = { version = "0.33", features = ["alloc", "global_allocator", "logger"] }
+# UEFI boot services (Sprint 0).
+#
+# NOTE: the `global_allocator` feature is deliberately NOT enabled. That
+# feature installs a `#[global_allocator]` backed by UEFI's AllocatePool/
+# FreePool boot services, which become invalid the instant
+# `boot::exit_boot_services` runs. The kernel supplies its own
+# `mm::heap::LockedHeap`, backed by memory it owns for its entire lifetime
+# (see src/mm/heap.rs and the `#[global_allocator]` in src/main.rs), so
+# allocation never depends on firmware boot services after the handoff.
+uefi = { version = "0.33", features = ["alloc", "logger"] }
 
 # Embedded utilities for no_std kernel (Sprint 1)
 bitflags = "2"
@@ -31,6 +39,10 @@ log = "0.4"
 # Physics-informed data structures (Sprint 1)
 heapless = "0.8"       # fixed-capacity collections (no heap until AZ-MM boots)
 libm = "0.2"           # software math (sqrtf) for no_std geodesic scheduler
+
+[lib]
+name = "az_kernel"
+path = "src/lib.rs"
 
 [[bin]]
 name = "az-kernel"

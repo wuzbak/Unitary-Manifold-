@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8320,
+  "file_count": 8329,
   "lanes": {
-    "az_ip": 2484,
+    "az_ip": 2490,
     "compactification": 9,
-    "other": 5377,
+    "other": 5380,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -16,14 +16,14 @@
     ".dvc": 1,
     ".firebaserc": 1,
     ".gitattributes": 1,
-    ".github": 49,
+    ".github": 50,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2484,
+    "12-AZ-IP": 2490,
     "2-REPRODUCIBILITY": 11,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -108,10 +108,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1632,
+    "src": 1633,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1559,
+    "tests": 1560,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -223,6 +223,7 @@
       "12-AZ-IP/02-az-kernel/scripts/build_iso.sh",
       "12-AZ-IP/02-az-kernel/scripts/gen_font.py",
       "12-AZ-IP/02-az-kernel/scripts/qemu_run.sh",
+      "12-AZ-IP/02-az-kernel/scripts/test_lib.sh",
       "12-AZ-IP/02-az-kernel/src/app/mod.rs",
       "12-AZ-IP/02-az-kernel/src/drv/mod.rs",
       "12-AZ-IP/02-az-kernel/src/drv/net.rs",
@@ -236,8 +237,10 @@
       "12-AZ-IP/02-az-kernel/src/ipc/kk_channel.rs",
       "12-AZ-IP/02-az-kernel/src/ipc/mod.rs",
       "12-AZ-IP/02-az-kernel/src/ipc/ring_buffer.rs",
+      "12-AZ-IP/02-az-kernel/src/lib.rs",
       "12-AZ-IP/02-az-kernel/src/main.rs",
       "12-AZ-IP/02-az-kernel/src/mm/fiber_bundle.rs",
+      "12-AZ-IP/02-az-kernel/src/mm/heap.rs",
       "12-AZ-IP/02-az-kernel/src/mm/mod.rs",
       "12-AZ-IP/02-az-kernel/src/mm/phi_debt.rs",
       "12-AZ-IP/02-az-kernel/src/mm/pmm.rs",
@@ -2334,6 +2337,7 @@
       "12-AZ-IP/24-psicat-web-browser/sync_backend/server.py",
       "12-AZ-IP/24-psicat-web-browser/tests/browser-core.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/e2e/desktop-ui.spec.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/e2e/network-sandbox.spec.js",
       "12-AZ-IP/24-psicat-web-browser/tests/page-context.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/psicat-client.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/test_product24_structure.py",
@@ -2632,6 +2636,7 @@
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/app/__init__.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/app/server.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/attention.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/baseline_attention.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/layers.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/model.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/optim.py",
@@ -2643,6 +2648,7 @@
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/__init__.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_api.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_attention.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_baseline_benchmark.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_model.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_positional.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_tensor.py",
@@ -3242,6 +3248,12 @@
     },
     {
       "path": ".github/topics.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/workflows/az-ip-pillars-ci.yml",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -4497,6 +4509,13 @@
       "product": "02-az-kernel"
     },
     {
+      "path": "12-AZ-IP/02-az-kernel/scripts/test_lib.sh",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "02-az-kernel"
+    },
+    {
       "path": "12-AZ-IP/02-az-kernel/src/app/mod.rs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -4588,6 +4607,13 @@
       "product": "02-az-kernel"
     },
     {
+      "path": "12-AZ-IP/02-az-kernel/src/lib.rs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "02-az-kernel"
+    },
+    {
       "path": "12-AZ-IP/02-az-kernel/src/main.rs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -4596,6 +4622,13 @@
     },
     {
       "path": "12-AZ-IP/02-az-kernel/src/mm/fiber_bundle.rs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "02-az-kernel"
+    },
+    {
+      "path": "12-AZ-IP/02-az-kernel/src/mm/heap.rs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -18966,6 +18999,13 @@
       "product": "24-psicat-web-browser"
     },
     {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/e2e/network-sandbox.spec.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
       "path": "12-AZ-IP/24-psicat-web-browser/tests/page-context.test.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20786,6 +20826,13 @@
       "product": "43-az-geometric-tori-transformer"
     },
     {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/baseline_attention.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
       "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/layers.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20857,6 +20904,13 @@
     },
     {
       "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_attention.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_baseline_benchmark.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -39433,6 +39487,12 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pillar183_cl_spectrum_subleading.py",
       "top_level": "src",
       "kind": "file",
@@ -50192,6 +50252,12 @@
     },
     {
       "path": "tests/test_pillar1131_offdiagonal_exact_reduction_closure.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar1132_adm_homogeneous_hyperbolic_evolution.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
