@@ -138,7 +138,7 @@ jobs:
               print(f"Known arXiv IDs already filed as issues: {len(issue_ids)}")
               known_ids |= issue_ids
           except Exception as e:
-              print(f"Warning: could not query existing falsifier-alert issues: {e}")
+              raise SystemExit(f"Cannot safely de-duplicate falsifier alerts: {e}") from e
 
           print(f"Total known arXiv IDs (tracker + issues): {len(known_ids)}")
 
