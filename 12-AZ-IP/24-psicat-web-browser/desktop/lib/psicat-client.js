@@ -47,6 +47,7 @@ async function queryPsiCat({ baseUrl, body, signal, session, fetchImpl = fetch, 
   const status = await fetchImpl(`${baseUrl}/api/psicat/status`, {
     signal: requestSignal,
     headers: session?.cookie ? { Cookie: session.cookie } : {},
+    redirect: 'error',
   });
   if (!status.ok) throw new Error(`PsiCat status failed (HTTP ${status.status}).`);
   const statusPayload = await status.json();
@@ -65,6 +66,7 @@ async function queryPsiCat({ baseUrl, body, signal, session, fetchImpl = fetch, 
   const response = await fetchImpl(`${baseUrl}/api/psicat`, {
     method: 'POST',
     signal: requestSignal,
+    redirect: 'error',
     headers: { 'Content-Type': 'application/json', Cookie: cookies },
     body: JSON.stringify({
       ...body,

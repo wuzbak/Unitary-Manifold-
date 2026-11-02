@@ -4,6 +4,7 @@ async function pushSyncToBackend({ state, endpoint, core, fetchImpl = fetch }) {
   const packet = core.createSyncPacket(state);
   const response = await fetchImpl(`${endpoint}/api/sync/push`, {
     method: 'POST',
+    redirect: 'error',
     headers: {
       'Content-Type': 'application/json',
       'X-Sync-Token': state.settings.syncAccessToken,
@@ -30,6 +31,7 @@ async function pullSyncFromBackend({ state, endpoint, core, fetchImpl = fetch })
   if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
   if (!state.settings.syncAccessToken) throw new Error('Sync access token is required before backend sync.');
   const response = await fetchImpl(`${endpoint}/api/sync/pull?account_email=${encodeURIComponent(state.sync.accountEmail)}`, {
+    redirect: 'error',
     headers: {
       'X-Sync-Token': state.settings.syncAccessToken,
     },

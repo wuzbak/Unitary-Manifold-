@@ -87,28 +87,28 @@ Product 27 is a separate local Vite development tool with native Product 20 acti
 
 ### Sandbox guarantee: loopback-only networking
 
-`psicatEndpoint` and `syncBackendEndpoint` are the only two settings that
-drive real outbound requests this app makes (see `desktop/main.js`'s
-`callPsiCat`/`writeSyncMirror`). `desktop/lib/browser-core.js::normalizeState`
-is the single chokepoint every path that can set those settings passes
-through — the `browser:update-settings` IPC handler, a workspace restore,
-and merging an **imported sync packet** all end in a call to
-`normalizeState` — and it now unconditionally clamps both endpoints back to
-their safe `http://127.0.0.1:*` defaults whenever they are missing or
-resolve to anything other than `127.0.0.1`/`localhost`/`::1`. This closes a
-real gap: previously an imported sync packet (or a typo'd settings field)
-could silently redirect every PsiCat query and sync push/pull to an
-attacker-controlled remote endpoint.
+`psicatEndpoint` and `syncBackendEndpoint` drive the PsiCat and sync
+transports. `desktop/lib/browser-core.js::normalizeState` is the single
+chokepoint every path that can set those settings passes through — including
+the `browser:update-settings` IPC handler and merging an **imported sync
+packet** — and clamps non-loopback endpoints to safe `http://127.0.0.1:*`
+defaults. The production PsiCat and sync transport clients also reject HTTP
+redirects, so a loopback service cannot forward query context, sync packets,
+or the `X-Sync-Token` to a remote host.
 
 Verified by:
 
 - `tests/browser-core.test.js` — unit tests for `isLoopbackEndpoint`,
   `enforceLoopbackEndpoint`, and `normalizeState` rejecting a hostile
   endpoint from both a settings patch and an imported sync packet.
+- `tests/network-transports.test.js` — exercises the production PsiCat and
+  sync transport clients against observable loopback servers, including
+  requests after hostile settings updates and sync-packet imports, plus
+  redirect attempts that must not reach their target servers.
 - `tests/e2e/network-sandbox.spec.js` — a real Chromium instance renders
   the production `desktop/ui/app.js`/`app.css` with only the Electron
   preload bridge (`window.psicatBrowser`) stubbed; Playwright's network
-  listener asserts **zero requests** leave loopback across a full
+  listener asserts **zero requests** leave loopback across a full UI
   interaction session, including an explicit attempt to redirect both
   endpoints to `https://attacker.example/exfiltrate` via the Settings panel.
 

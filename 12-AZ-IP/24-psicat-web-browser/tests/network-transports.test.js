@@ -138,3 +138,52 @@ test('production query and sync transports stay on loopback after hostile settin
     await Promise.all([close(psiCatServer), close(syncServer)]);
   }
 });
+
+test('PsiCat and sync transports reject redirects before forwarding request data', async () => {
+  let redirectedRequests = 0;
+  const target = createServer((_request, response) => {
+    redirectedRequests += 1;
+    response.end('should not be reached');
+  });
+  const redirect = createServer((request, response) => {
+    if (request.url === '/api/psicat/status') {
+      response.writeHead(200, {
+        'Content-Type': 'application/json',
+        'X-PsiCat-Handshake-Challenge': 'test-challenge',
+        'X-PsiCat-Handshake-Receipt': 'test-receipt',
+        'Set-Cookie': 'psicat_profile_id=test-profile; Path=/',
+      });
+      response.end(JSON.stringify({ memory_profile_token: 'test-token' }));
+      return;
+    }
+    response.writeHead(307, { Location: `http://127.0.0.1:${target.address().port}/collect` });
+    response.end();
+  });
+  const listen = (server) => new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(0, '127.0.0.1', resolve);
+  });
+  const close = (server) => new Promise((resolve) => {
+    if (!server.listening) return resolve();
+    server.close(resolve);
+  });
+
+  try {
+    await listen(target);
+    await listen(redirect);
+    const endpoint = `http://127.0.0.1:${redirect.address().port}`;
+    await assert.rejects(psiCatClient.queryPsiCat({
+      baseUrl: endpoint,
+      body: { query: 'sensitive page context', context_envelope: { request_id: 'redirect-test' } },
+      session: { cookie: '' },
+    }));
+
+    const state = buildInitialState();
+    state.sync.accountEmail = 'test@example.invalid';
+    await assert.rejects(syncTransport.pushSyncToBackend({ state, endpoint, core }));
+    await assert.rejects(syncTransport.pullSyncFromBackend({ state, endpoint, core }));
+    assert.equal(redirectedRequests, 0);
+  } finally {
+    await Promise.all([close(redirect), close(target)]);
+  }
+});

@@ -256,6 +256,20 @@ retained in `IP_REGISTRY.json` reseal history.
 
 ---
 
+### AZ-KERNEL and Product 24 README reseal — 2026-11-02
+
+The README fingerprints were refreshed after the review-requested allocator
+test and loopback transport verification documentation updates. Prior
+registry-recorded seals are retained in `IP_REGISTRY.json` reseal histories;
+they are not asserted to match the prior working files.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/02-az-kernel/README.md` | `f3d7e01a66ccd932dc9e1f9cc066b83c3445132408615f760741bd458bfb5c1e` | 2998 |
+| `12-AZ-IP/24-psicat-web-browser/README.md` | `cbd56f5daaa8560ceab93c0c7c58b06310653ca3e0288bf766dbd91330ab4767` | 9798 |
+
+---
+
 ## Authorship Declaration
 
 All assets listed in this manifest are the intellectual property of

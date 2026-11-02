@@ -100,9 +100,12 @@ well under 0.4, with >95% next-token accuracy on a held-out batch — see
 
 `baseline_attention.RopeMultiHeadAttention` is a textbook, continuous-
 frequency RoPE (Su et al., 2021) attention block — same engine, same
-`Linear`/`LayerNorm`/`FeedForward` layers, same training loop, same
-parameter count — with **no** finite modulus and **no** learned
-relative-distance bias, built only to serve as an honest control arm.
+`Linear`/`LayerNorm`/`FeedForward` layers, and same training loop — with
+**no** finite modulus and **no** learned relative-distance bias. It is not
+parameter-matched to the toroidal model: for the four-head, two-layer
+benchmark, toroidal attention adds a trainable `(num_heads, 38)` relative-bias
+table per layer, for **7,064 parameters** versus **6,760** in the RoPE model
+(304 additional parameters total).
 `GeometricToriTransformerConfig(positional_mode="rope")` swaps it in for
 the toroidal attention block with no other code changes.
 
@@ -117,13 +120,12 @@ the end of the sequence) across 4 seeds, same step budget:
 | 2 | 0.0021 | 1.00 | 0.7819 | 0.60 |
 | 3 | 0.0013 | 1.00 | 1.1212 | 0.47 |
 
-Both arms demonstrably train (loss decreases, `test_both_positional_modes_train_and_converge`)
-proving this is a working, converging optimizer loop and not a static model
-structure. On this specific wraparound task, the toroidal arm's finite Z_74
-periodicity gives it a large, consistent advantage over continuous RoPE,
-which has no periodicity at this sequence length and must approximate the
-wrap purely through learned weights — this is the *narrow, task-targeted*
-comparison claimed in Epistemic status below, not a general result.
+Both arms demonstrably train (loss decreases,
+`test_both_positional_modes_train_and_converge`). The lower toroidal loss in
+these runs is an empirical architecture comparison only. The 12-position
+task does not match the first rotary pair's 74-position orbit, and the models
+have different parameter counts; the result does not establish periodicity as
+the cause of the loss difference.
 
 ## Running as a web product
 
@@ -169,17 +171,16 @@ same way every other PsiCat tool already is.
   requires this attention mechanism.
 * No benchmark claim is made that this architecture outperforms standard
   RoPE/T5-relative-bias Transformers on real language-modelling data. The
-  "Benchmark against a standard RoPE control arm" section above is a
-  targeted, task-specific comparison (cyclic wraparound copy task, matched
-  engine/layers/parameter count/step budget) showing the toroidal
-  mechanism's finite periodicity is a real advantage *for that task* — not
-  a general capability benchmark, and not evidence it would win on
-  real-world sequence modelling.
+  "Benchmark against a standard RoPE control arm" section above reports a
+  task-specific empirical comparison on a cyclic-copy task using the same
+  engine, training loop, and step budget. The models are not parameter
+  matched (the toroidal arm has 304 additional learned bias parameters), and
+  the task period is not matched to the rotary orbit; the observed loss
+  difference does not isolate periodicity as its cause.
 * TRL-1: two synthetic tasks (plain copy, cyclic-wraparound copy) have been
-  validated, including one same-engine comparison against a standard RoPE
-  baseline of matched parameter count on the wraparound task specifically.
-  No training run on a real corpus and no hardware/throughput measurement
-  have been done.
+  validated, including one same-engine empirical comparison against a
+  standard RoPE baseline on the cyclic-copy task. No training run on a real
+  corpus and no hardware/throughput measurement have been done.
 
 ## Tests
 

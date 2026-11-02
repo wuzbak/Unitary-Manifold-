@@ -107,8 +107,8 @@ impl FreeListAllocator {
     }
 
     /// Find the first free block that fits `size` bytes aligned to `align`,
-    /// unlink it, and recover both the alignment padding and any leftover
-    /// tail as new free blocks. Returns the aligned, usable pointer.
+    /// unlink it, and recover representable alignment padding and tail
+    /// fragments as free blocks. Returns the aligned, usable pointer.
     fn find_and_remove(&mut self, size: usize, align: usize) -> Option<*mut u8> {
         let mut prev: Option<NonNull<FreeBlock>> = None;
         let mut cur = self.head;
@@ -120,19 +120,26 @@ impl FreeListAllocator {
             let next = unsafe { block_ptr.as_ref().next };
             let block_addr = block_ptr.as_ptr() as usize;
 
-            let alloc_start = Self::align_up(block_addr, align);
-            let padding = alloc_start - block_addr;
+            let mut alloc_start = Self::align_up(block_addr, align);
+            let mut padding = alloc_start - block_addr;
+            if padding != 0 && padding < MIN_BLOCK_SIZE {
+                alloc_start = Self::align_up(block_addr + MIN_BLOCK_SIZE, align);
+                padding = alloc_start - block_addr;
+            }
 
             if let Some(needed) = padding.checked_add(size) {
                 if block_size >= needed {
                     let tail_addr = alloc_start + size;
                     let tail_size = block_size - needed;
 
-                    // Recover the alignment padding as its own free block
-                    // (only possible/worthwhile if it is big enough to hold
-                    // a header; sub-MIN_BLOCK_SIZE slivers are vanishingly
-                    // rare in practice because callers align the arena and
-                    // every split point to `align_of::<FreeBlock>()`).
+                    // A fragment too small for a header cannot be recovered
+                    // when the allocation is freed, so leave this block intact.
+                    if tail_size != 0 && tail_size < MIN_BLOCK_SIZE {
+                        prev = cur;
+                        cur = next;
+                        continue;
+                    }
+
                     let mut replacement = next;
                     if tail_size >= MIN_BLOCK_SIZE {
                         let tail_block = tail_addr as *mut FreeBlock;
@@ -220,7 +227,12 @@ impl FreeListAllocator {
 
     /// Allocate memory satisfying `layout`, or `None` if no block fits.
     pub fn allocate(&mut self, layout: Layout) -> Option<*mut u8> {
-        let size = layout.size().max(MIN_BLOCK_SIZE);
+        let alignment = align_of::<FreeBlock>();
+        let size = layout
+            .size()
+            .max(MIN_BLOCK_SIZE)
+            .checked_add(alignment - 1)?
+            & !(alignment - 1);
         let align = layout.align().max(align_of::<FreeBlock>());
         self.find_and_remove(size, align)
     }
@@ -236,7 +248,15 @@ impl FreeListAllocator {
         }
 
         let addr = ptr as usize;
-        let size = layout.size().max(MIN_BLOCK_SIZE);
+        let alignment = align_of::<FreeBlock>();
+        let size = match layout
+            .size()
+            .max(MIN_BLOCK_SIZE)
+            .checked_add(alignment - 1)
+        {
+            Some(size) => size & !(alignment - 1),
+            None => return,
+        };
         let end = match addr.checked_add(size) {
             Some(v) => v,
             None => return,
@@ -368,6 +388,53 @@ mod tests {
         for w in ptrs.windows(2) {
             assert!(w[1] >= w[0] + layout.size(), "allocations must not overlap");
         }
+    }
+
+    #[test]
+    fn internal_size_is_rounded_to_free_block_alignment() {
+        let arena = TestArena::new(4096);
+        let mut a = new_allocator(&arena, 4096);
+        let layout = Layout::from_size_align(100, 8).unwrap();
+
+        let p = a.allocate(layout).unwrap();
+        let tail = a.head.unwrap().as_ptr() as usize;
+        assert_eq!(tail, p as usize + 104);
+
+        unsafe { a.deallocate(p, layout) };
+        assert_eq!(a.free_bytes(), 4096);
+    }
+
+    #[test]
+    fn rejects_unrepresentable_tail_without_consuming_free_space() {
+        let arena = TestArena::new(4096);
+        let mut a = new_allocator(&arena, 4096);
+
+        let nearly_full = Layout::from_size_align(4088, 8).unwrap();
+        assert!(a.allocate(nearly_full).is_none());
+        assert_eq!(a.free_bytes(), 4096);
+
+        let representable = Layout::from_size_align(4080, 8).unwrap();
+        let p = a.allocate(representable).unwrap();
+        unsafe { a.deallocate(p, representable) };
+        assert_eq!(a.free_bytes(), 4096);
+    }
+
+    #[test]
+    fn recovers_alignment_prefixes_that_would_be_too_small_for_a_header() {
+        let arena = TestArena::new(4096);
+        let mut a = new_allocator(&arena, 4096);
+
+        let first_layout = Layout::from_size_align(24, 8).unwrap();
+        let first = a.allocate(first_layout).unwrap();
+        let aligned_layout = Layout::from_size_align(32, 16).unwrap();
+        let aligned = a.allocate(aligned_layout).unwrap();
+        assert_eq!(aligned as usize % 16, 0);
+
+        unsafe {
+            a.deallocate(first, first_layout);
+            a.deallocate(aligned, aligned_layout);
+        }
+        assert_eq!(a.free_bytes(), 4096);
     }
 
     #[test]

@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-10-10",
+  "updated": "2026-11-02",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -289,9 +289,18 @@
       "description": "Canonical merged AZ-KERNEL README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "e0b802846f751dd6fc1f16e8a502f2dab85bc7b4ca4037ceefe537b86997f242",
-      "size_bytes": 1233
+      "updated": "2026-11-02",
+      "sha256": "f3d7e01a66ccd932dc9e1f9cc066b83c3445132408615f760741bd458bfb5c1e",
+      "size_bytes": 2998,
+      "reseal_note": "Refreshed 2026-11-02 after review-requested AZ-HEAP allocator test documentation updates. Previous registry-recorded seal retained in reseal_history; no claim it matched the prior working file.",
+      "reseal_history": [
+        {
+          "updated": "2026-08-18",
+          "sha256": "e0b802846f751dd6fc1f16e8a502f2dab85bc7b4ca4037ceefe537b86997f242",
+          "size_bytes": 1233,
+          "reseal_note": "Previous registry-recorded seal before the 2026-11-02 README update; not asserted to match the prior working file."
+        }
+      ]
     },
     "12-AZ-IP/03-eige/README.md": {
       "description": "Canonical EIGE product README",
@@ -434,11 +443,17 @@
       "description": "Product 24 documentation — desktop, Android, extension, workspace, and sync scaffold",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-01",
-      "sha256": "b4c6e81a47e5e6f516104278e3cc3017dc5a8edf5dbc6525d6dee1401079c2e6",
-      "size_bytes": 8246,
-      "reseal_note": "Authorized desktop integration follow-through: explicit context sharing, session-cookie handshake, deadlines, cancellation and honest limits. Previous registry-recorded seal retained; no claim it matched the pre-change working file.",
+      "updated": "2026-11-02",
+      "sha256": "cbd56f5daaa8560ceab93c0c7c58b06310653ca3e0288bf766dbd91330ab4767",
+      "size_bytes": 9798,
+      "reseal_note": "Refreshed 2026-11-02 after review-requested loopback transport and benchmark-verification documentation updates. Previous registry-recorded seal retained in reseal_history; no claim it matched the prior working file.",
       "reseal_history": [
+        {
+          "updated": "2026-11-01",
+          "sha256": "b4c6e81a47e5e6f516104278e3cc3017dc5a8edf5dbc6525d6dee1401079c2e6",
+          "size_bytes": 8246,
+          "reseal_note": "Previous registry-recorded seal before the 2026-11-02 README update; not asserted to match the prior working file."
+        },
         {
           "updated": "2026-09-10",
           "sha256": "ecd8903e70ff395b3115f54942e7ac3e857e8097634b9e61d1fcae5773bcbf43",
