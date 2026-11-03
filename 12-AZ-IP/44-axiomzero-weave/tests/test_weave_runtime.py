@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+# Copyright (C) 2026  ThomasCory Walker-Pearson
 """Real integration: grounding, computation, governed effects and continuity."""
 
 import hashlib
 import pytest
 
 from az_weave import OBLIGATIONS, OPERATIONS
-from az_weave.api import Weave, run_readonly, repository_root
+from az_weave.api import Weave, run_readonly, repository_root, compute_readonly
 from az_weave.evidence import SourceIndex
 from az_weave.memory import ReadOnlyFederation
 
@@ -154,3 +154,29 @@ def test_real_capstone_proposal_approval_computation_and_correction(weave):
 def test_public_query_bounds(query, limit):
     with pytest.raises(ValueError):
         run_readonly(query, limit)
+
+
+def test_native_computation_is_real_readonly_and_path_scoped(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("AZ_WEAVE_CHECKPOINTS_JSON", raising=False)
+    result = compute_readonly("geometry", {}, repo_root=ROOT)
+    assert result["alias_period"] == 74
+    assert not (tmp_path / ".axiomzero-weave").exists()
+    for action in ["train", "experiment", "approve", "memory.put"]:
+        with pytest.raises(ValueError, match="only"):
+            compute_readonly(action, {}, repo_root=ROOT)
+    with pytest.raises(ValueError, match="unknown"):
+        compute_readonly("generate", {"checkpoint_path": "/arbitrary", "prompt": "x"}, repo_root=ROOT)
+    monkeypatch.setenv("AZ_WEAVE_CHECKPOINTS_JSON", "[]")
+    with pytest.raises(ValueError, match="object"):
+        compute_readonly("geometry", {}, repo_root=ROOT)
+
+
+def test_cli_readonly_does_not_create_state_and_errors_are_nonzero(tmp_path, capsys):
+    from az_weave.__main__ import main
+    state = tmp_path / "not-created"
+    assert main(["--repo-root", str(ROOT), "--state-dir", str(state), "query", "toroidal"]) == 0
+    assert not state.exists()
+    assert "GROUNDED_RETRIEVAL" in capsys.readouterr().out
+    assert main(["query", ""]) == 2
+    assert "ValueError" in capsys.readouterr().err

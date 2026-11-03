@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+# Copyright (C) 2026  ThomasCory Walker-Pearson
 """Five-strand seven-operation public interface; read-only calls never persist."""
 
 from __future__ import annotations
 
 from pathlib import Path
 import hashlib
+import json
+import os
 from typing import Any
 import time
 from uuid import uuid4
@@ -23,6 +25,19 @@ def repository_root() -> Path:
     return Path(__file__).resolve().parents[3]
 
 
+def _configured_checkpoints() -> dict[str, Path]:
+    """Only host environment configuration supplies native-tool model paths."""
+    raw = os.environ.get("AZ_WEAVE_CHECKPOINTS_JSON", "{}")
+    if len(raw) > 16384:
+        raise ValueError("checkpoint configuration exceeds 16 KiB")
+    values = json.loads(raw)
+    if not isinstance(values, dict) or len(values) > 32:
+        raise ValueError("checkpoint configuration must be a bounded identifier/path object")
+    if any(not isinstance(value, str) or not value for value in values.values()):
+        raise ValueError("checkpoint configuration paths must be nonempty strings")
+    return {key: Path(value) for key, value in values.items()}
+
+
 def capabilities(repo_root: Path | None = None) -> dict:
     root = repo_root or repository_root()
     return {
@@ -33,8 +48,18 @@ def capabilities(repo_root: Path | None = None) -> dict:
         "governed_effects": ["experiment", "train", "memory.put", "memory.promote", "memory.delete"],
         "boundary": "Adjacent software integration; scores do not authorize actions or certify physics.",
         "checkpoint_inference": "Unavailable until explicitly configured; no model weights bundled.",
-        "backends": Backends(root, Path(".axiomzero-weave/models")).capabilities(),
+        "backends": Backends(root, Path(".axiomzero-weave/models"),
+                             checkpoints=_configured_checkpoints()).capabilities(),
     }
+
+
+def compute_readonly(action: str, arguments: dict, *, repo_root: Path | None = None) -> dict:
+    """Native PsiCat computation: never create state or offer effect approval."""
+    if action not in ("geometry", "oracle", "generate"):
+        raise ValueError("native computation permits geometry, oracle and generate only")
+    backend = Backends(repo_root or repository_root(), Path(".axiomzero-weave/models"),
+                       checkpoints=_configured_checkpoints())
+    return backend.execute(action, arguments)
 
 
 def _query(index: SourceIndex, query: str, limit: int, recall) -> dict:
@@ -88,7 +113,7 @@ def _query(index: SourceIndex, query: str, limit: int, recall) -> dict:
             "semantic_sha256": fingerprint, "status": status,
             "strands": list(STRANDS), "stages": stages, "evidence": evidence,
             "answer": findings, "limitations": objections,
-            "execution_spine": execution_record(repository_root(), status=status,
+            "execution_spine": execution_record(index.repo_root, status=status,
                                                 sources=[r["source"] for r in evidence],
                                                 semantic_sha256=fingerprint)}
 

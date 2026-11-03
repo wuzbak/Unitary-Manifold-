@@ -72,6 +72,8 @@ Python 3.12+ is required. Retrieval, memory and the local HTTP host use the
 standard library. Product 43 computation additionally needs NumPy, as already
 declared by that product and the repository requirements. No weights, external
 model service or network access are supplied.
+An installed wheel still uses the checkout's sibling products and sources:
+pass `--repo-root /absolute/path/to/checkout` before the subcommand.
 
 ```bash
 python 12-AZ-IP/44-axiomzero-weave/run.py capabilities
@@ -146,6 +148,10 @@ ID. Then invoke `generate` with
 An absent checkpoint is unavailable, never a fallback demo. Every result names
 the provider, checkpoint digest, model configuration and supported bounded task.
 This is a character language model, not an established general reasoning model.
+Resume uses `resume:true` and requires `expected_checkpoint_sha256` equal to the
+current checkpoint digest, plus the same corpus and compatible task/model
+configuration. A changed checkpoint is refused before a write; the real
+optimizer and RNG state continue through Product 43's resume workflow.
 
 ### Oracle and the complete investigation
 
@@ -167,10 +173,14 @@ self-promote its conclusion.
 
 ## PsiCat, RAG and source continuity
 
-Product 20 exposes `getAxiomZeroWeaveCapabilities` and `queryAxiomZeroWeave`.
-Both are read-only native tools, available through the existing toolkit and
-generic Navigator/browser transport. They do not expose effect approvals or
-training to model-generated tool arguments.
+Product 20 exposes `getAxiomZeroWeaveCapabilities`, `queryAxiomZeroWeave` and
+`computeAxiomZeroWeave`. All are read-only native tools, available through the
+existing toolkit and generic Navigator/browser transport. Computation permits
+only `geometry`, `oracle` and `generate`; arguments use the same validated
+backend contracts. For native checkpoint inference, the operator may set
+`AZ_WEAVE_CHECKPOINTS_JSON` to an identifier/path object in the Navigator's host
+environment. Requests cannot supply those paths. No native tool exposes effect
+approvals or training to model-generated arguments.
 
 The accompanying RAG changes prioritize substantive product guides over path
 inventory for subject questions and retain current dated truth corrections

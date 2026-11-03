@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+# Copyright (C) 2026  ThomasCory Walker-Pearson
 """Real loopback HTTP boundary and local UI contracts."""
 
 from http.client import HTTPConnection

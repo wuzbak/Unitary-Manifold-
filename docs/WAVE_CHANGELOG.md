@@ -1,5 +1,22 @@
 # Wave Changelog
 
+## Product 44 - AxiomZero Weave (2026-11-03; adjacent software only)
+
+Connected the native five strands and seven operations through explicit
+dependency outputs, current source grounding, scoped memory, Product 16 Oracle
+and bounded actual Product 43 computation. Added a private local operator
+CLI/HTTP interface and read-only Product 20 tools. Effect approvals bind exact
+inputs, sources, targets, implementation and policy; durable before-effect
+claims distinguish replay from ambiguous interrupted execution. The existing
+Pentad workflow now rejects missing or non-Boolean approvals.
+
+RAG subject queries prioritize substantive product sources over inventory and
+retain current dated truth corrections. Private divergent webspace/mind exports
+remain ignored and are not published or trained on. This local integration does
+not certify live deployment, broad model advantage, physics closure or governance
+of all unrelated executors. No pillar, TOE-score, epistemic-label or falsifier
+change. See [Product 44](../12-AZ-IP/44-axiomzero-weave/README.md).
+
 ## PsiCat integration follow-through (2026-11-01; adjacent software only)
 
 Added an evidence-led ecosystem integration plan and default-off assembled

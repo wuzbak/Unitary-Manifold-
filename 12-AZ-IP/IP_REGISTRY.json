@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-10-10",
+  "updated": "2026-11-03",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -338,10 +338,16 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-11-03",
-      "sha256": "87506b41d32f781a99b6dee0700538ce11d7593d695b5f0f97c057f261fa6f42",
-      "size_bytes": 18314,
-      "reseal_note": "Refreshed 2026-11-03 after the recovered IP-suite work updated the README. Previous seal: 95f2f76489525d09ae2f5cf242c4b888e57fc78e236e40166053d4680cd1b3e1 (18267 bytes), which registered Product 43 AZ Geometric Tori Transformer. Earlier provenance is retained in reseal_history.",
+      "sha256": "0c1222cb41920b7c6b4ec44ee57faa2db84a8c3e1f35df5aab1dfc4d507a67a2",
+      "size_bytes": 18758,
+      "reseal_note": "Refreshed 2026-11-03 to register Product 44 AxiomZero Weave, an adjacent local integration runtime. Earlier seals retained in reseal_history; no scientific claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "87506b41d32f781a99b6dee0700538ce11d7593d695b5f0f97c057f261fa6f42",
+          "size_bytes": 18314,
+          "reseal_note": "Previous recorded seal after recovered IP-suite work updated the README."
+        },
         {
           "updated": "2026-11-02",
           "sha256": "95f2f76489525d09ae2f5cf242c4b888e57fc78e236e40166053d4680cd1b3e1",
@@ -737,6 +743,22 @@
           "size_bytes": 4898
         }
       ]
+    },
+    "12-AZ-IP/44-axiomzero-weave/README.md": {
+      "description": "Product 44 AxiomZero Weave operating contracts, actual integrations and explicit boundaries",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-11-03",
+      "sha256": "31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63",
+      "size_bytes": 13004
+    },
+    "12-AZ-IP/44-axiomzero-weave/pyproject.toml": {
+      "description": "Product 44 package and local operator CLI entrypoint",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-11-03",
+      "sha256": "fdb3ff3b1f4b35185055b3bd723f9fc67173bbbe0e00c942a73817cd42a205b2",
+      "size_bytes": 504
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -1163,6 +1185,15 @@
       "tests": "46",
       "description": "From-scratch (NumPy-only, custom reverse-mode autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5\u00b2+7\u00b2, (5,7) braid winding) instead of standard sinusoidal RoPE: a toroidal rotary encoding with finite per-channel orbit periods, plus a toroidal relative-distance attention bias. Verified end-to-end training on a toroidal-copy toy task (loss 2.94\u21920.38, accuracy ~96%). Wired as getToriTransformerGeometry/getToriTransformerDemo native PsiCat Navigator tools and exposed to PsiCat Browser via the Navigator's generic /api/psicat surface (no separate Browser code required). ADJACENT TRACK: a compute-architecture application of the lattice constants, not a hardgate physics claim.",
       "link": "43-az-geometric-tori-transformer/"
+    },
+    {
+      "name": "AxiomZero Weave",
+      "version": "0.1.0",
+      "trl": "Not assessed",
+      "port": "CLI / local HTTP (http://127.0.0.1:8144) + native PsiCat tools",
+      "tests": "Focused pytest suites",
+      "description": "Five-strand seven-operation local evidence and computation integration with current source grounding, scoped memory, real Product 16/43 adapters, controlled synthetic experiments and durable Pentad-constrained effects. Adjacent software, not physics closure or model superiority. Private exports excluded.",
+      "link": "44-axiomzero-weave/"
     }
   ]
 }

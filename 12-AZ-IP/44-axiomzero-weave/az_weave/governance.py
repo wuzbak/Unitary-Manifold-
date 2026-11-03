@@ -1,16 +1,17 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+# Copyright (C) 2026  ThomasCory Walker-Pearson
 """Durable before-effect authorization; authenticated hosts supply principals."""
 
 from __future__ import annotations
 
 import hashlib
+from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
 import sqlite3
 import time
-from typing import Callable, Any
+from typing import Callable, Any, Iterator
 from uuid import uuid4
 
 from . import OBLIGATIONS
@@ -57,10 +58,15 @@ class Journal:
             """)
         os.chmod(self.path, 0o600)
 
-    def connect(self) -> sqlite3.Connection:
+    @contextmanager
+    def connect(self) -> Iterator[sqlite3.Connection]:
         db = sqlite3.connect(self.path, timeout=10)
         db.row_factory = sqlite3.Row
-        return db
+        try:
+            with db:
+                yield db
+        finally:
+            db.close()
 
     @staticmethod
     def _event(db: sqlite3.Connection, decision_id: str, state: str) -> None:

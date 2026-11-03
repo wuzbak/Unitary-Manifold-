@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
+# Copyright (C) 2026  ThomasCory Walker-Pearson
 """Explicit local-operator CLI; query/capabilities have no persistent effects."""
 
 from __future__ import annotations
@@ -15,6 +15,7 @@ from .server import make_server
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="AxiomZero Weave / Product 44")
+    parser.add_argument("--repo-root", type=Path, help="Checkout root (required for a non-editable installed wheel)")
     parser.add_argument("--state-dir", type=Path, default=Path(".axiomzero-weave"))
     parser.add_argument("--checkpoint", action="append", default=[], metavar="ID=PATH")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -47,9 +48,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     try:
         if args.command == "query":
-            result = run_readonly(args.query, args.limit)
+            result = run_readonly(args.query, args.limit, repo_root=args.repo_root)
         elif args.command == "capabilities":
-            result = capabilities()
+            result = capabilities(repo_root=args.repo_root)
         else:
             checkpoints = {}
             for entry in args.checkpoint:
@@ -57,7 +58,7 @@ def main(argv: list[str] | None = None) -> int:
                 if identifier in checkpoints:
                     raise ValueError("duplicate checkpoint identifier")
                 checkpoints[identifier] = Path(value)
-            weave = Weave(args.state_dir, checkpoints=checkpoints)
+            weave = Weave(args.state_dir, repo_root=args.repo_root, checkpoints=checkpoints)
             principal = "local-operator"
             if args.command == "serve":
                 with make_server(weave, port=args.port) as server:

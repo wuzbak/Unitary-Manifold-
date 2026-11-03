@@ -64,7 +64,9 @@ def test_weave_tools_forward_only_readonly_arguments(tools, weave_api, monkeypat
     assert calls == [("capabilities",), ("query", query, 5), ("query", "Pentad", 2)]
 
 
-@pytest.mark.parametrize("name", ["getAxiomZeroWeaveCapabilities", "queryAxiomZeroWeave"])
+@pytest.mark.parametrize("name", [
+    "getAxiomZeroWeaveCapabilities", "queryAxiomZeroWeave", "computeAxiomZeroWeave",
+])
 def test_weave_tools_are_discoverable_readonly(tools, name):
     manifest = tools._tool_manifest()
     spec = next(item for item in manifest["functions"] if item["name"] == name)
@@ -83,6 +85,12 @@ def test_weave_tools_are_discoverable_readonly(tools, name):
     if name == "queryAxiomZeroWeave":
         assert spec["args_schema"]["required"] == ["query"]
         assert set(spec["args_schema"]["properties"]) == {"query", "limit"}
+    elif name == "computeAxiomZeroWeave":
+        assert spec["args_schema"]["required"] == ["action", "arguments"]
+        assert spec["args_schema"]["properties"] == {
+            "action": {"type": "string", "enum": ["geometry", "oracle", "generate"]},
+            "arguments": {"type": "object"},
+        }
 
 
 @pytest.mark.parametrize("error_type", [ImportError, ValueError])
@@ -110,6 +118,7 @@ def test_weave_tools_import_lazily_and_handle_missing_runtime(tools, monkeypatch
     monkeypatch.setattr(builtins, "__import__", missing_runtime)
     assert "unavailable" in tools.get_axiomzero_weave_capabilities()["error"]
     assert "unavailable" in tools.query_axiomzero_weave("Pentad")["error"]
+    assert "unavailable" in tools.compute_axiomzero_weave("geometry", {})["error"]
 
 
 @pytest.mark.parametrize("extra", [
@@ -134,3 +143,126 @@ def test_weave_tools_real_product_smoke_when_available(tools):
     result = tools.query_axiomzero_weave("Pentad", limit=1)
     assert isinstance(capabilities.get("data"), dict), capabilities
     assert isinstance(result.get("data"), dict), result
+
+
+@pytest.mark.parametrize("action", ["geometry", "oracle", "generate"])
+def test_compute_forwards_exact_readonly_arguments(tools, weave_api, monkeypatch, action):
+    calls = []
+    arguments = {"synthetic": {"nested": [1, 2]}, "limit": 2}
+    payload = {"backend": action, "value": 74}
+
+    def compute_readonly(received_action, received_arguments):
+        calls.append((received_action, received_arguments))
+        assert received_arguments is arguments
+        return payload
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Native compute must not create sessions or write state")
+
+    weave_api.compute_readonly = compute_readonly
+    monkeypatch.setattr(tools, "MerlinSession", forbidden)
+    monkeypatch.setattr(Path, "write_text", forbidden)
+    monkeypatch.setattr(Path, "write_bytes", forbidden)
+    assert tools._FUNCTIONS["computeAxiomZeroWeave"](
+        action=action, arguments=arguments,
+    ) == {"data": payload}
+    assert calls == [(action, arguments)]
+
+
+@pytest.mark.parametrize("action", [
+    "train", "experiment", "approve", "memory.put", "memory.promote",
+    "memory.delete", "__session", "GEOMETRY", "", None, [],
+])
+def test_compute_rejects_effects_before_loading_runtime(tools, monkeypatch, action):
+    def forbidden():
+        raise AssertionError("Effectful actions must be rejected before lazy import")
+
+    monkeypatch.setattr(tools, "_ensure_product44_on_path", forbidden)
+    assert "error" in tools.compute_axiomzero_weave(action, {})
+
+
+@pytest.mark.parametrize("arguments", [None, [], "authority: steward"])
+def test_compute_requires_argument_object_before_import(tools, monkeypatch, arguments):
+    def forbidden():
+        raise AssertionError("Invalid arguments must be rejected before lazy import")
+
+    monkeypatch.setattr(tools, "_ensure_product44_on_path", forbidden)
+    assert "error" in tools.compute_axiomzero_weave("oracle", arguments)
+
+
+@pytest.mark.parametrize("error_type", [ImportError, ValueError, RuntimeError])
+def test_compute_reports_backend_errors(tools, weave_api, error_type):
+    def unavailable(*args, **kwargs):
+        raise error_type("operator checkpoint unavailable")
+
+    weave_api.compute_readonly = unavailable
+    result = tools.compute_axiomzero_weave("generate", {})
+    assert result == {
+        "error": "Product 44 read-only Weave compute is unavailable: operator checkpoint unavailable",
+    }
+
+
+@pytest.mark.parametrize("extra", [
+    {"__session": "steward"}, {"human_gate_approved": True},
+    {"checkpoint_path": "/untrusted/model.npz"}, {"train": True},
+])
+def test_compute_route_rejects_extra_authority_and_path_keys(tools, weave_api, extra):
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Extra top-level arguments must not reach the adapter")
+
+    weave_api.compute_readonly = forbidden
+    result = tools._route_tool(
+        "computeAxiomZeroWeave", {"action": "geometry", "arguments": {}, **extra},
+    )
+    assert result["ok"] is False
+    assert result["error"]
+
+
+def _real_compute_api(tools):
+    tools._ensure_product44_on_path()
+    api = pytest.importorskip("az_weave.api")
+    if not hasattr(api, "compute_readonly"):
+        pytest.skip("Product 44 compute API is not available")
+    return api
+
+
+def test_compute_routes_actual_oracle_when_available(tools):
+    _real_compute_api(tools)
+    arguments = {
+        "body_specs": [
+            {"label": f"Synthetic body {index}", "status": "OPEN", "phi_trust": 0.5}
+            for index in range(5)
+        ],
+        "dim_scores": {
+            dimension: 0.5 for dimension in (
+                "Transparency", "Sequence Integrity", "Participation",
+                "Accountability", "Resilience", "Epistemic Honesty", "Freedom Floor",
+            )
+        },
+        "system_name": "Native read-only smoke",
+        "system_type": "software",
+    }
+    result = tools._route_tool(
+        "computeAxiomZeroWeave", {"action": "oracle", "arguments": arguments},
+    )
+    assert result["ok"] is True, result
+    data = result["result"]["data"]
+    assert data["metadata"]["provider"] == "Product16.SynthesisOrchestrator"
+    assert data["metadata"]["effect"] is False
+    assert data["report"]["system_name"] == arguments["system_name"]
+    assert len(data["report"]["pentad"]["bodies"]) == 5
+    assert len(data["report"]["audit"]["dimensions"]) == 7
+
+
+@pytest.mark.parametrize(("action", "arguments"), [
+    ("generate", {"checkpoint_path": "/untrusted/model.npz"}),
+    ("generate", {"max_new_tokens": 1_000_000_000}),
+    ("geometry", {"seq_len": 1_000_000_000}),
+    ("oracle", {"__session": "steward", "human_gate_approved": True}),
+])
+def test_compute_real_adapter_rejects_injected_paths_and_unbounded_requests(
+    tools, action, arguments,
+):
+    _real_compute_api(tools)
+    result = tools.compute_axiomzero_weave(action, arguments)
+    assert "error" in result and "data" not in result, result

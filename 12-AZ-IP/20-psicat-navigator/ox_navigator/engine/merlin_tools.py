@@ -523,6 +523,7 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getToriTransformerDemo", "summary": "Run Product 43's cyclic toroidal-copy training demo and return the loss/accuracy report", "domain": "functions"},
             {"name": "getAxiomZeroWeaveCapabilities", "summary": "Describe Product 44's bounded read-only AxiomZero Weave capabilities", "domain": "functions"},
             {"name": "queryAxiomZeroWeave", "summary": "Query Product 44's existing strands without training, memory mutation, or approval effects", "domain": "functions"},
+            {"name": "computeAxiomZeroWeave", "summary": "Run read-only Product 44 geometry, Oracle, or operator-configured checkpoint inference", "domain": "functions"},
         ]
     policy_overrides = {
         "getPillar": {
@@ -1367,6 +1368,17 @@ def _tool_manifest() -> dict[str, Any]:
                 "additionalProperties": False,
             },
         },
+        "computeAxiomZeroWeave": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "action": {"type": "string", "enum": ["geometry", "oracle", "generate"]},
+                    "arguments": {"type": "object"},
+                },
+                "required": ["action", "arguments"],
+                "additionalProperties": False,
+            },
+        },
     }
     enriched_functions = []
     for item in functions:
@@ -1882,6 +1894,21 @@ def query_axiomzero_weave(query: str, limit: int = 5) -> dict[str, Any]:
         return {"error": f"Product 44 read-only Weave query is unavailable: {exc}"}
 
 
+def compute_axiomzero_weave(action: str, arguments: dict[str, Any]) -> dict[str, Any]:
+    """Run only read-only actions; the adapter owns argument and checkpoint bounds."""
+    if not isinstance(action, str) or action not in {"geometry", "oracle", "generate"}:
+        return {"error": "Product 44 compute action must be geometry, oracle, or generate"}
+    if not isinstance(arguments, dict):
+        return {"error": "Product 44 compute arguments must be an object"}
+    _ensure_product44_on_path()
+    try:
+        from az_weave.api import compute_readonly
+
+        return {"data": compute_readonly(action, arguments)}
+    except (ImportError, ValueError, RuntimeError) as exc:
+        return {"error": f"Product 44 read-only Weave compute is unavailable: {exc}"}
+
+
 _FUNCTIONS = {
     "fetchRepoContext": fetch_repo_context,
     "listPillars": list_pillars,
@@ -2290,6 +2317,7 @@ _FUNCTIONS = {
 "queryAxiomZeroWeave": lambda **args: query_axiomzero_weave(
     args.get("query", ""), args.get("limit", 5),
 ),
+"computeAxiomZeroWeave": compute_axiomzero_weave,
 }
 
 

@@ -263,6 +263,26 @@ scientific direction and review by ThomasCory Walker-Pearson.
 
 ---
 
+### Product 44 registration - AxiomZero Weave - 2026-11-03
+
+Registered the five-strand, seven-operation local integration runtime and
+refreshed the master catalogue from 43 to 44 products. This is adjacent software:
+source grounding, scoped memory, actual Oracle/Transformer adapters and
+Pentad-constrained effects, not a new physics claim. Private exports remain
+outside the public registry. Earlier seals above remain historical; the master
+README's previous recorded seal is retained in `IP_REGISTRY.json`.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/README.md` | `0c1222cb41920b7c6b4ec44ee57faa2db84a8c3e1f35df5aab1dfc4d507a67a2` | 18758 |
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63` | 13004 |
+| `12-AZ-IP/44-axiomzero-weave/pyproject.toml` | `fdb3ff3b1f4b35185055b3bd723f9fc67173bbbe0e00c942a73817cd42a205b2` | 504 |
+
+Runtime receipts additionally record the computation implementation digest;
+effect approval binds the relevant current Python implementation and target
+configuration. Neither these hashes nor this registration authenticate a
+principal or certify the truth of an output.
+
 ## Verification Protocol
 
 To verify any registered asset:
