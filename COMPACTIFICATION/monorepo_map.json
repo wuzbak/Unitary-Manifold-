@@ -3810,7 +3810,7 @@
     {
       "path": "10-UM-SOS",
       "top_level": "10-UM-SOS",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "other"
     },
     {
@@ -3822,7 +3822,7 @@
     {
       "path": "11-AZ-OS/ax-kernel",
       "top_level": "11-AZ-OS",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "other"
     },
     {
@@ -3835,21 +3835,21 @@
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/IDENTITY.md",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/Makefile",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/README.md",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
@@ -3863,77 +3863,77 @@
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/android",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/api",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/axiomzero.sh",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/axiomzero_bootstrap.py",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/config",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/core",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/docker-compose.yml",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/governance",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/mcp",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/memory",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/requirements.txt",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
@@ -3947,14 +3947,14 @@
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/tests",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/AxiomZero/ui",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
@@ -4059,49 +4059,49 @@
     {
       "path": "12-AZ-IP/01-axiom-os/az_os/agent_core.py",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/az_os/hils.py",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/az_os/managers",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/az_os/mcp",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/az_os/phi_decision_engine.py",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/az_os/phi_field_interface.py",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
     {
       "path": "12-AZ-IP/01-axiom-os/az_os/state.py",
       "top_level": "12-AZ-IP",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "az_ip",
       "product": "01-axiom-os"
     },
@@ -30224,7 +30224,7 @@
     {
       "path": "EIGE",
       "top_level": "EIGE",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "other"
     },
     {
@@ -33716,19 +33716,19 @@
     {
       "path": "az-kernel",
       "top_level": "az-kernel",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "other"
     },
     {
       "path": "az-os",
       "top_level": "az-os",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "other"
     },
     {
       "path": "az_os",
       "top_level": "az_os",
-      "kind": "file",
+      "kind": "symlink",
       "lane": "other"
     },
     {

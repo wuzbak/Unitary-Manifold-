@@ -18,6 +18,16 @@ ARTICLES = "7-OUTREACH/A Z PsiCat Literature/Articles/"
 PRODUCT = re.compile(r"^(0[1-9]|[1-9][0-9]+)-[^/]+$")
 
 
+def symlink_paths() -> set[str]:
+    """Index mode 120000 marks symlinks even where the checkout materializes them as files."""
+    result = subprocess.run(
+        ["git", "-C", str(ROOT), "ls-files", "--cached", "-s", "-z"],
+        check=True, capture_output=True,
+    )
+    entries = (e for e in result.stdout.decode("utf-8").split("\0") if e)
+    return {e.split("\t", 1)[1] for e in entries if e.startswith("120000 ")}
+
+
 def tracked_paths() -> list[str]:
     """Use only Git's index rather than walking build outputs or local drafts."""
     result = subprocess.run(
@@ -27,13 +37,16 @@ def tracked_paths() -> list[str]:
     return sorted(path for path in result.stdout.decode("utf-8").split("\0") if path)
 
 
+SYMLINKS = symlink_paths()
+
+
 def classify(path: str) -> dict[str, str]:
     """Assign a navigational lane without inferring scientific or legal status."""
     parts = path.split("/")
     entry = {
         "path": path,
         "top_level": parts[0],
-        "kind": "symlink" if (ROOT / path).is_symlink() else "file",
+        "kind": "symlink" if path in SYMLINKS or (ROOT / path).is_symlink() else "file",
     }
     if path.startswith(BOOKS):
         entry["lane"] = "psicat_books"
