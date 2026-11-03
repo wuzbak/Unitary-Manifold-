@@ -228,8 +228,11 @@ def test_repository_example_covers_current_canonical_suites_without_mirrors():
     assert set(by_name) == {suite["name"] for suite in inventory["suites"]}
     for suite in inventory["suites"]:
         configured = by_name[suite["name"]]["paths"]
-        assert all(any(path == selected or path.startswith(selected + "/") for selected in configured)
-                   for path in suite["paths"])
+        missing = [
+            path for path in suite["paths"]
+            if not any(path == selected or path.startswith(selected + "/") for selected in configured)
+        ]
+        assert not missing, f"{suite['name']}: missing canonical test paths: {missing}"
     for item in inventory["excluded"]:
         if item["reason"] == "exact product mirror":
             assert not any(
