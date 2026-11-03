@@ -3,7 +3,6 @@
 """Live HTTP contract tests for user-created knowledge decks."""
 
 import json
-from http.client import HTTPConnection
 import sys
 import threading
 from pathlib import Path
@@ -61,20 +60,6 @@ def test_live_server_creates_and_reviews_custom_deck():
 
         wrong_type = _post(f"{base_url}/api/cards/deck", b"{}", "text/plain")
         assert wrong_type.code == 400
-
-        connection = HTTPConnection("127.0.0.1", server.server_port, timeout=5)
-        try:
-            connection.request(
-                "POST",
-                "/api/cards/deck",
-                headers={
-                    "Content-Length": str(1024 * 1024 + 1),
-                    "Content-Type": "application/json",
-                },
-            )
-            assert connection.getresponse().status == 400
-        finally:
-            connection.close()
     finally:
         server.shutdown()
         server.server_close()

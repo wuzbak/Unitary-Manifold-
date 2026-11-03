@@ -48,7 +48,7 @@ def _step(model, optimizer, rng):
     return float(loss.data), tokens
 
 
-@pytest.mark.parametrize("mode", ["toroidal", "rope"])
+@pytest.mark.parametrize("mode", ["toroidal", "rope", "rope_matched"])
 @pytest.mark.parametrize("causal", [True, False])
 def test_weights_only_roundtrip(checkpoint_path, mode, causal):
     model = _model(mode, causal)
@@ -70,7 +70,7 @@ def test_weights_only_roundtrip(checkpoint_path, mode, causal):
         assert all(archive[key].dtype.kind != "O" for key in archive.files)
 
 
-@pytest.mark.parametrize("mode", ["toroidal", "rope"])
+@pytest.mark.parametrize("mode", ["toroidal", "rope", "rope_matched"])
 def test_exact_training_continuation(checkpoint_path, mode):
     model = _model(mode, layers=2)
     optimizer = Adam(model.parameters(), lr=0.003, betas=(0.8, 0.95), eps=1e-7)

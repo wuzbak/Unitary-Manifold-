@@ -79,6 +79,8 @@ The web UI supports authoring a custom Q/A deck, reviewing it with an explicit
 SM-2 recall grade, and retaining the returned deck in browser `localStorage`.
 Valid saved decks are restored on reload; when no card is due, the UI shows
 the number scheduled for later and the next due date.
+Valid saved decks are restored on reload; when no card is due, the UI shows
+the number scheduled for later and the next due date.
 The server does not persist deck content. `POST /api/cards/deck` accepts
 `{"cards":[{"question":"...","answer":"...","category":"..."}]}` with
 1–1000 entries and field-size bounds. `POST /api/cards/review` accepts a

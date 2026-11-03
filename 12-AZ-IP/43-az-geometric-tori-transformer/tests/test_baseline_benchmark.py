@@ -24,6 +24,8 @@ from pathlib import Path
 
 import numpy as np
 
+import numpy as np
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from az_tori_transformer.train_demo import run_toroidal_copy_demo

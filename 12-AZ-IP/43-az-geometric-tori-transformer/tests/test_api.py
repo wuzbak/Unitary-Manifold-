@@ -27,6 +27,9 @@ def test_geometry_endpoint() -> None:
     diagnostics = payload["modular_alias_diagnostics"]
     assert diagnostics["seq_len"] == 8
     assert diagnostics["scalar_bank_projection"]["source_coordinate_count"] == 2
+    diagnostics = payload["modular_alias_diagnostics"]
+    assert diagnostics["seq_len"] == 8
+    assert diagnostics["scalar_bank_projection"]["source_coordinate_count"] == 2
 
 
 def test_demo_endpoint_runs_and_bounds_steps() -> None:

@@ -2,8 +2,8 @@
 
 **Folder:** `12-AZ-IP/43-az-geometric-tori-transformer/`
 **Package:** `az_tori_transformer`
-**Version:** 1.1.0
-**TRL:** TRL-1 (novel architecture, validated only on a synthetic smoke-test task)
+**Version:** 1.2.0
+**TRL:** TRL-1 (user-corpus workflow implemented; no real-corpus quality benchmark)
 **Status:** Active — new product; also wired into PsiCat Navigator (Product 20) as a native tool
 
 ## What this is
@@ -96,19 +96,18 @@ drives the cross-entropy loss from ~2.9 (near `ln(12)`, i.e. chance) down to
 well under 0.4, with >95% next-token accuracy on a held-out batch — see
 `tests/test_training.py` for the pinned regression thresholds.
 
-## Benchmark against a standard RoPE control arm
+## Descriptive synthetic comparisons
 
 `baseline_attention.RopeMultiHeadAttention` is a textbook, continuous-
-frequency RoPE (Su et al., 2021) attention block — same engine, same
-`Linear`/`LayerNorm`/`FeedForward` layers, same training loop, same
-parameter count — with **no** finite modulus and **no** learned
-relative-distance bias, built only to serve as an honest control arm.
+frequency RoPE attention block — same engine and surrounding layers, but
+with **no** learned relative-distance bias. The legacy
 `GeometricToriTransformerConfig(positional_mode="rope")` swaps it in for
-the toroidal attention block with no other code changes.
+the toroidal attention block. This legacy arm has fewer parameters than the
+default toroidal model; therefore its historical comparison is not
+parameter-matched and cannot isolate the rotary schedule.
 
-`tests/test_baseline_benchmark.py` runs both arms on an identical cyclic
-copy task (`shift=7 > seq_len/2`, so the target offset genuinely wraps past
-the end of the sequence) across 4 seeds, same step budget:
+The table below records a descriptive synthetic cyclic-copy run
+(`shift=7 > seq_len/2`). It is historical smoke-test evidence only:
 
 | seed | toroidal final loss | toroidal eval acc | RoPE final loss | RoPE eval acc |
 |------|---------------------|--------------------|------------------|----------------|
@@ -117,19 +116,45 @@ the end of the sequence) across 4 seeds, same step budget:
 | 2 | 0.0021 | 1.00 | 0.7819 | 0.60 |
 | 3 | 0.0013 | 1.00 | 1.1212 | 0.47 |
 
-Both arms demonstrably train (loss decreases, `test_both_positional_modes_train_and_converge`)
-proving this is a working, converging optimizer loop and not a static model
-structure. On this specific wraparound task, the toroidal arm's finite Z_74
-periodicity gives it a large, consistent advantage over continuous RoPE,
-which has no periodicity at this sequence length and must approximate the
-wrap purely through learned weights — this is the *narrow, task-targeted*
-comparison claimed in Epistemic status below, not a general result.
+These scores do not establish comparative superiority. The test suite checks
+that these models execute and train on the synthetic task, not that the
+scores generalize to language or other data.
+
+### Parameter-matched rotary ablation
+
+For an auditable controlled comparison, `positional_mode="rope_matched"`
+uses continuous RoPE **and the same learned circular-bank bias** as the
+default. `run_positional_ablation()` and the CLI below initialize both arms
+identically, verify parameter names/shapes/values and counts before training,
+and use the same seeded training/evaluation batches, optimizer, and step
+budget. The comparison therefore isolates the rotary phase schedule on this
+synthetic task; it is still descriptive synthetic evidence, not a real-corpus
+benchmark. The legacy `"rope"` mode remains available and unchanged.
+
+# From this product directory:
+```bash
+python run.py ablate --steps 120 --seed 0
+python run.py diagnose --seq-len 80 --head-dim 8
+```
+
+The ablation JSON reports shared settings, matched parameter schema/count,
+and per-arm initial/final loss and evaluation accuracy. The diagnostic JSON
+reports each rotary pair's modular period and collision counts, plus
+two-coordinate-code and scalar-bank aliases. `TICK_PHASE_STEP=24` encodes a
+discrete cadence only; it is not interpreted as physical velocity or sound
+speed.
+
+**Future direction (not implemented):** preserve and consume the two torus
+coordinates as independent axes (for example, separate per-axis phase/bias
+channels) rather than projecting them to one scalar bank. Current tests
+verify periodic aliases and the projection's dimensionality; they do not
+validate an independent-axis architecture.
 
 ## Portable checkpoints and training continuation
 
 `save_checkpoint` / `load_checkpoint` persist actual model weights, not a
-demo report. Both toroidal and RoPE configurations are supported, including
-causal inference. The only dependency remains NumPy; loading creates fresh
+demo report. Toroidal, legacy RoPE, and matched-RoPE configurations are
+supported, including causal inference. The only dependency remains NumPy; loading creates fresh
 custom-autograd tensors that can immediately train again.
 
 From this product directory, a complete save/resume example:
@@ -172,6 +197,51 @@ save_checkpoint("weights.npz", restored.model, metadata=restored.metadata)
 inference_model = load_checkpoint("weights.npz").model
 logits, attention = inference_model(np.array([[1, 2, 3]]))
 ```
+
+## Train and sample from a user corpus
+
+The local CLI also supports a bounded, causal **character-level** language
+model workflow. It reads a UTF-8 text file, assigns deterministic Unicode
+codepoint token IDs, reserves a chronological validation tail, trains on
+next-character targets, and saves the real model/Adam/RNG state in the
+checkpoint format above. The source corpus is not embedded in the checkpoint;
+its SHA-256, token vocabulary, context, split, and task metadata are recorded.
+
+```bash
+python 12-AZ-IP/43-az-geometric-tori-transformer/run.py train \
+  --text-file corpus.txt --checkpoint model.npz \
+  --context-length 32 --steps 1000 --batch-size 16 --seed 7
+
+# Continue from the matching optimizer/RNG checkpoint for 500 additional steps.
+python 12-AZ-IP/43-az-geometric-tori-transformer/run.py train \
+  --text-file corpus.txt --checkpoint model.npz \
+  --context-length 32 --steps 500 --batch-size 16 --resume
+
+python 12-AZ-IP/43-az-geometric-tori-transformer/run.py generate \
+  --checkpoint model.npz --prompt "A sample" \
+  --max-new-tokens 120 --temperature 0.8 --top-k 20 --seed 7
+```
+
+Training accepts files up to 8 MiB, vocabularies up to 4,096 distinct
+characters, context lengths 2–512, batches up to 256, and up to 100,000
+steps per invocation, subject to aggregate activation and attention-work
+budgets; incompatible batch/context/model combinations are rejected before
+training, and evaluation windows are reduced to stay within their own
+attention-work budget. Validation defaults to the final 10% of the corpus
+(`--validation-fraction 0` disables the holdout); each split must contain at
+least `context_length + 1` characters. Invalid UTF-8, unusable splits,
+non-finite losses, and out-of-range controls fail explicitly. Resume requires
+the identical corpus bytes, tokenizer vocabulary, context length, validation
+fraction, and model dimensions; an explicitly supplied learning rate must
+match the saved optimizer. Generation accepts nonempty prompts up to 4,096
+characters, requires every character to exist in the saved vocabulary, and
+uses finite temperature in [0.001, 100]. Sampling is reproducible for a fixed
+seed/settings.
+
+This is a functional baseline for user-supplied text, not a subword tokenizer,
+production language model, or evidence that the toroidal mechanism improves
+real-corpus quality. It is local CLI/library functionality; the HTTP demo
+does not accept corpus paths or load checkpoints.
 
 ### Schema v1 and interoperability
 
@@ -262,10 +332,11 @@ same way every other PsiCat tool already is.
   RoPE arm lacks the learned bank bias and is not parameter-matched; the
   `rope_matched` ablation controls parameter count and bias mechanism, but
   still says nothing about real-world sequence modelling.
-* TRL-1: two synthetic tasks (plain copy, cyclic-wraparound copy) have been
-  validated. There has been no training run on a real corpus and no
-  hardware/throughput measurement. Independent per-coordinate torus
-  attention remains a future direction, not an implemented feature.
+* TRL-1: two synthetic tasks (plain copy, cyclic-wraparound copy) and the
+  bounded user-corpus train/resume/sample workflow are tested. No real-corpus
+  quality benchmark or hardware/throughput measurement is included.
+  Independent per-coordinate torus attention remains a future direction, not
+  an implemented feature.
 
 ## Tests
 
@@ -285,7 +356,9 @@ descriptive synthetic and matched-parameter positional ablations
 (`test_baseline_benchmark.py`), and the JSON API
 dispatch (`test_api.py`). `test_checkpoint.py` adds weights-only inference,
 exact split-run Adam/RNG continuation in both positional modes, invalid-artifact
-rejection, and atomic-write failure protection.
+rejection, and atomic-write failure protection. `test_text_workflow.py`
+exercises user-corpus training, resume compatibility checks, deterministic
+sampling, and the CLI.
 
 For checkpoint-only validation:
 

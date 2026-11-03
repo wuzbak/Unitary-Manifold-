@@ -57,6 +57,7 @@ from .toroidal_geometry import (
 )
 from .train_demo import run_toroidal_copy_demo, toroidal_copy_batch
 from .text_workflow import generate_text, train_text_file
+from .text_workflow import generate_text, train_text_file
 
 __all__ = [
     "API_ENDPOINTS",
@@ -89,6 +90,8 @@ __all__ = [
     "position_code",
     "wrap",
     "run_toroidal_copy_demo",
+    "train_text_file",
+    "generate_text",
     "train_text_file",
     "generate_text",
     "toroidal_copy_batch",
