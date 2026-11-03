@@ -14,8 +14,8 @@ license, including the Defensive Public Commons License where stated.
 
 ## Canonical software portfolio
 
-The following 43 products and surfaces are listed in the canonical registry at
-[`README.md`](README.md#product-registry-43-canonical-software-products--surfaces).
+The following 44 products and surfaces are listed in the canonical registry at
+[`README.md`](README.md#product-registry-44-canonical-software-products--surfaces).
 
 | # | Product | Portfolio type | Canonical location |
 |---|---|---|---|
@@ -62,6 +62,7 @@ The following 43 products and surfaces are listed in the canonical registry at
 | 41 | AZ Media & Feature-Inspection Suite | Media viewer and feature-inspection suite | `12-AZ-IP/41-az-media-suite/` |
 | 42 | AZ Awareness & Creation Toolkit | Awareness, routing, and creation toolkit | `12-AZ-IP/42-az-awareness-creation-toolkit/` |
 | 43 | AZ Geometric Tori Transformer | AI/ML library and application | `12-AZ-IP/43-az-geometric-tori-transformer/` |
+| 44 | AxiomZero Weave | Governed evidence and computation integration | `12-AZ-IP/44-axiomzero-weave/` |
 
 The PsiCat portfolio comprises Products 20, 23, 24, 25, and 27. Its name and
 product identities are subject to the separate

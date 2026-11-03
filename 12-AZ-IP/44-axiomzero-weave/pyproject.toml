@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "axiomzero-weave"
+version = "0.1.0"
+description = "Pentad-constrained evidence and computation integration for PsiCat"
+requires-python = ">=3.12"
+license = "AGPL-3.0-or-later"
+
+[project.optional-dependencies]
+models = ["numpy>=1.24"]
+
+[project.scripts]
+az-weave = "az_weave.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["az_weave*"]
+
+[tool.setuptools.package-data]
+az_weave = ["ui.html"]

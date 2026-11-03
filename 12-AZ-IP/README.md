@@ -11,7 +11,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 - External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
-## Product registry (43 canonical software products / surfaces)
+## Product registry (44 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -58,6 +58,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 41 | AZ Media & Feature-Inspection Suite | 1.1.0 | TRL-2 | CLI / Python library + web (http://localhost:8141) | 31 passed | CLI inspects user-selected comic (CBZ), WAV, and AZVID files and creates bounded PCM16 WAV tones; local web demos and evidence-cited feature inspection remain available. | [41-az-media-suite/](41-az-media-suite/) |
 | 42 | AZ Awareness & Creation Toolkit | 1.1.0 | TRL-2 | CLI / Python library + web (http://localhost:8142) | 66 passed | Adds custom JSON Q/A deck creation and validated SM-2 review endpoints, with browser-local deck persistence and explicit request/card limits; existing repository-aware tools remain wired to PsiCat. | [42-az-awareness-creation-toolkit/](42-az-awareness-creation-toolkit/) |
 | 43 | AZ Geometric Tori Transformer | 1.0.0 | TRL-1 | CLI / Python library + web (http://localhost:8143) | 46 | From-scratch (NumPy-only, custom autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5²+7², (5,7) braid winding) instead of standard sinusoidal RoPE — toroidal rotary encoding with finite orbit periods plus a toroidal relative-distance attention bias; wired as `getToriTransformerGeometry`/`getToriTransformerDemo` native PsiCat tools, exposed via PsiCat Browser through the Navigator's generic `/api/psicat` surface. ADJACENT TRACK, not a hardgate physics claim. | [43-az-geometric-tori-transformer/](43-az-geometric-tori-transformer/) |
+| 44 | AxiomZero Weave | 0.1.0 | Not assessed | CLI / local HTTP (http://127.0.0.1:8144) + native PsiCat tools | Focused pytest suites | Five-strand, seven-operation evidence and computation integration: current grounding, scoped memory, real Oracle/Transformer adapters, matched synthetic controls, and durable Pentad-constrained effects. Adjacent software only; private exports remain excluded. | [44-axiomzero-weave/](44-axiomzero-weave/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
