@@ -49,6 +49,14 @@ counterexample, and remaining action-to-observable obligations.
 
 ## Epistemic Boundary
 
+The separate [constrained planar Einstein--radion sector](../docs/physics/PLANAR_RADION_DYNAMICS.md)
+adds a physical coordinate-time implementation with transverse backreaction,
+constraint propagation and an independent vacuum-uplift audit. It also
+withdraws P1132's inference of nonconstant constrained scalar propagation from
+an off-shell acceleration coefficient with fixed transverse spectators.
+This is not general evolution, a Lean proof or a derivation of the relaxation
+law; the original Tier-1 verification commands retain their existing scope.
+
 This directory is a formal verification entry point, not a complete map of the repository. Adjacent research tracks and governance frameworks are documented elsewhere and are intentionally excluded from this Tier-1 surface.
 
 Known limits, open problems, and non-claims are cataloged in `FALLIBILITY.md` and must be used as part of any technical assessment.

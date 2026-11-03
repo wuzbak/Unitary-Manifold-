@@ -1,6 +1,33 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
 # Unitary Manifold v38.2
 
+## Constrained planar Einstein--radion dynamics (2026-11-03)
+
+The [technical derivation and experiment](physics/PLANAR_RADION_DYNAMICS.md)
+supersede Sprint CZ's inference from an off-shell scalar acceleration
+coefficient to nonconstant constrained propagation. The longitudinal Einstein
+tensor of a two-metric times fixed flat transverse spectators vanishes; its
+real positive-kinetic scalar source must vanish. The missing transverse
+equation also requires the remaining two-metric to be flat when the scalar
+is constant. P1132 retains its restricted acceleration/static identities and
+reports `ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED`, not a physical
+propagation certificate.
+
+The new implementation retains a dynamical transverse scale in a conformal
+planar Einstein--radion system. It separates exact symbolic identities, a
+local energy-method well-posedness argument, sampled constrained data,
+second-order spatial/fourth-order temporal integration, and an independent
+five-dimensional vacuum residual. The independent oracle differentiates saved
+spacetime metrics, not the solver RHS. The documented numerical evidence is
+limited to the stated smooth finite intervals and audit windows.
+
+This is the massless, zero-vector, transversely isotropic circle-zero-mode
+sector only. The existing prescribed-background Maxwell test field remains a
+different approximation. Neither this scalar-sector capability nor that
+test field closes the full coupled physical-time obligation, proves global
+existence, derives the relaxation law, or changes any observational falsifier.
+Framework promotion flags, version and pillar allocation remain unchanged.
+
 ## Health repair (2026-10-09)
 
 The resumed health check recovered the interrupted branch without treating the

@@ -1,0 +1,409 @@
+{
+  "scope": "massless, zero-vector, transversely isotropic circle-zero-mode sector",
+  "not_claimed": [
+    "general 5D evolution",
+    "global existence",
+    "empirical confirmation",
+    "derivation of the existing relaxation law",
+    "full repository regression"
+  ],
+  "units": "dimensionless; reference length=1; spatial period=2*pi",
+  "parameters": {
+    "resolutions": [
+      32,
+      64,
+      128,
+      256
+    ],
+    "t_initial": 1.0,
+    "t_final": 1.5,
+    "cfl": 0.1,
+    "minimum_order": 1.8,
+    "maximum_order": 2.2,
+    "field_tolerance": 0.0001,
+    "residual_tolerance": 0.001,
+    "oracle_window": "nine midpoint snapshots; five retained interior times"
+  },
+  "environment": {
+    "python": "3.12.3",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "sympy": "1.14.0"
+  },
+  "baseline_head": "56c9f8bc885c395e98391f94ac07fc73e7fa4ed5",
+  "source_sha256": {
+    "TOOLS/checks/run_planar_radion_acceptance.py": "35299ef36c03559555024cbff3050a8c564131aacce0f18b6c309610ccd1ab43",
+    "src/physics/planar_radion/evolution.py": "4d02879a594c7c2295de2f989a85931d3929999e3d56c16b8b40d78a881b2b97",
+    "src/physics/planar_radion/geometry.py": "f74f33aaf997be70167069f29fd3e31b2c16097090727344ddcf1f664359d6e6",
+    "src/physics/planar_radion/derivation.py": "9e8b6fe408cadcec24803d972d4a672890e052d7cd20a350f35a4aae287d943b"
+  },
+  "symbolic_checks": {
+    "residuals": {
+      "metric_variation": {
+        "uu": "0",
+        "vv": "0",
+        "uv": "0",
+        "radion_euler_reduction": "0",
+        "psi_euler_reduction": "0"
+      },
+      "constraint_propagation": {
+        "u": "0",
+        "v": "0"
+      },
+      "direct_ricci": {
+        "R_00": "0",
+        "R_01": "0",
+        "R_02": "0",
+        "R_03": "0",
+        "R_10": "0",
+        "R_11": "0",
+        "R_12": "0",
+        "R_13": "0",
+        "R_20": "0",
+        "R_21": "0",
+        "R_22": "0",
+        "R_23": "0",
+        "R_30": "0",
+        "R_31": "0",
+        "R_32": "0",
+        "R_33": "0"
+      },
+      "direct_5d_uplift_ricci": {
+        "R5_00": "0",
+        "R5_01": "0",
+        "R5_02": "0",
+        "R5_03": "0",
+        "R5_04": "0",
+        "R5_10": "0",
+        "R5_11": "0",
+        "R5_12": "0",
+        "R5_13": "0",
+        "R5_14": "0",
+        "R5_20": "0",
+        "R5_21": "0",
+        "R5_22": "0",
+        "R5_23": "0",
+        "R5_24": "0",
+        "R5_30": "0",
+        "R5_31": "0",
+        "R5_32": "0",
+        "R5_33": "0",
+        "R5_34": "0",
+        "R5_40": "0",
+        "R5_41": "0",
+        "R5_42": "0",
+        "R5_43": "0",
+        "R5_44": "0"
+      },
+      "frw_branch": {
+        "constraint_u": "0",
+        "constraint_v": "0",
+        "r": "0",
+        "psi": "0",
+        "sigma": "0"
+      },
+      "areal_sigma_integrability": {
+        "scalar_wave": "0",
+        "quadrature_integrability": "0",
+        "sigma_wave": "0"
+      },
+      "bessel_equation_and_period": {
+        "mode_equation": "0",
+        "periodic_momentum": "0"
+      }
+    },
+    "identities_checked": 58,
+    "all_zero": true,
+    "not_machine_formalized": [
+      "GHY boundary bookkeeping",
+      "local Sobolev energy-method well-posedness"
+    ]
+  },
+  "bessel_cases": [
+    {
+      "amplitudes": [
+        0.04
+      ],
+      "rows": [
+        {
+          "n": 32,
+          "steps": 26,
+          "maximum_null_constraint_over_trajectory": 6.668807729286462e-06,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 0.00014650622667198657,
+          "six_field_rms_error": 9.83282968267008e-06
+        },
+        {
+          "n": 64,
+          "steps": 51,
+          "maximum_null_constraint_over_trajectory": 1.684356956979904e-06,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 3.661202152640904e-05,
+          "six_field_rms_error": 2.460402709497888e-06
+        },
+        {
+          "n": 128,
+          "steps": 102,
+          "maximum_null_constraint_over_trajectory": 4.2206693486203503e-07,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 9.151439255446909e-06,
+          "six_field_rms_error": 6.152379483604973e-07
+        },
+        {
+          "n": 256,
+          "steps": 204,
+          "maximum_null_constraint_over_trajectory": 1.0558771247623304e-07,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 2.2852521292058267e-06,
+          "six_field_rms_error": 1.5381806743153498e-07
+        }
+      ],
+      "field_orders": [
+        1.9987121839562891,
+        1.9996780720892997,
+        1.9999195207592848
+      ],
+      "constraint_orders": [
+        1.9852309412062077,
+        1.9966541969477596,
+        1.9990298573828134
+      ],
+      "uplift_orders": [
+        2.0005726429288866,
+        2.000246873640588,
+        2.0016453103164134
+      ]
+    },
+    {
+      "amplitudes": [
+        0.12
+      ],
+      "rows": [
+        {
+          "n": 32,
+          "steps": 26,
+          "maximum_null_constraint_over_trajectory": 6.001926956357797e-05,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 0.0005483141670548444,
+          "six_field_rms_error": 3.14807817444175e-05
+        },
+        {
+          "n": 64,
+          "steps": 51,
+          "maximum_null_constraint_over_trajectory": 1.5159212612819543e-05,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 0.00013732569550039612,
+          "six_field_rms_error": 7.879156461965319e-06
+        },
+        {
+          "n": 128,
+          "steps": 102,
+          "maximum_null_constraint_over_trajectory": 3.7986024137594537e-06,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 3.434470388638105e-05,
+          "six_field_rms_error": 1.9703495343682424e-06
+        },
+        {
+          "n": 256,
+          "steps": 204,
+          "maximum_null_constraint_over_trajectory": 9.502894123415272e-07,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 8.583599075612616e-06,
+          "six_field_rms_error": 4.926224149467564e-07
+        }
+      ],
+      "field_orders": [
+        1.9983582779723739,
+        1.999589601477591,
+        1.999897403452967
+      ],
+      "constraint_orders": [
+        1.9852309412061644,
+        1.996654196947366,
+        1.999029857299094
+      ],
+      "uplift_orders": [
+        1.9974011511613003,
+        1.9994420475561796,
+        2.000433048781681
+      ]
+    },
+    {
+      "amplitudes": [
+        0.04,
+        0.025
+      ],
+      "rows": [
+        {
+          "n": 32,
+          "steps": 26,
+          "maximum_null_constraint_over_trajectory": 3.5362687758790394e-05,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 0.0003429949301910656,
+          "six_field_rms_error": 1.5052562801390448e-05
+        },
+        {
+          "n": 64,
+          "steps": 51,
+          "maximum_null_constraint_over_trajectory": 9.047387379247911e-06,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 7.812014320771252e-05,
+          "six_field_rms_error": 3.7763040281812786e-06
+        },
+        {
+          "n": 128,
+          "steps": 102,
+          "maximum_null_constraint_over_trajectory": 2.2870782578161483e-06,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 1.7808064083002325e-05,
+          "six_field_rms_error": 9.449049619211948e-07
+        },
+        {
+          "n": 256,
+          "steps": 204,
+          "maximum_null_constraint_over_trajectory": 5.723555814784401e-07,
+          "maximum_orthonormal_5d_ricci_in_interior_window": 4.3044240769134305e-06,
+          "six_field_rms_error": 2.3627814898591107e-07
+        }
+      ],
+      "field_orders": [
+        1.994962311478564,
+        1.9987337837861119,
+        1.9996830160921348
+      ],
+      "constraint_orders": [
+        1.9666547823217435,
+        1.9839955123887643,
+        1.998522112844174
+      ],
+      "uplift_orders": [
+        2.1344207530277153,
+        2.133163904540921,
+        2.0486385633768633
+      ]
+    }
+  ],
+  "gauge_wave": {
+    "scope": "exact coordinate-inhomogeneous pullback, not a physical area-wave claim",
+    "rows": [
+      {
+        "n": 32,
+        "steps": 26,
+        "maximum_null_constraint_over_trajectory": 0.00012983727017045355,
+        "maximum_orthonormal_5d_ricci_in_interior_window": 0.0003110150803445087,
+        "six_field_rms_error": 1.9729961054390936e-05
+      },
+      {
+        "n": 64,
+        "steps": 51,
+        "maximum_null_constraint_over_trajectory": 3.252169093137113e-05,
+        "maximum_orthonormal_5d_ricci_in_interior_window": 7.79866710674531e-05,
+        "six_field_rms_error": 4.938506406617192e-06
+      },
+      {
+        "n": 128,
+        "steps": 102,
+        "maximum_null_constraint_over_trajectory": 8.15127930274464e-06,
+        "maximum_orthonormal_5d_ricci_in_interior_window": 1.9510107479791985e-05,
+        "six_field_rms_error": 1.235002658462271e-06
+      },
+      {
+        "n": 256,
+        "steps": 204,
+        "maximum_null_constraint_over_trajectory": 2.0380792410557708e-06,
+        "maximum_orthonormal_5d_ricci_in_interior_window": 4.873847914221378e-06,
+        "six_field_rms_error": 3.087741687899474e-07
+      }
+    ],
+    "field_orders": [
+      1.9982414215982187,
+      1.9995606342175243,
+      1.9998901765435178
+    ],
+    "constraint_orders": [
+      1.997230396745336,
+      1.9963038647483153,
+      1.9998163559687592
+    ],
+    "uplift_orders": [
+      1.9956850598500477,
+      1.999005844095654,
+      2.001088587312403
+    ]
+  },
+  "independent_initial_data": {
+    "profile": "psi=.04 cos(x)+.02 cos(2x); psi_t=.03 cos(x)-.01 cos(2x)",
+    "initialization": "centered-derivative sampled constraints; O(dx^2) data error",
+    "rows": [
+      {
+        "n": 32,
+        "steps": 26,
+        "maximum_null_constraint_over_trajectory": 8.428262960657193e-05,
+        "maximum_orthonormal_5d_ricci_in_interior_window": 0.0017260759911010123
+      },
+      {
+        "n": 64,
+        "steps": 51,
+        "maximum_null_constraint_over_trajectory": 2.1918233585508685e-05,
+        "maximum_orthonormal_5d_ricci_in_interior_window": 0.00043788506056975873
+      },
+      {
+        "n": 128,
+        "steps": 102,
+        "maximum_null_constraint_over_trajectory": 5.526393677084259e-06,
+        "maximum_orthonormal_5d_ricci_in_interior_window": 0.00010986157992616395
+      },
+      {
+        "n": 256,
+        "steps": 204,
+        "maximum_null_constraint_over_trajectory": 1.3849273476677307e-06,
+        "maximum_orthonormal_5d_ricci_in_interior_window": 2.7454791059978985e-05
+      }
+    ],
+    "nested_grid_differences": [
+      6.427310245414445e-05,
+      1.6134264202537203e-05,
+      4.037709768088438e-06
+    ],
+    "self_convergence_orders": [
+      1.994087327030414,
+      1.9985186676105704
+    ],
+    "constraint_orders": [
+      1.943103792139176,
+      1.9877212921455376,
+      1.996528041875009
+    ],
+    "uplift_orders": [
+      1.9788718461022237,
+      1.994865285250768,
+      2.000557107553496
+    ]
+  },
+  "temporal_refinement": {
+    "n": 64,
+    "steps": [
+      16,
+      32,
+      64
+    ],
+    "differences": [
+      1.3828782948446026e-09,
+      8.580327045207042e-11
+    ],
+    "observed_order": 4.010497744197553,
+    "scope": "fixed spatial mesh; temporal differences, not total solution error"
+  },
+  "negative_controls": {
+    "constraint_injection_detected": true,
+    "incompatible_periodic_data_rejected": true,
+    "frozen_spectator_scalar_wave_detected": true,
+    "omitted_transverse_equation_detected": true,
+    "wrong_frame_uplift_detected": true,
+    "wrong_scalar_normalization_detected": true
+  },
+  "gates": {
+    "symbolic_identities_verified": true,
+    "complete_experiment_matrix": true,
+    "bessel_solution_second_order": true,
+    "gauge_wave_solution_second_order": true,
+    "independent_data_second_order": true,
+    "constraints_second_order": true,
+    "uplift_second_order": true,
+    "finest_field_errors_below_tolerance": true,
+    "finest_constraints_below_tolerance": true,
+    "finest_uplift_below_tolerance": true,
+    "fourth_order_time_differences": true,
+    "negative_controls_rejected": true
+  },
+  "passed": true
+}

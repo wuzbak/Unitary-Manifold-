@@ -1,5 +1,21 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
+## Approved planar dynamics implementation (2026-11-03)
+
+The focused implementation follows the action-to-solution chain in
+[Planar radion dynamics](physics/PLANAR_RADION_DYNAMICS.md): ungauged variation,
+consistent reduction, constraint propagation, admissible periodic data,
+physical-time evolution, and independent five-dimensional Ricci evaluation.
+P1132's fixed-spectator scalar-propagation interpretation is withdrawn while
+its restricted differential/static identities are preserved.
+
+Acceptance requires numerical convergence, absolute residual/error limits
+and rejected negative controls together. Its reproducible experiment is
+`python TOOLS/checks/run_planar_radion_acceptance.py`; the detailed evidence
+boundary and exact commands are in the technical note. No broad regression
+success, new pillar/version, general physical-time closure or derivation of
+the relaxation law follows from this scoped implementation.
+
 ## Health repair checkpoint (2026-10-09)
 
 The interrupted branch's repairs are being completed, not promoted into a new

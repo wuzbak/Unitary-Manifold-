@@ -1,5 +1,15 @@
 # Fallibility, Limitations, and Failure Modes
 
+> **Planar consistency correction (2026-11-03):** P1132's fixed-transverse
+> product metric cannot support the nonconstant real scalar evolution inferred
+> from its off-shell acceleration term. That interpretation is withdrawn;
+> restricted differential/static identities remain. A separate conformal
+> planar Einstein--radion system retains the transverse scale, constraints and
+> backreaction. Its finite-time numerical/uplift evidence is not global
+> existence, general five-dimensional evolution or empirical confirmation.
+> See [the complete scope and evidence boundary](docs/physics/PLANAR_RADION_DYNAMICS.md).
+> No version, pillar, relaxation-law or observational-falsifier change is made.
+
 > **Health repair (2026-10-09):** P8's former Float-based functional-space
 > closure is withdrawn, including the Sub-gap L Lean4 promotion. NaN ordering,
 > negative-input square ordering and underflow invalidate unrestricted claims;

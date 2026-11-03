@@ -1,13 +1,22 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""Pillar 1132 — ADM homogeneous gravity+scalar hyperbolic evolution (Sprint CZ).
+"""Pillar 1132 -- restricted ADM acceleration and static identities (Sprint CZ).
+
+Reassessment: the historical hyperbolic-evolution interpretation is withdrawn.
+The fixed transverse spectators make the longitudinal Einstein tensor zero,
+so its positive-kinetic scalar stress must vanish on a constrained solution.
+A nonzero off-shell scalar acceleration coefficient does not establish a
+nonconstant constrained scalar solution, constraint propagation or well-posedness.
+See ``src.physics.planar_radion.derivation`` and
+``docs/physics/PLANAR_RADION_DYNAMICS.md``.
+Public function names remain for compatibility; their verified status now
+describes only the restricted acceleration identities and static cross-check.
 
 Pillar 1130 (Sprint CX) left two residual obligations on the action-derived
 flow certificate that Pillar 1131 (Sprint CY) did not touch:
 ``T_RELAXATION_LAW_DECLARED_NOT_DERIVED`` and
 ``PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED``. Both remain open after this
-pillar. This pillar does not close either obligation; it adds a new,
-independent, narrowly-scoped capability alongside them: a genuine ADM
+pillar. This pillar does not close either obligation; it retains a restricted ADM
 (3+1) canonical decomposition of the *same* circle-reduced Einstein-frame
 action, restricted to a declared homogeneous perimeter, in which fields
 depend on real coordinate time ``t = x^0`` and one spatial coordinate
@@ -21,9 +30,8 @@ with no time dependence at all: the "t" in the *existing* default flow
 coordinate time, and the field equations varied there are the *static*
 Euler-Lagrange equations of the reduced action (an elliptic problem, not a
 hyperbolic one). This pillar is the first in the repository to vary the
-action with genuine second derivatives in ``t`` and certify, by exact
-SymPy simplification, which reduced fields actually propagate in
-coordinate time within the declared perimeter.
+action with genuine second derivatives in ``t`` and inspect their coefficients
+by exact SymPy simplification. These are off-shell differential identities.
 
 Physics result (symbolically certified below, see
 :func:`adm_homogeneous_hyperbolic_evolution_certificate`):
@@ -41,8 +49,8 @@ Physics result (symbolically certified below, see
   rather than being assumed.
 * The scalar equation (``p``, the radion/dilaton field reduced from
   ``g_55``) has a symbolically **nonzero** coefficient of ``d^2 p/dt^2``
-  (``-3*sqrt(h)/(N*p**2)``): this is genuine, newly-derived, second-order
-  hyperbolic evolution in real coordinate time for the scalar sector.
+  (``-3*sqrt(h)/(N*p**2)``). This off-shell coefficient does not certify
+  propagation after imposing the metric constraints.
 * Setting the shift to zero and restricting all ADM fields to be
   ``t``-independent reproduces, as an *exact* symbolic identity (zero
   difference, not a numeric sample-point check), the repository's own
@@ -71,15 +79,13 @@ from src.core.action_derived_flow import (
 
 PILLAR_NUMBER: int = 1132
 PILLAR_GATE: str = 'ADM_HOMOGENEOUS_HYPERBOLIC_EVOLUTION'
-PILLAR_STATUS: str = 'ADM_HOMOGENEOUS_GRAVITY_SCALAR_HYPERBOLIC_EVOLUTION_CERTIFIED'
+PILLAR_STATUS: str = 'ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED'
 VERSION: str = 'v38.4'
 SPRINT: str = 'CZ'
 SPRINT_DATE: str = '2026-11-02'
 NEXT_PILLAR_SLOT: int = 1133
 
-# This new, narrower capability closed by this pillar. It is a new item,
-# not previously listed on any pillar's residual-obligation ledger.
-NEW_CERTIFIED_SUBCASE: str = 'ADM_COORDINATE_TIME_HYPERBOLIC_EVOLUTION_HOMOGENEOUS_GRAVITY_SCALAR_SECTOR'
+NEW_CERTIFIED_SUBCASE: str = 'ADM_OFF_SHELL_ACCELERATION_AND_STATIC_IDENTITIES_ONLY'
 
 # Pillar 1130's two residual obligations. Neither is closed by this pillar;
 # both remain listed exactly as Pillar 1130 and Pillar 1131 left them.
@@ -89,6 +95,8 @@ REMAINING_RESIDUAL_OBLIGATIONS: List[str] = [
 ]
 
 DOES_NOT_ESTABLISH: List[str] = [
+    'Nonconstant constrained scalar propagation is excluded by the fixed-transverse ansatz; '
+    'the scalar acceleration coefficient is an off-shell identity, not a physical evolution certificate.',
     'The gauge field B_mu is excluded from this ADM decomposition; its physical-time evolution '
     'is neither derived nor certified by this pillar.',
     'Only the homogeneous perimeter (fields independent of x^2, x^3, matching the existing static '
@@ -171,8 +179,13 @@ def _adm_hyperbolicity_evidence() -> Dict[str, Any]:
     coeff_p_in_p_eq = _coeff_of_second_time_derivative(sp, equations['p'], d2p_dt2)
     coeff_h_in_N_eq = _coeff_of_second_time_derivative(sp, equations['N'], d2h_dt2)
 
-    def has_any_second_time_deriv(name: str) -> bool:
-        return any(equations[name].has(d) for d in second_time_derivs.values())
+    constraint_coefficients = {
+        name: {
+            field: _coeff_of_second_time_derivative(sp, equations[name], derivative)
+            for field, derivative in second_time_derivs.items()
+        }
+        for name in ('N', 'Nx')
+    }
 
     return {
         'ansatz': 'adm_homogeneous_gravity_scalar',
@@ -183,9 +196,16 @@ def _adm_hyperbolicity_evidence() -> Dict[str, Any]:
         'coeff_d2h_dt2_in_N_equation': coeff_h_in_N_eq,
         'h_equation_is_nondynamical': coeff_h_in_h_eq == 0,
         'p_equation_is_dynamical': coeff_p_in_p_eq != 0,
-        'N_equation_has_no_real_second_time_derivative': coeff_h_in_N_eq == 0,
-        'N_equation_is_constraint': (not has_any_second_time_deriv('N')) or coeff_h_in_N_eq == 0,
-        'Nx_equation_is_constraint': not has_any_second_time_deriv('Nx'),
+        'constraint_acceleration_coefficients': constraint_coefficients,
+        'N_equation_has_no_real_second_time_derivative': all(
+            coefficient == 0 for coefficient in constraint_coefficients['N'].values()
+        ),
+        'N_equation_is_constraint': all(
+            coefficient == 0 for coefficient in constraint_coefficients['N'].values()
+        ),
+        'Nx_equation_is_constraint': all(
+            coefficient == 0 for coefficient in constraint_coefficients['Nx'].values()
+        ),
     }
 
 
@@ -258,7 +278,10 @@ def adm_homogeneous_hyperbolic_evolution_certificate() -> Dict[str, Any]:
         'static_reduction_cross_check': cross_check,
         'evidence_checks': evidence_checks,
         'verified': verified,
-        't_dynamics_derived_from_action': True,
+        't_dynamics_derived_from_action': False,
+        'off_shell_time_derivative_terms_derived': True,
+        'constraint_compatible_nonconstant_scalar_evolution': False,
+        'well_posedness_established': False,
         'closure_earned': False,
     }
 
