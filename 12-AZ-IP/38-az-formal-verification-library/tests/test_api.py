@@ -23,6 +23,7 @@ def test_api_endpoints_listed():
         "/api/pentad-properties",
         "/api/pentad-suite",
         "/api/pentad-check",
+        "/api/property-check",
     )
 
 

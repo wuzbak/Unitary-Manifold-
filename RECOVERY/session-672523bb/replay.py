@@ -74,6 +74,9 @@ for e in starts:
     c = comp.get(e['data'].get('toolCallId'))
     try:
         for op in parse(patch):
+            op['path'] = op['path'].replace('/workspaces/Unitary-Manifold-/wuzbak/Unitary-Manifold-/', '')
+            if os.environ.get('ONLY') and not re.search(os.environ['ONLY'], op['path']):
+                continue
             p = os.path.join(ROOT, op['path'])
             if op['op'] == 'Add':
                 body = [l[1:] if l.startswith('+') else l for l in op['lines']]

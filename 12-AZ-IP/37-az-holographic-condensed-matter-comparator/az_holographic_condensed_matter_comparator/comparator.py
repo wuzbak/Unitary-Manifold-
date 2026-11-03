@@ -4,13 +4,11 @@
 direction #10 ("Holographic dictionary -> condensed-matter comparison").
 
 `src/holography/dual_cft_spectrum.py`'s `kk_tower_to_cft_operators()`
-already produces boundary-operator conformal dimensions
+already produces approximate spin-2 boundary-operator conformal dimensions
 (Delta_n ~ 4 + 2n) for the RS1 KK graviton tower. This module compares
-those dimensions against well-known reference values from the
-holographic-superconductor literature (not fit to any specific real
-material or compound), computing the scalar two-point correlation decay
-exponent (2*Delta) each dimension implies, so the two "scaffolds" can be
-placed side by side.
+those dimensions against illustrative or user-supplied reference dimensions
+and computes 2*Delta as a scaling exponent. This numerical comparison does
+not identify scalar and spin-2 operators or compare tensor structures.
 
 Honest status: the reference benchmark table below is **illustrative**.
 Its reading references are background, not verified extractions of the

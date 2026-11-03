@@ -17,7 +17,7 @@ from az_holographic_condensed_matter_comparator.api import API_ENDPOINTS, dispat
 
 
 def test_api_endpoints_listed():
-    assert API_ENDPOINTS == ("/api/status", "/api/benchmarks", "/api/compare", "/api/closest")
+    assert API_ENDPOINTS == ("/api/status", "/api/benchmarks", "/api/compare", "/api/closest", "/api/compare-references")
 
 
 def test_status_endpoint():
