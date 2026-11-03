@@ -2,7 +2,7 @@
 install:
 	pip install -r requirements.txt
 run:
-	python backend/app.py
+	python run.py
 docker:
 	docker build -t um-sos .
 docker-run:

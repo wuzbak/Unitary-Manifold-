@@ -24,7 +24,8 @@ private const val HEARTBEAT_INTERVAL_MS_CONST = 1_000L
  *   ATO:{reason}           — abort     (either side)
  *
  * [SdamKeyManager] provides the HMAC secret (Android Keystore).
- * The rolling [counter] prevents replay of recorded acoustic chirps.
+ * The rolling [counter] is included in signed handshake frames. This legacy
+ * protocol does not persist a replay high-water mark and is not restart-resistant.
  */
 @Singleton
 class AcousticAuth @Inject constructor(

@@ -6,7 +6,7 @@ tests/test_az_sge.py — AxiomZero System Security Governance Engine test suite
 
 Covers all subsystems:
   - HashChain (chain integrity, Merkle, HMAC)
-  - Encryption (AES-256-GCM software fallback + KeyExchange + HKDF)
+  - Encryption (cryptography-backed AES-256-GCM + X25519 + HKDF)
   - ThreatIntelligenceEngine (offline lookups, sample indicators)
   - MalwareDetector (YARA, entropy, shellcode, macro, ransomware ext)
   - ZeroDayEngine (all 7 heuristics)
@@ -44,10 +44,11 @@ from engine.hash_chain import (
     _GENESIS_DIGEST, merkle_root_of_chain, verify_merkle_proof, K_CS,
 )
 from engine.encryption import (
-    SymmetricCipher, AES_KEY_BYTES, GCM_IV_BYTES,
+    SymmetricCipher, AES_KEY_BYTES,
     derive_session_key, generate_keypair, compute_shared_secret,
-    SecureEnvelope, _b64e, _b64d, _SoftAESGCM,
+    SecureEnvelope, _b64e, _b64d,
 )
+import engine.encryption as encryption
 from engine.threat_intel import (
     ThreatIntelligenceEngine, ThreatIndicator, ThreatCategory, Severity,
     _SAMPLE_INDICATORS, KNOWN_MALWARE_HASHES,
@@ -217,35 +218,14 @@ class TestHashChain:
 # ============================================================
 
 class TestEncryption:
-    def test_soft_aes_gcm_roundtrip(self):
-        key = os.urandom(AES_KEY_BYTES)
-        gcm = _SoftAESGCM(key)
-        iv = os.urandom(GCM_IV_BYTES)
-        pt = b"The quick brown fox jumps over the lazy dog"
-        ct = gcm.encrypt(iv, pt, b"aad")
-        dec = gcm.decrypt(iv, ct, b"aad")
-        assert dec == pt
-
-    def test_soft_aes_gcm_wrong_key(self):
-        key1 = b"\x01" * AES_KEY_BYTES
-        key2 = b"\x02" * AES_KEY_BYTES
-        gcm1 = _SoftAESGCM(key1)
-        gcm2 = _SoftAESGCM(key2)
-        iv = os.urandom(GCM_IV_BYTES)
-        pt = b"secret"
-        ct = gcm1.encrypt(iv, pt)
-        with pytest.raises(ValueError):
-            gcm2.decrypt(iv, ct)
-
-    def test_soft_aes_gcm_tamper_detected(self):
-        key = os.urandom(AES_KEY_BYTES)
-        gcm = _SoftAESGCM(key)
-        iv = os.urandom(GCM_IV_BYTES)
-        pt = b"integrity test"
-        ct = bytearray(gcm.encrypt(iv, pt))
-        ct[0] ^= 0xFF   # flip a byte
-        with pytest.raises(ValueError):
-            gcm.decrypt(iv, bytes(ct))
+    def test_missing_cryptography_fails_closed(self, monkeypatch):
+        monkeypatch.setattr(encryption, "_CRYPTO_AVAILABLE", False)
+        with pytest.raises(RuntimeError, match="requires the 'cryptography' package"):
+            SymmetricCipher(os.urandom(AES_KEY_BYTES))
+        with pytest.raises(RuntimeError, match="requires the 'cryptography' package"):
+            generate_keypair()
+        with pytest.raises(RuntimeError, match="requires the 'cryptography' package"):
+            compute_shared_secret(b"\0" * 32, b"\0" * 32)
 
     def test_symmetric_cipher_roundtrip(self):
         key = os.urandom(AES_KEY_BYTES)
@@ -1146,6 +1126,19 @@ class TestQuarantineOrchestrator:
         scan = md.scan_bytes(eicar, "eicar.com")
         record = orch.handle_file_scan(scan, eicar)
         assert record.threat_type in ("malware", "suspicious_file")
+        assert record.status == QuarantineStatus.VAULTED
+        assert record.remediation_details[0]["executed"]
+        assert "copy" in record.remediation_details[0]["result"]
+
+    def test_missing_file_bytes_are_not_reported_as_vaulted(self, tmp_path):
+        vault = QuarantineVault(tmp_path / "vault")
+        orch = QuarantineOrchestrator(vault=vault, auto_quarantine_threshold=70.0)
+        from engine.malware_detector import MalwareDetector
+        scan = MalwareDetector().scan_bytes(b"X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*", str(tmp_path / "missing.exe"))
+        record = orch.handle_file_scan(scan)
+        assert record.status == QuarantineStatus.FAILED
+        assert record.vault_path is None
+        assert not any(action["executed"] for action in record.remediation_details)
 
     def test_orchestrator_ids_alert(self, tmp_path):
         vault = QuarantineVault(tmp_path / "vault")
@@ -1160,6 +1153,10 @@ class TestQuarantineOrchestrator:
         )
         record = orch.handle_ids_alert(alert)
         assert "1.2.3.4" in orch.blocked_ips()
+        assert record.status == QuarantineStatus.RECORDED
+        block_action = next(action for action in record.remediation_details if action["action_type"] == "block_ip")
+        assert not block_action["executed"]
+        assert "no host firewall adapter" in block_action["result"]
 
     def test_orchestrator_zero_day(self, tmp_path):
         vault = QuarantineVault(tmp_path / "vault")
@@ -1208,6 +1205,7 @@ class TestSGECore:
         assert "chain_length" in s
         assert "chain_integrity" in s
         assert "threat_intel" in s
+        assert s["host_enforcement"]["firewall"] is False
 
     def test_sge_chain_starts_with_event(self, sge):
         # SGE_START committed at init
@@ -1216,6 +1214,10 @@ class TestSGECore:
     def test_sge_scan_bytes_clean(self, sge):
         scan = sge._malware.scan_bytes(b"hello world", "clean.txt")
         assert scan.risk_level == "CLEAN"
+
+    def test_scan_missing_file_raises(self, sge, tmp_path):
+        with pytest.raises(FileNotFoundError):
+            sge.scan_file(tmp_path / "missing.bin")
 
     def test_sge_check_domain_tracker(self, sge):
         blocked, rule = sge.check_domain("google-analytics.com")

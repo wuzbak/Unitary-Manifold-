@@ -76,3 +76,24 @@ class SyncStatusResponse(BaseModel):
     records_deleted: int
     errors: list[str]
     completed: bool
+
+class SeismicEventResponse(BaseModel):
+    event_id: str
+    time_utc: str
+    magnitude: Optional[float]
+    magnitude_type: str
+    place: str
+    latitude: float
+    longitude: float
+    depth_km: float
+    distance_km: float
+    review_status: str
+    event_url: str
+
+class SeismicityResponse(BaseModel):
+    status: str = Field(..., description="live | cached | stale | unavailable")
+    query: dict[str, Any]
+    events: list[SeismicEventResponse]
+    summary: dict[str, Any]
+    provenance: dict[str, Any]
+    error: str

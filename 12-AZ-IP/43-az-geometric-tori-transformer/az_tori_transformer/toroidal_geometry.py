@@ -19,10 +19,10 @@ Constants mirror the repository's hardgated physics constants (see
   resonance pair selected by Planck n_s / birefringence data.
 * ``K_CS = 74 = 5**2 + 7**2`` — the lattice order used throughout the
   Navigator's toroidal lane.
-* ``TICK_PHASE_STEP = 24`` — the Z_74 image of the Unitary Pentad's 12/37
-  cadence (``12/37 == 24/74``), reused here as a second, independent winding
-  frequency so a sequence position's two-torus code is not degenerate (see
-  the note in ``position_code`` below).
+* ``TICK_PHASE_STEP = 24`` — the discrete Z_74 encoding of the Unitary
+  Pentad's 12/37 cadence (``12/37 == 24/74``), used as one position-code
+  coordinate step. It is not a physical velocity or sound speed; the
+  downstream bank function projects the two-coordinate code to one scalar.
 """
 
 from __future__ import annotations
@@ -95,10 +95,10 @@ def position_code(position: int) -> tuple[int, int]:
     Using the braid windings directly as ``(wrap(5*i), wrap(7*i))`` would make
     ``braid_bank`` of that code identically zero for every ``i``, because
     ``5**2 + 7**2 == 74 == 0 (mod 74)`` by construction (the defining relation
-    of ``K_CS``). The second circle instead uses the independent tick-phase
-    winding (``TICK_PHASE_STEP = 24``, the Pentad's 12/37 cadence), which keeps
-    the embedding non-degenerate while still drawing only on constants already
-    canonical to this repository.
+    of ``K_CS``). The second coordinate instead uses the tick-phase step
+    (``TICK_PHASE_STEP = 24``, the discrete encoding of the Pentad's 12/37
+    cadence), which keeps the two-coordinate code non-degenerate. The
+    subsequent scalar bank projection does not preserve independent axes.
     """
     return wrap(WINDING_NUMBER * position), wrap(TICK_PHASE_STEP * position)
 

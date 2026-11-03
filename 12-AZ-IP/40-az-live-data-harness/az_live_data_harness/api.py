@@ -1,22 +1,14 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
-"""JSON API dispatch — Phase 2 of article-354 direction #13.
-
-The generic harness takes arbitrary Python callables as fetch functions,
-so it cannot be driven from untrusted HTTP query parameters. This API
-exposes the one worked, trusted adapter this product ships
-(`planck_adapter.py`) for live inspection over HTTP; wiring new adapters
-onto the harness remains a Python-level task.
-"""
+"""JSON API dispatch for the public USGS live-data integration."""
 
 from __future__ import annotations
 
-from dataclasses import asdict
 from typing import Any, Dict, List, Mapping
 
-from .planck_adapter import fetch_planck_n_s_via_harness, planck_n_s_verdict
+from .usgs_adapter import USGS_FEED_URL, fetch_earthquake_summary
 
-API_ENDPOINTS = ("/api/status", "/api/fetch-result", "/api/verdict")
+API_ENDPOINTS = ("/api/status", "/api/fetch-result")
 
 
 def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str, Any]:
@@ -24,19 +16,12 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
         return {
             "product": "AZ Live-Data Harness",
             "endpoints": list(API_ENDPOINTS),
-            "adapter": "planck_adapter.fetch_planck_n_s_via_harness",
+            "adapter": "usgs_adapter.fetch_earthquake_summary",
+            "source": USGS_FEED_URL,
+            "fallback": False,
         }
 
     if path == "/api/fetch-result":
-        fetch_result = fetch_planck_n_s_via_harness()
-        return {
-            "value": fetch_result.value,
-            "source": fetch_result.source.value,
-            "error": fetch_result.error,
-        }
-
-    if path == "/api/verdict":
-        verdict = planck_n_s_verdict()
-        return asdict(verdict)
+        return fetch_earthquake_summary()
 
     raise KeyError(f"unknown API endpoint: {path}")

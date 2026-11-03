@@ -15,8 +15,8 @@
 <h1>AZ Formal Verification Library</h1>
 <div class="epistemic">
   <strong>Epistemic status:</strong> Exposes the Pentad worked example only; defining new
-  safety properties remains a Python-level task (a Z3 solver callable can't be built from
-  untrusted query parameters).
+  safety properties through Python callables is not exposed to HTTP. The bounded JSON
+  property format below accepts data only, never executable code.
 </div>
 <p>
   <button onclick="show('/api/status')">Status</button>
@@ -24,11 +24,44 @@
   <button onclick="show('/api/pentad-suite')">Run full suite</button>
   <button onclick="show('/api/pentad-check?name=cs_bound')">Check cs_bound</button>
 </p>
+<h2>Check a bounded declarative property</h2>
+<p>Specify bounded integer/real variables and a satisfiability expectation. For a safety property, encode a violating state and expect it to be unsatisfiable.</p>
+<label for="property-spec">Property JSON</label><br />
+<textarea id="property-spec" rows="18" cols="90">{
+  "name": "bounded_capacity",
+  "description": "Check for a violating capacity value.",
+  "variables": {
+    "capacity": {"sort": "int", "min": 0, "max": 10}
+  },
+  "constraints": [
+    {"op": "lt", "left": {"var": "capacity"}, "right": {"const": 0}}
+  ],
+  "expected": "unsat"
+}</textarea><br />
+<button onclick="checkProperty()">Run property</button>
 <pre id="output">(results appear here)</pre>
 <script>
 async function show(url) {
   const res = await fetch(url);
-  document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+  const payload = await res.json();
+  document.getElementById('output').textContent = JSON.stringify(payload, null, 2);
+  if (!res.ok) throw new Error(payload.error || `Request failed (${res.status})`);
+  return payload;
+}
+async function checkProperty() {
+  const output = document.getElementById('output');
+  try {
+    const res = await fetch('/api/property-check', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: document.getElementById('property-spec').value,
+    });
+    const payload = await res.json();
+    output.textContent = JSON.stringify(payload, null, 2);
+    if (!res.ok) throw new Error(payload.error || `Request failed (${res.status})`);
+  } catch (error) {
+    output.textContent = error.message;
+  }
 }
 </script>
 </body>

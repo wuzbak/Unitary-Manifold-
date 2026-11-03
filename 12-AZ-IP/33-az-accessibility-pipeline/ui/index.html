@@ -5,31 +5,242 @@
 <title>AZ Accessibility Pipeline — Product 33</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
-  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+  :root { color-scheme: light; font-family: system-ui, sans-serif; }
+  body { max-width: 900px; margin: 2rem auto; padding: 0 1rem 3rem; color: #172033; line-height: 1.5; }
   .epistemic { background: #fff3cd; border: 1px solid #e0b000; padding: 0.75rem 1rem; border-radius: 6px; }
-  pre { background: #0d1117; color: #c9d1d9; padding: 1rem; border-radius: 6px; overflow-x: auto; }
-  textarea { width: 100%; height: 8rem; }
-  button { padding: 0.4rem 0.9rem; cursor: pointer; }
+  label { display: block; font-weight: 650; margin: 1rem 0 0.35rem; }
+  textarea { box-sizing: border-box; width: 100%; min-height: 9rem; padding: 0.7rem; font: inherit; }
+  button, select, input { font: inherit; }
+  button { padding: 0.45rem 0.8rem; cursor: pointer; }
+  button:disabled { cursor: not-allowed; opacity: 0.55; }
+  button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid #175cd3; outline-offset: 2px; }
+  .actions, .speech-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 0.8rem; }
+  .speech-controls label { display: inline-flex; align-items: center; gap: 0.4rem; margin: 0; }
+  #status { min-height: 1.5em; margin: 0.8rem 0; }
+  .segment, .result-card { border: 1px solid #cbd5e1; border-radius: 6px; padding: 0.8rem 1rem; margin: 0.6rem 0; }
+  .segment p { margin: 0.3rem 0 0.7rem; }
+  .segment.is-speaking { border-color: #175cd3; box-shadow: 0 0 0 2px #dbeafe; }
+  .chip { display: inline-block; background: #e8eef8; border-radius: 999px; padding: 0.15rem 0.65rem; margin: 0.15rem; }
+  .muted { color: #536174; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
 </style>
 </head>
 <body>
-<h1>AZ Accessibility Pipeline</h1>
-<div class="epistemic">
-  <strong>Epistemic status:</strong> Keyword-based recognition only — conservative, not full NLP.
-  Fact-check verdicts are whatever Product 19's own routers already compute.
-</div>
-<textarea id="text">The CMB spectral index n_s prediction is a falsifiable claim about dark energy w_a tension.</textarea>
-<br />
-<button onclick="getReport()">Build accessibility report</button>
-<pre id="output">(results appear here)</pre>
+<main>
+  <h1>AZ Accessibility Pipeline</h1>
+  <p class="epistemic" id="epistemic">
+    <strong>Epistemic status:</strong> Claim recognition is keyword-based, not full NLP.
+    Verdicts are computed by Product 19. Speech playback uses your browser's built-in speech service.
+  </p>
+
+  <form id="report-form">
+    <label for="text">Passage to make easier to read and explore</label>
+    <textarea id="text" required aria-describedby="epistemic">The CMB spectral index n_s prediction is a falsifiable claim about dark energy w_a tension.</textarea>
+    <div class="actions">
+      <button type="submit">Build accessibility report</button>
+      <button id="read-all" type="button" disabled>Read all segments</button>
+      <button id="stop-reading" type="button" disabled>Stop reading</button>
+    </div>
+    <div class="speech-controls" aria-label="Speech settings">
+      <label for="voice">Voice
+        <select id="voice"><option value="">System default</option></select>
+      </label>
+      <label for="rate">Speed
+        <input id="rate" type="range" min="0.7" max="1.3" step="0.1" value="1" />
+        <output id="rate-value" for="rate">1×</output>
+      </label>
+    </div>
+  </form>
+
+  <p id="status" role="status" aria-live="polite">Build a report to get sentence-level playback and concept suggestions.</p>
+  <section id="report" aria-label="Accessibility report" hidden>
+    <h2>Reading segments</h2>
+    <p class="muted" id="segment-summary"></p>
+    <div id="segments"></div>
+    <h2>Suggested visuals</h2>
+    <div id="visuals"></div>
+    <h2>Recognized claims</h2>
+    <div id="claims"></div>
+  </section>
+</main>
 <script>
-async function show(url) {
-  const res = await fetch(url);
-  document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+const form = document.getElementById("report-form");
+const textInput = document.getElementById("text");
+const status = document.getElementById("status");
+const segmentList = document.getElementById("segments");
+const visualList = document.getElementById("visuals");
+const claimList = document.getElementById("claims");
+const reportSection = document.getElementById("report");
+const readAllButton = document.getElementById("read-all");
+const stopButton = document.getElementById("stop-reading");
+const voiceSelect = document.getElementById("voice");
+const rateInput = document.getElementById("rate");
+const rateValue = document.getElementById("rate-value");
+let segments = [];
+let playbackId = 0;
+
+function speechSupported() {
+  return "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
 }
-function getReport() {
-  const q = new URLSearchParams({ text: document.getElementById('text').value });
-  show(`/api/report?${q}`);
+
+function loadVoices() {
+  if (!speechSupported()) return;
+  const selected = voiceSelect.value;
+  const voices = window.speechSynthesis.getVoices();
+  voiceSelect.replaceChildren(new Option("System default", ""));
+  for (const voice of voices) {
+    const option = new Option(`${voice.name} (${voice.lang})`, voice.voiceURI);
+    voiceSelect.add(option);
+  }
+  if ([...voiceSelect.options].some(option => option.value === selected)) voiceSelect.value = selected;
+}
+
+function setPlaybackControls(isReading) {
+  readAllButton.disabled = isReading || !segments.length || !speechSupported();
+  stopButton.disabled = !isReading;
+  document.querySelectorAll(".segment-play").forEach(button => { button.disabled = isReading || !speechSupported(); });
+}
+
+function stopReading(message = "Speech stopped.") {
+  playbackId += 1;
+  if (speechSupported()) window.speechSynthesis.cancel();
+  document.querySelectorAll(".is-speaking").forEach(card => card.classList.remove("is-speaking"));
+  setPlaybackControls(false);
+  if (message) status.textContent = message;
+}
+
+function speakSegment(index, id, onDone) {
+  if (id !== playbackId || index >= segments.length) {
+    if (id === playbackId) {
+      setPlaybackControls(false);
+      status.textContent = "Finished reading all segments.";
+    }
+    return;
+  }
+  const card = segmentList.querySelector(`[data-segment-index="${index}"]`);
+  document.querySelectorAll(".is-speaking").forEach(item => item.classList.remove("is-speaking"));
+  card.classList.add("is-speaking");
+  card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  status.textContent = `Reading segment ${index + 1} of ${segments.length}.`;
+  const utterance = new SpeechSynthesisUtterance(segments[index].text);
+  utterance.rate = Number(rateInput.value);
+  const voice = window.speechSynthesis.getVoices().find(item => item.voiceURI === voiceSelect.value);
+  if (voice) {
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+  }
+  utterance.onend = () => {
+    if (id !== playbackId) return;
+    card.classList.remove("is-speaking");
+    onDone();
+  };
+  utterance.onerror = event => {
+    if (id !== playbackId) return;
+    card.classList.remove("is-speaking");
+    setPlaybackControls(false);
+    status.textContent = `Speech playback could not continue${event.error ? `: ${event.error}` : "."}`;
+  };
+  window.speechSynthesis.speak(utterance);
+}
+
+function startReading(startIndex, readAll) {
+  if (!speechSupported()) {
+    status.textContent = "Speech playback is not supported by this browser. You can still read the displayed segments.";
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const id = ++playbackId;
+  setPlaybackControls(true);
+  const next = index => speakSegment(index, id, () => {
+    if (readAll) next(index + 1);
+    else {
+      setPlaybackControls(false);
+      status.textContent = `Finished segment ${index + 1}.`;
+    }
+  });
+  next(startIndex);
+}
+
+function addMessage(container, message) {
+  const paragraph = document.createElement("p");
+  paragraph.className = "muted";
+  paragraph.textContent = message;
+  container.append(paragraph);
+}
+
+function renderReport(report) {
+  segments = report.segments || [];
+  segmentList.replaceChildren();
+  visualList.replaceChildren();
+  claimList.replaceChildren();
+  for (const segment of segments) {
+    const card = document.createElement("article");
+    card.className = "segment";
+    card.dataset.segmentIndex = segment.index;
+    const heading = document.createElement("h3");
+    heading.textContent = `Segment ${segment.index + 1}`;
+    const passage = document.createElement("p");
+    passage.textContent = segment.text;
+    const button = document.createElement("button");
+    button.className = "segment-play";
+    button.type = "button";
+    button.textContent = `Read segment ${segment.index + 1}`;
+    button.setAttribute("aria-label", `Read segment ${segment.index + 1}`);
+    button.addEventListener("click", () => startReading(segment.index, false));
+    card.append(heading, passage, button);
+    segmentList.append(card);
+  }
+  document.getElementById("segment-summary").textContent =
+    `${segments.length} sentence${segments.length === 1 ? "" : "s"} available for individual or continuous playback.`;
+  for (const key of report.suggested_visuals || []) {
+    const chip = document.createElement("span");
+    chip.className = "chip";
+    chip.textContent = key;
+    visualList.append(chip);
+  }
+  if (!visualList.childElementCount) addMessage(visualList, "No visual concepts recognized.");
+  for (const claim of report.claim_verdicts || []) {
+    const item = document.createElement("article");
+    item.className = "result-card";
+    const title = document.createElement("strong");
+    title.textContent = `${claim.name} — ${claim.verdict}`;
+    const details = document.createElement("p");
+    details.textContent = `Matched “${claim.matched_keyword}”. Prediction: ${claim.prediction}`;
+    item.append(title, details);
+    claimList.append(item);
+  }
+  if (!claimList.childElementCount) addMessage(claimList, "No recognizable claims found.");
+  reportSection.hidden = false;
+  setPlaybackControls(false);
+}
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+  stopReading("");
+  status.textContent = "Building report…";
+  try {
+    const params = new URLSearchParams({ text: textInput.value });
+    const response = await fetch(`/api/report?${params}`);
+    const report = await response.json();
+    if (!response.ok) throw new Error(report.error || `Request failed (${response.status})`);
+    renderReport(report);
+    status.textContent = speechSupported()
+      ? "Report ready. Read a sentence or play all segments."
+      : "Report ready. Browser speech playback is unavailable; the sentence text remains available below.";
+  } catch (error) {
+    status.textContent = `Could not build report: ${error.message}`;
+  }
+});
+
+readAllButton.addEventListener("click", () => startReading(0, true));
+stopButton.addEventListener("click", () => stopReading());
+rateInput.addEventListener("input", () => { rateValue.value = `${rateInput.value}×`; });
+if (speechSupported()) {
+  loadVoices();
+  window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
+} else {
+  voiceSelect.disabled = true;
+  rateInput.disabled = true;
 }
 </script>
 </body>

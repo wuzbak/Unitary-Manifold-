@@ -31,7 +31,7 @@ def test_records_have_well_formed_fields():
     media_suite = next(record for record in records if record.number == 41)
     assert media_suite.name == "AZ Media & Feature-Inspection Suite"
     assert media_suite.folder == "41-az-media-suite/"
-    assert media_suite.tests == "28"
+    assert media_suite.tests == "31 passed"
 
 
 def test_get_product_by_number():

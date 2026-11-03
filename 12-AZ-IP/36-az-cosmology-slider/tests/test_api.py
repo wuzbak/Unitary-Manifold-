@@ -54,6 +54,25 @@ def test_sweep_rejects_bad_n_points():
         dispatch_api_request("/api/sweep", {"n_points": ["1"]})
 
 
+@pytest.mark.parametrize(
+    "path,query",
+    [
+        ("/api/status", {"unexpected": ["1"]}),
+        ("/api/slider", {"phi0": ["0"]}),
+        ("/api/slider", {"phi0": ["nan"]}),
+        ("/api/slider", {"phi0": ["10"], "n_w": ["inf"]}),
+        ("/api/slider", {"phi0": ["10"], "phi0_duplicate": ["12"]}),
+        ("/api/slider", {"phi0": ["10", "11"]}),
+        ("/api/sweep", {"phi0_min": ["15"], "phi0_max": ["5"]}),
+        ("/api/sweep", {"phi0_min": ["1"], "phi0_max": ["30"], "n_points": ["202"]}),
+        ("/api/sweep", {"n_points": ["not-an-integer"]}),
+    ],
+)
+def test_api_rejects_ambiguous_nonfinite_or_unbounded_inputs(path, query):
+    with pytest.raises(ValueError):
+        dispatch_api_request(path, query)
+
+
 @pytest.mark.skipif(JAX_AVAILABLE, reason="only exercises the JAX-missing path")
 def test_slider_without_jax_raises_runtime_error():
     with pytest.raises(RuntimeError):

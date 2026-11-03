@@ -21,11 +21,13 @@ from __future__ import annotations
 
 import numpy as np
 
-from .attention import apply_rotation
+from .attention import apply_rotation, gather_relative_bias
 from .layers import Linear
+from .positional import toroidal_relative_bias_indices
 from .tensor import Tensor, softmax
+from .toroidal_geometry import HALF_TURN
 
-__all__ = ["rope_table", "RopeMultiHeadAttention"]
+__all__ = ["rope_table", "RopeMultiHeadAttention", "MatchedRopeMultiHeadAttention"]
 
 
 def rope_table(seq_len: int, head_dim: int, theta: float = 10000.0) -> tuple[np.ndarray, np.ndarray]:
@@ -86,6 +88,44 @@ class RopeMultiHeadAttention:
         scale = 1.0 / np.sqrt(self.head_dim)
         logits = (q @ k.transpose(0, 1, 3, 2)) * scale
 
+        if self.causal:
+            mask = np.triu(np.full((seq_len, seq_len), -1e9), k=1)
+            logits = logits + Tensor(mask)
+
+        attn = softmax(logits, axis=-1)
+        out = attn @ v
+        out = out.transpose(0, 2, 1, 3).reshape(batch, seq_len, self.dim)
+        return self.wo(out), attn.data
+
+
+class MatchedRopeMultiHeadAttention(RopeMultiHeadAttention):
+    """RoPE control with the same learned bank-bias parameters as the tori arm.
+
+    This control is intended for positional ablations, not as the product's
+    legacy RoPE mode. Keeping the bank bias active makes the parameter count
+    and learned-bias mechanism identical, isolating the rotary phase choice.
+    """
+
+    def __init__(self, dim: int, num_heads: int, rng: np.random.Generator, causal: bool = True):
+        super().__init__(dim, num_heads, rng, causal=causal)
+        self.relative_bias = Tensor(np.zeros((num_heads, HALF_TURN + 1)), requires_grad=True)
+
+    def parameters(self) -> list[Tensor]:
+        return super().parameters() + [self.relative_bias]
+
+    def __call__(self, x: Tensor) -> tuple[Tensor, np.ndarray]:
+        batch, seq_len, _ = x.shape
+        q = self._split_heads(self.wq(x), batch, seq_len)
+        k = self._split_heads(self.wk(x), batch, seq_len)
+        v = self._split_heads(self.wv(x), batch, seq_len)
+
+        cos, sin = rope_table(seq_len, self.head_dim)
+        q = apply_rotation(q, cos, sin)
+        k = apply_rotation(k, cos, sin)
+        logits = (q @ k.transpose(0, 1, 3, 2)) * (1.0 / np.sqrt(self.head_dim))
+
+        bias = gather_relative_bias(self.relative_bias, toroidal_relative_bias_indices(seq_len))
+        logits = logits + bias.reshape(1, self.num_heads, seq_len, seq_len)
         if self.causal:
             mask = np.triu(np.full((seq_len, seq_len), -1e9), k=1)
             logits = logits + Tensor(mask)

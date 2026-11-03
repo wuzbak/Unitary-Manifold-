@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
-"""JSON API dispatch — Phase 2 of article-354 direction #2.
+"""JSON API dispatch for prediction demos and user-supplied measurements.
 
 Wraps `pipeline.py` for live HTTP access. No real pump-probe dataset is
 bundled; `/api/demo-comparison` builds synthetic frames from the prediction
@@ -23,13 +23,17 @@ from .pipeline import (
     compare_to_prediction,
     extract_feature_velocity_curve,
     vortex_speed_ratio,
+    validate_c_s,
 )
+from .measurement import analyze_measurement
 
-API_ENDPOINTS = ("/api/status", "/api/prediction", "/api/demo-comparison")
+API_ENDPOINTS = ("/api/status", "/api/prediction", "/api/demo-comparison", "/api/analyze")
 
 
 def _first(query: Mapping[str, List[str]], key: str, default: str | None = None) -> str | None:
     values = query.get(key)
+    if values and len(values) != 1:
+        raise ValueError(f"{key} must occur only once")
     return values[0] if values else default
 
 
@@ -44,16 +48,33 @@ def _synthetic_frames(c_s: float, angles: List[float]) -> List[PumpProbeFrame]:
     return frames
 
 
-def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str, Any]:
+def dispatch_api_request(
+    path: str,
+    query: Mapping[str, List[str]],
+    *,
+    method: str = "GET",
+    body: bytes | None = None,
+) -> Dict[str, Any]:
+    if path not in API_ENDPOINTS:
+        raise KeyError(f"unknown API endpoint: {path}")
+    expected_method = "POST" if path == "/api/analyze" else "GET"
+    if method != expected_method:
+        raise ValueError(f"{path} requires {expected_method}")
+    if path == "/api/analyze":
+        if set(query) - {"c_s"}:
+            raise ValueError("measurement endpoint accepts only the c_s query parameter")
+        c_s = validate_c_s(float(_first(query, "c_s", str(C_S_CANONICAL))))
+        return analyze_measurement(body, "json", c_s=c_s)
+
     if path == "/api/status":
         return {"product": "AZ Polariton Vortex Analyzer", "endpoints": list(API_ENDPOINTS)}
 
     if path == "/api/prediction":
-        c_s = float(_first(query, "c_s", str(C_S_CANONICAL)))
+        c_s = validate_c_s(float(_first(query, "c_s", str(C_S_CANONICAL))))
         return {"c_s": c_s, "predicted_critical_angle_deg": critical_angle_deg(c_s=c_s)}
 
     if path == "/api/demo-comparison":
-        c_s = float(_first(query, "c_s", str(C_S_CANONICAL)))
+        c_s = validate_c_s(float(_first(query, "c_s", str(C_S_CANONICAL))))
         angles = [5.0, 10.0, 15.0, 18.93, 25.0, 35.0]
         frames = _synthetic_frames(c_s, angles)
         measured = extract_feature_velocity_curve(frames)
@@ -61,4 +82,3 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
         result["note"] = "synthetic self-consistency demo, not a real experimental dataset"
         return result
 
-    raise KeyError(f"unknown API endpoint: {path}")

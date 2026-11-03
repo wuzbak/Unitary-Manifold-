@@ -10,11 +10,14 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
-from az_holographic_condensed_matter_comparator.api import dispatch_api_request
+from az_holographic_condensed_matter_comparator.api import (
+    dispatch_api_request, dispatch_reference_comparison,
+)
 
 UI_DIR = Path(__file__).resolve().parents[2] / "ui"
 
 DEFAULT_PORT = 8137
+MAX_REQUEST_BYTES = 262144
 
 
 class ComparatorRequestHandler(SimpleHTTPRequestHandler):
@@ -23,6 +26,33 @@ class ComparatorRequestHandler(SimpleHTTPRequestHandler):
 
     def log_message(self, format: str, *args) -> None:  # noqa: A002
         pass
+
+    def _send_json(self, payload: dict, status: int = 200) -> None:
+        body = json.dumps(payload, sort_keys=True, allow_nan=False).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_POST(self) -> None:  # noqa: N802
+        if urlsplit(self.path).path != "/api/compare-references":
+            self._send_json({"error": "unknown POST endpoint"}, 404)
+            return
+        if self.headers.get("Content-Type", "").split(";")[0].strip().lower() != "application/json":
+            self._send_json({"error": "Content-Type must be application/json"}, 415)
+            return
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+            if not 1 <= length <= MAX_REQUEST_BYTES:
+                self._send_json({"error": f"body must be 1..{MAX_REQUEST_BYTES} bytes"}, 413)
+                return
+            payload = json.loads(self.rfile.read(length).decode("utf-8"))
+            report = dispatch_reference_comparison(payload)
+        except (ValueError, TypeError, UnicodeError) as exc:
+            self._send_json({"error": str(exc)}, 400)
+            return
+        self._send_json(report)
 
     def do_GET(self) -> None:  # noqa: N802
         parsed = urlsplit(self.path)
@@ -36,12 +66,7 @@ class ComparatorRequestHandler(SimpleHTTPRequestHandler):
             except (ValueError, TypeError, IndexError) as exc:
                 payload = {"error": str(exc)}
                 status = 400
-            body = json.dumps(payload, sort_keys=True).encode("utf-8")
-            self.send_response(status)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
+            self._send_json(payload, status)
             return
         super().do_GET()
 

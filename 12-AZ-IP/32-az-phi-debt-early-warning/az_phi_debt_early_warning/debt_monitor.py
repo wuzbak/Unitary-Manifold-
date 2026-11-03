@@ -11,9 +11,22 @@ recycling, or governance by name — it is the nounless formalism underneath
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List
+
+
+def _finite_number(value: object, name: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"{name} must be a finite number")
+    try:
+        normalized = float(value)
+    except (OverflowError, ValueError) as exc:
+        raise ValueError(f"{name} must be a finite number") from exc
+    if not math.isfinite(normalized):
+        raise ValueError(f"{name} must be a finite number")
+    return normalized
 
 
 class DebtStatus(str, Enum):
@@ -50,6 +63,9 @@ class DebtMonitor:
     _history: List[DebtReading] = field(default_factory=list, init=False, repr=False)
 
     def __post_init__(self) -> None:
+        self.capacity = _finite_number(self.capacity, "capacity")
+        self.discharge_rate = _finite_number(self.discharge_rate, "discharge_rate")
+        self.warning_fraction = _finite_number(self.warning_fraction, "warning_fraction")
         if self.capacity <= 0:
             raise ValueError("capacity must be positive")
         if self.discharge_rate < 0:
@@ -76,12 +92,20 @@ class DebtMonitor:
     def accumulate(self, amount: float, dt: float = 1.0) -> DebtReading:
         """Advance the monitor by ``dt``, adding ``amount`` of new debt and
         discharging ``discharge_rate * dt`` of existing debt."""
+        amount = _finite_number(amount, "amount")
+        dt = _finite_number(dt, "dt")
         if dt <= 0:
             raise ValueError("dt must be positive")
         if amount < 0:
             raise ValueError("amount must be non-negative")
-        self._debt = max(0.0, self._debt + amount - self.discharge_rate * dt)
-        self._time += dt
+
+        next_debt = max(0.0, self._debt + amount - self.discharge_rate * dt)
+        next_time = self._time + dt
+        if not math.isfinite(next_debt) or not math.isfinite(next_time):
+            raise ValueError("accumulation would produce a non-finite reading")
+
+        self._debt = next_debt
+        self._time = next_time
         reading = DebtReading(time=self._time, debt=self._debt, status=self.status())
         self._history.append(reading)
         return reading
@@ -95,6 +119,8 @@ class DebtMonitor:
         before it, divided by the elapsed time). Returns ``None`` if the
         monitor is already saturated, or if the net rate is non-positive
         (debt is flat or discharging — no saturation is projected)."""
+        if projected_rate is not None:
+            projected_rate = _finite_number(projected_rate, "projected_rate")
         if self.status() == DebtStatus.SATURATED:
             return None
         if projected_rate is None:
@@ -105,10 +131,14 @@ class DebtMonitor:
             if dt <= 0:
                 return None
             projected_rate = (last.debt - prev.debt) / dt
+        projected_rate = _finite_number(projected_rate, "projected_rate")
         if projected_rate <= 0:
             return None
         remaining = self.capacity - self._debt
-        return remaining / projected_rate
+        estimate = remaining / projected_rate
+        if not math.isfinite(estimate):
+            raise ValueError("time-to-saturation estimate is not finite")
+        return estimate
 
     def to_report(self) -> dict:
         return {

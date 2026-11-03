@@ -1,7 +1,7 @@
 # AZ Media & Feature-Inspection Suite — Product 41
 
 **Folder:** `12-AZ-IP/41-az-media-suite/`
-**Version:** 1.0.0
+**Version:** 1.1.0
 **TRL:** TRL-2 (stdlib-first prototypes; no native codec/rar toolchains bundled)
 **Local URL:** `http://127.0.0.1:8141/`
 **License:** AGPL-3.0-or-later
@@ -61,9 +61,18 @@ analysis.
 
 ```bash
 python 12-AZ-IP/41-az-media-suite/run.py                       # demo comic/audio/video round trip
+python 12-AZ-IP/41-az-media-suite/run.py inspect-media book.cbz # inspect an actual local media file
+python 12-AZ-IP/41-az-media-suite/run.py create-tone tone.wav --frequency 440 --duration 0.5
 python 12-AZ-IP/41-az-media-suite/run.py inspect-features ui   # evidence-cited feature scan of a directory
 python 12-AZ-IP/41-az-media-suite/run.py serve --port 8141     # start the live HTTP product
 ```
+
+`inspect-media` accepts actual `.cbz`, `.wav`, and `.azvid` paths and emits a
+JSON report. `create-tone` writes an actual PCM16 WAV file; it requires a
+finite frequency below Nyquist, a supported sample rate (8–192 kHz), finite
+amplitude in 0–1, and no more than five million generated samples. This
+explicitly bounded CLI file workflow does not alter the loopback web API's
+fixed-workspace policy.
 
 Endpoints: `GET /api/status`, `GET /api/comic/demo`, `GET /api/audio/demo`,
 `GET /api/video/demo`, `GET /api/inspect/self`. Every endpoint operates on

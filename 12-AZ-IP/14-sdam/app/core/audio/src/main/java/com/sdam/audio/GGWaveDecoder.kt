@@ -42,14 +42,20 @@ class GGWaveDecoder(
         private set
 
     init {
-        nativeHandle = GGWaveNative.nativeInit(sampleRate, payloadLength)
-        if (nativeHandle < 0L) {
-            throw IllegalStateException(
-                "GGWaveDecoder: ggwave_init failed (sampleRate=$sampleRate)"
-            )
+        nativeHandle = if (GGWaveNative.isAvailable) {
+            try {
+                GGWaveNative.nativeInit(sampleRate, payloadLength)
+            } catch (_: UnsatisfiedLinkError) {
+                -1L
+            }
+        } else {
+            -1L
         }
-        Log.i(TAG, "Decoder initialised  sampleRate=$sampleRate")
+        if (nativeHandle >= 0L) Log.i(TAG, "Decoder initialised  sampleRate=$sampleRate")
+        else Log.e(TAG, "Native ggwave decoder unavailable")
     }
+
+    val isAvailable: Boolean get() = nativeHandle >= 0L
 
     /**
      * Submit a buffer of PCM I16 samples to the streaming decoder.
@@ -57,7 +63,7 @@ class GGWaveDecoder(
      * Thread-safe: Mutex serialises access to the non-reentrant native instance.
      */
     suspend fun feedSamples(samples: ShortArray) {
-        if (samples.isEmpty()) return
+        if (samples.isEmpty() || nativeHandle < 0L) return
         mutex.withLock {
             framesReceived++
             val payload = GGWaveNative.nativeDecode(nativeHandle, samples)
@@ -71,7 +77,7 @@ class GGWaveDecoder(
 
     /** Release the native ggwave instance.  Idempotent. */
     suspend fun close() = mutex.withLock {
-        GGWaveNative.nativeFree(nativeHandle)
+        if (nativeHandle >= 0L) GGWaveNative.nativeFree(nativeHandle)
         Log.i(TAG, "Decoder closed  framesReceived=$framesReceived  messagesDecoded=$messagesDecoded")
     }
 }

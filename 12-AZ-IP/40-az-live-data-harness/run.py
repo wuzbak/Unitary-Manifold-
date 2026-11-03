@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from az_live_data_harness import fetch_planck_n_s_via_harness, planck_n_s_verdict
+from az_live_data_harness import LiveDataError, fetch_earthquake_summary
 
 
 def main(argv=None) -> int:
@@ -28,13 +28,15 @@ def main(argv=None) -> int:
         serve(host=args.host, port=args.port)
         return 0
 
-    fetch_result = fetch_planck_n_s_via_harness()
-    print(f"fetch source: {fetch_result.source.value}")
-    if fetch_result.error:
-        print(f"fetch error (expected -> fallback used): {fetch_result.error}")
-    verdict = planck_n_s_verdict()
-    print(verdict)
-    return 0
+    import json
+
+    try:
+        result = fetch_earthquake_summary()
+    except LiveDataError as exc:
+        print(json.dumps({"error": str(exc)}), file=sys.stderr)
+        return 1
+    print(json.dumps(result, indent=2))
+    return 2 if result["stale"] else 0
 
 
 if __name__ == "__main__":

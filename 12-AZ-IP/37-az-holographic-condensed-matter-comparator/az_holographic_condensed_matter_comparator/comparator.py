@@ -4,26 +4,21 @@
 direction #10 ("Holographic dictionary -> condensed-matter comparison").
 
 `src/holography/dual_cft_spectrum.py`'s `kk_tower_to_cft_operators()`
-already produces boundary-operator conformal dimensions
+already produces approximate spin-2 boundary-operator conformal dimensions
 (Delta_n ~ 4 + 2n) for the RS1 KK graviton tower. This module compares
-those dimensions against well-known reference values from the
-holographic-superconductor literature (not fit to any specific real
-material or compound), computing the scalar two-point correlation decay
-exponent (2*Delta) each dimension implies, so the two "scaffolds" can be
-placed side by side.
+those dimensions against illustrative or user-supplied reference dimensions
+and computes 2*Delta as a scaling exponent. This numerical comparison does
+not identify scalar and spin-2 operators or compare tensor structures.
 
-Honest status: the reference benchmark table below is **illustrative**
-— standard order-parameter dimensions quoted in the holographic-
-superconductor literature (Hartnoll, "Lectures on holographic methods for
-condensed matter physics", arXiv:0903.3246; Gubser, "Breaking an Abelian
-gauge symmetry near a black hole horizon", arXiv:0801.2977). It is not a
-fit to any specific compound's measured critical exponents.
+Honest status: the reference benchmark table below is **illustrative**.
+Its reading references are background, not verified extractions of the
+specific numbers or evidence of a material correspondence.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Sequence
 
 from ._repo import ensure_repo_on_path
 
@@ -31,32 +26,40 @@ _REPO_ROOT = ensure_repo_on_path()
 
 from src.holography.dual_cft_spectrum import kk_tower_to_cft_operators
 
+MAX_LEVELS = 100
+
+
+def validate_level_count(n: int) -> None:
+    if isinstance(n, bool) or not isinstance(n, int) or not 1 <= n <= MAX_LEVELS:
+        raise ValueError(f"level count must be an integer from 1 to {MAX_LEVELS}")
+
 
 @dataclass(frozen=True)
 class HolographicBenchmark:
-    """One reference operator dimension from the holographic-superconductor
-    literature. Illustrative only; see module docstring."""
+    """One reference dimension with a provenance label, not a verified claim."""
 
     name: str
     delta: float
     source: str
+    provenance: str = "illustrative"
 
 
 #: Illustrative reference benchmarks (not fit to any real compound).
 KNOWN_HOLOGRAPHIC_BENCHMARKS: List[HolographicBenchmark] = [
     HolographicBenchmark(
         "marginal_scalar", 3.0,
-        "Hartnoll arXiv:0903.3246 - marginal operator, Delta = d - 1 = 3 in AdS4/CFT3",
+        "Illustrative Delta=3 scalar example; background: Hartnoll arXiv:0903.3246. "
+        "Not a verified extraction.",
     ),
     HolographicBenchmark(
         "bcs_like_order_parameter", 1.5,
-        "Hartnoll arXiv:0903.3246 Sec. 2 - canonical holographic-superconductor "
-        "condensate dimension used in worked examples",
+        "Illustrative Delta=1.5 example; legacy name does not establish a BCS "
+        "correspondence. Background: Hartnoll arXiv:0903.3246, not a verified extraction.",
     ),
     HolographicBenchmark(
         "minimal_scalar_hair", 2.0,
-        "Gubser arXiv:0801.2977 - minimal charged scalar condensate dimension "
-        "in the simplest holographic superconductor model",
+        "Illustrative Delta=2 scalar example; background: Gubser arXiv:0801.2977. "
+        "Not a verified extraction.",
     ),
 ]
 
@@ -69,11 +72,16 @@ def correlation_decay_exponent(delta: float) -> float:
 def compare_kk_level_to_benchmark(n: int, benchmark: HolographicBenchmark) -> Dict[str, object]:
     """Compare one KK-tower operator level's conformal dimension against a
     named holographic-superconductor reference benchmark."""
+    validate_level_count(n)
     levels = kk_tower_to_cft_operators(n_max=n)["operator_levels"]
     level = levels[n - 1]
+    return _compare_level(level, benchmark)
+
+
+def _compare_level(level: dict, benchmark: HolographicBenchmark) -> Dict[str, object]:
     um_delta = level["conformal_dimension"]
     return {
-        "n": n,
+        "n": level["n"],
         "um_delta": um_delta,
         "um_decay_exponent": correlation_decay_exponent(um_delta),
         "benchmark_name": benchmark.name,
@@ -81,16 +89,18 @@ def compare_kk_level_to_benchmark(n: int, benchmark: HolographicBenchmark) -> Di
         "benchmark_decay_exponent": correlation_decay_exponent(benchmark.delta),
         "delta_gap": um_delta - benchmark.delta,
         "source": benchmark.source,
+        "provenance": benchmark.provenance,
     }
 
 
-def compare_kk_tower_to_all_benchmarks(n_max: int = 5) -> List[Dict[str, object]]:
+def compare_kk_tower_to_all_benchmarks(
+    n_max: int = 5, benchmarks: Sequence[HolographicBenchmark] | None = None,
+) -> List[Dict[str, object]]:
     """Compare every KK-tower level up to n_max against every benchmark."""
-    comparisons = []
-    for n in range(1, n_max + 1):
-        for benchmark in KNOWN_HOLOGRAPHIC_BENCHMARKS:
-            comparisons.append(compare_kk_level_to_benchmark(n, benchmark))
-    return comparisons
+    validate_level_count(n_max)
+    references = KNOWN_HOLOGRAPHIC_BENCHMARKS if benchmarks is None else benchmarks
+    levels = kk_tower_to_cft_operators(n_max=n_max)["operator_levels"]
+    return [_compare_level(level, benchmark) for level in levels for benchmark in references]
 
 
 def closest_benchmark(n: int) -> Dict[str, object]:

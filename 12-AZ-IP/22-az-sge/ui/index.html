@@ -139,6 +139,10 @@
     .chain-ok { color: var(--green); font-size: 20px; }
     .chain-fail { color: var(--red); font-size: 20px; }
     .refresh-ts { color: var(--text-dim); font-size: 11px; margin-left: auto; }
+    .scope-notice {
+      margin: 12px 0; padding: 10px 14px; border: 1px solid #e6a23c;
+      border-radius: 8px; color: #ffd78a; background: #33240f; font-size: 12px;
+    }
     #toast {
       position: fixed; bottom: 24px; right: 24px;
       background: var(--bg3); border: 1px solid var(--border);
@@ -161,6 +165,8 @@
   <span style="margin-left:auto;color:var(--text-dim);font-size:11px" id="hdr-ts">—</span>
 </header>
 
+<div class="scope-notice">Local analysis only: SGE does not monitor or enforce host firewall, process, DNS, or file-isolation actions. Vaulting stores a copy; it does not disable the source.</div>
+
 <nav>
   <button class="active" onclick="showPane('pane-overview', this)">Overview</button>
   <button onclick="showPane('pane-events', this)">Events</button>
@@ -177,10 +183,10 @@
     <div class="card"><div class="label">Chain Length</div><div class="value" id="ov-chain-len">—</div><div class="sub">audit events committed</div></div>
     <div class="card"><div class="label">IDS Alerts</div><div class="value" id="ov-ids-total">—</div><div class="sub" id="ov-ids-crit">—</div></div>
     <div class="card"><div class="label">Firewall Decisions</div><div class="value" id="ov-fw-total">—</div><div class="sub" id="ov-fw-denied">—</div></div>
-    <div class="card"><div class="label">Quarantine</div><div class="value" id="ov-q-total">—</div><div class="sub" id="ov-q-by">—</div></div>
+    <div class="card"><div class="label">Vault / Response Records</div><div class="value" id="ov-q-total">—</div><div class="sub" id="ov-q-by">—</div></div>
     <div class="card"><div class="label">Threat Indicators</div><div class="value" id="ov-ti-total">—</div><div class="sub" id="ov-ti-crit">—</div></div>
     <div class="card"><div class="label">Tracker Blocklist</div><div class="value" id="ov-tracker">—</div><div class="sub">known tracking domains</div></div>
-    <div class="card"><div class="label">Blocked IPs</div><div class="value" id="ov-blocked-ips">—</div><div class="sub">auto-blocked by IDS</div></div>
+    <div class="card"><div class="label">IP Block Recommendations</div><div class="value" id="ov-blocked-ips">—</div><div class="sub">not applied to host firewall</div></div>
     <div class="card"><div class="label">Engine Uptime</div><div class="value" id="ov-uptime">—</div><div class="sub">seconds</div></div>
   </div>
 
@@ -381,7 +387,7 @@ async function refreshQuarantine() {
   const s = data.summary || {};
   document.getElementById('q-summary-grid').innerHTML = Object.entries(s.by_status || {}).map(([k, v]) =>
     `<div class="card"><div class="label">${k}</div><div class="value">${v}</div></div>`
-  ).join('') + `<div class="card"><div class="label">Blocked IPs</div><div class="value">${s.blocked_ips ?? 0}</div></div>`;
+  ).join('') + `<div class="card"><div class="label">Local IP Block Recommendations</div><div class="value">${s.blocked_ips ?? 0}</div></div>`;
 
   document.getElementById('q-records-tbody').innerHTML = (data.records || []).slice().reverse().map(r =>
     `<tr><td class="mono" style="font-size:10px">${r.record_id}</td><td>${fmtTime(r.timestamp)}</td><td>${r.threat_type}</td><td>${severityBadge(r.severity)}</td><td>${r.threat_score?.toFixed(0)??'—'}</td><td>${r.status}</td><td title="${r.description}">${(r.description||'').slice(0,60)}…</td></tr>`

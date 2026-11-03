@@ -9,13 +9,22 @@ import sys
 import threading
 import time
 from pathlib import Path
+from uuid import uuid4
+
+import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 if str(PRODUCT_ROOT) not in sys.path:
     sys.path.insert(0, str(PRODUCT_ROOT))
 
+import merlin_dnd.server as server_module
 from merlin_dnd.server import dispatch_request, serve
 from merlin_dnd.service import MerlinDndService
+
+
+@pytest.fixture(autouse=True)
+def isolate_server_campaign_store(monkeypatch):
+    monkeypatch.setattr(server_module, "SERVICE", MerlinDndService())
 
 
 def _wizard_payload(name: str = "Iria") -> dict:
@@ -112,6 +121,56 @@ def test_invite_join_and_player_dashboard_flow():
     assert dashboard["mode"] == "player"
     assert dashboard["player"]["display_name"] == "Aster"
     assert dashboard["characters"][0]["player_id"] == player["id"]
+
+
+def test_campaign_and_player_session_survive_service_restart():
+    state_path = PRODUCT_ROOT / "tests" / f".campaign-state-{uuid4().hex}.json"
+    try:
+        service = MerlinDndService(storage_path=state_path)
+        campaign = service.create_campaign({"name": "The Returning Flame", "setting": "Cinder Coast"})
+        invite = service.generate_invite_code(campaign.id, {"code": "RETURN23"})
+        joined = service.join_campaign(
+            {"invite_code": invite.code, "display_name": "Mira", "character": _wizard_payload("Mira")}
+        )
+        service.add_quest(campaign.id, {"title": "Find the ember crown"})
+
+        restarted_service = MerlinDndService(storage_path=state_path)
+        dashboard = restarted_service.player_dashboard(campaign.id, joined["player"]["id"])
+
+        assert dashboard["campaign"]["name"] == "The Returning Flame"
+        assert dashboard["player"]["display_name"] == "Mira"
+        assert dashboard["characters"][0]["name"] == "Mira"
+        assert dashboard["quests"][0]["title"] == "Find the ember crown"
+        assert restarted_service.dm_dashboard(campaign.id)["active_invite_codes"][0]["code"] == "RETURN23"
+    finally:
+        state_path.unlink(missing_ok=True)
+
+
+def test_player_character_import_route_persists_across_service_restart(monkeypatch):
+    state_path = PRODUCT_ROOT / "tests" / f".campaign-state-{uuid4().hex}.json"
+    try:
+        service = MerlinDndService(storage_path=state_path)
+        campaign = service.create_campaign({"name": "The Returning Flame"})
+        invite = service.generate_invite_code(campaign.id, {})
+        joined = service.join_campaign(
+            {"invite_code": invite.code, "display_name": "Mira", "character": _wizard_payload("Mira")}
+        )
+        monkeypatch.setattr(server_module, "SERVICE", service)
+
+        status, response = dispatch_request(
+            "POST",
+            f"/api/campaigns/{campaign.id}/player-import",
+            {"player_id": joined["player"]["id"], "character": _wizard_payload("Tarin")},
+        )
+
+        assert status == 201
+        assert response["character"]["name"] == "Tarin"
+        restarted_service = MerlinDndService(storage_path=state_path)
+        dashboard = restarted_service.player_dashboard(campaign.id, joined["player"]["id"])
+        assert [character["name"] for character in dashboard["characters"]] == ["Mira", "Tarin"]
+        assert response["character"]["id"] in dashboard["player"]["character_ids"]
+    finally:
+        state_path.unlink(missing_ok=True)
 
 
 def test_dm_dashboard_tracks_images_treasure_items_and_xp():

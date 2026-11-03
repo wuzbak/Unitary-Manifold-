@@ -30,7 +30,7 @@ import json
 import logging
 import time
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -68,14 +68,15 @@ class EpistemicLabel(str, Enum):
 @dataclass
 class AgentTask:
     """A unit of work routed through the AxiomZero agent network."""
-    task_id: str = field(default_factory=lambda: str(uuid.uuid4())[:8])
+    task_id: str = field(default_factory=lambda: uuid.uuid4().hex)
     description: str = ""
     epistemic_label: EpistemicLabel = EpistemicLabel.HARDGATE
     payload: Dict[str, Any] = field(default_factory=dict)
     cycle_count: int = 0
     max_cycles: int = 5
     results: Dict[str, Any] = field(default_factory=dict)
-    status: str = "pending"  # pending | running | blocked | complete | failed | human_review
+    status: str = "pending"  # pending | queued | running | interrupted | blocked
+    # complete | failed | human_review | rejected
     created_at: float = field(default_factory=time.time)
     requires_human_approval: bool = False
     error: Optional[str] = None
@@ -138,6 +139,7 @@ from AxiomZero.core.manager_rag import RAGManager                  # M5
 from AxiomZero.core.manager_web import WebManager                  # M6
 from AxiomZero.core.manager_executive import ExecutiveManager      # M7
 from AxiomZero.core.model_router import ModelRouter
+from AxiomZero.memory.state_db import DEFAULT_DB, StateDB
 
 
 # ---------------------------------------------------------------------------
@@ -165,10 +167,13 @@ class AxiomZeroOrchestrator:
     ):
         self.config = config
         self.repo_root = repo_root
-        self.state_db = state_db or Path.home() / ".axiomzero" / "state.db"
+        configured_db = config.get("state_db")
+        self.state_db = Path(state_db or configured_db or DEFAULT_DB).expanduser()
+        self._state_store = StateDB(self.state_db)
         self._model_router = ModelRouter(config.get("models", {}))
         self._tasks: Dict[str, AgentTask] = {}
         self._pending_approvals: Dict[str, AgentTask] = {}
+        self._restore_tasks()
 
         # Instantiate the 7 managers
         kw = dict(config=config, model_router=self._model_router, repo_root=repo_root)
@@ -220,6 +225,7 @@ class AxiomZeroOrchestrator:
         epistemic_label: EpistemicLabel = EpistemicLabel.HARDGATE,
         payload: Optional[Dict] = None,
         max_cycles: int = 5,
+        task_id: Optional[str] = None,
     ) -> AgentTask:
         """
         Route a task through the agent network.
@@ -229,14 +235,23 @@ class AxiomZeroOrchestrator:
         - Code changes additionally require M4 gate + HILS human approval
         - Physics claims additionally require M3 symbolic verification
         """
-        task = AgentTask(
-            description=description,
-            epistemic_label=epistemic_label,
-            payload=payload or {},
-            max_cycles=max_cycles,
-        )
+        task = self._tasks.get(task_id) if task_id else None
+        if task is not None and task.status not in ("queued", "interrupted", "pending"):
+            return task
+        if task is None:
+            task = AgentTask(
+                task_id=task_id or uuid.uuid4().hex,
+                description=description,
+                epistemic_label=epistemic_label,
+                payload=payload or {},
+                max_cycles=max_cycles,
+                status="running",
+            )
+            self._create_task_record(task)
+        else:
+            task = replace(task, status="running")
+            self._persist_task(task)
         self._tasks[task.task_id] = task
-        task.status = "running"
 
         logger.info("Task %s started: %s", task.task_id, description)
 
@@ -254,7 +269,80 @@ class AxiomZeroOrchestrator:
             logger.exception("Task %s failed: %s", task.task_id, exc)
 
         self._tasks[task.task_id] = task
+        self._persist_task(task)
         return task
+
+    def queue_task(
+        self,
+        description: str,
+        epistemic_label: EpistemicLabel = EpistemicLabel.HARDGATE,
+        payload: Optional[Dict] = None,
+        max_cycles: int = 5,
+    ) -> AgentTask:
+        """Persist a task before acknowledging it to an API caller."""
+        task = AgentTask(
+            description=description,
+            epistemic_label=epistemic_label,
+            payload=payload or {},
+            max_cycles=max_cycles,
+            status="queued",
+        )
+        self._create_task_record(task)
+        self._tasks[task.task_id] = task
+        return task
+
+    def restartable_tasks(self) -> List[AgentTask]:
+        """List queued or interrupted tasks that can be retried from the start."""
+        return [t for t in self._tasks.values() if t.status in ("queued", "interrupted")]
+
+    @staticmethod
+    def _task_record(task: AgentTask) -> Dict[str, Any]:
+        return {
+            "task_id": task.task_id,
+            "description": task.description,
+            "epistemic_label": task.epistemic_label.value,
+            "payload": task.payload,
+            "cycle_count": task.cycle_count,
+            "max_cycles": task.max_cycles,
+            "results": task.results,
+            "status": task.status,
+            "created_at": task.created_at,
+            "requires_human_approval": task.requires_human_approval,
+            "error": task.error,
+        }
+
+    def _create_task_record(self, task: AgentTask) -> None:
+        self._state_store.create_task_record(self._task_record(task))
+
+    def _persist_task(self, task: AgentTask) -> None:
+        self._state_store.save_task_record(self._task_record(task))
+
+    def _restore_tasks(self) -> None:
+        """Restore task history; in-flight work is marked for safe full-task retry."""
+        for saved in self._state_store.list_task_records():
+            try:
+                task = AgentTask(
+                    task_id=saved["task_id"],
+                    description=saved.get("description", ""),
+                    epistemic_label=EpistemicLabel(
+                        saved.get("epistemic_label", EpistemicLabel.HARDGATE.value)
+                    ),
+                    payload=saved.get("payload") or {},
+                    cycle_count=saved.get("cycle_count", 0),
+                    max_cycles=saved.get("max_cycles", 5),
+                    results=saved.get("results") or {},
+                    status=saved.get("status", "pending"),
+                    created_at=saved.get("created_at", time.time()),
+                    requires_human_approval=saved.get("requires_human_approval", False),
+                    error=saved.get("error"),
+                )
+            except (KeyError, TypeError, ValueError):
+                logger.exception("Ignoring invalid persisted task record")
+                continue
+            if task.status == "running":
+                task.status = "interrupted"
+                self._persist_task(task)
+            self._tasks[task.task_id] = task
 
     def get_task(self, task_id: str) -> Optional[AgentTask]:
         return self._tasks.get(task_id)
@@ -286,6 +374,11 @@ class AxiomZeroOrchestrator:
             task.results["human_approved"] = False
             logger.info("Task %s rejected by human", task_id)
 
+        self._state_store.record_hils_decision(
+            task_id,
+            "approved" if approved else "rejected",
+        )
+        self._persist_task(task)
         return task
 
     # ------------------------------------------------------------------

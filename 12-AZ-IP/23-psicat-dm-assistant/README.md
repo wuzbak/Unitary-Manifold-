@@ -72,6 +72,7 @@ python run.py demo
 
 - **Offline-first:** no API key or third-party account is required for the baseline runtime.
 - **DM / Player split:** DMs control invites, encounters, treasure, images, maps, and campaign-wide trackers; players consume those updates and can import characters into the shared campaign.
+- **Recoverable campaigns:** campaign state is saved locally between server restarts, and browser sessions can reopen a saved campaign or restore a joined player's dashboard. The server stores data at `~/.psicat-dm-assistant/campaigns.json` by default; set `PSICAT_DATA_FILE` to choose another file.
 - **Rules editions:** campaign and character state can explicitly target `5e-2014` or `5e-2024`.
 - **Grounded prompting:** the image brief generator pulls campaign setting, active quest, party anchor, and layout anchor into every prompt.
 - **PsiCat role:** PsiCat is embedded as the domain expert and returns rules-aware guidance, not just a generic chatbot answer.

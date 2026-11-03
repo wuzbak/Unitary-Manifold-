@@ -27,6 +27,16 @@ def test_synthesize_tone_rejects_bad_input():
         synthesize_tone(0, 1.0)
     with pytest.raises(ValueError):
         synthesize_tone(440.0, 0.0)
+    with pytest.raises(ValueError):
+        synthesize_tone(float("nan"), 1.0)
+    with pytest.raises(ValueError, match="Nyquist"):
+        synthesize_tone(4000.0, 1.0, framerate=8000)
+    with pytest.raises(ValueError, match="framerate"):
+        synthesize_tone(440.0, 1.0, framerate=0)
+    with pytest.raises(ValueError, match="amplitude"):
+        synthesize_tone(440.0, 1.0, amplitude=float("inf"))
+    with pytest.raises(ValueError, match="samples"):
+        synthesize_tone(440.0, 60.0, framerate=192000)
 
 
 def test_write_wav_and_inspect_round_trip(tmp_path):
@@ -53,6 +63,15 @@ def test_create_tone_sequence_wav_requires_notes(tmp_path):
     path = tmp_path / "sequence.wav"
     with pytest.raises(ValueError):
         create_tone_sequence_wav(path, notes=[])
+
+
+def test_create_tone_sequence_wav_caps_total_output_samples(tmp_path):
+    with pytest.raises(ValueError, match="samples"):
+        create_tone_sequence_wav(
+            tmp_path / "oversized.wav",
+            notes=[(440.0, 30.0), (523.25, 30.0)],
+            framerate=96000,
+        )
 
 
 def test_inspect_audio_file_matches_wav_header(tmp_path):

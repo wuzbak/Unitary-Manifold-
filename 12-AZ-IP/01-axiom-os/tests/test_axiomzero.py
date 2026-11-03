@@ -37,13 +37,14 @@ sys.path.insert(0, str(REPO_ROOT))
 # ===========================================================================
 
 @pytest.fixture
-def config() -> Dict:
+def config(tmp_path) -> Dict:
     default_cfg = REPO_ROOT / "AxiomZero" / "config" / "default_config.json"
     if default_cfg.exists():
         cfg = json.loads(default_cfg.read_text())
     else:
         cfg = {}
     cfg["repo_root"] = str(REPO_ROOT)
+    cfg["state_db"] = str(tmp_path / "axiomzero-state.db")
     return cfg
 
 

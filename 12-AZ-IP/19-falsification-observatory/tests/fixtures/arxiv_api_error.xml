@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ArXiv Query: error</title>
+  <id>http://arxiv.org/api/fixture-error</id>
+  <updated>2026-11-02T00:00:00-05:00</updated>
+  <opensearch:totalResults xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">1</opensearch:totalResults>
+  <entry>
+    <id>http://arxiv.org/api/errors#incorrect_id_format_for_1234</id>
+    <title>Error</title>
+    <summary>incorrect id format for 1234</summary>
+    <updated>2026-11-02T00:00:00-05:00</updated>
+    <author><name>arXiv api core</name></author>
+  </entry>
+</feed>

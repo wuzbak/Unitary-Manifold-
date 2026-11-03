@@ -23,6 +23,7 @@ from .tracker import (
 )
 from .um_dogfood import load_um_gaps_into_tracker, UM_GAP_TAXONOMY
 from .api import API_ENDPOINTS, dispatch_api_request
+from .git_ingest import ingest_git_debt
 
 __all__ = [
     "StatusTaxonomy",
@@ -35,6 +36,7 @@ __all__ = [
     "UM_GAP_TAXONOMY",
     "API_ENDPOINTS",
     "dispatch_api_request",
+    "ingest_git_debt",
 ]
 
 __version__ = "1.1.0"

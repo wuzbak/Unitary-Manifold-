@@ -20,24 +20,48 @@
 </div>
 <fieldset>
   <legend>Build + validate a circuit</legend>
-  <label>n_qubits</label><input id="nq" type="number" value="8" /><br />
-  <label>n_layers</label><input id="nl" type="number" value="2" /><br />
-  <label>seed</label><input id="seed" type="number" value="42" /><br />
+  <label>n_qubits</label><input id="nq" type="number" min="2" max="8" step="1" value="8" /><br />
+  <label>n_layers</label><input id="nl" type="number" min="0" max="8" step="1" value="2" /><br />
+  <label>seed</label><input id="seed" type="number" min="0" max="4294967295" step="1" value="42" /><br />
+  <label>RY angles (comma-separated; overrides seed)</label><br />
+  <textarea id="angles" rows="3" placeholder="Optional exact parameter vector"></textarea><br />
   <button onclick="getCircuit()">Build circuit</button>
+  <button onclick="downloadQasm()">Download OpenQASM 2.0</button>
 </fieldset>
 <pre id="output">(results appear here)</pre>
 <script>
 async function show(url) {
   const res = await fetch(url);
-  document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+  const payload = await res.json();
+  document.getElementById('output').textContent = JSON.stringify(payload, null, 2);
+  if (!res.ok) throw new Error(payload.error || `Request failed (${res.status})`);
+  return payload;
 }
-function getCircuit() {
+function circuitUrl() {
   const q = new URLSearchParams({
     n_qubits: document.getElementById('nq').value,
     n_layers: document.getElementById('nl').value,
-    seed: document.getElementById('seed').value,
   });
-  show(`/api/circuit?${q}`);
+  const angles = document.getElementById('angles').value.trim();
+  if (angles) q.set('angles', angles);
+  else q.set('seed', document.getElementById('seed').value);
+  return `/api/circuit?${q}`;
+}
+async function getCircuit() {
+  try { await show(circuitUrl()); }
+  catch (error) { document.getElementById('output').textContent = error.message; }
+}
+async function downloadQasm() {
+  try {
+    const payload = await show(circuitUrl());
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(new Blob([payload.openqasm2], {type: 'text/plain'}));
+    link.download = `braided-ansatz-${payload.n_qubits}q-${payload.n_layers}l.qasm`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  } catch (error) {
+    document.getElementById('output').textContent = error.message;
+  }
 }
 </script>
 </body>

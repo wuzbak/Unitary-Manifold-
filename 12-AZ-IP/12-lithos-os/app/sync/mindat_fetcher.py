@@ -5,10 +5,11 @@ Fetches mineral and gemstone data from publicly available data sources and
 caches them in the local SQLite database for offline use.
 
 Supported sources:
-  - Mindat Open API (free tier, no key required for basic queries)
-    https://api.mindat.org/
-  - USGS Mineral Resources Data System (MRDS) — open GeoJSON
-    https://mrdata.usgs.gov/services/
+  - Mindat API https://api.mindat.org/ — requires a (free) Mindat API key;
+    without ``mindat_api_key`` requests are expected to be rejected and the
+    fetcher falls back to cache/offline.
+  - USGS Mineral Resources Data System (MRDS) — best-effort query; the
+    endpoint/format used here is not covered by tests and may not respond.
   - GIA Gem Encyclopedia (scrape-free: citation-only mode)
 
 Offline-first design:

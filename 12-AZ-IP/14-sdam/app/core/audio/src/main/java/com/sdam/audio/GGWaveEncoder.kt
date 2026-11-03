@@ -22,14 +22,20 @@ class GGWaveEncoder(
     private val nativeHandle: Long
 
     init {
-        nativeHandle = GGWaveNative.nativeInit(sampleRate, payloadLength)
-        if (nativeHandle < 0L) {
-            throw IllegalStateException(
-                "GGWaveEncoder: ggwave_init failed (sampleRate=$sampleRate)"
-            )
+        nativeHandle = if (GGWaveNative.isAvailable) {
+            try {
+                GGWaveNative.nativeInit(sampleRate, payloadLength)
+            } catch (_: UnsatisfiedLinkError) {
+                -1L
+            }
+        } else {
+            -1L
         }
-        Log.i(TAG, "Encoder initialised  sampleRate=$sampleRate")
+        if (nativeHandle >= 0L) Log.i(TAG, "Encoder initialised  sampleRate=$sampleRate")
+        else Log.e(TAG, "Native ggwave codec unavailable")
     }
+
+    val isAvailable: Boolean get() = nativeHandle >= 0L
 
     /**
      * Encode [payload] into PCM I16 samples.
@@ -45,12 +51,16 @@ class GGWaveEncoder(
         volume: Int = 50,
     ): ShortArray? = mutex.withLock {
         if (nativeHandle < 0L) {
-            Log.e(TAG, "encode called on closed encoder")
+            Log.e(TAG, "encode unavailable: native ggwave codec is not loaded")
             return@withLock null
         }
-        val samples = GGWaveNative.nativeEncode(
-            nativeHandle, payload, protocol.id, volume.coerceIn(0, 100)
-        )
+        val samples = try {
+            GGWaveNative.nativeEncode(
+                nativeHandle, payload, protocol.id, volume.coerceIn(0, 100)
+            )
+        } catch (_: UnsatisfiedLinkError) {
+            null
+        }
         if (samples == null) {
             Log.w(TAG, "nativeEncode returned null for payload len=${payload.length}")
         }
@@ -59,7 +69,7 @@ class GGWaveEncoder(
 
     /** Release the native ggwave instance.  Idempotent. */
     suspend fun close() = mutex.withLock {
-        GGWaveNative.nativeFree(nativeHandle)
+        if (nativeHandle >= 0L) GGWaveNative.nativeFree(nativeHandle)
         Log.i(TAG, "Encoder closed")
     }
 

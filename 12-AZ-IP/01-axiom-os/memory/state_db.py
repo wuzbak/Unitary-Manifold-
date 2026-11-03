@@ -65,6 +65,12 @@ class StateDB:
         human       TEXT NOT NULL,
         note        TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS task_records (
+        task_id     TEXT PRIMARY KEY,
+        updated_at  REAL NOT NULL,
+        task_json   TEXT NOT NULL
+    );
     """
 
     def __init__(self, db_path: Optional[Path] = None):
@@ -135,6 +141,48 @@ class StateDB:
                 (task_id,)
             ).fetchone()
         return row is not None
+
+    def save_task_record(self, task: Dict[str, Any]) -> None:
+        """Atomically persist a JSON-compatible task snapshot."""
+        task_id = task.get("task_id")
+        if not isinstance(task_id, str) or not task_id:
+            raise ValueError("Task record requires a non-empty task_id")
+        snapshot = json.dumps(task, separators=(",", ":"), default=str)
+        with self._conn() as conn:
+            conn.execute(
+                "INSERT INTO task_records (task_id, updated_at, task_json) VALUES (?, ?, ?) "
+                "ON CONFLICT(task_id) DO UPDATE SET "
+                "updated_at=excluded.updated_at, task_json=excluded.task_json",
+                (task_id, time.time(), snapshot),
+            )
+
+    def create_task_record(self, task: Dict[str, Any]) -> None:
+        """Create a task without replacing an existing task with the same ID."""
+        task_id = task.get("task_id")
+        if not isinstance(task_id, str) or not task_id:
+            raise ValueError("Task record requires a non-empty task_id")
+        snapshot = json.dumps(task, separators=(",", ":"), default=str)
+        with self._conn() as conn:
+            conn.execute(
+                "INSERT INTO task_records (task_id, updated_at, task_json) VALUES (?, ?, ?)",
+                (task_id, time.time(), snapshot),
+            )
+
+    def get_task_record(self, task_id: str) -> Optional[Dict[str, Any]]:
+        """Retrieve the latest persisted task snapshot."""
+        with self._conn() as conn:
+            row = conn.execute(
+                "SELECT task_json FROM task_records WHERE task_id = ?", (task_id,)
+            ).fetchone()
+        return json.loads(row["task_json"]) if row else None
+
+    def list_task_records(self) -> List[Dict[str, Any]]:
+        """Return persisted tasks in creation order."""
+        with self._conn() as conn:
+            rows = conn.execute(
+                "SELECT task_json FROM task_records ORDER BY rowid"
+            ).fetchall()
+        return [json.loads(row["task_json"]) for row in rows]
 
     # ------------------------------------------------------------------
     # Agent logging

@@ -15,6 +15,7 @@ from az_formal_verification_library.api import dispatch_api_request
 UI_DIR = Path(__file__).resolve().parents[2] / "ui"
 
 DEFAULT_PORT = 8138
+MAX_REQUEST_BYTES = 64 * 1024
 
 
 class CheckerRequestHandler(SimpleHTTPRequestHandler):
@@ -39,14 +40,44 @@ class CheckerRequestHandler(SimpleHTTPRequestHandler):
             except (ValueError, TypeError) as exc:
                 payload = {"error": str(exc)}
                 status = 400
-            body = json.dumps(payload, sort_keys=True).encode("utf-8")
-            self.send_response(status)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
+            self._send_json(status, payload)
             return
         super().do_GET()
+
+    def do_POST(self) -> None:  # noqa: N802
+        parsed = urlsplit(self.path)
+        if parsed.path != "/api/property-check":
+            self._send_json(405, {"error": "POST is only supported for /api/property-check"})
+            return
+        try:
+            if parsed.query:
+                raise ValueError("property-check accepts a JSON body, not query parameters")
+            if self.headers.get_content_type() != "application/json":
+                raise ValueError("Content-Type must be application/json")
+            length = int(self.headers.get("Content-Length", ""))
+            if not 0 < length <= MAX_REQUEST_BYTES:
+                raise ValueError(f"request body must be 1..{MAX_REQUEST_BYTES} bytes")
+            body = self.rfile.read(length)
+            if len(body) != length:
+                raise ValueError("request body ended before Content-Length")
+            spec = json.loads(body.decode("utf-8"))
+            payload = dispatch_api_request(parsed.path, {}, spec)
+            status = 200
+        except RuntimeError as exc:
+            payload = {"error": str(exc)}
+            status = 503
+        except (ValueError, TypeError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            payload = {"error": str(exc)}
+            status = 400
+        self._send_json(status, payload)
+
+    def _send_json(self, status: int, payload: dict) -> None:
+        body = json.dumps(payload, sort_keys=True, allow_nan=False).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
 
 def build_server(host: str = "127.0.0.1", port: int = DEFAULT_PORT) -> ThreadingHTTPServer:

@@ -1,7 +1,6 @@
 package com.sdam.audio
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import kotlin.math.log10
@@ -59,7 +58,7 @@ class FrequencyBandTest {
         assertEquals(5, TxProtocol.ULTRASOUND_FASTEST.id)
     }
 
-    // ── dBFS formula (NoiseFloorCalibrator math) ──────────────────────────────
+    // ── dBFS calculation ──────────────────────────────────────────────────────
 
     @Test
     fun dbfs_full_scale_sine_is_near_minus_3() {
@@ -82,53 +81,26 @@ class FrequencyBandTest {
         assertTrue("Very quiet < -60 dBFS (got $dbfs)", dbfs < -60.0)
     }
 
-    // ── CalibrationResult threshold mapping ──────────────────────────────────
-
     @Test
-    fun high_noise_maps_to_audible_normal() {
-        val result = buildResultForTest(-35f)
-        assertEquals(FrequencyBand.AUDIBLE, result.recommendedBand)
-        assertEquals(TxProtocol.AUDIBLE_NORMAL, result.recommendedProtocol)
-        assertFalse("Near-ultrasonic not safe in high noise", result.isNearUltrasonicSafe)
-        assertEquals(80, result.recommendedVolume)
+    fun noise_floor_calculation_reports_full_scale_sine() {
+        val rms = 32767.0 / sqrt(2.0)
+        val dbfs = calculateNoiseFloorDb(rms * rms * 2, 2)
+        assertTrue("Full-scale sine ≈ -3 dBFS (got $dbfs)", dbfs > -4f && dbfs < -2f)
     }
 
     @Test
-    fun medium_noise_maps_to_audible_fast() {
-        val result = buildResultForTest(-50f)
-        assertEquals(FrequencyBand.AUDIBLE, result.recommendedBand)
-        assertEquals(TxProtocol.AUDIBLE_FAST, result.recommendedProtocol)
-        assertTrue("Near-ultrasonic safe in medium noise", result.isNearUltrasonicSafe)
-        assertEquals(50, result.recommendedVolume)
+    fun zero_signal_uses_minus_96_dbfs_floor() {
+        assertEquals(-96f, calculateNoiseFloorDb(0.0, 100), 0.0f)
     }
 
     @Test
-    fun low_noise_maps_to_near_ultrasonic_fast() {
-        val result = buildResultForTest(-65f)
-        assertEquals(FrequencyBand.NEAR_ULTRASONIC, result.recommendedBand)
-        assertEquals(TxProtocol.ULTRASOUND_FAST, result.recommendedProtocol)
-        assertTrue(result.isNearUltrasonicSafe)
-        assertEquals(40, result.recommendedVolume)
-    }
-
-    @Test
-    fun very_quiet_maps_to_near_ultrasonic_fastest() {
-        val result = buildResultForTest(-80f)
-        assertEquals(FrequencyBand.NEAR_ULTRASONIC, result.recommendedBand)
-        assertEquals(TxProtocol.ULTRASOUND_FASTEST, result.recommendedProtocol)
-        assertTrue(result.isNearUltrasonicSafe)
-        assertEquals(30, result.recommendedVolume)
-    }
-
-    // ── Helper — replicates NoiseFloorCalibrator.buildResult without AudioRecord ──
-
-    private fun buildResultForTest(noiseDb: Float): CalibrationResult {
-        val HIGH = -40f; val MED = -60f; val LOW = -70f
-        return when {
-            noiseDb > HIGH -> CalibrationResult(noiseDb, FrequencyBand.AUDIBLE,         TxProtocol.AUDIBLE_NORMAL,     80, false)
-            noiseDb > MED  -> CalibrationResult(noiseDb, FrequencyBand.AUDIBLE,         TxProtocol.AUDIBLE_FAST,       50, true)
-            noiseDb > LOW  -> CalibrationResult(noiseDb, FrequencyBand.NEAR_ULTRASONIC, TxProtocol.ULTRASOUND_FAST,    40, true)
-            else           -> CalibrationResult(noiseDb, FrequencyBand.NEAR_ULTRASONIC, TxProtocol.ULTRASOUND_FASTEST, 30, true)
+    fun noise_floor_rejects_empty_measurement() {
+        try {
+            calculateNoiseFloorDb(0.0, 0)
+            throw AssertionError("Expected empty measurement to be rejected.")
+        } catch (_: IllegalArgumentException) {
+            // Expected: an empty capture is not a measured noise floor.
         }
     }
+
 }

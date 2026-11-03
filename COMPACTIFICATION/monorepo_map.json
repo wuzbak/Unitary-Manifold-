@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8340,
+  "file_count": 8386,
   "lanes": {
-    "az_ip": 2490,
+    "az_ip": 2534,
     "compactification": 9,
-    "other": 5391,
+    "other": 5393,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2490,
+    "12-AZ-IP": 2534,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -65,6 +65,7 @@
     "PILLARS": 529,
     "PROVENANCE.md": 1,
     "README.md": 1,
+    "RECOVERY": 2,
     "RED_TEAM_RESPONSE.md": 1,
     "RELAY.md": 1,
     "REPRODUCIBILITY.md": 1,
@@ -202,6 +203,7 @@
       "12-AZ-IP/01-axiom-os/state.py",
       "12-AZ-IP/01-axiom-os/tests/__init__.py",
       "12-AZ-IP/01-axiom-os/tests/test_axiomzero.py",
+      "12-AZ-IP/01-axiom-os/tests/test_durable_tasks.py",
       "12-AZ-IP/01-axiom-os/tests/test_layout.py",
       "12-AZ-IP/01-axiom-os/tests/test_sprint_ba_status.py",
       "12-AZ-IP/01-axiom-os/ui/__init__.py",
@@ -1025,6 +1027,7 @@
       "12-AZ-IP/03-eige/docs/index.html",
       "12-AZ-IP/03-eige/eige/__init__.py",
       "12-AZ-IP/03-eige/eige/audit/__init__.py",
+      "12-AZ-IP/03-eige/eige/audit/ceremony.py",
       "12-AZ-IP/03-eige/eige/audit/reconciliation.py",
       "12-AZ-IP/03-eige/eige/audit/rla.py",
       "12-AZ-IP/03-eige/eige/audit/sampling.py",
@@ -1120,6 +1123,7 @@
       "12-AZ-IP/03-eige/tests/__init__.py",
       "12-AZ-IP/03-eige/tests/conftest.py",
       "12-AZ-IP/03-eige/tests/test_eige_adjudicator_api.py",
+      "12-AZ-IP/03-eige/tests/test_eige_audit_ceremony.py",
       "12-AZ-IP/03-eige/tests/test_eige_chaos_injection.py",
       "12-AZ-IP/03-eige/tests/test_eige_chaos_integration.py",
       "12-AZ-IP/03-eige/tests/test_eige_chern_simon_hash.py",
@@ -1192,10 +1196,12 @@
       "12-AZ-IP/04-um-sos/src/app/__init__.py",
       "12-AZ-IP/04-um-sos/tests/test_layout.py",
       "12-AZ-IP/04-um-sos/tests/test_pillar_browser_v16.py",
+      "12-AZ-IP/04-um-sos/tests/test_preregistration_api.py",
       "12-AZ-IP/04-um-sos/um_sos/__init__.py",
       "12-AZ-IP/04-um-sos/um_sos/engine/__init__.py",
       "12-AZ-IP/04-um-sos/um_sos/engine/lean4_browser.py",
-      "12-AZ-IP/04-um-sos/um_sos/engine/pillar_browser_v16.py"
+      "12-AZ-IP/04-um-sos/um_sos/engine/pillar_browser_v16.py",
+      "12-AZ-IP/04-um-sos/um_sos/engine/preregistration_store.py"
     ],
     "05-uos-kernel": [
       "12-AZ-IP/05-uos-kernel/Makefile",
@@ -1501,6 +1507,7 @@
       "12-AZ-IP/12-lithos-os/app/sync/delta_sync.py",
       "12-AZ-IP/12-lithos-os/app/sync/gibberlink_bridge.py",
       "12-AZ-IP/12-lithos-os/app/sync/mindat_fetcher.py",
+      "12-AZ-IP/12-lithos-os/app/sync/usgs_seismicity.py",
       "12-AZ-IP/12-lithos-os/deploy/README.md",
       "12-AZ-IP/12-lithos-os/deploy/__init__.py",
       "12-AZ-IP/12-lithos-os/deploy/install.bat",
@@ -1519,7 +1526,8 @@
       "12-AZ-IP/12-lithos-os/tests/test_db.py",
       "12-AZ-IP/12-lithos-os/tests/test_installer.py",
       "12-AZ-IP/12-lithos-os/tests/test_mineral_crystal.py",
-      "12-AZ-IP/12-lithos-os/tests/test_mineral_guides.py"
+      "12-AZ-IP/12-lithos-os/tests/test_mineral_guides.py",
+      "12-AZ-IP/12-lithos-os/tests/test_usgs_seismicity.py"
     ],
     "13-delphi": [
       "12-AZ-IP/13-delphi/.env.example",
@@ -1624,11 +1632,15 @@
       "12-AZ-IP/14-sdam/app/core/security/src/main/AndroidManifest.xml",
       "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/AcousticAuth.kt",
       "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/AirGapBridge.kt",
+      "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/AuthenticatedFrameCodec.kt",
+      "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/GcmPayloadCodec.kt",
       "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/HandshakeState.kt",
       "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/PayloadCipher.kt",
       "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/SdamKeyManager.kt",
       "12-AZ-IP/14-sdam/app/core/security/src/test/java/com/sdam/security/AcousticAuthTest.kt",
       "12-AZ-IP/14-sdam/app/core/security/src/test/java/com/sdam/security/AirGapBridgeTest.kt",
+      "12-AZ-IP/14-sdam/app/core/security/src/test/java/com/sdam/security/AuthenticatedFrameCodecTest.kt",
+      "12-AZ-IP/14-sdam/app/core/security/src/test/java/com/sdam/security/SecureMessageRoundTripTest.kt",
       "12-AZ-IP/14-sdam/app/core/ui/build.gradle.kts",
       "12-AZ-IP/14-sdam/app/core/ui/consumer-rules.pro",
       "12-AZ-IP/14-sdam/app/core/ui/proguard-rules.pro",
@@ -1880,6 +1892,8 @@
       "12-AZ-IP/15-pentacorder/feature/uwb/src/main/java/com/gibbernode/feature/uwb/UWBScreen.kt",
       "12-AZ-IP/15-pentacorder/feature/uwb/src/main/java/com/gibbernode/feature/uwb/UWBViewModel.kt",
       "12-AZ-IP/15-pentacorder/gradle.properties",
+      "12-AZ-IP/15-pentacorder/gradle/wrapper/gradle-wrapper.jar",
+      "12-AZ-IP/15-pentacorder/gradle/wrapper/gradle-wrapper.properties",
       "12-AZ-IP/15-pentacorder/gradlew",
       "12-AZ-IP/15-pentacorder/gradlew.bat",
       "12-AZ-IP/15-pentacorder/pentacorder/__init__.py",
@@ -1982,14 +1996,19 @@
       "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/__init__.py",
       "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/constants.py",
       "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/desi_tracker.py",
+      "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/evidence_feed.py",
       "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/litebird_countdown.py",
       "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/routing.py",
       "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/verdict.py",
       "12-AZ-IP/19-falsification-observatory/requirements.txt",
       "12-AZ-IP/19-falsification-observatory/run.py",
       "12-AZ-IP/19-falsification-observatory/tests/__init__.py",
+      "12-AZ-IP/19-falsification-observatory/tests/fixtures/arxiv_api_error.xml",
+      "12-AZ-IP/19-falsification-observatory/tests/fixtures/arxiv_birefringence_page1.xml",
+      "12-AZ-IP/19-falsification-observatory/tests/fixtures/arxiv_birefringence_page2.xml",
       "12-AZ-IP/19-falsification-observatory/tests/test_browser_contract.py",
       "12-AZ-IP/19-falsification-observatory/tests/test_desi_litebird.py",
+      "12-AZ-IP/19-falsification-observatory/tests/test_evidence_feed.py",
       "12-AZ-IP/19-falsification-observatory/tests/test_falsification_observatory.py",
       "12-AZ-IP/19-falsification-observatory/ui/falsification-observatory.js",
       "12-AZ-IP/19-falsification-observatory/ui/index.html"
@@ -2096,6 +2115,7 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_sync_contract.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_telemetry.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_testing_stack.py",
+      "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tool_audit_store.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tools.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_toroidal_awareness.py",
       "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_toroidal_geometry.py",
@@ -2135,6 +2155,7 @@
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_repo_graph.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_semantic_embedder.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_testing_stack.py",
+      "12-AZ-IP/20-psicat-navigator/tests/test_merlin_tool_audit_store.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_toroidal_navigation.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_toroidal_round_two.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_merlin_training_artifact_isolation.py",
@@ -2417,10 +2438,12 @@
       "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/app/__init__.py",
       "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/app/server.py",
       "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/cop_tracker.py",
+      "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/measurement_import.py",
       "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/run_sheet.py",
       "12-AZ-IP/28-az-calorimetry-console/run.py",
       "12-AZ-IP/28-az-calorimetry-console/tests/test_api.py",
       "12-AZ-IP/28-az-calorimetry-console/tests/test_calorimetry_console.py",
+      "12-AZ-IP/28-az-calorimetry-console/tests/test_measurement_import.py",
       "12-AZ-IP/28-az-calorimetry-console/ui/index.html"
     ],
     "29-az-polariton-vortex-analyzer": [
@@ -2430,9 +2453,11 @@
       "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/api.py",
       "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/app/__init__.py",
       "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/app/server.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/measurement.py",
       "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/pipeline.py",
       "12-AZ-IP/29-az-polariton-vortex-analyzer/run.py",
       "12-AZ-IP/29-az-polariton-vortex-analyzer/tests/test_api.py",
+      "12-AZ-IP/29-az-polariton-vortex-analyzer/tests/test_measurement.py",
       "12-AZ-IP/29-az-polariton-vortex-analyzer/tests/test_polariton_vortex_analyzer.py",
       "12-AZ-IP/29-az-polariton-vortex-analyzer/ui/index.html"
     ],
@@ -2443,9 +2468,11 @@
       "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/api.py",
       "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/app/__init__.py",
       "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/app/server.py",
+      "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/ingestion.py",
       "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/screening.py",
       "12-AZ-IP/30-az-materials-screening-engine/run.py",
       "12-AZ-IP/30-az-materials-screening-engine/tests/test_api.py",
+      "12-AZ-IP/30-az-materials-screening-engine/tests/test_ingestion.py",
       "12-AZ-IP/30-az-materials-screening-engine/tests/test_materials_screening_engine.py",
       "12-AZ-IP/30-az-materials-screening-engine/ui/index.html"
     ],
@@ -2460,6 +2487,7 @@
       "12-AZ-IP/31-az-braided-qubit-ansatz-studio/run.py",
       "12-AZ-IP/31-az-braided-qubit-ansatz-studio/tests/test_api.py",
       "12-AZ-IP/31-az-braided-qubit-ansatz-studio/tests/test_braided_qubit_ansatz_studio.py",
+      "12-AZ-IP/31-az-braided-qubit-ansatz-studio/tests/test_server.py",
       "12-AZ-IP/31-az-braided-qubit-ansatz-studio/ui/index.html"
     ],
     "32-az-phi-debt-early-warning": [
@@ -2473,6 +2501,7 @@
       "12-AZ-IP/32-az-phi-debt-early-warning/az_phi_debt_early_warning/recycling_dogfood.py",
       "12-AZ-IP/32-az-phi-debt-early-warning/run.py",
       "12-AZ-IP/32-az-phi-debt-early-warning/tests/test_api.py",
+      "12-AZ-IP/32-az-phi-debt-early-warning/tests/test_cli.py",
       "12-AZ-IP/32-az-phi-debt-early-warning/tests/test_phi_debt_early_warning.py",
       "12-AZ-IP/32-az-phi-debt-early-warning/ui/index.html"
     ],
@@ -2487,6 +2516,7 @@
       "12-AZ-IP/33-az-accessibility-pipeline/run.py",
       "12-AZ-IP/33-az-accessibility-pipeline/tests/test_accessibility_pipeline.py",
       "12-AZ-IP/33-az-accessibility-pipeline/tests/test_api.py",
+      "12-AZ-IP/33-az-accessibility-pipeline/tests/test_browser_contract.py",
       "12-AZ-IP/33-az-accessibility-pipeline/ui/index.html"
     ],
     "34-az-domain-experts-pack": [
@@ -2501,6 +2531,7 @@
       "12-AZ-IP/34-az-domain-experts-pack/run.py",
       "12-AZ-IP/34-az-domain-experts-pack/tests/test_api.py",
       "12-AZ-IP/34-az-domain-experts-pack/tests/test_domain_experts_pack.py",
+      "12-AZ-IP/34-az-domain-experts-pack/tests/test_source_evidence.py",
       "12-AZ-IP/34-az-domain-experts-pack/ui/index.html"
     ],
     "35-az-uos-kernel-bridge": [
@@ -2512,8 +2543,10 @@
       "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/app/__init__.py",
       "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/app/server.py",
       "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/interface_contract.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/ipc_message.py",
       "12-AZ-IP/35-az-uos-kernel-bridge/run.py",
       "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_api.py",
+      "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_ipc_message.py",
       "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_uos_kernel_bridge.py",
       "12-AZ-IP/35-az-uos-kernel-bridge/ui/index.html"
     ],
@@ -2528,6 +2561,7 @@
       "12-AZ-IP/36-az-cosmology-slider/run.py",
       "12-AZ-IP/36-az-cosmology-slider/tests/test_api.py",
       "12-AZ-IP/36-az-cosmology-slider/tests/test_cosmology_slider.py",
+      "12-AZ-IP/36-az-cosmology-slider/tests/test_server.py",
       "12-AZ-IP/36-az-cosmology-slider/ui/index.html"
     ],
     "37-az-holographic-condensed-matter-comparator": [
@@ -2538,6 +2572,7 @@
       "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/app/__init__.py",
       "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/app/server.py",
       "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/comparator.py",
+      "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/references.py",
       "12-AZ-IP/37-az-holographic-condensed-matter-comparator/run.py",
       "12-AZ-IP/37-az-holographic-condensed-matter-comparator/tests/test_api.py",
       "12-AZ-IP/37-az-holographic-condensed-matter-comparator/tests/test_holographic_condensed_matter_comparator.py",
@@ -2551,6 +2586,7 @@
       "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/app/__init__.py",
       "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/app/server.py",
       "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/checker.py",
+      "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/declarative.py",
       "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/pentad_example.py",
       "12-AZ-IP/38-az-formal-verification-library/run.py",
       "12-AZ-IP/38-az-formal-verification-library/tests/test_api.py",
@@ -2564,10 +2600,12 @@
       "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/api.py",
       "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/app/__init__.py",
       "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/app/server.py",
+      "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/git_ingest.py",
       "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/tracker.py",
       "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/um_dogfood.py",
       "12-AZ-IP/39-az-research-debt-tracker/run.py",
       "12-AZ-IP/39-az-research-debt-tracker/tests/test_api.py",
+      "12-AZ-IP/39-az-research-debt-tracker/tests/test_git_ingest.py",
       "12-AZ-IP/39-az-research-debt-tracker/tests/test_research_debt_tracker.py",
       "12-AZ-IP/39-az-research-debt-tracker/ui/index.html"
     ],
@@ -2579,7 +2617,7 @@
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/__init__.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/server.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/harness.py",
-      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/planck_adapter.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/usgs_adapter.py",
       "12-AZ-IP/40-az-live-data-harness/run.py",
       "12-AZ-IP/40-az-live-data-harness/tests/test_api.py",
       "12-AZ-IP/40-az-live-data-harness/tests/test_live_data_harness.py",
@@ -2599,6 +2637,7 @@
       "12-AZ-IP/41-az-media-suite/tests/__init__.py",
       "12-AZ-IP/41-az-media-suite/tests/test_api.py",
       "12-AZ-IP/41-az-media-suite/tests/test_audio.py",
+      "12-AZ-IP/41-az-media-suite/tests/test_cli.py",
       "12-AZ-IP/41-az-media-suite/tests/test_comic.py",
       "12-AZ-IP/41-az-media-suite/tests/test_feature_inspection.py",
       "12-AZ-IP/41-az-media-suite/tests/test_video.py",
@@ -2627,6 +2666,7 @@
       "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_dashboard.py",
       "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_documents.py",
       "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_registry.py",
+      "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_server.py",
       "12-AZ-IP/42-az-awareness-creation-toolkit/ui/index.html"
     ],
     "43-az-geometric-tori-transformer": [
@@ -2637,11 +2677,14 @@
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/app/server.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/attention.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/baseline_attention.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/checkpoint.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/layers.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/model.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/optim.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/positional.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/positional_ablation.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/tensor.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/text_workflow.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/toroidal_geometry.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/train_demo.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/run.py",
@@ -2649,9 +2692,11 @@
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_api.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_attention.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_baseline_benchmark.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_checkpoint.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_model.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_positional.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_tensor.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_text_workflow.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_toroidal_geometry.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_training.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/ui/index.html"
@@ -4370,6 +4415,13 @@
     },
     {
       "path": "12-AZ-IP/01-axiom-os/tests/test_axiomzero.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "01-axiom-os"
+    },
+    {
+      "path": "12-AZ-IP/01-axiom-os/tests/test_durable_tasks.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -10109,6 +10161,13 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/eige/audit/ceremony.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/eige/audit/reconciliation.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -10774,6 +10833,13 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/tests/test_eige_audit_ceremony.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/tests/test_eige_chaos_injection.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -11264,6 +11330,13 @@
       "product": "04-um-sos"
     },
     {
+      "path": "12-AZ-IP/04-um-sos/tests/test_preregistration_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "04-um-sos"
+    },
+    {
       "path": "12-AZ-IP/04-um-sos/um_sos/__init__.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -11286,6 +11359,13 @@
     },
     {
       "path": "12-AZ-IP/04-um-sos/um_sos/engine/pillar_browser_v16.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "04-um-sos"
+    },
+    {
+      "path": "12-AZ-IP/04-um-sos/um_sos/engine/preregistration_store.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -13315,6 +13395,13 @@
       "product": "12-lithos-os"
     },
     {
+      "path": "12-AZ-IP/12-lithos-os/app/sync/usgs_seismicity.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "12-lithos-os"
+    },
+    {
       "path": "12-AZ-IP/12-lithos-os/deploy/README.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -13442,6 +13529,13 @@
     },
     {
       "path": "12-AZ-IP/12-lithos-os/tests/test_mineral_guides.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "12-lithos-os"
+    },
+    {
+      "path": "12-AZ-IP/12-lithos-os/tests/test_usgs_seismicity.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -14148,6 +14242,20 @@
       "product": "14-sdam"
     },
     {
+      "path": "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/AuthenticatedFrameCodec.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "14-sdam"
+    },
+    {
+      "path": "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/GcmPayloadCodec.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "14-sdam"
+    },
+    {
       "path": "12-AZ-IP/14-sdam/app/core/security/src/main/java/com/sdam/security/HandshakeState.kt",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -14177,6 +14285,20 @@
     },
     {
       "path": "12-AZ-IP/14-sdam/app/core/security/src/test/java/com/sdam/security/AirGapBridgeTest.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "14-sdam"
+    },
+    {
+      "path": "12-AZ-IP/14-sdam/app/core/security/src/test/java/com/sdam/security/AuthenticatedFrameCodecTest.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "14-sdam"
+    },
+    {
+      "path": "12-AZ-IP/14-sdam/app/core/security/src/test/java/com/sdam/security/SecureMessageRoundTripTest.kt",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -15926,6 +16048,20 @@
       "product": "15-pentacorder"
     },
     {
+      "path": "12-AZ-IP/15-pentacorder/gradle/wrapper/gradle-wrapper.jar",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "15-pentacorder"
+    },
+    {
+      "path": "12-AZ-IP/15-pentacorder/gradle/wrapper/gradle-wrapper.properties",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "15-pentacorder"
+    },
+    {
       "path": "12-AZ-IP/15-pentacorder/gradlew",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16584,6 +16720,13 @@
       "product": "19-falsification-observatory"
     },
     {
+      "path": "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/evidence_feed.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "19-falsification-observatory"
+    },
+    {
       "path": "12-AZ-IP/19-falsification-observatory/falsification_observatory/engine/litebird_countdown.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16626,6 +16769,27 @@
       "product": "19-falsification-observatory"
     },
     {
+      "path": "12-AZ-IP/19-falsification-observatory/tests/fixtures/arxiv_api_error.xml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "19-falsification-observatory"
+    },
+    {
+      "path": "12-AZ-IP/19-falsification-observatory/tests/fixtures/arxiv_birefringence_page1.xml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "19-falsification-observatory"
+    },
+    {
+      "path": "12-AZ-IP/19-falsification-observatory/tests/fixtures/arxiv_birefringence_page2.xml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "19-falsification-observatory"
+    },
+    {
       "path": "12-AZ-IP/19-falsification-observatory/tests/test_browser_contract.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -16634,6 +16798,13 @@
     },
     {
       "path": "12-AZ-IP/19-falsification-observatory/tests/test_desi_litebird.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "19-falsification-observatory"
+    },
+    {
+      "path": "12-AZ-IP/19-falsification-observatory/tests/test_evidence_feed.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -17368,6 +17539,13 @@
       "product": "20-psicat-navigator"
     },
     {
+      "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tool_audit_store.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
       "path": "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tools.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -17635,6 +17813,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_testing_stack.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/tests/test_merlin_tool_audit_store.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -19503,6 +19688,13 @@
       "product": "28-az-calorimetry-console"
     },
     {
+      "path": "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/measurement_import.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
       "path": "12-AZ-IP/28-az-calorimetry-console/az_calorimetry_console/run_sheet.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -19525,6 +19717,13 @@
     },
     {
       "path": "12-AZ-IP/28-az-calorimetry-console/tests/test_calorimetry_console.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "28-az-calorimetry-console"
+    },
+    {
+      "path": "12-AZ-IP/28-az-calorimetry-console/tests/test_measurement_import.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -19580,6 +19779,13 @@
       "product": "29-az-polariton-vortex-analyzer"
     },
     {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/measurement.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
       "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/az_polariton_vortex_analyzer/pipeline.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -19595,6 +19801,13 @@
     },
     {
       "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "29-az-polariton-vortex-analyzer"
+    },
+    {
+      "path": "12-AZ-IP/29-az-polariton-vortex-analyzer/tests/test_measurement.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -19657,6 +19870,13 @@
       "product": "30-az-materials-screening-engine"
     },
     {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/ingestion.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
       "path": "12-AZ-IP/30-az-materials-screening-engine/az_materials_screening_engine/screening.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -19672,6 +19892,13 @@
     },
     {
       "path": "12-AZ-IP/30-az-materials-screening-engine/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "30-az-materials-screening-engine"
+    },
+    {
+      "path": "12-AZ-IP/30-az-materials-screening-engine/tests/test_ingestion.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -19762,6 +19989,13 @@
       "product": "31-az-braided-qubit-ansatz-studio"
     },
     {
+      "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/tests/test_server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "31-az-braided-qubit-ansatz-studio"
+    },
+    {
       "path": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/ui/index.html",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -19833,6 +20067,13 @@
     },
     {
       "path": "12-AZ-IP/32-az-phi-debt-early-warning/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "32-az-phi-debt-early-warning"
+    },
+    {
+      "path": "12-AZ-IP/32-az-phi-debt-early-warning/tests/test_cli.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -19923,6 +20164,13 @@
       "product": "33-az-accessibility-pipeline"
     },
     {
+      "path": "12-AZ-IP/33-az-accessibility-pipeline/tests/test_browser_contract.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "33-az-accessibility-pipeline"
+    },
+    {
       "path": "12-AZ-IP/33-az-accessibility-pipeline/ui/index.html",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20007,6 +20255,13 @@
       "product": "34-az-domain-experts-pack"
     },
     {
+      "path": "12-AZ-IP/34-az-domain-experts-pack/tests/test_source_evidence.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "34-az-domain-experts-pack"
+    },
+    {
       "path": "12-AZ-IP/34-az-domain-experts-pack/ui/index.html",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20070,6 +20325,13 @@
       "product": "35-az-uos-kernel-bridge"
     },
     {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/az_uos_kernel_bridge/ipc_message.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
       "path": "12-AZ-IP/35-az-uos-kernel-bridge/run.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20078,6 +20340,13 @@
     },
     {
       "path": "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "35-az-uos-kernel-bridge"
+    },
+    {
+      "path": "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_ipc_message.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -20168,6 +20437,13 @@
       "product": "36-az-cosmology-slider"
     },
     {
+      "path": "12-AZ-IP/36-az-cosmology-slider/tests/test_server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
       "path": "12-AZ-IP/36-az-cosmology-slider/ui/index.html",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20218,6 +20494,13 @@
     },
     {
       "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/comparator.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "37-az-holographic-condensed-matter-comparator"
+    },
+    {
+      "path": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/az_holographic_condensed_matter_comparator/references.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -20301,6 +20584,13 @@
       "product": "38-az-formal-verification-library"
     },
     {
+      "path": "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/declarative.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
       "path": "12-AZ-IP/38-az-formal-verification-library/az_formal_verification_library/pentad_example.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20378,6 +20668,13 @@
       "product": "39-az-research-debt-tracker"
     },
     {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/git_ingest.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
       "path": "12-AZ-IP/39-az-research-debt-tracker/az_research_debt_tracker/tracker.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20400,6 +20697,13 @@
     },
     {
       "path": "12-AZ-IP/39-az-research-debt-tracker/tests/test_api.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "39-az-research-debt-tracker"
+    },
+    {
+      "path": "12-AZ-IP/39-az-research-debt-tracker/tests/test_git_ingest.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -20469,7 +20773,7 @@
       "product": "40-az-live-data-harness"
     },
     {
-      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/planck_adapter.py",
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/usgs_adapter.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -20589,6 +20893,13 @@
     },
     {
       "path": "12-AZ-IP/41-az-media-suite/tests/test_audio.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "41-az-media-suite"
+    },
+    {
+      "path": "12-AZ-IP/41-az-media-suite/tests/test_cli.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -20777,6 +21088,13 @@
       "product": "42-az-awareness-creation-toolkit"
     },
     {
+      "path": "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "42-az-awareness-creation-toolkit"
+    },
+    {
       "path": "12-AZ-IP/42-az-awareness-creation-toolkit/ui/index.html",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20833,6 +21151,13 @@
       "product": "43-az-geometric-tori-transformer"
     },
     {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/checkpoint.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
       "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/layers.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20861,7 +21186,21 @@
       "product": "43-az-geometric-tori-transformer"
     },
     {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/positional_ablation.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
       "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/tensor.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/text_workflow.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -20917,6 +21256,13 @@
       "product": "43-az-geometric-tori-transformer"
     },
     {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_checkpoint.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
       "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_model.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -20932,6 +21278,13 @@
     },
     {
       "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_tensor.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_text_workflow.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -33165,6 +33518,18 @@
     {
       "path": "README.md",
       "top_level": "README.md",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "RECOVERY/session-672523bb/assistant_messages.jsonl",
+      "top_level": "RECOVERY",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "RECOVERY/session-672523bb/tool_calls_after_2026-11-02T20-05Z.jsonl",
+      "top_level": "RECOVERY",
       "kind": "file",
       "lane": "other"
     },

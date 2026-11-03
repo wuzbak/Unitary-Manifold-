@@ -33,7 +33,9 @@ External release (Phase 2) is not part of this version.
 ## Usage
 
 ```bash
-python 12-AZ-IP/32-az-phi-debt-early-warning/run.py
+python 12-AZ-IP/32-az-phi-debt-early-warning/run.py monitor \
+  --capacity 10 --discharge-rate 0.5 --warning-fraction 0.8 \
+  --steps '2:1,1:1,3:1'
 ```
 
 ```python
@@ -43,6 +45,11 @@ monitor = DebtMonitor(capacity=100.0, discharge_rate=2.0)
 monitor.accumulate(amount=15.0, dt=1.0)
 print(monitor.to_report())
 ```
+
+The CLI and API require explicit capacity, discharge rate, and observations.
+They do not invent a sample run or infer domain units. Each step is
+`amount:elapsed_time`; use consistent units for all inputs. Invalid or
+non-finite values fail before they change monitor state.
 
 ## Running as a web product
 
@@ -54,7 +61,16 @@ python 12-AZ-IP/32-az-phi-debt-early-warning/run.py serve --port 8132
 # then open http://127.0.0.1:8132/
 ```
 
-Endpoints: `GET /api/status`, `GET /api/monitor?capacity=&discharge_rate=&warning_fraction=&steps=amount:dt,amount:dt,...`.
+Endpoints: `GET /api/status`,
+`GET /api/monitor?capacity=10&discharge_rate=0.5&warning_fraction=0.8&steps=2:1,1:1`.
+Capacity, discharge rate, and at least one `amount:dt` observation are required.
+Up to 1,000 observations are accepted per request; unknown or duplicate query
+parameters and empty/malformed steps are rejected. The UI starts without
+invented capacity or observation values.
+
+The no-argument CLI demonstration has been removed. The separate
+`run_recycling_dogfood()` function is a constructed internal cross-check, not an
+external data feed or evidence that domain-specific measurements were captured.
 
 ## Tests
 

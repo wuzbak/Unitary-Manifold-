@@ -4,6 +4,30 @@ const state = {
   inviteCode: '',
 };
 
+const SESSION_KEY = 'psicat-dm-assistant.session';
+
+function saveSession() {
+  localStorage.setItem(SESSION_KEY, JSON.stringify(state));
+}
+
+function restoreSession() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SESSION_KEY) || '{}');
+    state.campaignId = typeof saved.campaignId === 'string' ? saved.campaignId : '';
+    state.playerId = typeof saved.playerId === 'string' ? saved.playerId : '';
+    state.inviteCode = typeof saved.inviteCode === 'string' ? saved.inviteCode : '';
+  } catch {
+    localStorage.removeItem(SESSION_KEY);
+  }
+  if (state.inviteCode) document.getElementById('player-invite-code').value = state.inviteCode;
+  if (state.campaignId) {
+    document.getElementById('dm-state').textContent = 'Saved campaign session restored. Load its dashboard or choose another campaign.';
+  }
+  if (state.playerId) {
+    document.getElementById('player-state').textContent = 'Saved player session restored. Load your campaign dashboard.';
+  }
+}
+
 function setView(viewId) {
   for (const node of document.querySelectorAll('.view')) {
     node.classList.toggle('active', node.id === viewId);
@@ -64,8 +88,35 @@ async function createCampaign() {
     }),
   });
   state.campaignId = payload.campaign.id;
+  state.playerId = '';
+  saveSession();
+  await refreshCampaigns();
+  document.getElementById('dm-campaign-select').value = state.campaignId;
   document.getElementById('dm-state').textContent = `Campaign ${payload.campaign.name} created.`;
   output(payload);
+}
+
+async function refreshCampaigns() {
+  const { items } = await request('/api/campaigns');
+  const select = document.getElementById('dm-campaign-select');
+  const selectedId = state.campaignId || select.value;
+  select.replaceChildren(new Option('Select a saved campaign', ''));
+  for (const campaign of items) {
+    select.add(new Option(`${campaign.name} — ${campaign.setting}`, campaign.id));
+  }
+  if (items.some((campaign) => campaign.id === selectedId)) select.value = selectedId;
+  return items;
+}
+
+async function resumeCampaign() {
+  const campaignId = document.getElementById('dm-campaign-select').value;
+  if (!campaignId) throw new Error('Choose a saved campaign first.');
+  state.campaignId = campaignId;
+  state.playerId = '';
+  saveSession();
+  const dashboard = await request(`/api/campaigns/${campaignId}/dm-dashboard`);
+  document.getElementById('dm-state').textContent = `Resumed campaign ${dashboard.campaign.name}.`;
+  output(dashboard);
 }
 
 async function createInvite() {
@@ -75,6 +126,7 @@ async function createInvite() {
     body: JSON.stringify({ label: document.getElementById('dm-invite-label').value }),
   });
   state.inviteCode = payload.invite.code;
+  saveSession();
   document.getElementById('player-invite-code').value = payload.invite.code;
   document.getElementById('dm-state').textContent = `Invite code ${payload.invite.code} ready for players.`;
   output(payload);
@@ -96,6 +148,8 @@ async function joinCampaign() {
   });
   state.campaignId = payload.campaign.id;
   state.playerId = payload.player.id;
+  state.inviteCode = document.getElementById('player-invite-code').value;
+  saveSession();
   document.getElementById('player-state').textContent = `Joined ${payload.campaign.name} as ${payload.player.display_name}.`;
   output(payload);
 }
@@ -168,6 +222,8 @@ for (const [id, handler] of Object.entries({
   'load-health': loadHealth,
   'create-campaign': createCampaign,
   'create-invite': createInvite,
+  'resume-campaign': resumeCampaign,
+  'refresh-campaigns': refreshCampaigns,
   'load-dm-dashboard': loadDmDashboard,
   'join-campaign': joinCampaign,
   'load-player-dashboard': loadPlayerDashboard,
@@ -184,3 +240,6 @@ for (const [id, handler] of Object.entries({
     }
   });
 }
+
+restoreSession();
+refreshCampaigns().catch((error) => output({ error: String(error.message || error) }));

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="html">ArXiv Query: search_query=abs:"cosmic birefringence"</title>
+  <id>http://arxiv.org/api/fixture-page-2</id>
+  <updated>2026-11-03T00:00:00-05:00</updated>
+  <opensearch:totalResults xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">413</opensearch:totalResults>
+  <entry>
+    <id>http://arxiv.org/abs/2611.00042v1</id>
+    <updated>2026-11-02T08:00:00Z</updated>
+    <published>2026-11-02T08:00:00Z</published>
+    <title>Fixture: A new birefringence constraint from ground-based CMB</title>
+    <summary>FIXTURE RECORD (synthetic).</summary>
+    <author><name>F. Fixture</name></author>
+    <arxiv:primary_category xmlns:arxiv="http://arxiv.org/schemas/atom" term="astro-ph.CO" scheme="http://arxiv.org/schemas/atom"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2610.01234v2</id>
+    <updated>2026-10-20T12:00:00Z</updated>
+    <published>2026-10-01T17:59:59Z</published>
+    <title>Fixture: Isotropic cosmic birefringence from Planck PR4 polarization</title>
+    <summary>FIXTURE RECORD (synthetic).</summary>
+    <author><name>A. Fixture</name></author>
+  </entry>
+</feed>

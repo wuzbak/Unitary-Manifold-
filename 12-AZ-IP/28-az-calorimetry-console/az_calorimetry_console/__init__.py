@@ -15,6 +15,7 @@ vertex gap, not yet bridged).
 
 from .run_sheet import RunSheet, generate_run_sheet
 from .cop_tracker import COPTracker, COPReading
+from .measurement_import import import_measurements
 from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
@@ -22,6 +23,7 @@ __all__ = [
     "generate_run_sheet",
     "COPTracker",
     "COPReading",
+    "import_measurements",
     "API_ENDPOINTS",
     "dispatch_api_request",
 ]

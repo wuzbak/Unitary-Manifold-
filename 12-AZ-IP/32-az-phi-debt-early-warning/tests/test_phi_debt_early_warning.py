@@ -28,6 +28,22 @@ def test_monitor_rejects_negative_discharge_rate():
         DebtMonitor(capacity=10.0, discharge_rate=-1.0)
 
 
+@pytest.mark.parametrize(
+    ("capacity", "discharge_rate", "warning_fraction"),
+    [
+        (float("nan"), 0.0, 0.8),
+        (float("inf"), 0.0, 0.8),
+        (10.0, float("nan"), 0.8),
+        (10.0, float("inf"), 0.8),
+        (10.0, 0.0, float("nan")),
+        (10.0, 0.0, float("inf")),
+    ],
+)
+def test_monitor_rejects_nonfinite_configuration(capacity, discharge_rate, warning_fraction):
+    with pytest.raises(ValueError):
+        DebtMonitor(capacity, discharge_rate, warning_fraction)
+
+
 def test_monitor_accumulates_and_discharges():
     monitor = DebtMonitor(capacity=10.0, discharge_rate=1.0)
     reading = monitor.accumulate(amount=5.0, dt=1.0)
@@ -40,6 +56,32 @@ def test_monitor_debt_floored_at_zero():
     monitor = DebtMonitor(capacity=10.0, discharge_rate=5.0)
     monitor.accumulate(amount=1.0, dt=1.0)
     assert monitor.debt == 0.0
+
+
+@pytest.mark.parametrize(
+    ("amount", "dt"),
+    [
+        (float("nan"), 1.0),
+        (float("inf"), 1.0),
+        (1.0, float("nan")),
+        (1.0, float("inf")),
+    ],
+)
+def test_accumulate_rejects_nonfinite_values_without_mutating_state(amount, dt):
+    monitor = DebtMonitor(capacity=10.0, discharge_rate=0.0)
+    with pytest.raises(ValueError):
+        monitor.accumulate(amount, dt)
+    assert monitor.debt == 0.0
+    assert len(monitor.history) == 1
+
+
+def test_accumulate_rejects_overflow_without_mutating_state():
+    monitor = DebtMonitor(capacity=1e308, discharge_rate=0.0)
+    monitor.accumulate(1e308)
+    with pytest.raises(ValueError, match="non-finite"):
+        monitor.accumulate(1e308)
+    assert monitor.debt == 1e308
+    assert len(monitor.history) == 2
 
 
 def test_monitor_reaches_warning_then_saturated():
@@ -70,6 +112,20 @@ def test_time_to_saturation_none_when_discharging():
     monitor.accumulate(amount=1.0, dt=1.0)
     monitor.accumulate(amount=1.0, dt=1.0)
     assert monitor.time_to_saturation() is None
+
+
+@pytest.mark.parametrize("rate", [float("nan"), float("inf")])
+def test_time_to_saturation_rejects_nonfinite_projected_rate(rate):
+    monitor = DebtMonitor(capacity=10.0, discharge_rate=0.0)
+    with pytest.raises(ValueError):
+        monitor.time_to_saturation(rate)
+
+
+def test_time_to_saturation_rejects_unrepresentable_observed_rate():
+    monitor = DebtMonitor(capacity=1e308, discharge_rate=0.0)
+    monitor.accumulate(1e307, 1e-308)
+    with pytest.raises(ValueError, match="projected_rate"):
+        monitor.time_to_saturation()
 
 
 def test_run_recycling_dogfood_tracks_real_entropy_ledger_debt():

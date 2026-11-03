@@ -34,6 +34,7 @@ Code architecture: GitHub Copilot (AI).
 from __future__ import annotations
 
 import asyncio
+from contextlib import asynccontextmanager
 import json
 import logging
 import os
@@ -159,6 +160,36 @@ def create_app() -> "FastAPI":
 
     from AxiomZero import IDENTITY
 
+    # Load orchestrator (lazy, shared across requests)
+    _orchestrator: Optional[AxiomZeroOrchestrator] = None
+
+    def get_orchestrator() -> AxiomZeroOrchestrator:
+        nonlocal _orchestrator
+        if _orchestrator is None:
+            _orchestrator = AxiomZeroOrchestrator.from_config()
+        return _orchestrator
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        """Recover durable tasks at startup and stop recovery workers at shutdown."""
+        orch = get_orchestrator()
+        recovery_tasks = set()
+        app.state.recovery_tasks = recovery_tasks
+        for task in orch.restartable_tasks():
+            runner = asyncio.create_task(
+                orch.run_task(description=task.description, task_id=task.task_id)
+            )
+            recovery_tasks.add(runner)
+            runner.add_done_callback(recovery_tasks.discard)
+        try:
+            yield
+        finally:
+            active_recovery = tuple(recovery_tasks)
+            for runner in active_recovery:
+                runner.cancel()
+            if active_recovery:
+                await asyncio.gather(*active_recovery, return_exceptions=True)
+
     app = FastAPI(
         title="AxiomZero API",
         description=(
@@ -174,6 +205,7 @@ def create_app() -> "FastAPI":
             "name": IDENTITY["license"],
             "url": IDENTITY["repo"] + "/blob/main/LICENSE",
         },
+        lifespan=lifespan,
     )
     app.add_middleware(
         CORSMiddleware,
@@ -181,15 +213,6 @@ def create_app() -> "FastAPI":
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
-    # Load orchestrator (lazy, shared across requests)
-    _orchestrator: Optional[AxiomZeroOrchestrator] = None
-
-    def get_orchestrator() -> AxiomZeroOrchestrator:
-        nonlocal _orchestrator
-        if _orchestrator is None:
-            _orchestrator = AxiomZeroOrchestrator.from_config()
-        return _orchestrator
 
     # ------------------------------------------------------------------
     # Health / root
@@ -250,8 +273,8 @@ def create_app() -> "FastAPI":
         except ValueError:
             raise HTTPException(400, f"Invalid epistemic_label: {req.epistemic_label}")
 
-        # Run task in background
-        task = AgentTask(
+        # Persist before acknowledging; the background runner uses this same ID.
+        task = orch.queue_task(
             description=req.description,
             epistemic_label=label,
             payload=req.payload,
@@ -259,10 +282,8 @@ def create_app() -> "FastAPI":
         )
         background_tasks.add_task(
             orch.run_task,
-            description=req.description,
-            epistemic_label=label,
-            payload=req.payload,
-            max_cycles=req.max_cycles,
+            description=task.description,
+            task_id=task.task_id,
         )
         return {"task_id": task.task_id, "status": "submitted", "message": "Task queued"}
 

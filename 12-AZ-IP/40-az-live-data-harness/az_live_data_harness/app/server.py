@@ -11,6 +11,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from az_live_data_harness.api import dispatch_api_request
+from az_live_data_harness.usgs_adapter import LiveDataError, USGS_FEED_URL
 
 UI_DIR = Path(__file__).resolve().parents[2] / "ui"
 
@@ -33,6 +34,12 @@ class HarnessRequestHandler(SimpleHTTPRequestHandler):
             except KeyError as exc:
                 payload = {"error": str(exc)}
                 status = 404
+            except LiveDataError as exc:
+                payload = {
+                    "error": str(exc),
+                    "source_url": USGS_FEED_URL,
+                }
+                status = 502
             except (ValueError, TypeError) as exc:
                 payload = {"error": str(exc)}
                 status = 400

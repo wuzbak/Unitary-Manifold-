@@ -40,14 +40,6 @@ const UM = {
 UM.RADION_COUPLING_ALPHA = Math.abs(UM.RADION_DELTA_PHI_PER_M5) / UM.K_CS;
 UM.BASIN_DEPTH = (UM.WINDING_NUMBER ** 2) / UM.K_CS;
 
-// ─── Feed URLs ────────────────────────────────────────────────────────────────
-const FEEDS = {
-  USGS_EQ:   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson',
-  EONET:     'https://eonet.gsfc.nasa.gov/api/v3/events?status=open&limit=200&days=30',
-  NOAA_NWS:  'https://api.weather.gov/alerts/active',
-  NWAC:      'https://api.avalanche.org/v2/public/products?avalanche_center_id=NWAC',
-};
-
 // ─── App State ────────────────────────────────────────────────────────────────
 const state = {
   map:       null,
@@ -67,6 +59,10 @@ const state = {
   pnwFilter:    false,
   timeFilter:   '24h',   // '24h' | '7d' | '30d'
   magFilter:    0,
+  feedSnapshots: {},
+  feedStatuses: {},
+  feedRefresh: null,
+  loadingFeeds: false,
 };
 
 // PNW bounding box
@@ -334,6 +330,38 @@ function parseNWAC(data) {
   return out;
 }
 
+function parseFIRMS(rows) {
+  if (!Array.isArray(rows)) return [];
+  return rows.map((fire, index) => {
+    const lat = Number(fire.lat), lon = Number(fire.lon), frp = Number(fire.frp || 0);
+    if (!isFinite(lat) || !isFinite(lon) || !isFinite(frp) ||
+        lat < -90 || lat > 90 || lon < -180 || lon > 180) return null;
+    const magnitude = Math.max(1, frp / 10);
+    return {
+      id: `firms-${fire.acq_date || 'active'}-${index}-${lat}-${lon}`,
+      kind: 'wildfire', layer: 'fire', magnitude, lat, lon, depthKm: null,
+      place: `NASA FIRMS active fire · ${fire.acq_date || 'date unavailable'}`,
+      time: fire.acq_date || null, url: null, source: 'NASA FIRMS VIIRS',
+      overlay: computeOverlay('wildfire', magnitude, lat, lon, null, null, null),
+      icon: '🔥', color: '#f97316',
+    };
+  }).filter(Boolean);
+}
+
+function parseKp(payload) {
+  const kp = Number(payload.kp);
+  if (!isFinite(kp) || kp < 4) return [];
+  const magnitude = Math.min(9, kp);
+  return [{
+    id: `noaa-kp-${payload.observed_time || 'latest'}`,
+    kind: 'storm', layer: 'storm', magnitude, lat: 90, lon: 0, depthKm: null,
+    place: `NOAA SWPC planetary Kp ${kp.toFixed(1)} · geomagnetic north pole`,
+    time: payload.observed_time || null, url: payload.source || null, source: 'NOAA SWPC',
+    overlay: computeOverlay('storm', magnitude, 90, 0, null, null, null),
+    icon: '🧲', color: '#a78bfa',
+  }];
+}
+
 // ─── Map Initialisation ───────────────────────────────────────────────────────
 function initMap() {
   state.map = new maplibregl.Map({
@@ -354,7 +382,10 @@ function initMap() {
     center: [0, 20], zoom: 1.8, minZoom: 1,
   });
   state.map.addControl(new maplibregl.NavigationControl(), 'top-right');
-  state.map.on('load', loadAllFeeds);
+  state.map.on('load', () => {
+    loadAllFeeds();
+    state.feedRefresh = window.setInterval(loadAllFeeds, 60_000);
+  });
 }
 
 // ─── Map Layer Definitions ────────────────────────────────────────────────────
@@ -473,12 +504,12 @@ function onMarkerClick(e, layer) {
   currentPopup = new maplibregl.Popup({ closeButton: true, maxWidth: '310px' })
     .setLngLat(e.lngLat)
     .setHTML(`
-      <div class="popup-title">${p.icon || ''} ${(p.kind || '').toUpperCase()} · M${Number(p.magnitude).toFixed(1)}</div>
-      <div class="popup-row"><span class="popup-key">Location</span><span class="popup-val">${p.place || '—'}</span></div>
+      <div class="popup-title">${escapeHTML(p.icon || '')} ${escapeHTML((p.kind || '').toUpperCase())} · M${Number(p.magnitude).toFixed(1)}</div>
+      <div class="popup-row"><span class="popup-key">Location</span><span class="popup-val">${escapeHTML(p.place || '—')}</span></div>
       <div class="popup-row"><span class="popup-key">φ-Debt</span><span class="popup-phi">${fmtSci(p.phiDebt)}</span></div>
       <div class="popup-row"><span class="popup-key">Radion |Δφ/φ₀|</span><span class="popup-val">${Number(p.radionAmp).toFixed(4)}</span></div>
       <div class="popup-row"><span class="popup-key">Basin Stability</span><span class="popup-val">${Number(p.windingStab).toFixed(3)}</span></div>
-      <div class="popup-src">Source: ${(state.events.find(x=>x.id===p.id)||{}).source||'—'}</div>
+      <div class="popup-src">Source: ${escapeHTML((state.events.find(x=>x.id===p.id)||{}).source||'—')}</div>
       <div class="popup-adj">🔵 Adjacent Track — P806 · P786 · P16 · P808</div>
     `)
     .addTo(state.map);
@@ -495,16 +526,19 @@ function renderEventList() {
   }
   list.innerHTML = events.map(ev => `
     <div class="event-item${ev.id === state.selectedId ? ' selected' : ''}"
-         id="ev-item-${ev.id.replace(/[^a-zA-Z0-9]/g,'_')}"
-         onclick="selectEvent('${ev.id}')">
+         id="ev-item-${escapeHTML(ev.id.replace(/[^a-zA-Z0-9]/g,'_'))}"
+         data-event-id="${escapeHTML(ev.id)}">
       <div class="ev-header">
-        <span class="ev-icon">${ev.icon}</span>
-        <span class="ev-title">${ev.place}</span>
-        <span class="ev-mag">M${ev.magnitude.toFixed(1)}</span>
+        <span class="ev-icon">${escapeHTML(ev.icon)}</span>
+        <span class="ev-title">${escapeHTML(ev.place)}</span>
+        <span class="ev-mag">M${Number(ev.magnitude).toFixed(1)}</span>
       </div>
-      <div class="ev-loc">φ-debt ${fmtSci(ev.overlay.phiDebt)} · stab ${ev.overlay.windingStab.toFixed(2)} · ${ev.kind}</div>
+      <div class="ev-loc">φ-debt ${fmtSci(ev.overlay.phiDebt)} · stab ${ev.overlay.windingStab.toFixed(2)} · ${escapeHTML(ev.kind)}</div>
     </div>
   `).join('');
+  list.querySelectorAll('.event-item').forEach(item => {
+    item.addEventListener('click', () => selectEvent(item.dataset.eventId));
+  });
   setText('ev-total', `(${state.events.length})`);
 }
 
@@ -598,8 +632,6 @@ function updateCounts() {
   setText('status-storm',     `🌀 Storm: ${by.storm||0}`);
   setText('status-nws',       `⚠️ NWS: ${by.nws||0}`);
   setText('status-avalanche', `❄️ Aval: ${by.avalanche||0}`);
-  setText('last-updated', `Updated ${new Date().toUTCString()}`);
-
   let totalPhi = 0, maxRadion = 0, minStab = 1;
   for (const ev of state.events) {
     totalPhi += ev.overlay.phiDebt;
@@ -625,29 +657,76 @@ function toggleLayer(key) {
 }
 
 // ─── Feed Loading ─────────────────────────────────────────────────────────────
+const FEED_LABELS = {
+  usgs: 'USGS earthquakes', eonet: 'NASA EONET', nws: 'NOAA weather alerts',
+  nwac: 'NWAC avalanche forecast', kp: 'NOAA planetary Kp', firms: 'NASA FIRMS fires',
+};
+
+function renderFeedHealth() {
+  const container = document.getElementById('feed-health');
+  if (!container) return;
+  container.replaceChildren(...Object.entries(FEED_LABELS).map(([name, label]) => {
+    const status = state.feedStatuses[name] || { status: 'pending' };
+    const row = document.createElement('div');
+    row.className = 'feed-health-row';
+    const title = document.createElement('span');
+    title.textContent = label;
+    const detail = document.createElement('span');
+    const stale = status.stale ? ' · last successful snapshot' : '';
+    const time = status.fetched_at ? ` · ${new Date(status.fetched_at).toLocaleTimeString()}` : '';
+    detail.textContent = `${status.status}${time}${stale}${status.error ? ` · ${status.error}` : ''}`;
+    row.append(title, detail);
+    return row;
+  }));
+}
+
 async function loadAllFeeds() {
-  const results = await Promise.allSettled([
-    fetch(FEEDS.USGS_EQ, { headers: { 'Accept': 'application/json' } }).then(r => r.json()),
-    fetch(FEEDS.EONET,   { headers: { 'Accept': 'application/json' } }).then(r => r.json()),
-    fetch(FEEDS.NOAA_NWS,{ headers: { 'Accept': 'application/geo+json,application/json', 'User-Agent': 'UM-GeoMonitor/2.0' } }).then(r => r.json()),
-    fetch(FEEDS.NWAC,    { headers: { 'Accept': 'application/json', 'User-Agent': 'UM-GeoMonitor/2.0' } }).then(r => r.json()),
-  ]);
+  if (state.loadingFeeds) return;
+  state.loadingFeeds = true;
+  setText('feed-summary', 'Refreshing live sources…');
+  try {
+    const response = await fetch('/api/feeds', { cache: 'no-store' });
+    if (!response.ok) throw new Error(`Feed service returned HTTP ${response.status}`);
+    const snapshot = await response.json();
+    const feeds = snapshot.feeds || {};
+    for (const name of Object.keys(FEED_LABELS)) {
+      const current = feeds[name] || { status: 'error', error: 'No source result returned.' };
+      if (current.status === 'live') {
+        state.feedSnapshots[name] = current;
+        state.feedStatuses[name] = { ...current, stale: false };
+      } else {
+        state.feedStatuses[name] = {
+          ...current, stale: Boolean(state.feedSnapshots[name]),
+          fetched_at: state.feedSnapshots[name]?.fetched_at || null,
+        };
+      }
+    }
 
-  let allEvents = [];
-  if (results[0].status === 'fulfilled') allEvents = allEvents.concat(parseUSGS(results[0].value));
-  else console.warn('USGS feed failed:', results[0].reason);
-
-  if (results[1].status === 'fulfilled') allEvents = allEvents.concat(parseEONET(results[1].value));
-  else console.warn('EONET feed failed:', results[1].reason);
-
-  if (results[2].status === 'fulfilled') allEvents = allEvents.concat(parseNWSAlerts(results[2].value));
-  else console.warn('NOAA NWS feed failed:', results[2].reason);
-
-  if (results[3].status === 'fulfilled') allEvents = allEvents.concat(parseNWAC(results[3].value));
-  else console.warn('NWAC feed failed:', results[3].reason);
-
-  state.allEvents = allEvents;
-  applyFilters();
+    const payload = name => state.feedSnapshots[name]?.payload;
+    const allEvents = [];
+    if (payload('usgs')) allEvents.push(...parseUSGS(payload('usgs')));
+    if (payload('eonet')) allEvents.push(...parseEONET(payload('eonet')));
+    if (payload('nws')) allEvents.push(...parseNWSAlerts(payload('nws')));
+    if (payload('nwac')) allEvents.push(...parseNWAC(payload('nwac')));
+    if (payload('kp')) allEvents.push(...parseKp(payload('kp')));
+    if (payload('firms')) allEvents.push(...parseFIRMS(payload('firms')));
+    state.allEvents = allEvents;
+    renderFeedHealth();
+    applyFilters();
+    const liveCount = Object.values(state.feedStatuses).filter(feed => feed.status === 'live').length;
+    setText('feed-summary', `${liveCount}/${Object.keys(FEED_LABELS).length} feeds live`);
+    setText('last-updated', `Checked ${new Date(snapshot.generated_at).toLocaleTimeString()}`);
+  } catch (error) {
+    setText('feed-summary', `Live refresh failed: ${error.message}`);
+    for (const name of Object.keys(FEED_LABELS)) {
+      if (!state.feedStatuses[name]) {
+        state.feedStatuses[name] = { status: 'error', error: 'Feed service unavailable.' };
+      }
+    }
+    renderFeedHealth();
+  } finally {
+    state.loadingFeeds = false;
+  }
 }
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
@@ -655,6 +734,11 @@ function fmtSci(v) {
   if (v == null || !isFinite(v)) return '—';
   if (v === 0) return '0';
   return v.toExponential(3);
+}
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[char]));
 }
 function setText(id, text) {
   const el = document.getElementById(id);

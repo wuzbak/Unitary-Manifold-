@@ -6,11 +6,17 @@
 from __future__ import annotations
 
 import sys
+import json
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from az_formal_verification_library import require_z3, run_suite, PENTAD_SAFETY_PROPERTIES
+from az_formal_verification_library import (
+    PENTAD_SAFETY_PROPERTIES,
+    require_z3,
+    run_declarative_property,
+    run_suite,
+)
 
 
 def main(argv=None) -> int:
@@ -18,6 +24,7 @@ def main(argv=None) -> int:
 
     parser = argparse.ArgumentParser(description="Formal verification library")
     parser.add_argument("--serve", action="store_true", help="run as a live HTTP product instead")
+    parser.add_argument("--property-json", type=Path, help="run a bounded declarative property from JSON")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8138)
     args = parser.parse_args(argv)
@@ -27,6 +34,15 @@ def main(argv=None) -> int:
 
         serve(host=args.host, port=args.port)
         return 0
+
+    if args.property_json is not None:
+        try:
+            spec = json.loads(args.property_json.read_text(encoding="utf-8"))
+            result = run_declarative_property(spec)
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError, ValueError, RuntimeError) as exc:
+            parser.error(str(exc))
+        print(json.dumps(result.__dict__, sort_keys=True))
+        return 0 if result.status == "PASS" else 1
 
     require_z3()
     summary = run_suite(PENTAD_SAFETY_PROPERTIES)

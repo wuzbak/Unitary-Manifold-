@@ -58,6 +58,47 @@ def test_cards_demo_endpoint():
     assert payload["after_one_review"][0]["repetitions"] == 1
 
 
+def test_custom_card_deck_creation_and_review_endpoints():
+    created = api.dispatch_api_request(
+        "/api/cards/deck",
+        {},
+        {"cards": [{"question": "Q1", "answer": "A1", "category": "custom"}]},
+    )
+    assert created["count"] == 1
+    card = created["deck"][0]
+    assert card["question"] == "Q1"
+    assert card["due_date"]
+
+    reviewed = api.dispatch_api_request("/api/cards/review", {}, {"card": card, "quality": 5})
+    assert reviewed["card"]["repetitions"] == 1
+    assert reviewed["card"]["interval_days"] == 1
+
+
+@pytest.mark.parametrize(
+    "path,body",
+    [
+        ("/api/cards/deck", {}),
+        ("/api/cards/deck", {"cards": []}),
+        ("/api/cards/deck", {"cards": [{"question": "", "answer": "A"}]}),
+        ("/api/cards/deck", {"cards": [{"question": "Q", "answer": "A", "script": "no"}]}),
+        ("/api/cards/review", {"card": {}, "quality": 5}),
+    ],
+)
+def test_custom_card_endpoints_reject_malformed_input(path, body):
+    with pytest.raises(ValueError):
+        api.dispatch_api_request(path, {}, body)
+
+
+def test_custom_card_review_requires_integer_quality():
+    card = api.dispatch_api_request(
+        "/api/cards/deck",
+        {},
+        {"cards": [{"question": "Q", "answer": "A"}]},
+    )["deck"][0]
+    with pytest.raises(ValueError, match="quality"):
+        api.dispatch_api_request("/api/cards/review", {}, {"card": card, "quality": True})
+
+
 def test_citations_verify_endpoint():
     payload = api.dispatch_api_request("/api/citations/verify", {"citation": ["src/core/metric.py:1-5"]})
     assert payload["results"][0]["verified"] is True

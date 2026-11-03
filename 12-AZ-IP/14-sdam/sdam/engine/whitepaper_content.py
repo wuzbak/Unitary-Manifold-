@@ -5,17 +5,17 @@ from __future__ import annotations
 import math
 
 WHITEPAPER_ABSTRACT = (
-    "SDAM treats acoustic modulation as a constrained information geometry problem: a message is projected into a five-symbol alphabet tied to the repository's winding-number structure. "
-    "That choice keeps the encoder simple, deterministic, and easy to audit in offline environments where radio stacks are disallowed.\n\n"
-    "The five-symbol alphabet is not presented as a proof of new physics; it is an engineering metaphor grounded in the Unitary Manifold constants already used throughout the repository. "
-    "The encoder therefore borrows the winding number and braid-resonance ratios as organizing parameters for near-ultrasonic carriers and symbol timing.\n\n"
-    "Because each emitted symbol can be recovered with a finite-state decoder, the modulation layer stays compatible with Shannon-style analysis. "
-    "This makes it possible to discuss entropy, redundancy, and carrier spacing without adding new dependencies or weakening the repository's plain epistemic status requirements."
+    "The current SDAM Android implementation sends text through ggwave's FSK acoustic codec, with AES-GCM payload encryption and authenticated SDAM1 frames. "
+    "It does not use a five-symbol alphabet or a custom geometric modulation scheme, and its acoustic behavior has not been validated on target devices.\n\n"
+    "The Unitary Manifold constants may be explored as a research hypothesis for future protocol design, but no validated derivation connects them to ggwave carrier frequencies, symbol timing, or error correction. "
+    "They are not inputs to the current native audio path and are not presented as a demonstrated performance improvement.\n\n"
+    "Information-theoretic calculations for a hypothetical five-symbol alphabet are illustrative only. "
+    "They do not describe the current wire format or establish an advantage over conventional modulation."
 )
 
 
 def get_information_theory_grounding() -> dict:
-    """Return a Shannon-style summary for the 5-symbol alphabet."""
+    """Return illustrative Shannon-style values for a hypothetical 5-symbol alphabet."""
     entropy = math.log2(5)
     bits_per_char = 4 * entropy
     return {

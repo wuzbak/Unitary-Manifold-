@@ -241,6 +241,14 @@ allocator update. The earlier registration record above remains unchanged.
 |-------|---------|-----:|
 | `az-kernel/Cargo.toml` | `90d098aa8f3f9dc2e3ebe5e8a3e6d7ae633a460bbaf81d08d67ed427a3620667` | 1555 |
 
+### 12-AZ-IP README reseal — 2026-11-03
+
+The `12-AZ-IP/README.md` fingerprint was refreshed after the recovered IP-suite work updated it.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/README.md` | `87506b41d32f781a99b6dee0700538ce11d7593d695b5f0f97c057f261fa6f42` | 18314 |
+
 ---
 
 ## Authorship Declaration

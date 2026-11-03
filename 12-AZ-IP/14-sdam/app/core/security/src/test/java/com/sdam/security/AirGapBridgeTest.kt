@@ -21,7 +21,7 @@ class AirGapBridgeTest {
     // ── encode() shape ────────────────────────────────────────────────────────
 
     @Test fun `single chunk for short payload`() {
-        val chunks = AirGapBridge.encode("VITALS:72:98:36.6", encrypt)
+        val chunks = AirGapBridge.encode("VITALS", encrypt)
         assertEquals(1, chunks.size)
         assertTrue(chunks[0].startsWith("DIODE:0:1:ENC_TEST:"))
     }
@@ -137,7 +137,7 @@ class AirGapBridgeTest {
             AirGapBridge.encode("test", failEncrypt)
             error("Expected IllegalStateException")
         } catch (e: IllegalStateException) {
-            assertTrue(e.message?.contains("AES key not ready") == true)
+            assertTrue(e.message?.contains("encryption failed") == true)
         }
     }
 }

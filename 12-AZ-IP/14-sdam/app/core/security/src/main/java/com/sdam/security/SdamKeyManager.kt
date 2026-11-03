@@ -6,11 +6,9 @@ import android.util.Base64
 import android.util.Log
 import java.security.KeyStore
 import java.security.SecureRandom
-import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.Mac
 import javax.crypto.SecretKey
-import javax.crypto.spec.GCMParameterSpec
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,27 +17,29 @@ private const val KEYSTORE      = "AndroidKeyStore"
 private const val KEY_ALIAS     = "sdam_hmac_key"
 private const val AES_KEY_ALIAS = "sdam_aes_key"
 private const val HMAC_ALGO     = "HmacSHA256"
-private const val AES_ALGO      = "AES/GCM/NoPadding"
 private const val AES_KEY_SIZE  = 256
-private const val GCM_IV_BYTES  = 12   // 96-bit IV — GCM standard
-private const val GCM_TAG_BITS  = 128  // 128-bit auth tag — maximum GCM tag length
-private const val TAG_BYTES     = 4    // 4-byte (8 hex char) truncated HMAC tag
+private const val GCM_IV_BYTES  = GcmPayloadCodec.IV_BYTES
+private const val LEGACY_TAG_BYTES = 4
+private const val FRAME_TAG_BYTES  = 12
 
 /**
- * SdamKeyManager — S2: Hardware-backed cryptographic key management
+ * SdamKeyManager — S2: Android Keystore cryptographic key management
  *
  * Manages the HMAC-SHA256 and AES-256-GCM secrets used for SDAM session
- * authentication and payload encryption. Both keys live in the Android
- * Keystore / StrongBox — they never exist in app memory as raw bytes.
+ * authentication and payload encryption. The app does not verify whether a
+ * device stores these keys in secure hardware. Cross-device QR provisioning
+ * is not implemented.
  *
  * API surface:
  *   [ensureKeyExists]  — generates keys if absent (first launch).
- *   [sign]             — produces the 8-char hex HMAC tag for a given message.
- *   [verify]           — verifies an inbound tag against the expected message.
+ *   [sign]             — produces a legacy 8-char hex HMAC tag.
+ *   [verify]           — verifies a legacy 8-char hex HMAC tag.
+ *   [signFrame]        — produces a 24-char hex HMAC tag for SDAM1 frames.
+ *   [verifyFrame]      — verifies a 24-char hex HMAC tag for SDAM1 frames.
  *   [encryptGcm]       — AES-256-GCM encrypt → `ENC:<Base64(IV‖ciphertext‖tag)>`.
  *   [decryptGcm]       — AES-256-GCM decrypt and verify.
- *   [exportQrPayload]  — Base64 key export for QR peer pairing.
- *   [importFromQrPayload] — Import a peer's exported key.
+ *   [exportQrPayload]  — fails explicitly because key export is unsupported.
+ *   [importFromQrPayload] — returns false because key import is unsupported.
  */
 @Singleton
 class SdamKeyManager @Inject constructor() {
@@ -64,7 +64,7 @@ class SdamKeyManager @Inject constructor() {
 
     /** True if the master HMAC key has been provisioned. */
     @Synchronized
-    fun hasMasterKey(): Boolean = keyExists(KEY_ALIAS)
+    fun hasMasterKey(): Boolean = keyExists(KEY_ALIAS) && keyExists(AES_KEY_ALIAS)
 
     // ── HMAC operations ────────────────────────────────────────────────────────
 
@@ -78,7 +78,7 @@ class SdamKeyManager @Inject constructor() {
     fun sign(message: String): String {
         val mac  = getMac(KEY_ALIAS)
         val full = mac.doFinal(message.toByteArray(Charsets.UTF_8))
-        return full.take(TAG_BYTES).joinToString("") { "%02x".format(it) }
+        return full.take(LEGACY_TAG_BYTES).joinToString("") { "%02x".format(it) }
     }
 
     /**
@@ -87,9 +87,24 @@ class SdamKeyManager @Inject constructor() {
      */
     @Synchronized
     fun verify(message: String, tag: String): Boolean {
-        if (tag.length != TAG_BYTES * 2) return false
+        if (tag.length != LEGACY_TAG_BYTES * 2) return false
         val expected = sign(message)
         return constantTimeEquals(expected, tag)
+    }
+
+    /** Compute the 96-bit HMAC-SHA256 tag used only by SDAM1 frames. */
+    @Synchronized
+    fun signFrame(message: String): String {
+        val full = getMac(KEY_ALIAS).doFinal(message.toByteArray(Charsets.UTF_8))
+        return full.take(FRAME_TAG_BYTES).joinToString("") { "%02x".format(it) }
+    }
+
+    /** Verify an SDAM1 frame's 24-character, 96-bit lowercase hexadecimal tag. */
+    @Synchronized
+    fun verifyFrame(message: String, tag: String): Boolean {
+        if (tag.length != FRAME_TAG_BYTES * 2) return false
+        if (!tag.all { it in '0'..'9' || it in 'a'..'f' }) return false
+        return constantTimeEquals(signFrame(message), tag)
     }
 
     // ── AES-256-GCM payload encryption ────────────────────────────────────────
@@ -103,10 +118,11 @@ class SdamKeyManager @Inject constructor() {
     fun encryptGcm(plaintext: String): String? {
         return try {
             val iv = ByteArray(GCM_IV_BYTES).also { SecureRandom().nextBytes(it) }
-            val cipher = Cipher.getInstance(AES_ALGO).apply {
-                init(Cipher.ENCRYPT_MODE, getSecretKey(AES_KEY_ALIAS), GCMParameterSpec(GCM_TAG_BITS, iv))
-            }
-            val ciphertext = cipher.doFinal(plaintext.toByteArray(Charsets.UTF_8))
+            val ciphertext = GcmPayloadCodec.encrypt(
+                plaintext.toByteArray(Charsets.UTF_8),
+                getSecretKey(AES_KEY_ALIAS),
+                iv,
+            )
             val combined = iv + ciphertext
             "ENC:${Base64.encodeToString(combined, Base64.NO_WRAP)}"
         } catch (e: Exception) {
@@ -134,10 +150,8 @@ class SdamKeyManager @Inject constructor() {
             }
             val iv         = combined.sliceArray(0 until GCM_IV_BYTES)
             val ciphertext = combined.sliceArray(GCM_IV_BYTES until combined.size)
-            val cipher = Cipher.getInstance(AES_ALGO).apply {
-                init(Cipher.DECRYPT_MODE, getSecretKey(AES_KEY_ALIAS), GCMParameterSpec(GCM_TAG_BITS, iv))
-            }
-            cipher.doFinal(ciphertext).toString(Charsets.UTF_8)
+            GcmPayloadCodec.decrypt(ciphertext, getSecretKey(AES_KEY_ALIAS), iv)
+                .toString(Charsets.UTF_8)
         } catch (e: Exception) {
             Log.w(TAG, "decryptGcm: failed (tampered or wrong key?)", e)
             null
@@ -147,51 +161,27 @@ class SdamKeyManager @Inject constructor() {
     // ── Key export / import ───────────────────────────────────────────────────
 
     /**
-     * Export the master key as a Base64 QR-safe payload.
-     * Format: `SDAM_KEY:v1:<base64-encoded-32-bytes>`
+     * Cross-device key export is not supported by the current provisioning flow.
      *
-     * Falls back to an ephemeral software key on devices that do not support
-     * hardware key export.
+     * @throws UnsupportedOperationException because exporting an unrelated
+     *         ephemeral key would falsely imply that peers can communicate.
      */
     @Synchronized
     fun exportQrPayload(): String {
-        return try {
-            val key = getSecretKey(KEY_ALIAS)
-            val raw = key.encoded
-            if (raw != null) {
-                "SDAM_KEY:v1:${Base64.encodeToString(raw, Base64.NO_WRAP)}"
-            } else {
-                generateEphemeralExportPayload()
-            }
-        } catch (e: Exception) {
-            Log.w(TAG, "exportQrPayload: hardware key not exportable, using ephemeral", e)
-            generateEphemeralExportPayload()
-        }
+        throw UnsupportedOperationException(
+            "Cross-device key export is not implemented; no key was exported."
+        )
     }
 
     /**
-     * Import a peer key from a QR payload string.
-     *
-     * @param qrPayload  String scanned from peer's QR code.
-     * @param peerAlias  A name for this peer.
-     * @return true if import succeeded.
+     * Cross-device key import is unsupported until a secure provisioning flow
+     * exists. No key material is imported.
      */
     @Synchronized
+    @Suppress("UNUSED_PARAMETER")
     fun importFromQrPayload(qrPayload: String, peerAlias: String): Boolean {
-        return try {
-            val parts = qrPayload.split(":")
-            if (parts.size != 3 || parts[0] != "SDAM_KEY" || parts[1] != "v1") {
-                Log.w(TAG, "importFromQrPayload: unrecognised format")
-                return false
-            }
-            val keyBytes = Base64.decode(parts[2], Base64.NO_WRAP)
-            importRawKey(keyBytes, "peer_$peerAlias")
-            Log.i(TAG, "Peer key imported: peer_$peerAlias")
-            true
-        } catch (e: Exception) {
-            Log.e(TAG, "importFromQrPayload failed", e)
-            false
-        }
+        Log.e(TAG, "Cross-device key import is not implemented; no key was imported.")
+        return false
     }
 
     // ── Internal helpers ───────────────────────────────────────────────────────
@@ -237,21 +227,6 @@ class SdamKeyManager @Inject constructor() {
     private fun getMac(alias: String): Mac {
         val key = getSecretKey(alias)
         return Mac.getInstance(HMAC_ALGO).apply { init(key) }
-    }
-
-    private fun importRawKey(keyBytes: ByteArray, alias: String) {
-        // Android Keystore does not support raw software import via KeyGenerator.
-        // Full hardware import path requires API 31+ ImportWrappedKeyRequest — deferred to v1.1.
-        Log.w(TAG, "Raw key import stored in software — hardware import requires API >= 31")
-        @Suppress("UNUSED_VARIABLE") val unused = keyBytes
-        @Suppress("UNUSED_VARIABLE") val unusedAlias = alias
-    }
-
-    private fun generateEphemeralExportPayload(): String {
-        val kg = KeyGenerator.getInstance("HmacSHA256")
-        kg.init(256)
-        val raw = kg.generateKey().encoded
-        return "SDAM_KEY:v1:${Base64.encodeToString(raw, Base64.NO_WRAP)}"
     }
 
     private fun constantTimeEquals(a: String, b: String): Boolean {

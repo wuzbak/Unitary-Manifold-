@@ -1,66 +1,60 @@
 # AZ Live-Data Harness — Product 40
 
 **Folder:** `12-AZ-IP/40-az-live-data-harness/`
-**Version:** 1.1.0
-**TRL:** TRL-4 (generic harness, demonstrated adapter, read-only JSON API + UI)
-**Status:** Active — Phases 1-2 of article-354's "Live-public-data pattern -> shared harness" roadmap
+**Version:** 1.2.0
+**Status:** Active — read-only integration with a public USGS live feed
 
-## What this is
+## Live integration
 
-`src/data/fetch_planck.py`, `12-AZ-IP/21-geo-monitor/geo_monitor/engine/feeds.py`,
-and `12-AZ-IP/19-falsification-observatory`'s routing functions each
-hand-roll the same shape: attempt a live network fetch, fall back to a
-known offline value on failure, and compare the resulting measurement
-against a prediction to reach a verdict. This product extracts that
-shape:
+The product fetches and validates the USGS GeoJSON feed for earthquakes
+reported in the past day:
 
-- `fetch_with_fallback(fetch_fn, fallback_value) -> FetchResult` —
-  attempts `fetch_fn()`, records whether the result came from `LIVE` or
-  `FALLBACK`, and captures the error that triggered the fallback.
-- `compute_verdict(predicted, measured, sigma, ...) -> Verdict` —
-  generalizes `fetch_planck.compute_um_residuals()`'s sigma-pull check
-  and `falsification_observatory`'s `AWAITING_DATA` convention into one
-  `CONSISTENT` / `INCONSISTENT` / `AWAITING_DATA` verdict shape.
-- `planck_adapter.py` — a **real, working adapter**, not a mock: it
-  attempts a genuine network call against the ESA Planck Legacy Archive
-  endpoint `fetch_planck.py` names (but never actually calls), and falls
-  back to `PLANCK_2018_BESTFIT['n_s']` on failure. In this sandboxed
-  environment that live call genuinely fails (no network route to the
-  host), so the fallback path is exercised honestly rather than assumed.
+`https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson`
 
-## Epistemic status
+The normalized result includes the source URL and title, the timestamp
+published by USGS, the local fetch timestamp, calculated feed age, event
+count, and most recent event. The feed is marked `stale` when its published
+timestamp is more than two hours old. A future publication timestamp,
+malformed payload, or fetch failure is reported as an error. This integration
+does **not** substitute a cached, fixture, Planck, or hard-coded value when
+the live source is unavailable. Generic fallback/verdict helpers remain
+available to Python callers but are not used by this adapter.
 
-This product does not migrate `feeds.py` or
-`falsification_observatory`'s routing functions onto the new harness —
-they remain independent and canonical. Only one adapter
-(`fetch_planck.py`'s n_s comparison) is demonstrated end-to-end, per this
-repository's established "partial Phase 1, stated honestly" pattern (see
-Product 32's README for the same convention). The Phase 2 web layer
-below exposes this one adapter read-only over HTTP; wiring additional
-adapters onto the generic harness remains a Python-level task, since an
-arbitrary fetch callable cannot be constructed from untrusted query
-parameters.
+The adapter uses the Python standard library and makes an HTTPS GET with a
+10-second timeout. Tests inject a fake response; they do not depend on network
+access. No claim is made here about the feed being reachable in every
+deployment environment.
 
-## Usage
+## CLI
+
+Fetch and print one normalized live result:
 
 ```bash
 python 12-AZ-IP/40-az-live-data-harness/run.py
 ```
 
-## Running as a web product
+Exit status is `0` for a fresh result, `2` for a valid but stale result, and
+`1` when the request or payload validation fails. Start the dashboard and API:
 
 ```bash
 python 12-AZ-IP/40-az-live-data-harness/run.py --serve --port 8140
 ```
 
-Serves the static dashboard in `ui/` on `http://127.0.0.1:8140/` and a
-read-only JSON API:
+## HTTP API and UI
 
-- `GET /api/status` — product name, endpoint list, adapter name
-- `GET /api/fetch-result` — the harness `FetchResult` (value/source/error)
-  for the Planck n_s adapter
-- `GET /api/verdict` — the harness `Verdict` comparing the UM n_s
-  prediction against the fetched/fallback Planck value
+The server binds to `127.0.0.1` by default. It serves the static dashboard at
+`/` and these read-only JSON endpoints:
+
+- `GET /api/status` — adapter, source URL, endpoints, and explicit
+  `fallback: false`.
+- `GET /api/fetch-result` — fetches the feed and returns normalized data,
+  including provenance and freshness fields. Fetch/validation failures return
+  HTTP `502` with an error and source URL; stale valid data remains HTTP `200`
+  with `"stale": true`.
+
+The UI shows the live/stale/error state and displays the full JSON response.
+Fetching is on demand; opening the dashboard alone does not assert that a
+successful request occurred.
 
 ## Tests
 
@@ -68,12 +62,13 @@ read-only JSON API:
 python -m pytest 12-AZ-IP/40-az-live-data-harness/tests -q
 ```
 
-## Sources
+Tests use injected responses and a fixed clock; running them does not require
+the public service or other network access.
 
-- `src/data/fetch_planck.py` — `PLANCK_2018_BESTFIT`, `compute_um_residuals`
-- `12-AZ-IP/21-geo-monitor/geo_monitor/engine/feeds.py` — `USGSFeedParser.fetch`
-- `12-AZ-IP/19-falsification-observatory` — routing `AWAITING_DATA` convention
-- `7-OUTREACH/A Z PsiCat Literature/Articles/article-354-...md` — direction #13
+## Source
+
+- USGS Earthquake Hazards Program, GeoJSON Summary Feed:
+  <https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/>
 
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).

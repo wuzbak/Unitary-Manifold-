@@ -9,7 +9,7 @@ from dataclasses import dataclass
 import numpy as np
 
 from .attention import ToroidalMultiHeadAttention
-from .baseline_attention import RopeMultiHeadAttention
+from .baseline_attention import MatchedRopeMultiHeadAttention, RopeMultiHeadAttention
 from .layers import Embedding, FeedForward, Linear, LayerNorm
 from .tensor import Tensor
 
@@ -25,11 +25,10 @@ class GeometricToriTransformerConfig:
     ff_hidden_dim: int = 64
     causal: bool = True
     seed: int = 0
-    #: "toroidal" (default): Z_74 toroidal rotary encoding + relative bias
-    #: (this product's architecture). "rope": standard continuous RoPE with
-    #: no relative bias — a same-engine control arm used only by
-    #: ``tests/test_baseline_benchmark.py`` to benchmark the two mechanisms
-    #: on an identical task/optimizer/budget; never the default.
+    #: "toroidal" (default): Z_74 rotary encoding + learned bank bias.
+    #: "rope": legacy continuous RoPE without bias.
+    #: "rope_matched": continuous RoPE with the same learned bank bias,
+    #: reserved for parameter-matched positional ablations.
     positional_mode: str = "toroidal"
 
     def __post_init__(self) -> None:
@@ -37,14 +36,19 @@ class GeometricToriTransformerConfig:
             raise ValueError("dim must be divisible by num_heads")
         if (self.dim // self.num_heads) % 2 != 0:
             raise ValueError("head_dim (dim / num_heads) must be even for pairwise rotation")
-        if self.positional_mode not in ("toroidal", "rope"):
-            raise ValueError(f"positional_mode must be 'toroidal' or 'rope', got {self.positional_mode!r}")
+        if self.positional_mode not in ("toroidal", "rope", "rope_matched"):
+            raise ValueError(
+                "positional_mode must be 'toroidal', 'rope', or 'rope_matched', "
+                f"got {self.positional_mode!r}"
+            )
 
 
 class TransformerBlock:
     def __init__(self, cfg: GeometricToriTransformerConfig, rng: np.random.Generator):
         if cfg.positional_mode == "rope":
             self.attn = RopeMultiHeadAttention(cfg.dim, cfg.num_heads, rng, causal=cfg.causal)
+        elif cfg.positional_mode == "rope_matched":
+            self.attn = MatchedRopeMultiHeadAttention(cfg.dim, cfg.num_heads, rng, causal=cfg.causal)
         else:
             self.attn = ToroidalMultiHeadAttention(cfg.dim, cfg.num_heads, rng, causal=cfg.causal)
         self.ff = FeedForward(cfg.dim, cfg.ff_hidden_dim, rng)
@@ -84,6 +88,32 @@ class GeometricToriTransformer:
         for block in self.blocks:
             params += block.parameters()
         params += self.ln_final.parameters() + self.head.parameters()
+        return params
+
+    def named_parameters(self) -> dict[str, Tensor]:
+        """Stable checkpoint names, in the same order as ``parameters()``."""
+        params = {"token_embedding.weight": self.token_embedding.weight}
+        for i, block in enumerate(self.blocks):
+            prefix = f"blocks.{i}"
+            for name in ("wq", "wk", "wv", "wo"):
+                layer = getattr(block.attn, name)
+                params[f"{prefix}.attn.{name}.weight"] = layer.weight
+                if layer.bias is not None:
+                    params[f"{prefix}.attn.{name}.bias"] = layer.bias
+            if hasattr(block.attn, "relative_bias"):
+                params[f"{prefix}.attn.relative_bias"] = block.attn.relative_bias
+            for name in ("fc1", "fc2"):
+                layer = getattr(block.ff, name)
+                params[f"{prefix}.ff.{name}.weight"] = layer.weight
+                params[f"{prefix}.ff.{name}.bias"] = layer.bias
+            for name in ("ln1", "ln2"):
+                layer = getattr(block, name)
+                params[f"{prefix}.{name}.gamma"] = layer.gamma
+                params[f"{prefix}.{name}.beta"] = layer.beta
+        params["ln_final.gamma"] = self.ln_final.gamma
+        params["ln_final.beta"] = self.ln_final.beta
+        params["head.weight"] = self.head.weight
+        params["head.bias"] = self.head.bias
         return params
 
     def __call__(self, token_ids: np.ndarray) -> tuple[Tensor, list[np.ndarray]]:
