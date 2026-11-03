@@ -287,6 +287,24 @@ class TestRunNoGates:
 
 
 class TestRunAutoApprovingHandler:
+    def test_missing_handler_cannot_run_required_effect(self, system: FiveCoresSystem) -> None:
+        called = []
+        gate = HILGate("required", HILGateType.SAFETY, "Explicit approval", required=True)
+        job = AgentJob("effect", "Effect", CoreLabel.SAFETY, [gate],
+                       handler=lambda ctx: called.append(True))
+        result = WorkflowEngine(system).run(build_workflow("fail_closed", "Gate", "d", [job]))
+        assert result.status == "failed"
+        assert not called
+        assert WorkflowEventType.HIL_GATE_APPROVED not in [e.event_type for e in result.event_log]
+
+    @pytest.mark.parametrize("verdict", ["approved", "pending", 1, {}, None])
+    def test_truthy_or_pending_verdict_is_not_approval(self, system: FiveCoresSystem, verdict) -> None:
+        gate = HILGate("required", HILGateType.SAFETY, "Explicit approval", required=True)
+        job = AgentJob("effect", "Effect", CoreLabel.SAFETY, [gate])
+        result = WorkflowEngine(system).run(
+            build_workflow("typed_gate", "Gate", "d", [job]), hil_handler=lambda g, ctx: verdict)
+        assert result.status == "failed"
+
     def test_completes_with_auto_approve(self, system: FiveCoresSystem) -> None:
         gate = HILGate(
             gate_id="g_safety",

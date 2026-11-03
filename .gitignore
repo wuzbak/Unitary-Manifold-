@@ -36,3 +36,4 @@ wandb/offline-run-*/
 .pytest-merge-validation/
 .um-arts-completion/
 .lean-library-check/
+.axiomzero-weave/

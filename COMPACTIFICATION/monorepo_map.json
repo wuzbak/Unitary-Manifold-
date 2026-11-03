@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8386,
+  "file_count": 8392,
   "lanes": {
-    "az_ip": 2534,
+    "az_ip": 2540,
     "compactification": 9,
     "other": 5393,
     "psicat_articles": 354,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2534,
+    "12-AZ-IP": 2540,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2700,6 +2700,14 @@
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_toroidal_geometry.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_training.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/ui/index.html"
+    ],
+    "44-axiomzero-weave": [
+      "12-AZ-IP/44-axiomzero-weave/az_weave/__init__.py",
+      "12-AZ-IP/44-axiomzero-weave/az_weave/governance.py",
+      "12-AZ-IP/44-axiomzero-weave/az_weave/scheduler.py",
+      "12-AZ-IP/44-axiomzero-weave/tests/conftest.py",
+      "12-AZ-IP/44-axiomzero-weave/tests/test_weave_governance.py",
+      "12-AZ-IP/44-axiomzero-weave/tests/test_weave_scheduler.py"
     ]
   },
   "psicat_literature": {
@@ -21310,6 +21318,48 @@
       "kind": "file",
       "lane": "az_ip",
       "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/44-axiomzero-weave/az_weave/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "44-axiomzero-weave"
+    },
+    {
+      "path": "12-AZ-IP/44-axiomzero-weave/az_weave/governance.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "44-axiomzero-weave"
+    },
+    {
+      "path": "12-AZ-IP/44-axiomzero-weave/az_weave/scheduler.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "44-axiomzero-weave"
+    },
+    {
+      "path": "12-AZ-IP/44-axiomzero-weave/tests/conftest.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "44-axiomzero-weave"
+    },
+    {
+      "path": "12-AZ-IP/44-axiomzero-weave/tests/test_weave_governance.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "44-axiomzero-weave"
+    },
+    {
+      "path": "12-AZ-IP/44-axiomzero-weave/tests/test_weave_scheduler.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "44-axiomzero-weave"
     },
     {
       "path": "12-AZ-IP/BRAND_SEPARATION_NOTICE_PSICAT.md",

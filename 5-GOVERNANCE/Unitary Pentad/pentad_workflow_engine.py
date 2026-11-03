@@ -512,7 +512,8 @@ class WorkflowEngine:
         hil_handler : callable | None
             ``(gate, ctx) → bool`` called for each required HIL gate.
             Return ``True`` = approved, ``False`` = rejected.
-            If ``None``, all required gates are **auto-approved** (batch mode).
+            If ``None``, gates are rejected. Only the Boolean ``True``
+            satisfies a gate; pending or truthy string responses do not.
 
         Returns
         -------
@@ -637,11 +638,11 @@ class WorkflowEngine:
                     },
                 )
 
-                # Resolve gate via handler or auto-approve
+                # Only an explicit Boolean approval may satisfy a gate.
                 if hil_handler is not None:
-                    approved = bool(hil_handler(gate, ctx))
+                    approved = hil_handler(gate, ctx) is True
                 else:
-                    approved = True  # auto-approve in batch mode
+                    approved = False
 
                 if approved:
                     ctx.approve_gate(gate.gate_id)
