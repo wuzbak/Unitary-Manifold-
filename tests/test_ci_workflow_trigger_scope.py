@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 import subprocess
@@ -125,6 +126,38 @@ def test_health_branch_verification_outlives_the_cloud_agent_job() -> None:
         assert branch in _extract_branches(name, "push")
     assert _load("lean4-check.yml")["jobs"]["lean4-build"]["timeout-minutes"] > 59
     assert _load("codeql-language-matrix.yml")["jobs"]["python-full"]["timeout-minutes"] > 59
+
+
+@pytest.mark.parametrize("requirements", [[], ["12-AZ-IP/01-axiom-os/requirements.txt"]])
+def test_product_dependencies_install_without_duplicate_wheel_cache(
+    monkeypatch: pytest.MonkeyPatch, requirements: list[str],
+) -> None:
+    job = _load("um-arts-full-core.yml")["jobs"]["product-suite-tests"]
+    setup = next(step for step in job["steps"] if "setup-python@" in step.get("uses", ""))
+    assert "cache" not in setup["with"]
+    installation = next(
+        step for step in job["steps"]
+        if step.get("name") == "Install root and package-declared test dependencies"
+    )
+    assert installation["env"]["PIP_NO_CACHE_DIR"] == "1"
+    monkeypatch.setenv("PIP_NO_CACHE_DIR", installation["env"]["PIP_NO_CACHE_DIR"])
+    monkeypatch.setenv("PRODUCT_REQUIREMENTS", json.dumps(requirements))
+    calls = []
+
+    def record_install(command, *, check):
+        assert check is True
+        assert os.environ["PIP_NO_CACHE_DIR"] == "1"
+        calls.append(command[1:])
+
+    monkeypatch.setattr(subprocess, "run", record_install)
+    script = installation["run"].split("python - <<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
+    exec(compile(script, "<product-dependency-install>", "exec"), {})
+    expected = [
+        ["-m", "pip", "install", "-r", "requirements.txt", "-r", "requirements-dev.txt"]
+    ]
+    if requirements:
+        expected.append(["-m", "pip", "install", "-r", requirements[0]])
+    assert calls == expected
 
 
 def test_health_setup_uses_node24_python_action_without_changing_the_runtime() -> None:
