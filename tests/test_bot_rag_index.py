@@ -473,6 +473,55 @@ def test_rag_build_without_monorepo_map_keeps_existing_fallback(tmp_path):
     assert index.knowledge_base
 
 
+@pytest.mark.parametrize("builder", [RAGIndex.build, RAGIndex.build_intent_index])
+@pytest.mark.parametrize(("product", "heading", "query", "substance"), [
+    (
+        "43-az-geometric-tori-transformer", "AZ Geometric Tori Transformer",
+        "geometric tori transformer", "A from-scratch transformer with toroidal rotary encoding.",
+    ),
+    (
+        "16-oracle", "Omega Oracle", "Omega Oracle",
+        "A falsification-first research tool, not a source of empirical confirmation.",
+    ),
+])
+def test_product_content_outranks_inventory_for_subject_queries(
+    tmp_path, builder, product, heading, query, substance,
+):
+    relative = f"12-AZ-IP/{product}"
+    component = tmp_path / relative
+    component.mkdir(parents=True)
+    (component / "README.md").write_text(f"# {heading}\n\n{substance}\n", encoding="utf-8")
+    (tmp_path / "COMPACTIFICATION").mkdir()
+    (tmp_path / "COMPACTIFICATION/monorepo_map.json").write_text(json.dumps({
+        "files": [
+            {"path": f"{relative}/README.md", "kind": "file"},
+            {"path": f"{relative}/tests/test_contract.py", "kind": "file"},
+        ],
+    }), encoding="utf-8")
+
+    index = builder(repo_root=tmp_path)
+    result = answer_question(index, query)
+    assert index.search(query, top_k=1)[0][1].source == f"{relative}/README.md"
+    assert result["sources"][0] == f"{relative}/README.md"
+    assert substance in result["answer"]
+    assert "path metadata only" not in result["answer"]
+
+    navigation = answer_question(index, f"Where is {query} tests/test_contract.py?")
+    assert navigation["sources"][0] == "COMPACTIFICATION/monorepo_map.json"
+    assert f"{relative}/tests/test_contract.py" in navigation["answer"]
+
+
+@pytest.mark.parametrize(("query", "source"), [
+    ("geometric tori transformer", "12-AZ-IP/43-az-geometric-tori-transformer/README.md"),
+    ("Omega Oracle", "12-AZ-IP/16-oracle/README.md"),
+])
+def test_real_product_subject_answers_use_content_not_path_metadata(query, source):
+    index = RAGIndex.build(repo_root=Path(__file__).parent.parent)
+    result = answer_question(index, query)
+    assert result["sources"][0] == source
+    assert "path metadata only" not in result["answer"]
+
+
 # ---------------------------------------------------------------------------
 # answer_question
 # ---------------------------------------------------------------------------
@@ -653,6 +702,18 @@ def test_foundation_index_excludes_superseded_truth_layer_sprints(builder):
     assert any(chunk.source == "1-THEORY/Z2_PARITY_NOTE.md" for chunk in idx.chunks)
 
 
+@pytest.mark.parametrize("builder", [RAGIndex.build, RAGIndex.build_intent_index])
+def test_foundation_index_keeps_current_planar_and_health_corrections(builder):
+    index = builder(repo_root=Path(__file__).parent.parent)
+    truth = "".join(
+        chunk.text for chunk in index.chunks if chunk.source == "docs/TRUTH_LAYER.md"
+    )
+    assert "2026-11-03" in truth
+    assert "planar" in truth.lower()
+    assert "2026-10-09" in truth
+    assert "health" in truth.lower()
+
+
 def test_current_truth_filter_includes_level_two_repair_without_history():
     text = (
         "## Synthesis repair (2026-10-05)\nCurrent repair evidence.\n"
@@ -667,6 +728,26 @@ def test_current_truth_filter_includes_level_two_repair_without_history():
     assert "# Repeat execution for each batch" in selected
     assert "Historical archive" not in selected
     assert "Old closure" not in selected
+
+
+def test_current_truth_filter_accepts_new_dated_corrections_not_dated_history():
+    text = (
+        "## Retrieval correction (2026-11-04)\nCurrent scoped correction.\n"
+        "~~~markdown\n## Historical archive (2026-11-05)\nThis is a fenced example.\n~~~\n"
+        "### Validation boundary\nNo new physical closure.\n"
+        "## Historical archive\n"
+        "### Correction (2026-11-06)\nArchived correction, not current.\n"
+        "## Sprint CI replay (2026-11-07)\nSuperseded sprint record.\n"
+        "## Legacy repair (2026-09-01)\nOlder repair record.\n"
+    )
+    selected = rag_index_module._current_document_text("docs/TRUTH_LAYER.md", text)
+    assert "Current scoped correction." in selected
+    assert "This is a fenced example." in selected
+    assert "No new physical closure." in selected
+    assert "Archived correction, not current." not in selected
+    assert "Superseded sprint record." not in selected
+    assert "Older repair record." not in selected
+    assert rag_index_module._current_document_text("other.md", text) == text
 
 
 def test_science_answers_do_not_import_expensive_certificates(built_science_index, monkeypatch):

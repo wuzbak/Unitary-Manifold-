@@ -98,6 +98,7 @@ _CURRENT_TRUTH_SECTIONS = (
     (3, "Sprint CX action-derived flow steward promotion"),
     (3, "Lane 1 action-derived flow replacement (Sprint CW; promoted within perimeter in Sprint CX)"),
 )
+_CURRENT_TRUTH_SINCE = "2026-10-05"
 _AST_CONTEXT_SKIP_PARTS = {".git", "__pycache__", ".venv", "venv", "node_modules", "build", "dist"}
 _GATE_PRIORITY = {
     "GOVERNANCE": 5,
@@ -686,6 +687,7 @@ def _current_document_text(source: str, text: str) -> str:
         return text
     selected = []
     active_level = None
+    historical_level = None
     fence = None
     for line in text.splitlines(keepends=True):
         fence_match = re.match(r"^[ \t]*(`{3,}|~{3,})", line)
@@ -699,9 +701,25 @@ def _current_document_text(source: str, text: str) -> str:
             heading_match = re.match(r"^(#{1,6})[ \t]+(.+?)\s*$", line)
             if heading_match:
                 level = len(heading_match.group(1))
+                heading = heading_match.group(2)
                 if active_level is not None and level <= active_level:
                     active_level = None
-                if (level, heading_match.group(2)) in _CURRENT_TRUTH_SECTIONS:
+                if historical_level is not None and level <= historical_level:
+                    historical_level = None
+                historical = re.search(
+                    r"\b(historical|archive|archived|superseded)\b", heading, re.IGNORECASE,
+                )
+                if historical:
+                    historical_level = level
+                date = re.search(r"\b\d{4}-\d{2}-\d{2}\b", heading)
+                current_correction = (
+                    level <= 3
+                    and date is not None
+                    and date.group() >= _CURRENT_TRUTH_SINCE
+                    and historical_level is None
+                    and not re.search(r"\b(sprint|lane)\b", heading, re.IGNORECASE)
+                )
+                if (level, heading) in _CURRENT_TRUTH_SECTIONS or current_correction:
                     active_level = level
         if active_level is not None:
             selected.append(line)
@@ -1415,10 +1433,16 @@ class RAGIndex:
         """
         query_tokens = _query_tokens(query)
         query_text = query.lower().strip()
+        path_navigation = bool(query_tokens & {
+            "path", "paths", "file", "files", "directory", "directories",
+            "tests", "workflows",
+        }) or "/" in query
         scored = []
         for chunk in self.chunks:
             raw_score = chunk.score(query_tokens, query_text)
             source_weight = _source_weight(chunk.source)
+            if chunk.source == "COMPACTIFICATION/monorepo_map.json" and not path_navigation:
+                source_weight = 0.85
             scored.append(
                 (min(1.0, raw_score * source_weight), source_weight, raw_score, chunk)
             )

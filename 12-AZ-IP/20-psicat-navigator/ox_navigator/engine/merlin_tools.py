@@ -521,6 +521,8 @@ def _tool_manifest() -> dict[str, Any]:
             {"name": "getPsiCatHomeHealthDashboard", "summary": "Cross-product snapshot composing the product registry, Product 39's health score, and Product 19's falsification verdicts", "domain": "functions"},
             {"name": "getToriTransformerGeometry", "summary": "Return Product 43's toroidal rotary-encoding orbit periods and relative-bias index report", "domain": "functions"},
             {"name": "getToriTransformerDemo", "summary": "Run Product 43's cyclic toroidal-copy training demo and return the loss/accuracy report", "domain": "functions"},
+            {"name": "getAxiomZeroWeaveCapabilities", "summary": "Describe Product 44's bounded read-only AxiomZero Weave capabilities", "domain": "functions"},
+            {"name": "queryAxiomZeroWeave", "summary": "Query Product 44's existing strands without training, memory mutation, or approval effects", "domain": "functions"},
         ]
     policy_overrides = {
         "getPillar": {
@@ -1354,6 +1356,17 @@ def _tool_manifest() -> dict[str, Any]:
                 "additionalProperties": False,
             },
         },
+        "queryAxiomZeroWeave": {
+            "args_schema": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string"},
+                    "limit": {"type": "integer", "minimum": 1},
+                },
+                "required": ["query"],
+                "additionalProperties": False,
+            },
+        },
     }
     enriched_functions = []
     for item in functions:
@@ -1836,6 +1849,39 @@ def run_tori_transformer_demo(
     return {"data": report}
 
 
+def _ensure_product44_on_path() -> None:
+    """Make the sibling Weave runtime available without eagerly importing it."""
+    import sys
+    from pathlib import Path
+
+    product_root = Path(__file__).resolve().parents[4] / "12-AZ-IP" / "44-axiomzero-weave"
+    product_root_str = str(product_root)
+    if product_root_str not in sys.path:
+        sys.path.insert(0, product_root_str)
+
+
+def get_axiomzero_weave_capabilities() -> dict[str, Any]:
+    """Discover the read-only Weave surface; no privileged backend is exposed."""
+    _ensure_product44_on_path()
+    try:
+        from az_weave.api import capabilities
+
+        return {"data": capabilities()}
+    except (ImportError, ValueError) as exc:
+        return {"error": f"Product 44 Weave capabilities are unavailable: {exc}"}
+
+
+def query_axiomzero_weave(query: str, limit: int = 5) -> dict[str, Any]:
+    """Query existing strands without session authority or persistent effects."""
+    _ensure_product44_on_path()
+    try:
+        from az_weave.api import run_readonly
+
+        return {"data": run_readonly(query, limit=limit)}
+    except (ImportError, ValueError) as exc:
+        return {"error": f"Product 44 read-only Weave query is unavailable: {exc}"}
+
+
 _FUNCTIONS = {
     "fetchRepoContext": fetch_repo_context,
     "listPillars": list_pillars,
@@ -2239,6 +2285,10 @@ _FUNCTIONS = {
 "getToriTransformerGeometry": lambda **args: get_tori_transformer_geometry(args.get("head_dim"), args.get("seq_len")),
 "getToriTransformerDemo": lambda **args: run_tori_transformer_demo(
     args.get("seq_len"), args.get("vocab_size"), args.get("shift"), args.get("steps"), args.get("seed"),
+),
+"getAxiomZeroWeaveCapabilities": lambda **args: get_axiomzero_weave_capabilities(),
+"queryAxiomZeroWeave": lambda **args: query_axiomzero_weave(
+    args.get("query", ""), args.get("limit", 5),
 ),
 }
 

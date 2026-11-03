@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>AxiomZero Weave | Product 44</title>
+<style>
+body{background:#101820;color:#e8f4f4;font:16px system-ui;max-width:980px;margin:3rem auto;padding:1rem}
+h1{color:#8bddd1}label{display:block;margin-top:1rem}input,textarea,button,select{font:inherit;padding:.6rem;
+background:#1b2c39;color:inherit;border:1px solid #649a98;border-radius:.3rem;box-sizing:border-box}
+input,textarea{width:100%}button{margin:.8rem .5rem .3rem 0;cursor:pointer}pre{white-space:pre-wrap;overflow-wrap:anywhere}
+small{color:#b4ccc9}.strands{color:#8bddd1}details{margin-top:2rem}#status{color:#ffdc95}
+</style>
+<h1>AxiomZero Weave</h1>
+<p class="strands">Cognition / Repository / Senses / Memory / Governance</p>
+<p>Perceive → Ground → Recall → Reason → Challenge → Reconcile → Record</p>
+<small>Evidence retrieval is not model reasoning. Oracle scores are advisory. Product 43 is an
+experimental character model, not a demonstrated general intelligence. Pentad obligations cannot
+be averaged away. Private archives remain outside repository grounding.</small>
+<label for="token">Local operator token (from the server's token file; kept in this tab only)</label>
+<input id="token" type="password" autocomplete="off">
+<label for="query">Source-grounded question</label>
+<input id="query" value="How does the geometric tori transformer encode position?">
+<button id="ask">Run seven operations</button><button id="caps">Inspect available capabilities</button>
+<details><summary>Bounded computation and governed effects</summary>
+<p>Approval binds the exact action and JSON inputs. Review all five obligations independently.
+An UNKNOWN verdict must not become PASS just to run an experiment.</p>
+<label for="action">Action</label><select id="action">
+<option>geometry</option><option>oracle</option><option>generate</option><option>experiment</option>
+<option>train</option><option>memory.put</option><option>memory.promote</option><option>memory.delete</option></select>
+<label for="arguments">Arguments (JSON object)</label><textarea id="arguments" rows="5">{}</textarea>
+<label for="obligations">Independent obligation verdicts</label>
+<textarea id="obligations" rows="7">{
+  "NO_LIES": "UNKNOWN",
+  "NO_HARM": "UNKNOWN",
+  "NO_COERCION": "UNKNOWN",
+  "TRANSPARENCY": "UNKNOWN",
+  "SOVEREIGNTY": "UNKNOWN"
+}</textarea>
+<label for="sources">Source evidence bindings (paste query evidence array if source-dependent)</label>
+<textarea id="sources" rows="2">[]</textarea>
+<button id="approve">Authorize this exact effect for 5 minutes</button>
+<label for="decision">Decision ID (required for effects)</label><input id="decision">
+<button id="invoke">Invoke</button><button id="inspect">Inspect decision</button><button id="revoke">Revoke unclaimed approval</button>
+</details>
+<p id="status" role="status"></p><pre id="output" aria-live="polite"></pre>
+<script>
+const byId=id=>document.getElementById(id);
+async function call(route,body){
+ byId('status').textContent='Running bounded local request...';
+ try{
+  const response=await fetch('/api/'+route,{method:'POST',
+   headers:{'Content-Type':'application/json','Authorization':'Bearer '+byId('token').value},body:JSON.stringify(body)});
+  const data=await response.json();byId('output').textContent=JSON.stringify(data,null,2);
+  byId('status').textContent=response.ok?'Complete; inspect states, citations and limitations.':'Refused or unavailable: '+data.error;
+  return response.ok?data:null;
+ }catch(error){byId('status').textContent='Request failed: '+error.message;return null;}
+}
+function values(){return{action:byId('action').value,arguments:JSON.parse(byId('arguments').value)};}
+function handle(id,fn){byId(id).onclick=()=>Promise.resolve().then(fn).catch(e=>{byId('status').textContent='Invalid input: '+e.message;});}
+handle('ask',()=>call('query',{query:byId('query').value}));
+handle('caps',()=>call('capabilities',{}));
+handle('approve',async()=>{const data=await call('approve',{...values(),obligations:JSON.parse(byId('obligations').value),sources:JSON.parse(byId('sources').value)});if(data)byId('decision').value=data.decision_id;});
+handle('invoke',()=>call('invoke',{...values(),decision_id:byId('decision').value||null}));
+handle('inspect',()=>call('decision',{decision_id:byId('decision').value}));
+handle('revoke',()=>call('revoke',{decision_id:byId('decision').value}));
+</script></html>
