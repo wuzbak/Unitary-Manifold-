@@ -1,9 +1,10 @@
 name: 12-AZ-IP Pillar Verification
 
-# Strict, parallel verification for the three 12-AZ-IP engineering pillars
+# Strict, parallel verification for the 12-AZ-IP engineering surfaces
 # named explicitly by the product brief: the bare-metal kernel memory model
 # (Product 02), the browser network sandbox (Product 24), and the
-# from-scratch autograd math (Product 43). Each job is an independent,
+# from-scratch autograd math (Product 43), plus the governed integration
+# contracts (Product 44). Each job is an independent,
 # fail-closed verification gate; none depends on the others, and a failure
 # in any one job fails the overall check.
 
@@ -14,12 +15,14 @@ on:
       - "12-AZ-IP/02-az-kernel/**"
       - "12-AZ-IP/24-psicat-web-browser/**"
       - "12-AZ-IP/43-az-geometric-tori-transformer/**"
+      - "12-AZ-IP/44-axiomzero-weave/**"
       - ".github/workflows/az-ip-pillars-ci.yml"
   pull_request:
     paths:
       - "12-AZ-IP/02-az-kernel/**"
       - "12-AZ-IP/24-psicat-web-browser/**"
       - "12-AZ-IP/43-az-geometric-tori-transformer/**"
+      - "12-AZ-IP/44-axiomzero-weave/**"
       - ".github/workflows/az-ip-pillars-ci.yml"
 
 concurrency:
@@ -139,3 +142,21 @@ jobs:
         # the toroidal attention mechanism actually trains/converges,
         # benchmarked same-engine against a standard RoPE control arm.
         run: python -m pytest tests/ -v
+
+  weave-check:
+    name: "Weave Check — governed integration (44-axiomzero-weave)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install scoped integration dependencies
+        run: pip install numpy pytest httpx
+      - name: Verify real backends, private memory, effect gates and native PsiCat tools
+        run: >-
+          python -m pytest -q -c /dev/null
+          --confcutdir=12-AZ-IP/44-axiomzero-weave/tests
+          --import-mode=importlib
+          12-AZ-IP/44-axiomzero-weave/tests/
+          12-AZ-IP/20-psicat-navigator/tests/test_weave_tools.py

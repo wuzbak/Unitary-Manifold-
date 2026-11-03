@@ -17,6 +17,11 @@ not certify live deployment, broad model advantage, physics closure or governanc
 of all unrelated executors. No pillar, TOE-score, epistemic-label or falsifier
 change. See [Product 44](../12-AZ-IP/44-axiomzero-weave/README.md).
 
+The combined regression exposed missing Product 44 registrations in the CodeQL
+slice manifest, portfolio license schedule and reviewed UM-ARTS suite list.
+Those integration omissions were corrected, with a dedicated scoped Weave CI
+job added; no required validation gate was bypassed.
+
 ## PsiCat integration follow-through (2026-11-01; adjacent software only)
 
 Added an evidence-led ecosystem integration plan and default-off assembled

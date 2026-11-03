@@ -156,6 +156,14 @@
       ]
     },
     {
+      "slice_id": "python-azip-product-44",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/44-axiomzero-weave"
+      ]
+    },
+    {
       "slice_id": "python-repository-tooling",
       "language": "python",
       "build_mode": "none",
