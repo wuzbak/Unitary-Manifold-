@@ -1,5 +1,16 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
+> **Planar dynamics reassessment (2026-11-03; no version/pillar promotion):**
+> P1132's scalar acceleration coefficient is an off-shell identity, not proof
+> of nonconstant constraint-compatible propagation. Fixed flat transverse
+> spectators exclude that propagation for a real positive-kinetic scalar.
+> Its runtime status is narrowed to restricted acceleration/static identities.
+> The new, separate massless zero-vector planar solver retains transverse
+> backreaction and is checked against an independent five-dimensional Ricci
+> oracle. See [derivation, scope and reproducibility](docs/physics/PLANAR_RADION_DYNAMICS.md).
+> General physical-time certification and the relaxation-law obligation remain
+> open; the historical full-regression marker is not a new execution receipt.
+
 > **Health repair (2026-10-09):** the historical P8 functional-space Lean4
 > closure and its Sub-gap L promotion are withdrawn. Finite Float checks
 > do not prove Sobolev-space coercivity, attainment or uniqueness.

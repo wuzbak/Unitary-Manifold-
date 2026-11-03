@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8329,
+  "file_count": 8340,
   "lanes": {
     "az_ip": 2490,
     "compactification": 9,
-    "other": 5380,
+    "other": 5391,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -24,7 +24,7 @@
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
     "12-AZ-IP": 2490,
-    "2-REPRODUCIBILITY": 11,
+    "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
@@ -74,7 +74,7 @@
     "SLA_MANIFESTO.md": 1,
     "STATUS.md": 1,
     "STEWARDSHIP.md": 1,
-    "TOOLS": 19,
+    "TOOLS": 20,
     "VERIFY.py": 1,
     "_config.yml": 1,
     "axiomzero_bootstrap.py": 1,
@@ -88,7 +88,7 @@
     "data": 4,
     "demo.ipynb": 1,
     "docker-compose.yml": 1,
-    "docs": 98,
+    "docs": 99,
     "dvc.yaml": 1,
     "firebase.json": 1,
     "hf-spaces": 54,
@@ -108,10 +108,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1633,
+    "src": 1637,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1560,
+    "tests": 1564,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -21241,6 +21241,12 @@
       "lane": "other"
     },
     {
+      "path": "2-REPRODUCIBILITY/planar_radion_acceptance.json",
+      "top_level": "2-REPRODUCIBILITY",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "3-FALSIFICATION/ADVERSARIAL_REVIEWS/ADVERSARIAL_PEER_REVIEW_2026-05-04.md",
       "top_level": "3-FALSIFICATION",
       "kind": "file",
@@ -33301,6 +33307,12 @@
       "lane": "other"
     },
     {
+      "path": "TOOLS/checks/run_planar_radion_acceptance.py",
+      "top_level": "TOOLS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "TOOLS/checks/run_supervised_pytest_batch.py",
       "top_level": "TOOLS",
       "kind": "file",
@@ -34070,6 +34082,12 @@
     },
     {
       "path": "docs/peer_review_core_bundle.json",
+      "top_level": "docs",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "docs/physics/PLANAR_RADION_DYNAMICS.md",
       "top_level": "docs",
       "kind": "file",
       "lane": "other"
@@ -45589,6 +45607,30 @@
       "lane": "other"
     },
     {
+      "path": "src/physics/planar_radion/__init__.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/physics/planar_radion/derivation.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/physics/planar_radion/evolution.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/physics/planar_radion/geometry.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/psychology/AXIOMZERO_NOTICE.md",
       "top_level": "src",
       "kind": "file",
@@ -54536,6 +54578,30 @@
     },
     {
       "path": "tests/test_pipeline_adapter.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_planar_radion_acceptance.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_planar_radion_derivation.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_planar_radion_evolution.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_planar_radion_geometry.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

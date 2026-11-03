@@ -1,5 +1,14 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
+> **Planar consistency correction (2026-11-03):** P1132's off-shell scalar
+> acceleration term does not establish nonconstant constrained propagation
+> with fixed transverse spectators. That interpretation is withdrawn.
+> The separate [planar Einstein--radion derivation and implementation](../docs/physics/PLANAR_RADION_DYNAMICS.md)
+> retains transverse backreaction, propagating constraints and an independent
+> five-dimensional vacuum audit within a massless zero-vector circle sector.
+> This does not close general evolution, derive the relaxation law or change
+> any version, pillar allocation or observational falsifier.
+
 > **Health repair (2026-10-09):** P8's historical full functional-space
 > certificate and Sub-gap L's Lean4 promotion are withdrawn. NaN ordering,
 > negative-input square ordering and underflow defeat unrestricted Float

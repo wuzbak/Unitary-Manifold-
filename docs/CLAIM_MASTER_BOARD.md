@@ -1,6 +1,19 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
 # Unitary Manifold v38.3
 
+## Planar consistency reassessment (2026-11-03)
+
+P1132 now reports `ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED`.
+Its historical scalar-propagation interpretation below is superseded: fixed
+flat transverse spectators force the real scalar to be constant on a full
+constrained solution. The off-shell acceleration and restricted static
+identities survive; nontrivial constrained dynamics do not follow from them.
+The separate transversely isotropic massless, zero-vector circle sector now has
+an explicit physical-time solver and independent five-dimensional Ricci audit.
+See [the derivation and acceptance specification](physics/PLANAR_RADION_DYNAMICS.md).
+This does not close the general action-to-evolution contract or derive the
+relaxation law. No new pillar, version or observational claim is allocated.
+
 > **Health repair (2026-10-09):** P8 functional-space closure and Sub-gap L's
 > Lean4 promotion are withdrawn. Finite scalar checks are not a functional
 > proof. Version/pillar allocation and observational falsifiers are unchanged.

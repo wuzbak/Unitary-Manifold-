@@ -33,11 +33,11 @@ def packet():
 def test_identity() -> None:
     assert PILLAR_NUMBER == 1132
     assert PILLAR_GATE == 'ADM_HOMOGENEOUS_HYPERBOLIC_EVOLUTION'
-    assert PILLAR_STATUS == 'ADM_HOMOGENEOUS_GRAVITY_SCALAR_HYPERBOLIC_EVOLUTION_CERTIFIED'
+    assert PILLAR_STATUS == 'ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED'
     assert VERSION == 'v38.4'
     assert NEXT_PILLAR_SLOT == 1133
     assert NEW_CERTIFIED_SUBCASE == (
-        'ADM_COORDINATE_TIME_HYPERBOLIC_EVOLUTION_HOMOGENEOUS_GRAVITY_SCALAR_SECTOR'
+        'ADM_OFF_SHELL_ACCELERATION_AND_STATIC_IDENTITIES_ONLY'
     )
 
 
@@ -64,10 +64,19 @@ def test_certificate_hyperbolicity_evidence(certificate) -> None:
     assert hyperbolicity['h_equation_is_nondynamical'] is True
     assert hyperbolicity['N_equation_is_constraint'] is True
     assert hyperbolicity['Nx_equation_is_constraint'] is True
-    # The scalar sector is the one genuinely hyperbolic (second-order-in-time) equation.
+    # An off-shell acceleration term does not establish a constrained solution.
     assert hyperbolicity['p_equation_is_dynamical'] is True
     assert hyperbolicity['coeff_d2h_dt2_in_h_equation'] == 0
     assert hyperbolicity['coeff_d2p_dt2_in_p_equation'] != 0
+    assert all(
+        coefficient == 0
+        for equation in hyperbolicity['constraint_acceleration_coefficients'].values()
+        for coefficient in equation.values()
+    )
+    assert certificate['t_dynamics_derived_from_action'] is False
+    assert certificate['off_shell_time_derivative_terms_derived'] is True
+    assert certificate['constraint_compatible_nonconstant_scalar_evolution'] is False
+    assert certificate['well_posedness_established'] is False
 
 
 @pytest.mark.slow

@@ -1,6 +1,16 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
 # Unitary Manifold v38.3
 
+> **Planar reassessment (2026-11-03):** P1132 retains restricted acceleration
+> and static identities only (`ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED`).
+> Its fixed transverse spectators exclude nonconstant constrained real-scalar
+> propagation; the historical hyperbolic-evolution interpretation is withdrawn.
+> A separate massless planar circle-sector implementation retains transverse
+> backreaction and has an independent 5D Ricci audit. Its scope and numerical
+> evidence are in [the technical specification](physics/PLANAR_RADION_DYNAMICS.md).
+> General physical-time and relaxation-law obligations remain open; no new
+> pillar, version or observational claim is made.
+
 > **Health repair (2026-10-09):** the P8 full functional-space certificate and
 > Sub-gap L promotion are withdrawn; finite Float checks do not discharge
 > infinite-dimensional proof obligations. Historical theorem and test totals
