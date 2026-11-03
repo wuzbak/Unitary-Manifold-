@@ -168,7 +168,11 @@ def test_failed_replace_preserves_prior_history(tmp_path: Path, monkeypatch: pyt
 
 def test_concurrent_processes_retain_all_receipts(tmp_path: Path) -> None:
     path = tmp_path / "audit.json"
-    env = dict(os.environ, MERLIN_TOOL_AUDIT_STORE_PATH=str(path), PYTHONPATH=str(PRODUCT_ROOT))
+    env = dict(
+        os.environ,
+        MERLIN_TOOL_AUDIT_STORE_PATH=str(path),
+        PYTHONPATH=os.pathsep.join([str(PRODUCT_ROOT), str(PRODUCT_ROOT.parents[1])]),
+    )
     code = (
         "from ox_navigator.engine.merlin_tools import route_tool; "
         "assert route_tool('getMerlinMemoryState')['ok']"
