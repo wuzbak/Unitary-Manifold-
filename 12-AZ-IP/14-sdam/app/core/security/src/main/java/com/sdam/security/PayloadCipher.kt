@@ -16,15 +16,15 @@ private const val TAG = "SDAM/PayloadCipher"
  *   - [decrypt]       strips `ENC:` and returns the plaintext
  *   - [isEncrypted]   tests whether a received payload was encrypted
  *
- * The AES key lives in Android Keystore / StrongBox.
+ * The AES key is managed through Android Keystore; hardware backing depends
+ * on the device and is not verified by this application.
  * Per-call random IV is embedded in the wire payload.
- * The HMAC layer ([AcousticAuth]) still wraps `ENC:…` for replay protection.
+ * The authenticated acoustic frame wraps `ENC:…` for integrity and replay protection.
  */
 @Singleton
 class PayloadCipher @Inject constructor(
     private val keyManager: SdamKeyManager,
 ) {
-
     /** True if the AES key is provisioned and encryption is available. */
     fun canEncrypt(): Boolean = keyManager.hasMasterKey()
 
@@ -57,15 +57,10 @@ class PayloadCipher @Inject constructor(
     /** True if [payload] is an encrypted wire payload (starts with `ENC:`). */
     fun isEncrypted(payload: String): Boolean = payload.startsWith("ENC:")
 
-    /**
-     * Encrypt [payload] only when [isEncrypted] is false, and only when
-     * encryption is available.  Pass-through otherwise.
-     */
-    fun encryptIfNeeded(payload: String): String {
+    /** Encrypt [payload] unless it is already encrypted. Fails closed if no key exists. */
+    fun encryptIfNeeded(payload: String): String? {
         if (isEncrypted(payload)) return payload
-        return encrypt(payload) ?: payload.also {
-            Log.w(TAG, "encryptIfNeeded: falling back to plaintext (key not ready)")
-        }
+        return encrypt(payload)
     }
 
     /** Decrypt [payload] only when [isEncrypted] is true.  Pass-through otherwise. */

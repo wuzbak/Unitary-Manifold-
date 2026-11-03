@@ -12,8 +12,13 @@ package com.sdam.audio
  */
 object GGWaveNative {
 
-    init {
-        System.loadLibrary("sdam")
+    val isAvailable: Boolean by lazy {
+        try {
+            System.loadLibrary("sdam")
+            true
+        } catch (_: UnsatisfiedLinkError) {
+            false
+        }
     }
 
     /**

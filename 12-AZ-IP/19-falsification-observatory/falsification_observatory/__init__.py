@@ -25,6 +25,16 @@ from .engine.constants import (
     WINDING_NUMBER,
     XENON_SENS,
 )
+from .engine.evidence_feed import (
+    ARXIV_ENDPOINT,
+    TRACKED_FEEDS,
+    EvidenceFeedTracker,
+    FeedInvalid,
+    FeedUnavailable,
+    FetchResponse,
+    dispatch_evidence_request,
+    parse_arxiv_atom,
+)
 from .engine.desi_tracker import DESI_DR3_PREREGISTRATION, check_desi_tension, get_falsification_status
 from .engine.litebird_countdown import (
     BIREFRINGENCE_PREDICTION,
@@ -48,6 +58,14 @@ from .engine.routing import (
 from .engine.verdict import VerdictResult
 
 __all__ = [
+    'ARXIV_ENDPOINT',
+    'TRACKED_FEEDS',
+    'EvidenceFeedTracker',
+    'FeedInvalid',
+    'FeedUnavailable',
+    'FetchResponse',
+    'dispatch_evidence_request',
+    'parse_arxiv_atom',
     'VerdictResult',
     'DESI_DR3_PREREGISTRATION',
     'BIREFRINGENCE_PREDICTION',

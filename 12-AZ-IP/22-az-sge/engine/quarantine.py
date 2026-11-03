@@ -4,25 +4,21 @@
 engine/quarantine.py — Threat Quarantine & Remediation Orchestrator
 ====================================================================
 
-Manages the full threat response lifecycle:
+Maintains local response records and copies flagged content into an owner-only
+vault. It does not isolate source files or apply host-level remediation.
 
-  QuarantineRecord     — immutable log of a quarantine action
-  QuarantineVault      — isolated storage for quarantined file bytes
-  RemediationAction    — recommended action for a specific threat class
-  QuarantineOrchestrator — decides and executes quarantine + remediation
+  QuarantineRecord     — audit record of a local analysis or recommendation
+  QuarantineVault      — owner-only storage for copies of flagged file bytes
+  RemediationAction    — recommendation and whether this process performed it
+  QuarantineOrchestrator — vault-copy and record coordinator
 
-Quarantine policy (priority order):
-  1. CRITICAL threats → immediate quarantine + kill-process signal + alert
-  2. HIGH threats     → quarantine + operator notification
-  3. MEDIUM threats   → monitor + optional quarantine
-  4. LOW / INFO       → log only
+File policy:
+  • Above threshold: store a separate vault copy; leave the source untouched
+  • Missing/unreadable content: record a failed vault operation
+  • Below threshold: record the finding without a vault copy
 
-Remediation catalogue:
-  • For known malware: quarantine file, terminate process, purge temp dirs
-  • For ransomware:    quarantine encrypted files, restore canary, alert
-  • For intrusion:    block source IP in firewall, revoke session tokens
-  • For CVE:          generate patch advisory with specific upgrade commands
-  • For surveillance: block tracker domain, flush DNS cache, rotate keys
+Network blocks, process actions, notifications, and patching remain
+recommendations; this module has no host-enforcement adapter.
 
 Theory: ThomasCory Walker-Pearson
 Implementation: GitHub Copilot (AI)
@@ -54,7 +50,9 @@ from .hash_chain import HashChain
 
 class QuarantineStatus(str, Enum):
     PENDING    = "pending"
+    VAULTED    = "vaulted"
     QUARANTINED = "quarantined"
+    RECORDED   = "recorded"
     RELEASED   = "released"
     DELETED    = "deleted"
     FAILED     = "failed"
@@ -89,6 +87,7 @@ class QuarantineRecord:
     status: QuarantineStatus
     description: str
     remediation_actions: List[str] = field(default_factory=list)
+    remediation_details: List[dict] = field(default_factory=list)
     chain_link_index: Optional[int] = None
 
     def to_dict(self) -> dict:
@@ -103,6 +102,7 @@ class QuarantineRecord:
             "status": self.status.value,
             "description": self.description,
             "remediation_actions": self.remediation_actions,
+            "remediation_details": self.remediation_details,
         }
 
 
@@ -111,9 +111,10 @@ class QuarantineRecord:
 # ---------------------------------------------------------------------------
 
 class QuarantineVault:
-    """Isolated on-disk vault for quarantined files.
+    """Owner-only on-disk vault for copies of flagged files.
 
     Files are stored as SHA-256 named blobs with a .q extension.
+    This does not remove or disable the original file.
     The vault directory should be:
       • Owned by the security agent process
       • Not world-readable
@@ -152,12 +153,12 @@ class QuarantineVault:
         return str(vault_path)
 
     def store_file(self, path: str | Path) -> str:
-        """Read a file from disk and store it in the vault.  Returns vault path."""
+        """Read a file from disk and store a copy in the vault."""
         data = Path(path).read_bytes()
         return self.store(data, str(path))
 
     def release(self, sha256: str, restore_path: str | Path) -> bool:
-        """Restore a quarantined file to its original location.  Returns True on success."""
+        """Copy a vaulted file to a restore path.  Returns True on success."""
         vault_path = self._dir / f"{sha256}.q"
         if not vault_path.exists():
             return False
@@ -168,7 +169,7 @@ class QuarantineVault:
             return False
 
     def delete(self, sha256: str) -> bool:
-        """Permanently delete a quarantined file."""
+        """Permanently delete a vaulted copy."""
         vault_path = self._dir / f"{sha256}.q"
         meta_path = self._dir / f"{sha256}.meta.json"
         ok = False
@@ -179,13 +180,13 @@ class QuarantineVault:
         return ok
 
     def list_quarantined(self) -> List[dict]:
-        """List all quarantined file metadata."""
+        """List stored-copy metadata; malformed entries raise an error."""
         results = []
-        for meta_file in self._dir.glob("*.meta.json"):
-            try:
-                results.append(json.loads(meta_file.read_text()))
-            except Exception:
-                pass
+        for meta_file in sorted(self._dir.glob("*.meta.json")):
+            data = json.loads(meta_file.read_text(encoding="utf-8"))
+            if not isinstance(data, dict):
+                raise ValueError(f"Invalid quarantine metadata: {meta_file}")
+            results.append(data)
         return results
 
     @property
@@ -222,7 +223,7 @@ class RemediationAction:
 # ---------------------------------------------------------------------------
 
 class QuarantineOrchestrator:
-    """Decides and executes quarantine + remediation for all threat types.
+    """Vaults flagged content and records local response recommendations.
 
     Parameters
     ----------
@@ -231,7 +232,8 @@ class QuarantineOrchestrator:
     chain : HashChain, optional
         Hash chain for audit trail.  Created automatically if omitted.
     auto_quarantine_threshold : float
-        Threat score above which files are auto-quarantined (default 70.0).
+        Threat score above which supplied/readable content is copied to the
+        local vault (default 70.0). The source is not isolated or removed.
     """
 
     def __init__(
@@ -256,30 +258,35 @@ class QuarantineOrchestrator:
         scan: FileScanResult,
         file_data: Optional[bytes] = None,
     ) -> QuarantineRecord:
-        """Handle a FileScanResult.  Quarantines if above threshold."""
+        """Store flagged bytes in the local vault above threshold.
+
+        The original file is never moved, deleted, or disabled.
+        """
         actions = self._plan_file_remediation(scan)
         status = QuarantineStatus.PENDING
         vault_path = None
 
-        if scan.threat_score >= self._threshold and scan.path:
-            # Quarantine
+        if scan.threat_score >= self._threshold:
             try:
                 if file_data is not None:
-                    vault_path = self._vault.store(file_data, scan.path)
-                elif Path(scan.path).exists():
+                    vault_path = self._vault.store(file_data, scan.path or "<memory>")
+                elif scan.path and Path(scan.path).is_file():
                     vault_path = self._vault.store_file(scan.path)
-                status = QuarantineStatus.QUARANTINED
-            except Exception as exc:
+                else:
+                    raise FileNotFoundError("No readable source file or supplied file bytes.")
+                status = QuarantineStatus.VAULTED
+                for action in actions:
+                    if action.action_type == RemediationType.QUARANTINE_FILE:
+                        action.executed = True
+                        action.result = "Stored a separate vault copy; source bytes were not removed."
+            except (OSError, ValueError, TypeError) as exc:
                 status = QuarantineStatus.FAILED
                 actions.append(RemediationAction(
                     RemediationType.ALERT_OPERATOR,
                     target=scan.path,
-                    description=f"Quarantine failed: {exc}",
-                    executed=True,
-                    result="FAILED",
+                    description=f"Vault copy failed: {exc}",
+                    result="No notification transport is configured.",
                 ))
-        else:
-            status = QuarantineStatus.PENDING
 
         record = self._make_record(
             threat_type="malware" if scan.is_known_malware else "suspicious_file",
@@ -308,14 +315,21 @@ class QuarantineOrchestrator:
                 target=result.filename,
                 description=f"Zero-day heuristic verdict: {result.verdict} "
                             f"(confidence {result.max_confidence:.0f}%)",
-                executed=True,
+                result="No notification transport is configured.",
             )
         ]
         vault_path = None
         status = QuarantineStatus.PENDING
         if result.max_confidence >= self._threshold and file_data is not None:
             vault_path = self._vault.store(file_data, result.filename)
-            status = QuarantineStatus.QUARANTINED
+            status = QuarantineStatus.VAULTED
+            actions.append(RemediationAction(
+                RemediationType.QUARANTINE_FILE,
+                target=result.filename,
+                description="Store flagged content in the local vault.",
+                executed=True,
+                result="Stored a separate vault copy; source bytes were not removed.",
+            ))
 
         return self._make_record(
             threat_type="zero_day",
@@ -329,16 +343,15 @@ class QuarantineOrchestrator:
         )
 
     def handle_ids_alert(self, alert: IDSAlert) -> QuarantineRecord:
-        """Handle an IDS alert.  Blocks source IP if critical."""
+        """Record an IDS alert and local block recommendation."""
         actions: List[RemediationAction] = []
 
         if alert.src_ip and alert.severity.value in ("critical", "high"):
             actions.append(RemediationAction(
                 RemediationType.BLOCK_IP,
                 target=alert.src_ip,
-                description=f"Block source IP due to {alert.rule_name}",
-                executed=True,
-                result="BLOCKED",
+                description=f"Recommend blocking source IP due to {alert.rule_name}",
+                result="Local recommendation only; no host firewall adapter is configured.",
             ))
             if alert.src_ip not in self._blocked_ips:
                 self._blocked_ips.append(alert.src_ip)
@@ -347,7 +360,7 @@ class QuarantineOrchestrator:
             RemediationType.ALERT_OPERATOR,
             target=alert.src_ip or "unknown",
             description=f"IDS alert: {alert.rule_name} — {alert.description[:128]}",
-            executed=True,
+            result="No notification transport is configured.",
         ))
 
         return self._make_record(
@@ -356,13 +369,13 @@ class QuarantineOrchestrator:
             source_path=None,
             vault_path=None,
             threat_score=alert.score,
-            status=QuarantineStatus.QUARANTINED,
+            status=QuarantineStatus.RECORDED,
             description=alert.description[:256],
             actions=actions,
         )
 
     def handle_threat_indicator(self, indicator: ThreatIndicator) -> QuarantineRecord:
-        """Handle a threat intelligence indicator (domain block, patch advisory)."""
+        """Record a threat indicator and local block or patch recommendation."""
         actions: List[RemediationAction] = []
 
         from .threat_intel import ThreatCategory
@@ -370,8 +383,8 @@ class QuarantineOrchestrator:
             actions.append(RemediationAction(
                 RemediationType.BLOCK_DOMAIN,
                 target=indicator.indicator,
-                description=f"Block known malicious domain: {indicator.indicator}",
-                executed=True,
+                description=f"Recommend blocking known malicious domain: {indicator.indicator}",
+                result="Local recommendation only; no host DNS/firewall adapter is configured.",
             ))
             if indicator.indicator not in self._blocked_domains:
                 self._blocked_domains.append(indicator.indicator)
@@ -379,8 +392,8 @@ class QuarantineOrchestrator:
             actions.append(RemediationAction(
                 RemediationType.BLOCK_IP,
                 target=indicator.indicator,
-                description=f"Block known malicious IP: {indicator.indicator}",
-                executed=True,
+                description=f"Recommend blocking known malicious IP: {indicator.indicator}",
+                result="Local recommendation only; no host firewall adapter is configured.",
             ))
             if indicator.indicator not in self._blocked_ips:
                 self._blocked_ips.append(indicator.indicator)
@@ -389,7 +402,6 @@ class QuarantineOrchestrator:
                 RemediationType.PATCH_ADVISORY,
                 target=indicator.cve_id or indicator.indicator,
                 description=f"Patch required for {indicator.cve_id}: {indicator.description[:128]}",
-                executed=False,
             ))
 
         return self._make_record(
@@ -398,7 +410,7 @@ class QuarantineOrchestrator:
             source_path=None,
             vault_path=None,
             threat_score=indicator.score,
-            status=QuarantineStatus.QUARANTINED,
+            status=QuarantineStatus.RECORDED,
             description=indicator.description[:256],
             actions=actions,
         )
@@ -421,7 +433,7 @@ class QuarantineOrchestrator:
         if rec is None or rec.vault_path is None:
             return False
         vault_p = Path(rec.vault_path)
-        sha256 = vault_p.stem  # filename is sha256
+        sha256 = vault_p.stem
         ok = self._vault.release(sha256, restore_path)
         if ok:
             rec.status = QuarantineStatus.RELEASED
@@ -461,13 +473,16 @@ class QuarantineOrchestrator:
             f"{ts}:{threat_type}:{source_path}:{threat_score}".encode()
         ).hexdigest()[:16]
 
-        # Commit to hash chain
         payload = json.dumps({
             "record_id": record_id,
             "threat_type": threat_type,
             "severity": severity,
             "threat_score": threat_score,
+            "status": status.value,
+            "source_path": source_path,
+            "vault_path": vault_path,
             "description": description,
+            "remediation_details": [action.to_dict() for action in actions],
         }).encode()
         link = self._chain.commit(
             payload,
@@ -486,6 +501,7 @@ class QuarantineOrchestrator:
             status=status,
             description=description,
             remediation_actions=[a.action_type.value for a in actions],
+            remediation_details=[a.to_dict() for a in actions],
             chain_link_index=link.index,
         )
         self._records.append(record)
@@ -497,27 +513,24 @@ class QuarantineOrchestrator:
             actions.append(RemediationAction(
                 RemediationType.QUARANTINE_FILE,
                 target=scan.path,
-                description="Auto-quarantine: threat score ≥ 90 or known malware",
-                executed=True,
+                description="Recommend vaulting: threat score ≥ 90 or known malware",
             ))
             actions.append(RemediationAction(
                 RemediationType.ALERT_OPERATOR,
                 target=scan.path,
                 description=f"Critical threat detected: {scan.malware_family or 'unknown'}",
-                executed=True,
+                result="No notification transport is configured.",
             ))
         elif scan.threat_score >= 70:
             actions.append(RemediationAction(
                 RemediationType.QUARANTINE_FILE,
                 target=scan.path,
-                description="Quarantine: threat score ≥ 70",
-                executed=True,
+                description="Recommend vaulting: threat score ≥ 70",
             ))
         elif scan.threat_score >= 40:
             actions.append(RemediationAction(
                 RemediationType.MONITOR_ONLY,
                 target=scan.path,
                 description="Monitor: threat score 40–69, no auto-quarantine",
-                executed=True,
             ))
         return actions

@@ -3,7 +3,7 @@
 """Consolidated, material-parameter-agnostic screening formula.
 
 Input: band-structure / dielectric-response parameters for a candidate
-material. Output: predicted polaron properties, metamaterial flags, and the
+material. Output: formula-derived polaron properties, metamaterial flags, and the
 framework's fixed critical half-angle, plus a divergence score usable to
 rank candidates against each other.
 """
@@ -11,6 +11,8 @@ rank candidates against each other.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
+from numbers import Real
 from typing import List
 
 from ._repo import ensure_repo_on_path
@@ -36,6 +38,12 @@ ALPHA_UM_CANONICAL = froehlich_alpha_um(N_W_CANONICAL, N1_CANONICAL, N2_CANONICA
 #: polariton_vortex.py). Reported for context alongside each candidate.
 CRITICAL_ANGLE_DEG = critical_angle_deg()
 
+SCREENING_NOTICE = (
+    "Descriptive formula screening only; not experimental validation, proof, "
+    "or a validated prediction of material behavior. Alpha divergence is not "
+    "a performance, feasibility, or statistical-significance score."
+)
+
 
 @dataclass(frozen=True)
 class MaterialCandidate:
@@ -49,14 +57,39 @@ class MaterialCandidate:
     epsilon_r: float
     mu_r: float = 1.0
 
+    def __post_init__(self) -> None:
+        if not isinstance(self.name, str) or not self.name.strip():
+            raise ValueError("name must be a nonblank string")
+        for field in ("alpha", "omega_lo_mev", "m_band_me", "epsilon_r", "mu_r"):
+            value = getattr(self, field)
+            try:
+                finite = isinstance(value, Real) and not isinstance(value, bool) and math.isfinite(value)
+            except OverflowError:
+                finite = False
+            if not finite:
+                raise ValueError(f"{field} must be a finite real number")
+            if field in ("alpha", "omega_lo_mev", "m_band_me") and value <= 0:
+                raise ValueError(f"{field} must be > 0")
+
 
 def screen_candidate(candidate: MaterialCandidate) -> dict:
     """Run the consolidated polaron + metamaterial formula set against one
     candidate material and return a single result dict."""
-    binding_energy_ev = polaron_binding_energy_ev(candidate.alpha, candidate.omega_lo_mev)
-    effective_mass_ratio = polaron_effective_mass_ratio(candidate.alpha)
-    radius_nm = polaron_radius_nm(candidate.omega_lo_mev, candidate.m_band_me)
-    neg_index = negative_phi_index(candidate.epsilon_r, candidate.mu_r)
+    try:
+        binding_energy_ev = polaron_binding_energy_ev(candidate.alpha, candidate.omega_lo_mev)
+        effective_mass_ratio = polaron_effective_mass_ratio(candidate.alpha)
+        radius_nm = polaron_radius_nm(candidate.omega_lo_mev, candidate.m_band_me)
+        neg_index = negative_phi_index(candidate.epsilon_r, candidate.mu_r)
+    except (OverflowError, ZeroDivisionError) as exc:
+        raise ValueError("candidate parameters exceed the formula numerical range") from exc
+    computed = (binding_energy_ev, effective_mass_ratio, radius_nm, neg_index)
+    if (
+        not all(math.isfinite(value) for value in computed)
+        or binding_energy_ev <= 0
+        or radius_nm <= 0
+        or (candidate.epsilon_r != 0 and candidate.mu_r != 0 and neg_index == 0)
+    ):
+        raise ValueError("candidate parameters produce nonfinite or underflowed formula results")
     eps_near_zero = epsilon_phi_near_zero(candidate.epsilon_r)
     alpha_divergence = abs(candidate.alpha - ALPHA_UM_CANONICAL)
 
@@ -70,14 +103,18 @@ def screen_candidate(candidate: MaterialCandidate) -> dict:
         "predicted_critical_angle_deg": CRITICAL_ANGLE_DEG,
         "alpha_um_canonical": ALPHA_UM_CANONICAL,
         "alpha_divergence_from_um": alpha_divergence,
+        "screening_notice": SCREENING_NOTICE,
+        "warnings": (
+            ["alpha >= 6: outside the stated weak-coupling range for binding energy and effective mass"]
+            if candidate.alpha >= 6 else []
+        ),
     }
 
 
 def rank_candidates(candidates: List[MaterialCandidate]) -> List[dict]:
-    """Screen every candidate and rank by alpha divergence from the UM
-    canonical value, descending — the materials whose measured Froehlich
-    coupling would most cleanly separate from the UM-predicted value make
-    the best new falsification targets, per article-354 direction #3."""
+    """Screen candidates and descriptively sort absolute alpha divergence
+    from the UM canonical value, descending. Ties preserve input order;
+    ranking alone establishes neither significance nor feasibility."""
     if not candidates:
         raise ValueError("candidates must not be empty")
     results = [screen_candidate(c) for c in candidates]

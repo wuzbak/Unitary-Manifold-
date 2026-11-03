@@ -3,9 +3,13 @@
 
 from __future__ import annotations
 
+import json
+import os
 import secrets
 import string
+import tempfile
 import threading
+from pathlib import Path
 from uuid import uuid4
 
 from .assistant import build_merlin_response
@@ -44,9 +48,56 @@ from .rules import (
 class MerlinDndService:
     """Offline-first D&D 5e/5.5e campaign and assistant service."""
 
-    def __init__(self) -> None:
+    def __init__(self, storage_path: str | Path | None = None) -> None:
         self._campaigns: dict[str, Campaign] = {}
         self._lock = threading.RLock()
+        self._storage_path = Path(storage_path).expanduser() if storage_path else None
+        if self._storage_path is not None:
+            self._load_campaigns()
+
+    def _load_campaigns(self) -> None:
+        if self._storage_path is None:
+            return
+        if not self._storage_path.exists():
+            return
+        try:
+            data = json.loads(self._storage_path.read_text(encoding="utf-8"))
+            if not isinstance(data, dict) or data.get("version") != 1 or not isinstance(data.get("campaigns"), list):
+                raise ValueError("Unsupported campaign data format.")
+            self._campaigns = {
+                campaign_data["id"]: self._campaign_from_dict(campaign_data)
+                for campaign_data in data["campaigns"]
+            }
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            raise RuntimeError(f"Unable to load PsiCat campaign data from {self._storage_path}: {exc}") from exc
+
+    def _save_campaigns(self) -> None:
+        if self._storage_path is None:
+            return
+        self._storage_path.parent.mkdir(parents=True, exist_ok=True)
+        content = json.dumps(
+            {"version": 1, "campaigns": [campaign.to_dict() for campaign in self._campaigns.values()]},
+            ensure_ascii=False,
+            indent=2,
+        )
+        temporary_path = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                dir=self._storage_path.parent,
+                prefix=f".{self._storage_path.name}.",
+                suffix=".tmp",
+                delete=False,
+            ) as temporary_file:
+                temporary_path = Path(temporary_file.name)
+                temporary_file.write(content)
+                temporary_file.flush()
+                os.fsync(temporary_file.fileno())
+            os.replace(temporary_path, self._storage_path)
+        finally:
+            if temporary_path is not None:
+                temporary_path.unlink(missing_ok=True)
 
     def create_campaign(self, payload: dict) -> Campaign:
         with self._lock:
@@ -67,6 +118,7 @@ class MerlinDndService:
                 notes=list(payload.get("notes") or []),
             )
             self._campaigns[campaign.id] = campaign
+            self._save_campaigns()
             return campaign
 
     def list_campaigns(self) -> list[dict]:
@@ -118,6 +170,7 @@ class MerlinDndService:
             if character.player_id:
                 player = self._find_player(campaign, character.player_id)
                 player.character_ids.append(character.id)
+            self._save_campaigns()
             return character
 
     def add_quest(self, campaign_id: str, payload: dict) -> Quest:
@@ -132,6 +185,7 @@ class MerlinDndService:
                 notes=list(payload.get("notes") or []),
             )
             campaign.quests.append(quest)
+            self._save_campaigns()
             return quest
 
     def add_layout(self, campaign_id: str, payload: dict) -> DungeonLayout:
@@ -147,6 +201,7 @@ class MerlinDndService:
                 lighting=str(payload.get("lighting") or "mixed torchlight"),
             )
             campaign.layouts.append(layout)
+            self._save_campaigns()
             return layout
 
     def plan_encounter(self, campaign_id: str, payload: dict) -> Encounter:
@@ -167,6 +222,7 @@ class MerlinDndService:
                 battlefield_notes=list(payload.get("battlefield_notes") or [monster.environment for monster in monsters]),
             )
             campaign.encounters.append(encounter)
+            self._save_campaigns()
             return encounter
 
     def build_image_brief(self, campaign_id: str, payload: dict) -> ImageBrief:
@@ -211,6 +267,7 @@ class MerlinDndService:
                 raise ValueError(f"Campaign ID already exists: {campaign_id}.")
             campaign = self._campaign_from_dict(data)
             self._campaigns[campaign.id] = campaign
+            self._save_campaigns()
             return campaign
 
     def generate_invite_code(self, campaign_id: str, payload: dict) -> InviteCode:
@@ -225,6 +282,7 @@ class MerlinDndService:
                 label=str(payload.get("label") or campaign.name),
             )
             campaign.active_invites.append(invite)
+            self._save_campaigns()
             return invite
 
     def join_campaign(self, payload: dict) -> dict:
@@ -245,6 +303,7 @@ class MerlinDndService:
                 imported_payload = dict(payload["character"])
                 imported_payload["player_id"] = player.id
                 imported_character = self.add_character_to_campaign(campaign.id, imported_payload)
+            self._save_campaigns()
             return {
                 "campaign": campaign.to_dict(),
                 "player": player.to_dict(),
@@ -266,6 +325,7 @@ class MerlinDndService:
             campaign.inventory.append(item)
             if item.owner_type == "character":
                 self._find_character(campaign, item.owner_id).inventory.append(item)
+            self._save_campaigns()
             return item
 
     def add_treasure(self, campaign_id: str, payload: dict) -> TreasureEntry:
@@ -281,6 +341,7 @@ class MerlinDndService:
             )
             campaign.treasure_log.append(treasure)
             campaign.party_gold += treasure.gold
+            self._save_campaigns()
             return treasure
 
     def award_xp(self, campaign_id: str, payload: dict) -> dict:
@@ -292,11 +353,13 @@ class MerlinDndService:
             if target_character_id:
                 character = self._find_character(campaign, target_character_id)
                 character.xp += amount
+                self._save_campaigns()
                 return {"campaign_id": campaign_id, "character_id": character.id, "xp": character.xp, "party_xp_total": campaign.party_xp_total}
             for player_id in payload.get("player_ids", []):
                 player = self._find_player(campaign, str(player_id))
                 for character_id in player.character_ids:
                     self._find_character(campaign, character_id).xp += amount
+            self._save_campaigns()
             return {"campaign_id": campaign_id, "party_xp_total": campaign.party_xp_total}
 
     def push_image(self, campaign_id: str, payload: dict) -> SharedImage:
@@ -311,6 +374,7 @@ class MerlinDndService:
                 tags=list(payload.get("tags") or []),
             )
             campaign.shared_images.append(image)
+            self._save_campaigns()
             return image
 
     def add_npc(self, campaign_id: str, payload: dict) -> Npc:
@@ -325,6 +389,7 @@ class MerlinDndService:
                 notes=list(payload.get("notes") or []),
             )
             campaign.npcs.append(npc)
+            self._save_campaigns()
             return npc
 
     def add_map_reference(self, campaign_id: str, payload: dict) -> MapReference:
@@ -340,6 +405,7 @@ class MerlinDndService:
                 tokens=list(payload.get("tokens") or []),
             )
             campaign.maps.append(reference)
+            self._save_campaigns()
             return reference
 
     def dm_dashboard(self, campaign_id: str) -> dict:

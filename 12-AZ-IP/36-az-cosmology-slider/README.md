@@ -1,8 +1,8 @@
 # AZ Differentiable Cosmology Slider — Product 36
 
 **Folder:** `12-AZ-IP/36-az-cosmology-slider/`
-**Version:** 1.1.0
-**TRL:** TRL-4 (working differentiable backend API, now a runnable web product)
+**Version:** 1.2.0
+**TRL:** TRL-4 (bounded differentiable backend API and runnable web product)
 **Status:** Active — Phases 1-2 of article-354's "Differentiable backend -> education slider" roadmap
 
 ## What this is
@@ -45,6 +45,13 @@ JSON API directly:
 - `GET /api/status` — product metadata, JAX availability, Planck/UM `n_s`
 - `GET /api/slider?phi0=&n_w=` — `slider_reading(phi0, n_w)` as JSON
 - `GET /api/sweep?n_w=&phi0_min=&phi0_max=&n_points=` — a sequence of readings
+
+Inputs are finite and bounded to `phi0=1..30` and `n_w=-100..100`; the sweep
+requires an increasing phi0 interval inside that range and at most 201 points.
+These are application limits for stable interactive requests, not claims that
+every accepted value is a physically realized winding state. Unknown and
+repeated query parameters are rejected. Ten optional-JAX tests are skipped
+when JAX is unavailable; invalid-input checks remain runnable without JAX.
 
 ## Tests
 

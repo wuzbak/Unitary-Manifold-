@@ -55,11 +55,88 @@ the JSON API directly:
 - `GET /api/closed-items` — all closed `WorkItem`s
 - `GET /api/item?item_id=` — one item by id
 
+## Committed-source debt inventory (no credentials)
+
+Use a local Git repository's committed TODO/FIXME comments as reproducible
+evidence instead of manually constructing every `WorkItem`. Git must be on
+`PATH`; no network, API token, third-party Python package or repository
+modification is required.
+
+From the Unitary Manifold repository root:
+
+```bash
+python 12-AZ-IP/39-az-research-debt-tracker/run.py \
+  --git-repo . --revision HEAD \
+  --output 12-AZ-IP/39-az-research-debt-tracker/debt-inventory.json
+```
+
+`--git-repo` also accepts another local repository. `--revision` accepts a
+commit hash, tag or branch and resolves it once to an immutable commit.
+Stdout and the optional output file contain the same JSON snapshot: generic
+tracker health score and open items, each with exact commit hash, blob hash,
+file path, line number, original comment and a triage next action. TODO is
+`minor`; FIXME is `significant`; these are triage defaults, not risk analysis.
+`owner_ref` is a source locator, **not** an inferred responsible person.
+
+Review significant items first, assign a responsible owner in your existing
+issue system, reproduce the concern and verify remediation. The recorded
+blob remains inspectable even if the working tree changes:
+
+```bash
+git cat-file blob <blob-hash-from-evidence>
+```
+
+Add `--fail-on-debt` to use the inventory as an opt-in local/CI gate:
+exit **1** means recognized debt exists, **0** means successful inventory
+(with no debt when gating), and **2** means an input/Git/output error.
+Errors are not treated as healthy empty results and Git/input failures do
+not overwrite a prior report. The output parent directory must exist.
+Successful writes replace the named file; choose a report path, not source.
+
+Python callers can use
+`from az_research_debt_tracker import ingest_git_debt` and
+`ingest_git_debt(repo_path, revision="HEAD")` to obtain the same dictionary.
+
+### Scope and limitations
+
+- Reads committed regular source blobs only; ignores staged, dirty and
+  untracked files, symlinks and submodules. It never executes source or hooks.
+- Recognizes uppercase TODO/FIXME at the start of standalone `#`, `//`,
+  `/*`, `*` or `--` comment-shaped lines. Inline comments are not recognized.
+  This is a conservative text inventory, not a language parser: comment-shaped
+  lines inside multiline strings can match. Review the original evidence.
+- Supported extensions: `.py`, `.js`, `.jsx`, `.ts`, `.tsx`, `.go`, `.rs`,
+  `.c`, `.h`, `.cpp`, `.hpp`, `.java`, `.sh`, `.sql`. Binary/non-UTF-8
+  source files are skipped and counted in `coverage`; other files are outside
+  scope. No markers does **not** mean no research debt.
+- IDs derive from path, line number and marker; repeated scans of a commit
+  are deterministic, but IDs may change when lines move. Reports are separate
+  snapshots, not a persistent lifecycle database. A disappearing comment is
+  **not** verified closure and does not generate a closed item.
+- The importer does not run tests, verify claims, create issues, infer owners,
+  or update the existing UM read-only web dashboard. The existing manual
+  closure-validation API and dashboard remain unchanged.
+- Reports include local repository paths and source comments; inspect them
+  before sharing. Large repositories require one Git blob read per supported
+  file; each Git command has a 60-second timeout.
+
 ## Tests
 
 ```bash
 python -m pytest 12-AZ-IP/39-az-research-debt-tracker/tests -q
 ```
+
+For product-only validation without the repository-wide training hooks/config:
+
+```bash
+python -m pytest -c /dev/null -p no:cacheprovider \
+  --confcutdir=12-AZ-IP/39-az-research-debt-tracker \
+  12-AZ-IP/39-az-research-debt-tracker/tests -q
+```
+
+Requires `pytest` and Git. Integration tests create real disposable repositories
+inside this product folder and remove them afterward; they do not use external
+credentials or network services.
 
 ## Sources
 

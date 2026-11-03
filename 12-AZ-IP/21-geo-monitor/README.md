@@ -144,7 +144,7 @@ The overlay exposes these core quantities:
 
 ## Live data feeds
 
-The product is intentionally built on public feeds with no API key requirement for the default runtime path. Version **v4** adds NASA FIRMS active-fire detections and a dedicated NOAA ionosphere/Kp status layer alongside the earlier v3 feeds.
+The browser product fetches public source feeds through a first-party local API so browser CORS policies do not silently disable monitoring. USGS, NASA EONET, NOAA NWS, NWAC, and NOAA planetary Kp need no API key. NASA FIRMS is enabled only when `FIRMS_MAP_KEY` is configured; an absent credential is shown as **unconfigured**, not as an empty successful feed.
 
 ### USGS feeds
 - Past day: `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson`
@@ -164,18 +164,20 @@ The product is intentionally built on public feeds with no API key requirement f
 - `GeoMonitorV4Feeds.ionosphere_status()` adds a NOAA ionosphere layer with quiet/active/storm/severe status.
 - `mock_data` support is built in for fully offline tests.
 - Live HTTP calls are never required by the unit tests.
+- Browser mode uses `GET /api/feeds`, which fetches each source concurrently and reports `live`, `error`, or `unconfigured` independently with its source URL, fetch time, and error detail.
+- NOAA Kp values at or above 4 are displayed as space-weather events; quiet readings remain visible in the source-health panel without being misrepresented as hazard events.
 
 ## MapLibre GL globe visualisation
 
-The browser UI is copied from the public-site reference implementation and localised into `ui/index.html` and `ui/geo-monitor.js`.
-It uses MapLibre GL from a CDN and preserves the original live-feed globe interface, layer toggles, status pills, sidebar summaries, and event detail panel.
-The static UI is served from the product folder so the product can be launched independently with `python run.py serve`.
+The UI in `ui/index.html` and `ui/geo-monitor.js` uses MapLibre GL from a CDN and the product's local HTTP server. The server exposes live source payloads only from fixed, configured public endpoints; it does not accept arbitrary target URLs. The UI refreshes automatically every 60 seconds and provides manual refresh, source-level health, and the last successful in-memory snapshot when a later fetch fails. Start it with `python run.py serve`; serving the HTML from a generic static server does not provide `/api/feeds`.
 
 ### UI capabilities
 - Layer toggles for earthquakes, fires, storms, volcanoes, and φ-overlay.
 - Globe markers coloured by event type.
 - A φ-overlay circle layer that visually encodes φ-debt and winding stability.
 - Event list sorting by magnitude.
+- Source-by-source availability, last successful fetch time, failure details, and stale-snapshot indication.
+- NOAA planetary Kp storm events and NASA FIRMS fires when a real `FIRMS_MAP_KEY` is configured in the server environment.
 - Per-event detail cards showing φ-debt, alignment, radion amplitude, suppression, stability, basin perturbation, and `w_a`.
 - Explicit adjacent-track language embedded in the interface.
 
@@ -373,6 +375,12 @@ python run.py demo
 ```
 
 ## API reference
+
+### `GET /api/feeds`
+- Fetches the fixed USGS, EONET, NOAA NWS, NWAC, and NOAA Kp endpoints concurrently.
+- Returns `{generated_at, feeds}`. Each feed has `status`, `source_url`, `fetched_at`, `payload`, and `error`; FIRMS reports `unconfigured` when `FIRMS_MAP_KEY` is absent.
+- Reports transport failures per source instead of converting them into empty successful datasets.
+- The server binds to `127.0.0.1`; do not expose this development server directly to the public internet.
 
 ### `USGSFeedParser`
 - Fetches or parses earthquake GeoJSON payloads.

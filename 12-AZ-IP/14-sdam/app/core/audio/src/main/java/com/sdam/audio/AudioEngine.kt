@@ -33,7 +33,7 @@ class AudioEngine {
 
     private val sampleRate     = GGWaveEncoder.SAMPLE_RATE_HZ
     private val channelIn      = AudioFormat.CHANNEL_IN_MONO
-    private val channelOut     = AudioFormat.CHANNEL_OUT_STEREO
+    private val channelOut     = AudioFormat.CHANNEL_OUT_MONO
     private val encoding       = AudioFormat.ENCODING_PCM_16BIT
 
     private val minRecBufBytes = AudioRecord.getMinBufferSize(sampleRate, channelIn, encoding)
@@ -47,6 +47,7 @@ class AudioEngine {
 
     /** Decoded SDAM payloads, emitted as they arrive from the mic. */
     val decodedPayloads: SharedFlow<String> = decoder.decodedPayloads
+    val isCodecAvailable: Boolean get() = encoder.isAvailable && decoder.isAvailable
 
     private var audioRecord: AudioRecord? = null
     private var audioTrack:  AudioTrack?  = null
@@ -64,14 +65,23 @@ class AudioEngine {
      */
     fun startListening() {
         if (isListening) return
+        if (!decoder.isAvailable) {
+            Log.e(TAG, "Cannot listen: native ggwave decoder unavailable")
+            return
+        }
 
-        val record = AudioRecord(
-            MediaRecorder.AudioSource.MIC,
-            sampleRate,
-            channelIn,
-            encoding,
-            minRecBufBytes,
-        )
+        val record = try {
+            AudioRecord(
+                MediaRecorder.AudioSource.MIC,
+                sampleRate,
+                channelIn,
+                encoding,
+                minRecBufBytes,
+            )
+        } catch (e: SecurityException) {
+            Log.e(TAG, "Cannot listen: microphone permission was denied", e)
+            return
+        }
 
         if (record.state != AudioRecord.STATE_INITIALIZED) {
             Log.e(TAG, "AudioRecord failed to initialise (minBufBytes=$minRecBufBytes)")
@@ -80,7 +90,13 @@ class AudioEngine {
         }
 
         audioRecord = record
-        record.startRecording()
+        try {
+            record.startRecording()
+        } catch (e: Exception) {
+            Log.e(TAG, "AudioRecord could not start", e)
+            record.release()
+            return
+        }
         isListening = true
         Log.i(TAG, "AudioRecord started  sampleRate=$sampleRate  bufBytes=$minRecBufBytes")
 
@@ -122,38 +138,65 @@ class AudioEngine {
         payload: String,
         protocol: TxProtocol = TxProtocol.AUDIBLE_NORMAL,
         volume: Int = 50,
-    ) {
+    ): Boolean {
+        if (!encoder.isAvailable) {
+            Log.e(TAG, "Cannot transmit: native ggwave encoder unavailable")
+            return false
+        }
         val samples = encoder.encode(payload, protocol, volume)
         if (samples == null || samples.isEmpty()) {
-            Log.e(TAG, "play: encode returned empty samples for \"${payload.take(40)}\"")
-            return
+            Log.e(TAG, "play: encode failed for ${payload.length}-character payload")
+            return false
         }
-        playSamples(samples)
+        return playSamples(samples)
     }
 
-    private fun playSamples(samples: ShortArray) {
+    private fun playSamples(samples: ShortArray): Boolean {
         val bufBytes = samples.size * 2
-        val track = AudioTrack(
-            AudioManager.STREAM_MUSIC,
-            sampleRate,
-            channelOut,
-            encoding,
-            bufBytes,
-            AudioTrack.MODE_STATIC,
-        )
+        val track = try {
+            AudioTrack(
+                AudioManager.STREAM_MUSIC,
+                sampleRate,
+                channelOut,
+                encoding,
+                bufBytes,
+                AudioTrack.MODE_STATIC,
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "AudioTrack creation failed", e)
+            return false
+        }
 
         if (track.state != AudioTrack.STATE_INITIALIZED) {
             Log.e(TAG, "AudioTrack failed to initialise (bufBytes=$bufBytes)")
             track.release()
-            return
+            return false
         }
 
-        track.write(samples, 0, samples.size)
-        track.play()
+        val written = try {
+            track.write(samples, 0, samples.size)
+        } catch (e: Exception) {
+            Log.e(TAG, "AudioTrack write failed", e)
+            track.release()
+            return false
+        }
+        if (written != samples.size) {
+            Log.e(TAG, "AudioTrack accepted $written/${samples.size} samples")
+            track.release()
+            return false
+        }
+        try {
+            track.play()
+        } catch (e: IllegalStateException) {
+            Log.e(TAG, "AudioTrack could not start playback", e)
+            track.release()
+            return false
+        }
 
         audioTrack?.let { it.stop(); it.release() }
         audioTrack = track
         Log.i(TAG, "AudioTrack playing  samples=${samples.size}  bufBytes=$bufBytes")
+        return true
     }
 
     /** Release all native and Android audio resources. */

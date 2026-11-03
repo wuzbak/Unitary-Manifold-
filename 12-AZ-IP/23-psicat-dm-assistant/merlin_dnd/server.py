@@ -4,13 +4,17 @@
 from __future__ import annotations
 
 import json
+import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 from .service import MerlinDndService
 
-SERVICE = MerlinDndService()
+SERVICE = MerlinDndService(
+    storage_path=os.environ.get("PSICAT_DATA_FILE")
+    or Path.home() / ".psicat-dm-assistant" / "campaigns.json"
+)
 UI_ROOT = Path(__file__).resolve().parents[1] / "ui"
 _REQUIRED_FIELDS = {"name", "ability_scores", "klass", "title", "display_name", "invite_code", "image_url", "amount", "character"}
 

@@ -20,6 +20,7 @@ from .circuit_export import (
     Gate,
     BraidedAnsatzCircuit,
     build_braided_ansatz_circuit,
+    export_openqasm2,
     simulate_circuit,
     validate_against_kk_vqe,
 )
@@ -29,10 +30,11 @@ __all__ = [
     "Gate",
     "BraidedAnsatzCircuit",
     "build_braided_ansatz_circuit",
+    "export_openqasm2",
     "simulate_circuit",
     "validate_against_kk_vqe",
     "API_ENDPOINTS",
     "dispatch_api_request",
 ]
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"

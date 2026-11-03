@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from az_cosmology_slider import require_jax, slider_reading, sweep_phi0
+from az_cosmology_slider import slider_reading, sweep_phi0
 
 
 def main(argv=None) -> int:
@@ -30,12 +30,14 @@ def main(argv=None) -> int:
         serve(host=args.host, port=args.port)
         return 0
 
-    require_jax()
-    if args.sweep:
-        for reading in sweep_phi0(args.n_w, [args.phi0 + d for d in (-2, -1, 0, 1, 2)]):
-            print(reading)
-    else:
-        print(slider_reading(args.phi0, args.n_w))
+    try:
+        if args.sweep:
+            for reading in sweep_phi0(args.n_w, [args.phi0 + d for d in (-2, -1, 0, 1, 2)]):
+                print(reading)
+        else:
+            print(slider_reading(args.phi0, args.n_w))
+    except (RuntimeError, ValueError) as exc:
+        parser.error(str(exc))
     return 0
 
 

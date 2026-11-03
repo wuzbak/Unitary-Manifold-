@@ -17,7 +17,7 @@ names directly:
 - `SPECTROSCOPY_EXPERT` — indexes `src/atomic_structure/` (orbitals,
   fine structure, spectroscopy).
 
-Each `DomainExpert` builds a retrieval index from the module and
+Each `DomainExpert` recursively builds a retrieval index from the module and
 function/class docstrings already present in its source directory (via
 `ast`, no new documentation is authored), and answers queries by keyword
 overlap — the same reusable, cheap retrieval-and-serving scaffolding that
@@ -25,11 +25,29 @@ is the actual non-domain-specific part of the Terra/Lithos/PsiCat pattern.
 
 ## Epistemic status
 
-Retrieval only; this product makes no new physics claim and asserts no new
-documentation beyond what the indexed modules already say. A thin FastAPI
-serving layer, following Terra/Lithos's own pattern, is a direct extension
-of this index but is not part of this version — see `DomainExpert.query()`
-for the API a server would wrap.
+Retrieval only; this product makes no new physics claim. Retrieved text is
+repository documentation, **not independent scientific validation**. Scores
+count overlapping keywords; they are not confidence or accuracy estimates.
+The included stdlib HTTP server serves the same source-cited results as
+`DomainExpert.query()`.
+
+### Verifying retrieved evidence
+
+Every result includes a fully qualified `symbol` (including nested class
+owners), the existing `source_path`, and a `citation` containing:
+
+- `relative_path`: Python file path relative to the selected expert's source directory.
+- `start_line` / `end_line`: inclusive, one-based lines of the docstring literal.
+- `source_sha256`: SHA-256 of the entire indexed file's bytes.
+
+The UI renders these citations alongside the retrieved text and raw JSON;
+the CLI and API expose the same fields. Match the hash against the local file
+before relying on line numbers. Citations describe the snapshot at the last
+`build()`; call it again (or restart the server) after source changes.
+Docstrings are cleaned using `ast.get_docstring`, so indentation may differ
+from their source literal. Nested Python modules are included; symlinked files
+outside the expert's source root are excluded. Nothing is imported or executed
+to extract documentation. Blank or unmatched queries return no evidence.
 
 ## Usage
 
@@ -57,6 +75,8 @@ python 12-AZ-IP/34-az-domain-experts-pack/run.py serve --port 8134
 ```
 
 Endpoints: `GET /api/status`, `GET /api/experts`, `GET /api/query?expert=&question=&top_k=`.
+`top_k` defaults to 3 and must be an integer from 1 to 50; invalid limits return
+HTTP 400 rather than applying Python's negative slicing semantics.
 
 ## Tests
 

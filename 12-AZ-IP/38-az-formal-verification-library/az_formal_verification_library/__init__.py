@@ -27,6 +27,7 @@ from .checker import (
 )
 from .pentad_example import PENTAD_SAFETY_PROPERTIES
 from .api import API_ENDPOINTS, dispatch_api_request
+from .declarative import run_declarative_property
 
 __all__ = [
     "Z3_AVAILABLE",
@@ -36,6 +37,7 @@ __all__ = [
     "run_property",
     "run_suite",
     "PENTAD_SAFETY_PROPERTIES",
+    "run_declarative_property",
     "API_ENDPOINTS",
     "dispatch_api_request",
 ]

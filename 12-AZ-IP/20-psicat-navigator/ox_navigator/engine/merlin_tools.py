@@ -2336,6 +2336,45 @@ def get_toolkit_view(view: str = "index", *, domain: str | None = None, tool: st
 
 
 def route_tool(tool: str, args: dict[str, Any] | None = None, *, session: MerlinSession | None = None) -> dict[str, Any]:
+    """Route through existing gates, optionally retaining metadata-only receipts."""
+    from uuid import uuid4
+
+    from .merlin_tool_audit_store import MerlinToolAuditStore
+
+    store = MerlinToolAuditStore.configured()
+    if store is None:
+        return _route_tool(tool, args, session=session)
+    store.read_records()  # A corrupt store must fail before tool side effects.
+    started_at = _utcnow()
+    response = _route_tool(tool, args, session=session)
+    known_tools = {item["name"] for item in _tool_manifest()["functions"]}
+    known_tools.update({
+        "getMerlinBenchmarkCorpus", "evaluateMerlinBenchmarkResponse",
+        "getMerlinMemoryState", "getMerlinMemoryGeometry", "runMerlinMemoryAudit",
+        "getMerlinTelemetrySummary", "connector.github",
+        "entity.MerlinSession.schema", "entity.MerlinSession.state",
+        "entity.MerlinSession.audit",
+    })
+    record = {
+        "run_id": str(uuid4()),
+        "started_at": started_at,
+        "finished_at": _utcnow(),
+        "tool": tool if tool in known_tools else "unknown",
+        "ok": response["ok"],
+        "duration_ms": response["duration_ms"],
+        "requires_human_gate": response["policy"]["requires_human_gate"],
+        "provenance": {
+            "component": "ox_navigator.engine.merlin_tools.route_tool",
+            "format": "psicat-tool-audit-v1",
+            "provider": "independent",
+        },
+    }
+    store.append(record)
+    response["audit"]["run_id"] = record["run_id"]
+    return response
+
+
+def _route_tool(tool: str, args: dict[str, Any] | None = None, *, session: MerlinSession | None = None) -> dict[str, Any]:
     """Route a Merlin tool call to a safe local capability."""
     args = dict(args or {})
     active_session = session if session is not None else MerlinSession()

@@ -36,7 +36,7 @@ class StudioRequestHandler(SimpleHTTPRequestHandler):
             except (ValueError, TypeError) as exc:
                 payload = {"error": str(exc)}
                 status = 400
-            body = json.dumps(payload, sort_keys=True).encode("utf-8")
+            body = json.dumps(payload, sort_keys=True, allow_nan=False).encode("utf-8")
             self.send_response(status)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))

@@ -201,6 +201,17 @@ private fun TransmitTab(state: MainUiState, viewModel: MainViewModel) {
             color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(Modifier.height(8.dp))
+        Text(
+            if (state.selectedMode == TransmitMode.DIODE) {
+                "DIODE limit: ${com.sdam.security.AirGapBridge.MAX_MESSAGE_UTF8_BYTES} UTF-8 bytes."
+            } else {
+                "Standard/Secure limit: ${com.sdam.security.AirGapBridge.MAX_STANDARD_MESSAGE_UTF8_BYTES} " +
+                    "UTF-8 bytes across authenticated encrypted fragments."
+            },
+            style = MaterialTheme.typography.labelSmall,
+            color = OnSurfaceDim,
+        )
+        Spacer(Modifier.height(6.dp))
 
         OutlinedTextField(
             value         = state.broadcastInput,
@@ -231,6 +242,14 @@ private fun TransmitTab(state: MainUiState, viewModel: MainViewModel) {
                 }
             },
         )
+        if (state.workflowStatus.isNotEmpty()) {
+            Spacer(Modifier.height(8.dp))
+            Text(
+                state.workflowStatus,
+                style = MaterialTheme.typography.bodySmall,
+                color = if (state.workflowError) SdamRed else SdamGreen,
+            )
+        }
         Spacer(Modifier.height(16.dp))
     }
 }
@@ -344,11 +363,19 @@ private fun ReceiveTab(state: MainUiState) {
         Spacer(Modifier.height(8.dp))
 
         if (state.decodeLog.isEmpty()) {
-            Text(
-                "Listening… (start AcousticModemService to decode)",
-                style = MaterialTheme.typography.bodySmall,
-                color = OnSurfaceDim,
-            )
+            Column {
+                Text(
+                    state.workflowStatus.ifEmpty { "Waiting for a secure acoustic frame." },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = if (state.workflowError) SdamRed else OnSurfaceDim,
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    "Native ggwave v0.4.2; device speaker/microphone loopback has not been hardware-validated.",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = OnSurfaceDim,
+                )
+            }
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 items(state.decodeLog) { entry ->
@@ -396,6 +423,14 @@ private fun DecodeLogCard(entry: DecodeEntry) {
                 color      = MaterialTheme.colorScheme.onSurface,
                 fontFamily = FontFamily.Monospace,
             )
+            if (entry.status.isNotEmpty()) {
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    entry.status,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = if (entry.hmacOk) SdamGreen else SdamRed,
+                )
+            }
         }
     }
 }
@@ -452,7 +487,7 @@ private fun CalibrateTab(state: MainUiState, viewModel: MainViewModel) {
                 Text(state.calibrateMessage, style = MaterialTheme.typography.bodySmall)
             }
             Spacer(Modifier.height(4.dp))
-            OutlinedButton(onClick = viewModel::cancelLoopback) { Text("Cancel") }
+            OutlinedButton(onClick = viewModel::cancelAudioOperation) { Text("Cancel") }
         }
 
         if (state.calibrateMessage.isNotEmpty() &&
@@ -586,7 +621,7 @@ private fun SettingsTab(state: MainUiState, viewModel: MainViewModel) {
                     )
                     Text(
                         if (state.keyProvisioned)
-                            "Hardware-backed Android Keystore key ready.\nHMAC-SHA256 session auth active."
+                            "Android Keystore AES-GCM and HMAC keys provisioned."
                         else
                             "Keys will be generated on next launch.",
                         style = MaterialTheme.typography.labelSmall,
@@ -609,9 +644,11 @@ private fun SettingsTab(state: MainUiState, viewModel: MainViewModel) {
         Text(
             "Select DIODE in the Transmit tab to activate the S6 Encrypted Acoustic " +
             "Data Diode mode.\n\n" +
-            "Payloads are split into AES-256-GCM encrypted 32-char chunks. Each chunk " +
+            "Payloads are split into AES-256-GCM encrypted 8-byte UTF-8 chunks to fit " +
+            "the authenticated native frame limit. Each chunk " +
             "is independently encrypted with a random IV — a tampered chunk cannot " +
-            "reveal adjacent plaintext.\n\n" +
+            "reveal adjacent plaintext. Messages are limited to 7,992 UTF-8 bytes " +
+            "(999 chunks).\n\n" +
             "Use for: SCIFs, air-gapped industrial control systems, RF-denied environments.",
             style = MaterialTheme.typography.bodySmall,
             color = OnSurfaceDim,
@@ -639,7 +676,7 @@ private fun SettingsTab(state: MainUiState, viewModel: MainViewModel) {
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
-                    "Disables AES-256-GCM for SECURE mode. Never use in production.",
+                    "Sends plaintext only with an authenticated DBG marker. Never use in production.",
                     style = MaterialTheme.typography.labelSmall,
                     color = SdamRed.copy(alpha = 0.8f),
                 )
@@ -663,9 +700,9 @@ private fun SettingsTab(state: MainUiState, viewModel: MainViewModel) {
         Text(
             "SDAM — Software-Defined Acoustic Modem\n" +
             "Version 1.0.0  •  MIT Licence\n\n" +
-            "Acoustic protocol: ggwave v0.4.2 (FSK)\n" +
+            "Acoustic protocol: native ggwave v0.4.2 (FSK)\n" +
             "Crypto: AES-256-GCM + HMAC-SHA256 (Android Keystore)\n" +
-            "Default band: 17–22 kHz near-ultrasonic\n\n" +
+            "Audio hardware validation: pending\n\n" +
             "∇_μ J^μ_inf = 0",
             style      = MaterialTheme.typography.bodySmall,
             color      = OnSurfaceDim,

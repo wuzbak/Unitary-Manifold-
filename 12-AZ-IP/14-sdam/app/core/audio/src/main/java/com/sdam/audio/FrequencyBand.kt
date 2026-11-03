@@ -8,12 +8,11 @@ package com.sdam.audio
  *   AUDIBLE         — 1–6 kHz FSK tones, clearly audible to humans.
  *                     Maps to ggwave AUDIBLE_* protocols (IDs 0–2).
  *
- *   NEAR_ULTRASONIC — 17–22 kHz FSK tones, above the normal adult hearing
- *                     threshold but within Android AudioRecord capability at
- *                     48 kHz sample rate.
- *                     Maps to ggwave ULTRASOUND_* protocols (IDs 3–5).
+ *   NEAR_ULTRASONIC — nominal high-frequency selection for ggwave
+ *                     ULTRASOUND_* protocols (IDs 3–5). Actual emitted
+ *                     spectrum, audibility, and device support are unmeasured.
  *
- * Near-ultrasonic is the **default band** per S4 specification.
+ * The current default is near-ultrasonic; this is not a safety or range claim.
  */
 enum class FrequencyBand(
     val label: String,

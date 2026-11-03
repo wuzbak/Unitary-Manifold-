@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from az_materials_screening_engine import MaterialCandidate, rank_candidates
+from az_materials_screening_engine import MaterialCandidate, rank_candidates, screen_file
 
 _DEMO_CANDIDATES = [
     MaterialCandidate("graphene", alpha=0.3, omega_lo_mev=180.0, m_band_me=0.02, epsilon_r=2.5),
@@ -25,10 +25,22 @@ def main(argv: list[str] | None = None) -> int:
 
     parser = argparse.ArgumentParser(description="AZ Materials Screening Engine")
     sub = parser.add_subparsers(dest="command")
+    screen_cmd = sub.add_parser("screen", help="Screen a provenance-bearing CSV/JSON property file")
+    screen_cmd.add_argument("input", type=Path, help="UTF-8 .csv or .json file")
     serve_cmd = sub.add_parser("serve", help="Run the engine as a live HTTP product")
     serve_cmd.add_argument("--host", default="127.0.0.1")
     serve_cmd.add_argument("--port", type=int, default=8130)
     args = parser.parse_args(argv)
+
+    if args.command == "screen":
+        try:
+            report = screen_file(args.input)
+            output = json.dumps(report, indent=2, allow_nan=False)
+        except (OSError, ValueError) as exc:
+            print(f"screen: {exc}", file=sys.stderr)
+            return 2
+        print(output)
+        return 0
 
     if args.command == "serve":
         from az_materials_screening_engine.app.server import serve

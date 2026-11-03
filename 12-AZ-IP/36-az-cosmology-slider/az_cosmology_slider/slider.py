@@ -17,7 +17,9 @@ unavailable in their environment).
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
+from itertools import islice
 from typing import Optional
 
 from ._repo import ensure_repo_on_path
@@ -38,6 +40,10 @@ N_S_PLANCK_2018 = 0.9649
 
 #: UM canonical winding-number prediction (source: multiple pillar modules).
 N_S_UM_CANONICAL = 0.9635
+MIN_PHI0 = 1.0
+MAX_PHI0 = 30.0
+MIN_N_W = -100.0
+MAX_N_W = 100.0
 
 
 @dataclass(frozen=True)
@@ -70,6 +76,15 @@ def require_jax() -> None:
 
 def slider_reading(phi0: float, n_w: float) -> SliderReading:
     """Evaluate the slider at a given (phi0, n_w) position."""
+    try:
+        phi0 = float(phi0)
+        n_w = float(n_w)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("phi0 and n_w must be finite numbers") from exc
+    if not math.isfinite(phi0) or not MIN_PHI0 <= phi0 <= MAX_PHI0:
+        raise ValueError(f"phi0 must be finite and in {MIN_PHI0:g}..{MAX_PHI0:g}")
+    if not math.isfinite(n_w) or not MIN_N_W <= n_w <= MAX_N_W:
+        raise ValueError(f"n_w must be finite and in {MIN_N_W:g}..{MAX_N_W:g}")
     require_jax()
     n_s, dn_s_dphi0, dn_s_dnw = _grad_spectral_index(phi0, n_w)
     return SliderReading(
@@ -85,4 +100,10 @@ def slider_reading(phi0: float, n_w: float) -> SliderReading:
 def sweep_phi0(n_w: float, phi0_values) -> list:
     """Evaluate the slider at a sequence of phi0 values for one n_w,
     suitable for driving a continuous UI slider widget."""
-    return [slider_reading(phi0, n_w) for phi0 in phi0_values]
+    try:
+        values = list(islice(iter(phi0_values), 202))
+    except TypeError as exc:
+        raise ValueError("phi0_values must be an iterable of positions") from exc
+    if not values or len(values) > 201:
+        raise ValueError("phi0_values must contain 1..201 positions")
+    return [slider_reading(phi0, n_w) for phi0 in values]

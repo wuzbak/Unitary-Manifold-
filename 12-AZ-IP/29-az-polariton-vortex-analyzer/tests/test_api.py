@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
-"""Tests for the Phase-2 JSON API dispatch layer (no live HTTP server)."""
+"""Tests for prediction/demo JSON API dispatch (no live HTTP server)."""
 import sys
 from pathlib import Path
 

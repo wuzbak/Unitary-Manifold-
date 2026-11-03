@@ -28,6 +28,8 @@ class LithosConfig:
     sync_interval_hours: int = field(default_factory=lambda: int(os.getenv("LITHOS_SYNC_INTERVAL", "24")))
     gibberlink_secret: str = field(default_factory=lambda: os.getenv("GIBBERLINK_SECRET", ""))
     gibberlink_enabled: bool = field(default_factory=lambda: os.getenv("GIBBERLINK_ENABLED", "false").lower() == "true")
+    seismicity_timeout_s: float = field(default_factory=lambda: float(os.getenv("LITHOS_SEISMICITY_TIMEOUT_S", "8")))
+    seismicity_stale_after_s: float = field(default_factory=lambda: float(os.getenv("LITHOS_SEISMICITY_STALE_AFTER_S", "3600")))
     is_android: bool = field(default_factory=lambda: os.path.exists("/data/data/com.termux") or os.getenv("LITHOS_PLATFORM", "") == "android")
 
     def __post_init__(self):

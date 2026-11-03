@@ -18,6 +18,7 @@
 <div class="epistemic">
   <strong>Epistemic status:</strong> Simple keyword-overlap retrieval over docstrings, not a
   trained language model.
+  Citations identify repository docstrings, not independently validated science.
 </div>
 <fieldset>
   <legend>Query a domain expert</legend>
@@ -27,14 +28,40 @@
     <option value="atomic-spectroscopy">atomic-spectroscopy</option>
   </select><br />
   <label>question</label><input id="question" value="polaron effective mass" /><br />
-  <label>top_k</label><input id="topk" type="number" value="3" /><br />
+  <label>top_k</label><input id="topk" type="number" min="1" max="50" value="3" /><br />
   <button onclick="runQuery()">Query</button>
 </fieldset>
+<section id="evidence" aria-live="polite"></section>
 <pre id="output">(results appear here)</pre>
 <script>
 async function show(url) {
-  const res = await fetch(url);
-  document.getElementById('output').textContent = JSON.stringify(await res.json(), null, 2);
+  const evidence = document.getElementById('evidence');
+  evidence.replaceChildren();
+  try {
+    const res = await fetch(url);
+    const payload = await res.json();
+    document.getElementById('output').textContent = JSON.stringify(payload, null, 2);
+    if (!res.ok) return;
+    if (!payload.results.length) {
+      evidence.textContent = 'No matching source evidence. Try different domain keywords.';
+    }
+    for (const result of payload.results) {
+      const article = document.createElement('article');
+      const heading = document.createElement('h2');
+      heading.textContent = result.symbol;
+      const citation = document.createElement('p');
+      const c = result.citation;
+      citation.textContent = `${c.relative_path}:${c.start_line}-${c.end_line} · keyword overlap ${result.score}`;
+      const quote = document.createElement('pre');
+      quote.textContent = result.text;
+      const digest = document.createElement('small');
+      digest.textContent = `Indexed source SHA-256: ${c.source_sha256}`;
+      article.append(heading, citation, quote, digest);
+      evidence.append(article);
+    }
+  } catch (error) {
+    document.getElementById('output').textContent = `Query failed: ${error.message}`;
+  }
 }
 function runQuery() {
   const q = new URLSearchParams({

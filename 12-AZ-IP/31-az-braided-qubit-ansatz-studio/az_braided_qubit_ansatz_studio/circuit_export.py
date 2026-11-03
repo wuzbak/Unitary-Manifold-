@@ -26,6 +26,17 @@ ensure_repo_on_path()
 
 from src.quantum.kk_vqe import ansatz_circuit  # noqa: E402
 
+MIN_QUBITS = 2
+MAX_QUBITS = 8
+MAX_LAYERS = 8
+
+
+def _validate_dimensions(n_qubits: int, n_layers: int) -> None:
+    if type(n_qubits) is not int or not MIN_QUBITS <= n_qubits <= MAX_QUBITS:
+        raise ValueError(f"n_qubits must be an integer in {MIN_QUBITS}..{MAX_QUBITS}")
+    if type(n_layers) is not int or not 0 <= n_layers <= MAX_LAYERS:
+        raise ValueError(f"n_layers must be an integer in 0..{MAX_LAYERS}")
+
 
 @dataclass(frozen=True)
 class Gate:
@@ -67,25 +78,80 @@ def build_braided_ansatz_circuit(theta: np.ndarray, n_qubits: int, n_layers: int
     ``n_qubits * (n_layers + 1)`` entries, one Ry angle per qubit per layer
     (including the final layer).
     """
+    _validate_dimensions(n_qubits, n_layers)
+    try:
+        parameters = np.asarray(theta, dtype=float)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("theta must be a one-dimensional array of finite angles") from exc
     n_params_expected = n_qubits * (n_layers + 1)
-    if len(theta) != n_params_expected:
+    if parameters.ndim != 1 or parameters.size != n_params_expected:
         raise ValueError(
-            f"theta has {len(theta)} elements; expected {n_params_expected} "
+            f"theta has {parameters.size} elements; expected {n_params_expected} "
             f"for n_qubits={n_qubits}, n_layers={n_layers}."
         )
+    if not np.all(np.isfinite(parameters)):
+        raise ValueError("theta angles must all be finite")
 
     gates: List[Gate] = []
     for layer in range(n_layers):
-        layer_thetas = theta[layer * n_qubits : (layer + 1) * n_qubits]
+        layer_thetas = parameters[layer * n_qubits : (layer + 1) * n_qubits]
         for q, t in enumerate(layer_thetas):
             gates.append(Gate("RY", (q,), float(t)))
         for q in range(n_qubits - 1):
             gates.append(Gate("CNOT", (q, q + 1)))
-    final_thetas = theta[n_layers * n_qubits : (n_layers + 1) * n_qubits]
+    final_thetas = parameters[n_layers * n_qubits : (n_layers + 1) * n_qubits]
     for q, t in enumerate(final_thetas):
         gates.append(Gate("RY", (q,), float(t)))
 
     return BraidedAnsatzCircuit(n_qubits=n_qubits, n_layers=n_layers, gates=gates)
+
+
+def export_openqasm2(circuit: BraidedAnsatzCircuit) -> str:
+    """Export the validated RY/CNOT circuit as an OpenQASM 2.0 input program.
+
+    The output intentionally has no measurements, backend submission, or
+    hardware-specific noise/transpilation settings.
+    """
+    if not isinstance(circuit, BraidedAnsatzCircuit):
+        raise ValueError("circuit must be a BraidedAnsatzCircuit")
+    _validate_dimensions(circuit.n_qubits, circuit.n_layers)
+    if not isinstance(circuit.gates, (list, tuple)):
+        raise ValueError("circuit gates must be a list or tuple")
+    lines = [
+        "OPENQASM 2.0;",
+        'include "qelib1.inc";',
+        f"qreg q[{circuit.n_qubits}];",
+    ]
+    for gate in circuit.gates:
+        if not isinstance(gate, Gate) or not isinstance(gate.qubits, tuple):
+            raise ValueError("circuit contains a malformed gate")
+        if gate.name == "RY":
+            if len(gate.qubits) != 1 or type(gate.qubits[0]) is not int:
+                raise ValueError("RY gate must target exactly one integer qubit")
+            (qubit,) = gate.qubits
+            if not 0 <= qubit < circuit.n_qubits:
+                raise ValueError("RY gate targets a qubit outside the circuit")
+            try:
+                angle = float(gate.theta)
+            except (TypeError, ValueError, OverflowError) as exc:
+                raise ValueError("RY gate angle must be finite") from exc
+            if not np.isfinite(angle):
+                raise ValueError("RY gate angle must be finite")
+            lines.append(f"ry({angle:.17g}) q[{qubit}];")
+        elif gate.name == "CNOT":
+            if len(gate.qubits) != 2 or any(type(q) is not int for q in gate.qubits):
+                raise ValueError("CNOT gate must target two integer qubits")
+            control, target = gate.qubits
+            if (
+                not 0 <= control < circuit.n_qubits
+                or not 0 <= target < circuit.n_qubits
+                or control == target
+            ):
+                raise ValueError("CNOT qubits must be distinct and inside the circuit")
+            lines.append(f"cx q[{control}],q[{target}];")
+        else:
+            raise ValueError(f"unsupported gate: {gate.name}")
+    return "\n".join(lines) + "\n"
 
 
 def _ry(theta: float) -> np.ndarray:
@@ -97,6 +163,7 @@ def simulate_circuit(circuit: BraidedAnsatzCircuit) -> np.ndarray:
     """Independent from-scratch statevector simulator for the exported gate
     list. Deliberately avoids reusing `kk_vqe`'s matrix-construction code,
     so that agreement with `ansatz_circuit()` is a real cross-check."""
+    export_openqasm2(circuit)
     n = circuit.n_qubits
     dim = 2**n
     state = np.zeros(dim, dtype=complex)

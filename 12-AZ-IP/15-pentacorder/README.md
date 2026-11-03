@@ -1,34 +1,48 @@
 # Unitary Pentacorder
-## Android App — Complete Source + Deploy Guide
+## Android App — Source and Setup Notes
 
-**Product:** Unitary Pentacorder  
-**Package:** `com.axiomzero.pentacorder`  
-**Platform:** Android 8.0+ (API 26+), optimised for Samsung Galaxy S24 Ultra  
-**Version:** 1.0.0  
-**Status:** ✅ Feature-complete — ready to build and deploy  
+- **Product:** Unitary Pentacorder
+- **Package:** `com.axiomzero.pentacorder`
+- **Platform target:** Android 8.0+ (API 26+); Galaxy S24 Ultra is a design target, not a validated device
+- **Version:** 1.0.0
+- **Status:** 🟡 In development — not validated or release-ready
+
+The native project has not yet been verified as buildable: its Gradle version
+catalog is missing, so plugin and library versions used by the build scripts
+are not fully pinned. The native ggwave implementation is still a JNI stub;
+CI/release signing and on-device field validation are also unfinished
+(ROADMAP phases P7–P9). No production APK or hardware capability is claimed.
 
 ---
 
 ## What It Is
 
-The **Unitary Pentacorder** is a real-world implementation of the Star Trek tricorder
-concept — but grounded in actual physics: the 5-dimensional Kaluza-Klein Unitary Manifold.
+The **Unitary Pentacorder** is an Android sensor-dashboard and research
+visualization project inspired by the tricorder concept. It reads selected
+device inputs where Android, the hardware, and granted permissions allow, and
+some screens derive illustrative values from those readings. It is not a
+validated scientific instrument, medical device, or measurement of the
+Unitary Manifold.
 
-Every sensor on your Android phone maps to a field in the Walker-Pearson 5D metric:
+The app's model labels associate selected sensor inputs with framework
+quantities for visualization. These associations do not establish that phone
+sensors measure the corresponding physical fields:
 
-| Sensor | Manifold Field | Symbol |
+| Device input | App visualization label | Limitation |
 |--------|---------------|--------|
-| Accelerometer | Metric perturbation | δg_μν |
-| Gyroscope | Levi-Civita connection | Γ^σ_μν |
-| Magnetometer | Kaluza-Klein gauge field | H_μν |
-| Barometer | Compact-dimension pressure | B_4 |
-| GPS | Geodesic / λ-coordinate | λ^μ |
-| Heart Rate | φ-homeostasis / Ψ_brain | φ₂ |
-| Battery | 5th-dimension energy scalar | φ |
-| Light | Photon flux / CMB proxy | I_γ |
+| Accelerometer | Metric perturbation (δg_μν) | App-defined transformation; not a measured metric |
+| Gyroscope | Connection (Γ^σ_μν) | Sensor motion data; not a measured Levi-Civita connection |
+| Magnetometer | Gauge-field analogue (H_μν) | Magnetic-field reading; not a measured Kaluza–Klein field |
+| Barometer | Pressure / B₄ analogue | Barometric pressure where the device has a pressure sensor |
+| GPS | Position / λ-coordinate analogue | OS location data; not a measured geodesic |
+| Heart-rate input | φ₂ / homeostasis display | Optional hardware or camera estimate; not a clinical assessment |
+| Battery | φ display input | Battery status; not a measured extra-dimensional field |
+| Ambient light | Photon-flux proxy | Lux reading where available; not a CMB measurement |
 
-The result is a live **Pentad state vector** — five bodies of reality rendered as
-coherence values on your phone screen, in real time.
+The Pentad and “5D” screens show app-defined values derived from available
+inputs (and, in some screens, synthetic demo data). Their state vectors,
+coherence values, and field labels are illustrative software outputs, not
+validated physical quantities or evidence that the framework has been measured.
 
 ---
 
@@ -36,19 +50,19 @@ coherence values on your phone screen, in real time.
 
 | Tab | What it does |
 |-----|-------------|
-| **Dashboard** | Mode ring (GREEN/RED/BLUE/AMBER), Sentinel health, SOS FAB |
-| **Medical** | NEWS2 score, φ-homeostasis, first-aid protocols, rPPG HR, skin scan, neuro |
-| **Transmit** | Gibberlink acoustic mode selector + encoder/broadcaster |
-| **Pentacorder** | All phone sensors → 5D manifold fields, camera launchers, energy/connectivity |
-| **Translate** | Language bridge (59 languages, offline), sensor intel, protocol decoder |
-| **Labs** | 15-suite launcher: EMF, UWB, Optics, S Pen, Enviro, Contractor, Science… |
+| **Dashboard** | Mode selection and status displays. SOS-style controls are not a verified emergency service. |
+| **Medical** | Manual vital entry, NEWS2 calculation, informational first-aid content, and experimental camera-based rPPG/skin-screen features. None is diagnostic or a substitute for clinical care. |
+| **Transmit** | Gibberlink controls and payload preparation. Native ggwave audio encoding/decoding remains a JNI stub and is not a working, validated acoustic link. |
+| **Pentacorder** | Selected Android sensor readings and app-defined visualizations; sensors and values vary by device and permission. |
+| **Translate** | Translation, OCR, object-detection, and protocol screens; availability depends on models, network/download state, camera, language, and device support. |
+| **Labs** | Experimental screens for EMF, UWB, optics, S Pen, environment, contractor, and science topics. Hardware-dependent functions may be unavailable; several views are advisory, simplified, or demo-only. |
 
-**Pentacorder Assistant (✨ FAB)** — AI assistant embedded in a bottom sheet:
-- Reads live sensor/biometric context into every prompt
-- Resolution order: Remote API (OpenAI-compatible) → Local Ollama (Termux) → Static KB
-- 15 action types: Navigate, GenerateCode, AddDashboardCard, StartMonitoring, PushNotification…
-- Proactive sentinel: auto-alerts for battery critical, extreme pressure, abnormal vitals
-- Coherence bar shows live Pentad situationCoherence (GREEN ≥ 0.8 / AMBER ≥ 0.6 / RED)
+**Pentacorder Assistant (✨ FAB)** — an assistant interface in a bottom sheet.
+Where available, it can use app context and try a configured remote API or a
+reachable local Ollama service, with a static knowledge-base fallback. Sensor
+context, assistant responses, actions, alerts, and coherence displays are
+informational software features; they are not guaranteed on every device and
+are not validated monitoring or decision-support systems.
 
 ---
 
@@ -59,25 +73,35 @@ coherence values on your phone screen, in real time.
 - **Android Studio** (Electric Eel or later) with Android SDK 34
 - **ADB** (Android Platform Tools) for device install
 - USB Debugging enabled on the phone
-- Android NDK (for ggwave C++ — optional, stub JNI provided for pure-Java fallback)
+- Android NDK is needed to complete the native ggwave implementation; the
+  current JNI stub does not provide a validated working audio codec.
 
-### One-command install (S24 Ultra)
+The commands below are build/install instructions, not a claim that the
+current checkout builds or has been tested on the listed devices. The Gradle
+version catalog is missing, and build configuration and on-device behavior
+remain unvalidated.
+
+### Install instructions (S24 Ultra; unvalidated)
 
 ```bash
 # 1. Build the debug APK
-cd apps/android/pentacorder
+cd 12-AZ-IP/15-pentacorder
 ./gradlew assembleDebug
 
 # 2. Install to phone over USB
 ./scripts/install_s24ultra.sh --apk app/build/outputs/apk/debug/app-debug.apk
 ```
 
-The install script:
-1. Detects the connected phone via ADB
-2. Installs Termux + Termux:Boot + Termux:API (for acoustic stack)
-3. Installs the Pentacorder APK with all required permissions
-4. Bootstraps the Python/ggwave Gibberlink environment in Termux
-5. Configures Termux:Boot for auto-start on power-on
+The install script is intended to:
+1. Detect a connected phone via ADB
+2. Install Termux + Termux:Boot + Termux:API for the separate Termux stack
+3. Install a supplied Pentacorder APK
+4. Bootstrap the Python/Gibberlink environment in Termux
+5. Configure Termux:Boot for auto-start
+
+These steps and the resulting app/Termux integration have not been validated
+as an end-to-end deployment. The Termux acoustic scripts are separate from
+the unfinished native Android codec.
 
 ### Windows
 
@@ -86,7 +110,7 @@ REM Enable USB Debugging, connect phone, then:
 scripts\install_s24ultra.bat --apk app\build\outputs\apk\debug\app-debug.apk
 ```
 
-### Any Android Device (≥ API 26)
+### Manual install (Android ≥ API 26; if an APK is available, unvalidated)
 
 ```bash
 adb install -r app/build/outputs/apk/debug/app-debug.apk
@@ -96,9 +120,11 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## First Launch
 
-1. **Calibration Wizard** runs automatically on first open (audio sweep for Gibberlink, role selection, vitals baseline)
-2. Tap **✨ FAB** (bottom-right, amber star) → Pentacorder Assistant opens
-3. Say: *"What's my Pentad state?"* or *"Interpret sensors"*
+1. If the calibration/setup screen is available, follow its prompts; an audio
+   calibration does not validate the native Gibberlink codec.
+2. The **✨ FAB** opens the assistant interface when present.
+3. Example prompt: *"Interpret the available sensor readings."* Treat outputs
+   as informational and verify important facts independently.
 
 ### Enable Local AI (Ollama in Termux — no cloud needed)
 
@@ -108,7 +134,7 @@ pkg install curl
 curl -fsSL https://ollama.ai/install.sh | sh
 ollama pull llama3.2:3b
 ollama serve &
-# The assistant auto-detects it next time you ask a question
+# The assistant may use the service if it is reachable and configured
 ```
 
 ### Enable Remote AI (optional)
@@ -117,19 +143,19 @@ ollama serve &
 
 ---
 
-## Architecture
+## Architecture (intended module layout)
 
 ```
-S24 Ultra Hardware Sensors
+Supported Android Sensors (availability varies by device/permission)
     │
     ▼
 TricorderViewModel ──────────────────┐
 MedicalViewModel  ──→ SensorBridge ──┤──→ TranslateViewModel
-SPenViewModel     ──────────────────┘         (Ψ_univ + Ψ_brain)
+SPenViewModel     ──────────────────┘         (app-defined context)
                                                │
                                                ▼
                                         AssistantViewModel
-                                           (proactive sentinel)
+                                           (assistant interface)
                                                │
                                         AssistantEngine
                                            │  Remote API (internet)
@@ -143,8 +169,7 @@ SPenViewModel     ──────────────────┘     
                                            │
                                     AdaptiveStateHolder (DataStore)
                                            │
-                                    DashboardScreen (live adaptive cards)
-                                    Medical · Tricorder · Translate (hints)
+                                    Dashboard · Medical · Tricorder · Translate screens
 ```
 
 ### Module map
@@ -153,19 +178,19 @@ SPenViewModel     ──────────────────┘     
 app/                       ← MainActivity, AssistantViewModel, AssistantSheet
 core/
   gibberwave/              ← SensorBridge, AssistantEngine, AdaptiveStateHolder
-  audio/                   ← AudioEngine, GGWaveEncoder/Decoder, AudioLoopService
+  audio/                   ← Audio interfaces; native ggwave codec remains stubbed
   security/                ← AES-256-GCM PayloadCipher, GibberKeyManager
-  health/                  ← PPGAdvisor, TremorAdvisor, SkinColorAdvisor
+  health/                  ← Experimental/advisory PPG, tremor, and skin-color calculations
   optics/                  ← NLOS, Hyperspectral, MotionMag, VisualMic, SynthApt
   interpret/               ← SensorInterpreter, PentadState, UserRole
   [+ emf, acoustic, spen, uwb, enviro, contractor, energy, connectivity]
 feature/
   dashboard/               ← Mode ring, Sentinel health, Calibration wizard
-  tricorder/               ← 5D sensor view + pinned metrics + camera launchers
-  medical/                 ← NEWS2, φ-homeostasis, rPPG, neuro, skin, first-aid
-  translate/               ← Language bridge, sensor intel, protocol decoder
-  mode/                    ← GREEN/RED/BLUE/AMBER mode + Gibberlink transmit
-  labs/                    ← 15-suite grid launcher + data logger + manifold probe
+  tricorder/               ← Sensor displays and app-defined visualizations
+  medical/                 ← NEWS2 calculator and non-diagnostic experimental features
+  translate/               ← Translation/OCR interfaces; model and device dependent
+  mode/                    ← Mode selection and unfinished native audio controls
+  labs/                    ← Experimental screens, including simplified/demo views
   [+ spen, emf, enviro, contractor, uwb, acoustic, science, optics]
 ```
 
@@ -178,7 +203,7 @@ feature/
 | `RECORD_AUDIO` | Acoustic/Gibberlink receive |
 | `ACCESS_FINE_LOCATION` | GPS → geodesic coordinate |
 | `CAMERA` | rPPG, optical suites, QR |
-| `BODY_SENSORS` | Heart rate, SpO₂ |
+| `BODY_SENSORS` | Optional device heart-rate sensor access; SpO₂ is not guaranteed |
 | `ACTIVITY_RECOGNITION` | Step counter / motion state |
 | `NEARBY_WIFI_DEVICES` | WiFi Direct peer discovery |
 | `POST_NOTIFICATIONS` | Proactive assistant alerts |
@@ -187,18 +212,18 @@ feature/
 
 ## Operational Modes
 
-| Mode | Colour | Use |
+| UI mode | Colour | Intended label (not a verified service) |
 |------|--------|-----|
 | GREEN | 🟢 | Passive monitoring — normal operation |
-| RED | 🔴 | Emergency SOS — GPS broadcast, max-volume alert |
-| BLUE | 🔵 | Health data session — vitals relay at ≤1 m |
+| RED | 🔴 | Emergency-themed mode; SOS, GPS broadcast, and delivery are not validated |
+| BLUE | 🔵 | Health-themed mode; acoustic vitals relay is not validated |
 | AMBER | 🟡 | Field analysis — caution state, elevated monitoring |
 
 ---
 
-## Ethical Axioms (embedded in AssistantEngine)
+## Assistant Guidance
 
-The AI assistant operates under five permanent axioms (from `AGENTS.md`):
+The assistant prompt includes the following guidance (`AssistantEngine`):
 
 ```
 I   — NO LIES. Never fabricate sensor readings or facts.
@@ -216,23 +241,24 @@ V   — TRANSPARENCY. Gaps stated. Uncertainty stated. Nothing hidden.
 ∇_μ J^μ_inf = 0
 ```
 
-Information is never lost — only transformed. The Pentacorder is the physical
-instrument that measures this law in real time. Every sensor reading is a
-sample of the Walker-Pearson 5D field equations running on your phone hardware.
+This equation is part of the framework's theoretical presentation. The
+Pentacorder does not measure or test this law; its sensor displays and
+model-derived values are app-level visualizations, not measurements of the
+Walker-Pearson field equations.
 
-Predictions tested by this app:
-- **nₛ = 0.9635** (CMB spectral index — Planck confirmed ✓)
-- **β ∈ {≈0.273°, 0.331°}** (birefringence — LiteBIRD 2030–32 falsifier)
+Predictions discussed by the framework (not tested by this app):
+- **nₛ = 0.9635** (CMB spectral index; external data claim, not a phone-sensor result)
+- **β ∈ {≈0.273°, 0.331°}** (birefringence; future observational falsifier, not measurable by this app)
 
 ---
 
 ## Browser Companion — Pentacorder + SDAM Field Scanner
 
-`public-site/az-apps/15-pentacorder.html` is a zero-install browser surface that reads
-real sensor and I/O channels directly from whatever device loads the page — no
-Android build, no install script required. It is not a substitute for the native
-app above; it is an honest, lower-ceiling companion that anyone can open in a
-mobile or desktop browser. It is organised into seven tabs:
+`public-site/az-apps/15-pentacorder.html` is a browser companion that attempts to
+use selected browser APIs. Actual access depends on browser, OS, hardware,
+secure-context requirements, and permission grants. It is not a substitute for
+the native app, and its behavior has not been validated across devices. Its
+screens include:
 
 1. **📡 Field Scanner** — the 15-channel raw sensor readout (table below).
 2. **🧰 Hardware Inventory** — feature-detection checklist and `navigator` device summary.
@@ -243,14 +269,17 @@ mobile or desktop browser. It is organised into seven tabs:
    fall/impact detector, magnetometer field scanner, and a stopwatch/lap timer.
    Every tool reuses the already-granted motion/mic/camera permissions instead of
    re-prompting, and honestly reports when a browser exposes no API for a tool
-   (e.g. `BarcodeDetector` on Firefox/Safari, `Magnetometer` almost everywhere).
+   (e.g. `BarcodeDetector` or `Magnetometer` where the browser does not expose
+   the API).
 4. **🫀 Vitals & Environment** — camera-based pulse estimation (remote
-   photoplethysmography via red-channel autocorrelation; a field-test utility,
-   **not a medical device**) plus honestly-banded ambient noise/light readouts.
+   photoplethysmography via red-channel autocorrelation; an experimental,
+   device- and lighting-dependent estimate, **not a medical device**) plus
+   ambient noise/light readouts.
 5. **🧭 Navigation** — a live GNSS console (position/speed/course/accuracy),
    a haversine-integrated distance-travelled odometer, and a waypoint log
    exportable as GeoJSON.
-6. **📶 Acoustic Modem** — the real FSK sound-wave data link (table below).
+6. **📶 Acoustic Modem** — a simple experimental browser audio link (table below);
+   not the unfinished native ggwave codec.
 7. **📄 Field Report** — exports a PDF dossier of the session's live readings.
 
 | Channel | Browser API | Honesty behaviour |
@@ -265,14 +294,15 @@ mobile or desktop browser. It is organised into seven tabs:
 | Ultrasonic fingerprint | `PublicKeyCredential` / WebAuthn platform authenticator | enrol/verify a real passkey bound to the page's hostname — the ridge map itself is never exposed to the page |
 | GNSS | `Geolocation` | live position/accuracy/altitude or denied/unavailable |
 | Battery gas gauge | `Battery Status API` | live level/charging state where Chrome exposes it |
-| Acoustic data link | `Web Audio API` (`OscillatorNode` + `AnalyserNode`) | a genuine (simple, single-tone-per-nibble FSK) sound-wave transmit/decode link — a real, working proof of the acoustic channel the native SDAM/Pentacorder apps implement with a full OFDM stack |
+| Acoustic data link | `Web Audio API` (`OscillatorNode` + `AnalyserNode`) | Simple single-tone-per-nibble FSK implementation; experimental and not evidence that the native ggwave/OFDM codec works |
 | Torch / flashlight | `MediaStreamTrack.applyConstraints({ torch })` | real LED control where the camera driver exposes a torch capability |
 | QR / barcode | `BarcodeDetector` | live decode of real camera frames; unavailable on browsers without the API |
 | Magnetic field | Generic Sensor API `Magnetometer` | live µT magnitude where supported; almost always reported unavailable today |
 
-Every reading on that page is live hardware data; nothing is simulated, and every
-channel the browser cannot reach is reported with the specific reason (no API,
-no hardware, or a refused permission) instead of a placeholder value.
+Readings are only available when the page obtains the relevant browser API,
+hardware input, and permission. Some features may be unavailable or fail on a
+given browser/device; do not treat browser estimates or generated reports as
+validated measurements.
 
 ## Further Reading
 
@@ -283,7 +313,7 @@ no hardware, or a refused permission) instead of a placeholder value.
 | `scripts/` | ADB install/uninstall scripts for all devices |
 | `sessions/` | Per-session handoff notes |
 | `../../sessions/SESSION_006.md` | Session where the living assistant was integrated |
-| `../../public-site/az-apps/15-pentacorder.html` | Browser companion field scanner (real sensors, no install) |
+| `../../public-site/az-apps/15-pentacorder.html` | Browser companion; API and device support vary |
 
 ---
 

@@ -6,13 +6,14 @@ import json
 import sqlite3
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from .models import (
     AskRequest, AskResponse,
     HealthResponse,
     IdentifyRequest, IdentifyResponse, SpecimenCandidateResponse,
     SearchRequest, SearchResponse,
+    SeismicityResponse,
     SpecimenResponse,
     SyncRequest, SyncStatusResponse,
 )
@@ -274,3 +275,47 @@ def sync_status():
         errors=state.errors,
         completed=state.completed,
     )
+
+
+# ---------------------------------------------------------------------------
+# Measured field data — USGS seismicity near a site
+# ---------------------------------------------------------------------------
+
+def get_seismicity_adapter():
+    """Dependency factory; tests override this to inject a fake transport."""
+    from ..config import get_config
+    from ..sync.usgs_seismicity import USGSSeismicityAdapter
+    cfg = get_config()
+    return USGSSeismicityAdapter(
+        db_path=cfg.db_path,
+        timeout_s=cfg.seismicity_timeout_s,
+        stale_after_s=cfg.seismicity_stale_after_s,
+        offline=cfg.offline_mode,
+    )
+
+
+@router.get("/field/seismicity", response_model=SeismicityResponse)
+def field_seismicity(
+    lat: float = Query(..., ge=-90, le=90, description="Site latitude (deg)"),
+    lon: float = Query(..., ge=-180, le=180, description="Site longitude (deg)"),
+    radius_km: float = Query(100.0, ge=1, le=2000),
+    days: int = Query(30, ge=1, le=90),
+    min_magnitude: float = Query(1.0, ge=-1, le=10),
+    limit: int = Query(100, ge=1, le=500),
+    refresh: bool = False,
+    adapter=Depends(get_seismicity_adapter),
+):
+    """Measured earthquakes near a field site from the USGS ComCat catalogue.
+
+    Always returns 200 with an explicit ``status`` (live/cached/stale/
+    unavailable) and provenance; it never fabricates events when the
+    source is unreachable.
+    """
+    from ..sync.usgs_seismicity import SeismicityQuery, SeismicityQueryError
+    q = SeismicityQuery(latitude=lat, longitude=lon, radius_km=radius_km,
+                        days=days, min_magnitude=min_magnitude, limit=limit)
+    try:
+        result = adapter.get_seismicity(q, refresh=refresh)
+    except SeismicityQueryError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
+    return result.as_dict()

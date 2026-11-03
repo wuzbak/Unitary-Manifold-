@@ -1,5 +1,5 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
-"""UM-grounded modulation helpers for SDAM."""
+"""Experimental base-five modulation prototype, not wired to the native app."""
 from __future__ import annotations
 
 import math
@@ -46,7 +46,7 @@ def decode_symbols(symbols: list[int]) -> str:
 
 
 def get_braid_frequency(symbol: int, base_freq: float = 440.0) -> float:
-    """Map a symbol onto a braid-resonant carrier frequency."""
+    """Return an illustrative ratio-derived frequency, not a validated carrier."""
     if symbol not in MODULATION_SYMBOLS:
         raise ValueError('symbol out of range')
     return round(base_freq * (7 / 5) ** (symbol / max(1, WINDING_NUMBER - 1)), 6)

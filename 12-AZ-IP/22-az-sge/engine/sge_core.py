@@ -86,9 +86,6 @@ class SGEConfig:
     # Canary files for ransomware detection
     canary_paths: Optional[List[str]] = None
 
-    # Encryption
-    use_hardware_crypto: bool = True    # use cryptography lib if available
-
     def to_dict(self) -> dict:
         return {
             "nvd_api_key_set": self._nvd_key_set(),
@@ -218,7 +215,11 @@ class SGECore:
         QuarantineRecord is None if the file was clean.
         """
         p = Path(path)
-        data = p.read_bytes() if p.is_file() else b""
+        if not p.exists():
+            raise FileNotFoundError(p)
+        if not p.is_file():
+            raise IsADirectoryError(p)
+        data = p.read_bytes()
         scan = self._malware.scan_bytes(data, filename=str(path))
 
         qr = None
@@ -438,7 +439,13 @@ class SGECore:
             "blocked_ips": self._quarantine.blocked_ips(),
             "blocked_domains": self._quarantine.blocked_domains(),
             "tracker_blocklist_size": self._surveillance.tracker_blocklist.size,
-            "keypair_software_mode": self._keypair.software_mode,
+            "crypto_provider": "cryptography",
+            "host_enforcement": {
+                "firewall": False,
+                "process_termination": False,
+                "file_isolation": False,
+                "vault_mode": "copy_only",
+            },
         }
 
     def recent_events(self, n: int = 50) -> List[dict]:

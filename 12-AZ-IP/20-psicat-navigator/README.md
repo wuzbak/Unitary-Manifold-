@@ -282,6 +282,63 @@ documented in `4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md`.
 - `POST /api/agentOrchestrate` executes bounded sequential tool chains with output threading plus fail-closed trajectory preflight contracts for high-risk chains.
 - Toolkit entries include typed argument schema, capability class, risk level, and human-gate metadata; runtime now enforces tool allowlists and schema checks, and emits replay artifacts for invoke/orchestrate runs.
 - New runtime tools include `empiricalObservatoryCheck` (DESI/JUNO/LiteBIRD kill-threshold checks) and `kernelPProofProbe` (gated Lean4 proof probing with safe fallback).
+
+### Opt-in tool audit recovery
+
+Set `MERLIN_TOOL_AUDIT_STORE_PATH` in the **Navigator server process environment**
+to an absolute JSON file path on a durable local POSIX volume. For example, from
+the product directory:
+
+```bash
+mkdir -p runtime
+MERLIN_TOOL_AUDIT_STORE_PATH="$PWD/runtime/tool-audit.json" python run.py
+```
+
+Unset/empty means no new disk storage and unchanged tool responses. This is
+separate from `MERLIN_MEMORY_STORE_PATH`; enabling session memory alone does not
+retain tool-run receipts. Mount the same audit volume/path after restarting.
+All calls through `merlin_tools.route_tool` (including existing invoke and
+bounded orchestration paths) retain completed successful and denied receipts.
+Local command execution paths that do not use this router are not covered.
+
+Receipts contain a UUID, UTC start/finish times, allowlisted tool identifier
+(`unknown` for unrecognized input), outcome, duration, human-gate requirement,
+and fixed provider-independent component/schema provenance. They intentionally
+omit arguments, argument names, results, errors, prompts, session/user identifiers,
+provider credentials, and replay payloads. No identity, consent, or policy gate
+is changed; a receipt grants no authority and cannot replay a tool.
+
+New files are owner-only (0600). Writes use a locked read/validate/append,
+same-directory staging file, file fsync, atomic replacement, and directory fsync.
+Schema/version/unique-ID checks and a SHA-256 checksum reject corrupt history;
+the checksum detects accidental damage, not malicious rewriting by a file owner.
+Keep the directory private and outside version control. The adjacent `.lock`
+file must stay on the same volume; POSIX advisory locks coordinate cooperating
+processes, not external editors or distributed/network filesystems.
+
+For operator-only read recovery (no new HTTP endpoint), run from the product
+directory with the same environment:
+
+```bash
+MERLIN_TOOL_AUDIT_STORE_PATH="$PWD/runtime/tool-audit.json" python -c \
+  'from ox_navigator.engine.merlin_tool_audit_store import MerlinToolAuditStore; print(MerlinToolAuditStore.configured().read_records())'
+```
+
+A corrupt/unreadable file raises `ToolAuditStoreError`, never resets history,
+and prevents subsequent routed execution during preflight. Preserve the damaged
+file and restore a known-good operator backup; do not blindly retry side-effecting
+tools. A write failure after execution is also surfaced as an error: disk commit
+and tool side effects are **not** one transaction. A crash between execution and
+receipt commit can leave an unrecorded outcome; this is completed-receipt recovery,
+not exactly-once execution. History is unbounded and each append rewrites the file;
+retention/rotation and backup are operator responsibilities.
+
+Focused recovery validation:
+
+```bash
+python -m pytest tests/test_merlin_tool_audit_store.py -q
+```
+
 - The standalone implementation remains conservative, but its internal contracts are now audit-ready for tiered capability expansion.
 - Cross-device Base44 entity semantics are not fully recreated here; the schema is exposed honestly as planned-but-not-implemented.
 

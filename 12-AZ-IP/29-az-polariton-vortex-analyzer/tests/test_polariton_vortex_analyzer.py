@@ -68,11 +68,11 @@ def test_compare_to_prediction_finds_crossing_angle_near_theta_c():
     assert result["measured_crossing_angle_deg"] == pytest.approx(18.93, abs=0.5)
 
 
-def test_extract_feature_velocity_curve_ignores_single_sample_angles():
+def test_extract_feature_velocity_curve_rejects_single_sample_angles():
     frames = [
         PumpProbeFrame(position_um=0.0, timestamp_fs=0.0, half_angle_deg=5.0),
         PumpProbeFrame(position_um=0.0, timestamp_fs=0.0, half_angle_deg=10.0),
         PumpProbeFrame(position_um=1.0, timestamp_fs=1.0, half_angle_deg=10.0),
     ]
-    curve = extract_feature_velocity_curve(frames)
-    assert curve.half_angles_deg == [10.0]
+    with pytest.raises(ValueError, match="requires at least two"):
+        extract_feature_velocity_curve(frames)

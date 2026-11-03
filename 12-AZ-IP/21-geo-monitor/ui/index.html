@@ -187,6 +187,10 @@
     .status-live { background: rgba(34,211,238,0.1); color: var(--geo-accent); border: 1px solid rgba(34,211,238,0.25); }
     .status-adj  { background: rgba(59,130,246,0.1); color: #60a5fa;        border: 1px solid rgba(59,130,246,0.25); }
     .status-info { color: #475569; font-size: 0.68rem; margin-left: auto; }
+    .refresh-feeds { background: #10212b; border: 1px solid #285064; color: #67e8f9; border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.68rem; cursor: pointer; }
+    .feed-health-row { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.3rem 0; border-bottom: 1px solid rgba(22,32,48,0.6); font-size: 0.68rem; }
+    .feed-health-row span:first-child { color: #cbd5e1; flex: 0 0 38%; }
+    .feed-health-row span:last-child { color: #94a3b8; overflow-wrap: anywhere; }
     .blink { animation: blink 1.4s infinite; }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
@@ -286,7 +290,9 @@
   <span id="status-storm"   class="status-pill" style="background:rgba(167,139,250,0.08);color:#c4b5fd;border:1px solid rgba(167,139,250,0.2)">🌀 Storm: —</span>
   <span id="status-nws"     class="status-pill" style="background:rgba(251,191,36,0.08);color:#fde68a;border:1px solid rgba(251,191,36,0.2)">⚠️ NWS: —</span>
   <span id="status-avalanche" class="status-pill" style="background:rgba(96,165,250,0.08);color:#93c5fd;border:1px solid rgba(96,165,250,0.2)">❄️ Aval: —</span>
-  <span class="status-info" id="last-updated">Fetching feeds…</span>
+  <span class="status-info" id="feed-summary" aria-live="polite">Checking feeds…</span>
+  <button class="refresh-feeds" type="button" onclick="loadAllFeeds()">↻ Refresh</button>
+  <span class="status-info" id="last-updated">Not yet checked</span>
 </div>
 
 <!-- MAIN BODY -->
@@ -367,6 +373,11 @@
         <span class="layer-count" id="cnt-phi">—</span>
         <span class="toggle-sw"></span>
       </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Data Source Health</h3>
+      <div id="feed-health" aria-live="polite"></div>
     </div>
 
     <!-- UM PHYSICS SUMMARY -->

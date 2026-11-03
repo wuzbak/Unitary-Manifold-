@@ -304,14 +304,140 @@ const FO = (() => {
     run();
   }
 
+
+  // ── Public evidence feed (server-backed arXiv tracker) ───────────────────
+  const EVIDENCE_STATUS_TEXT = {
+    fresh: 'Fresh — fetched within the freshness window.',
+    stale: 'Stale — last successful fetch is older than the freshness window; showing cached entries.',
+    unavailable: 'Unavailable — arXiv could not be reached on the last attempt.',
+    error: 'Error — the last arXiv response failed validation.',
+    never_fetched: 'Not fetched yet — press "Fetch from arXiv" to ingest the public feed.',
+  };
+  const SOURCE_ACK = 'Thank you to arXiv for use of its open access interoperability.';
+  const SAFE_LINK = /^https:\/\/arxiv\.org\/(abs|pdf)\/[A-Za-z0-9.\-\/]+$/;
+
+  function el(tag, text, cls) {
+    const node = document.createElement(tag);
+    if (text != null) node.textContent = text;
+    if (cls) node.className = cls;
+    return node;
+  }
+
+  function selectedExperiment() {
+    const sel = document.getElementById('ev-exp');
+    return sel && sel.value ? sel.value : 'EXP-1';
+  }
+
+  function setEvidenceStatus(status, message) {
+    const badge = document.getElementById('ev-status');
+    if (badge) {
+      badge.textContent = status.replace('_', ' ');
+      badge.className = `ev-status ev-status-${status}`;
+      badge.dataset.status = status;
+    }
+    const msg = document.getElementById('ev-message');
+    if (msg) msg.textContent = message || '';
+  }
+
+  function renderEvidence(feed, extraMessage, acknowledgement) {
+    let message = EVIDENCE_STATUS_TEXT[feed.status] || feed.status;
+    if (feed.last_error) message += ` (${feed.last_error})`;
+    if (feed.served_from_cache && feed.status !== 'stale') message += ' Showing last good snapshot.';
+    if (extraMessage) message = `${extraMessage} ${message}`;
+    setEvidenceStatus(feed.status, message);
+
+    const prov = document.getElementById('ev-provenance');
+    if (prov) {
+      prov.textContent = '';
+      const p = feed.provenance;
+      if (p) {
+        [
+          `query: ${p.query}`,
+          `fetched_at: ${p.fetched_at} · http ${p.http_status} · ${p.byte_length} bytes · sha256 ${String(p.content_sha256).slice(0, 16)}…`,
+          `total_results: ${p.total_results} · returned ${p.returned_entries} · rejected ${p.rejected_entries} · new since previous fetch ${feed.new_count}${feed.baseline ? ' (baseline fetch)' : ''}`,
+          `source: ${p.request_url}`,
+        ].forEach(line => prov.appendChild(el('div', line)));
+      } else {
+        prov.appendChild(el('div', `query: ${feed.query}`));
+      }
+    }
+
+    const list = document.getElementById('ev-list');
+    if (list) {
+      list.textContent = '';
+      (feed.entries || []).forEach(entry => {
+        const card = el('div', null, 'ev-entry');
+        card.dataset.arxivId = entry.arxiv_id;
+        const link = SAFE_LINK.test(entry.abs_url || '') ? el('a', entry.title) : el('span', entry.title);
+        if (link.tagName === 'A') { link.href = entry.abs_url; link.target = '_blank'; link.rel = 'noopener noreferrer'; }
+        card.appendChild(link);
+        if (entry.is_new) card.appendChild(el('span', 'NEW', 'ev-new'));
+        const authors = (entry.authors || []).slice(0, 3).join(', ') + (entry.author_count > 3 ? ' et al.' : '');
+        const meta = [`arXiv:${entry.arxiv_id}`, entry.published ? entry.published.slice(0, 10) : '', entry.primary_category || '', authors, entry.doi ? `doi:${entry.doi}` : '']
+          .filter(Boolean).join(' · ');
+        card.appendChild(el('div', meta, 'ev-meta'));
+        list.appendChild(card);
+      });
+      if (feed.provenance && !(feed.entries || []).length) list.appendChild(el('div', 'No matching preprints returned.', 'ev-message'));
+    }
+    const ack = document.getElementById('ev-ack');
+    if (ack) ack.textContent = acknowledgement || '';
+  }
+
+  function evidenceUnreachable(err) {
+    setEvidenceStatus('unavailable', `Evidence API not reachable — serve the app with "python run.py" to enable the arXiv feed. (${err && err.message ? err.message : err})`);
+    const list = document.getElementById('ev-list');
+    if (list) list.textContent = '';
+    const prov = document.getElementById('ev-provenance');
+    if (prov) prov.textContent = '';
+  }
+
+  async function loadEvidence() {
+    const exp = selectedExperiment();
+    setEvidenceStatus('loading', 'Loading tracked evidence…');
+    try {
+      const res = await fetch(`/api/evidence?exp=${encodeURIComponent(exp)}`, { cache: 'no-store' });
+      const data = await res.json();
+      if (!res.ok || !data.feeds || !data.feeds.length) throw new Error(data.error || `HTTP ${res.status}`);
+      renderEvidence(data.feeds[0], '', data.acknowledgement);
+      return data;
+    } catch (err) {
+      evidenceUnreachable(err);
+      return null;
+    }
+  }
+
+  async function refreshEvidence() {
+    const exp = selectedExperiment();
+    const button = document.getElementById('ev-refresh');
+    if (button) button.disabled = true;
+    setEvidenceStatus('loading', `Fetching arXiv feed for ${exp}…`);
+    try {
+      const res = await fetch(`/api/evidence/refresh?exp=${encodeURIComponent(exp)}`, { method: 'POST', cache: 'no-store' });
+      const data = await res.json();
+      if (!data.feed) throw new Error(data.error || `HTTP ${res.status}`);
+      let extra = '';
+      if (!data.refresh.performed) {
+        extra = `Refresh not performed (${data.refresh.reason}); retry in ${Math.ceil(data.refresh.retry_after_seconds)} s.`;
+      }
+      renderEvidence(data.feed, extra, SOURCE_ACK);
+      return data;
+    } catch (err) {
+      evidenceUnreachable(err);
+      return null;
+    } finally {
+      if (button) button.disabled = false;
+    }
+  }
+
   // ── Test harness (for test_falsification_observatory.py via jsdom) ────────
   // Expose engine internals for headless testing
   const _test = {
     routeLiteBIRD, routeDESI, routeJUNO, routeACT, routeHLLHC, routeNEDM, routeXENON,
-    runOracle, summary, PRED, COLORS,
+    runOracle, summary, PRED, COLORS, renderEvidence,
   };
 
-  return { run, reset, _test };
+  return { run, reset, loadEvidence, refreshEvidence, _test };
 
 })();
 

@@ -42,9 +42,14 @@ that works directly from the Pages endpoint — no server required.
 ## Run backend locally
 
 ```bash
-pip install fastapi uvicorn numpy scipy sympy mpmath
-uvicorn src.core.um_sos_backend:app --reload
+pip install -r 12-AZ-IP/04-um-sos/requirements.txt
+python 12-AZ-IP/04-um-sos/run.py
 ```
+
+The local API binds to `127.0.0.1:8000` by default. Override `UM_SOS_HOST` and
+`UM_SOS_PORT` only when the deployment environment provides appropriate access
+controls. Docker Compose keeps the host port loopback-bound and stores local
+preregistrations in a persistent named volume.
 
 ## Key endpoints
 
@@ -55,6 +60,15 @@ uvicorn src.core.um_sos_backend:app --reload
 - `POST /api/v1/governance/classify` — Pentad decision routing
 - `POST /api/v1/ai/query` — Layer 7 AI query with epistemic gating
 - `GET /api/v1/preregistered` — preregistration registry (SHA-256 committed predictions)
+- `POST /api/v1/preregistered/local` — append a locally stored research preregistration
+- `GET /api/v1/preregistered/local?limit=100` — list local records and verify their content digests
+
+Local preregistrations are stored in SQLite at
+`~/.local/share/um-sos/preregistrations.sqlite3` by default. Set
+`UM_SOS_PREREGISTRATION_DB` to choose another path. The local API offers no
+edit/delete route; its SHA-256 digest detects content changes but is not a
+trusted timestamp, author signature, or identity check. Author declarations
+are self-reported. Do not expose the write endpoint to an untrusted network.
 
 ## Deployment assets
 

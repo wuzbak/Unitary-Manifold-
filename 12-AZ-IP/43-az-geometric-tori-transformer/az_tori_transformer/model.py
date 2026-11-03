@@ -90,6 +90,32 @@ class GeometricToriTransformer:
         params += self.ln_final.parameters() + self.head.parameters()
         return params
 
+    def named_parameters(self) -> dict[str, Tensor]:
+        """Stable checkpoint names, in the same order as ``parameters()``."""
+        params = {"token_embedding.weight": self.token_embedding.weight}
+        for i, block in enumerate(self.blocks):
+            prefix = f"blocks.{i}"
+            for name in ("wq", "wk", "wv", "wo"):
+                layer = getattr(block.attn, name)
+                params[f"{prefix}.attn.{name}.weight"] = layer.weight
+                if layer.bias is not None:
+                    params[f"{prefix}.attn.{name}.bias"] = layer.bias
+            if hasattr(block.attn, "relative_bias"):
+                params[f"{prefix}.attn.relative_bias"] = block.attn.relative_bias
+            for name in ("fc1", "fc2"):
+                layer = getattr(block.ff, name)
+                params[f"{prefix}.ff.{name}.weight"] = layer.weight
+                params[f"{prefix}.ff.{name}.bias"] = layer.bias
+            for name in ("ln1", "ln2"):
+                layer = getattr(block, name)
+                params[f"{prefix}.{name}.gamma"] = layer.gamma
+                params[f"{prefix}.{name}.beta"] = layer.beta
+        params["ln_final.gamma"] = self.ln_final.gamma
+        params["ln_final.beta"] = self.ln_final.beta
+        params["head.weight"] = self.head.weight
+        params["head.bias"] = self.head.bias
+        return params
+
     def __call__(self, token_ids: np.ndarray) -> tuple[Tensor, list[np.ndarray]]:
         """``token_ids``: int array ``(batch, seq_len)``. Returns logits and per-layer attention maps."""
         x = self.token_embedding(token_ids)

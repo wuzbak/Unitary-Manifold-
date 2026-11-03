@@ -21,10 +21,11 @@ private val Context.calibrationDataStore: DataStore<Preferences>
  * CalibrationStore — S4
  *
  * DataStore-backed persistence for SDAM audio calibration results.
- * Stores the recommended ggwave TX protocol, volume level, frequency band,
- * and measured noise floor.
+ * Stores the user-selected ggwave TX protocol, volume, frequency band, and
+ * measured broadband noise floor.
  *
- * Default band: NEAR_ULTRASONIC (17–22 kHz) per S4 specification.
+ * Stored default band: NEAR_ULTRASONIC. The actual emitted spectrum and
+ * device-specific audibility have not been measured.
  */
 @Singleton
 class CalibrationStore @Inject constructor(
@@ -89,13 +90,13 @@ class CalibrationStore @Inject constructor(
         private val KEY_FREQ_BAND      = intPreferencesKey("freq_band_ordinal")
         private val KEY_NOISE_FLOOR_DB = floatPreferencesKey("noise_floor_db")
 
-        /** S4 default: NEAR_ULTRASONIC (17–22 kHz). */
+        /** Stored default selection; not a claim about measured frequency response. */
         val DEFAULT_FREQ_BAND: FrequencyBand = FrequencyBand.NEAR_ULTRASONIC
 
-        /** ULTRASOUND_FAST (id=4) — near-ultrasonic default per S4 spec. */
+        /** ULTRASOUND_FAST (id=4) — stored ggwave protocol default. */
         const val DEFAULT_PROTOCOL_ID = 4
 
-        /** Default amplitude — moderate for near-ultrasonic. */
+        /** Default playback amplitude setting; output sound pressure is unmeasured. */
         const val DEFAULT_VOLUME = 40
 
         /** Sentinel value: noise floor not yet measured. */

@@ -205,6 +205,25 @@
       .obs-hero h1 { font-size: 1.4rem; }
       .input-grid { grid-template-columns: 1fr 1fr; }
     }
+
+    /* Public evidence feed panel */
+    .evidence-panel { max-width: 1400px; margin: 0 auto 1.5rem; padding: 0 2rem; }
+    .evidence-inner { background: var(--obs-panel); border: 1px solid var(--obs-border); border-radius: 12px; padding: 1.25rem; }
+    .evidence-inner h3 { margin: 0 0 0.3rem; font-size: 1rem; color: #f0f4f8; }
+    .evidence-controls { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin: 0.8rem 0; }
+    .evidence-controls select { background: #0a111b; color: #e2e8f0; border: 1px solid var(--obs-border); border-radius: 6px; padding: 0.35rem 0.5rem; }
+    .ev-status { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; border: 1px solid; }
+    .ev-status-fresh { color: var(--pass-color); border-color: rgba(34,197,94,0.3); background: var(--pass-bg); }
+    .ev-status-stale { color: var(--tension-color); border-color: rgba(245,158,11,0.3); background: var(--tension-bg); }
+    .ev-status-unavailable, .ev-status-error { color: var(--falsified-color); border-color: rgba(239,68,68,0.3); background: var(--falsified-bg); }
+    .ev-status-never_fetched, .ev-status-loading { color: var(--awaiting-color); border-color: rgba(148,163,184,0.2); background: var(--awaiting-bg); }
+    .ev-message { font-size: 0.8rem; color: #94a3b8; min-height: 1.1rem; }
+    .ev-provenance { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #64748b; margin: 0.6rem 0; word-break: break-all; }
+    .ev-list { display: grid; gap: 0.5rem; }
+    .ev-entry { background: #09111b; border: 1px solid #0d1a2e; border-radius: 6px; padding: 0.6rem 0.8rem; }
+    .ev-entry a { color: #38bdf8; text-decoration: none; font-weight: 600; font-size: 0.85rem; }
+    .ev-entry .ev-meta { font-size: 0.7rem; color: #64748b; margin-top: 0.2rem; }
+    .ev-new { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #22c55e; margin-left: 0.4rem; }
   </style>
 </head>
 <body>
@@ -303,6 +322,35 @@
     <div class="legend-item"><div class="legend-dot" style="background:var(--awaiting-color)"></div>AWAITING — data not yet available</div>
   </div>
 
+  <!-- Public evidence feed (arXiv API via local server) -->
+  <section class="evidence-panel" id="evidence-panel" aria-labelledby="evidence-title">
+    <div class="evidence-inner">
+      <h3 id="evidence-title">Public Evidence Feed — arXiv preprints per experiment front</h3>
+      <p class="ev-message" style="margin:0">
+        Fixed query per experiment against the public arXiv API (<code>export.arxiv.org/api/query</code>), fetched by the local server with a bounded timeout, validated, and stored with provenance.
+        Entries are literature pointers only — they <strong>never</strong> change a verdict automatically.
+      </p>
+      <div class="evidence-controls">
+        <label for="ev-exp" class="ev-message">Experiment</label>
+        <select id="ev-exp" onchange="FO.loadEvidence()">
+            <option value="EXP-1">EXP-1 — LiteBIRD Cosmic Birefringence</option>
+            <option value="EXP-2">EXP-2 — DESI Dark Energy</option>
+            <option value="EXP-3">EXP-3 — JUNO Neutrino Mass</option>
+            <option value="EXP-4">EXP-4 — ACT CMB Spectral Index</option>
+            <option value="EXP-5">EXP-5 — HL-LHC KK Gluon</option>
+            <option value="EXP-6">EXP-6 — nEDM Electric Dipole Moment</option>
+            <option value="EXP-7">EXP-7 — XENON-nT Dark Matter</option>
+        </select>
+        <button class="btn-run" id="ev-refresh" type="button" onclick="FO.refreshEvidence()">⟳ Fetch from arXiv</button>
+        <span id="ev-status" class="ev-status ev-status-loading">loading</span>
+      </div>
+      <div id="ev-message" class="ev-message" role="status" aria-live="polite"></div>
+      <div id="ev-provenance" class="ev-provenance"></div>
+      <div id="ev-list" class="ev-list"></div>
+      <div id="ev-ack" class="ev-message" style="margin-top:0.6rem;font-size:0.68rem"></div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer style="text-align:center;padding:1.5rem;color:#334155;font-size:0.75rem;border-top:1px solid #0d1a2e;">
     AxiomZero Technologies &amp; Consulting, SPC — UBI 606 239 876 &nbsp;|&nbsp;
@@ -331,7 +379,7 @@
   </div>
 
   <script src="./falsification-observatory.js"></script>
-  <script>FO.run();</script>
+  <script>FO.run(); FO.loadEvidence();</script>
   <script>
   // Inline live seismic widget for Falsification Observatory
   (function() {

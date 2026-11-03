@@ -25,7 +25,25 @@ def main(argv: list[str] | None = None) -> int:
     serve_cmd = sub.add_parser("serve", help="Run the analyzer as a live HTTP product")
     serve_cmd.add_argument("--host", default="127.0.0.1")
     serve_cmd.add_argument("--port", type=int, default=8129)
+    analyze_cmd = sub.add_parser("analyze", help="Analyze a user-supplied tracked-feature JSON or CSV export")
+    analyze_cmd.add_argument("input", type=Path)
+    analyze_cmd.add_argument("--dataset-id", help="Required for CSV; JSON carries its own metadata")
+    analyze_cmd.add_argument("--source", help="Required for CSV; identify the acquisition/export source")
+    analyze_cmd.add_argument("--c-s", type=float, default=12 / 37)
     args = parser.parse_args(argv)
+
+    if args.command == "analyze":
+        from az_polariton_vortex_analyzer.measurement import analyze_measurement_file
+
+        try:
+            result = analyze_measurement_file(
+                args.input, dataset_id=args.dataset_id, source=args.source, c_s=args.c_s
+            )
+        except (OSError, ValueError) as exc:
+            print(f"measurement analysis failed: {exc}", file=sys.stderr)
+            return 2
+        print(json.dumps(result, indent=2, allow_nan=False))
+        return 0
 
     if args.command == "serve":
         from az_polariton_vortex_analyzer.app.server import serve

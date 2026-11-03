@@ -29,6 +29,7 @@ product README's "Epistemic status" section for the precise boundary.
 
 from .api import API_ENDPOINTS, dispatch_api_request
 from .attention import ToroidalMultiHeadAttention
+from .checkpoint import LoadedCheckpoint, load_checkpoint, save_checkpoint
 from .model import GeometricToriTransformer, GeometricToriTransformerConfig, TransformerBlock
 from .optim import Adam
 from .positional import (
@@ -65,6 +66,9 @@ __all__ = [
     "GeometricToriTransformerConfig",
     "TransformerBlock",
     "Adam",
+    "LoadedCheckpoint",
+    "load_checkpoint",
+    "save_checkpoint",
     "Tensor",
     "relative_distance",
     "modular_alias_diagnostics",

@@ -125,6 +125,95 @@ which has no periodicity at this sequence length and must approximate the
 wrap purely through learned weights — this is the *narrow, task-targeted*
 comparison claimed in Epistemic status below, not a general result.
 
+## Portable checkpoints and training continuation
+
+`save_checkpoint` / `load_checkpoint` persist actual model weights, not a
+demo report. Both toroidal and RoPE configurations are supported, including
+causal inference. The only dependency remains NumPy; loading creates fresh
+custom-autograd tensors that can immediately train again.
+
+From this product directory, a complete save/resume example:
+
+```python
+import numpy as np
+from az_tori_transformer import (
+    Adam, GeometricToriTransformer, GeometricToriTransformerConfig,
+    save_checkpoint, load_checkpoint,
+)
+from az_tori_transformer.tensor import cross_entropy
+
+model = GeometricToriTransformer(GeometricToriTransformerConfig(
+    vocab_size=8, dim=8, num_heads=2, num_layers=1,
+))
+optimizer = Adam(model.parameters(), lr=0.003)
+rng = np.random.default_rng(42)
+
+def train_step(model, optimizer, rng):
+    # Replace with your data loader; persist its position/provenance in metadata.
+    tokens = rng.integers(0, 8, size=(2, 6))
+    logits, _ = model(tokens[:, :-1])
+    loss = cross_entropy(logits, tokens[:, 1:])
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    return float(loss.data)
+
+train_step(model, optimizer, rng)
+save_checkpoint("training.npz", model, optimizer=optimizer, rng=rng,
+                metadata={"task": "next_token", "vocabulary": list(range(8))})
+restored = load_checkpoint("training.npz")
+assert restored.optimizer.t == 1
+assert train_step(model, optimizer, rng) == train_step(
+    restored.model, restored.optimizer, restored.rng,
+)
+
+# Smaller inference-only artifact (optimizer and RNG are optional):
+save_checkpoint("weights.npz", restored.model, metadata=restored.metadata)
+inference_model = load_checkpoint("weights.npz").model
+logits, attention = inference_model(np.array([[1, 2, 3]]))
+```
+
+### Schema v1 and interoperability
+
+The file is a standard ZIP-based NumPy **NPZ** archive of NPY arrays, readable
+with `numpy.load(path, allow_pickle=False)`. Its *application schema* is
+product-specific, not a PyTorch, safetensors, or cross-framework checkpoint
+standard. The filename is used verbatim; no `.npz` suffix is silently appended.
+
+| NPZ key | Contents |
+|---------|----------|
+| `manifest` | Scalar Unicode JSON: `format="az-tori-transformer-npz"`, `schema_version=1`, complete model `config`, optional `optimizer`, optional `rng`, caller-owned `metadata` object |
+| `model/<name>` | Finite float64 parameter arrays, named by `model.named_parameters()` |
+| `adam/m/<name>`, `adam/v/<name>` | Optional float64 first/second moments (second moments must be nonnegative) |
+
+Adam metadata includes its completed step count, learning rate, both betas,
+and epsilon. RNG metadata is the complete **PCG64** state used by
+`numpy.random.default_rng`, including cached integer draws; other bit
+generators are explicitly rejected. Metadata must contain finite,
+JSON-serializable values. Store task settings, dataset identity/hash, loader
+position, and token-ID vocabulary there as needed; the library does not infer
+or enforce their meaning.
+
+Loading rejects unknown schema versions, missing/extra array names, duplicate
+JSON keys, mismatched shapes/dtypes, non-finite weights/moments, invalid config
+or Adam settings, and object/pickle arrays. Saving checks that Adam owns this
+model's parameters in order, writes a unique sibling `.pending` file, flushes
+and fsyncs it, then atomically replaces the destination. Ordinary write failures
+leave an existing checkpoint intact and remove the pending file. The parent
+directory must already exist; filesystem errors propagate to the caller.
+
+**Limits:** save only at completed optimizer-step boundaries. Gradients,
+autograd graphs, external datasets/tokenizers, and data-loader internals are
+not serialized. Exact continuation is tested on the same NumPy/runtime for
+both positional modes; bitwise results across different NumPy/BLAS/platform
+versions are not guaranteed. Use trusted, reasonably sized artifacts: no
+resource limits, cryptographic authenticity, concurrent-writer coordination,
+or full power-loss durability guarantee is provided. A process forcibly killed
+before replacement may leave a sibling `.pending` file. This is a persistence
+capability for an **ADJACENT TRACK / TRL-1** architecture, not a real-corpus
+quality benchmark or a new physics claim. The HTTP demo is unchanged and
+does not accept filesystem checkpoint paths.
+
 ## Running as a web product
 
 ```bash
@@ -184,7 +273,7 @@ same way every other PsiCat tool already is.
 python -m pytest 12-AZ-IP/43-az-geometric-tori-transformer/tests/ -q
 ```
 
-48 tests covering: autograd gradient checks against finite differences to a
+Tests cover: autograd gradient checks against finite differences to a
 1e-7 tolerance (`test_tensor.py`), Z_74 lattice invariants plus an optional
 cross-check against the Navigator's golden-vector export
 (`test_toroidal_geometry.py`), rotary/bias periodicity properties
@@ -194,7 +283,15 @@ attention shape and causal-masking behaviour
 end-to-end training loss/accuracy regression (`test_training.py`), the
 descriptive synthetic and matched-parameter positional ablations
 (`test_baseline_benchmark.py`), and the JSON API
-dispatch (`test_api.py`).
+dispatch (`test_api.py`). `test_checkpoint.py` adds weights-only inference,
+exact split-run Adam/RNG continuation in both positional modes, invalid-artifact
+rejection, and atomic-write failure protection.
+
+For checkpoint-only validation:
+
+```bash
+python -m pytest 12-AZ-IP/43-az-geometric-tori-transformer/tests/test_checkpoint.py -q
+```
 
 ---
 

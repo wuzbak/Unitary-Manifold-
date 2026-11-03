@@ -235,7 +235,6 @@ def test_directory_reuse_refreshes_nested_additions_deletions_and_symlink_target
     graph_root, monkeypatch,
 ) -> None:
     monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
-    merlin_repo_graph._directory_layout_cached.cache_clear()
     _write_graph_fixture(graph_root, "src/core/alpha.py")
     first = merlin_repo_graph._discover_files()
     original = merlin_repo_graph.os.scandir
@@ -247,7 +246,7 @@ def test_directory_reuse_refreshes_nested_additions_deletions_and_symlink_target
 
     monkeypatch.setattr(merlin_repo_graph.os, "scandir", counted_scandir)
     assert merlin_repo_graph._discover_files() == first
-    assert scans == []
+    assert scans
     _write_graph_fixture(graph_root, "src/core/nested/beta.py")
     assert {path.name for path in merlin_repo_graph._discover_files()} == {"alpha.py", "beta.py"}
     (graph_root / "src/core/nested/beta.py").unlink()
@@ -261,7 +260,6 @@ def test_directory_reuse_refreshes_nested_additions_deletions_and_symlink_target
     assert merlin_repo_graph._discover_files() == first
     target.write_text("def recreated(): pass\n", encoding="utf-8")
     assert set(merlin_repo_graph._discover_files()) == {*first, target}
-    assert merlin_repo_graph._directory_layout_cached.cache_info().maxsize == 2048
 
 
 def test_selection_cache_does_not_cache_source_contents(graph_root, monkeypatch) -> None:

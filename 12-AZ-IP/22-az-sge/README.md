@@ -1,6 +1,6 @@
 # AxiomZero SGE — System Security Governance Engine
 
-**Version:** 1.0.0 | **Product:** 22 | **Status:** Production-ready — 229 tests, 0 failures  
+**Version:** 1.0.0 | **Product:** 22 | **Status:** Local security analysis and policy engine; host enforcement is not implemented<br>
 **Epistemic label:** 🔵 ADJACENT TRACK — next-generation security governance application (not a physics claim)  
 **Theory & scientific direction:** ThomasCory Walker-Pearson  
 **Code architecture & implementation:** GitHub Copilot (AI)
@@ -9,20 +9,20 @@
 
 ## What Is the AZ-SGE?
 
-The **AxiomZero System Security Governance Engine** (AZ-SGE) is a fully integrated, next-generation security protection suite providing:
+The **AxiomZero System Security Governance Engine** (AZ-SGE) is a local security-analysis application providing:
 
-- **Zero-day exploit protection** — seven independent heuristics detecting novel attacks without signature databases
-- **Anti-malware** — YARA rule engine, entropy analysis, shellcode pattern matching, ransomware detection
-- **Anti-hacking / intrusion detection** — signature + statistical anomaly IDS for network events and process events
-- **Anti-surveillance** — DNS leak detection, tracker blocklist (200+ domains), canvas/WebRTC/font fingerprint defense
-- **Firewall** — stateful packet-filter policy engine with default-deny-all and rate limiting
+- **Suspicious-content triage** — seven heuristics that flag patterns; they do not prove or prevent zero-day exploits
+- **File analysis** — YARA rules, entropy analysis, byte-pattern checks, and ransomware-related indicators
+- **Event analysis** — signature and statistical anomaly checks for events explicitly submitted by a caller
+- **Privacy checks** — DNS configuration audit, local tracker-domain lookup, and browser fingerprinting indicators
+- **Firewall policy evaluation** — stateful in-process rules and rate limiting for submitted events; no host firewall is changed
 - **Vulnerability scanner** — dependency auditing (pip/npm/Cargo) against a curated CVE database
 - **Threat intelligence** — live NVD CVE feed + MalwareBazaar + offline IOC registry
-- **Quarantine & remediation** — automatic file quarantine, IP/domain blocking, patch advisories
-- **SHA-512 rolling hash chain** — tamper-evident immutable audit ledger with Merkle root verification
-- **AES-256-GCM + X25519 ECDH** — session encryption layer for all sensitive data
+- **Response records** — local vault copies, block recommendations, and patch advisories; no host action is implied
+- **SHA-512 rolling hash chain** — process-local event-integrity checking with Merkle-root calculation
+- **AES-256-GCM + X25519 ECDH** — cryptography-backed session encryption; refuses operation if the provider is unavailable
 
-The AZ-SGE is the AxiomZero equivalent of Norton / CrowdStrike / Defender — built from first principles, with full source code, no black boxes, and cryptographic audit integrity.
+AZ-SGE is not an endpoint protection product and does not replace a host firewall, anti-malware service, EDR, or incident-response process.
 
 ---
 
@@ -46,30 +46,30 @@ The AZ-SGE is the AxiomZero equivalent of Norton / CrowdStrike / Defender — bu
 │   └── server.py              # HTTP dashboard server (7 API endpoints)
 ├── ui/
 │   └── index.html             # Single-page security dashboard
-├── tests/
-│   └── test_az_sge.py         # 229 tests, 0 failures
+└── tests/
+│   └── test_az_sge.py         # Unit and integration coverage
 ├── run.py                     # CLI launcher
 └── requirements.txt
 ```
 
 ---
 
-## Protection Coverage
+## Analysis Coverage
 
 | Threat Class | Detection Method | Response |
 |---|---|---|
-| Known malware | SHA-256/MD5 IOC lookup (online + offline) | Quarantine + alert |
-| Ransomware | YARA rules (WannaCry, LockBit, Conti, …), extension scan, canary files | Quarantine + operator alert |
-| Zero-day exploit | 7 heuristics: entropy, shellcode, heap spray, ROP, memory corruption, exploit kit, drive-by | Quarantine if above threshold |
-| SQL injection | Regex signature IDS | Alert + IP block |
+| Known malware | SHA-256/MD5 IOC lookup (online + offline) | Store a local vault copy; original remains untouched |
+| Ransomware indicators | YARA rules, extension checks, optional canaries | Record indicators; no automatic recovery or file isolation |
+| Suspicious content | 7 heuristics: entropy, shellcode, heap spray, ROP, memory corruption, exploit kit, drive-by | Heuristic triage; not zero-day prevention |
+| SQL injection | Regex signature IDS on submitted events | Alert record and optional local block recommendation |
 | XSS | Pattern IDS | Alert |
-| RCE / Command injection | Pattern IDS | Alert + IP block |
+| RCE / Command injection | Pattern IDS | Alert record and optional local block recommendation |
 | XXE / SSRF / LDAP injection | Pattern IDS | Alert |
 | Port scan | Stateful PortScanDetector | Alert |
-| Brute force | Stateful BruteForceDetector | Alert + IP block |
+| Brute force | Stateful BruteForceDetector | Alert record and optional local block recommendation |
 | Suspicious process | Process rule IDS (Mimikatz, Cobalt Strike, PowerShell obfuscation, …) | Alert |
-| Tracker surveillance | 200+ domain blocklist (Google Analytics, Hotjar, Mixpanel, …) | Block |
-| Browser fingerprinting | Canvas, WebRTC, font enum, FingerprintJS detection | Alert |
+| Tracker surveillance | Domain blocklist (Google Analytics, Hotjar, Mixpanel, …) | Local lookup result; no browser or resolver enforcement |
+| Browser fingerprint indicators | Canvas, WebRTC, font enumeration, FingerprintJS patterns | Alert |
 | DNS leak | /etc/resolv.conf audit vs. approved resolvers | Alert |
 | Vulnerable dependencies | pip/npm/Cargo audit vs. 25+ known CVEs | Patch advisory |
 | Known CVEs | Live NVD feed + offline sample set | Alert + advisory |
@@ -80,11 +80,8 @@ The AZ-SGE is the AxiomZero equivalent of Norton / CrowdStrike / Defender — bu
 ## Quick Start
 
 ```bash
-# Install (numpy only required; cryptography optional for hardware AES)
+# Install required runtime dependencies
 pip install -r requirements.txt
-
-# Optionally install cryptography for real AES-256-GCM and X25519:
-pip install cryptography
 
 # Start the dashboard (demo events included)
 python run.py --demo
@@ -131,17 +128,23 @@ python run.py --status
 
 ## Security Design Principles
 
-1. **Default deny all** — the firewall default policy blocks everything not explicitly allowed
-2. **Immutable audit trail** — every security event is committed to an append-only SHA-512 hash chain; any tampering is cryptographically detectable
-3. **Defence in depth** — no single layer is relied upon; malware detection + zero-day + IDS + firewall operate independently
+1. **Explicit policy result** — the in-process firewall evaluator defaults to deny for events passed to it; it does not filter host traffic
+2. **Process-local audit chain** — events are appended to a SHA-512 hash chain and verifiable during this process lifetime; the chain is not durably stored or externally anchored
+3. **Layered analysis** — file, event, dependency, and privacy analyzers operate on supplied inputs; they do not monitor the host automatically
 4. **Offline-first** — all critical detections (known malware, core CVEs, tracker domains) work without network access
 5. **Transparent** — full Python source, no binary blobs, no external black-box dependencies
-6. **Least privilege** — quarantine vault uses 0700 permissions; dashboard binds to 127.0.0.1 only by default
-7. **Cryptographic integrity** — AES-256-GCM with random IV, HMAC-SHA-512 chain links, HKDF-SHA-512 key derivation
+6. **Least privilege** — the vault uses owner-only permissions where supported; the dashboard binds to 127.0.0.1 by default
+7. **Cryptographic integrity** — cryptography-backed AES-256-GCM with random IV, X25519 ECDH, and HKDF-SHA-512. If `cryptography` is missing, encryption and SGE startup fail explicitly; no substitute cipher is used.
+
+The encryption keypair is generated in memory at startup and is not persisted. Encrypted data created by one process lifetime cannot be decrypted after restart unless the caller independently retains the key material.
+
+## Deployment limits
+
+AZ-SGE currently analyzes files and events supplied to its Python API and evaluates policy in process. It does not collect host telemetry, install kernel hooks, terminate processes, change operating-system firewall/DNS rules, or prevent a flagged source file from running. “Vaulted” means a copy is stored in the local vault; the original is deliberately left in place. The dashboard, IOC lists, and audit chain are process-local and are not an operational SOC, durable evidence store, or verified malware-prevention system.
 
 ---
 
-## Hash Chain Protocol (SHA-512 Rolling Hash)
+## Process-Local Hash Chain (SHA-512 Rolling Hash)
 
 The AZ-SGE implements the SHA-512 rolling hash protocol first developed in the EIGE product (03-eige):
 
@@ -151,21 +154,21 @@ state_{n+1} = SHA-512( state_n ‖ K_CS ‖ SHA-512(payload_n) ‖ timestamp_n )
 
 where `K_CS = 74 = 5² + 7²` (Chern-Simons constant from the Unitary Manifold).
 
-Properties:
+In-process properties:
 - **Non-commutative** — inserting or reordering any event disrupts all subsequent links
 - **HMAC-authenticated** — each link is signed with a device-local 512-bit key
 - **Merkle-verifiable** — the entire chain can be batched into a Merkle root for quick integrity checks
-- **Tamper-evident** — any single-byte modification in any prior link is immediately detectable
+- **Tamper-evident within the process** — changing a prior link is detected by verification; the chain is not persisted or externally anchored
 
 ---
 
 ## Testing
 
 ```bash
-# Run all 229 tests
-pytest tests/test_az_sge.py -v
+# Run the product suite
+pytest tests/ -v
 
-# Expected: 229 passed, 0 failed
+# Expected: 255 passed, 0 failed
 ```
 
 Coverage:

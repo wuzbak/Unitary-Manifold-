@@ -9,13 +9,15 @@ Read this before every session that touches SDAM work.
 
 **SDAM** = Software-Defined Acoustic Modem.
 
-The core idea: treat every speaker and microphone on Earth as a wireless data
-port. No radio layer. No Wi-Fi. No Bluetooth. No cellular. No FCC license.
-Sound is the carrier. The app is the modem.
+The core idea: use a device's speaker and microphone as an acoustic data
+channel. The app does not use RF as its message carrier, but it does not
+disable phone radios, guarantee RF silence, or establish a regulatory
+exemption.
 
 This folder is the **primary build workspace** for the native Android
 (and eventually cross-platform) SDAM application. It is the successor to the
 Python Gibberlink exploration stack and the Android PHASE A9 scaffold.
+The Android implementation is in development and is not release-ready.
 
 ---
 
@@ -25,14 +27,15 @@ Python Gibberlink exploration stack and the Android PHASE A9 scaffold.
 |---|---|
 | `Gibberlink/` | Research workspace — Python scripts, acoustic protocol experiments |
 | `Android/` | Deployment guide + integration bridge for all Android work |
-| `BV9900Pro-HomeTest/` | Physical test hardware (field device) |
-| `S24Ultra/` | Daily-driver test device |
-| `Unitary-Manifold/` | Theoretical framework — `∇_μ J^μ_inf = 0` |
-| **`SDAM/`** | **Production build workspace for the native SDAM app** |
+| `BV9900Pro-HomeTest/` | Intended physical validation device; results are not verified |
+| `S24Ultra/` | Intended validation device; results are not verified |
+| `Unitary-Manifold/` | Theoretical context; the connection to this acoustic protocol is conceptual |
+| **`SDAM/`** | **Development workspace for the native SDAM app** |
 
 SDAM does not replace Gibberlink — it consumes it. The Python scripts in
 `Gibberlink/scripts/` remain the reference implementation and testing ground.
-The SDAM app is the productized, hardened, native version of that stack.
+The SDAM Android app is the intended native application; build, device, and
+cross-device key-provisioning validation remain incomplete.
 
 ---
 
@@ -53,18 +56,19 @@ The SDAM app is the productized, hardened, native version of that stack.
 |---|---|
 | **ggwave C++ core via Android NDK** | Proven FSK library; arm64-v8a target; JNI wrapper |
 | **AudioRecord / AudioTrack** | Native Android audio APIs; replaces PyAudio |
-| **Android Keystore** | Hardware-backed key storage; replaces `.env` secrets |
+| **Android Keystore** | Key storage API; hardware backing depends on device and is not verified |
 | **Foreground Service** | Required for uninterrupted background mic capture |
 | **AES-256-GCM payload encryption** | AEAD — integrity + confidentiality in one pass |
-| **Near-ultrasonic frequency band** | 17–22 kHz default; inaudible, physically room-contained |
-| **HMAC-SHA256 session auth** | Rolling counter; prevents replay of recorded chirps |
+| **Acoustic protocol selection** | User-selectable ggwave protocols; stored default is `ULTRASOUND_FAST`, with spectrum, audibility, range, and containment unverified |
+| **HMAC-SHA256 authentication** | SDAM1 frames use 96-bit tags and an in-memory replay high-water mark (not restart-resistant); legacy AcousticAuth retains its 32-bit wire tag |
 
 ---
 
 ## 5 · Use-Case Hierarchy (Highest Value First)
 
-1. **Encrypted Acoustic Data Diode** — air-gap bridge for SCIFs / critical
-   infrastructure. Hardware-bound decrypt key. Near-ultrasonic. No RF.
+1. **Encrypted Acoustic Data Diode** — design target for isolated systems.
+   Cross-device key provisioning, hardware-backed keys, and acoustic
+   containment are not verified; the phone may still emit RF.
 2. **Secure Industrial Telemetry** — sensor → acoustic → Sentinel. No wiring.
 3. **Cross-Device Mesh Node** — phones as acoustic relays in RF-denied zones.
 4. **Consumer Sensing / Field Tool** — metal detecting, environmental sensing.
@@ -78,11 +82,12 @@ Always build toward use case 1. Consumer features are a side effect.
 - Never commit a key, token, or secret. Android Keystore only.
 - Never alter ggwave encoding parameters without a calibration note in the
   session log. Parameter drift silently breaks cross-device decoding.
-- Encryption (AES-256-GCM) must wrap every payload before ggwave encoding.
-  Plaintext acoustic payloads are only permitted in explicit `--debug` mode.
+- Encryption (AES-256-GCM) must wrap every production payload before ggwave
+  encoding. Plaintext is only permitted in the explicit in-app debug mode.
 - Tests must pass before any push. Never remove existing tests.
-- The BV9900Pro is a production field device. ADB commands must be
-  read-only or `--dry-run` unless explicitly confirmed in the session note.
+- The BV9900Pro is an intended validation device, not a validated production
+  field device. ADB commands must be read-only or `--dry-run` unless explicitly
+  confirmed in the session note.
 
 ---
 

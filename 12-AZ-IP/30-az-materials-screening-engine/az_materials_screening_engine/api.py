@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
-"""JSON API dispatch — Phase 2 of article-354 direction #3.
+"""JSON API dispatch for descriptive formula screening.
 
-Wraps `screening.py` for live HTTP access. `/api/screen` and `/api/rank`
-accept query-string material parameters for a single candidate; the demo
+Wraps `screening.py` for live HTTP access. `/api/screen`
+accepts query-string material parameters for a single candidate; the demo
 3-material set from `run.py` is also exposed at `/api/demo-rank` for a
 quick, no-arguments comparison.
 """
@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Mapping
 
-from .screening import ALPHA_UM_CANONICAL, CRITICAL_ANGLE_DEG, MaterialCandidate, rank_candidates, screen_candidate
+from .screening import ALPHA_UM_CANONICAL, CRITICAL_ANGLE_DEG, SCREENING_NOTICE, MaterialCandidate, rank_candidates, screen_candidate
 
 API_ENDPOINTS = ("/api/status", "/api/screen", "/api/demo-rank")
 
@@ -35,10 +35,14 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
             "endpoints": list(API_ENDPOINTS),
             "alpha_um_canonical": ALPHA_UM_CANONICAL,
             "critical_angle_deg": CRITICAL_ANGLE_DEG,
+            "screening_notice": SCREENING_NOTICE,
         }
 
     if path == "/api/screen":
         required = ("name", "alpha", "omega_lo_mev", "m_band_me", "epsilon_r")
+        unknown = set(query) - {*required, "mu_r"}
+        if unknown or any(len(values) != 1 for values in query.values()):
+            raise ValueError("unknown or repeated query parameters")
         missing = [key for key in required if _first(query, key) is None]
         if missing:
             raise ValueError(f"missing required query parameters: {', '.join(missing)}")
@@ -53,6 +57,10 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
         return screen_candidate(candidate)
 
     if path == "/api/demo-rank":
-        return {"candidates": rank_candidates(_DEMO_CANDIDATES)}
+        return {
+            "candidates": rank_candidates(_DEMO_CANDIDATES),
+            "screening_notice": SCREENING_NOTICE,
+            "data_status": "illustrative placeholder parameters; not measured material records",
+        }
 
     raise KeyError(f"unknown API endpoint: {path}")

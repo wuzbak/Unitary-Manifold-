@@ -15,9 +15,16 @@ from dataclasses import asdict
 from typing import Any, Dict, List, Mapping
 
 from .checker import Z3_AVAILABLE, run_property, run_suite
+from .declarative import run_declarative_property
 from .pentad_example import PENTAD_SAFETY_PROPERTIES
 
-API_ENDPOINTS = ("/api/status", "/api/pentad-properties", "/api/pentad-suite", "/api/pentad-check")
+API_ENDPOINTS = (
+    "/api/status",
+    "/api/pentad-properties",
+    "/api/pentad-suite",
+    "/api/pentad-check",
+    "/api/property-check",
+)
 
 _PROPERTIES_BY_NAME = {p.name: p for p in PENTAD_SAFETY_PROPERTIES}
 
@@ -27,8 +34,21 @@ def _first(query: Mapping[str, List[str]], key: str, default: str | None = None)
     return values[0] if values else default
 
 
-def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str, Any]:
+def dispatch_api_request(
+    path: str,
+    query: Mapping[str, List[str]],
+    property_spec: Any = None,
+) -> Dict[str, Any]:
+    if path == "/api/property-check":
+        if query:
+            raise ValueError("property-check accepts a JSON body, not query parameters")
+        if property_spec is None:
+            raise ValueError("property JSON body is required")
+        return asdict(run_declarative_property(property_spec))
+
     if path == "/api/status":
+        if query:
+            raise ValueError("status endpoint does not accept query parameters")
         return {
             "product": "AZ Formal Verification Library",
             "endpoints": list(API_ENDPOINTS),
@@ -37,6 +57,8 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
         }
 
     if path == "/api/pentad-properties":
+        if query:
+            raise ValueError("properties endpoint does not accept query parameters")
         return {
             "properties": [
                 {"name": p.name, "description": p.description} for p in PENTAD_SAFETY_PROPERTIES
@@ -44,6 +66,8 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
         }
 
     if path == "/api/pentad-suite":
+        if query:
+            raise ValueError("suite endpoint does not accept query parameters")
         summary = run_suite(PENTAD_SAFETY_PROPERTIES)
         return {
             "n_total": summary["n_total"],
@@ -54,6 +78,8 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
         }
 
     if path == "/api/pentad-check":
+        if set(query) - {"name"} or len(query.get("name", [])) > 1:
+            raise ValueError("unknown or repeated query parameters")
         name = _first(query, "name")
         if name is None:
             raise ValueError("name query parameter is required")

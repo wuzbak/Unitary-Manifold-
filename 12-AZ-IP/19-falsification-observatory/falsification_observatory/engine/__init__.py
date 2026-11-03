@@ -2,6 +2,16 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """Engine exports for the Falsification Observatory."""
 
+from .evidence_feed import (
+    ARXIV_ENDPOINT,
+    TRACKED_FEEDS,
+    EvidenceFeedTracker,
+    FeedInvalid,
+    FeedUnavailable,
+    FetchResponse,
+    dispatch_evidence_request,
+    parse_arxiv_atom,
+)
 from .desi_tracker import DESI_DR3_PREREGISTRATION, check_desi_tension, get_falsification_status
 from .litebird_countdown import (
     BIREFRINGENCE_PREDICTION,
@@ -25,6 +35,14 @@ from .routing import (
 from .verdict import VerdictResult
 
 __all__ = [
+    'ARXIV_ENDPOINT',
+    'TRACKED_FEEDS',
+    'EvidenceFeedTracker',
+    'FeedInvalid',
+    'FeedUnavailable',
+    'FetchResponse',
+    'dispatch_evidence_request',
+    'parse_arxiv_atom',
     'VerdictResult',
     'DESI_DR3_PREREGISTRATION',
     'BIREFRINGENCE_PREDICTION',

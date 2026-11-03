@@ -65,7 +65,7 @@ AxiomZero/
 │   └── browser_server.py      # Scoped Playwright browser
 ├── memory/                    # Phase 3: Persistent memory architecture
 │   ├── vector_store.py        # ChromaDB/Qdrant interface
-│   ├── state_db.py            # LangGraph SQLite checkpointing
+│   ├── state_db.py            # SQLite task journal and checkpoint utilities
 │   └── session_log.py         # Machine-readable audit trail
 ├── governance/                # HILS invariant enforcement
 │   └── hils_gate.py           # Hard-wired human control layer
@@ -133,8 +133,27 @@ claims routes through the Pentad classification endpoint
 ## Phase 3 — Persistent Memory
 
 - **Vector store** (ChromaDB/Qdrant): 535+ source files indexed; incremental on reboot via `git diff`
-- **State DB** (SQLite + LangGraph checkpointing): survives reboots mid-task
+- **State DB** (SQLite): persists submitted task inputs, task outcomes, and HILS
+  decisions; queued or interrupted tasks are retried from the beginning at API
+  startup using their original task IDs.
 - **Session log**: every threshold-crossing action writes a machine-readable audit entry
+
+### Local restart contract and limits
+
+The task API writes a task record to SQLite before returning its task ID. On
+service startup, queued tasks and tasks whose last durable status was `running`
+are submitted again; a `running` record is first marked `interrupted`. Task
+history, results, and pending HILS approvals remain available after restart.
+Retries run the manager pipeline from its beginning: this is **not** a
+mid-manager LangGraph checkpoint restore, an exactly-once execution guarantee,
+or a transaction around external side effects. A manager that performed an
+external action before interruption may perform it again. The local restart
+tests stub manager implementations and exercise SQLite/task lifecycle only;
+they do not establish provider, MCP, model-server, or deployment integration.
+The startup recovery contract assumes one service process; there is no
+cross-process task lease, so do not run multiple API workers against this queue.
+Task inputs and results are stored as plaintext JSON in the configured SQLite
+database (default `~/.axiomzero/state.db`); protect the database and its backups.
 
 **HILS Invariant:** ThomasCory Walker-Pearson retains exclusive control over:
 1. Pillar numbering and canonicalization

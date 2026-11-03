@@ -2,20 +2,10 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 """AZ Live-Data Harness — Product 40.
 
-Phase 1 of article-354 direction #13: a shared fetch -> normalize ->
-fallback -> verdict harness, generalized from the repeated hand-rolled
-pattern in `src/data/fetch_planck.py`,
-`12-AZ-IP/21-geo-monitor/geo_monitor/engine/feeds.py`, and
-`12-AZ-IP/19-falsification-observatory`'s routing functions.
-
-Epistemic status: `planck_adapter.py` is a real, working adapter — not a
-mock — demonstrating the harness against `fetch_planck.py`'s actual Planck
-2018 n_s comparison, attempting a genuine network call that is expected
-to (and does, in this sandboxed environment) fail, exercising the
-fallback path honestly. Migrating the other two source modules
-(`feeds.py`, `falsification_observatory`'s routing functions) to depend
-on this harness directly is out of scope for this product; they remain
-independent and canonical.
+The generic fetch/verdict helpers remain available, and the product
+includes a validated, read-only integration with the public USGS
+earthquake feed. The live adapter reports source timestamps and staleness;
+it never substitutes offline observations when the feed fails.
 """
 
 from .harness import (
@@ -26,7 +16,7 @@ from .harness import (
     Verdict,
     compute_verdict,
 )
-from .planck_adapter import fetch_planck_n_s_via_harness, planck_n_s_verdict
+from .usgs_adapter import LiveDataError, USGS_FEED_URL, fetch_earthquake_summary
 from .api import API_ENDPOINTS, dispatch_api_request
 
 __all__ = [
@@ -36,10 +26,11 @@ __all__ = [
     "VerdictLabel",
     "Verdict",
     "compute_verdict",
-    "fetch_planck_n_s_via_harness",
-    "planck_n_s_verdict",
+    "LiveDataError",
+    "USGS_FEED_URL",
+    "fetch_earthquake_summary",
     "API_ENDPOINTS",
     "dispatch_api_request",
 ]
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"

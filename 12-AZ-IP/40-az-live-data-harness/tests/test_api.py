@@ -14,29 +14,34 @@ if str(PRODUCT_ROOT) not in sys.path:
 import pytest
 
 from az_live_data_harness.api import API_ENDPOINTS, dispatch_api_request
+from az_live_data_harness.usgs_adapter import LiveDataError, USGS_FEED_URL
 
 
 def test_api_endpoints_listed():
-    assert API_ENDPOINTS == ("/api/status", "/api/fetch-result", "/api/verdict")
+    assert API_ENDPOINTS == ("/api/status", "/api/fetch-result")
 
 
 def test_status_endpoint():
     payload = dispatch_api_request("/api/status", {})
     assert payload["product"] == "AZ Live-Data Harness"
     assert payload["endpoints"] == list(API_ENDPOINTS)
+    assert payload["source"] == USGS_FEED_URL
+    assert payload["fallback"] is False
 
 
-def test_fetch_result_endpoint():
-    payload = dispatch_api_request("/api/fetch-result", {})
-    assert payload["source"] in ("live", "fallback")
-    assert "value" in payload
+def test_fetch_result_endpoint_returns_adapter_result(monkeypatch):
+    expected = {"source": "live", "event_count": 3, "stale": False}
+    monkeypatch.setattr("az_live_data_harness.api.fetch_earthquake_summary", lambda: expected)
+    assert dispatch_api_request("/api/fetch-result", {}) == expected
 
 
-def test_verdict_endpoint():
-    payload = dispatch_api_request("/api/verdict", {})
-    assert payload["label"] in ("CONSISTENT", "INCONSISTENT", "AWAITING_DATA")
-    assert "predicted" in payload
-    assert "measured" in payload
+def test_fetch_result_endpoint_does_not_hide_live_failure(monkeypatch):
+    def fail():
+        raise LiveDataError("USGS unavailable")
+
+    monkeypatch.setattr("az_live_data_harness.api.fetch_earthquake_summary", fail)
+    with pytest.raises(LiveDataError, match="USGS unavailable"):
+        dispatch_api_request("/api/fetch-result", {})
 
 
 def test_unknown_endpoint_raises_key_error():

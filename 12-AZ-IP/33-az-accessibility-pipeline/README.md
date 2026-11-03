@@ -32,9 +32,12 @@ Claim recognition here is deliberately simple keyword matching, not a
 general NLP claim-extraction model — the article is explicit that this is
 "the hardest phase, because it requires a claim-recognition step that does
 not fully exist yet." This product covers a narrow, honest slice of that
-phase: recognizable, pre-named claims only. It does not perform actual
-text-to-speech playback or image rendering; those remain Products 18 and 17
-respectively.
+phase: recognizable, pre-named claims only. The web interface can read
+individual sentence segments or the full passage continuously using the
+browser's built-in speech-synthesis service, with voice and speed controls.
+Available voices and speech quality depend on the browser and operating
+system. The pipeline suggests visual concepts but does not render images;
+rendering remains Product 17's responsibility.
 
 ## Usage
 
@@ -54,6 +57,12 @@ python 12-AZ-IP/33-az-accessibility-pipeline/run.py serve --port 8133
 ```
 
 Endpoints: `GET /api/status`, `GET /api/report?text=`.
+
+The dashboard turns the report into readable sentence cards, continuous or
+per-sentence speech playback, concept suggestions, and claim-verdict summaries.
+Speech playback is a browser feature and is unavailable in browsers without the
+Web Speech API; the text report remains usable there. The JSON endpoints and CLI
+remain available independently of browser speech support.
 
 ## Tests
 

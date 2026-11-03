@@ -2,6 +2,6 @@
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 """App helpers for the Falsification Observatory."""
 
-from .server import ObservatoryRequestHandler, serve
+from .server import ObservatoryRequestHandler, make_server, serve
 
-__all__ = ['ObservatoryRequestHandler', 'serve']
+__all__ = ['ObservatoryRequestHandler', 'make_server', 'serve']

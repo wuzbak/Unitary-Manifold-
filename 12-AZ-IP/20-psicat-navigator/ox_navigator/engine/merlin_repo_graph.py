@@ -39,9 +39,8 @@ def _priority_key_cached(path: Path, root: str) -> tuple[int, str]:
     return (len(_PRIORITY_PREFIXES), rel)
 
 
-@lru_cache(maxsize=2048)
-def _directory_layout_cached(
-    directory: str, identity: tuple[int, int, int, int],
+def _directory_layout(
+    directory: str,
 ) -> tuple[tuple[str, ...], tuple[str, ...], tuple[str, ...]]:
     directories: list[str] = []
     files: list[str] = []
@@ -71,9 +70,7 @@ def _discover_files() -> tuple[Path, ...]:
         while directories:
             try:
                 directory = directories.pop()
-                stat = os.stat(directory)
-                identity = (stat.st_dev, stat.st_ino, stat.st_mtime_ns, stat.st_ctime_ns)
-                children, files, symlinks = _directory_layout_cached(directory, identity)
+                children, files, symlinks = _directory_layout(directory)
                 directories.extend(children)
                 pool.extend(path for path in files if path.endswith(suffixes))
                 # Link targets can change without touching the parent directory.

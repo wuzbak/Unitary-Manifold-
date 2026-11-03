@@ -11,8 +11,20 @@ from .comparator import (
     closest_benchmark,
     compare_kk_tower_to_all_benchmarks,
 )
+from .references import compare_reference_csv
 
-API_ENDPOINTS = ("/api/status", "/api/benchmarks", "/api/compare", "/api/closest")
+API_ENDPOINTS = (
+    "/api/status", "/api/benchmarks", "/api/compare", "/api/closest",
+    "/api/compare-references",
+)
+
+
+def dispatch_reference_comparison(payload: Any) -> Dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) - {"csv_text", "n_max"}:
+        raise ValueError("JSON object must contain csv_text and optional n_max only")
+    if "csv_text" not in payload:
+        raise ValueError("csv_text is required")
+    return compare_reference_csv(payload["csv_text"], payload.get("n_max", 3))
 
 
 def _first(query: Mapping[str, List[str]], key: str, default: str | None = None) -> str | None:
@@ -31,7 +43,7 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
     if path == "/api/benchmarks":
         return {
             "benchmarks": [
-                {"name": b.name, "delta": b.delta, "source": b.source}
+                {"name": b.name, "delta": b.delta, "source": b.source, "provenance": b.provenance}
                 for b in KNOWN_HOLOGRAPHIC_BENCHMARKS
             ]
         }

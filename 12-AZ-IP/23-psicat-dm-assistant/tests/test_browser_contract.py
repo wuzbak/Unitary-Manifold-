@@ -16,11 +16,14 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from browser_contract_helpers import launch_browser_or_skip, playwright_sync_api, running_server
+import merlin_dnd.server as server_module
 from merlin_dnd.server import serve
+from merlin_dnd.service import MerlinDndService
 
 
 @pytest.mark.parametrize("browser_name", ["chromium", "firefox", "webkit"])
-def test_psicat_dm_assistant_browser_contract(browser_name: str) -> None:
+def test_psicat_dm_assistant_browser_contract(browser_name: str, monkeypatch) -> None:
+    monkeypatch.setattr(server_module, "SERVICE", MerlinDndService())
     sync_api = playwright_sync_api()
     with running_server(lambda: serve(port=0)) as base_url:
         with sync_api.sync_playwright() as playwright:
@@ -40,6 +43,14 @@ def test_psicat_dm_assistant_browser_contract(browser_name: str) -> None:
                 page.wait_for_function("document.getElementById('player-state').textContent.includes('Joined')")
                 page.get_by_role("button", name="Load Player Dashboard").click()
                 page.wait_for_function("document.getElementById('output').textContent.includes('player')")
+                page.reload(wait_until="domcontentloaded")
+                page.wait_for_function("document.getElementById('dm-campaign-select').options.length > 1")
+                page.get_by_role("button", name="Player Dashboard").click()
+                page.get_by_role("button", name="Load Player Dashboard").click()
+                page.wait_for_function("document.getElementById('output').textContent.includes('player')")
+                page.get_by_role("button", name="DM Dashboard").click()
+                page.get_by_role("button", name="Open Saved Campaign").click()
+                page.wait_for_function("document.getElementById('dm-state').textContent.includes('Resumed campaign')")
                 page.get_by_role("button", name="Solo Standalone").click()
                 page.get_by_role("button", name="Build Solo Dashboard").click()
                 page.wait_for_function("document.getElementById('output').textContent.includes('solo_ready')")

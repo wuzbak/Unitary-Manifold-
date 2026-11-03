@@ -6,6 +6,7 @@ import json
 import sys
 from pathlib import Path
 from urllib.error import HTTPError
+from urllib.request import urlopen
 
 import pytest
 
@@ -17,6 +18,7 @@ from geo_monitor.engine.firms_feed import FIRMS_DEMO_KEY, fetch_firms_active_fir
 from geo_monitor.engine.ionosphere_feed import fetch_kp_index, get_ionospheric_status
 from geo_monitor.engine.physics import GeoEvent
 from geo_monitor.engine.wm_feeds import GeoMonitorV3Feeds, GeoMonitorV4Feeds
+from geo_monitor.engine.feeds import EONETFeedParser, NOAAAlertsFeedParser, NWACFeedParser, USGSFeedParser
 
 
 class _Response:
@@ -176,3 +178,110 @@ def test_v4_firms_energy_proxy_present(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr('geo_monitor.engine.wm_feeds.fetch_firms_active_fires', lambda bbox=(-180, -90, 180, 90), days=1: [{'lat': 1.0, 'lon': 2.0, 'frp': 9.0, 'acq_date': '2026-09-01', 'confidence': 'h'}])
     event = GeoMonitorV4Feeds().firms_fire_events()[0]
     assert event.energy_J == pytest.approx(9.0e9)
+
+
+def test_firms_status_result_preserves_http_failure_and_redacts_key(monkeypatch: pytest.MonkeyPatch) -> None:
+    from geo_monitor.engine.firms_feed import fetch_firms_active_fires_with_status
+
+    def forbidden(req, timeout=20):
+        raise HTTPError(req.full_url, 403, 'Forbidden', hdrs=None, fp=None)
+
+    monkeypatch.setattr('geo_monitor.engine.firms_feed.request.urlopen', forbidden)
+    result = fetch_firms_active_fires_with_status(map_key='private-map-key')
+    assert result.events == []
+    assert result.error == 'HTTP 403: Forbidden'
+    assert 'private-map-key' not in result.error
+
+
+def test_firms_status_result_parses_live_rows(monkeypatch: pytest.MonkeyPatch) -> None:
+    from geo_monitor.engine.firms_feed import fetch_firms_active_fires_with_status
+
+    csv_text = 'latitude,longitude,frp,acq_date,confidence\n34.5,-118.2,12.5,2026-09-01,h\n'
+    monkeypatch.setattr(
+        'geo_monitor.engine.firms_feed.request.urlopen',
+        lambda req, timeout=20: _Response(csv_text),
+    )
+    result = fetch_firms_active_fires_with_status(map_key='test-map-key')
+    assert result.error is None
+    assert result.events[0]['lat'] == pytest.approx(34.5)
+    assert result.events[0]['frp'] == pytest.approx(12.5)
+
+
+def test_live_feed_api_reports_live_and_unconfigured_sources(monkeypatch: pytest.MonkeyPatch) -> None:
+    from geo_monitor.app import server
+
+    monkeypatch.delenv('FIRMS_MAP_KEY', raising=False)
+    monkeypatch.setattr(USGSFeedParser, 'fetch', lambda self, url: {'features': []})
+    monkeypatch.setattr(EONETFeedParser, 'fetch', lambda self, **kwargs: {'events': []})
+    monkeypatch.setattr(NOAAAlertsFeedParser, 'fetch', lambda self, area=None: {'features': []})
+    monkeypatch.setattr(NWACFeedParser, 'fetch', lambda self: [])
+    monkeypatch.setattr(server, 'fetch_kp_index', lambda: {
+        'kp': 2.0, 'observed_time': '2026-09-01 00:00:00', 'source': 'https://example.invalid/kp',
+    })
+
+    snapshot = server.fetch_live_feeds()
+    assert set(snapshot['feeds']) == {'usgs', 'eonet', 'nws', 'nwac', 'kp', 'firms'}
+    for name in ('usgs', 'eonet', 'nws', 'nwac', 'kp'):
+        assert snapshot['feeds'][name]['status'] == 'live'
+        assert snapshot['feeds'][name]['fetched_at']
+        assert snapshot['feeds'][name]['error'] is None
+    assert snapshot['feeds']['firms']['status'] == 'unconfigured'
+    assert snapshot['feeds']['firms']['payload'] is None
+
+
+def test_live_feed_api_reports_configured_firms_result(monkeypatch: pytest.MonkeyPatch) -> None:
+    from geo_monitor.app import server
+    from geo_monitor.engine.firms_feed import FIRMSFetchResult
+
+    monkeypatch.setenv('FIRMS_MAP_KEY', 'test-key')
+    monkeypatch.setattr(USGSFeedParser, 'fetch', lambda self, url: {'features': []})
+    monkeypatch.setattr(EONETFeedParser, 'fetch', lambda self, **kwargs: {'events': []})
+    monkeypatch.setattr(NOAAAlertsFeedParser, 'fetch', lambda self, area=None: {'features': []})
+    monkeypatch.setattr(NWACFeedParser, 'fetch', lambda self: [])
+    monkeypatch.setattr(server, 'fetch_kp_index', lambda: {
+        'kp': 2.0, 'observed_time': '2026-09-01 00:00:00', 'source': 'https://example.invalid/kp',
+    })
+    monkeypatch.setattr(
+        server, 'fetch_firms_active_fires_with_status',
+        lambda: FIRMSFetchResult([{'lat': 10.0, 'lon': 20.0, 'frp': 4.0}]),
+    )
+
+    snapshot = server.fetch_live_feeds()
+    assert snapshot['feeds']['firms']['status'] == 'live'
+    assert snapshot['feeds']['firms']['payload'][0]['frp'] == pytest.approx(4.0)
+
+
+def test_live_feed_api_does_not_report_kp_fallback_as_live(monkeypatch: pytest.MonkeyPatch) -> None:
+    from geo_monitor.app import server
+
+    monkeypatch.delenv('FIRMS_MAP_KEY', raising=False)
+    monkeypatch.setattr(USGSFeedParser, 'fetch', lambda self, url: {'features': []})
+    monkeypatch.setattr(EONETFeedParser, 'fetch', lambda self, **kwargs: {'events': []})
+    monkeypatch.setattr(NOAAAlertsFeedParser, 'fetch', lambda self, area=None: {'features': []})
+    monkeypatch.setattr(NWACFeedParser, 'fetch', lambda self: [])
+    monkeypatch.setattr(server, 'fetch_kp_index', lambda: {'kp': 0, 'observed_time': None})
+
+    snapshot = server.fetch_live_feeds()
+    assert snapshot['feeds']['kp']['status'] == 'error'
+    assert snapshot['feeds']['kp']['payload'] is None
+
+
+def test_live_feed_http_route_returns_source_provenance(monkeypatch: pytest.MonkeyPatch) -> None:
+    from browser_contract_helpers import running_server
+    from geo_monitor.app.server import build_server
+
+    monkeypatch.delenv('FIRMS_MAP_KEY', raising=False)
+    monkeypatch.setattr(USGSFeedParser, 'fetch', lambda self, url: {'features': []})
+    monkeypatch.setattr(EONETFeedParser, 'fetch', lambda self, **kwargs: {'events': []})
+    monkeypatch.setattr(NOAAAlertsFeedParser, 'fetch', lambda self, area=None: {'features': []})
+    monkeypatch.setattr(NWACFeedParser, 'fetch', lambda self: [])
+    monkeypatch.setattr('geo_monitor.app.server.fetch_kp_index', lambda: {
+        'kp': 2.0, 'observed_time': '2026-09-01 00:00:00', 'source': 'https://example.invalid/kp',
+    })
+
+    with running_server(lambda: build_server(port=0)) as base_url:
+        with urlopen(f'{base_url}api/feeds', timeout=2) as response:
+            snapshot = json.loads(response.read().decode('utf-8'))
+    assert snapshot['feeds']['usgs']['status'] == 'live'
+    assert snapshot['feeds']['usgs']['source_url'] == USGSFeedParser.USGS_FEED_URL_PAST_MONTH_SIG
+    assert snapshot['feeds']['firms']['status'] == 'unconfigured'

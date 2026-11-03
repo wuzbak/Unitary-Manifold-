@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
@@ -14,9 +15,11 @@ from az_live_data_harness import (
     fetch_with_fallback,
     VerdictLabel,
     compute_verdict,
-    fetch_planck_n_s_via_harness,
-    planck_n_s_verdict,
+    LiveDataError,
+    USGS_FEED_URL,
+    fetch_earthquake_summary,
 )
+from az_live_data_harness import usgs_adapter
 
 
 def test_fetch_with_fallback_returns_live_on_success():
@@ -57,16 +60,98 @@ def test_compute_verdict_without_sigma_uses_exact_residual():
     assert compute_verdict(predicted=1.0, measured=1.5).label == VerdictLabel.INCONSISTENT
 
 
-def test_fetch_planck_n_s_via_harness_falls_back_in_sandbox():
-    # Network access is blocked in this sandboxed environment, so the
-    # harness must genuinely exercise its fallback path here.
-    result = fetch_planck_n_s_via_harness()
-    assert result.source == FetchSource.FALLBACK
-    assert result.value == pytest.approx(0.9649)
+def _usgs_payload(generated_at, features=None):
+    return {
+        "type": "FeatureCollection",
+        "metadata": {
+            "generated": int(generated_at.timestamp() * 1000),
+            "title": "USGS All Earthquakes, Past Day",
+        },
+        "features": features if features is not None else [
+            {
+                "id": "test-event",
+                "properties": {
+                    "time": int((generated_at - timedelta(minutes=5)).timestamp() * 1000),
+                    "mag": 2.4,
+                    "place": "10 km test",
+                    "url": "https://earthquake.usgs.gov/test-event",
+                },
+            }
+        ],
+    }
 
 
-def test_planck_n_s_verdict_matches_known_sigma_pull():
-    verdict = planck_n_s_verdict(um_ns=0.9635)
-    expected_pull = (0.9649 - 0.9635) / 0.0042
-    assert verdict.sigma_pull == pytest.approx(expected_pull, rel=1e-6)
-    assert verdict.label == VerdictLabel.CONSISTENT
+class _Response:
+    def __init__(self, payload):
+        import json
+
+        self.body = json.dumps(payload).encode()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_args):
+        return False
+
+    def read(self):
+        return self.body
+
+
+def test_usgs_adapter_returns_live_provenance_and_latest_event():
+    now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
+    payload = _usgs_payload(now - timedelta(minutes=15))
+    calls = []
+
+    def opener(req, timeout):
+        calls.append((req.full_url, timeout))
+        return _Response(payload)
+
+    result = fetch_earthquake_summary(opener=opener, now=now)
+    assert calls == [(USGS_FEED_URL, usgs_adapter.REQUEST_TIMEOUT_SECONDS)]
+    assert result["source"] == "live"
+    assert result["source_url"] == USGS_FEED_URL
+    assert result["feed_title"] == "USGS All Earthquakes, Past Day"
+    assert result["generated_at"] == "2026-11-02T11:45:00Z"
+    assert result["fetched_at"] == "2026-11-02T12:00:00Z"
+    assert result["age_seconds"] == 900
+    assert result["stale"] is False
+    assert result["event_count"] == 1
+    assert result["latest_event"]["id"] == "test-event"
+
+
+def test_usgs_adapter_marks_old_feed_stale():
+    now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
+    payload = _usgs_payload(now - timedelta(hours=3))
+    result = fetch_earthquake_summary(opener=lambda *_a, **_kw: _Response(payload), now=now)
+    assert result["stale"] is True
+    assert result["age_seconds"] == 10800
+
+
+def test_usgs_adapter_surfaces_fetch_failure_without_fallback():
+    def offline(*_args, **_kwargs):
+        raise OSError("network unavailable")
+
+    with pytest.raises(LiveDataError, match="network unavailable"):
+        fetch_earthquake_summary(opener=offline)
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        {},
+        {"type": "FeatureCollection", "metadata": {}, "features": []},
+    ],
+)
+def test_usgs_adapter_rejects_malformed_or_unverifiable_feed(payload):
+    now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
+    with pytest.raises(LiveDataError):
+        fetch_earthquake_summary(opener=lambda *_a, **_kw: _Response(payload), now=now)
+
+
+def test_usgs_adapter_rejects_malformed_event_and_future_feed_timestamp():
+    now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
+    malformed_event = _usgs_payload(now, features=[{"id": "missing-properties"}])
+    future_feed = _usgs_payload(now + timedelta(minutes=1), features=[])
+    for payload in (malformed_event, future_feed):
+        with pytest.raises(LiveDataError):
+            fetch_earthquake_summary(opener=lambda *_a, **_kw: _Response(payload), now=now)
