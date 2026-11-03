@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from az_tori_transformer.positional import (
     rotation_orbit_periods,
     rotation_steps_for_dim,
+    modular_alias_diagnostics,
     toroidal_relative_bias_indices,
     toroidal_rotation_table,
 )
@@ -87,3 +88,21 @@ def test_relative_bias_allows_distant_positions_to_be_geometrically_close() -> N
     idx = toroidal_relative_bias_indices(seq_len)
     far_apart_pairs = [(i, j) for i in range(seq_len) for j in range(seq_len) if abs(i - j) > seq_len // 2]
     assert any(idx[i, j] <= 2 for i, j in far_apart_pairs)
+
+
+def test_modular_alias_diagnostics_report_phase_and_projection_collisions() -> None:
+    report = modular_alias_diagnostics(seq_len=80, head_dim=8)
+    assert [pair["orbit_period"] for pair in report["rotation_pairs"]] == [74, 37, 74, 37]
+    assert report["rotation_pairs"][0]["first_collision_positions"] == [0, 74]
+    assert report["rotation_pairs"][1]["first_collision_positions"] == [0, 37]
+    code = report["two_coordinate_torus_code"]
+    bank = report["scalar_bank_projection"]
+    assert code["unique_values"] == bank["unique_values"] == 74
+    assert code["first_collision_positions"] == bank["first_collision_positions"] == [0, 74]
+    assert (bank["source_coordinate_count"], bank["output_coordinate_count"]) == (2, 1)
+
+
+@pytest.mark.parametrize(("seq_len", "head_dim"), [(0, 8), (10, 7), (10, 0)])
+def test_modular_alias_diagnostics_validate_inputs(seq_len: int, head_dim: int) -> None:
+    with pytest.raises(ValueError):
+        modular_alias_diagnostics(seq_len, head_dim)

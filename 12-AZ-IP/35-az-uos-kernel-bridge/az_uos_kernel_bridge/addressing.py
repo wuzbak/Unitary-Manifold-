@@ -23,12 +23,17 @@ from ._repo import ensure_repo_on_path
 _REPO_ROOT = ensure_repo_on_path()
 
 KK_CHANNEL_RS_PATH = _REPO_ROOT / "12-AZ-IP" / "02-az-kernel" / "src" / "ipc" / "kk_channel.rs"
+IPC_MOD_RS_PATH = _REPO_ROOT / "12-AZ-IP" / "02-az-kernel" / "src" / "ipc" / "mod.rs"
 
 #: Number of rings in the toroidal KK topology (matches WINDING_NUMBER = 5).
 N_RINGS = 5
 
 _ADJACENCY_IMPL_RE = re.compile(
     r"impl\s+KKAdjacent<Ring<(\d+)>,\s*Ring<(\d+)>>\s+for\s+\(\)\s*\{\}"
+)
+_CHANNEL_FACTORY_RULE_RE = re.compile(
+    r"if\s*\(\s*level_a\s+as\s+i32\s*-\s*level_b\s+as\s+i32\s*\)"
+    r"\s*\.unsigned_abs\(\)\s*!=\s*1"
 )
 
 
@@ -40,6 +45,25 @@ def parse_rust_adjacency_pairs(rust_source: str | None = None) -> FrozenSet[Tupl
         rust_source = KK_CHANNEL_RS_PATH.read_text(encoding="utf-8")
     return frozenset(
         (int(a), int(b)) for a, b in _ADJACENCY_IMPL_RE.findall(rust_source)
+    )
+
+
+def parse_runtime_channel_pairs(rust_source: str | None = None) -> FrozenSet[Tuple[int, int]]:
+    """Model the ring pairs accepted by AZ-KERNEL's runtime ``create_channel``.
+
+    The runtime factory currently checks a plain absolute difference of one,
+    unlike ``KKAdjacent``'s modulo-five rule. Refuse to infer pairs if that
+    source-level rule changes instead of silently reporting an outdated model.
+    """
+    if rust_source is None:
+        rust_source = IPC_MOD_RS_PATH.read_text(encoding="utf-8")
+    if not _CHANNEL_FACTORY_RULE_RE.search(rust_source):
+        raise ValueError("unrecognized AZ-KERNEL create_channel adjacency rule")
+    return frozenset(
+        (a, b)
+        for a in range(N_RINGS)
+        for b in range(N_RINGS)
+        if a != b and abs(a - b) == 1
     )
 
 
@@ -84,10 +108,15 @@ def validate_against_kk_channel_rs() -> dict:
     actual adjacency pairs declared in `kk_channel.rs`."""
     rust_pairs = parse_rust_adjacency_pairs()
     python_pairs = winding_adjacency_pairs()
+    runtime_pairs = parse_runtime_channel_pairs()
     return {
         "rust_pairs": sorted(rust_pairs),
         "python_pairs": sorted(python_pairs),
         "matches": rust_pairs == python_pairs,
         "rust_only": sorted(rust_pairs - python_pairs),
         "python_only": sorted(python_pairs - rust_pairs),
+        "runtime_pairs": sorted(runtime_pairs),
+        "runtime_matches_type_state": runtime_pairs == rust_pairs,
+        "type_state_only": sorted(rust_pairs - runtime_pairs),
+        "runtime_only": sorted(runtime_pairs - rust_pairs),
     }

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Mapping
 
-from .positional import rotation_orbit_periods, toroidal_relative_bias_indices
+from .positional import modular_alias_diagnostics, rotation_orbit_periods, toroidal_relative_bias_indices
 from .train_demo import run_toroidal_copy_demo
 
 API_ENDPOINTS = ("/api/status", "/api/geometry", "/api/demo")
@@ -31,6 +31,7 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
             "seq_len": seq_len,
             "rotation_orbit_periods": periods.tolist(),
             "relative_bias_index_sample": bias_idx[:min(seq_len, 8), :min(seq_len, 8)].tolist(),
+            "modular_alias_diagnostics": modular_alias_diagnostics(seq_len, head_dim),
         }
 
     if path == "/api/demo":

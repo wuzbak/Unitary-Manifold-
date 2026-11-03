@@ -1,7 +1,7 @@
 # AZ Awareness & Creation Toolkit — Product 42
 
 **Folder:** `12-AZ-IP/42-az-awareness-creation-toolkit/`
-**Version:** 1.0.0
+**Version:** 1.1.0
 **TRL:** TRL-2 (stdlib-first prototypes; composes existing tested products, no new verdict logic)
 **Local URL:** `http://127.0.0.1:8142/`
 **License:** AGPL-3.0-or-later
@@ -74,3 +74,15 @@ python3 run.py verify-citation "src/core/metric.py:1-5"
 python3 run.py serve --port 8142       # live HTTP product + UI at http://127.0.0.1:8142/
 python3 -m pytest tests/ -q
 ```
+
+The web UI supports authoring a custom Q/A deck, reviewing it with an explicit
+SM-2 recall grade, and retaining the returned deck in browser `localStorage`.
+Valid saved decks are restored on reload; when no card is due, the UI shows
+the number scheduled for later and the next due date.
+The server does not persist deck content. `POST /api/cards/deck` accepts
+`{"cards":[{"question":"...","answer":"...","category":"..."}]}` with
+1–1000 entries and field-size bounds. `POST /api/cards/review` accepts a
+returned card and integer quality 0–5, and returns the scheduled card.
+Requests are capped at 1 MiB; arbitrary executable content is not evaluated.
+Browser storage is local to that browser profile and is not synchronized or
+encrypted by this product.

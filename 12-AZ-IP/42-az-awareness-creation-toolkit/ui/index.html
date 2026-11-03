@@ -16,7 +16,7 @@
 <p>Product-registry awareness, a capability router, document structural awareness,
    SVG chart creation, knowledge-card spaced repetition, citation verification, and
    a cross-product "home health" dashboard — the fix for a holistic audit finding
-   that PsiCat's ~200 tool functions referenced none of this monorepo's 41 sibling
+   that PsiCat's ~200 tool functions referenced none of this monorepo's 42 sibling
    products.</p>
 <p>
   <button onclick="call('/api/status')">Status</button>
@@ -25,6 +25,28 @@
   <button onclick="call('/api/cards/demo')">Knowledge-card demo</button>
   <button onclick="call('/api/dashboard')">Home-health dashboard</button>
 </p>
+<h2>Create a custom knowledge deck</h2>
+<p>Submit Q/A cards; the browser retains the returned deck locally and sends each review grade to the SM-2 endpoint.</p>
+<label for="card-input">Cards JSON</label><br />
+<textarea id="card-input" rows="8" cols="80">{
+  "cards": [
+    {"question": "What is spaced repetition?", "answer": "Review scheduling that uses recall and elapsed time.", "category": "learning"}
+  ]
+}</textarea><br />
+<button onclick="createDeck()">Create deck</button>
+<section id="practice" hidden>
+  <h3 id="card-question"></h3>
+  <p id="card-answer" hidden></p>
+  <button onclick="revealAnswer()">Reveal answer</button>
+  <label for="quality">Recall grade (0–5)</label>
+  <select id="quality">
+    <option value="0">0 — no recall</option><option value="1">1</option>
+    <option value="2">2</option><option value="3">3</option>
+    <option value="4" selected>4</option><option value="5">5 — perfect</option>
+  </select>
+  <button onclick="submitReview()">Save review</button>
+</section>
+<p id="deck-status" role="status" aria-live="polite"></p>
 <p>
   Capability router intent: <input id="intent" value="comic video audio media" />
   <button onclick="route()">Route</button>
@@ -35,6 +57,10 @@
 </p>
 <pre id="out">Click a button above.</pre>
 <script>
+let activeDeck = [];
+let currentCard = null;
+let answerRevealed = false;
+
 async function call(path) {
   const out = document.getElementById('out');
   out.textContent = 'Loading ' + path + ' ...';
@@ -42,9 +68,97 @@ async function call(path) {
     const resp = await fetch(path);
     const data = await resp.json();
     out.textContent = JSON.stringify(data, null, 2);
+    if (!resp.ok) throw new Error(data.error || `Request failed (${resp.status})`);
   } catch (err) {
     out.textContent = 'Error: ' + err;
   }
+}
+async function postJson(path, data) {
+  const response = await fetch(path, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data),
+  });
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.error || `Request failed (${response.status})`);
+  return payload;
+}
+function persistDeck() {
+  localStorage.setItem('az-awareness-card-deck', JSON.stringify(activeDeck));
+}
+function renderCurrentCard() {
+  const section = document.getElementById('practice');
+  const today = new Date().toISOString().slice(0, 10);
+  const dueCards = activeDeck.filter(card => card.due_date <= today);
+  currentCard = dueCards[0] || null;
+  section.hidden = !currentCard;
+  const status = document.getElementById('deck-status');
+  if (!activeDeck.length) {
+    status.textContent = '';
+  } else if (currentCard) {
+    status.textContent = `${dueCards.length} card(s) due today; ${activeDeck.length - dueCards.length} scheduled for later.`;
+  } else {
+    const nextDue = activeDeck.map(card => card.due_date).sort()[0];
+    status.textContent = `${activeDeck.length} card(s) in your deck; no cards due today. Next due date: ${nextDue}.`;
+  }
+  if (!currentCard) return;
+  answerRevealed = false;
+  document.getElementById('card-question').textContent = currentCard.question;
+  const answer = document.getElementById('card-answer');
+  answer.textContent = currentCard.answer;
+  answer.hidden = true;
+}
+async function createDeck() {
+  try {
+    const request = JSON.parse(document.getElementById('card-input').value);
+    const result = await postJson('/api/cards/deck', request);
+    activeDeck = result.deck;
+    persistDeck();
+    renderCurrentCard();
+    document.getElementById('out').textContent = JSON.stringify(result, null, 2);
+  } catch (err) {
+    document.getElementById('out').textContent = `Error: ${err.message}`;
+  }
+}
+function revealAnswer() {
+  if (!currentCard) return;
+  answerRevealed = true;
+  document.getElementById('card-answer').hidden = false;
+}
+async function submitReview() {
+  if (!currentCard || !answerRevealed) {
+    document.getElementById('out').textContent = 'Reveal the answer before recording recall.';
+    return;
+  }
+  try {
+    const result = await postJson('/api/cards/review', {
+      card: currentCard,
+      quality: Number(document.getElementById('quality').value),
+    });
+    const index = activeDeck.findIndex(card => card.card_id === currentCard.card_id);
+    activeDeck[index] = result.card;
+    persistDeck();
+    document.getElementById('out').textContent = JSON.stringify(result, null, 2);
+    renderCurrentCard();
+  } catch (err) {
+    document.getElementById('out').textContent = `Error: ${err.message}`;
+  }
+}
+try {
+  const saved = localStorage.getItem('az-awareness-card-deck');
+  if (saved) {
+    const savedDeck = JSON.parse(saved);
+    if (!Array.isArray(savedDeck) || savedDeck.some(card =>
+      !card || typeof card.question !== 'string' || typeof card.answer !== 'string' ||
+      typeof card.due_date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(card.due_date)
+    )) {
+      throw new Error('Saved deck has an invalid format.');
+    }
+    activeDeck = savedDeck;
+    renderCurrentCard();
+  }
+} catch (err) {
+  document.getElementById('out').textContent = `Could not restore saved deck: ${err.message}`;
 }
 function route() {
   const intent = encodeURIComponent(document.getElementById('intent').value);

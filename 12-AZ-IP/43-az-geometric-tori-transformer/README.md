@@ -2,7 +2,7 @@
 
 **Folder:** `12-AZ-IP/43-az-geometric-tori-transformer/`
 **Package:** `az_tori_transformer`
-**Version:** 1.0.0
+**Version:** 1.1.0
 **TRL:** TRL-1 (novel architecture, validated only on a synthetic smoke-test task)
 **Status:** Active — new product; also wired into PsiCat Navigator (Product 20) as a native tool
 
@@ -168,18 +168,15 @@ same way every other PsiCat tool already is.
   and makes no claim that the (5, 7) winding or the 5D Kaluza-Klein geometry
   requires this attention mechanism.
 * No benchmark claim is made that this architecture outperforms standard
-  RoPE/T5-relative-bias Transformers on real language-modelling data. The
-  "Benchmark against a standard RoPE control arm" section above is a
-  targeted, task-specific comparison (cyclic wraparound copy task, matched
-  engine/layers/parameter count/step budget) showing the toroidal
-  mechanism's finite periodicity is a real advantage *for that task* — not
-  a general capability benchmark, and not evidence it would win on
-  real-world sequence modelling.
+  RoPE/T5-relative-bias Transformers on real language-modelling data. All
+  published scores here are descriptive synthetic-task results. The legacy
+  RoPE arm lacks the learned bank bias and is not parameter-matched; the
+  `rope_matched` ablation controls parameter count and bias mechanism, but
+  still says nothing about real-world sequence modelling.
 * TRL-1: two synthetic tasks (plain copy, cyclic-wraparound copy) have been
-  validated, including one same-engine comparison against a standard RoPE
-  baseline of matched parameter count on the wraparound task specifically.
-  No training run on a real corpus and no hardware/throughput measurement
-  have been done.
+  validated. There has been no training run on a real corpus and no
+  hardware/throughput measurement. Independent per-coordinate torus
+  attention remains a future direction, not an implemented feature.
 
 ## Tests
 
@@ -191,10 +188,12 @@ python -m pytest 12-AZ-IP/43-az-geometric-tori-transformer/tests/ -q
 1e-7 tolerance (`test_tensor.py`), Z_74 lattice invariants plus an optional
 cross-check against the Navigator's golden-vector export
 (`test_toroidal_geometry.py`), rotary/bias periodicity properties
-(`test_positional.py`), attention shape and causal-masking behaviour
+(`test_positional.py`, including exact modular collision diagnostics),
+attention shape and causal-masking behaviour
 (`test_attention.py`), model forward-pass determinism (`test_model.py`),
 end-to-end training loss/accuracy regression (`test_training.py`), the
-RoPE-control-arm benchmark (`test_baseline_benchmark.py`), and the JSON API
+descriptive synthetic and matched-parameter positional ablations
+(`test_baseline_benchmark.py`), and the JSON API
 dispatch (`test_api.py`).
 
 ---

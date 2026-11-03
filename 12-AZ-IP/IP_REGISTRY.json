@@ -631,12 +631,20 @@
       "size_bytes": 2167
     },
     "12-AZ-IP/35-az-uos-kernel-bridge/README.md": {
-      "description": "Product 35 AZ UOS/AZ-KERNEL Bridge README with epistemic-status section",
+      "description": "Product 35 AZ UOS/AZ-KERNEL Bridge README documenting the validated host-side KKMessage JSON adapter and live-kernel boundary",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "a620ea5e1587faac458e5caee18fd58a6eb75b51e23104ea3524e7e6ee924c05",
-      "size_bytes": 2400
+      "updated": "2026-11-02",
+      "sha256": "088e2bf2642cca786f1ed39d173e1974e45281526d25dd6e59636981dfd2f885",
+      "size_bytes": 3755,
+      "reseal_note": "Refreshed 2026-11-02 with the host-side KKMessage JSON adapter, field-width and runtime-channel validation, and explicit no-live-kernel boundary. Previous seal retained in reseal_history.",
+      "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "a620ea5e1587faac458e5caee18fd58a6eb75b51e23104ea3524e7e6ee924c05",
+          "size_bytes": 2400
+        }
+      ]
     },
     "12-AZ-IP/36-az-cosmology-slider/README.md": {
       "description": "Product 36 AZ Differentiable Cosmology Slider README with epistemic-status section",
@@ -647,12 +655,20 @@
       "size_bytes": 1897
     },
     "12-AZ-IP/37-az-holographic-condensed-matter-comparator/README.md": {
-      "description": "Product 37 AZ Holographic Condensed-Matter Comparator README with epistemic-status section",
+      "description": "Product 37 AZ Holographic Condensed-Matter Comparator README documenting validated user CSV references, reproducible reports, and limits on material correspondence",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "097e513b184516d976be9d752753854c4a952e8193b729de82c5071cbc39d320",
-      "size_bytes": 2285
+      "updated": "2026-11-02",
+      "sha256": "855bd539e6480f38af10e17be4192ecbb05540d294a43216ee09c3dfcef93e53",
+      "size_bytes": 5614,
+      "reseal_note": "Refreshed 2026-11-02 with validated user CSV reference imports, reproducible CLI/API reports, and explicit limits on literature and material claims. Previous seal retained in reseal_history.",
+      "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "097e513b184516d976be9d752753854c4a952e8193b729de82c5071cbc39d320",
+          "size_bytes": 2285
+        }
+      ]
     },
     "12-AZ-IP/38-az-formal-verification-library/README.md": {
       "description": "Product 38 AZ Formal Verification Library README with epistemic-status section",
@@ -682,17 +698,39 @@
       "description": "Product 41 AZ Media & Feature-Inspection Suite README with epistemic-status section and REA-adaptation note",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "68be8d1333f98bdfa1b01708c242e8718c79f309541a6e9a36599fcad49ae7c9",
-      "size_bytes": 4289
+      "updated": "2026-11-02",
+      "sha256": "35018bb4fc17b7c80aa89bfc02cc0fd6cd7fd82e61f393ff356d8f74165ff16e",
+      "size_bytes": 4887,
+      "reseal_note": "Refreshed 2026-11-02 with actual file inspection CLI workflows and bounded PCM16 tone generation. Previous seal retained in reseal_history.",
+      "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "68be8d1333f98bdfa1b01708c242e8718c79f309541a6e9a36599fcad49ae7c9",
+          "size_bytes": 4289
+        }
+      ]
     },
     "12-AZ-IP/42-az-awareness-creation-toolkit/README.md": {
       "description": "Product 42 AZ Awareness & Creation Toolkit README documenting the 7 PsiCat awareness/creation features and roadmap",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "d9b24c25c27b79af1db0dbd7b6fb1b2d86c3520f1e8c62d281caa995daf75714",
-      "size_bytes": 4898
+      "updated": "2026-11-02",
+      "sha256": "847e0f4bfbf1e45790d142b32ad52d8f05adc72c861b0b9712db933b86703ec3",
+      "size_bytes": 5657,
+      "reseal_note": "Refreshed 2026-11-02 to document saved-deck restoration and visible next-due status. Previous seal retained in reseal_history.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-02",
+          "sha256": "16099dbc4fe1acf7325ac70adedb96c483dfce986c5b14d52818244a191b119a",
+          "size_bytes": 5527,
+          "reseal_note": "Previous seal after custom JSON deck creation, SM-2 scheduling, and browser-local persistence updates."
+        },
+        {
+          "updated": "2026-10-10",
+          "sha256": "d9b24c25c27b79af1db0dbd7b6fb1b2d86c3520f1e8c62d281caa995daf75714",
+          "size_bytes": 4898
+        }
+      ]
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -1041,11 +1079,11 @@
     },
     {
       "name": "AZ UOS/AZ-KERNEL Bridge",
-      "version": "1.0.0",
+      "version": "1.2.0",
       "trl": "TRL-2",
-      "port": "CLI / Python library",
-      "tests": "9",
-      "description": "Interface contract plus winding-aware IPC addressing scheme, cross-checked against real kk_channel.rs.",
+      "port": "CLI / Python library + web (http://localhost:8135)",
+      "tests": "25 passed",
+      "description": "Host-side JSON KKMessage adapter with field-width and runtime-channel validation; does not connect to a live kernel.",
       "link": "35-az-uos-kernel-bridge/"
     },
     {
@@ -1059,20 +1097,20 @@
     },
     {
       "name": "AZ Holographic Condensed-Matter Comparator",
-      "version": "1.0.0",
-      "trl": "TRL-2",
-      "port": "CLI / Python library",
-      "tests": "7",
-      "description": "Compares src/holography/dual_cft_spectrum.py KK-tower operator dimensions against illustrative literature benchmarks.",
+      "version": "1.1.0",
+      "trl": "TRL-3",
+      "port": "CLI / Python library + web (http://localhost:8137)",
+      "tests": "66 passed",
+      "description": "Compares KK-tower dimensions with illustrative references or validated user CSVs; exports reproducible reports without claiming a material correspondence.",
       "link": "37-az-holographic-condensed-matter-comparator/"
     },
     {
       "name": "AZ Formal Verification Library",
-      "version": "1.0.0",
-      "trl": "TRL-3",
-      "port": "CLI / Python library",
-      "tests": "8",
-      "description": "Generic Z3 safety-property template generalized from src/core/z3_pentad_checker.py.",
+      "version": "1.2.0",
+      "trl": "TRL-4",
+      "port": "CLI / Python library + web",
+      "tests": "18 passed, 11 skipped",
+      "description": "Pentad checks plus bounded user-authored JSON constraints over finite bounded variables; POST service and CLI reject executable code and fail closed on unknown solver results.",
       "link": "38-az-formal-verification-library/"
     },
     {
@@ -1095,20 +1133,20 @@
     },
     {
       "name": "AZ Media & Feature-Inspection Suite",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "trl": "TRL-2",
       "port": "CLI / Python library + web",
-      "tests": "28",
-      "description": "Comic (CBZ) viewer, WAV audio understanding/synthesis, lightweight .azvid video container understanding/creation, and an evidence-cited feature inspector for PsiCat adapted from the github.com/morluto/rea workflow.",
+      "tests": "31 passed",
+      "description": "CLI inspects user-selected CBZ/WAV/AZVID paths and creates bounded PCM16 WAV tones; product-local web demos and evidence-cited feature inspection remain available.",
       "link": "41-az-media-suite/"
     },
     {
       "name": "AZ Awareness & Creation Toolkit",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "trl": "TRL-2",
       "port": "CLI / Python library + web (http://localhost:8142)",
-      "tests": "58",
-      "description": "Live sibling-product registry awareness, a capability router, document/config structural awareness, dependency-free SVG chart creation, SM-2 spaced-repetition knowledge-card decks, path:line citation verification, and a cross-product home-health dashboard; all wired as native PsiCat tools, closing a holistic-audit finding that PsiCat's ~200 tools referenced none of its 41 sibling products.",
+      "tests": "66 passed",
+      "description": "Adds custom JSON Q/A deck creation and validated SM-2 review endpoints, with browser-local deck persistence and explicit request/card limits; existing repository-aware tools remain wired to PsiCat.",
       "link": "42-az-awareness-creation-toolkit/"
     },
     {

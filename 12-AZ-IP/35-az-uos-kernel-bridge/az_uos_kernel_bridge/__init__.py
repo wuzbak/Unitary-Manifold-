@@ -24,8 +24,15 @@ from .addressing import (
     N_RINGS,
     WindingAddress,
     parse_rust_adjacency_pairs,
+    parse_runtime_channel_pairs,
     winding_adjacency_pairs,
     validate_against_kk_channel_rs,
+)
+from .ipc_message import (
+    KKMessage,
+    decode_kernel_message,
+    decode_kernel_message_json,
+    encode_kernel_message,
 )
 from .api import API_ENDPOINTS, dispatch_api_request
 
@@ -37,10 +44,15 @@ __all__ = [
     "N_RINGS",
     "WindingAddress",
     "parse_rust_adjacency_pairs",
+    "parse_runtime_channel_pairs",
     "winding_adjacency_pairs",
     "validate_against_kk_channel_rs",
+    "KKMessage",
+    "decode_kernel_message",
+    "encode_kernel_message",
+    "decode_kernel_message_json",
     "API_ENDPOINTS",
     "dispatch_api_request",
 ]
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"

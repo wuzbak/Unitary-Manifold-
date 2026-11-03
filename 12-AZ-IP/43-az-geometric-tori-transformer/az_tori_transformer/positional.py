@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
-"""Geometric-tori positional structure: the architecture's core novelty.
+"""Modular positional primitives used by the architecture.
 
-Two independent geometric mechanisms carry positional information through
-the network, both built from exact integer rotations/distances on the Z_74
-phase lattice (`toroidal_geometry.py`) rather than continuous sinusoids:
+The default model uses exact integer rotations and a learned scalar-bank
+distance bias on the Z_74 lattice (`toroidal_geometry.py`), rather than
+continuous sinusoids:
 
 1. **Toroidal rotary encoding** (``toroidal_rotation_table``): each pair of
    query/key channels is rotated by an *exact* phase index
@@ -14,20 +14,15 @@ phase lattice (`toroidal_geometry.py`) rather than continuous sinusoids:
    composition, exactly as in RoPE (Su et al., 2021), but every angle is one
    of 74 exact lattice points and each pair's orbit period
    (``74 / gcd(step_k, 74)``) is a *finite wraparound*: tokens far apart in
-   raw index become geometrically close again after a full orbit. That
-   periodic wraparound — information "flowing" back around a torus instead
-   of attenuating monotonically with distance — is the "tori information
-   flowing" behaviour this product is named for.
+   raw index have identical rotary phases after a full orbit; this is finite
+   modular aliasing, not a physical information-flow claim.
 
-2. **Toroidal relative attention bias** (``toroidal_relative_bias_indices``):
-   a second, independent per-head bias keyed by the circular distance
-   (``circular_distance``, which is exactly the orbifold-folded distance,
-   see ``PSICAT_TOROIDAL_ISA_SPEC.md``) between the two-torus *bank*
-   addresses (`toroidal_geometry.position_bank`) of a query/key pair. Because
-   the bank address is itself a modular combination of two windings, two
-   sequence positions that are far apart in raw index can land on nearby (or
-   identical) bank addresses — a second, independent channel through which
-   non-adjacent tokens can be pulled geometrically close.
+2. **Learned scalar-bank relative bias**
+   (``toroidal_relative_bias_indices``): per-head bias keyed by circular
+   distance between the scalar outputs of ``position_bank``. Although
+   ``position_code`` starts with two modular coordinates, the bias does not
+   retain or independently use those axes; the scalar projection is periodic
+   and can alias distinct raw positions.
 
 Both mechanisms are ADJACENT TRACK architecture choices: they are motivated
 by, and reuse the exact arithmetic of, the repository's existing (5, 7)
@@ -46,6 +41,7 @@ from .toroidal_geometry import (
     circular_distance,
     orbit_period,
     position_bank,
+    position_code,
     wrap,
 )
 
@@ -56,6 +52,7 @@ __all__ = [
     "toroidal_relative_bias_indices",
     "rotation_orbit_periods",
     "relative_distance",
+    "modular_alias_diagnostics",
 ]
 
 
@@ -67,8 +64,8 @@ def rotation_steps_for_dim(head_dim: int) -> np.ndarray:
     orbit period), mirroring how standard sinusoidal/RoPE encodings assign
     geometrically increasing frequencies to successive channel pairs.
     """
-    if head_dim % 2 != 0:
-        raise ValueError("head_dim must be even (rotation acts on channel pairs)")
+    if head_dim <= 0 or head_dim % 2 != 0:
+        raise ValueError("head_dim must be positive and even (rotation acts on channel pairs)")
     n_pairs = head_dim // 2
     steps = np.empty(n_pairs, dtype=np.int64)
     for k in range(n_pairs):
@@ -128,3 +125,58 @@ def rotation_orbit_periods(head_dim: int) -> np.ndarray:
 def relative_distance(position_a: int, position_b: int) -> int:
     """Public helper: circular distance between two positions' bank addresses."""
     return circular_distance(position_bank(position_a), position_bank(position_b))
+
+
+def _collision_summary(values: list[object]) -> dict[str, object]:
+    counts: dict[object, int] = {}
+    first_position: dict[object, int] = {}
+    first_collision: list[int] | None = None
+    for position, value in enumerate(values):
+        if value in counts and first_collision is None:
+            first_collision = [first_position[value], position]
+        else:
+            first_position[value] = position
+        counts[value] = counts.get(value, 0) + 1
+    collision_pairs = sum(count * (count - 1) // 2 for count in counts.values())
+    return {
+        "unique_values": len(counts),
+        "collision_pair_count": collision_pairs,
+        "first_collision_positions": first_collision,
+    }
+
+
+def modular_alias_diagnostics(seq_len: int, head_dim: int) -> dict[str, object]:
+    """Summarize phase, two-coordinate code, and scalar-bank aliases.
+
+    Counts are exact for the requested finite position range. The torus code
+    and bank reports intentionally remain separate: the bank is a scalar
+    projection of the two-coordinate code, not an independent-axis encoding.
+    """
+    if seq_len < 1:
+        raise ValueError("seq_len must be positive")
+    steps = rotation_steps_for_dim(head_dim)
+    positions = np.arange(seq_len, dtype=np.int64)
+    phase_reports = []
+    for pair, step in enumerate(steps):
+        phases = ((positions * int(step)) % LATTICE_ORDER).tolist()
+        report = _collision_summary(phases)
+        report.update(
+            pair_index=pair,
+            step=int(step),
+            orbit_period=orbit_period(int(step)),
+        )
+        phase_reports.append(report)
+
+    codes = [position_code(i) for i in range(seq_len)]
+    banks = [position_bank(i) for i in range(seq_len)]
+    return {
+        "seq_len": seq_len,
+        "head_dim": head_dim,
+        "rotation_pairs": phase_reports,
+        "two_coordinate_torus_code": _collision_summary(codes),
+        "scalar_bank_projection": {
+            **_collision_summary(banks),
+            "source_coordinate_count": 2,
+            "output_coordinate_count": 1,
+        },
+    }

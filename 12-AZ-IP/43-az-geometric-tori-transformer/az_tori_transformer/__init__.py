@@ -32,12 +32,14 @@ from .attention import ToroidalMultiHeadAttention
 from .model import GeometricToriTransformer, GeometricToriTransformerConfig, TransformerBlock
 from .optim import Adam
 from .positional import (
+    modular_alias_diagnostics,
     relative_distance,
     rotation_orbit_periods,
     rotation_steps_for_dim,
     toroidal_relative_bias_indices,
     toroidal_rotation_table,
 )
+from .positional_ablation import run_positional_ablation
 from .tensor import Tensor
 from .toroidal_geometry import (
     BRAID_WINDINGS,
@@ -53,6 +55,7 @@ from .toroidal_geometry import (
     wrap,
 )
 from .train_demo import run_toroidal_copy_demo, toroidal_copy_batch
+from .text_workflow import generate_text, train_text_file
 
 __all__ = [
     "API_ENDPOINTS",
@@ -64,6 +67,8 @@ __all__ = [
     "Adam",
     "Tensor",
     "relative_distance",
+    "modular_alias_diagnostics",
+    "run_positional_ablation",
     "rotation_orbit_periods",
     "rotation_steps_for_dim",
     "toroidal_relative_bias_indices",
@@ -80,7 +85,9 @@ __all__ = [
     "position_code",
     "wrap",
     "run_toroidal_copy_demo",
+    "train_text_file",
+    "generate_text",
     "toroidal_copy_batch",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.2.0"

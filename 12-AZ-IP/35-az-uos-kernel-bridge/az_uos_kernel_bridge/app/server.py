@@ -15,6 +15,7 @@ from az_uos_kernel_bridge.api import dispatch_api_request
 UI_DIR = Path(__file__).resolve().parents[2] / "ui"
 
 DEFAULT_PORT = 8135
+MAX_API_BODY_BYTES = 4096
 
 
 class BridgeRequestHandler(SimpleHTTPRequestHandler):
@@ -36,14 +37,49 @@ class BridgeRequestHandler(SimpleHTTPRequestHandler):
             except (ValueError, TypeError) as exc:
                 payload = {"error": str(exc)}
                 status = 400
-            body = json.dumps(payload, sort_keys=True).encode("utf-8")
-            self.send_response(status)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
+            self._send_json(status, payload)
             return
         super().do_GET()
+
+    def do_POST(self) -> None:  # noqa: N802
+        parsed = urlsplit(self.path)
+        if parsed.path != "/api/ipc-message":
+            self._send_json(404, {"error": f"unknown API endpoint: {parsed.path}"})
+            return
+        if self.headers.get_content_type() != "application/json":
+            self._send_json(415, {"error": "Content-Type must be application/json"})
+            return
+        try:
+            length = int(self.headers.get("Content-Length", ""))
+        except ValueError:
+            self._send_json(400, {"error": "valid Content-Length is required"})
+            return
+        if length < 0:
+            self._send_json(400, {"error": "Content-Length must be non-negative"})
+            return
+        if length > MAX_API_BODY_BYTES:
+            self._send_json(413, {"error": "request body exceeds 4096 bytes"})
+            return
+        try:
+            body = json.loads(self.rfile.read(length))
+            payload = dispatch_api_request(
+                parsed.path,
+                parse_qs(parsed.query, keep_blank_values=True),
+                method="POST",
+                body=body,
+            )
+        except (ValueError, TypeError) as exc:
+            self._send_json(400, {"error": str(exc)})
+            return
+        self._send_json(200, payload)
+
+    def _send_json(self, status: int, payload: dict) -> None:
+        body = json.dumps(payload, sort_keys=True).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
 
 def build_server(host: str = "127.0.0.1", port: int = DEFAULT_PORT) -> ThreadingHTTPServer:

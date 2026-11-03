@@ -16,11 +16,16 @@ from __future__ import annotations
 
 import math
 import struct
+import sys
 import wave
+from array import array
 from dataclasses import dataclass
 from pathlib import Path
 
 _PCM16_MAX = 32767
+_MIN_FRAMERATE = 8000
+_MAX_FRAMERATE = 192000
+_MAX_SYNTHESIS_SAMPLES = 5_000_000
 
 
 @dataclass(frozen=True)
@@ -78,19 +83,38 @@ def synthesize_tone(
     amplitude: float = 0.5,
 ) -> bytes:
     """Return PCM16 mono samples for a sine tone (not yet wrapped in a WAV header)."""
-    if frequency_hz <= 0:
-        raise ValueError("frequency_hz must be positive")
-    if duration_seconds <= 0:
-        raise ValueError("duration_seconds must be positive")
-    amplitude = max(0.0, min(1.0, amplitude))
-
+    try:
+        frequency_hz = float(frequency_hz)
+        duration_seconds = float(duration_seconds)
+        amplitude = float(amplitude)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("frequency, duration, and amplitude must be finite numbers") from exc
+    if not math.isfinite(frequency_hz) or frequency_hz <= 0:
+        raise ValueError("frequency_hz must be finite and positive")
+    if type(framerate) is not int or not _MIN_FRAMERATE <= framerate <= _MAX_FRAMERATE:
+        raise ValueError(f"framerate must be an integer in {_MIN_FRAMERATE}..{_MAX_FRAMERATE}")
+    if frequency_hz >= framerate / 2:
+        raise ValueError("frequency_hz must be below the Nyquist frequency")
+    if not math.isfinite(duration_seconds) or not 0 < duration_seconds <= 60:
+        raise ValueError("duration_seconds must be finite and in (0, 60]")
+    if not math.isfinite(amplitude) or not 0 <= amplitude <= 1:
+        raise ValueError("amplitude must be finite and in 0..1")
     n_samples = int(framerate * duration_seconds)
+    if not 1 <= n_samples <= _MAX_SYNTHESIS_SAMPLES:
+        raise ValueError(f"tone length must be 1..{_MAX_SYNTHESIS_SAMPLES} samples")
     scale = amplitude * _PCM16_MAX
-    samples = [
-        int(scale * math.sin(2.0 * math.pi * frequency_hz * (i / framerate)))
-        for i in range(n_samples)
-    ]
-    return struct.pack(f"<{len(samples)}h", *samples)
+    samples = array(
+        "h",
+        (
+            int(scale * math.sin(2.0 * math.pi * frequency_hz * (i / framerate)))
+            for i in range(n_samples)
+        ),
+    )
+    if samples.itemsize != 2:
+        raise RuntimeError("native short width is not 16 bits")
+    if sys.byteorder != "little":
+        samples.byteswap()
+    return samples.tobytes()
 
 
 def write_wav(
@@ -117,6 +141,24 @@ def create_tone_sequence_wav(
     """Create a WAV file from an ordered `(frequency_hz, duration_seconds)` sequence."""
     if not notes:
         raise ValueError("at least one note is required to create a tone sequence")
+    if len(notes) > 1000:
+        raise ValueError("tone sequences may contain at most 1000 notes")
+    if type(framerate) is not int or not _MIN_FRAMERATE <= framerate <= _MAX_FRAMERATE:
+        raise ValueError(f"framerate must be an integer in {_MIN_FRAMERATE}..{_MAX_FRAMERATE}")
+    total_samples = 0
+    for frequency, duration in notes:
+        try:
+            frequency = float(frequency)
+            duration = float(duration)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise ValueError("note frequencies and durations must be finite numbers") from exc
+        if not math.isfinite(frequency) or not 0 < frequency < framerate / 2:
+            raise ValueError("note frequency must be finite, positive, and below Nyquist")
+        if not math.isfinite(duration) or duration <= 0:
+            raise ValueError("note duration must be finite and positive")
+        total_samples += int(framerate * duration)
+        if total_samples > _MAX_SYNTHESIS_SAMPLES:
+            raise ValueError(f"tone sequence may not exceed {_MAX_SYNTHESIS_SAMPLES} samples")
     chunks = [
         synthesize_tone(freq, dur, framerate=framerate, amplitude=amplitude)
         for freq, dur in notes
