@@ -24,7 +24,7 @@ PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 def _process(code: str, path: Path) -> subprocess.CompletedProcess[str]:
     env = dict(os.environ)
     env["MERLIN_TOOL_AUDIT_STORE_PATH"] = str(path)
-    env["PYTHONPATH"] = str(PRODUCT_ROOT)
+    env["PYTHONPATH"] = os.pathsep.join([str(PRODUCT_ROOT), str(PRODUCT_ROOT.parents[1])])
     return subprocess.run(
         [sys.executable, "-c", code], cwd=PRODUCT_ROOT, env=env,
         text=True, capture_output=True, timeout=60, check=False,
