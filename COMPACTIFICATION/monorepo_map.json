@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8377,
+  "file_count": 8375,
   "lanes": {
     "az_ip": 2534,
     "compactification": 9,
-    "other": 5384,
+    "other": 5382,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -65,7 +65,7 @@
     "PILLARS": 529,
     "PROVENANCE.md": 1,
     "README.md": 1,
-    "RECOVERY": 4,
+    "RECOVERY": 2,
     "RED_TEAM_RESPONSE.md": 1,
     "RELAY.md": 1,
     "REPRODUCIBILITY.md": 1,
@@ -33516,19 +33516,7 @@
       "lane": "other"
     },
     {
-      "path": "RECOVERY/session-672523bb/apply_patch_file.py",
-      "top_level": "RECOVERY",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
       "path": "RECOVERY/session-672523bb/assistant_messages.jsonl",
-      "top_level": "RECOVERY",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "RECOVERY/session-672523bb/replay.py",
       "top_level": "RECOVERY",
       "kind": "file",
       "lane": "other"

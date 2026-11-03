@@ -337,11 +337,17 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-02",
-      "sha256": "95f2f76489525d09ae2f5cf242c4b888e57fc78e236e40166053d4680cd1b3e1",
-      "size_bytes": 18267,
-      "reseal_note": "Refreshed 2026-11-02 to register Product 43 AZ Geometric Tori Transformer, bumping the canonical count from 42 to 43. Previous seal retained in reseal_history.",
+      "updated": "2026-11-03",
+      "sha256": "87506b41d32f781a99b6dee0700538ce11d7593d695b5f0f97c057f261fa6f42",
+      "size_bytes": 18314,
+      "reseal_note": "Refreshed 2026-11-03 after the recovered IP-suite work updated the README. Previous seal: 95f2f76489525d09ae2f5cf242c4b888e57fc78e236e40166053d4680cd1b3e1 (18267 bytes), which registered Product 43 AZ Geometric Tori Transformer. Earlier provenance is retained in reseal_history.",
       "reseal_history": [
+        {
+          "updated": "2026-11-02",
+          "sha256": "95f2f76489525d09ae2f5cf242c4b888e57fc78e236e40166053d4680cd1b3e1",
+          "size_bytes": 18267,
+          "reseal_note": "Refreshed 2026-11-02 to register Product 43 AZ Geometric Tori Transformer, bumping the canonical count from 42 to 43."
+        },
         {
           "updated": "2026-10-10",
           "sha256": "bfda7ce884d5b2c72c3f7085511e1bdb1afcd747a291a181d40c431b34d46700",
