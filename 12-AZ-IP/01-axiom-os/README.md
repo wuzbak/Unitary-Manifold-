@@ -9,6 +9,10 @@ project. Code architecture and implementation by **GitHub Copilot (AI)**.
 Licensed under the [Defensive Public Commons License v1.0 (2026)](../../../LICENSE).
 See [`IDENTITY.md`](IDENTITY.md) for full IP provenance and fingerprinting record.
 
+The legacy `AxiomZero/` and `az_os/` compatibility links use checkout-relative
+targets. They must not point into a CI runner's absolute workspace; relocated
+checkouts and source-packaging integrity checks must resolve the same files.
+
 AxiomZero is a persistent AI cognitive layer that lives **on top of any existing OS**,
 integrates with the existing filesystem and shell, routes intelligence through the
 Unitary Manifold physics framework, and self-installs via a single bootstrap command.

@@ -786,6 +786,17 @@ Native Windows validation is separate; no all-target operational certification i
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11` | 24058 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/01-axiom-os/README.md` | `fa9a470cd1f8732a3e691190381e58a78a3b9b5da2aef7da2b3db391d64ed6de` | 9736 |
+
 ## Verification Protocol
 
 To verify any registered asset:
