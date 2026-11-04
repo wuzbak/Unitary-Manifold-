@@ -797,6 +797,17 @@ Native Windows validation is separate; no all-target operational certification i
 |-------|---------|------:|
 | `12-AZ-IP/01-axiom-os/README.md` | `fa9a470cd1f8732a3e691190381e58a78a3b9b5da2aef7da2b3db391d64ed6de` | 9736 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/15-pentacorder/feature/labs/src/main/java/com/gibbernode/feature/labs/SensorStatusScreen.kt` | `179aa04b0b381c82d64c79e326db47a749c232b0308c226458baebf1fc540270` | 5398 |
+
 ## Verification Protocol
 
 To verify any registered asset:
