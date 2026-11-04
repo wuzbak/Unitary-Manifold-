@@ -7,7 +7,7 @@ const vm = require("node:vm");
 const { createRequire } = require("node:module");
 const { EventEmitter } = require("node:events");
 
-async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll } = {}) {
+async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll, instructionAnswer, instructionStopAll, platformManager } = {}) {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "p45-main-"));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   if (corrupt) fs.writeFileSync(path.join(directory, "research-harness.json"), "{broken");
@@ -58,6 +58,15 @@ async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll } = {
       shell: { openExternal: async (value) => opened.push(value) }
     } : name === "./lib/local-model.cjs" ? {
       reasonLocally: async () => "UNVERIFIED mocked local model response"
+    } : name === "./lib/instruction-model.cjs" ? {
+      createInstructionModel: () => ({
+        status: async () => ({ status: "available", productionAssistantVerified: false }),
+        answer: instructionAnswer || (async () => ({ answer: "Catalog answer [C1]", epistemicLabel: "UNVERIFIED" })),
+        cancel: async () => {},
+        stopAll: instructionStopAll || (async () => {})
+      })
+    } : name === "./lib/platform-targets.cjs" && platformManager ? {
+      createPlatformTargets: () => platformManager
     } : name === "./lib/runtime-manager.cjs" && (runtimeAccess || runtimeStopAll) ? {
       createRuntimeManager: (options) => ({
         ...localRequire(name).createRuntimeManager(options),
@@ -65,7 +74,7 @@ async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll } = {
         ...(runtimeStopAll ? { stopAll: runtimeStopAll } : {})
       })
     } : localRequire(name),
-    __dirname: path.dirname(file), process
+    __dirname: path.dirname(file), process, AbortController
   }, { filename: file });
   await new Promise((resolve) => setImmediate(resolve));
   const invoke = (channel, ...args) => handlers.get(channel)(null, ...args);
@@ -96,6 +105,97 @@ test("desktop starts and wires real harness IPC, native approvals and evidence w
   assert.equal(invoke("harness:state").runs.length, 0);
 });
 
+test("embedded instruction inference requires native approval and supplies only bounded local evidence", async (t) => {
+  const requests = [];
+  const { invoke, dialog, approvals, directory } = await desktop(t, {
+    instructionAnswer: async (request) => { requests.push(request); return { answer: "Local reference [C1]", epistemicLabel: "UNVERIFIED" }; }
+  });
+  assert.equal((await invoke("instruction:ask", "PsiCat offline")).canceled, true);
+  assert.equal(requests.length, 0);
+  assert.equal(approvals.at(-1).defaultId, 0);
+  assert.match(approvals.at(-1).detail, /stay on this PC/);
+  await assert.rejects(invoke("instruction:ask", "x".repeat(401)), /1-400/);
+  await assert.rejects(invoke("instruction:export"), /Generate/);
+  dialog.response = 1;
+  const result = await invoke("instruction:ask", "PsiCat offline");
+  assert.match(result.answer, /\[C1\]/);
+  assert.equal(requests[0].evidence[0].id, "C1");
+  assert.ok(requests[0].evidence[0].text.length <= 2400);
+  assert.equal(requests[0].signal.aborted, false);
+  await invoke("instruction:export");
+  assert.equal(JSON.parse(fs.readFileSync(path.join(directory, "export.json"), "utf8")).question, "PsiCat offline");
+});
+
+test("suite quit aborts and awaits the owned instruction process", async (t) => {
+  let finish;
+  const pending = new Promise((resolve) => { finish = resolve; });
+  const { app, quitEvents } = await desktop(t, { instructionStopAll: () => pending });
+  app.quit();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(quitEvents.length, 1);
+  assert.equal(quitEvents[0].prevented, true);
+  finish();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(quitEvents.length, 2);
+  assert.equal(quitEvents[1].prevented, false);
+});
+
+test("platform artifacts require native approval and build downloads default off", async (t) => {
+  const calls = [];
+  const target = { id: "android-sdam", name: "SDAM", notes: "Android APK" };
+  const { invoke, dialog, approvals } = await desktop(t, { platformManager: {
+    list: () => [target],
+    close: async () => {},
+    importBundled: async (id) => { calls.push(["bundled", id]); return { artifact: "SDAM.apk" }; },
+    prepare: async (id, options) => { calls.push(["prepare", id, options.allowNetwork]); return { artifact: "SDAM.apk" }; },
+    install: async (id, options) => { calls.push(["install", id, options.serial, options.apkPath]); return { status: "installed" }; }
+  } });
+  assert.equal((await invoke("platform:action", { action: "importBundled", id: target.id })).canceled, true);
+  assert.equal(calls.length, 0);
+  assert.equal(approvals.at(-1).defaultId, 0);
+  await assert.rejects(invoke("platform:action", { action: "prepare", id: target.id, allowNetwork: "yes" }), /registered platform action/);
+  dialog.response = 1;
+  await invoke("platform:action", { action: "importBundled", id: target.id });
+  assert.deepEqual(calls[0], ["bundled", target.id]);
+  await invoke("platform:action", { action: "prepare", id: target.id });
+  assert.equal(calls.at(-1)[2], false);
+  assert.match(approvals.at(-1).detail, /not allowed; cached dependencies required/);
+  await invoke("platform:action", { action: "prepare", id: target.id, allowNetwork: true });
+  assert.equal(calls.at(-1)[2], true);
+  assert.match(approvals.at(-1).detail, /explicitly allowed/);
+  await invoke("platform:action", { action: "install", id: target.id, serial: "chosen-device", apkPath: "/untrusted.apk" });
+  assert.equal(calls.at(-1)[2], "chosen-device");
+  assert.match(calls.at(-1)[3], /platform-targets[/\\]artifacts[/\\]SDAM\.apk$/);
+});
+
+test("platform export verifies copied bytes before replacing the selected destination", async (t) => {
+  const contents = Buffer.from("verified UEFI bytes");
+  const receipt = {
+    artifact: "kernel.efi", bytes: contents.length,
+    sha256: require("node:crypto").createHash("sha256").update(contents).digest("hex")
+  };
+  const { invoke, dialog, directory } = await desktop(t, { platformManager: {
+    list: () => [{ id: "uefi-az-kernel", name: "AZ Kernel", notes: "Export only" }],
+    close: async () => {},
+    importBundled: async () => receipt
+  } });
+  const artifactDirectory = path.join(directory, "platform-targets", "artifacts");
+  fs.mkdirSync(artifactDirectory, { recursive: true });
+  const source = path.join(artifactDirectory, receipt.artifact);
+  fs.writeFileSync(source, contents);
+  dialog.response = 1;
+  await invoke("platform:action", { action: "importBundled", id: "uefi-az-kernel" });
+  const destination = path.join(directory, "export.json");
+  fs.writeFileSync(destination, "previous destination");
+  fs.writeFileSync(source, "tampered artifact!");
+  await assert.rejects(invoke("platform:action", { action: "export", id: "uefi-az-kernel" }), /changed after verification|grew after verification/);
+  assert.equal(fs.readFileSync(destination, "utf8"), "previous destination");
+  assert.equal(fs.readdirSync(directory).some((file) => file.startsWith(".platform-export-")), false);
+  fs.writeFileSync(source, contents);
+  assert.equal((await invoke("platform:action", { action: "export", id: "uefi-az-kernel" })).sha256, receipt.sha256);
+  assert.deepEqual(fs.readFileSync(destination), contents);
+});
+
 test("optional reasoning is a separate disclosed native approval, never an automatic cloud action", async (t) => {
   const { dialog, invoke, approvals } = await desktop(t);
   dialog.response = 1;
@@ -106,6 +206,16 @@ test("optional reasoning is a separate disclosed native approval, never an autom
   assert.match(approvals[3].detail, /127.0.0.1:11434/);
   assert.match(approvals[3].detail, /retention/);
   assert.equal(invoke("harness:state").runs[0].status, "completed");
+});
+test("the governed research plan routes embedded reasoning without Ollama or automatic approval", async (t) => {
+  const { dialog, invoke, approvals } = await desktop(t);
+  dialog.response = 1;
+  const run = invoke("harness:create", { goal: "PsiCat memory", model: "psicat:embedded" });
+  for (let step = 0; step < 4; step++) await invoke("harness:run-step", run.id);
+  assert.match(approvals[3].detail, /bundled CPU Qwen/);
+  assert.doesNotMatch(approvals[3].detail, /127.0.0.1:11434/);
+  assert.equal(invoke("harness:state").runs[0].status, "completed");
+  assert.match(invoke("harness:state").runs[0].steps[3].output, /Catalog answer/);
 });
 
 test("invalid checkpoint produces an explicit startup error instead of silent reset", async (t) => {

@@ -17,6 +17,129 @@ let harnessBusy = false;
 let hardwareBusy = false;
 let nativeBusy = false;
 let runtimeBusy = false;
+let instructionBusy = false;
+let platformBusy = false;
+
+function renderPlatformTargets(targets) {
+  const list = document.querySelector("#platform-list");
+  list.replaceChildren();
+  for (const target of targets) {
+    const card = document.createElement("article");
+    card.className = "product-card";
+    const heading = document.createElement("h3");
+    heading.textContent = `Product ${target.productId} | ${target.name}`;
+    const description = document.createElement("p");
+    description.className = "muted";
+    description.textContent = `${target.status}: ${target.notes}${target.gradleOfflineError ? ` Offline cache error: ${target.gradleOfflineError}` : ""}`;
+    const controls = document.createElement("div");
+    controls.className = "harness-controls";
+    const actions = target.kind === "wsl2" ? [["provision", "Provision selected WSL distro"], ["run", "Start selected WSL runtime"], ["stop", "Stop owned WSL runtime"]]
+      : [...(target.bundled ? [["importBundled", "Use bundled artifact (offline)"]] : []),
+        ["prepare", "Build artifact"], ["export", "Export prepared artifact"],
+        ...(target.kind === "android" ? [["install", "Install on selected Android device"]] : [])];
+    for (const [action, label] of actions) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.dataset.platformId = target.id;
+      button.dataset.platformAction = action;
+      button.textContent = label;
+      button.dataset.unavailable = String(target.status === "blocked" && (action === "prepare" || !target.bundled));
+      button.disabled = platformBusy || button.dataset.unavailable === "true";
+      controls.append(button);
+    }
+    card.append(heading, description, controls);
+    list.append(card);
+  }
+}
+
+async function runPlatformAction(action, id) {
+  if (platformBusy) return;
+  platformBusy = true;
+  const message = document.querySelector("#platform-message");
+  document.querySelectorAll("[data-platform-action], #platform-refresh, #platform-devices, #platform-distros").forEach((button) => { button.disabled = true; });
+  message.textContent = "Inspecting prerequisites or awaiting native approval; builds may take up to 15 minutes...";
+  try {
+    if (action === "refresh") renderPlatformTargets(await window.axiomSuite.listPlatformTargets());
+    else if (action === "devices" || action === "distros") {
+      const select = document.querySelector(action === "devices" ? "#platform-device" : "#platform-distro");
+      const values = action === "devices"
+        ? (await window.axiomSuite.listAndroidDevices()).filter((entry) => entry.state === "device").map((entry) => entry.serial)
+        : await window.axiomSuite.listWslDistros();
+      const placeholder = document.createElement("option");
+      placeholder.value = "";
+      placeholder.textContent = "Select explicitly";
+      select.replaceChildren(placeholder);
+      for (const value of values) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.append(option);
+      }
+      message.textContent = values.length ? "Select one target explicitly before proceeding." : "No available targets found. Check the required tooling and authorization.";
+      return;
+    } else {
+      const result = await window.axiomSuite.runPlatformAction({
+        action, id, serial: document.querySelector("#platform-device").value,
+        distro: document.querySelector("#platform-distro").value,
+        allowNetwork: document.querySelector("#platform-network").checked
+      });
+      message.textContent = result.canceled ? "Operation cancelled; no platform action approved." : JSON.stringify(result, null, 2);
+      return;
+    }
+    message.textContent = "Target contracts shown. A build or prerequisite check is not hardware-execution certification.";
+  } catch (error) { message.textContent = `Platform operation failed: ${error.message}`; }
+  finally {
+    platformBusy = false;
+    document.querySelectorAll("#platform-refresh, #platform-devices, #platform-distros").forEach((button) => { button.disabled = false; });
+    document.querySelectorAll("[data-platform-action]").forEach((button) => {
+      button.disabled = button.dataset.unavailable === "true";
+    });
+  }
+}
+
+async function runInstructionAction(action) {
+  const message = document.querySelector("#instruction-message");
+  if (action === "cancel") {
+    try {
+      await window.axiomSuite.cancelInstructionModel();
+      message.textContent = "Cancellation requested; the owned model process is being stopped.";
+    } catch (error) { message.textContent = `Model cleanup failed: ${error.message}`; }
+    return;
+  }
+  if (instructionBusy) return;
+  instructionBusy = true;
+  document.querySelector("#instruction-ask").disabled = true;
+  document.querySelector("#instruction-status").disabled = true;
+  document.querySelector("#instruction-export").disabled = true;
+  document.querySelector("#instruction-cancel").disabled = action !== "ask";
+  message.textContent = action === "ask" ? "Awaiting native approval, then verifying and running the local CPU model. Baseline CPUs may take several minutes; cancellation remains available." : "Checking the bundled instruction backend...";
+  try {
+    const result = action === "ask"
+      ? await window.axiomSuite.askInstructionModel(document.querySelector("#instruction-question").value)
+      : action === "export" ? await window.axiomSuite.exportInstructionAnswer()
+      : await window.axiomSuite.getInstructionModel();
+    if (result.canceled) { message.textContent = "Operation cancelled."; return; }
+    if (action === "export") { message.textContent = "Answer and supplied evidence exported locally, without encryption."; return; }
+    if (action === "status") {
+      document.querySelector("#instruction-output").textContent = JSON.stringify(result, null, 2);
+      message.textContent = "Backend status shown. Readiness is not a verified expert-quality certificate.";
+    } else {
+      document.querySelector("#instruction-output").textContent = `${result.answer}\n\n${result.status} | References: ${result.citations.map((id) => `[${id}]`).join(", ") || "none"}`;
+      document.querySelector("#instruction-sources").textContent = result.sources.map((source) => `[${source.id}]\n${source.text}`).join("\n\n");
+      document.querySelector("#instruction-export").disabled = false;
+      message.textContent = "UNVERIFIED local answer. Check the cited sources before acting; no tools were executed.";
+    }
+  } catch (error) {
+    document.querySelector("#instruction-output").textContent = "";
+    document.querySelector("#instruction-sources").textContent = "";
+    message.textContent = `Local assistant failed: ${error.message}`;
+  } finally {
+    instructionBusy = false;
+    document.querySelector("#instruction-ask").disabled = false;
+    document.querySelector("#instruction-status").disabled = false;
+    document.querySelector("#instruction-cancel").disabled = true;
+  }
+}
 
 function renderRuntimes(entries) {
   const list = document.querySelector("#runtime-list");
@@ -197,7 +320,7 @@ function renderHarness(state) {
   heading.textContent = run.goal;
   const statusLine = document.createElement("p");
   statusLine.className = "muted";
-  statusLine.textContent = `${run.status.toUpperCase()} | UNVERIFIED | ${run.attempts}/6 attempts | ${run.model ? `Ollama: ${run.model}` : "Evidence only"} | ${new Date(run.updatedAt).toLocaleString()}`;
+  statusLine.textContent = `${run.status.toUpperCase()} | UNVERIFIED | ${run.attempts}/6 attempts | ${run.model === "psicat:embedded" ? "Bundled PsiCat CPU" : run.model ? `Ollama: ${run.model}` : "Evidence only"} | ${new Date(run.updatedAt).toLocaleString()}`;
   const controls = document.createElement("div");
   controls.className = "harness-controls";
   const terminal = ["completed", "cancelled"].includes(run.status);
@@ -612,6 +735,20 @@ document.querySelector("#runtime-list").addEventListener("click", (event) => {
   const button = event.target.closest("button[data-runtime-action]");
   if (button && !button.disabled) runRuntimeAction(button.dataset.runtimeAction, button.dataset.id);
 });
+document.querySelector("#instruction-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  runInstructionAction("ask");
+});
+document.querySelector("#platform-refresh").addEventListener("click", () => runPlatformAction("refresh"));
+document.querySelector("#platform-devices").addEventListener("click", () => runPlatformAction("devices"));
+document.querySelector("#platform-distros").addEventListener("click", () => runPlatformAction("distros"));
+document.querySelector("#platform-list").addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-platform-action]");
+  if (button && !button.disabled) runPlatformAction(button.dataset.platformAction, button.dataset.platformId);
+});
+document.querySelector("#instruction-status").addEventListener("click", () => runInstructionAction("status"));
+document.querySelector("#instruction-cancel").addEventListener("click", () => runInstructionAction("cancel"));
+document.querySelector("#instruction-export").addEventListener("click", () => runInstructionAction("export"));
 document.querySelector("#native-status").addEventListener("click", () => runNativeAction("status"));
 document.querySelector("#native-train").addEventListener("click", () => runNativeAction("train"));
 document.querySelector("#native-cancel").addEventListener("click", () => runNativeAction("cancel"));

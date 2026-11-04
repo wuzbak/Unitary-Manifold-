@@ -1,6 +1,8 @@
 const { app, BrowserWindow, clipboard, dialog, ipcMain, shell } = require("electron");
 const fs = require("node:fs");
+const crypto = require("node:crypto");
 const path = require("node:path");
+const { Buffer } = require("node:buffer");
 const { pathToFileURL } = require("node:url");
 const { loadProducts } = require("./lib/catalog.cjs");
 const {
@@ -15,6 +17,8 @@ const { searchEvidence } = require("./lib/worker-search.cjs");
 const { reasonLocally } = require("./lib/local-model.cjs");
 const { detectHardware } = require("./lib/hardware.cjs");
 const { createNativeModel } = require("./lib/native-model.cjs");
+const { createInstructionModel } = require("./lib/instruction-model.cjs");
+const { createPlatformTargets } = require("./lib/platform-targets.cjs");
 const { createRuntimeManager } = require("./lib/runtime-manager.cjs");
 const { materializePortfolioSource } = require("./lib/portfolio-source.cjs");
 const {
@@ -36,6 +40,45 @@ let harness;
 let hardwareReport;
 let nativeModel;
 let runtimeManager;
+let instructionModel;
+let instructionRequest;
+let instructionResult;
+let suiteQuitting = false;
+let platformTargets;
+let platformRoot;
+let platformRootProvider;
+let platformDataRoot;
+let posixRuntime;
+const preparedPlatforms = new Map();
+const runPlatformMutation = createExclusiveOperation("Another platform operation is in progress.");
+
+function instructionExcerpt(text, maximum) {
+  let bytes = 0;
+  let excerpt = "";
+  for (const character of text) {
+    const size = Buffer.byteLength(character, "utf8");
+    if (bytes + size > maximum) break;
+    excerpt += character;
+    bytes += size;
+  }
+  return excerpt;
+}
+
+async function selectedPlatformTargets() {
+  if (suiteQuitting) throw new Error("The suite is shutting down.");
+  const root = platformRootProvider();
+  if (!platformTargets || platformRoot !== root) {
+    await platformTargets?.close();
+    preparedPlatforms.clear();
+    platformTargets = createPlatformTargets({
+      repositoryRoot: root, dataRoot: platformDataRoot,
+      bundledDirectory: app.isPackaged ? path.join(process.resourcesPath, "platform-targets")
+        : path.join(__dirname, "build/platform-targets")
+    });
+    platformRoot = root;
+  }
+  return platformTargets;
+}
 const runNativeMutation = createExclusiveOperation("Another own-model operation is in progress.");
 const runHardwareDetection = createExclusiveOperation("Hardware detection is already in progress.");
 const ownsInstance = app.requestSingleInstanceLock();
@@ -111,6 +154,125 @@ async function openLocalPath(target) {
 }
 
 function registerHandlers() {
+  ipcMain.handle("platform:list", async () => (await selectedPlatformTargets()).list());
+  ipcMain.handle("platform:devices", async () => (await selectedPlatformTargets()).listDevices());
+  ipcMain.handle("platform:distros", async () => (await selectedPlatformTargets()).listDistros());
+  ipcMain.handle("platform:action", (_event, request) => runPlatformMutation(async () => {
+    if (!request || typeof request !== "object" || Array.isArray(request) ||
+        !["prepare", "importBundled", "install", "provision", "run", "stop", "export"].includes(request.action) ||
+        (request.allowNetwork !== undefined && typeof request.allowNetwork !== "boolean")) {
+      throw new TypeError("Select a registered platform action.");
+    }
+    const manager = await selectedPlatformTargets();
+    const target = manager.list().find((entry) => entry.id === request.id);
+    if (!target) throw new Error("Unknown platform target.");
+    if (request.action === "stop") {
+      if (target.id !== "wsl-psicat-navigator") throw new Error("Only the registered WSL target has an owned WSL runtime.");
+      if (!posixRuntime) throw new Error("No owned WSL runtime is running.");
+      await posixRuntime.stop();
+      posixRuntime = null;
+      return { status: "stopped" };
+    }
+    if (request.action === "export") {
+      const prepared = preparedPlatforms.get(target.id);
+      if (!prepared) throw new Error("Use a bundled artifact or build this target before exporting.");
+      const artifact = path.join(platformDataRoot, "artifacts", prepared.artifact);
+      if (fs.lstatSync(artifact).isSymbolicLink() || !fs.statSync(artifact).isFile()) throw new Error("Prepared artifact is no longer a regular file.");
+      const destination = await dialog.showSaveDialog(mainWindow, {
+        title: "Export platform artifact (no firmware or device changes)",
+        defaultPath: prepared.artifact
+      });
+      if (destination.canceled) return { canceled: true };
+      const temporary = path.join(path.dirname(destination.filePath), `.platform-export-${crypto.randomUUID()}.tmp`);
+      try {
+        await fs.promises.copyFile(artifact, temporary, fs.constants.COPYFILE_EXCL);
+        const digest = crypto.createHash("sha256");
+        let bytes = 0;
+        for await (const chunk of fs.createReadStream(temporary)) {
+          bytes += chunk.length;
+          if (bytes > prepared.bytes) throw new Error("Prepared artifact grew after verification.");
+          digest.update(chunk);
+        }
+        if (bytes !== prepared.bytes || digest.digest("hex") !== prepared.sha256) {
+          throw new Error("Prepared artifact changed after verification; destination was not replaced.");
+        }
+        await fs.promises.rename(temporary, destination.filePath);
+      } finally {
+        try { await fs.promises.unlink(temporary); }
+        catch (error) { if (error.code !== "ENOENT") throw error; }
+      }
+      return { status: "exported", sha256: prepared.sha256 };
+    }
+    const approval = await dialog.showMessageBox(mainWindow, {
+      type: "warning", title: `${request.action} | ${target.name}`,
+      message: "Approve this target-specific operation?",
+      detail: `${target.notes}\n\nBuild downloads: ${request.allowNetwork === true ? "explicitly allowed" : "not allowed; cached dependencies required"}. Bundled artifacts require no build or download. Builds execute product/dependency code as your user. WSL provisioning downloads Python dependencies into the selected distribution. Android installation targets only the explicitly selected authorized device and does not replace existing packages. No distribution or OS feature is silently installed. No firmware, boot variables or removable media are modified. Device: ${typeof request.serial === "string" ? request.serial.slice(0, 128) : "none"}. WSL distribution: ${typeof request.distro === "string" ? request.distro.slice(0, 128) : "none"}.`,
+      buttons: ["Cancel", "Approve selected operation"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (approval.response !== 1 || suiteQuitting) return { canceled: true };
+    if (request.action === "prepare" || request.action === "importBundled") {
+      const result = request.action === "importBundled" ? await manager.importBundled(target.id)
+        : await manager.prepare(target.id, { allowNetwork: request.allowNetwork === true });
+      preparedPlatforms.set(target.id, result);
+      return result;
+    }
+    if (request.action === "install") {
+      const prepared = preparedPlatforms.get(target.id);
+      if (!prepared) throw new Error("Use a bundled artifact or build this Android target before installing.");
+      return manager.install(target.id, { serial: request.serial, apkPath: path.join(platformDataRoot, "artifacts", prepared.artifact) });
+    }
+    if (target.id !== "wsl-psicat-navigator") throw new Error("This action requires the registered WSL target.");
+    if (request.action === "provision") return manager.provisionPosix({ distro: request.distro });
+    if (posixRuntime && !posixRuntime.closed) throw new Error("An owned WSL runtime is already active.");
+    posixRuntime = await manager.runPosix({ distro: request.distro });
+    return { status: "running", target: target.id, distro: posixRuntime.distro };
+  }));
+  ipcMain.handle("instruction:status", () => instructionModel.status());
+  ipcMain.handle("instruction:cancel", async () => {
+    instructionRequest?.abort();
+    await instructionModel.cancel();
+    return { canceled: true };
+  });
+  ipcMain.handle("instruction:ask", async (_event, question) => {
+    if (suiteQuitting) throw new Error("The suite is shutting down.");
+    if (typeof question !== "string" || !question.trim() || question.length > 400 || Buffer.byteLength(question) > 512) {
+      throw new TypeError("Enter a question of 1-400 characters and at most 512 UTF-8 bytes.");
+    }
+    if (instructionRequest) throw new Error("Another assistant request is active.");
+    const controller = new AbortController();
+    instructionRequest = controller;
+    try {
+      const approval = await dialog.showMessageBox(mainWindow, {
+        type: "question", title: "Ask embedded PsiCat",
+        message: "Use the bundled instruction model and local evidence on this PC?",
+        detail: "The bundled pretrained Qwen model runs in an owned CPU-only llama.cpp process. Your question and matching local library excerpts stay on this PC; no Ollama or cloud service is contacted. Imported text is untrusted reference data, not tool authority. Answers can be wrong and remain UNVERIFIED. The model cannot execute commands or change files. CPU generation and first-use checksum verification may take several minutes.",
+        buttons: ["Cancel", "Ask locally"], defaultId: 0, cancelId: 0, noLink: true
+      });
+      if (approval.response !== 1 || controller.signal.aborted || suiteQuitting) return { canceled: true };
+      const evidence = [{ id: "C1", text: instructionExcerpt(searchCatalog(products, question), 600) }];
+      if (settings.knowledgeCollectionIds.length) {
+        const text = await runKnowledgeMutation(() => searchEvidence({
+          directory: knowledgeDirectory, ids: [...settings.knowledgeCollectionIds], goal: question,
+          signal: controller.signal
+        }));
+        evidence.push({ id: "E1", text: instructionExcerpt(text, 600) });
+      }
+      const result = await instructionModel.answer({ question, evidence, signal: controller.signal });
+      instructionResult = { ...result, question, sources: evidence };
+      return instructionResult;
+    } finally { instructionRequest = null; }
+  });
+  ipcMain.handle("instruction:export", async () => {
+    if (!instructionResult) throw new Error("Generate an assistant answer before exporting.");
+    const selected = instructionResult;
+    const result = await dialog.showSaveDialog(mainWindow, {
+      title: "Export unverified assistant answer and cited evidence",
+      defaultPath: "psicat-answer.json", filters: [{ name: "JSON report", extensions: ["json"] }]
+    });
+    if (result.canceled) return { canceled: true };
+    fs.writeFileSync(result.filePath, `${JSON.stringify(selected, null, 2)}\n`, { mode: 0o600 });
+    return { canceled: false };
+  });
   ipcMain.handle("runtime:list", () => runtimeManager.list());
   ipcMain.handle("runtime:node", async () => {
     const response = await dialog.showMessageBox(mainWindow, {
@@ -480,6 +642,8 @@ app.whenReady().then(() => {
       path.join(app.getPath("userData"), "portfolio")
     );
   }
+  platformRootProvider = portfolioRoot;
+  platformDataRoot = path.join(app.getPath("userData"), "platform-targets");
   runtimeManager = createRuntimeManager({
     entries: runtimeEntries, sourceRoot: portfolioRoot,
     dataDirectory: path.join(app.getPath("userData"), "runtimes"),
@@ -497,13 +661,22 @@ app.whenReady().then(() => {
     seed: path.join(nativeDirectory, "psicat-seed.npz"),
     userDirectory: path.join(app.getPath("userData"), "psicat-model")
   });
+  instructionModel = createInstructionModel({
+    resourcesDirectory: app.isPackaged ? path.join(process.resourcesPath, "psicat-instruction")
+      : path.join(__dirname, "build/instruction"),
+    dataDirectory: path.join(app.getPath("userData"), "psicat-instruction")
+  });
   harness = new ResearchHarness(path.join(app.getPath("userData"), "research-harness.json"), {
     "catalog.search": ({ goal }) => searchCatalog(products, goal),
     "evidence.search": ({ goal, signal }) => runKnowledgeMutation(() => searchEvidence({
       directory: knowledgeDirectory, ids: [...settings.knowledgeCollectionIds], goal, signal
     })),
     "report.compose": composeReport,
-    "model.reason": ({ goal, model, context, signal }) => reasonLocally({ goal, model, context, signal })
+    "model.reason": async ({ goal, model, context, signal }) => model === "psicat:embedded"
+      ? (await instructionModel.answer({
+        question: goal, evidence: [{ id: "E1", text: instructionExcerpt(context, 1200) }], signal
+      })).answer
+      : reasonLocally({ goal, model, context, signal })
   });
   registerHandlers();
   createWindow();
@@ -520,12 +693,14 @@ app.whenReady().then(() => {
 let runtimeShutdownComplete = false;
 let runtimeShutdown;
 app.on("before-quit", (event) => {
+  suiteQuitting = true;
+  instructionRequest?.abort();
   if (harness?.active) harness.stop(harness.active.id);
   if (nativeModel?.isActive()) nativeModel.cancel();
   if (runtimeShutdownComplete) return;
   event.preventDefault();
   if (runtimeShutdown) return;
-  runtimeShutdown = Promise.resolve(runtimeManager?.stopAll()).then(() => {
+  runtimeShutdown = Promise.all([runtimeManager?.stopAll(), instructionModel?.stopAll(), platformTargets?.close()]).then(() => {
     runtimeShutdownComplete = true;
     app.quit();
   }).catch((error) => {

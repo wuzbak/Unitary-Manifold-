@@ -11,6 +11,25 @@ test("runtime state updates expose a bounded subscribe/unsubscribe bridge, not r
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, "../preload.cjs"), "utf8"), {
     require: () => ({ ipcRenderer, contextBridge: { exposeInMainWorld: (_name, value) => { api = value; } } })
   });
+
+  test("instruction preload exposes fixed channels, not executable, endpoint or API-key selection", async () => {
+    const calls = [];
+    let api;
+    const ipcRenderer = { invoke: async (...args) => { calls.push(args); return { status: "test" }; } };
+    vm.runInNewContext(fs.readFileSync(path.join(__dirname, "../preload.cjs"), "utf8"), {
+      require: () => ({ ipcRenderer, contextBridge: { exposeInMainWorld: (_name, value) => { api = value; } } })
+    });
+    await api.getInstructionModel();
+    await api.askInstructionModel("What works offline?");
+    await api.cancelInstructionModel();
+    await api.exportInstructionAnswer();
+    assert.deepEqual(calls, [
+      ["instruction:status"], ["instruction:ask", "What works offline?"],
+      ["instruction:cancel"], ["instruction:export"]
+    ]);
+    assert.equal(api.spawn, undefined);
+    assert.equal(api.request, undefined);
+  });
   assert.equal(Object.isFrozen(api), true);
   assert.equal(api.ipcRenderer, undefined);
   assert.throws(() => api.onRuntimesChanged("not callable"), /must be a function/);

@@ -134,6 +134,30 @@ test("timeouts abort tool signals and preserve an explicit failed checkpoint", a
   assert.equal(harness.active, null);
 });
 
+test("only explicitly selected embedded CPU reasoning gets the disclosed six-minute deadline", async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  for (const model of ["psicat:embedded", "llama3.2:3b"]) {
+    let signal;
+    const { harness } = fixture(t, {
+      "model.reason": (request) => { signal = request.signal; return new Promise(() => {}); }
+    });
+    const run = harness.create({ goal: "PsiCat offline memory", model });
+    for (let step = 0; step < 3; step++) await harness.execute(harness.proposal(run.id), async () => true);
+    const proposal = harness.proposal(run.id);
+    if (model === "psicat:embedded") assert.match(proposal.disclosure, /six-minute deadline/);
+    const pending = assert.rejects(harness.execute(proposal, async () => true), /deadline/);
+    await new Promise((resolve) => setImmediate(resolve));
+    if (model === "psicat:embedded") {
+      t.mock.timers.tick(POLICY.stepTimeoutMs);
+      assert.equal(signal.aborted, false);
+      t.mock.timers.tick(POLICY.embeddedStepTimeoutMs - POLICY.stepTimeoutMs);
+    } else t.mock.timers.tick(POLICY.stepTimeoutMs);
+    await pending;
+    assert.equal(signal.aborted, true);
+    assert.equal(harness.get(run.id).status, "failed");
+  }
+});
+
 test("oversized or empty output is a failure, not a success-shaped fallback", async (t) => {
   const { harness } = fixture(t, { "catalog.search": () => "x".repeat(POLICY.maxResultChars + 1) });
   const run = harness.create({ goal: "memory" });

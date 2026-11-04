@@ -90,7 +90,7 @@ async function verifyWindow(target) {
     assert.equal(rendered.jaxInstallDisabled, false, "the CPU JAX installer must be available");
     assert.equal(rendered.browserInstallDisabled, false, "the Windows browser installer must be available");
     assert.equal(rendered.posixInstallDisabled, true, "unsupported POSIX installation must remain blocked");
-    for (const text of ["Local evidence library", "Search locally", "Open PsiCat Navigator", "Research control plane", "PC readiness assessment", "PsiCat native model", "Portfolio runtime manager"]) {
+    for (const text of ["Ask PsiCat", "Local evidence library", "Search locally", "Open PsiCat Navigator", "Research control plane", "PC readiness assessment", "PsiCat native model", "Portfolio runtime manager"]) {
       assert.ok(rendered.body.includes(text), `the window should render "${text}"`);
     }
     const created = await send("Runtime.evaluate", {
@@ -150,6 +150,38 @@ async function verifyWindow(target) {
     assert.deepEqual(diagnostics.result.value, {
       available: true, exportAvailable: true, initialExportDisabled: true, initialResultHidden: true
     });
+    const instruction = await send("Runtime.evaluate", {
+      expression: `({
+        ask: typeof window.axiomSuite.askInstructionModel === "function",
+        cancel: typeof window.axiomSuite.cancelInstructionModel === "function",
+        status: typeof window.axiomSuite.getInstructionModel === "function",
+        export: typeof window.axiomSuite.exportInstructionAnswer === "function",
+        cancelDisabled: document.querySelector("#instruction-cancel").disabled,
+        defaultBackend: document.querySelector("#harness-model").value,
+        output: document.querySelector("#instruction-output").textContent
+      })`, returnByValue: true
+    });
+    assert.deepEqual(instruction.result.value, {
+      ask: true, cancel: true, status: true, export: true, cancelDisabled: true,
+      defaultBackend: "psicat:embedded", output: ""
+    });
+    const platforms = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        await runPlatformAction("refresh");
+        return {
+          cards: document.querySelectorAll("#platform-list .product-card").length,
+          downloads: document.querySelector("#platform-network").checked,
+          device: document.querySelector("#platform-device").value,
+          distro: document.querySelector("#platform-distro").value,
+          message: document.querySelector("#platform-message").textContent
+        };
+      })()`, returnByValue: true, awaitPromise: true
+    });
+    assert.equal(platforms.result.value.cards, 4);
+    assert.equal(platforms.result.value.downloads, false);
+    assert.equal(platforms.result.value.device, "");
+    assert.equal(platforms.result.value.distro, "");
+    assert.match(platforms.result.value.message, /not hardware-execution certification/);
     const native = await send("Runtime.evaluate", {
       expression: `(async () => {
         const state = await window.axiomSuite.getNativeModel();

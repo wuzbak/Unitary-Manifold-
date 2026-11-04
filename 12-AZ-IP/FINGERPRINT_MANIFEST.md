@@ -730,6 +730,38 @@ Native Windows validation is separate; no all-target operational certification i
 |-------|---------|------:|
 | `12-AZ-IP/14-sdam/app/app/src/main/java/com/sdam/ui/MainViewModel.kt` | `cdb7a5e9eca0f3ee9424e77f5176203bbdc4f0b5ee67956a764efae81466c2e4` | 22533 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/15-pentacorder/feature/acoustic/src/main/java/com/gibbernode/feature/acoustic/AcousticViewModel.kt` | `4c63f5d484f423580e850eb8b100d67bb21baec75096975b5374a811155cb34d` | 13452 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `32e285819a2ddf62db70b4a6285e85bbd1541301ae8b45b84c4c2b93dd594d53` | 44773 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `02425ce1bce0b35a0e98bd0bf51e7907c0f011497e0c58f5cba56150515e47f6` | 29281 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `bc7c6a2a5d17d0f1f4b04cb6f56d8062a00f1acca0f668ca981fb5a9cc4fb406` | 23914 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `91b32169095b9c8b879fe6d5a3784547bf667441ee8153715f9574b23c793725` | 15911 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs` | `acb591eeacdab3eca3b8e39774e93aa37138ac3fe8ae466014df26fd1b44a3bd` | 17852 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4` | 32811 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs` | `8160f81810e6e0745561dda7618622583f46a35a6e31562bace1c4a37bb45e77` | 37367 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `a0e58b8c746f846250413ec985b0e77dfbd245f43bd4c3d711a258bf5186d3f1` | 35520 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `fa02b64f6afe58828ceeef62bb236143dc2ef8ef329617ddbb78941dec8ef453` | 3133 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `0b14fc9b6d1e3b5f8bd9f080ae04fe26ccbe56ce9600f969ff560d3d48fb2a5b` | 3617 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `cda180ac63ea6549bd4cb5da0d8004e49761ea054b9f11ba9f59596b942c2e38` | 39553 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `2d881033c860bcf4c5258d6739daed96ae8f7011ec985367d8c9602949b54e16` | 9795 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/instruction_smoke.cjs` | `1642327c08917c930b533c25403ed8ee6ca96e935844ec51a5cbded308169957` | 1722 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/platform_smoke.cjs` | `90fd761fa25621528ba92a129c7084b16dadbab785432998e9664d7df01e2426` | 2419 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1` | `16372ce44a47c9c41be76306002109d8311ff642a94f647c26020153a34b6d83` | 3862 |
+| `12-AZ-IP/45-axiomzero-pc-suite/styles.css` | `ef05f8cc96b13dfe592636a3e04110e8fe0f36552b534299ee8f653149969372` | 8948 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs` | `b82bb2389b5436b7313535f9260bd25990ea27f1ae70742530ad713405d4fd12` | 14094 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2` | 25229 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `7d2d51cab6d0a906bf973df0985a75cb771ae3bb6205c1adf639996b3c00703b` | 15416 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `eceaf9a560109f3aa4e97672a34cf8fc76bd044fdd7f4ab57afd08b8cf7be524` | 26569 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs` | `fbcb2382206ebf48a52fb9d852dc9e9377c1debcecebc086305e6ae8a39e0543` | 1915 |
+
 ## Verification Protocol
 
 To verify any registered asset:

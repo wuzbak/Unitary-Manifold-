@@ -20,7 +20,79 @@ environment or responsive status endpoint constitutes full capability
 certification. Product 20 handles its own handshake; its managed launch disables
 local command execution.
 
-## Embedded PsiCat and portfolio installation
+## Embedded instruction assistant
+
+**Ask PsiCat** uses packaged Qwen3-1.7B Q4_K_M weights and a statically compiled,
+revision-pinned CPU llama.cpp server. No separate Python, Ollama or cloud model
+service is needed for this path. This is a third-party pretrained language
+substrate under the suite's evidence/governance controls, **not** our from-scratch
+toroidal model and not proof of physical 5D information flow.
+
+Each question requires native approval before matching catalog/library excerpts
+are supplied to the model. Questions and evidence stay local. The renderer cannot
+choose an executable, endpoint, API key or arbitrary filesystem path. The owned
+server uses a fresh loopback port and API key, bounded CPU/context/output budgets
+and explicit cancellation/shutdown. Retrieved text is reference data, not tool
+authority; model output never runs tools, commands or file writes.
+
+Answers remain UNVERIFIED. Citation IDs map to the supplied catalog or original
+file/line/hash excerpts; valid IDs do not prove that the answer follows from
+them. Missing evidence is not silently replaced by cloud requests. **Export answer
+and evidence** saves only after native destination selection; exported reports
+contain potentially private source excerpts and are not encrypted.
+
+The research control plane accepts `psicat:embedded` for the same backend with
+separate step approvals and a disclosed six-minute CPU step budget. Other
+steps retain their 60-second deadline. Excerpts are bounded to 1,200 UTF-8 bytes
+for embedded research, or 600 bytes each for catalog/imported Ask PsiCat
+references; this deliberately small context budget reflects measured baseline
+CPU latency. Slow inference can still time out; a failed step requires fresh
+approval and is not recorded as completed. Named external Ollama models retain
+their separate explicit disclosure.
+
+Windows packaging depends on actual instruction/citation/refusal acceptance.
+The workflow verifies the official Qwen Q8_0 source weights against their LFS
+hash and revision, then locally requantizes to Q4_K_M with the same pinned
+llama.cpp quantizer. There is no official Q4_K_M file in this upstream model
+repository. Requantization can reduce quality; provenance records both hashes,
+the quantizer hash and that limitation. A failed gate blocks
+the installer. Source builds require the validated runtime artifact in
+`build/instruction/`, including `manifest.json`, the declared GGUF,
+`llama-server.exe`, model card, Apache license, provenance and pinned engine
+source/license archive. No model weights or private exports are committed.
+Installed smoke exercises the copied model, not an already running server.
+Passing these checks does **not** establish expert-level general reasoning or
+certify every portfolio target.
+
+## Android, UEFI and WSL deployment
+
+The Windows packaging pipeline builds SDAM and Pentacorder debug APKs and the
+locked AZ Kernel UEFI release binary from tracked source. It bundles those
+artifacts with their actual SHA-256/size manifest. **Use bundled artifact
+(offline)** verifies and copies the selected artifact into managed user data;
+no JDK, Gradle or Rust toolchain is required to export it. APK installation
+requires ADB, one explicitly selected authorized device and native approval;
+it never silently replaces an installed package. Debug APKs are not
+production-signed mobile releases.
+
+Optional source builds require installed Android SDK/JDK or Rust/UEFI tooling.
+Dependency downloads are off by default. Offline Android builds require a
+complete matching Gradle wrapper cache before any wrapper executes, plus
+cached Maven dependencies. A separate checkbox and native approval permit a
+networked build. UEFI export never flashes firmware, edits boot variables,
+writes a system partition or changes removable media.
+
+Navigator's WSL path provisions Python dependencies inside an explicitly
+selected registered distribution, then starts the real service with local
+command execution disabled. It requires WSL, python3-venv, iproute2 and the
+default WSL relay networking mode; mirrored networking fails explicitly.
+Provisioning requires internet. Readiness requires the service health,
+in-distro listener PID and Windows WSL-relay ownership checks. The manager
+owns shutdown; it never installs a distribution or enables an OS feature.
+Actual Android-device, firmware and WSL execution are separate validation
+obligations, not established by APK/EFI builds or mocked process tests.
+
+## Experimental own model and portfolio installation
 
 The packaged `PsiCatCore` executable contains the repository's own NumPy
 toroidal causal Transformer runtime and needs neither a separately installed
@@ -295,7 +367,8 @@ Pause/cancel aborts active work; already completed results remain available.
 A restart marks in-flight execution interrupted and requires new approval.
 Failed steps show their error and can be explicitly retried within the
 **six-attempt total budget**; there are no hidden retries or unconstrained
-loops. Each execution has a **60-second deadline**, evidence search runs
+loops. Ordinary execution has a **60-second deadline**; explicitly approved
+embedded CPU reasoning has a **six-minute deadline**. Evidence search runs
 outside the main UI thread, outputs are capped at **24,000 characters**, and
 context at **12,000 characters**. Context truncation is disclosed; full
 results remain in step checkpoints. The optional local model response is

@@ -50,6 +50,14 @@ if (-not (Test-Path -LiteralPath $installedApp -PathType Leaf)) {
 }
 
 try {
+    & node (Join-Path $PSScriptRoot "instruction_smoke.cjs") (Join-Path $installDirectory "resources\psicat-instruction")
+    if ($LASTEXITCODE -ne 0) {
+        throw "Installed instruction-model inference failed."
+    }
+    & node (Join-Path $PSScriptRoot "platform_smoke.cjs") (Join-Path $installDirectory "resources\platform-targets")
+    if ($LASTEXITCODE -ne 0) {
+        throw "Installed platform-artifact integrity or structure verification failed."
+    }
     & node (Join-Path $PSScriptRoot "native_smoke.cjs") (Join-Path $installDirectory "resources\psicat-native")
     if ($LASTEXITCODE -ne 0) {
         throw "Installed native model smoke failed."

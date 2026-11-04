@@ -49,6 +49,36 @@
         <button id="disconnect-repository" class="quiet" hidden>Disconnect</button>
       </section>
 
+      <section class="harness panel" aria-labelledby="instruction-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">EMBEDDED INSTRUCTION MODEL · LOCAL EVIDENCE · NO CLOUD</p>
+            <h2 id="instruction-heading">Ask PsiCat</h2>
+          </div>
+        </div>
+        <p class="muted">
+          Ask about the portfolio or your imported Webspace and PsiCat Mind evidence.
+          Bundled Qwen instruction weights run locally through a CPU llama.cpp engine;
+          no separate model service is required. This pretrained language substrate is
+          distinct from our experimental toroidal model below. Answers are unverified,
+          not scientific proof; citations identify supplied references, not guaranteed entailment.
+          No commands or tools are executed by model output.
+        </p>
+        <form id="instruction-form" class="harness-form">
+          <label for="instruction-question">Your question (up to 400 characters / 512 UTF-8 bytes)</label>
+          <input id="instruction-question" maxlength="400" required placeholder="What can PsiCat do offline, and what are its limits?">
+          <button id="instruction-ask" type="submit" class="primary">Ask locally with evidence</button>
+        </form>
+        <div class="harness-controls">
+          <button id="instruction-status">Verify bundled backend</button>
+          <button id="instruction-cancel" disabled>Cancel and stop model</button>
+          <button id="instruction-export" disabled>Export answer and evidence</button>
+        </div>
+        <p id="instruction-message" class="message" role="status" aria-live="polite"></p>
+        <pre id="instruction-output" class="native-output"></pre>
+        <details><summary>References supplied to this answer</summary><pre id="instruction-sources" class="native-output"></pre></details>
+      </section>
+
       <section class="harness panel" aria-labelledby="native-heading">
         <div class="section-heading">
           <div>
@@ -106,23 +136,23 @@
         </div>
         <p class="muted">
           Plan a local research task, inspect each tool, then approve one step at a time.
-          Catalog and imported evidence produce a source-cited report. Optional Ollama reasoning
-          uses an already installed local model, not an embedded PsiCat model. No shell, source
+          Catalog and imported evidence produce a source-cited report. Optional reasoning
+          uses the embedded backend or an explicitly named installed Ollama model. No shell, source
           writes, cloud calls, or autonomous approval. All outputs remain unverified.
         </p>
         <form id="harness-form" class="harness-form">
           <label for="harness-goal">Research goal</label>
           <input id="harness-goal" maxlength="400" required placeholder="e.g. PsiCat offline memory and provider capabilities">
           <div class="harness-options">
-            <label for="harness-use-model"><input id="harness-use-model" type="checkbox"> Add local Ollama reasoning</label>
-            <label for="harness-model">Installed model name
-              <input id="harness-model" maxlength="80" disabled placeholder="e.g. llama3.2:3b">
+            <label for="harness-use-model"><input id="harness-use-model" type="checkbox"> Add local reasoning</label>
+            <label for="harness-model">Backend (psicat:embedded or installed Ollama model)
+              <input id="harness-model" maxlength="80" disabled value="psicat:embedded" placeholder="psicat:embedded">
             </label>
             <button id="harness-create" class="primary" type="submit">Create research plan</button>
           </div>
         </form>
         <p class="harness-policy muted">
-          Six attempts per task · 60-second step deadline · 12,000-character context · 50 saved tasks.
+          Six attempts per task · 60-second ordinary / 6-minute embedded CPU step deadlines · 50 saved tasks.
           Checkpoints and the bounded hash-linked audit are plaintext in this user profile.
           Approvals never survive a restart; interrupted tasks do not replay automatically.
         </p>
@@ -166,6 +196,41 @@
         </form>
         <p id="knowledge-message" class="knowledge-message" role="status" aria-live="polite"></p>
         <div id="knowledge-results" class="knowledge-results" aria-live="polite"></div>
+      </section>
+
+      <section class="harness panel" aria-labelledby="platform-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">ANDROID · UEFI ARTIFACTS · SELECTED WSL DISTRIBUTION</p>
+            <h2 id="platform-heading">Target-specific deployment</h2>
+          </div>
+        </div>
+        <p class="muted">
+          Use verified bundled Android/UEFI artifacts offline, build Android packages,
+          install to one explicitly authorized device, export
+          a UEFI artifact without flashing, or provision a registered WSL environment.
+          Building requires Android SDK/JDK or Rust; Android installation requires ADB.
+          WSL prerequisites and a distribution must be installed separately.
+          These are not native Windows applications. Unsupported builds fail explicitly.
+        </p>
+        <div class="harness-controls">
+          <button id="platform-refresh">Inspect platform targets</button>
+          <button id="platform-devices">List authorized Android devices</button>
+          <button id="platform-distros">List registered WSL distributions</button>
+        </div>
+        <div class="harness-options">
+          <label><input id="platform-network" type="checkbox">
+            Allow dependency downloads for this build (off by default)
+          </label>
+          <label for="platform-device">Android device (no automatic selection)
+            <select id="platform-device"><option value="">Select a device</option></select>
+          </label>
+          <label for="platform-distro">WSL distribution (no automatic selection)
+            <select id="platform-distro"><option value="">Select a distribution</option></select>
+          </label>
+        </div>
+        <p id="platform-message" class="message" role="status" aria-live="polite"></p>
+        <div id="platform-list" class="product-list"></div>
       </section>
 
       <section class="harness panel" aria-labelledby="runtime-heading">

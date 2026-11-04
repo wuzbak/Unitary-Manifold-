@@ -15,7 +15,7 @@ body {
   background: radial-gradient(ellipse at 12% 0%, #142545 0, #0b1220 42rem);
 }
 
-button, input { font: inherit; }
+button, input, select { font: inherit; }
 button {
   min-height: 40px;
   border: 1px solid #33425a;
@@ -26,7 +26,7 @@ button {
   cursor: pointer;
 }
 button:hover { border-color: #72a9ff; background: #1c2d48; }
-button:focus-visible, input:focus-visible { outline: 2px solid #73adff; outline-offset: 2px; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #73adff; outline-offset: 2px; }
 button:disabled { opacity: .48; cursor: not-allowed; }
 
 .topbar {
@@ -127,6 +127,12 @@ main { max-width: 1440px; margin: 0 auto; padding: 28px clamp(24px, 5vw, 72px) 4
 .harness-step-error { color: #f3c778; }
 .harness-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
 .native-output { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 360px; overflow-y: auto; font: 12px/1.55 Consolas, monospace; }
+#platform-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+#platform-device, #platform-distro {
+  display: block; max-width: 100%; min-height: 42px; margin-top: 6px;
+  border: 1px solid #33425a; border-radius: 8px; background: #0a1321; color: #e5eaf3; padding: 8px;
+}
+#platform-message { white-space: pre-wrap; overflow-wrap: anywhere; }
 
 .portfolio, .catalog { padding: 22px; }
 .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 17px; }

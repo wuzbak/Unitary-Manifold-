@@ -11,6 +11,7 @@ const POLICY = Object.freeze({
   maxContextChars: 12000,
   maxEvents: 2000,
   stepTimeoutMs: 60000,
+  embeddedStepTimeoutMs: 360000,
   epistemicLabel: "UNVERIFIED"
 });
 const SCHEMA = "axiomzero-research-harness-v1";
@@ -34,7 +35,7 @@ function validateGoal(goal) {
 function validateModel(model) {
   if (typeof model !== "string" || model.length > 80 ||
       !/^[A-Za-z0-9][A-Za-z0-9_.:/-]*$/.test(model)) {
-    throw new TypeError("Enter the exact name of an installed Ollama model (1-80 characters).");
+    throw new TypeError("Enter psicat:embedded or the exact name of an installed Ollama model (1-80 characters).");
   }
   return model;
 }
@@ -100,10 +101,11 @@ function validateState(state) {
 }
 
 class ResearchHarness {
-  constructor(file, tools, { timeoutMs = POLICY.stepTimeoutMs } = {}) {
+  constructor(file, tools, { timeoutMs } = {}) {
     this.file = file;
     this.tools = tools;
-    this.timeoutMs = timeoutMs;
+    this.timeoutMs = timeoutMs ?? POLICY.stepTimeoutMs;
+    this.embeddedTimeoutMs = timeoutMs ?? POLICY.embeddedStepTimeoutMs;
     this.active = null;
     this.state = {
       schema: SCHEMA, policyVersion: POLICY.version, runs: [], events: [],
@@ -202,7 +204,9 @@ class ResearchHarness {
       contextTruncated: context.length > POLICY.maxContextChars,
       checkpointHash: digest(run),
       disclosure: step.tool === "model.reason"
-        ? `Send the goal and at most 12,000 characters of prior results to Ollama at 127.0.0.1:11434 using "${run.model}". The local service controls its own retention. Model output is unverified.`
+        ? run.model === "psicat:embedded"
+          ? "Run the bundled CPU Qwen/llama.cpp instruction backend with the goal and up to 1,200 UTF-8 bytes of prior results as quoted evidence [E1]. This CPU step has a six-minute deadline; cancellation remains available. No cloud or external model service is contacted. The report checkpoint retains the answer. Model output is unverified; citations do not establish entailment."
+          : `Send the goal and at most 12,000 characters of prior results to Ollama at 127.0.0.1:11434 using "${run.model}". The local service controls its own retention. Model output is unverified.`
         : "Read only the bundled catalog or imported local index, or compose their evidence report. No source writes, shell commands, cloud requests, or epistemic promotion."
     };
   }
@@ -242,7 +246,8 @@ class ResearchHarness {
           const error = new Error("Harness step exceeded its execution deadline.");
           controller.abort(error);
           reject(error);
-        }, this.timeoutMs);
+        }, current.tool === "model.reason" && current.model === "psicat:embedded"
+          ? this.embeddedTimeoutMs : this.timeoutMs);
       });
       const aborted = new Promise((_, reject) => {
         controller.signal.addEventListener("abort", () => reject(controller.signal.reason), { once: true });
