@@ -42,8 +42,9 @@ async function main() {
       const response = await fetch(`${access.endpoint}/api/action`, {
         method: "POST", headers, body: JSON.stringify(value), signal: AbortSignal.timeout(30000)
       });
-      assert.equal(response.status, 200);
-      return response.json();
+      const payload = await response.json();
+      assert.equal(response.status, 200, payload.error || "Workbench action failed.");
+      return payload;
     }
     assert.equal((await action({ action: "create", name: "installed-smoke" })).project.name, "installed-smoke");
     await action({ action: "build", name: "installed-smoke" });

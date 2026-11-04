@@ -30,6 +30,21 @@ Open `http://127.0.0.1:8327/` in a browser and paste the token from the same she
 
 ## Connect PsiCat
 
+### Windows suite deployment
+
+[Product 45](../45-axiomzero-pc-suite/README.md) can install a private,
+checksum-verified Node LTS runtime, provision this product's locked dependencies,
+build the dashboard, and manage its loopback service. Approve each operation
+in the suite, then use **Open running dashboard** to approve copying the
+per-launch token; paste it into the dashboard token field. Project data remains
+in the suite's user-data workbench directory. Workspace initialization pins
+the selected root to its canonical filesystem path so Windows short-path
+aliases do not look like unauthorized project symlinks. Project-directory
+and source symlinks remain rejected.
+
+The suite does not automatically share this per-launch token with Product 20.
+Native Navigator tool integration still needs the explicit configuration below.
+
 Set the same variables in the environment that launches Product 20:
 
 ```bash

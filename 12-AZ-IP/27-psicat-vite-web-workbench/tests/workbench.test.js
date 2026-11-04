@@ -75,3 +75,22 @@ test('rejects symlinks added to project sources', async (t) => {
   await fs.symlink(path.join(projectRoot, 'index.html'), path.join(projectRoot, 'outside-link'));
   await assert.rejects(workbench.inspectProject('linked-source'), /Symbolic links/);
 });
+test('pins an authorized workspace alias without accepting symlinked project directories', async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'psicat-vite-alias-'));
+  const actual = path.join(root, 'actual');
+  const alias = path.join(root, 'alias');
+  await fs.mkdir(actual);
+  await fs.symlink(actual, alias, 'junction');
+  const workbench = new ViteWorkbench({ workspaceRoot: alias });
+  t.after(async () => {
+    await workbench.close();
+    await fs.rm(root, { recursive: true, force: true });
+  });
+  await workbench.initialize();
+  assert.equal(workbench.workspaceRoot, await fs.realpath(actual));
+  assert.equal((await workbench.createProject({ name: 'canonical-app' })).project.name, 'canonical-app');
+  const external = path.join(root, 'external');
+  await fs.mkdir(external);
+  await fs.symlink(external, path.join(workbench.projectsRoot, 'outside-project'), 'junction');
+  await assert.rejects(workbench.inspectProject('outside-project'), /does not exist/);
+});

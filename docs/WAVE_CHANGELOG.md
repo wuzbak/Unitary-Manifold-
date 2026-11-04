@@ -13,6 +13,9 @@ isolated in suite user data. Windows installation smoke now checks unauthorized
 API rejection, authenticated project creation/build, dashboard serving and
 stop/token disposal. Other target integrations and general-assistant quality
 remain unfinished; no physics, score, pillar or falsifier boundary changes.
+Windows smoke exposed an authorized workspace short-path alias being rejected
+as a project symlink; canonical root pinning fixes that without permitting
+symlinked project directories or sources.
 
 ## Product 45 - Native model and runtime provisioning (2026-11-04; adjacent software only)
 

@@ -135,6 +135,9 @@ export class ViteWorkbench {
 
   async initialize() {
     await fs.mkdir(this.projectsRoot, { recursive: true, mode: 0o700 });
+    // Pin the authorized workspace to its canonical spelling, including Windows short paths.
+    this.workspaceRoot = await fs.realpath(this.workspaceRoot);
+    this.projectsRoot = path.join(this.workspaceRoot, 'projects');
     return this.status();
   }
 
