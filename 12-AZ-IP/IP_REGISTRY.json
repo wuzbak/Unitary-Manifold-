@@ -2515,6 +2515,33 @@
       "sha256": "eceaf9a560109f3aa4e97672a34cf8fc76bd044fdd7f4ab57afd08b8cf7be524",
       "size_bytes": 26569,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/core/ui/src/main/java/com/gibbernode/ui/Theme.kt": {
+      "description": "Product 15 Windows runtime integration and contracts: Theme.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "bd835c3fe6b3e9695b60638ac43c24058413853f29a3fa54e2ae0ecf5b99d627",
+      "size_bytes": 1829,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/feature/dashboard/src/main/java/com/gibbernode/feature/dashboard/DashboardScreen.kt": {
+      "description": "Product 15 Windows runtime integration and contracts: DashboardScreen.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "4623ab693e885b1b6a3854b991cde3ec050ebd7e988a132bee3a36716c9c9399",
+      "size_bytes": 18184,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/feature/mode/src/main/java/com/gibbernode/feature/mode/ModeScreen.kt": {
+      "description": "Product 15 Windows runtime integration and contracts: ModeScreen.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "7d2d1c4adac4d8c5cd5bce1ba4e53d0d4c48adbebbd0c4120ac554d58e6f945e",
+      "size_bytes": 39367,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",

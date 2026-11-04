@@ -762,6 +762,19 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `eceaf9a560109f3aa4e97672a34cf8fc76bd044fdd7f4ab57afd08b8cf7be524` | 26569 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs` | `fbcb2382206ebf48a52fb9d852dc9e9377c1debcecebc086305e6ae8a39e0543` | 1915 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/15-pentacorder/core/ui/src/main/java/com/gibbernode/ui/Theme.kt` | `bd835c3fe6b3e9695b60638ac43c24058413853f29a3fa54e2ae0ecf5b99d627` | 1829 |
+| `12-AZ-IP/15-pentacorder/feature/dashboard/src/main/java/com/gibbernode/feature/dashboard/DashboardScreen.kt` | `4623ab693e885b1b6a3854b991cde3ec050ebd7e988a132bee3a36716c9c9399` | 18184 |
+| `12-AZ-IP/15-pentacorder/feature/mode/src/main/java/com/gibbernode/feature/mode/ModeScreen.kt` | `7d2d1c4adac4d8c5cd5bce1ba4e53d0d4c48adbebbd0c4120ac554d58e6f945e` | 39367 |
+
 ## Verification Protocol
 
 To verify any registered asset:
