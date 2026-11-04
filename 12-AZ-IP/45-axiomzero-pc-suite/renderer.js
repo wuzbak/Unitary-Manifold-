@@ -14,6 +14,58 @@ let knowledgeCollectionTotal = 0;
 let harnessState;
 let selectedTaskId;
 let harnessBusy = false;
+let hardwareBusy = false;
+
+function renderHardware(report) {
+  const panel = document.querySelector("#hardware-result");
+  panel.replaceChildren();
+  panel.hidden = false;
+  const lines = [
+    `${report.platform} ${report.architecture} | ${report.cpuModel} | ${report.logicalCpuCount} logical CPUs`,
+    `RAM: ${formatBytes(report.totalMemoryBytes)} total, ${formatBytes(report.availableMemoryBytes)} currently available`,
+    `Free disk: ${formatBytes(report.freeDiskBytes)}. ${report.diskScope}`,
+    `Measured: ${new Date(report.measuredAt).toLocaleString()}`,
+    ...report.gpus.map((gpu) => `Graphics: ${gpu.device || "Unnamed device"} | vendor ${gpu.vendor || gpu.vendorId || "unknown"} | dedicated VRAM unverified`),
+    `Assessment: ${report.assessment.status}. No model selected; training readiness not established.`,
+    ...report.assessment.blockers,
+    report.assessment.explanation,
+    report.privacy
+  ];
+  for (const line of lines) {
+    const item = document.createElement("p");
+    item.textContent = line;
+    panel.append(item);
+  }
+}
+
+async function runHardwareAction(exporting = false) {
+  if (hardwareBusy) return;
+  hardwareBusy = true;
+  const detect = document.querySelector("#hardware-detect");
+  const save = document.querySelector("#hardware-export");
+  const message = document.querySelector("#hardware-message");
+  const hadReport = !document.querySelector("#hardware-result").hidden;
+  detect.disabled = true;
+  save.disabled = true;
+  message.textContent = exporting ? "" : "Awaiting approval for local read-only hardware diagnostics...";
+  let hasReport = hadReport;
+  try {
+    const result = await (exporting ? window.axiomSuite.exportHardware() : window.axiomSuite.detectHardware());
+    if (result.canceled) message.textContent = "Action cancelled. No installation or download was performed.";
+    else if (exporting) message.textContent = "Hardware assessment exported to your chosen file.";
+    else {
+      renderHardware(result.report);
+      hasReport = true;
+      message.textContent = "Assessment complete. Model selection remains gated on measured requirements and a license review.";
+    }
+  } catch (error) {
+    message.textContent = `Hardware assessment failed: ${error.message}`;
+  } finally {
+    hardwareBusy = false;
+    detect.disabled = false;
+    save.disabled = !hasReport;
+  }
+}
 
 function renderHarness(state) {
   harnessState = state;
@@ -443,6 +495,8 @@ async function loadCatalog() {
 }
 
 search.addEventListener("input", render);
+document.querySelector("#hardware-detect").addEventListener("click", () => runHardwareAction());
+document.querySelector("#hardware-export").addEventListener("click", () => runHardwareAction(true));
 document.querySelector("#harness-use-model").addEventListener("change", (event) => {
   const model = document.querySelector("#harness-model");
   model.disabled = !event.target.checked;

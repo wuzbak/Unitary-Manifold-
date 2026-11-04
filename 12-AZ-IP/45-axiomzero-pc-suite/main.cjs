@@ -13,6 +13,7 @@ const { createExclusiveOperation } = require("./lib/operation-lock.cjs");
 const { ResearchHarness, searchCatalog, composeReport } = require("./lib/harness.cjs");
 const { searchEvidence } = require("./lib/worker-search.cjs");
 const { reasonLocally } = require("./lib/local-model.cjs");
+const { detectHardware } = require("./lib/hardware.cjs");
 const {
   MAX_COLLECTIONS,
   buildCollection,
@@ -29,6 +30,8 @@ let settingsPath;
 let knowledgeDirectory;
 let settings;
 let harness;
+let hardwareReport;
+const runHardwareDetection = createExclusiveOperation("Hardware detection is already in progress.");
 const ownsInstance = app.requestSingleInstanceLock();
 if (!ownsInstance) app.quit();
 app.on("second-instance", () => {
@@ -102,6 +105,29 @@ async function openLocalPath(target) {
 }
 
 function registerHandlers() {
+  ipcMain.handle("hardware:detect", () => runHardwareDetection(async () => {
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "question",
+      title: "Detect local model hardware",
+      message: "Inspect RAM, CPU, application-data disk space and graphics diagnostics?",
+      detail: "Read-only local diagnostics. No files, serial numbers or account identity are collected, no network calls or downloads are made, and nothing is installed. GPU diagnostics do not certify VRAM or training capability. Results remain in memory until you explicitly export.",
+      buttons: ["Cancel", "Detect hardware"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    hardwareReport = await detectHardware(app.getPath("userData"), (kind) => app.getGPUInfo(kind));
+    return { canceled: false, report: hardwareReport };
+  }));
+  ipcMain.handle("hardware:export", async () => {
+    if (!hardwareReport) throw new Error("Detect hardware before exporting a report.");
+    const result = await dialog.showSaveDialog(mainWindow, {
+      title: "Export local hardware assessment",
+      defaultPath: "axiomzero-hardware-assessment.json",
+      filters: [{ name: "Hardware assessment", extensions: ["json"] }]
+    });
+    if (result.canceled) return { canceled: true };
+    fs.writeFileSync(result.filePath, `${JSON.stringify(hardwareReport, null, 2)}\n`, { mode: 0o600 });
+    return { canceled: false };
+  });
   ipcMain.handle("harness:state", () => harness.snapshot());
   ipcMain.handle("harness:create", (_event, request) => harness.create(request));
   ipcMain.handle("harness:run-step", async (_event, id) => {

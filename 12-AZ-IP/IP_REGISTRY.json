@@ -827,10 +827,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "7036e1121d574af7d7368f8a6e1c97d1a55feddfd3d429adca23260745418b03",
-      "size_bytes": 9954,
-      "reseal_note": "Refreshed 2026-11-04 with bounded harness policy, local reasoning, persistence and honest release boundaries.",
+      "sha256": "938cd7409aff6a77a4645c6b9e4e38f101b2e5728f1413e9b62e542a73dbde08",
+      "size_bytes": 11163,
+      "reseal_note": "Refreshed 2026-11-04 for hardware-gated model evaluation and explicit training limits.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "7036e1121d574af7d7368f8a6e1c97d1a55feddfd3d429adca23260745418b03",
+          "size_bytes": 9954,
+          "reseal_note": "Previous governed harness seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "115e5fd4c3abce7a6b72d472c9d3795987f1f07b0c1c3ccb988d867b3b40cb2a",
@@ -896,10 +902,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "bb05369b69110679c06d1c435fc8636e7f906a3079057424236224f73bf07b83",
-      "size_bytes": 13920,
-      "reseal_note": "Refreshed 2026-11-04 with native step approvals, durable harness IPC, worker search and single-instance control.",
+      "sha256": "b9c8df20370f643a2ae08cec2a1a0602c681209aee6f2b4a59c15e70d1210966",
+      "size_bytes": 15578,
+      "reseal_note": "Refreshed 2026-11-04 with native-consented hardware detection and explicit export.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "bb05369b69110679c06d1c435fc8636e7f906a3079057424236224f73bf07b83",
+          "size_bytes": 13920,
+          "reseal_note": "Previous governed harness seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "9e8b49881b15f1c30b031d2ae59053aa8b1ec59f513dedff7992e3e05f785837",
@@ -925,10 +937,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "d7f8b376b95b3ab42905adb6aaa0be7126a5eee193e501df6d4040a38b296c15",
-      "size_bytes": 1863,
-      "reseal_note": "Refreshed 2026-11-04 with fixed harness lifecycle, approval and export IPC methods.",
+      "sha256": "f01d8fdd70af5692f06d47244a983dad10025077fcb59a6725c2b8d880d03f00",
+      "size_bytes": 1989,
+      "reseal_note": "Refreshed 2026-11-04 with fixed local hardware diagnostic IPC methods.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "d7f8b376b95b3ab42905adb6aaa0be7126a5eee193e501df6d4040a38b296c15",
+          "size_bytes": 1863,
+          "reseal_note": "Previous governed harness seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a04148a74778f295851039be5607294a77e23d366942315f110e690bed1c8444",
@@ -948,10 +966,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "1b88692d8098c03f8e0fce1d6ba1160cd835b9f51fe9c128d41468b83dff01de",
-      "size_bytes": 21535,
-      "reseal_note": "Refreshed 2026-11-04 with inspectable research plans, result checkpoints, audit and pause/cancel controls.",
+      "sha256": "3c3835ca0f17162e56ab9c66b1f37607a437e8bbe1ea41aab2aa50d2776d94fc",
+      "size_bytes": 24074,
+      "reseal_note": "Refreshed 2026-11-04 with measured hardware screening and visible model-selection blockers.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "1b88692d8098c03f8e0fce1d6ba1160cd835b9f51fe9c128d41468b83dff01de",
+          "size_bytes": 21535,
+          "reseal_note": "Previous governed harness seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "ead18116c5198760c7a2fd6f05902abbab09ae645e57b49c6cb00746dcc1c303",
@@ -983,10 +1007,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "1fd67785e35a91995eaa6e63e351af3c633c1d0c11b02fe6a7f924274bc3a2b2",
-      "size_bytes": 8106,
-      "reseal_note": "Refreshed 2026-11-04 with the governed research control plane and explicit local-model/privacy disclosure.",
+      "sha256": "6a4fe7fa2733434b128ded4799ee4afcbbf57417bfb8e76c00e771faaacdfc0c",
+      "size_bytes": 9066,
+      "reseal_note": "Refreshed 2026-11-04 with hardware readiness and explicit no-automatic-model-selection disclosure.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "1fd67785e35a91995eaa6e63e351af3c633c1d0c11b02fe6a7f924274bc3a2b2",
+          "size_bytes": 8106,
+          "reseal_note": "Previous governed harness seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "2dcb2d7a66c077d2d44769e5bd6d0f9277aaa149b071d4103fd8ab431a018b22",
@@ -1105,10 +1135,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "051e22e8224feffcaf6b470c59413c266312da8e362e17c541e0e82523580ca6",
-      "size_bytes": 5934,
-      "reseal_note": "Refreshed 2026-11-04 to create/cancel a durable research task through the rendered desktop preload bridge.",
+      "sha256": "3ef45c6169f671add9f63240559d07c47a90aa9ecb248a93c1c4b2e970f1b946",
+      "size_bytes": 6562,
+      "reseal_note": "Refreshed 2026-11-04 with hardware UI and preload-capability smoke coverage.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "051e22e8224feffcaf6b470c59413c266312da8e362e17c541e0e82523580ca6",
+          "size_bytes": 5934,
+          "reseal_note": "Previous governed harness seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "e14ae2eff591e8eb9cd54cbea49e67aa4d80869b4e3fbedec775c9f1b4b9b741",
@@ -1217,8 +1253,33 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "730c1c6666bf937c7345ea902b6af52bbef5fa05804486f7abc9a958befc0a78",
-      "size_bytes": 4718
+      "sha256": "ac5df122e1e3f195961f676039f348cbd031536f4d224fa4c96f2bdc9e041ce1",
+      "size_bytes": 5662,
+      "reseal_note": "Refreshed 2026-11-04 with native hardware consent/export IPC regressions.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "730c1c6666bf937c7345ea902b6af52bbef5fa05804486f7abc9a958befc0a78",
+          "size_bytes": 4718,
+          "reseal_note": "Previous governed harness seal."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/hardware.cjs": {
+      "description": "Product 45 read-only hardware measurement and conservative model screening",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "93c871a2ae7b22e08338d8601b01fed4644748015e8cf50015723eb79143c2b2",
+      "size_bytes": 4437
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs": {
+      "description": "Product 45 hardware thresholds, diagnostic privacy and deadline regressions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "d4de72af231acd2d5e9492b37fd8de32178f03514eaa16fa04a91a51b4e4f338",
+      "size_bytes": 4149
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -1660,7 +1721,7 @@
       "version": "0.1.0",
       "trl": "Not assessed",
       "port": "Windows desktop installer / portable",
-      "tests": "70 focused Node tests + Windows install/UI/uninstall and research-plan smoke",
+      "tests": "78 focused Node tests + Windows install/UI/uninstall and research-plan smoke",
       "description": "Offline-first portfolio launcher, local source-cited search and a bounded, human-approved research harness with optional loopback Ollama reasoning; does not bundle every runtime or a live PsiCat model.",
       "link": "45-axiomzero-pc-suite/"
     }

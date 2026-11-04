@@ -49,6 +49,26 @@
         <button id="disconnect-repository" class="quiet" hidden>Disconnect</button>
       </section>
 
+      <section class="harness panel" aria-labelledby="hardware-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LOCAL MODEL SETUP · MEASURE FIRST</p>
+            <h2 id="hardware-heading">PC readiness assessment</h2>
+          </div>
+        </div>
+        <p class="muted">
+          Detect this PC before choosing model weights or training settings. This is a
+          read-only assessment, not a model installer or proof of GPU compatibility.
+          No model is automatically selected, downloaded or trained.
+        </p>
+        <div class="harness-controls">
+          <button id="hardware-detect" class="primary">Detect this PC</button>
+          <button id="hardware-export" disabled>Export assessment</button>
+        </div>
+        <p id="hardware-message" class="message" role="status" aria-live="polite"></p>
+        <div id="hardware-result" class="harness-detail" hidden></div>
+      </section>
+
       <section class="harness panel" aria-labelledby="harness-heading">
         <div class="section-heading">
           <div>

@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8437,
+  "file_count": 8439,
   "lanes": {
-    "az_ip": 2584,
+    "az_ip": 2586,
     "compactification": 9,
     "other": 5394,
     "psicat_articles": 354,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2584,
+    "12-AZ-IP": 2586,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2733,6 +2733,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/index.html",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/catalog.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/evidence-worker.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/hardware.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/knowledge.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs",
@@ -2750,6 +2751,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1",
       "12-AZ-IP/45-axiomzero-pc-suite/styles.css",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs",
@@ -21575,6 +21577,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/hardware.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21688,6 +21697,13 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",

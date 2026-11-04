@@ -1,5 +1,16 @@
 # Wave Changelog
 
+## Product 45 - Hardware-gated model preparation (2026-11-04; adjacent software only)
+
+Added native-consented CPU/RAM/application-data disk/GPU diagnostics with a
+deadline, visible screening blockers and explicit local export. No model is
+selected or downloaded automatically; GPU VRAM/compute and training readiness
+remain unverified. Identifiers/account metadata are not collected. This is a
+prerequisite for choosing an actual licensed assistant model, not a claim
+that experimental Product 43 training already produces production PsiCat
+weights or that every portfolio runtime has a Windows installer.
+No physics label, pillar, score or falsification boundary changed.
+
 ## Product 45 - Governed desktop research harness (2026-11-04; adjacent software only)
 
 Added a fixed read-only research plan over the bundled portfolio and local

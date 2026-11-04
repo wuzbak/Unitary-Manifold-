@@ -20,6 +20,7 @@ async function desktop(t, { corrupt = false } = {}) {
   app.whenReady = () => Promise.resolve();
   app.getPath = () => directory;
   app.getVersion = () => "0.1.0";
+  app.getGPUInfo = async () => ({ gpuDevice: [{ vendorId: 4318, deviceId: 1234 }] });
   app.quit = () => { app.emit("before-quit"); };
   class BrowserWindow {
     constructor(options) {
@@ -99,4 +100,20 @@ test("invalid checkpoint produces an explicit startup error instead of silent re
   assert.equal(handlers.size, 0);
   assert.equal(errors.length, 1);
   assert.equal(errors[0].title, "AxiomZero PC Suite could not start");
+});
+
+test("hardware diagnostics require native consent and export only after detection", async (t) => {
+  const { invoke, dialog, approvals, directory } = await desktop(t);
+  await assert.rejects(invoke("hardware:export"), /Detect hardware/);
+  assert.equal((await invoke("hardware:detect")).canceled, true);
+  dialog.response = 1;
+  const result = await invoke("hardware:detect");
+  assert.equal(result.canceled, false);
+  assert.equal(result.report.assessment.modelSelected, false);
+  assert.equal(approvals.at(-1).defaultId, 0);
+  assert.equal(approvals.at(-1).title, "Detect local model hardware");
+  await invoke("hardware:export");
+  const exported = JSON.parse(fs.readFileSync(path.join(directory, "export.json"), "utf8"));
+  assert.equal(exported.schema, "axiomzero-hardware-assessment-v1");
+  assert.equal(exported.assessment.trainingReady, false);
 });

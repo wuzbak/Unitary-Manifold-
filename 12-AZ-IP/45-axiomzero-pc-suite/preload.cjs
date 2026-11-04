@@ -12,6 +12,8 @@ contextBridge.exposeInMainWorld("axiomSuite", Object.freeze({
   openLegalNotices: () => ipcRenderer.invoke("suite:open-legal-notices"),
   openIpCategory: (category) => ipcRenderer.invoke("suite:open-ip-category", category),
   openWorkspace: () => ipcRenderer.invoke("suite:open-workspace"),
+  detectHardware: () => ipcRenderer.invoke("hardware:detect"),
+  exportHardware: () => ipcRenderer.invoke("hardware:export"),
   getHarness: () => ipcRenderer.invoke("harness:state"),
   createHarnessTask: (request) => ipcRenderer.invoke("harness:create", request),
   runHarnessStep: (id) => ipcRenderer.invoke("harness:run-step", id),

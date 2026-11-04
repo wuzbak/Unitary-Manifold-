@@ -130,6 +130,27 @@ that every portfolio product is installed or Windows-compatible.
 
 ## Advanced harness control
 
+### Hardware assessment before model selection
+
+Use **Detect this PC** in **PC readiness assessment**. After native consent,
+the suite measures CPU, total/available RAM, free space on its application-data
+volume, and Electron's graphics-device diagnostics. No shell commands, network
+requests, model downloads or training run. Detection has a 15-second deadline;
+failures are surfaced. No hostname, account name or device serial is collected.
+Results stay in memory until explicitly exported as JSON.
+
+Conservative screening checks x64, at least 8 GiB total RAM, 4 GiB currently
+available RAM and 10 GiB free disk. Meeting these thresholds only permits
+**model evaluation**, not automatic selection or certification. Graphics-device
+identifiers are not reliable measurements of dedicated VRAM or CUDA capability;
+these remain explicitly unverified. Training readiness is never inferred.
+The exact licensed model and its measured memory/latency/context requirements
+must still be approved before any provisioning. No deployment-quality PsiCat
+weights have been bundled. Product 43's existing causal character-level
+train/resume/sample workflow is experimental, not a production assistant.
+
+### Task execution
+
 The **Research control plane** is an executable, read-only research harness,
 not just a prompt wrapper. Its HILS-aligned default-deny policy is independent
 of physics claims. Create a goal, inspect the fixed dependency-ordered plan,

@@ -405,6 +405,25 @@ Resealed prior assets retain their previous values in registry reseal history.
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs` | `743755f1c54891a1511180b655144a42446791cd8eeed1a33936457d00768614` | 9050 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `730c1c6666bf937c7345ea902b6af52bbef5fa05804486f7abc9a958befc0a78` | 4718 |
 
+### Product 45 hardware-gated model preparation reseal - 2026-11-04
+
+Added local native-consented hardware measurement, conservative screening,
+visible uncertainty and explicit export. No automatic model installation,
+GPU compute certification or training claim. Prior seals remain in registry
+history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `938cd7409aff6a77a4645c6b9e4e38f101b2e5728f1413e9b62e542a73dbde08` | 11163 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `b9c8df20370f643a2ae08cec2a1a0602c681209aee6f2b4a59c15e70d1210966` | 15578 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `f01d8fdd70af5692f06d47244a983dad10025077fcb59a6725c2b8d880d03f00` | 1989 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `3c3835ca0f17162e56ab9c66b1f37607a437e8bbe1ea41aab2aa50d2776d94fc` | 24074 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `6a4fe7fa2733434b128ded4799ee4afcbbf57417bfb8e76c00e771faaacdfc0c` | 9066 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `3ef45c6169f671add9f63240559d07c47a90aa9ecb248a93c1c4b2e970f1b946` | 6562 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `ac5df122e1e3f195961f676039f348cbd031536f4d224fa4c96f2bdc9e041ce1` | 5662 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/hardware.cjs` | `93c871a2ae7b22e08338d8601b01fed4644748015e8cf50015723eb79143c2b2` | 4437 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs` | `d4de72af231acd2d5e9492b37fd8de32178f03514eaa16fa04a91a51b4e4f338` | 4149 |
+
 ## Verification Protocol
 
 To verify any registered asset:
