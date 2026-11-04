@@ -211,7 +211,7 @@ class MainViewModel @Inject constructor(
     private suspend fun broadcastStandard(text: String, mode: TransmitMode) {
         val debugMode = _state.value.debugMode
         val fragments = if (debugMode) {
-            AirGapBridge.encodeMessage(text) { chunk -> "DBG:$chunk" }
+            AirGapBridge.encodeMessage(text, encrypt = { chunk -> "DBG:$chunk" })
         } else {
             AirGapBridge.encodeMessage(text, payloadCipher::encrypt)
         }

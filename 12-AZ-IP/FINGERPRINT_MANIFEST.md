@@ -719,6 +719,17 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/15-pentacorder/gradle/libs.versions.toml` | `e2f9feed22f79a891aa9050faabf281486368f5e464aaf842891ed41f45c28af` | 4134 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py` | `992820f107886505e97c017fb32a36c16b9c4c05c02ebbb4dcf89a4e49f4e249` | 1222 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/14-sdam/app/app/src/main/java/com/sdam/ui/MainViewModel.kt` | `cdb7a5e9eca0f3ee9424e77f5176203bbdc4f0b5ee67956a764efae81466c2e4` | 22533 |
+
 ## Verification Protocol
 
 To verify any registered asset:

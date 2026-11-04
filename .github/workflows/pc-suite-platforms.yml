@@ -17,6 +17,14 @@ jobs:
   android:
     runs-on: windows-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: android-sdam
+            project: 12-AZ-IP/14-sdam/app
+          - target: android-pentacorder
+            project: 12-AZ-IP/15-pentacorder
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -24,23 +32,24 @@ jobs:
           distribution: temurin
           java-version: "17"
       - name: Build actual Android applications with verified Gradle distribution
+        env:
+          ANDROID_PROJECT: ${{ matrix.project }}
+          ANDROID_TARGET: ${{ matrix.target }}
         run: |
           $checksum = (Invoke-RestMethod -Uri "https://services.gradle.org/distributions/gradle-8.6-bin.zip.sha256" -TimeoutSec 60).Trim()
           if ($checksum -cnotmatch "^[a-f0-9]{64}$") { throw "Invalid official Gradle checksum response." }
-          foreach ($project in @("12-AZ-IP/14-sdam/app", "12-AZ-IP/15-pentacorder")) {
-            Add-Content "$project/gradle/wrapper/gradle-wrapper.properties" "`ndistributionSha256Sum=$checksum" -Encoding ascii
-            Push-Location $project
-            try {
-              .\gradlew.bat --no-daemon assembleDebug
-              if ($LASTEXITCODE -ne 0) { throw "Actual Android build failed: $project" }
-            } finally { Pop-Location }
-          }
+          $project = $env:ANDROID_PROJECT
+          Add-Content "$project/gradle/wrapper/gradle-wrapper.properties" "`ndistributionSha256Sum=$checksum" -Encoding ascii
+          Push-Location $project
+          try {
+            .\gradlew.bat --no-daemon assembleDebug
+            if ($LASTEXITCODE -ne 0) { throw "Actual Android build failed: $project" }
+          } finally { Pop-Location }
           New-Item -ItemType Directory -Force platform-output | Out-Null
-          Copy-Item 12-AZ-IP/14-sdam/app/app/build/outputs/apk/debug/app-debug.apk platform-output/android-sdam.apk
-          Copy-Item 12-AZ-IP/15-pentacorder/app/build/outputs/apk/debug/app-debug.apk platform-output/android-pentacorder.apk
+          Copy-Item "$project/app/build/outputs/apk/debug/app-debug.apk" "platform-output/$($env:ANDROID_TARGET).apk"
       - uses: actions/upload-artifact@v4
         with:
-          name: pc-suite-android-artifacts
+          name: pc-suite-${{ matrix.target }}-artifact
           path: platform-output/*.apk
           if-no-files-found: error
 
@@ -66,7 +75,11 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: pc-suite-android-artifacts
+          name: pc-suite-android-sdam-artifact
+          path: platform-output
+      - uses: actions/download-artifact@v4
+        with:
+          name: pc-suite-android-pentacorder-artifact
           path: platform-output
       - uses: actions/download-artifact@v4
         with:
