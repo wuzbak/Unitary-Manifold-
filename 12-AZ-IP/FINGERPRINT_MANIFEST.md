@@ -489,6 +489,19 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/stage_portfolio.cjs` | `4322a6ade32fbc4b1b4523f612dabfdf0d1962377dfe73d8117159af80363ad6` | 2366 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs` | `e27a591407934e885c3f5d86f5cf953591576f7b04f6df1e51a1447b3b2489b3` | 2626 |
 
+### Product 45 native model and runtime provisioning reseal - 2026-11-04
+
+Registered a genuinely trained experimental native model, offline inference/local training,
+consent-gated Python dependency provisioning, checksum-receipted bundled source and reviewed
+loopback lifecycle. Non-Windows/unsupported targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `f7e136b3c568da7bb75218473cb584996c289c0ccaada0c3feb0584a3ba0fd6d` | 15015 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/build_native.py` | `098d30b57417f3f65858929730c780a9899311a3aa51050886c3a5c0990fb24a` | 3197 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `6a1a410d8b11525aec965ede1caadee518cafde380c50c5dc4f5ad51265f2d92` | 7379 |
+
 ## Verification Protocol
 
 To verify any registered asset:

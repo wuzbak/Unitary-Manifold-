@@ -60,7 +60,7 @@ def main() -> None:
     (output / "seed-receipt.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     subprocess.run([
         sys.executable, "-m", "PyInstaller", "--noconfirm", "--clean", "--onedir",
-        "--name", "PsiCatCore", "--paths", str(PRODUCT43), "--collect-all", "numpy",
+        "--name", "PsiCatCore", "--paths", str(PRODUCT43),
         "--distpath", str(output), "--workpath", str(SUITE / "build/pyinstaller"),
         "--specpath", str(SUITE / "build"), str(SUITE / "scripts/psicat_core.py"),
     ], check=True)

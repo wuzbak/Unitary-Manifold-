@@ -140,6 +140,8 @@ and portable executable as a GitHub Release. Builds are currently
 update service is included. The configured artifacts target Windows x64;
 ARM64 builds and installer upgrades remain unverified. Per-user x64 install,
 rendered UI, uninstall and portable launch are exercised by the Windows workflow.
+The portable executable self-extracts its bundled resources on launch; use
+the installed NSIS application for regular work to avoid repeated extraction.
 
 To run from source:
 

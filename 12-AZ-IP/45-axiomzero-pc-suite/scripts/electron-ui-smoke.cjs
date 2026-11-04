@@ -8,7 +8,7 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) {
 async function waitForPage() {
   const endpoint = `http://127.0.0.1:${port}/json/list`;
   let lastError;
-  for (let attempt = 0; attempt < 60; attempt += 1) {
+  for (let attempt = 0; attempt < 360; attempt += 1) {
     try {
       const response = await fetch(endpoint);
       if (response.ok) {

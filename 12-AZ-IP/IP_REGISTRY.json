@@ -839,10 +839,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "2cdd03b339912a7c86aaa1eb9597faf3ba604a90a84ce288cf83de2aa997046a",
-      "size_bytes": 14862,
+      "sha256": "f7e136b3c568da7bb75218473cb584996c289c0ccaada0c3feb0584a3ba0fd6d",
+      "size_bytes": 15015,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "2cdd03b339912a7c86aaa1eb9597faf3ba604a90a84ce288cf83de2aa997046a",
+          "size_bytes": 14862,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "585abc2154c4ca8f4b6319b3367fc6c4f2afddfdbd3110cbf2c52728e47631e9",
@@ -1195,10 +1201,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "582ce62b07273e5b1f58edaa715304852f6dcf2d8c53572e7a89b5d93189fd2e",
-      "size_bytes": 7378,
+      "sha256": "6a1a410d8b11525aec965ede1caadee518cafde380c50c5dc4f5ad51265f2d92",
+      "size_bytes": 7379,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "582ce62b07273e5b1f58edaa715304852f6dcf2d8c53572e7a89b5d93189fd2e",
+          "size_bytes": 7378,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "3ef45c6169f671add9f63240559d07c47a90aa9ecb248a93c1c4b2e970f1b946",
@@ -1434,10 +1446,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "efd2b84bfaff5a16b4f276891a86896d6350ea26983045125bebdc3d9fb21d06",
-      "size_bytes": 3223,
+      "sha256": "098d30b57417f3f65858929730c780a9899311a3aa51050886c3a5c0990fb24a",
+      "size_bytes": 3197,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "efd2b84bfaff5a16b4f276891a86896d6350ea26983045125bebdc3d9fb21d06",
+          "size_bytes": 3223,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "74d20c5f2a66f264d5a59489b2602c441a6d0cd9603810060f7f031e2de4707c",
