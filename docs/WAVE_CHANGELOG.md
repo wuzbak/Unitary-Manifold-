@@ -1,5 +1,14 @@
 # Wave Changelog
 
+## PsiCat frozen-checkpoint evaluation (2026-11-04; adjacent software only)
+
+Added operator-selected independent-text evaluation without weight/tokenizer
+updates. Byte-identical training corpora are refused; unknown vocabulary is
+reported as blocked, not silently removed. Bounded sequential forward passes
+report frozen character accuracy/cross-entropy. Different corpus hashes do
+not prove absence of training overlap or assistant competence; no promotion
+of research checkpoints, physical information-flow or superiority claim.
+
 ## PsiCat own-model corpus research (2026-11-04; adjacent software only)
 
 Extended Product 43's real causal character-model trainer with a matched

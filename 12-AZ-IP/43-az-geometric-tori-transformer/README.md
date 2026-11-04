@@ -279,6 +279,22 @@ corpus/assistant evaluations and measured hardware suitability.
 
 ### Schema v1 and interoperability
 
+For a **frozen-checkpoint evaluation** on separately selected text:
+
+```powershell
+python 12-AZ-IP/43-az-geometric-tori-transformer/run.py evaluate-text `
+  --checkpoint local-model.npz --text-file independent-evaluation.txt --max-windows 64
+```
+
+This never updates weights or the tokenizer. It rejects the byte-identical
+training corpus and reports unrepresentable characters as
+`blocked-vocabulary` (CLI exit 2), rather than silently dropping them or
+reporting a success-shaped score. Completed evaluations report character
+accuracy and cross-entropy over bounded, evenly spaced windows, one forward
+pass at a time. Different hashes alone cannot establish that documents are
+independent: the operator must exclude duplicates and training overlap.
+This evaluates character prediction, not question-answering or agent safety.
+
 The file is a standard ZIP-based NumPy **NPZ** archive of NPY arrays, readable
 with `numpy.load(path, allow_pickle=False)`. Its *application schema* is
 product-specific, not a PyTorch, safetensors, or cross-framework checkpoint

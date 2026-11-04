@@ -19,7 +19,7 @@ from az_tori_transformer import (
     run_toroidal_copy_demo,
     train_text_file,
 )
-from az_tori_transformer.text_workflow import run_text_ablation
+from az_tori_transformer.text_workflow import evaluate_text_file, run_text_ablation
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -61,6 +61,10 @@ def main(argv: list[str] | None = None) -> int:
     compare_cmd.add_argument("--heads", type=int, default=4)
     compare_cmd.add_argument("--layers", type=int, default=2)
     compare_cmd.add_argument("--validation-fraction", type=float, default=0.1)
+    evaluate_cmd = sub.add_parser("evaluate-text", help="Evaluate a frozen checkpoint on separately selected text")
+    evaluate_cmd.add_argument("--checkpoint", required=True)
+    evaluate_cmd.add_argument("--text-file", required=True)
+    evaluate_cmd.add_argument("--max-windows", type=int, default=64)
     generate_cmd = sub.add_parser("generate", help="Sample text from a trained character-model checkpoint")
     generate_cmd.add_argument("--checkpoint", required=True)
     generate_cmd.add_argument("--prompt", required=True)
@@ -91,6 +95,14 @@ def main(argv: list[str] | None = None) -> int:
             parser.error(str(exc))
         print(json.dumps(report, indent=2))
         return 0
+
+    if args.command == "evaluate-text":
+        try:
+            report = evaluate_text_file(args.checkpoint, args.text_file, max_windows=args.max_windows)
+        except (OSError, ValueError, FloatingPointError) as exc:
+            parser.error(str(exc))
+        print(json.dumps(report, indent=2))
+        return 0 if report["status"] == "completed" else 2
 
     if args.command == "compare-text":
         try:

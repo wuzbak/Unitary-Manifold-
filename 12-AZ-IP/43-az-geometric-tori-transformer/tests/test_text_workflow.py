@@ -227,3 +227,55 @@ def test_comparison_requires_holdout_and_cli_runs(corpus_and_checkpoint, tmp_pat
     report = json.loads(capsys.readouterr().out)
     assert report["status"] == "completed"
     assert len(report["arms"]) == 2
+
+
+def test_frozen_independent_evaluation_is_reproducible_without_weight_updates(
+    corpus_and_checkpoint, tmp_path, capsys
+):
+    corpus, checkpoint = corpus_and_checkpoint
+    train_text_file(
+        corpus, checkpoint, context_length=4, steps=2, batch_size=2,
+        dim=8, num_heads=2, num_layers=1,
+    )
+    before = checkpoint.read_bytes()
+    separate = tmp_path / "evaluation.txt"
+    separate.write_text("bacab\n" * 20, encoding="utf-8")
+    report = text_workflow.evaluate_text_file(checkpoint, separate, max_windows=3)
+    assert report["status"] == "completed"
+    assert report["weights_updated"] is False
+    assert report["windows_evaluated"] == 3
+    assert report["unknown_character_occurrences"] == 0
+    assert 0 <= report["character_accuracy"] <= 1
+    assert report["cross_entropy_nats"] > 0
+    assert text_workflow.evaluate_text_file(checkpoint, separate, max_windows=3) == report
+    assert checkpoint.read_bytes() == before
+    assert main([
+        "evaluate-text", "--checkpoint", str(checkpoint),
+        "--text-file", str(separate), "--max-windows", "3",
+    ]) == 0
+    assert json.loads(capsys.readouterr().out) == report
+
+
+def test_independent_evaluation_rejects_training_file_and_reports_unseen_vocabulary(
+    corpus_and_checkpoint, tmp_path, capsys
+):
+    corpus, checkpoint = corpus_and_checkpoint
+    train_text_file(
+        corpus, checkpoint, context_length=4, steps=1, batch_size=2,
+        dim=8, num_heads=2, num_layers=1,
+    )
+    with pytest.raises(ValueError, match="different from the training corpus"):
+        text_workflow.evaluate_text_file(checkpoint, corpus)
+    separate = tmp_path / "evaluation.txt"
+    separate.write_text("unknown z" * 20, encoding="utf-8")
+    report = text_workflow.evaluate_text_file(checkpoint, separate)
+    assert report["status"] == "blocked-vocabulary"
+    assert report["unknown_character_count"] > 0
+    assert report["unknown_character_occurrences"] > 0
+    assert "cross_entropy_nats" not in report
+    assert main([
+        "evaluate-text", "--checkpoint", str(checkpoint), "--text-file", str(separate),
+    ]) == 2
+    assert json.loads(capsys.readouterr().out)["status"] == "blocked-vocabulary"
+    with pytest.raises(ValueError, match="max_windows"):
+        text_workflow.evaluate_text_file(checkpoint, separate, max_windows=0)

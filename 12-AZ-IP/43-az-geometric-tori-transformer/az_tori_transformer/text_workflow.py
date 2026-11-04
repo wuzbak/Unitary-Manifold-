@@ -19,7 +19,7 @@ from .model import GeometricToriTransformer, GeometricToriTransformerConfig
 from .optim import Adam
 from .tensor import cross_entropy
 
-__all__ = ["train_text_file", "generate_text", "run_text_ablation"]
+__all__ = ["train_text_file", "generate_text", "run_text_ablation", "evaluate_text_file"]
 
 MAX_TEXT_BYTES = 8 * 1024 * 1024
 MAX_CONTEXT_LENGTH = 512
@@ -357,6 +357,85 @@ def run_text_ablation(
         receipt["error"] = str(error)
         persist()
         raise
+
+
+def evaluate_text_file(
+    checkpoint_path: str | Path,
+    text_path: str | Path,
+    *,
+    max_windows: int = 64,
+) -> dict[str, Any]:
+    """Measure a frozen checkpoint on explicitly selected, separate text."""
+    max_windows = _bounded_int("max_windows", max_windows, 1, 256)
+    text, dataset_hash, corpus_bytes = _read_corpus(text_path)
+    checkpoint = Path(checkpoint_path)
+    loaded = load_checkpoint(checkpoint)
+    vocabulary = loaded.metadata.get("vocabulary")
+    if not loaded.model.cfg.causal or loaded.metadata.get("task") != TASK_NAME:
+        raise ValueError("checkpoint is not a causal character-language-model checkpoint")
+    if (
+        not isinstance(vocabulary, list) or not vocabulary
+        or any(type(char) is not str or len(char) != 1 for char in vocabulary)
+        or len(set(vocabulary)) != len(vocabulary)
+        or len(vocabulary) != loaded.model.cfg.vocab_size
+    ):
+        raise ValueError("checkpoint character vocabulary does not match model configuration")
+    context = loaded.metadata.get("context_length")
+    if type(context) is not int or not 2 <= context <= MAX_CONTEXT_LENGTH:
+        raise ValueError("checkpoint has an invalid context length")
+    if dataset_hash == loaded.metadata.get("dataset_sha256"):
+        raise ValueError("independent evaluation requires text different from the training corpus")
+    unknown = sorted(set(text) - set(vocabulary))
+    unknown_set = set(unknown)
+    report: dict[str, Any] = {
+        "schema": "psicat-frozen-text-evaluation-v1",
+        "epistemic_label": "UNVERIFIED",
+        "dataset_sha256": dataset_hash,
+        "training_dataset_sha256": loaded.metadata.get("dataset_sha256"),
+        "corpus_bytes": corpus_bytes,
+        "corpus_characters": len(text),
+        "positional_mode": loaded.model.cfg.positional_mode,
+        "parameter_count": loaded.model.num_parameters(),
+        "unknown_character_count": len(unknown),
+        "unknown_character_occurrences": sum(char in unknown_set for char in text),
+        "scope": "Frozen character prediction on operator-selected text. Different file hashes do not prove document independence or absence of training overlap. Not an assistant, tool-use or physics benchmark.",
+    }
+    if unknown:
+        report.update({
+            "status": "blocked-vocabulary",
+            "unknown_characters": unknown[:64],
+            "omitted_unknown_characters": max(0, len(unknown) - 64),
+        })
+        return report
+    cfg = loaded.model.cfg
+    attention_cells = context**2 * cfg.num_heads * cfg.num_layers
+    if attention_cells > MAX_EVALUATION_ATTENTION_CELLS:
+        raise ValueError("checkpoint exceeds the evaluation attention budget")
+    if context * cfg.dim * cfg.num_layers > MAX_TRAINING_ACTIVATIONS:
+        raise ValueError("checkpoint exceeds the evaluation activation budget")
+    mapping = {char: index for index, char in enumerate(vocabulary)}
+    tokens = np.fromiter((mapping[char] for char in text), dtype=np.int64, count=len(text))
+    inputs, targets = _windows(tokens, context, count=max_windows)
+    losses, accuracies = [], []
+    # One window per forward pass keeps peak evaluation memory independent of sample count.
+    for index in range(len(inputs)):
+        loss, accuracy = _loss_and_accuracy(
+            loaded.model, inputs[index:index + 1], targets[index:index + 1]
+        )
+        if not math.isfinite(loss) or not math.isfinite(accuracy):
+            raise FloatingPointError("evaluation metrics became non-finite")
+        losses.append(loss)
+        accuracies.append(accuracy)
+    report.update({
+        "status": "completed",
+        "windows_evaluated": len(inputs),
+        "context_length": context,
+        "cross_entropy_nats": float(np.mean(losses)),
+        "character_accuracy": float(np.mean(accuracies)),
+        "sampling": "At most max_windows evenly spaced windows; overlapping contexts are possible.",
+        "weights_updated": False,
+    })
+    return report
 
 
 def generate_text(
