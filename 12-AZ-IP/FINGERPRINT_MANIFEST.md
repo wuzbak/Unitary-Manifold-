@@ -587,6 +587,20 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `78495ff889cb130922eda31b891fffc9f5db07398d591a912d566db244a55d86` | 17329 |
 | `12-AZ-IP/README.md` | `9521202c8a6ada31f09667171d68f3b736bcfd43cd89705d06045a44c6addaa8` | 21908 |
 
+### Product 45 native model and runtime provisioning reseal - 2026-11-04
+
+Registered a genuinely trained experimental native model, offline inference/local training,
+consent-gated Python dependency provisioning, checksum-receipted bundled source and reviewed
+loopback lifecycle. Non-Windows/unsupported targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/27-psicat-vite-web-workbench/README.md` | `0ed1d307fa0af0a781f0766f09c1497056b8726a4bc943de31ec875bfe39fbf9` | 5642 |
+| `12-AZ-IP/27-psicat-vite-web-workbench/workbench.js` | `d342ddd281a887f87159d8866b56f374306e3ca47d7074543aa87a88adebd58e` | 14054 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `5fe7c4137291f0065faf0e5f1c3aac2741ac0c67f17802c12954048e763a2e6e` | 6421 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `ac15ad00f7810c3f8fbbeee4f36545628bb1781962116f0d27e5eb6abe2e6203` | 17092 |
+
 ## Verification Protocol
 
 To verify any registered asset:

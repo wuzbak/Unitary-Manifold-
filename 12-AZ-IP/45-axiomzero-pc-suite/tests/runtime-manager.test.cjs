@@ -250,73 +250,6 @@ test("Node workbench installs the lockfile, builds the actual dashboard and reta
         return child;
       }
     });
-    test("browser provisioning verifies locked Windows Electron, Python sidecars and owned IPC cleanup", async (t) => {
-      const { root } = fixture(t);
-      const folder = "12-AZ-IP/24-psicat-web-browser/";
-      const target = path.join(root, folder);
-      fs.mkdirSync(path.join(target, "desktop"), { recursive: true });
-      fs.writeFileSync(path.join(target, "desktop/main.js"), "");
-      fs.writeFileSync(path.join(target, "package.json"), JSON.stringify({ main: "desktop/main.js", devDependencies: { electron: "44.10.2" } }));
-      fs.writeFileSync(path.join(target, "package-lock.json"), "{}");
-      const node = path.join(root, "node.exe");
-      const calls = [];
-      let notifications = 0;
-      const manager = createRuntimeManager({
-        entries: [{ id: "24", installMode: "desktop", dependencyManifest: `${folder}package.json`, productFolder: folder, entrypoint: `${folder}desktop/main.js` }],
-        sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32",
-        onStateChange: () => { notifications++; },
-        nodeToolchain: () => ({ node, npm: path.join(root, "npm-cli.js") }),
-        execute: async (_exe, args) => {
-          calls.push(args);
-          if (args.includes("ci")) {
-            fs.mkdirSync(path.join(target, "node_modules/electron/dist"), { recursive: true });
-            fs.writeFileSync(path.join(target, "node_modules/electron/install.js"), "");
-          }
-          if (args[0].endsWith("install.js")) {
-            for (const [name, value] of [["path.txt", "electron.exe"], ["dist/version", "44.10.2"], ["dist/electron.exe", "Windows browser"]]) {
-              fs.writeFileSync(path.join(target, "node_modules/electron", name), value);
-            }
-          }
-          if (args.includes("venv")) {
-            fs.mkdirSync(path.join(args.at(-1), "Scripts"), { recursive: true });
-            fs.writeFileSync(path.join(args.at(-1), "Scripts/python.exe"), "Python");
-          }
-        },
-        spawnProcess(exe, args, options) {
-          assert.ok(exe.endsWith("electron.exe"));
-          assert.deepEqual(args, [path.resolve(target)]);
-          assert.equal(options.env.PSICAT_BROWSER_SUITE_IPC, "1");
-          assert.ok(options.env.PSICAT_BROWSER_PYTHON.endsWith("environments/24/Scripts/python.exe"));
-          assert.equal(options.env.PSICAT_BROWSER_DISABLE_NAVIGATOR, "0");
-          assert.deepEqual(options.stdio, ["ignore", "pipe", "pipe", "ipc"]);
-          const child = new EventEmitter();
-          child.stdout = new PassThrough(); child.stderr = new PassThrough();
-          child.send = (message, callback) => {
-            callback();
-            queueMicrotask(() => {
-              child.emit("message", { protocol: message.protocol, product_id: 24, type: "stopped", request_id: message.request_id });
-              child.emit("close", 0);
-            });
-          };
-          queueMicrotask(() => child.emit("message", { protocol: "psicat-browser-lifecycle-v1", product_id: 24,
-            type: "ready", sync: { status: "ready" }, navigator: { status: "ready" } }));
-          return child;
-        }
-      });
-      const receipt = await manager.install("24");
-      assert.equal(receipt.status, "installed");
-      assert.equal(receipt.electronSha256.length, 64);
-      assert.equal(calls.length, 6);
-      assert.ok(calls[1].includes("--ignore-scripts"));
-      assert.equal(manager.list()[0].managedDesktop, true);
-      await manager.start("24");
-      assert.throws(() => manager.access("24"), /taskbar/);
-      assert.equal((await manager.stop("24")).forced, false);
-      assert.equal(manager.list()[0].running, false);
-      assert.equal(notifications, 1);
-      fs.writeFileSync(path.join(target, "node_modules/electron/dist/electron.exe"), "changed");
-      await assert.rejects(manager.start("24"), /browser binary/);
-    });
     t.after(() => manager.stopAll());
     const receipt = await manager.install("27");
     assert.equal(calls.length, 3);
@@ -331,4 +264,71 @@ test("Node workbench installs the lockfile, builds the actual dashboard and reta
     assert.throws(() => manager.access("27"), /Start/);
     fs.writeFileSync(path.join(target, "package-lock.json"), "changed");
     await assert.rejects(manager.start("27"), /lockfile/);
+});
+test("browser provisioning verifies locked Windows Electron, Python sidecars and owned IPC cleanup", async (t) => {
+  const { root } = fixture(t);
+  const folder = "12-AZ-IP/24-psicat-web-browser/";
+  const target = path.join(root, folder);
+  fs.mkdirSync(path.join(target, "desktop"), { recursive: true });
+  fs.writeFileSync(path.join(target, "desktop/main.js"), "");
+  fs.writeFileSync(path.join(target, "package.json"), JSON.stringify({ main: "desktop/main.js", devDependencies: { electron: "44.10.2" } }));
+  fs.writeFileSync(path.join(target, "package-lock.json"), "{}");
+  const node = path.join(root, "node.exe");
+  const calls = [];
+  let notifications = 0;
+  const manager = createRuntimeManager({
+    entries: [{ id: "24", installMode: "desktop", dependencyManifest: `${folder}package.json`, productFolder: folder, entrypoint: `${folder}desktop/main.js` }],
+    sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32",
+    onStateChange: () => { notifications++; },
+    nodeToolchain: () => ({ node, npm: path.join(root, "npm-cli.js") }),
+    execute: async (_exe, args) => {
+      calls.push(args);
+      if (args.includes("ci")) {
+        fs.mkdirSync(path.join(target, "node_modules/electron/dist"), { recursive: true });
+        fs.writeFileSync(path.join(target, "node_modules/electron/install.js"), "");
+      }
+      if (args[0].endsWith("install.js")) {
+        for (const [name, value] of [["path.txt", "electron.exe"], ["dist/version", "44.10.2"], ["dist/electron.exe", "Windows browser"]]) {
+          fs.writeFileSync(path.join(target, "node_modules/electron", name), value);
+        }
+      }
+      if (args.includes("venv")) {
+        fs.mkdirSync(path.join(args.at(-1), "Scripts"), { recursive: true });
+        fs.writeFileSync(path.join(args.at(-1), "Scripts/python.exe"), "Python");
+      }
+    },
+    spawnProcess(exe, args, options) {
+      assert.ok(exe.endsWith("electron.exe"));
+      assert.deepEqual(args, [fs.realpathSync(target)]);
+      assert.equal(options.env.PSICAT_BROWSER_SUITE_IPC, "1");
+      assert.equal(options.env.PSICAT_BROWSER_PYTHON, path.join(root, "user", "environments", "24", "Scripts", "python.exe"));
+      assert.equal(options.env.PSICAT_BROWSER_DISABLE_NAVIGATOR, "0");
+      assert.deepEqual(options.stdio, ["ignore", "pipe", "pipe", "ipc"]);
+      const child = new EventEmitter();
+      child.stdout = new PassThrough(); child.stderr = new PassThrough();
+      child.send = (message, callback) => {
+        callback();
+        queueMicrotask(() => {
+          child.emit("message", { protocol: message.protocol, product_id: 24, type: "stopped", request_id: message.request_id });
+          child.emit("close", 0);
+        });
+      };
+      queueMicrotask(() => child.emit("message", { protocol: "psicat-browser-lifecycle-v1", product_id: 24,
+        type: "ready", sync: { status: "ready" }, navigator: { status: "ready" } }));
+      return child;
+    }
+  });
+  const receipt = await manager.install("24");
+  assert.equal(receipt.status, "installed");
+  assert.equal(receipt.electronSha256.length, 64);
+  assert.equal(calls.length, 6);
+  assert.ok(calls[1].includes("--ignore-scripts"));
+  assert.equal(manager.list()[0].managedDesktop, true);
+  await manager.start("24");
+  assert.throws(() => manager.access("24"), /taskbar/);
+  assert.equal((await manager.stop("24")).forced, false);
+  assert.equal(manager.list()[0].running, false);
+  assert.equal(notifications, 1);
+  fs.writeFileSync(path.join(target, "node_modules/electron/dist/electron.exe"), "changed");
+  await assert.rejects(manager.start("24"), /browser binary/);
 });

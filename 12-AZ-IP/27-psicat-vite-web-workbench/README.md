@@ -69,7 +69,7 @@ Product 24 can use the Workbench through its normal address bar: open `http://12
 ## Operating boundary
 
 - Workbench API and previews bind only to loopback. The UI/API accepts only same-origin requests from loopback hostnames; mutating routes require the token.
-- The server loads no project `vite.config.*`, plugins, project package scripts, or package managers. Only static reviewed templates are scaffolded.
+- The server loads no project `vite.config.*`, PostCSS configuration/plugins, project package scripts, or package managers. Preview/build use explicit empty inline PostCSS plugins to prevent automatic configuration discovery. Only static reviewed templates are scaffolded.
 - It does not execute arbitrary shell commands or install arbitrary dependencies. Project creation, preview, and build are explicit actions.
 - It is **not an OS sandbox**. Vite transforms project source and the preview executes that source in a browser. Use only projects you trust; do not expose this local service to a network.
 - Workspace project names are constrained, symbolic links are rejected, source is limited to 25 MiB, and the project count is capped at 30.

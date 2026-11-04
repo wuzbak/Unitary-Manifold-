@@ -61,7 +61,11 @@ async function main() {
       return payload;
     }
     assert.equal((await action({ action: "create", name: "installed-smoke" })).project.name, "installed-smoke");
+    const configMarker = path.join(temporary, "unexpected-postcss-config");
+    fs.writeFileSync(path.join(temporary, "runtimes", "workbench", "projects", "installed-smoke", "postcss.config.cjs"),
+      `require('node:fs').writeFileSync(${JSON.stringify(configMarker)}, 'executed'); module.exports = { plugins: [] };`);
     await action({ action: "build", name: "installed-smoke" });
+    assert.equal(fs.existsSync(configMarker), false, "Installed project build must not execute discovered PostCSS configuration.");
     const dashboard = await fetch(access.endpoint, { signal: AbortSignal.timeout(5000) });
     assert.equal(dashboard.status, 200);
     assert.match(await dashboard.text(), /PsiCat/);

@@ -4,11 +4,14 @@ on:
   pull_request:
     paths:
       - ".github/workflows/pc-suite-windows.yml"
-      - "12-AZ-IP/45-axiomzero-pc-suite/**"
-      - "12-AZ-IP/43-az-geometric-tori-transformer/**"
-      - "12-AZ-IP/LICENSE-AGPL"
-      - "12-AZ-IP/NOTICE"
-      - "12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md"
+      - "12-AZ-IP/**"
+      - "src/**"
+      - "claims/**"
+      - "recycling/**"
+      - "5-GOVERNANCE/Unitary Pentad/**"
+      - "README.md"
+      - "FALLIBILITY.md"
+      - "requirements*.txt"
   workflow_dispatch:
   push:
     tags:

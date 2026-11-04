@@ -26,6 +26,10 @@ Inherited IPC gates desktop readiness and correlated graceful shutdown; only
 the owned process tree is eligible for bounded forced cleanup. Suite quit waits
 for active provisioning and runtime exit. Android/extensions, assistant quality,
 ongoing updates and native Windows validation are not inferred from local tests.
+Follow-up audit reproduced implicit project PostCSS configuration execution;
+preview/build now suppress that discovery explicitly and test the boundary.
+Windows test paths use platform-native joins, and the installer workflow tracks
+all packaged source surfaces rather than only the shell/native-model folders.
 
 ## Product 45 - Native model and runtime provisioning (2026-11-04; adjacent software only)
 

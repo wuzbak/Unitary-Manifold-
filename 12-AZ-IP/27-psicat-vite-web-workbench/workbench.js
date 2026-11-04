@@ -266,6 +266,7 @@ export class ViteWorkbench {
       clearScreen: false,
       envPrefix: 'PSICAT_PROJECT_',
       plugins: [],
+      css: { postcss: { plugins: [] } },
       server: {
         host: '127.0.0.1',
         port,
@@ -314,6 +315,7 @@ export class ViteWorkbench {
       clearScreen: false,
       envPrefix: 'PSICAT_PROJECT_',
       plugins: [],
+      css: { postcss: { plugins: [] } },
       base: './',
       build: {
         outDir: outputDirectory,
