@@ -1,0 +1,81 @@
+{
+  "name": "axiomzero-pc-suite",
+  "version": "0.1.0",
+  "description": "Offline-first Windows desktop portfolio launcher with private local evidence search",
+  "author": "ThomasCory Walker-Pearson",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wuzbak/Unitary-Manifold-.git",
+    "directory": "12-AZ-IP/45-axiomzero-pc-suite"
+  },
+  "main": "main.cjs",
+  "private": true,
+  "dependencies": {
+    "yauzl": "^3.4.0"
+  },
+  "scripts": {
+    "catalog": "python scripts/build_catalog.py",
+    "catalog:check": "python scripts/build_catalog.py --check",
+    "start": "npm run catalog && electron .",
+    "test": "node --test",
+    "smoke:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-smoke.ps1",
+    "dist:win": "npm run catalog && electron-builder --win nsis portable"
+  },
+  "devDependencies": {
+    "electron": "^44.3.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "org.axiomzero.pc-suite",
+    "productName": "AxiomZero PC Suite",
+    "asar": true,
+    "extraResources": [
+      {
+        "from": "README.md",
+        "to": "PRODUCT_README.md"
+      },
+      {
+        "from": "../LICENSE-AGPL",
+        "to": "LICENSE-AGPL"
+      },
+      {
+        "from": "../NOTICE",
+        "to": "NOTICE"
+      },
+      {
+        "from": "../PORTFOLIO_LICENSE_SCHEDULE.md",
+        "to": "PORTFOLIO_LICENSE_SCHEDULE.md"
+      }
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "renderer.js",
+      "index.html",
+      "styles.css",
+      "lib/**/*.cjs",
+      "catalog/products.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "AxiomZero-PC-Suite-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AxiomZero PC Suite"
+    },
+    "portable": {
+      "artifactName": "AxiomZero-PC-Suite-${version}-portable-${arch}.${ext}"
+    }
+  }
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AxiomZero PC Suite</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">AXIOMZERO · LOCAL DESKTOP</p>
+        <h1>AxiomZero PC Suite</h1>
+      </div>
+      <div class="status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Offline-ready catalog</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="welcome panel">
+        <div>
+          <p class="eyebrow">ONE DESKTOP, THE WHOLE PORTFOLIO</p>
+          <h2>Find and open your tools.</h2>
+          <p class="muted">
+            Browse the registered software, calculators, engines, and shared tools.
+            The catalog works offline; connecting a checkout enables local file access.
+            PsiCat opens its local Navigator when that service is running.
+          </p>
+        </div>
+        <div class="actions">
+          <button id="open-psicat">Open PsiCat Navigator</button>
+          <button id="open-legal">Licenses and notices</button>
+          <button id="connect-repository" class="primary">Connect repository</button>
+          <button id="open-workspace">Open a work folder</button>
+        </div>
+      </section>
+
+      <section class="connection panel" aria-live="polite">
+        <div>
+          <span class="label">LOCAL CHECKOUT</span>
+          <p id="repository-status" class="muted">Not connected. Select a repository checkout to open its apps and documentation.</p>
+        </div>
+        <button id="disconnect-repository" class="quiet" hidden>Disconnect</button>
+      </section>
+
+      <section class="knowledge panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PRIVATE · OFFLINE · SOURCE-CITED</p>
+            <h2>Local evidence library</h2>
+          </div>
+          <span id="knowledge-count" class="label">0 collections</span>
+        </div>
+        <p class="muted knowledge-intro">
+          Import a source folder or ZIP to search its supported UTF-8 text files on this PC.
+          Search is exact, local keyword matching—not a live PsiCat model or generated answer.
+          Original files are never changed, executed, or uploaded. The index is stored locally
+          without encryption; PDFs and other binary formats are listed but not read. Files over
+          8 MiB are skipped when they are in a supported text format. Imports are bounded to
+          10,000 entries, 256 MiB per ZIP, 512 MiB
+          expanded, and 64 MiB searchable text per collection (five collections maximum).
+        </p>
+        <div class="knowledge-actions">
+          <button id="import-knowledge-folder" class="primary">Import a folder</button>
+          <button id="import-knowledge-zip">Import a ZIP</button>
+        </div>
+        <div id="knowledge-collections" class="knowledge-collections" aria-live="polite"></div>
+        <form id="knowledge-search-form" class="knowledge-search">
+          <label for="knowledge-query">Search imported evidence</label>
+          <div class="knowledge-search-row">
+            <input id="knowledge-query" type="search" maxlength="400" placeholder="e.g. offline capability, local models, entity export">
+            <button id="knowledge-search-button" type="submit" class="primary" disabled>Search locally</button>
+          </div>
+        </form>
+        <p id="knowledge-message" class="knowledge-message" role="status" aria-live="polite"></p>
+        <div id="knowledge-results" class="knowledge-results" aria-live="polite"></div>
+      </section>
+
+      <section class="portfolio panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PORTFOLIO ACCESS</p>
+            <h2>Shared collections</h2>
+          </div>
+        </div>
+        <div class="collection-grid">
+          <button data-category="apps"><strong>Apps</strong><span>Reusable app components</span></button>
+          <button data-category="calculators"><strong>Calculators</strong><span>Calculation tools</span></button>
+          <button data-category="engines"><strong>Engines</strong><span>Shared computation</span></button>
+          <button data-category="tools"><strong>Tools</strong><span>Utilities and workflows</span></button>
+          <button data-category="os"><strong>Operating systems</strong><span>OS and kernel projects</span></button>
+          <button data-category="lib"><strong>Shared libraries</strong><span>Cross-product foundations</span></button>
+        </div>
+      </section>
+
+      <section class="catalog panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PRODUCT DIRECTORY</p>
+            <h2><span id="product-count">0</span> registered products</h2>
+          </div>
+          <label class="search">
+            <span class="visually-hidden">Search products</span>
+            <input id="search" type="search" placeholder="Search products, tools, or topics">
+          </label>
+        </div>
+        <p class="catalog-note muted">
+          A product entry is a portfolio guide, not a claim that every service or dependency
+          is installed. Open its folder or README for the verified setup requirements.
+        </p>
+        <div id="product-list" class="product-grid" aria-live="polite"></div>
+      </section>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </main>
+    <script src="renderer.js"></script>
+  </body>
+</html>

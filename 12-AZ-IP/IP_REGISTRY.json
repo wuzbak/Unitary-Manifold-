@@ -337,11 +337,29 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-03",
-      "sha256": "0c1222cb41920b7c6b4ec44ee57faa2db84a8c3e1f35df5aab1dfc4d507a67a2",
-      "size_bytes": 18758,
-      "reseal_note": "Refreshed 2026-11-03 to register Product 44 AxiomZero Weave, an adjacent local integration runtime. Earlier seals retained in reseal_history; no scientific claim promotion.",
+      "updated": "2026-11-04",
+      "sha256": "21d234b16f4a4a3460f452d3f28bb49b7f047f36295461f650901b156ea10702",
+      "size_bytes": 20569,
+      "reseal_note": "Refreshed 2026-11-04 with Product 45 Windows smoke validation and eight focused tests; no scientific claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "4f2934c661e25135618535650b111777de4e98e91e9b6cf33e64837cd8f54dd7",
+          "size_bytes": 20532,
+          "reseal_note": "Registered Product 45's local evidence library and seven focused tests."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "d7e1ba72b66e7e21152c15f795c224c8e00d3bd493f0016a3f0c77d0fdb71ea4",
+          "size_bytes": 20194,
+          "reseal_note": "Previous seal registered Product 45 AxiomZero PC Suite."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "0c1222cb41920b7c6b4ec44ee57faa2db84a8c3e1f35df5aab1dfc4d507a67a2",
+          "size_bytes": 18758,
+          "reseal_note": "Previous seal registered Product 44 AxiomZero Weave and the 44-product catalog."
+        },
         {
           "updated": "2026-11-03",
           "sha256": "87506b41d32f781a99b6dee0700538ce11d7593d695b5f0f97c057f261fa6f42",
@@ -390,17 +408,47 @@
       "description": "Canonical AxiomZero notice file",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-10-07",
-      "sha256": "136c758ccd29b0a44cdfaf6f4fdf88f7f14c5dd8da6f31ae81d5ff8e86e95d1f",
-      "size_bytes": 6939,
-      "reseal_note": "Authorized additive reciprocity clarification AZ-RECIPROCITY-2026-10-07. Previous registry-recorded seal retained in reseal_history; no claim that the old seal matched the pre-change working file.",
+      "updated": "2026-11-04",
+      "sha256": "85843e9e5bb870300d544cec9a8e5dfe229222648b12af4178d29aad530558a3",
+      "size_bytes": 9767,
+      "reseal_note": "Refreshed 2026-11-04 with Product 45's bundled Yauzl and Pend MIT notices.",
       "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "c2b9856c0a9b2ccd022f0ecfb39ea8b9adf72274da1f2e000a44caa6606ad4b1",
+          "size_bytes": 7360,
+          "reseal_note": "Previous seal recognized Product 45 in the software portfolio count."
+        },
+        {
+          "updated": "2026-10-07",
+          "sha256": "136c758ccd29b0a44cdfaf6f4fdf88f7f14c5dd8da6f31ae81d5ff8e86e95d1f",
+          "size_bytes": 6939,
+          "reseal_note": "Previous seal after the additive reciprocity clarification."
+        },
         {
           "updated": "2026-08-18",
           "sha256": "34d225c70d36ddc941f2412caafef832e2ca15bf3ea8f219aec9f48ad8efda5c",
           "size_bytes": 593
         }
       ]
+    },
+    "12-AZ-IP/LICENSE-AGPL": {
+      "description": "AGPL software license scope for the registered portfolio",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "b1ba76c1f17e23f25a2d84a0d60338f45b7ecfd9f92f002f8994d5ff2236650d",
+      "size_bytes": 7844,
+      "reseal_note": "Registered the current AGPL scope identifying the 45-product software portfolio."
+    },
+    "12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md": {
+      "description": "Product-level portfolio licensing schedule",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "987803b2d638fbbaa2ebfceb859cf603380df8dfefa6223a74191fbd6ad84c67",
+      "size_bytes": 8390,
+      "reseal_note": "Registered the deduplicated Product 45 portfolio license entry."
     },
     "12-AZ-IP/17-um-image-generator/image_generator/engine/visualizations.py": {
       "description": "UM Image Generator — 8 visualization data functions (CMB, birefringence, KK tower, winding mode, phi-landscape, Penrose, holographic, braided speed)",
@@ -759,6 +807,297 @@
       "updated": "2026-11-03",
       "sha256": "fdb3ff3b1f4b35185055b3bd723f9fc67173bbbe0e00c942a73817cd42a205b2",
       "size_bytes": 504
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/README.md": {
+      "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "115e5fd4c3abce7a6b72d472c9d3795987f1f07b0c1c3ccb988d867b3b40cb2a",
+      "size_bytes": 6208,
+      "reseal_note": "Refreshed 2026-11-04 with Windows install/UI/uninstall smoke coverage and updated limitations.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "c8f195d3a68b25d4f1fae535bf10b19258313222d1249c244183237c0a4ddc16",
+          "size_bytes": 5875,
+          "reseal_note": "Documented bounded local folder/ZIP indexing and private, source-cited search."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "16311f776a20f0e3d152aed1b07f503c696809f0017dd83e658e1f51224cbf35",
+          "size_bytes": 4577,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/package.json": {
+      "description": "Product 45 Electron desktop, ZIP reader dependency and Windows installer configuration",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "72a2279841398f5bb32de0d3acd566f6a793a4e9bbff4033ba50f200392591e5",
+      "size_bytes": 2124,
+      "reseal_note": "Refreshed 2026-11-04 with the Windows install/UI/uninstall smoke command.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a4474d4dbee90e1d63176be6d00c7f3c137c2d147bf21ad9af025e535dcbb9f2",
+          "size_bytes": 2026,
+          "reseal_note": "Added the locked Yauzl ZIP reader for local evidence imports."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "917664125cd75b9a15c28b27232146ca7e399997bdee5710ee5ac9686b2350ff",
+          "size_bytes": 1983,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/package-lock.json": {
+      "description": "Product 45 locked Electron, Yauzl and Windows packaging dependency graph",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "7f35936d61a62553899c59edbb106ba477985886062df87e8d916140c2909259",
+      "size_bytes": 127807,
+      "reseal_note": "Refreshed 2026-11-04 with the locked runtime ZIP reader and its MIT-licensed dependency.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "e1056c5236fd7fbbd50ce79a008d946020af7904be74597b7763c25b519ebf8a",
+          "size_bytes": 127094,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/main.cjs": {
+      "description": "Product 45 main-process security boundaries, local data imports and portfolio actions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "9e8b49881b15f1c30b031d2ae59053aa8b1ec59f513dedff7992e3e05f785837",
+      "size_bytes": 10357,
+      "reseal_note": "Refreshed 2026-11-04 to serialize local library mutations and prevent collection races.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "36056959a8fcc298d85e55b7bcacda8baf329a1bda7c6675cb376c6cd7ce773b",
+          "size_bytes": 9936,
+          "reseal_note": "Added allowlisted local folder/ZIP library operations."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "a65d7c69db51777aaf2a379fd0ff23f9011a3255487dd6bbed76d12a9eacab68",
+          "size_bytes": 6334,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/preload.cjs": {
+      "description": "Product 45 allowlisted context-isolated bridge, including local knowledge operations",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a04148a74778f295851039be5607294a77e23d366942315f110e690bed1c8444",
+      "size_bytes": 1373,
+      "reseal_note": "Refreshed 2026-11-04 with fixed IPC methods for local evidence import, search and maintenance.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "15abbb565824f6c74fcd722a245c27750e28a06bd27b3bffd43c636e7a73625f",
+          "size_bytes": 941,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/renderer.js": {
+      "description": "Product 45 desktop catalog, local library and cited search interface",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "ead18116c5198760c7a2fd6f05902abbab09ae645e57b49c6cb00746dcc1c303",
+      "size_bytes": 14282,
+      "reseal_note": "Refreshed 2026-11-04 to disable concurrent library actions and keep UI state consistent.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "256b98eea9ebc0a609306b6043a20f14f24a4b307e8c43160d72f8c7fc0bb502",
+          "size_bytes": 13730,
+          "reseal_note": "Final local evidence library UI hardening and smoke verification."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "0d1dc77681320b02e0839e3c3205f0f8a0bbf8b8f48e18e04e9f1d2a16bce3a6",
+          "size_bytes": 13507,
+          "reseal_note": "Refreshed with private library import controls, skipped-file details and cited results."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "203da940a2cbec4c44a38e221417eb59c8f5f3fa460d2733df40a788dc8370a4",
+          "size_bytes": 5187,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/index.html": {
+      "description": "Product 45 local desktop UI with privacy disclosure and restrictive content policy",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "2dcb2d7a66c077d2d44769e5bd6d0f9277aaa149b071d4103fd8ab431a018b22",
+      "size_bytes": 5833,
+      "reseal_note": "Refreshed 2026-11-04 with the local library search control identifier.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "cfdb4e8048f6d0083d0b1fdf3e8ab44e1ffd154fdc563da724b1d5fa5697adab",
+          "size_bytes": 5804,
+          "reseal_note": "Final local evidence library UI hardening and smoke verification."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "b526fefda04cbb15f075e4df29a717c33db13c3294face8762839ee4f0c17bf7",
+          "size_bytes": 5697,
+          "reseal_note": "Refreshed with local evidence search controls, explicit privacy terms and import limits."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "850f1ee2c939b521c141e0fd780916c221bab5b01fe710ad60a04c66add2586b",
+          "size_bytes": 3875,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/styles.css": {
+      "description": "Product 45 Windows desktop catalog and local evidence search presentation",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "bf7709c4c07814a148165d9242f27d1d67edc1344a758691792d809c904b9f97",
+      "size_bytes": 6600,
+      "reseal_note": "Refreshed 2026-11-04 after final local evidence library UI hardening and smoke verification.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "8993220cfe6809d788f7176bd22223c0399c784697ef26998875ecb45340753f",
+          "size_bytes": 6509,
+          "reseal_note": "Refreshed for the local evidence library and responsive result cards."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "600bfd85d5e15dd7251bb729b28f7db2b37d8b907ac4961465d175d91f291332",
+          "size_bytes": 4229,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/catalog.cjs": {
+      "description": "Product 45 offline product catalog validation",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-03",
+      "sha256": "85ecb2f319113e8b4b3b553a40ed4cdc40297731fbf47e9050997405154357f7",
+      "size_bytes": 987
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/repository.cjs": {
+      "description": "Product 45 checkout validation and repository path containment",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-03",
+      "sha256": "46b091fa2d7a708958ce3cba1f64a72fb7ad3756b78539b0f135424c553e0e57",
+      "size_bytes": 2160
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/settings.cjs": {
+      "description": "Product 45 local user settings and validated knowledge collection identifiers",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "e39d1bf107c1261588a4f5312622c3ff496101f805fdf72c480f36dea456d5bb",
+      "size_bytes": 1501,
+      "reseal_note": "Refreshed 2026-11-04 to persist a bounded set of validated local evidence indexes.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "16f3368472ba2c3605613eb012eb8dcd4d7ac32ee61162761af9985ec339b289",
+          "size_bytes": 970,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/knowledge.cjs": {
+      "description": "Product 45 bounded folder/ZIP text indexing, local evidence search and collection persistence",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "bedb4592cf95adcb7e91632c5e708a571a4b7c57c525ddb65156403f41a1b71d",
+      "size_bytes": 19799,
+      "reseal_note": "Registered the Product 45 private local evidence library; archive contents are never extracted or executed."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/operation-lock.cjs": {
+      "description": "Product 45 exclusive-operation guard for local library mutations",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "ad944f08b44f00f605a1d9dd786ab00bcdf4b2d57d66545bdb10e6273e9fb7a3",
+      "size_bytes": 310
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py": {
+      "description": "Product 45 canonical portfolio catalog generator and freshness check",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-03",
+      "sha256": "a0eda09dafc5c1d93d2b37dc822e0d875af36e4358f6e85dcc14352548d43000",
+      "size_bytes": 3118
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs": {
+      "description": "Product 45 Windows Electron DevTools UI and renderer exception smoke check",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "e14ae2eff591e8eb9cd54cbea49e67aa4d80869b4e3fbedec775c9f1b4b9b741",
+      "size_bytes": 3474
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1": {
+      "description": "Product 45 Windows installer, uninstall and portable executable smoke harness",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "4a4016b49c9740de462c3ff58bab330d979d1c7c3db5168eb15887aba91c2d32",
+      "size_bytes": 2991
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs": {
+      "description": "Product 45 catalog, repository path, settings and operation-lock regression tests",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "c8e060309450c60d5681c717628348be04b9b43016dcc544303253bd956a7c82",
+      "size_bytes": 3116
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs": {
+      "description": "Product 45 bounded ZIP indexing, search citation and local collection tests",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a2d32735dd8820aef44fcfe37646658b48b3f146315a89399f32ad2f194d404d",
+      "size_bytes": 6516
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json": {
+      "description": "Product 45 generated offline catalog for Products 01-45",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "1fa4f04162a1b68c41e365429aa889d0ee29ba64b9b66148aca0d4cccf3d7e72",
+      "size_bytes": 16073,
+      "reseal_note": "Refreshed 2026-11-04 from the canonical portfolio row documenting local evidence search.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "327bd0d7fc076caede76ad7555010cb644b42242b185bfab8b7ac15bbd81f492",
+          "size_bytes": 16042,
+          "reseal_note": "Initial Product 45 catalog registration."
+        }
+      ]
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -1194,6 +1533,15 @@
       "tests": "Focused pytest suites",
       "description": "Five-strand seven-operation local evidence and computation integration with current source grounding, scoped memory, real Product 16/43 adapters, controlled synthetic experiments and durable Pentad-constrained effects. Adjacent software, not physics closure or model superiority. Private exports excluded.",
       "link": "44-axiomzero-weave/"
+    },
+    {
+      "name": "AxiomZero PC Suite",
+      "version": "0.1.0",
+      "trl": "Not assessed",
+      "port": "Windows desktop installer / portable",
+      "tests": "8 focused Node tests + Windows install/UI/uninstall smoke",
+      "description": "Offline-first desktop portfolio launcher with private local keyword search over user-selected folders or ZIPs; returns source-cited evidence and does not bundle every product runtime.",
+      "link": "45-axiomzero-pc-suite/"
     }
   ]
 }

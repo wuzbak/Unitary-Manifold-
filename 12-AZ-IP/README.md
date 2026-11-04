@@ -11,7 +11,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 - External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
-## Product registry (44 canonical software products / surfaces)
+## Product registry (45 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -59,6 +59,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 42 | AZ Awareness & Creation Toolkit | 1.1.0 | TRL-2 | CLI / Python library + web (http://localhost:8142) | 66 passed | Adds custom JSON Q/A deck creation and validated SM-2 review endpoints, with browser-local deck persistence and explicit request/card limits; existing repository-aware tools remain wired to PsiCat. | [42-az-awareness-creation-toolkit/](42-az-awareness-creation-toolkit/) |
 | 43 | AZ Geometric Tori Transformer | 1.0.0 | TRL-1 | CLI / Python library + web (http://localhost:8143) | 46 | From-scratch (NumPy-only, custom autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5²+7², (5,7) braid winding) instead of standard sinusoidal RoPE — toroidal rotary encoding with finite orbit periods plus a toroidal relative-distance attention bias; wired as `getToriTransformerGeometry`/`getToriTransformerDemo` native PsiCat tools, exposed via PsiCat Browser through the Navigator's generic `/api/psicat` surface. ADJACENT TRACK, not a hardgate physics claim. | [43-az-geometric-tori-transformer/](43-az-geometric-tori-transformer/) |
 | 44 | AxiomZero Weave | 0.1.0 | Not assessed | CLI / local HTTP (http://127.0.0.1:8144) + native PsiCat tools | Focused pytest suites | Five-strand, seven-operation evidence and computation integration: current grounding, scoped memory, real Oracle/Transformer adapters, matched synthetic controls, and durable Pentad-constrained effects. Adjacent software only; private exports remain excluded. | [44-axiomzero-weave/](44-axiomzero-weave/) |
+| 45 | AxiomZero PC Suite | 0.1.0 | Not assessed | Windows desktop installer / portable | 8 focused Node tests + Windows install/UI/uninstall smoke | Offline-first desktop portfolio catalog and launcher with private local keyword search over user-selected folders or ZIPs, including the Webspace seed and PsiCat Mind exports; returns file-cited evidence and does not bundle or install every product runtime. | [45-axiomzero-pc-suite/](45-axiomzero-pc-suite/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
@@ -94,6 +95,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - `26-um-arts/` — canonical UM-ARTS regression application and Python package; `TOOLS.um_arts` retains backwards-compatible CLI, submodule, and pytest-plugin imports
 - `27-psicat-vite-web-workbench/` — standalone local Vite app with curated frontend starters and human-gated native Product 20 actions
 - `28-az-calorimetry-console/` through `40-az-live-data-harness/` — thirteen new standalone products (direct Python packages, not merges of pre-existing folders), each built against one of the thirteen "Phase 0/1 buildable now" directions named in `7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md`; see each product's own README "Epistemic status" section for exactly which article phase is and is not implemented
+- `45-axiomzero-pc-suite/` — offline-first Electron desktop catalog and Windows launcher; its generated 45-product directory stays synchronized with this master registry
 
 ## Product 26 operational entrypoints
 
@@ -139,6 +141,26 @@ native PsiCat tools, set `PSICAT_VITE_WORKBENCH_URL` and the same token in
 Product 20's environment before launching it. Project creation, preview
 lifecycle, and builds require explicit tool approval. The service is a local
 developer workbench, not an OS sandbox; only preview code you trust.
+
+## Product 45 Windows desktop suite
+
+Product 45 bundles the portfolio catalog for offline browsing and provides
+user-selected access to repository folders, product guides, shared tool
+collections, and the local PsiCat Navigator. Its local evidence library imports
+user-selected folders or ZIP archives without extracting or executing files,
+then searches supported text locally with file/line citations. The index is
+plaintext in the Windows user's app data and is never uploaded; PDF and other
+binary contents are not indexed. Product 45 does not silently install products,
+runtimes, models, or dependencies. The connected checkout and each product
+retain their own execution boundaries.
+
+On Windows, run `npm ci`, `npm test`, `npm run catalog:check`, and
+`npm run dist:win` from `12-AZ-IP/45-axiomzero-pc-suite/` to build an NSIS
+installer and a portable executable. The
+`.github/workflows/pc-suite-windows.yml` workflow builds both on manual
+dispatch; a `pc-suite-v*` tag also publishes a GitHub Release. Builds are
+currently unsigned. See the [Product 45 guide](./45-axiomzero-pc-suite/README.md)
+for prerequisites, offline behavior, security boundary, and release limits.
 
 ## Shared assets retained
 

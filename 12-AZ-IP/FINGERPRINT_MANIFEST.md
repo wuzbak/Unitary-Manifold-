@@ -283,6 +283,99 @@ effect approval binds the relevant current Python implementation and target
 configuration. Neither these hashes nor this registration authenticate a
 principal or certify the truth of an output.
 
+### Product 45 registration — AxiomZero PC Suite — 2026-11-03
+
+Registered the offline-first Windows desktop portfolio catalog and launcher.
+Product 45 provides catalog search, selected-checkout documentation/folder
+access, shared collection access, and an explicit loopback PsiCat shortcut. It
+does not bundle all 45 product runtimes or their dependencies. The master
+catalog now records 45 products; the generated desktop catalog is fingerprinted
+below. Windows artifacts are unsigned and still require an actual Windows
+installation smoke test.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/NOTICE` | `c2b9856c0a9b2ccd022f0ecfb39ea8b9adf72274da1f2e000a44caa6606ad4b1` | 7360 |
+| `12-AZ-IP/README.md` | `d7e1ba72b66e7e21152c15f795c224c8e00d3bd493f0016a3f0c77d0fdb71ea4` | 20194 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `16311f776a20f0e3d152aed1b07f503c696809f0017dd83e658e1f51224cbf35` | 4577 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `917664125cd75b9a15c28b27232146ca7e399997bdee5710ee5ac9686b2350ff` | 1983 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package-lock.json` | `e1056c5236fd7fbbd50ce79a008d946020af7904be74597b7763c25b519ebf8a` | 127094 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `a65d7c69db51777aaf2a379fd0ff23f9011a3255487dd6bbed76d12a9eacab68` | 6334 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `15abbb565824f6c74fcd722a245c27750e28a06bd27b3bffd43c636e7a73625f` | 941 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `203da940a2cbec4c44a38e221417eb59c8f5f3fa460d2733df40a788dc8370a4` | 5187 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `850f1ee2c939b521c141e0fd780916c221bab5b01fe710ad60a04c66add2586b` | 3875 |
+| `12-AZ-IP/45-axiomzero-pc-suite/styles.css` | `600bfd85d5e15dd7251bb729b28f7db2b37d8b907ac4961465d175d91f291332` | 4229 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/catalog.cjs` | `85ecb2f319113e8b4b3b553a40ed4cdc40297731fbf47e9050997405154357f7` | 987 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/repository.cjs` | `46b091fa2d7a708958ce3cba1f64a72fb7ad3756b78539b0f135424c553e0e57` | 2160 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/settings.cjs` | `16f3368472ba2c3605613eb012eb8dcd4d7ac32ee61162761af9985ec339b289` | 970 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py` | `a0eda09dafc5c1d93d2b37dc822e0d875af36e4358f6e85dcc14352548d43000` | 3118 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `327bd0d7fc076caede76ad7555010cb644b42242b185bfab8b7ac15bbd81f492` | 16042 |
+
+### Product 45 local evidence library reseal — 2026-11-04
+
+Product 45 now imports user-selected folders and ZIPs into a bounded local
+plaintext index and returns deterministic keyword matches with file/line
+citations and content SHA-256 digests. Imported files are not extracted,
+executed, modified, or uploaded. The supplied Webspace seed and PsiCat Mind
+archives were indexed in-memory for compatibility verification; neither archive
+nor its private contents were added to the repository. The app transparently
+skips unsupported formats and applies documented file, archive, and index
+limits. The local index is not encrypted and is explicitly disclosed in the UI.
+
+The global NOTICE now includes the MIT terms for Product 45's bundled Yauzl
+3.4.0 and Pend 1.2.0 runtime dependencies. The duplicate Product 45 row in the
+portfolio license schedule was removed.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/NOTICE` | `85843e9e5bb870300d544cec9a8e5dfe229222648b12af4178d29aad530558a3` | 9767 |
+| `12-AZ-IP/README.md` | `4f2934c661e25135618535650b111777de4e98e91e9b6cf33e64837cd8f54dd7` | 20532 |
+| `12-AZ-IP/LICENSE-AGPL` | `b1ba76c1f17e23f25a2d84a0d60338f45b7ecfd9f92f002f8994d5ff2236650d` | 7844 |
+| `12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md` | `987803b2d638fbbaa2ebfceb859cf603380df8dfefa6223a74191fbd6ad84c67` | 8390 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `c8f195d3a68b25d4f1fae535bf10b19258313222d1249c244183237c0a4ddc16` | 5875 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `a4474d4dbee90e1d63176be6d00c7f3c137c2d147bf21ad9af025e535dcbb9f2` | 2026 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package-lock.json` | `7f35936d61a62553899c59edbb106ba477985886062df87e8d916140c2909259` | 127807 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `36056959a8fcc298d85e55b7bcacda8baf329a1bda7c6675cb376c6cd7ce773b` | 9936 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `a04148a74778f295851039be5607294a77e23d366942315f110e690bed1c8444` | 1373 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `0d1dc77681320b02e0839e3c3205f0f8a0bbf8b8f48e18e04e9f1d2a16bce3a6` | 13507 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `b526fefda04cbb15f075e4df29a717c33db13c3294face8762839ee4f0c17bf7` | 5697 |
+| `12-AZ-IP/45-axiomzero-pc-suite/styles.css` | `8993220cfe6809d788f7176bd22223c0399c784697ef26998875ecb45340753f` | 6509 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/settings.cjs` | `e39d1bf107c1261588a4f5312622c3ff496101f805fdf72c480f36dea456d5bb` | 1501 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/knowledge.cjs` | `bedb4592cf95adcb7e91632c5e708a571a4b7c57c525ddb65156403f41a1b71d` | 19799 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `1fa4f04162a1b68c41e365429aa889d0ee29ba64b9b66148aca0d4cccf3d7e72` | 16073 |
+
+### Product 45 final UI seal — 2026-11-04
+
+Refreshed the final evidence-library UI sources after interaction hardening and
+headless renderer verification.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `256b98eea9ebc0a609306b6043a20f14f24a4b307e8c43160d72f8c7fc0bb502` | 13730 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `cfdb4e8048f6d0083d0b1fdf3e8ab44e1ffd154fdc563da724b1d5fa5697adab` | 5804 |
+| `12-AZ-IP/45-axiomzero-pc-suite/styles.css` | `bf7709c4c07814a148165d9242f27d1d67edc1344a758691792d809c904b9f97` | 6600 |
+
+### Product 45 Windows release qualification reseal — 2026-11-04
+
+Added pull-request Windows packaging, install/uninstall and portable-launch
+smoke coverage, renderer verification, artifact checksums, and exclusive local
+library mutations. These assets record the source and tests; Windows execution
+results are reported by the pull-request workflow.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/README.md` | `21d234b16f4a4a3460f452d3f28bb49b7f047f36295461f650901b156ea10702` | 20569 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `115e5fd4c3abce7a6b72d472c9d3795987f1f07b0c1c3ccb988d867b3b40cb2a` | 6208 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `72a2279841398f5bb32de0d3acd566f6a793a4e9bbff4033ba50f200392591e5` | 2124 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `9e8b49881b15f1c30b031d2ae59053aa8b1ec59f513dedff7992e3e05f785837` | 10357 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `ead18116c5198760c7a2fd6f05902abbab09ae645e57b49c6cb00746dcc1c303` | 14282 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `2dcb2d7a66c077d2d44769e5bd6d0f9277aaa149b071d4103fd8ab431a018b22` | 5833 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/operation-lock.cjs` | `ad944f08b44f00f605a1d9dd786ab00bcdf4b2d57d66545bdb10e6273e9fb7a3` | 310 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `e14ae2eff591e8eb9cd54cbea49e67aa4d80869b4e3fbedec775c9f1b4b9b741` | 3474 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1` | `4a4016b49c9740de462c3ff58bab330d979d1c7c3db5168eb15887aba91c2d32` | 2991 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs` | `c8e060309450c60d5681c717628348be04b9b43016dcc544303253bd956a7c82` | 3116 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs` | `a2d32735dd8820aef44fcfe37646658b48b3f146315a89399f32ad2f194d404d` | 6516 |
+
 ## Verification Protocol
 
 To verify any registered asset:

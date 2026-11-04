@@ -1,0 +1,407 @@
+[
+  {
+    "id": "01",
+    "name": "Axiom OS Core Suite",
+    "version": "1.0.0",
+    "trl": "TRL-5",
+    "endpoint": "http://localhost:8000",
+    "description": "Canonical merge of AxiomZero full-stack plus az-os legacy agent/φ infrastructure.",
+    "folder": "12-AZ-IP/01-axiom-os/"
+  },
+  {
+    "id": "02",
+    "name": "AZ-KERNEL Rust Kernel",
+    "version": "0.1.0",
+    "trl": "TRL-3",
+    "endpoint": "UEFI / QEMU",
+    "description": "Bare-metal Rust kernel with merged fuller az-kernel tree and legacy kk_channel IPC primitive.",
+    "folder": "12-AZ-IP/02-az-kernel/"
+  },
+  {
+    "id": "03",
+    "name": "EIGE Governance Engine",
+    "version": "21.0.0",
+    "trl": "TRL-7",
+    "endpoint": "CLI / Docker / notebook",
+    "description": "Deterministic election integrity and governance stack with full source, infra, schemas, and tests.",
+    "folder": "12-AZ-IP/03-eige/"
+  },
+  {
+    "id": "04",
+    "name": "UM-SOS Scientific OS",
+    "version": "15.8",
+    "trl": "TRL-6",
+    "endpoint": "/api/v1/*",
+    "description": "Seven-layer scientific operating system with backend, frontend, DAG explorer, and preregistration registry.",
+    "folder": "12-AZ-IP/04-um-sos/"
+  },
+  {
+    "id": "05",
+    "name": "UOS Kernel Prototype",
+    "version": "0.1",
+    "trl": "TRL-3",
+    "endpoint": "Python library",
+    "description": "Geometric OS prototype copied from the Pentad with dedicated UOS regression tests.",
+    "folder": "12-AZ-IP/05-uos-kernel/"
+  },
+  {
+    "id": "06",
+    "name": "Omega Synthesis Engine",
+    "version": "20.1",
+    "trl": "TRL-5",
+    "endpoint": "Python library",
+    "description": "Universal mechanics calculator spanning cosmology, particle physics, HILS, and falsifiers.",
+    "folder": "12-AZ-IP/06-omega-synthesis/"
+  },
+  {
+    "id": "07",
+    "name": "Holon Zero Engine",
+    "version": "1.0",
+    "trl": "TRL-5",
+    "endpoint": "Python library",
+    "description": "Ground-state engine merged from holon-zero and holon_zero, including subpillars and repo-root tests.",
+    "folder": "12-AZ-IP/07-holon-zero/"
+  },
+  {
+    "id": "08",
+    "name": "AxiomZero Journalist AI",
+    "version": "1.0.0",
+    "trl": "TRL-4",
+    "endpoint": "http://localhost:8008",
+    "description": "AI-assisted investigative research platform: entity mapping, source classification, confidence scoring.",
+    "folder": "12-AZ-IP/08-axiom-journalist/"
+  },
+  {
+    "id": "09",
+    "name": "OmegaHolon Engine",
+    "version": "1.0.0",
+    "trl": "TRL-4",
+    "endpoint": "Python library",
+    "description": "Combined Omega + Holon ground-state engine with unified KK tensor pipeline.",
+    "folder": "12-AZ-IP/09-omegaholon/"
+  },
+  {
+    "id": "10",
+    "name": "Filmer's Companion",
+    "version": "1.0.0",
+    "trl": "TRL-3",
+    "endpoint": "http://localhost:8010",
+    "description": "Physics-grounded creative AI tool for worldbuilding, narrative, and science communication.",
+    "folder": "12-AZ-IP/10-filmers-companion/"
+  },
+  {
+    "id": "11",
+    "name": "Terra OS",
+    "version": "1.0.0",
+    "trl": "TRL-4",
+    "endpoint": "http://localhost:8011",
+    "description": "Earth-systems OS integrating climate, geology, and ecological UM pillars into a unified dashboard.",
+    "folder": "12-AZ-IP/11-terra-os/"
+  },
+  {
+    "id": "12",
+    "name": "Lithos OS",
+    "version": "1.0.0",
+    "trl": "TRL-3",
+    "endpoint": "http://localhost:8012",
+    "description": "Lithospheric monitoring OS layer with seismic, geothermal, and mineral UM overlays.",
+    "folder": "12-AZ-IP/12-lithos-os/"
+  },
+  {
+    "id": "13",
+    "name": "Delphi",
+    "version": "1.0.0",
+    "trl": "TRL-5",
+    "endpoint": "http://localhost:8013",
+    "description": "Prediction-market and scenario-planning engine grounded in UM falsification logic.",
+    "folder": "12-AZ-IP/13-delphi/"
+  },
+  {
+    "id": "14",
+    "name": "SDAM",
+    "version": "1.0.0",
+    "trl": "TRL-3",
+    "endpoint": "Mobile / Android",
+    "description": "Spatial Decision Awareness Module — mobile situational-awareness tool with UM φ-overlay.",
+    "folder": "12-AZ-IP/14-sdam/"
+  },
+  {
+    "id": "15",
+    "name": "Pentacorder",
+    "version": "1.0.0",
+    "trl": "TRL-3",
+    "endpoint": "Mobile / Android",
+    "description": "Physics measurement companion for Android: spectral analysis, winding-mode detector.",
+    "folder": "12-AZ-IP/15-pentacorder/"
+  },
+  {
+    "id": "16",
+    "name": "AxiomZero Ω Oracle",
+    "version": "1.0.0",
+    "trl": "TRL-4",
+    "endpoint": "http://localhost:7872",
+    "description": "Capstone synthesis engine: Pentad modelling, Omega score, epistemic audit, falsifiable commitments.",
+    "folder": "12-AZ-IP/16-oracle/"
+  },
+  {
+    "id": "17",
+    "name": "UM Physics Image Generator",
+    "version": "1.0.0",
+    "trl": "TRL-5",
+    "endpoint": "Browser / static",
+    "description": "Canvas 2D browser tool generating PNG visualizations for 8 UM physics concepts.",
+    "folder": "12-AZ-IP/17-um-image-generator/"
+  },
+  {
+    "id": "18",
+    "name": "UM Reader / Educator",
+    "version": "1.0.0",
+    "trl": "TRL-5",
+    "endpoint": "Browser / static",
+    "description": "302-entry reading & TTS platform for the UM framework — offline, KaTeX, 9 categories.",
+    "folder": "12-AZ-IP/18-um-reader/"
+  },
+  {
+    "id": "19",
+    "name": "Falsification Observatory",
+    "version": "1.0.0",
+    "trl": "TRL-5",
+    "endpoint": "Browser / static",
+    "description": "Live tracker for 7 experiments testing UM predictions — PASS / TENSION / FALSIFIED verdicts.",
+    "folder": "12-AZ-IP/19-falsification-observatory/"
+  },
+  {
+    "id": "20",
+    "name": "PsiCat Navigator (formerly Merlin Navigator)",
+    "version": "1.0.0",
+    "trl": "TRL-4",
+    "endpoint": "Browser + /api/psicat (+ /api/ox compatibility)",
+    "description": "AI physics/governance navigator and canonical execution/control plane with identity trust policy, Sentinel do-no-harm enforcement, and compatibility shim endpoints.",
+    "folder": "12-AZ-IP/20-psicat-navigator/"
+  },
+  {
+    "id": "21",
+    "name": "UM Geophysical Monitor",
+    "version": "1.0.0",
+    "trl": "TRL-5",
+    "endpoint": "Browser / static",
+    "description": "Live globe disaster monitor with USGS + NASA EONET feeds and UM φ-overlay (P806/P786/P16).",
+    "folder": "12-AZ-IP/21-geo-monitor/"
+  },
+  {
+    "id": "22",
+    "name": "AxiomZero SGE",
+    "version": "1.0.0",
+    "trl": "TRL-7",
+    "endpoint": "http://localhost:7622",
+    "description": "Next-gen system security governance engine for anti-malware, zero-day detection, IDS, firewall, anti-surveillance, and governed protection workflows.",
+    "folder": "12-AZ-IP/22-az-sge/"
+  },
+  {
+    "id": "23",
+    "name": "PsiCat DM Guide & Player Assistant",
+    "version": "1.1.0",
+    "trl": "TRL-3",
+    "endpoint": "http://localhost:8033",
+    "description": "Offline-first Dungeons & Dragons 5e / 5.5e campaign assistant with separate DM/player dashboards, invite-code joins, character import, XP/treasure/gold/item tracking, maps, NPCs, image pushes, and PsiCat expert guidance.",
+    "folder": "12-AZ-IP/23-psicat-dm-assistant/"
+  },
+  {
+    "id": "24",
+    "name": "PsiCat Web Browser",
+    "version": "1.0.0",
+    "trl": "TRL-3",
+    "endpoint": "Electron / Android / Extension",
+    "description": "Chromium-based next-gen browser foundation with Electron desktop, native-tab Android shell, split-workspace desktop scaffolding, embedded PsiCat research sidebar, local sync backend scaffold, Playwright-first browser proving ground, notebook, sync packet workflows, and import/export.",
+    "folder": "12-AZ-IP/24-psicat-web-browser/"
+  },
+  {
+    "id": "25",
+    "name": "PsiCat Braided Brain",
+    "version": "1.1.0",
+    "trl": "TRL-3",
+    "endpoint": "Browser / PWA",
+    "description": "Toroidal brain simulator game for desktop and mobile with science missions, local training-packet export, and optional PsiCat coaching through Product 20.",
+    "folder": "12-AZ-IP/25-psicat-braided-brain/"
+  },
+  {
+    "id": "26",
+    "name": "UM-ARTS",
+    "version": "1.0.0",
+    "trl": "Not assessed",
+    "endpoint": "CLI / local browser",
+    "description": "Evidence-first regression application: supervised execution, immutable receipts, compatible resume, inventory, and bounded assistance; no scientific claim promotion.",
+    "folder": "12-AZ-IP/26-um-arts/"
+  },
+  {
+    "id": "27",
+    "name": "PsiCat's Vite Web Workbench",
+    "version": "1.0.0",
+    "trl": "Not assessed",
+    "endpoint": "http://127.0.0.1:8327",
+    "description": "Standalone loopback-only Vite project workbench with curated starters and native Product 20 tools; project configs/plugins are not loaded and arbitrary commands are not run.",
+    "folder": "12-AZ-IP/27-psicat-vite-web-workbench/"
+  },
+  {
+    "id": "28",
+    "name": "AZ Calorimetry Console",
+    "version": "1.1.0",
+    "trl": "TRL-2",
+    "endpoint": "CLI / Python library + web",
+    "description": "Cold-fusion run-sheet generator and COP tracker wrapping `src/physics/lattice_dynamics.py` and `src/cold_fusion/`.",
+    "folder": "12-AZ-IP/28-az-calorimetry-console/"
+  },
+  {
+    "id": "29",
+    "name": "AZ Polariton Vortex Analyzer",
+    "version": "1.1.0",
+    "trl": "TRL-2",
+    "endpoint": "CLI / Python library + web",
+    "description": "Pump-probe vortex feature extraction and comparison against `src/materials/polariton_vortex.py` predictions.",
+    "folder": "12-AZ-IP/29-az-polariton-vortex-analyzer/"
+  },
+  {
+    "id": "30",
+    "name": "AZ Materials Screening Engine",
+    "version": "1.1.0",
+    "trl": "TRL-2",
+    "endpoint": "CLI / Python library + web",
+    "description": "Candidate-material screening and ranking against the canonical UM Fröhlich-polaron/metamaterial formulas.",
+    "folder": "12-AZ-IP/30-az-materials-screening-engine/"
+  },
+  {
+    "id": "31",
+    "name": "AZ Braided Qubit Ansatz Studio",
+    "version": "1.1.0",
+    "trl": "TRL-2",
+    "endpoint": "CLI / Python library + web",
+    "description": "Hardware-portable gate-list export and independent re-simulation of `src/quantum/kk_vqe.py`'s ansatz.",
+    "folder": "12-AZ-IP/31-az-braided-qubit-ansatz-studio/"
+  },
+  {
+    "id": "32",
+    "name": "AZ Phi-Debt Early Warning Library",
+    "version": "1.1.0",
+    "trl": "TRL-3",
+    "endpoint": "CLI / Python library + web",
+    "description": "Domain-agnostic capacity/discharge/debt monitor generalized from `recycling/entropy_ledger.py`.",
+    "folder": "12-AZ-IP/32-az-phi-debt-early-warning/"
+  },
+  {
+    "id": "33",
+    "name": "AZ Accessibility Pipeline",
+    "version": "1.1.0",
+    "trl": "TRL-2",
+    "endpoint": "CLI / Python library + web",
+    "description": "Reading-segment, visual-concept, and falsifiable-claim routing pipeline reusing Products 17 and 19.",
+    "folder": "12-AZ-IP/33-az-accessibility-pipeline/"
+  },
+  {
+    "id": "34",
+    "name": "AZ Domain Experts Pack",
+    "version": "1.1.0",
+    "trl": "TRL-3",
+    "endpoint": "CLI / Python library + web",
+    "description": "AST-based domain-expert retrieval over `src/materials/` and `src/atomic_structure/`.",
+    "folder": "12-AZ-IP/34-az-domain-experts-pack/"
+  },
+  {
+    "id": "35",
+    "name": "AZ UOS/AZ-KERNEL Bridge",
+    "version": "1.2.0",
+    "trl": "TRL-2",
+    "endpoint": "CLI / Python library + web (http://localhost:8135)",
+    "description": "Host-side JSON `KKMessage` adapter with field-width and runtime-channel validation; does not connect to a live kernel.",
+    "folder": "12-AZ-IP/35-az-uos-kernel-bridge/"
+  },
+  {
+    "id": "36",
+    "name": "AZ Differentiable Cosmology Slider",
+    "version": "1.1.0",
+    "trl": "TRL-4",
+    "endpoint": "CLI / Python library + web",
+    "description": "Real-time (n_s, gradient) slider API wrapping `src/core/jax_backend.grad_spectral_index`.",
+    "folder": "12-AZ-IP/36-az-cosmology-slider/"
+  },
+  {
+    "id": "37",
+    "name": "AZ Holographic Condensed-Matter Comparator",
+    "version": "1.1.0",
+    "trl": "TRL-3",
+    "endpoint": "CLI / Python library + web (http://localhost:8137)",
+    "description": "Compares KK-tower dimensions with illustrative references or validated user CSVs; exports reproducible reports without claiming a material correspondence.",
+    "folder": "12-AZ-IP/37-az-holographic-condensed-matter-comparator/"
+  },
+  {
+    "id": "38",
+    "name": "AZ Formal Verification Library",
+    "version": "1.2.0",
+    "trl": "TRL-4",
+    "endpoint": "CLI / Python library + web",
+    "description": "Pentad checks plus bounded user-authored JSON constraints over finite bounded variables; POST service and CLI reject executable code and fail closed on unknown solver results.",
+    "folder": "12-AZ-IP/38-az-formal-verification-library/"
+  },
+  {
+    "id": "39",
+    "name": "AZ Research-Debt Tracker",
+    "version": "1.1.0",
+    "trl": "TRL-4",
+    "endpoint": "CLI / Python library + web",
+    "description": "Domain-agnostic project-health tracker generalized from `src/meta/mas_wave_engine.py`, dogfooded against UM's own live gap list.",
+    "folder": "12-AZ-IP/39-az-research-debt-tracker/"
+  },
+  {
+    "id": "40",
+    "name": "AZ Live-Data Harness",
+    "version": "1.1.0",
+    "trl": "TRL-4",
+    "endpoint": "CLI / Python library + web",
+    "description": "Shared fetch/normalize/fallback/verdict harness demonstrated against `src/data/fetch_planck.py`.",
+    "folder": "12-AZ-IP/40-az-live-data-harness/"
+  },
+  {
+    "id": "41",
+    "name": "AZ Media & Feature-Inspection Suite",
+    "version": "1.1.0",
+    "trl": "TRL-2",
+    "endpoint": "CLI / Python library + web (http://localhost:8141)",
+    "description": "CLI inspects user-selected comic (CBZ), WAV, and AZVID files and creates bounded PCM16 WAV tones; local web demos and evidence-cited feature inspection remain available.",
+    "folder": "12-AZ-IP/41-az-media-suite/"
+  },
+  {
+    "id": "42",
+    "name": "AZ Awareness & Creation Toolkit",
+    "version": "1.1.0",
+    "trl": "TRL-2",
+    "endpoint": "CLI / Python library + web (http://localhost:8142)",
+    "description": "Adds custom JSON Q/A deck creation and validated SM-2 review endpoints, with browser-local deck persistence and explicit request/card limits; existing repository-aware tools remain wired to PsiCat.",
+    "folder": "12-AZ-IP/42-az-awareness-creation-toolkit/"
+  },
+  {
+    "id": "43",
+    "name": "AZ Geometric Tori Transformer",
+    "version": "1.0.0",
+    "trl": "TRL-1",
+    "endpoint": "CLI / Python library + web (http://localhost:8143)",
+    "description": "From-scratch (NumPy-only, custom autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5²+7², (5,7) braid winding) instead of standard sinusoidal RoPE — toroidal rotary encoding with finite orbit periods plus a toroidal relative-distance attention bias; wired as `getToriTransformerGeometry`/`getToriTransformerDemo` native PsiCat tools, exposed via PsiCat Browser through the Navigator's generic `/api/psicat` surface. ADJACENT TRACK, not a hardgate physics claim.",
+    "folder": "12-AZ-IP/43-az-geometric-tori-transformer/"
+  },
+  {
+    "id": "44",
+    "name": "AxiomZero Weave",
+    "version": "0.1.0",
+    "trl": "Not assessed",
+    "endpoint": "CLI / local HTTP (http://127.0.0.1:8144) + native PsiCat tools",
+    "description": "Five-strand, seven-operation evidence and computation integration: current grounding, scoped memory, real Oracle/Transformer adapters, matched synthetic controls, and durable Pentad-constrained effects. Adjacent software only; private exports remain excluded.",
+    "folder": "12-AZ-IP/44-axiomzero-weave/"
+  },
+  {
+    "id": "45",
+    "name": "AxiomZero PC Suite",
+    "version": "0.1.0",
+    "trl": "Not assessed",
+    "endpoint": "Windows desktop installer / portable",
+    "description": "Offline-first desktop portfolio catalog and launcher with private local keyword search over user-selected folders or ZIPs, including the Webspace seed and PsiCat Mind exports; returns file-cited evidence and does not bundle or install every product runtime.",
+    "folder": "12-AZ-IP/45-axiomzero-pc-suite/"
+  }
+]
