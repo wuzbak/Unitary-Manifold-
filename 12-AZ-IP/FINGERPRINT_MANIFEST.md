@@ -706,6 +706,19 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf` | 23001 |
 | `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `5f422967441093a4a94dda48dbcd138ac53babb44a03050bdea5c63ab1c42b7e` | 43294 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/15-pentacorder/README.md` | `6068cdff68cf8cb07cd77d8d8dc528018edef7163c8d7ccf1b199a249c59d92c` | 15949 |
+| `12-AZ-IP/15-pentacorder/gradle/libs.versions.toml` | `e2f9feed22f79a891aa9050faabf281486368f5e464aaf842891ed41f45c28af` | 4134 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py` | `992820f107886505e97c017fb32a36c16b9c4c05c02ebbb4dcf89a4e49f4e249` | 1222 |
+
 ## Verification Protocol
 
 To verify any registered asset:

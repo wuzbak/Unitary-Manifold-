@@ -1,0 +1,94 @@
+name: PC Suite Platform Artifacts
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/pc-suite-platforms.yml"
+      - "12-AZ-IP/02-az-kernel/**"
+      - "12-AZ-IP/14-sdam/**"
+      - "12-AZ-IP/15-pentacorder/**"
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Build actual Android applications with verified Gradle distribution
+        run: |
+          $checksum = (Invoke-RestMethod -Uri "https://services.gradle.org/distributions/gradle-8.6-bin.zip.sha256" -TimeoutSec 60).Trim()
+          if ($checksum -cnotmatch "^[a-f0-9]{64}$") { throw "Invalid official Gradle checksum response." }
+          foreach ($project in @("12-AZ-IP/14-sdam/app", "12-AZ-IP/15-pentacorder")) {
+            Add-Content "$project/gradle/wrapper/gradle-wrapper.properties" "`ndistributionSha256Sum=$checksum" -Encoding ascii
+            Push-Location $project
+            try {
+              .\gradlew.bat --no-daemon assembleDebug
+              if ($LASTEXITCODE -ne 0) { throw "Actual Android build failed: $project" }
+            } finally { Pop-Location }
+          }
+          New-Item -ItemType Directory -Force platform-output | Out-Null
+          Copy-Item 12-AZ-IP/14-sdam/app/app/build/outputs/apk/debug/app-debug.apk platform-output/android-sdam.apk
+          Copy-Item 12-AZ-IP/15-pentacorder/app/build/outputs/apk/debug/app-debug.apk platform-output/android-pentacorder.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pc-suite-android-artifacts
+          path: platform-output/*.apk
+          if-no-files-found: error
+
+  uefi:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build actual x64 UEFI application without firmware changes
+        working-directory: 12-AZ-IP/02-az-kernel
+        run: |
+          cargo build --locked --release --target x86_64-unknown-uefi
+          if ($LASTEXITCODE -ne 0) { throw "Actual UEFI build failed." }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pc-suite-uefi-artifact
+          path: 12-AZ-IP/02-az-kernel/target/x86_64-unknown-uefi/release/az-kernel.efi
+          if-no-files-found: error
+
+  bundle:
+    needs: [android, uefi]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: pc-suite-android-artifacts
+          path: platform-output
+      - uses: actions/download-artifact@v4
+        with:
+          name: pc-suite-uefi-artifact
+          path: uefi-output
+      - name: Bind all platform artifacts to actual hashes
+        run: |
+          Move-Item uefi-output/az-kernel.efi platform-output/uefi-az-kernel.efi
+          $assets = foreach ($target in @("android-sdam", "android-pentacorder", "uefi-az-kernel")) {
+            $extension = if ($target -eq "uefi-az-kernel") { "efi" } else { "apk" }
+            $file = "$target.$extension"
+            $item = Get-Item -LiteralPath "platform-output/$file"
+            if ($item.Length -lt 1 -or $item.Length -gt 268435456) { throw "Invalid platform artifact byte length." }
+            [ordered]@{
+              target = $target; file = $file; sizeBytes = $item.Length
+              sha256 = (Get-FileHash $item.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            }
+          }
+          [ordered]@{ formatVersion = 1; assets = @($assets) } | ConvertTo-Json -Depth 5 |
+            Set-Content platform-output/manifest.json -Encoding utf8NoBOM
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pc-suite-platform-targets
+          path: platform-output/
+          if-no-files-found: error

@@ -2320,6 +2320,33 @@
       "sha256": "3f28de7d6ae015350140a1ce60b7d401efb31bc673fff8dd75d0de7c454de2a4",
       "size_bytes": 2863,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/README.md": {
+      "description": "Product 15 Windows runtime integration and contracts: README.md",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "6068cdff68cf8cb07cd77d8d8dc528018edef7163c8d7ccf1b199a249c59d92c",
+      "size_bytes": 15949,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/gradle/libs.versions.toml": {
+      "description": "Product 15 Windows runtime integration and contracts: libs.versions.toml",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "e2f9feed22f79a891aa9050faabf281486368f5e464aaf842891ed41f45c28af",
+      "size_bytes": 4134,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py": {
+      "description": "Product 45 Windows runtime integration and contracts: test_android_catalog.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "992820f107886505e97c017fb32a36c16b9c4c05c02ebbb4dcf89a4e49f4e249",
+      "size_bytes": 1222,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",

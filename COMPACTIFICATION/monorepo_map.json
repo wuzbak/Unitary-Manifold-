@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8482,
+  "file_count": 8485,
   "lanes": {
-    "az_ip": 2628,
+    "az_ip": 2630,
     "compactification": 9,
-    "other": 5395,
+    "other": 5396,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -16,14 +16,14 @@
     ".dvc": 1,
     ".firebaserc": 1,
     ".gitattributes": 1,
-    ".github": 52,
+    ".github": 53,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2628,
+    "12-AZ-IP": 2630,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -1892,6 +1892,7 @@
       "12-AZ-IP/15-pentacorder/feature/uwb/src/main/java/com/gibbernode/feature/uwb/UWBScreen.kt",
       "12-AZ-IP/15-pentacorder/feature/uwb/src/main/java/com/gibbernode/feature/uwb/UWBViewModel.kt",
       "12-AZ-IP/15-pentacorder/gradle.properties",
+      "12-AZ-IP/15-pentacorder/gradle/libs.versions.toml",
       "12-AZ-IP/15-pentacorder/gradle/wrapper/gradle-wrapper.jar",
       "12-AZ-IP/15-pentacorder/gradle/wrapper/gradle-wrapper.properties",
       "12-AZ-IP/15-pentacorder/gradlew",
@@ -2797,6 +2798,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py"
     ]
   },
@@ -3529,6 +3531,12 @@
     },
     {
       "path": ".github/workflows/pc-suite-embedded-model.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/workflows/pc-suite-platforms.yml",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -16158,6 +16166,13 @@
       "product": "15-pentacorder"
     },
     {
+      "path": "12-AZ-IP/15-pentacorder/gradle/libs.versions.toml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "15-pentacorder"
+    },
+    {
       "path": "12-AZ-IP/15-pentacorder/gradle/wrapper/gradle-wrapper.jar",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22067,6 +22082,13 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
