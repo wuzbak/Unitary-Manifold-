@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8409,
+  "file_count": 8430,
   "lanes": {
-    "az_ip": 2557,
+    "az_ip": 2577,
     "compactification": 9,
-    "other": 5393,
+    "other": 5394,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -16,14 +16,14 @@
     ".dvc": 1,
     ".firebaserc": 1,
     ".gitattributes": 1,
-    ".github": 50,
+    ".github": 51,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2557,
+    "12-AZ-IP": 2577,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2725,6 +2725,28 @@
       "12-AZ-IP/44-axiomzero-weave/tests/test_weave_memory.py",
       "12-AZ-IP/44-axiomzero-weave/tests/test_weave_runtime.py",
       "12-AZ-IP/44-axiomzero-weave/tests/test_weave_scheduler.py"
+    ],
+    "45-axiomzero-pc-suite": [
+      "12-AZ-IP/45-axiomzero-pc-suite/.gitignore",
+      "12-AZ-IP/45-axiomzero-pc-suite/README.md",
+      "12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json",
+      "12-AZ-IP/45-axiomzero-pc-suite/index.html",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/catalog.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/knowledge.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/operation-lock.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/repository.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/settings.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/main.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/package-lock.json",
+      "12-AZ-IP/45-axiomzero-pc-suite/package.json",
+      "12-AZ-IP/45-axiomzero-pc-suite/preload.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/renderer.js",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1",
+      "12-AZ-IP/45-axiomzero-pc-suite/styles.css",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs"
     ]
   },
   "psicat_literature": {
@@ -3450,6 +3472,12 @@
     },
     {
       "path": ".github/workflows/pages.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/workflows/pc-suite-windows.yml",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -21496,6 +21524,146 @@
       "kind": "file",
       "lane": "az_ip",
       "product": "44-axiomzero-weave"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/.gitignore",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/catalog.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/knowledge.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/operation-lock.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/repository.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/settings.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/main.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/package-lock.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/package.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/preload.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/renderer.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/styles.css",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
     },
     {
       "path": "12-AZ-IP/BRAND_SEPARATION_NOTICE_PSICAT.md",
