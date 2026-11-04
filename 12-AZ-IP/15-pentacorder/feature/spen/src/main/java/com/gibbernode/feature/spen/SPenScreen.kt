@@ -14,7 +14,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import kotlin.math.toDegrees
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -178,7 +177,7 @@ private fun StrokeLabTab(state: SPenUiState, vm: SPenViewModel) {
                             .takeIf { it > 0f } ?: event.pressure
                         // AXIS_TILT (25) = pen angle from vertical in degrees
                         val tiltDeg  = event.getAxisValue(MotionEvent.AXIS_TILT)
-                            .toDouble().toDegrees().toFloat()
+                            .let { Math.toDegrees(it.toDouble()).toFloat() }
 
                         when (event.action) {
                             MotionEvent.ACTION_DOWN -> {
@@ -194,7 +193,7 @@ private fun StrokeLabTab(state: SPenUiState, vm: SPenViewModel) {
                                     val hy = event.getHistoricalY(i)
                                     val hp = event.getHistoricalPressure(i)
                                     val ht = event.getHistoricalAxisValue(MotionEvent.AXIS_TILT, i)
-                                        .toDouble().toDegrees().toFloat()
+                                        .let { Math.toDegrees(it.toDouble()).toFloat() }
                                     strokePoints += Offset(hx, hy)
                                     vm.addStrokePoint(hx, hy, hp, ht)
                                 }
