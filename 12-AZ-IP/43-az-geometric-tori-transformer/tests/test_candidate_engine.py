@@ -212,6 +212,14 @@ class ManifestTests(ArtifactFixture):
                     with self.assertRaises(gate.VerificationError):
                         gate.validate_manifest(bad)
 
+    def test_official_filename_capitalization_does_not_change_quantization(self):
+        manifest = copy.deepcopy(self.manifest)
+        manifest["model"]["file"] = gate.MODEL_FILE.lower()
+        self.assertEqual(gate.validate_manifest(manifest)["model"]["file"], gate.MODEL_FILE.lower())
+        manifest["model"]["file"] = f"../{gate.MODEL_FILE.lower()}"
+        with self.assertRaises(gate.VerificationError):
+            gate.validate_manifest(manifest)
+
     def test_provenance_and_hash_fields_fail_closed(self):
         changes = [
             ("model", "repository", "unofficial/Qwen"),

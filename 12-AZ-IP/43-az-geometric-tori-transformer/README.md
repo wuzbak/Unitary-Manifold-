@@ -32,8 +32,12 @@ owned authenticated loopback endpoint with bounded requests and cleanup.
 The report records actual outputs, latency, failures and shutdown status.
 
 The Windows `pc-suite-embedded-model.yml` workflow builds a pinned static engine,
-obtains official model revision/LFS hashes and declared licensing, and downloads
-weights with byte/time limits before exercising that gate. The candidate is a
+obtains official model revision/LFS hashes and licensing, and downloads
+the official Q8_0 weights with byte/time limits. The pinned engine's quantizer
+then produces Q4_K_M locally, recording the source and output hashes and the
+quantizer hash before exercising that gate. The official repository does not
+publish this Q4 file. Requantization can reduce quality; the gate is not an expert
+reasoning benchmark. The candidate is a
 **third-party pretrained language substrate**, not this repository's toroidal
 model, not trained by this project, and not evidence of physical 5D information
 flow. Backend sanity checks do not certify expert-assistant quality.

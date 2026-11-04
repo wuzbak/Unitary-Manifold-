@@ -1,12 +1,8 @@
 name: Embedded PsiCat Instruction Backend Evaluation
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/pc-suite-embedded-model.yml"
-      - "12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py"
-      - "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py"
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -46,12 +42,12 @@ jobs:
               throw "Required portable/offline build option was not honored: $option"
             }
           }
-          cmake --build native-engine/build --config Release --target llama-server --parallel 2
+          cmake --build native-engine/build --config Release --target llama-server llama-quantize --parallel 2
           if ($LASTEXITCODE -ne 0) { throw "CPU engine compilation failed." }
       - name: Fetch authoritative public model metadata and checksum-bound weights
         run: |
           $repository = "Qwen/Qwen3-1.7B-GGUF"
-          $file = "Qwen3-1.7B-Q4_K_M.gguf"
+          $file = "Qwen3-1.7B-Q8_0.gguf"
           $metadata = Invoke-RestMethod -Uri "https://huggingface.co/api/models/${repository}?blobs=true" -TimeoutSec 60 -MaximumRedirection 0
           if ($metadata.private -or $metadata.gated -or $metadata.cardData.license -cne "apache-2.0") {
             throw "Candidate must be public, ungated and declared Apache-2.0 by its official model card."
@@ -60,11 +56,11 @@ jobs:
           $metadata | ConvertTo-Json -Depth 8 | Set-Content model-metadata.json -Encoding utf8NoBOM
           if ($assets.Count -ne 1 -or $metadata.sha -cnotmatch "^[a-f0-9]{40}$") {
             $metadata.siblings.rfilename | Write-Output
-            throw "Official model revision or unique Q4_K_M quantization file is missing."
+            throw "Official model revision or unique Q8_0 source file is missing."
           }
           $asset = $assets[0]
           $file = $asset.rfilename
-          if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 1600000000) {
+          if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 2600000000) {
             throw "Authoritative LFS digest/size is missing or exceeds the candidate size budget."
           }
           New-Item -ItemType Directory -Force candidate | Out-Null
@@ -113,12 +109,20 @@ jobs:
             }
           }
           $url = "https://huggingface.co/${repository}/resolve/$($metadata.sha)/${file}"
-          $modelPath = [System.IO.Path]::GetFullPath("candidate/$file")
-          Receive-PublicAsset $url $modelPath $asset.lfs.size $asset.lfs.size
+          $sourceModelPath = [System.IO.Path]::GetFullPath($file)
+          Receive-PublicAsset $url $sourceModelPath $asset.lfs.size $asset.lfs.size
+          $sourceSha = (Get-FileHash $sourceModelPath -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($sourceSha -cne $asset.lfs.sha256) { throw "Downloaded source model does not match authoritative LFS SHA-256." }
+          $outputFile = "Qwen3-1.7B-Q4_K_M.gguf"
+          $modelPath = [System.IO.Path]::GetFullPath("candidate/$outputFile")
+          $quantizerPath = [System.IO.Path]::GetFullPath("native-engine/build/bin/Release/llama-quantize.exe")
+          & $quantizerPath --allow-requantize $sourceModelPath $modelPath Q4_K_M 2
+          if ($LASTEXITCODE -ne 0) { throw "Pinned local Q4_K_M quantization failed." }
+          $modelBytes = (Get-Item -LiteralPath $modelPath).Length
+          if ($modelBytes -lt 1000000 -or $modelBytes -gt 1600000000) { throw "Quantized model exceeds its installation budget." }
           $actual = (Get-FileHash $modelPath -Algorithm SHA256).Hash.ToLowerInvariant()
-          if ($actual -cne $asset.lfs.sha256) { throw "Downloaded model does not match authoritative LFS SHA-256." }
           Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/README.md" ([System.IO.Path]::GetFullPath("candidate/MODEL_CARD.md")) 262144
-          Receive-PublicAsset "https://www.apache.org/licenses/LICENSE-2.0.txt" ([System.IO.Path]::GetFullPath("candidate/MODEL_LICENSE")) 65536
+          Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/LICENSE" ([System.IO.Path]::GetFullPath("candidate/MODEL_LICENSE")) 65536
           foreach ($notice in @($metadata.siblings | Where-Object { $_.rfilename -cin @("NOTICE", "NOTICE.txt", "NOTICE.md") })) {
             Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$($notice.rfilename)" ([System.IO.Path]::GetFullPath("candidate/$($notice.rfilename)")) 65536
           }
@@ -126,8 +130,8 @@ jobs:
           $manifest = [ordered]@{
             formatVersion = 1
             model = [ordered]@{
-              repository = $repository; revision = $metadata.sha; file = $file
-              sha256 = $actual; sizeBytes = $asset.lfs.size; license = "Apache-2.0"
+              repository = $repository; revision = $metadata.sha; file = $outputFile
+              sha256 = $actual; sizeBytes = $modelBytes; license = "Apache-2.0"
             }
             engine = [ordered]@{
               repository = "ggml-org/llama.cpp"
@@ -139,9 +143,19 @@ jobs:
           $manifest | ConvertTo-Json -Depth 6 | Set-Content candidate/manifest.json -Encoding utf8NoBOM
           [ordered]@{
             url = $url
+            sourceFile = $file
+            sourceSha256 = $sourceSha
+            sourceSizeBytes = $asset.lfs.size
+            sourceRevision = $metadata.sha
+            quantization = "Q4_K_M"
+            sourceQuantization = "Q8_0"
+            requantized = $true
+            qualityCaveat = "Requantization may reduce quality; actual backend gates do not establish expert competence."
+            quantizerSha256 = (Get-FileHash $quantizerPath -Algorithm SHA256).Hash.ToLowerInvariant()
+            quantizedSha256 = $actual
             modelCardSha256 = (Get-FileHash candidate/MODEL_CARD.md -Algorithm SHA256).Hash.ToLowerInvariant()
             licenseSha256 = (Get-FileHash candidate/MODEL_LICENSE -Algorithm SHA256).Hash.ToLowerInvariant()
-            licenseSource = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            licenseSource = "https://huggingface.co/${repository}/resolve/$($metadata.sha)/LICENSE"
             productionAssistantVerified = $false
           } | ConvertTo-Json | Set-Content candidate/source-provenance.json -Encoding utf8NoBOM
           $manifest | ConvertTo-Json -Depth 6
@@ -159,6 +173,14 @@ jobs:
           git -C native-engine/source archive --format=zip --output="$([System.IO.Path]::GetFullPath('candidate/engine-source.zip'))" HEAD
           if ($LASTEXITCODE -ne 0) { throw "Pinned source/license archive creation failed." }
           Copy-Item native-engine/build/bin/Release/llama-server.exe candidate/llama-server.exe
+      - name: Upload validated complete offline runtime
+        uses: actions/upload-artifact@v4
+        with:
+          name: psicat-instruction-runtime
+          retention-days: 7
+          compression-level: 0
+          path: candidate/
+          if-no-files-found: error
       - uses: actions/upload-artifact@v4
         if: always() && hashFiles('candidate/manifest.json') != ''
         with:
