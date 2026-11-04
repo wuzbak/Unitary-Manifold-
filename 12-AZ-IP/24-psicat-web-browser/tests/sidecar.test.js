@@ -56,6 +56,13 @@ test('browser-owned Navigator never inherits suite operator or profile-resume se
   assert.equal(env.PSICAT_LOCAL_EXECUTION_TOKEN, 'operator');
 });
 
+test('Navigator can import its actual repository infrastructure from the canonical source root', () => {
+  const repoRoot = path.resolve(productRoot, '..', '..');
+  const environment = navigatorEnvironment({ PATH: 'local', PYTHONPATH: 'unrelated-source' }, repoRoot);
+  assert.equal(environment.PYTHONPATH, repoRoot);
+  assert.throws(() => navigatorEnvironment({}, 'relative-source'), /absolute/);
+});
+
 test('owned launch uses argument arrays, no shell, loopback and a specific child shutdown', async () => {
   const { manager, child, calls } = fakeManager({ env: { PSICAT_BROWSER_PYTHON: '/suite/python' }, args: ['--store', '/suite user/store.json'] });
   await Promise.all([manager.start(), manager.start()]);

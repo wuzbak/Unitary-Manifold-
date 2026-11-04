@@ -34,6 +34,12 @@ test("desktop startup failure is explicit and still permits owned graceful clean
   await assert.rejects(control.ready(), /Port 8787 occupied/);
   await control.stop();
 });
+test("early native desktop exit reports the actual exit status instead of a blank failure", async () => {
+  const { child, control } = fixture();
+  const pending = control.ready();
+  child.emit("close", 42, null);
+  await assert.rejects(pending, /code 42, signal none/);
+});
 test("unresponsive graceful shutdown terminates only the owned tree and reports escalation", async () => {
   let terminated;
   const { child, control } = fixture({

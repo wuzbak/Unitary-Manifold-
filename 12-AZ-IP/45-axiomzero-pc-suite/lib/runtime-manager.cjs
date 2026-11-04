@@ -205,7 +205,7 @@ function createRuntimeManager({
         }
         const python = path.join(dataDirectory, "environments", id, "Scripts", "python.exe");
         if (!fs.existsSync(python)) throw new Error("Browser Python sidecar runtime is missing; reinstall this product.");
-        const child = spawnProcess(executable, [folder], {
+        const child = spawnProcess(executable, ["--enable-logging=stderr", folder], {
           cwd: folder, shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe", "ipc"],
           env: {
             ...process.env, ELECTRON_RUN_AS_NODE: undefined, PYTHONPATH: root, PYTHONNOUSERSITE: "1",

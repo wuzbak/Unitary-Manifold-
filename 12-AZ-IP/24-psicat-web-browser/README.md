@@ -35,6 +35,7 @@ npm start
 
 - Electron provides the Chromium shell.
 - The entry point is `package.json` → `desktop/main.js` (`npm start` → `electron .`).
+- `desktop/main.js` is the guarded diagnostic bootstrap; the existing browser implementation is in `desktop/runtime.js`. Both must be staged.
 - The desktop app attempts to launch the sibling Product 20 `../20-psicat-navigator/run.py`.
 - The desktop app also launches `sync_backend/server.py`.
 - Backend sync requires both a sync account email and a sync access token; the scaffold uses that token to guard account-scoped packet push/pull on the trusted endpoint.
@@ -52,6 +53,7 @@ Electron process (not through browser settings or imported packets):
 | `PSICAT_BROWSER_PYTHON` | Absolute Python executable path, without embedded quotes or arguments. Both sidecars use it verbatim as an executable, with separate argument arrays. An invalid override fails visibly, without falling back to an ambient interpreter. |
 | `PSICAT_BROWSER_USER_DATA` | Absolute writable Product 24 directory. Created before Electron initializes; browser state, sync mirrors and the sync backend store live here, outside installed sources. If omitted, Electron's usual per-user `userData` is used. |
 | `PSICAT_BROWSER_NAVIGATOR_RUN` | Optional absolute Product 20 `run.py` path; otherwise use the sibling source tree. This is a Python script contract, not a frozen executable contract. |
+| `PSICAT_BROWSER_NAVIGATOR_REPO_ROOT` | Optional absolute repository source/resource root; otherwise inferred two directories above Product 20's `run.py`. Passed as the Navigator child `PYTHONPATH`, replacing ambient import roots. |
 | `PSICAT_BROWSER_DISABLE_NAVIGATOR` | Set exactly `1` to disable browser-owned Product 20 startup, regardless of saved auto-start settings. Local research remains explicitly local. |
 | `PSICAT_BROWSER_SUITE_IPC` | Set exactly `1` only when launching Electron directly with an inherited Node IPC channel; enables the private lifecycle protocol below. |
 
@@ -78,7 +80,12 @@ Readiness requires `GET /api/sync/health` to return `ok: true`,
 Optional Navigator startup uses
 `python -u <Product20>/run.py --host 127.0.0.1 --port 8020 --no-open --local-execution off`.
 Its interpreter needs Product 20's `requirements.txt` (numpy, scipy, sympy,
-httpx) and that product's source/resources. Readiness checks
+httpx), that product's source/resources, **and the canonical repository**
+`src/` and resources. Product 20 imports
+`src.infrastructure.execution_spine` on startup; its pip requirements alone
+are insufficient. The launch adapter supplies the canonical repository root
+as `PYTHONPATH` so those imports work when its working directory is Product 20.
+Readiness checks
 `GET /api/psicat/status` for `psicat_available: true` and handshake profile
 material; readiness is **not** evidence of model competence or live inference.
 The browser-owned process does not inherit `PSICAT_LOCAL_EXECUTION_TOKEN`,
@@ -112,7 +119,7 @@ supports only the latest minor in each of the three supported major lines.
 hypervisor UNC shares; subsequent releases include Chromium/V8 and other
 upstream backports. The stale 44.3.0 pin was replaced without a major upgrade
 or unrelated dependency upgrades. On this tested lock, the existing browser
-tests (6), Node tests (46; 1 opt-in skip), Python tests (10), lint and opt-in
+tests (6), Node tests (51; 1 opt-in skip), Python tests (10), lint and opt-in
 actual Linux Electron UI/IPC start/failure/graceful-stop test all passed.
 This resolves the stale-runtime blocker, not native Windows validation or
 production certification. An ongoing browser update policy remains necessary.
@@ -178,7 +185,17 @@ Messages use `protocol: "psicat-browser-lifecycle-v1"` and `product_id: 24`:
 - `ready`: emitted only after the desktop UI file loads, tab views mount and
   the mandatory sync sidecar passes its instance-specific health check.
   Includes public `sync`/`navigator` status, PID, loopback base URL and error.
-  Navigator is optional; its failure does not represent successful inference.
+  Navigator may be explicitly disabled, but **when enabled it must also be
+  ready**; a failed/missing enabled Navigator produces `startup-failed`, not a
+  false successful desktop start. Healthy status does not certify inference.
+- `boot`: credential-free bootstrap phases and actual IPC availability,
+  platform and Electron version. These are diagnostic only, never ready.
+  In suite mode the same records are appended to
+  `<PSICAT_BROWSER_USER_DATA>/product24-startup.jsonl` so Windows console
+  redirection cannot hide all main-process diagnostics. Unknown exception
+  reports include phase/name/code, not exception messages, stacks or environment.
+  An empty/missing file and no `entry` IPC record means the Product 24 entry
+  was not observed running; it does not establish a Node IPC limitation.
 - `state`: public state changes, **not** startup-success evidence. After ready,
   a required sync status other than `ready` must invalidate suite readiness.
 - `startup-failed`: includes an error; no `ready` follows. Suite-mode startup
@@ -310,10 +327,27 @@ TMPDIR=.test-work PSICAT_BROWSER_ELECTRON_TEST=1 xvfb-run -a node --test tests/d
 ```
 
 On Windows set `$env:PSICAT_BROWSER_ELECTRON_TEST = '1'` and run
-`node --test tests/desktop-runtime.test.js` without Xvfb. Local Linux root
+`node --test tests/desktop-runtime.test.js` without Xvfb. There is no win32
+skip: the opt-in test always covers enabled real Product 20, both sidecar
+health checks and PID cleanup, missing Navigator, bad interpreter and bootstrap
+failure, in addition to local UI/IPC. Install Product 20 requirements in the
+test Python first; the test resolves setup-python's `python` on Windows
+(or the explicit `PSICAT_BROWSER_PYTHON`) rather than accidentally selecting a
+different ambient installation via `py -3`. Local Linux root
 testing disables Chromium's sandbox only for that test; production launch does
 not add `--no-sandbox`. Linux test success and mocked Windows command selection
 do **not** constitute successful native Windows execution.
+
+For a faster Windows **GUI inherited-IPC discriminator**, after installing
+Electron run `node tests/run-ipc-probe.js` using the approved Node executable
+(or on Linux: `TMPDIR=.test-work xvfb-run -a node tests/run-ipc-probe.js`).
+It launches the actual Electron binary directly, loads a hidden sandboxed
+`about:blank` window, checks IPC in both directions, requests a correlated
+graceful exit, and reports actual exit code/signal and boot records on failure.
+It downloads nothing and starts no Python/model services. Its
+`ipc-probe-ready` is explicitly **not** Product 24 readiness. This probe plus
+the full desktop test separates transport/GUI behavior from source/resource
+provisioning without rebuilding the portfolio.
 
 ## Android structure
 

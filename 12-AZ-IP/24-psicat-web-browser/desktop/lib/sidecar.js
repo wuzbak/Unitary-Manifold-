@@ -16,12 +16,16 @@ function pythonCommand(env = process.env, platform = process.platform) {
     : { executable: 'python3', args: [] };
 }
 
-function navigatorEnvironment(env = process.env) {
+function navigatorEnvironment(env = process.env, repoRoot) {
   const result = { ...env };
   // A browser-owned Navigator must not inherit another suite service's authority.
   delete result.PSICAT_LOCAL_EXECUTION_TOKEN;
   delete result.MERLIN_PROFILE_SHARED_KEY;
   delete result.MERLIN_SESSION_SECRET;
+  if (repoRoot) {
+    if (!path.isAbsolute(repoRoot)) throw new Error('Navigator repository source root must be absolute.');
+    result.PYTHONPATH = repoRoot;
+  }
   return result;
 }
 

@@ -601,6 +601,32 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `5fe7c4137291f0065faf0e5f1c3aac2741ac0c67f17802c12954048e763a2e6e` | 6421 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `ac15ad00f7810c3f8fbbeee4f36545628bb1781962116f0d27e5eb6abe2e6203` | 17092 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/24-psicat-web-browser/README.md` | `c9ae91627e60ad3ca3fa1892dc04755908f63978b442a31c02d888c8151bfe38` | 23813 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/lib/sidecar.js` | `508ef05ddf0b84d5d0206c3fce73e9f813c35ea1657eabec8ffb4b46da66f6a2` | 7326 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/lib/startup-diagnostics.js` | `22cd6a6452379d6eed57591f17fae8e33f87539b66560a0e4bb49b21d8741301` | 2433 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/main.js` | `00ee262107ccc70cf8c5e9e267c71c39bf75b3715989c8d9b11c158a3017f51f` | 350 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/runtime.js` | `a7ad4ae1d5a798d66d9dd4244c0fea92c5a51eba7c83790557f350bf4daaef65` | 31159 |
+| `12-AZ-IP/24-psicat-web-browser/package.json` | `fea57fc2e3b7c3317a5665ea7ef0d1e4bf7164752a40806b023674069eac95ad` | 1134 |
+| `12-AZ-IP/24-psicat-web-browser/tests/desktop-runtime.test.js` | `26978f146cbc1f5f1aeb5ca44af976870a0ef9bf06faac09e135dde3e5c03928` | 9089 |
+| `12-AZ-IP/24-psicat-web-browser/tests/electron-ipc-probe.js` | `a859b39357c96adce9006977423dd0ed778ebce7b8c73514c6cd2b372c359041` | 1073 |
+| `12-AZ-IP/24-psicat-web-browser/tests/run-ipc-probe.js` | `5870f833b5bf6f5c4a0be49c040252e764bb1832dd6eb49f66de8c61aa190283` | 2457 |
+| `12-AZ-IP/24-psicat-web-browser/tests/sidecar.test.js` | `08355d219cbc1ea4b467a7f5c422600fea8b275fa57109971eee016da4666f63` | 12264 |
+| `12-AZ-IP/24-psicat-web-browser/tests/startup-diagnostics.test.js` | `d11d67c9cd264fa0f1ed9bd31a875794161721b820a911c792adbde0852c768d` | 2812 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `3ac82294ed18e48192041a9fdfba91aa0f244c5c55ea263b2559fdefb08528c0` | 18922 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/desktop-runtime.cjs` | `0eab62595e8b9abb069dd62ae0cf4a5faa625e2cb6b676d1223f90730b5c3434` | 3356 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `38b9e1ce661d34ef83edea87789700875c8f16e6749dc9bd100d4226fe8e7916` | 20198 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs` | `bbd60cd213cb63a3795b4803e20c7e6159f615bcb34558aaa32087220b7eecb3` | 3173 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `2f252d451c2ba74f929a07dfc5345b90c2c7985b16d3bfe3dadfedb04771859c` | 17119 |
+
 ## Verification Protocol
 
 To verify any registered asset:

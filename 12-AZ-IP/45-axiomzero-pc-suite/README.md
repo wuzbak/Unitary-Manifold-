@@ -155,8 +155,11 @@ and query policy. Other online capabilities belong to their individual products.
 
 ## Windows installable build
 
-The Windows workflow builds both a per-user NSIS installer and a portable
-executable. From a Windows checkout with Node.js 22, Python 3.12 and internet
+The Windows workflow requires a native browser readiness/cleanup check before
+building either the per-user NSIS installer or the portable executable. This
+fail-fast check runs the real Electron desktop on Windows, not a mocked child.
+An early desktop exit reports its exit code and signal rather than an empty
+startup error. From a Windows checkout with Node.js 22, Python 3.12 and internet
 access for dependency/bootstrap downloads:
 
 ```powershell
@@ -179,6 +182,10 @@ checksums, installs a real Product 43 environment, and starts/health-checks/stop
 that service. This does not certify every product. The repository workflow
 also installs private Node LTS, provisions Product 27, rejects unauthenticated
 API requests and creates/builds a real local project through the authenticated API.
+It rejects generated-project PostCSS configuration execution during preview and
+build, checks actual CPU JAX values/gradients, and requires Product 24's window,
+sync/Navigator readiness and graceful process exit. A failed or skipped native
+check does not certify those capabilities or permit publishing an installer.
 `.github/workflows/pc-suite-windows.yml` builds and uploads them as a workflow
 artifact on pull requests and manual dispatch. Each executable is accompanied
 by a SHA-256 checksum. A `pc-suite-v*` tag additionally publishes the installer

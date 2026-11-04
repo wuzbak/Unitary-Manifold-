@@ -299,7 +299,7 @@ test("browser provisioning verifies locked Windows Electron, Python sidecars and
     },
     spawnProcess(exe, args, options) {
       assert.ok(exe.endsWith("electron.exe"));
-      assert.deepEqual(args, [fs.realpathSync(target)]);
+      assert.deepEqual(args, ["--enable-logging=stderr", fs.realpathSync(target)]);
       assert.equal(options.env.PSICAT_BROWSER_SUITE_IPC, "1");
       assert.equal(options.env.PSICAT_BROWSER_PYTHON, path.join(root, "user", "environments", "24", "Scripts", "python.exe"));
       assert.equal(options.env.PSICAT_BROWSER_DISABLE_NAVIGATOR, "0");

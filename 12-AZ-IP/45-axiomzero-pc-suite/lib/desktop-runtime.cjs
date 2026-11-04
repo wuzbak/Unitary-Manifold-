@@ -25,9 +25,9 @@ function superviseDesktop(child, { readyDeadlineMs = 30000, stopDeadlineMs = 100
     update();
   });
   child.on("error", (error) => { failure = error; update(); });
-  child.on("close", () => {
+  child.on("close", (code, signal) => {
     closed = true;
-    if (!ready) failure ||= new Error(`Browser exited before readiness: ${diagnostics}`);
+    if (!ready) failure ||= new Error(`Browser exited before readiness (code ${code}, signal ${signal || "none"}): ${diagnostics}`);
     update();
   });
   function waitUntil(predicate, deadlineMs, label, failOnError = false) {

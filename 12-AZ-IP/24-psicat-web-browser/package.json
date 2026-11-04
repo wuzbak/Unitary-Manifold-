@@ -8,7 +8,7 @@
     "test:browser": "playwright test",
     "test:unit": "node --test tests/*.test.js",
     "start": "electron .",
-    "lint": "node --check desktop/main.js && node --check desktop/preload.js && node --check desktop/lib/browser-core.js && node --check desktop/lib/page-context.js && node --check desktop/lib/sync-policy.js && node --check desktop/lib/sidecar.js && node --check desktop/lib/desktop-boundary.js && node --check desktop/lib/suite-lifecycle.js && node --check desktop/ui/app.js && node --check extension/background.js && node --check extension/sidepanel.js"
+    "lint": "node --check desktop/main.js && node --check desktop/runtime.js && node --check desktop/preload.js && node --check desktop/lib/browser-core.js && node --check desktop/lib/page-context.js && node --check desktop/lib/sync-policy.js && node --check desktop/lib/sidecar.js && node --check desktop/lib/desktop-boundary.js && node --check desktop/lib/suite-lifecycle.js && node --check desktop/lib/startup-diagnostics.js && node --check desktop/ui/app.js && node --check extension/background.js && node --check extension/sidepanel.js && node --check tests/electron-ipc-probe.js && node --check tests/run-ipc-probe.js"
   },
   "keywords": [],
   "author": "",

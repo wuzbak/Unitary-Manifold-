@@ -21,7 +21,48 @@ permissions:
   contents: read
 
 jobs:
+  browser-desktop-runtime:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: 12-AZ-IP/24-psicat-web-browser
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: 12-AZ-IP/24-psicat-web-browser/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci --include=dev --ignore-scripts --no-audit --no-fund
+      - run: node node_modules/electron/install.js
+      - name: Verify inherited Electron IPC before provisioning Python
+        run: node tests/run-ipc-probe.js
+      - run: python -m pip install -r ../20-psicat-navigator/requirements.txt
+      - name: Exercise native Windows desktop readiness and cleanup
+        env:
+          PSICAT_BROWSER_ELECTRON_TEST: "1"
+        run: |
+          node --test --test-reporter=junit --test-reporter-destination=desktop-runtime.xml tests/desktop-runtime.test.js
+          if ($LASTEXITCODE -ne 0) {
+            throw "Native Windows browser runtime test failed."
+          }
+          [xml]$report = Get-Content desktop-runtime.xml -Raw
+          if ($report.SelectNodes("//testcase").Count -eq 0 -or $report.SelectNodes("//skipped").Count -ne 0) {
+            throw "Native Windows browser runtime verification must execute without skips."
+          }
+      - name: Upload native browser test diagnostics
+        if: always() && hashFiles('12-AZ-IP/24-psicat-web-browser/desktop-runtime.xml') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: psicat-browser-windows-runtime-report
+          path: 12-AZ-IP/24-psicat-web-browser/desktop-runtime.xml
+          if-no-files-found: error
+
   test-and-package:
+    needs: browser-desktop-runtime
     runs-on: windows-latest
     defaults:
       run:
