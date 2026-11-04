@@ -281,9 +281,17 @@
       "description": "Canonical merged Axiom OS suite README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "5cabf9cfb1bad808503845a6f9c2850c2f7ae4b2e8f8615e4eddd4ea5218748c",
-      "size_bytes": 2191
+      "updated": "2026-11-04",
+      "sha256": "fa9a470cd1f8732a3e691190381e58a78a3b9b5da2aef7da2b3db391d64ed6de",
+      "size_bytes": 9736,
+      "reseal_history": [
+        {
+          "updated": "2026-08-18",
+          "sha256": "5cabf9cfb1bad808503845a6f9c2850c2f7ae4b2e8f8615e4eddd4ea5218748c",
+          "size_bytes": 2191
+        }
+      ],
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/02-az-kernel/README.md": {
       "description": "Canonical merged AZ-KERNEL README",

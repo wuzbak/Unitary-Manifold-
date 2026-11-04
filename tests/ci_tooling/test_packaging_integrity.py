@@ -10,7 +10,7 @@ import shutil
 import subprocess
 import sys
 import tomllib
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from zipfile import ZipFile
 
 import pytest
@@ -19,6 +19,21 @@ from packaging.requirements import Requirement
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MODULES = ("core.metric", "holography.boundary", "multiverse.fixed_point")
+
+
+def test_axiom_os_compatibility_links_are_checkout_relative():
+    project = REPO_ROOT / "12-AZ-IP/01-axiom-os"
+    records = subprocess.check_output(
+        ["git", "ls-files", "-s", "-z", "--", "12-AZ-IP/01-axiom-os"],
+        cwd=REPO_ROOT,
+    ).decode().split("\0")
+    links = [record.split("\t", 1)[1] for record in records if record.startswith("120000 ")]
+    assert links, "Product 1 compatibility links must remain testable"
+    for name in links:
+        source = REPO_ROOT / name
+        target = os.readlink(source) if source.is_symlink() else source.read_text().strip()
+        assert not Path(target).is_absolute() and not PureWindowsPath(target).is_absolute(), name
+        assert (source.parent / target).resolve(strict=True).is_relative_to(project), name
 
 
 @pytest.mark.parametrize("name,supported,unsupported", [

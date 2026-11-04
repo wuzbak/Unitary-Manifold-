@@ -31,6 +31,12 @@ Measured baseline CPU throughput also required smaller evidence excerpts,
 for embedded research only. Other research steps retain their 60-second limit.
 Neither the grader nor its original challenge was relaxed.
 
+The slow-inclusive repository run exposed 23 Product 1 compatibility symlinks
+hard-coded to a GitHub runner's absolute checkout. They now preserve the same
+canonical targets using relative paths, without creating an external runner
+directory or weakening source-fingerprint checks. Actual wheel/editable
+packaging and a relocated-checkout link contract pass after the repair.
+
 ## Product 45 - Packaged instruction assistant (2026-11-04; adjacent software only)
 
 Added an explicit native-approved Ask PsiCat surface, local catalog/imported
