@@ -14,6 +14,9 @@ const { ResearchHarness, searchCatalog, composeReport } = require("./lib/harness
 const { searchEvidence } = require("./lib/worker-search.cjs");
 const { reasonLocally } = require("./lib/local-model.cjs");
 const { detectHardware } = require("./lib/hardware.cjs");
+const { createNativeModel } = require("./lib/native-model.cjs");
+const { createRuntimeManager } = require("./lib/runtime-manager.cjs");
+const { materializePortfolioSource } = require("./lib/portfolio-source.cjs");
 const {
   MAX_COLLECTIONS,
   buildCollection,
@@ -31,6 +34,9 @@ let knowledgeDirectory;
 let settings;
 let harness;
 let hardwareReport;
+let nativeModel;
+let runtimeManager;
+const runNativeMutation = createExclusiveOperation("Another own-model operation is in progress.");
 const runHardwareDetection = createExclusiveOperation("Hardware detection is already in progress.");
 const ownsInstance = app.requestSingleInstanceLock();
 if (!ownsInstance) app.quit();
@@ -105,6 +111,69 @@ async function openLocalPath(target) {
 }
 
 function registerHandlers() {
+  ipcMain.handle("runtime:list", () => runtimeManager.list());
+  ipcMain.handle("runtime:python", async () => {
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "warning", title: "Install Windows Python prerequisite",
+      message: "Use Windows Package Manager to install Python 3.12 for this user?",
+      detail: "This downloads third-party software through winget and accepts that package/source's agreements. Python is required by the managed portfolio environments, not by the embedded model. Review the Python license first. No administrator elevation is requested. This requires internet access and an available Windows Package Manager.",
+      buttons: ["Cancel", "Install user-scoped Python"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    return runtimeManager.installPython();
+  });
+  ipcMain.handle("runtime:install", async (_event, id) => {
+    const entry = runtimeManager.list().find((item) => item.id === id);
+    if (!entry) throw new Error("That runtime is not registered.");
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "warning", title: `Install Product ${id} dependencies`,
+      message: "Provision this product in its own local Python environment?",
+      detail: `${entry.limitation}\n\nThe suite copies its bundled tracked source into a user-data worktree if no checkout is connected. pip downloads and executes package installation code from the configured package index; installation may take ten minutes. External services/credentials and target-specific compatibility remain separate. Dependency success is not full product certification.`,
+      buttons: ["Cancel", "Install this runtime"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    return runtimeManager.install(id);
+  });
+  ipcMain.handle("runtime:start", async (_event, id) => {
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "question", title: `Start Product ${id}`,
+      message: "Start the registered local runtime?",
+      detail: "This executes the installed product code with your user permissions. It may read/write its own local state and use its documented network integrations. Only reviewed loopback launches are offered. Product 20 local command execution is disabled. The desktop owns this process and stops it when quitting.",
+      buttons: ["Cancel", "Start local runtime"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    return runtimeManager.start(id);
+  });
+  ipcMain.handle("runtime:stop", (_event, id) => runtimeManager.stop(id));
+  ipcMain.handle("native:status", () => nativeModel.status());
+  ipcMain.handle("native:generate", (_event, prompt) => runNativeMutation(async () => {
+    if (typeof prompt !== "string" || !prompt.trim() || prompt.length > 400) throw new Error("Enter a prompt of 1-400 characters.");
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "question", title: "Run embedded PsiCat model",
+      message: "Generate locally using the installed own toroidal model?",
+      detail: "This is experimental character generation, not a verified assistant answer. No cloud provider or external service is used; the model cannot execute tools. Output is unverified.",
+      buttons: ["Cancel", "Generate locally"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    return nativeModel.generate(prompt);
+  }));
+  ipcMain.handle("native:train", (_event, steps) => runNativeMutation(async () => {
+    if (!Number.isInteger(steps) || steps < 1 || steps > 2000) throw new Error("Choose a training budget of 1-2000 steps.");
+    const source = await dialog.showOpenDialog(mainWindow, {
+      title: "Select an approved UTF-8 training corpus (up to 8 MiB)",
+      properties: ["openFile"], filters: [{ name: "Text corpus", extensions: ["txt", "md"] }]
+    });
+    if (source.canceled) return { canceled: true };
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "warning", title: "Train your own PsiCat checkpoint",
+      message: `Train for ${steps} steps on the selected corpus?`,
+      detail: "This starts real CPU training, up to ten minutes, on the selected text only. The corpus is not uploaded. A completed checkpoint replaces only this suite's previous trained model; interrupted/failed training keeps the old model. Weights may memorize private text: protect the local user profile. Training is experimental and does not certify assistant competence.",
+      buttons: ["Cancel", "Train locally"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    return nativeModel.train(source.filePaths[0], steps);
+  }));
+  ipcMain.handle("native:cancel", () => nativeModel.cancel());
   ipcMain.handle("hardware:detect", () => runHardwareDetection(async () => {
     const response = await dialog.showMessageBox(mainWindow, {
       type: "question",
@@ -375,6 +444,27 @@ app.whenReady().then(() => {
   settingsPath = path.join(app.getPath("userData"), "settings.json");
   knowledgeDirectory = path.join(app.getPath("userData"), "knowledge");
   settings = readSettings(settingsPath);
+  const runtimeEntries = JSON.parse(fs.readFileSync(path.join(__dirname, "catalog/runtimes.json"), "utf8"));
+  function portfolioRoot() {
+    if (settings.repositoryRoot) return requireRepository();
+    if (!app.isPackaged) return validateCheckout(path.resolve(__dirname, "../.."));
+    return materializePortfolioSource(
+      path.join(process.resourcesPath, "portfolio"),
+      path.join(app.getPath("userData"), "portfolio")
+    );
+  }
+  runtimeManager = createRuntimeManager({
+    entries: runtimeEntries, sourceRoot: portfolioRoot,
+    dataDirectory: path.join(app.getPath("userData"), "runtimes")
+  });
+  const nativeDirectory = app.isPackaged
+    ? path.join(process.resourcesPath, "psicat-native")
+    : path.join(__dirname, "build/native");
+  nativeModel = createNativeModel({
+    executable: path.join(nativeDirectory, "PsiCatCore", process.platform === "win32" ? "PsiCatCore.exe" : "PsiCatCore"),
+    seed: path.join(nativeDirectory, "psicat-seed.npz"),
+    userDirectory: path.join(app.getPath("userData"), "psicat-model")
+  });
   harness = new ResearchHarness(path.join(app.getPath("userData"), "research-harness.json"), {
     "catalog.search": ({ goal }) => searchCatalog(products, goal),
     "evidence.search": ({ goal, signal }) => runKnowledgeMutation(() => searchEvidence({
@@ -397,6 +487,8 @@ app.whenReady().then(() => {
 
 app.on("before-quit", () => {
   if (harness?.active) harness.stop(harness.active.id);
+  if (nativeModel?.isActive()) nativeModel.cancel();
+  runtimeManager?.stopAll();
 });
 
 app.on("window-all-closed", () => {

@@ -1,5 +1,24 @@
 # Wave Changelog
 
+## Product 45 - Native model and runtime provisioning (2026-11-04; adjacent software only)
+
+Embedded the actual Product 43 toroidal character-model runtime as a
+standalone native executable, with a genuinely trained public-documentation
+seed, bundled redistribution licenses, bounded offline inference and
+explicitly approved/cancellable local training. Added all-45 source-reviewed
+runtime contracts, checksum-receipted bundled source, user-scoped Python
+bootstrap, isolated dependency provisioning and reviewed loopback
+start/health/stop controls. New desktop and native protocol tests cover
+approval, failure, cancellation, checkpoint promotion and source containment.
+
+This is not production-quality assistant intelligence, validated physical
+5D information flow or installation of every target. Node/Electron, Android,
+UEFI, broken legacy launchers and POSIX/unverified-JAX Windows requirements
+remain visible limits. Installed dependencies and responsive status routes
+are not full operational certification. No physics label, pillar, score or
+falsification condition changed; the independent mutation hard gate is not
+weakened or bypassed.
+
 ## PsiCat frozen-checkpoint evaluation (2026-11-04; adjacent software only)
 
 Added operator-selected independent-text evaluation without weight/tokenizer

@@ -117,3 +117,16 @@ test("hardware diagnostics require native consent and export only after detectio
   assert.equal(exported.schema, "axiomzero-hardware-assessment-v1");
   assert.equal(exported.assessment.trainingReady, false);
 });
+test("runtime provisioning and service execution require separate native approvals", async (t) => {
+  const { invoke, approvals } = await desktop(t);
+  const entries = invoke("runtime:list");
+  assert.equal(entries.length, 45);
+  assert.equal((await invoke("runtime:python")).canceled, true);
+  assert.equal((await invoke("runtime:install", "43")).canceled, true);
+  assert.equal((await invoke("runtime:start", "43")).canceled, true);
+  assert.match(approvals[0].detail, /third-party software/);
+  assert.match(approvals[1].detail, /pip downloads and executes/);
+  assert.match(approvals[2].detail, /local command execution is disabled/);
+  assert.equal(approvals.every((approval) => approval.defaultId === 0), true);
+  await assert.rejects(invoke("runtime:install", "../bad"), /not registered/);
+});

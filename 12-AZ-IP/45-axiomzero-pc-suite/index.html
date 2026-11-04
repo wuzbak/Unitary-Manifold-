@@ -49,6 +49,33 @@
         <button id="disconnect-repository" class="quiet" hidden>Disconnect</button>
       </section>
 
+      <section class="harness panel" aria-labelledby="native-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">OWN ARCHITECTURE · EMBEDDED · NO CLOUD</p>
+            <h2 id="native-heading">PsiCat native model</h2>
+          </div>
+        </div>
+        <p class="muted">
+          The installed native runtime includes real toroidal character-model weights.
+          It runs offline without Python, Ollama or another model service. This research
+          model generates characters, not verified assistant answers; it cannot operate tools.
+          Train a new local checkpoint only on text you approve.
+        </p>
+        <div class="harness-controls">
+          <button id="native-status">Inspect installed model</button>
+          <button id="native-train">Train on selected text (500 steps)</button>
+          <button id="native-cancel" disabled>Cancel native operation</button>
+        </div>
+        <form id="native-form" class="harness-form">
+          <label for="native-prompt">Experimental generation prompt</label>
+          <input id="native-prompt" maxlength="400" required placeholder="PsiCat">
+          <button id="native-generate" type="submit" class="primary">Generate with own model</button>
+        </form>
+        <p id="native-message" class="message" role="status" aria-live="polite"></p>
+        <pre id="native-output" class="native-output"></pre>
+      </section>
+
       <section class="harness panel" aria-labelledby="hardware-heading">
         <div class="section-heading">
           <div>
@@ -139,6 +166,28 @@
         </form>
         <p id="knowledge-message" class="knowledge-message" role="status" aria-live="polite"></p>
         <div id="knowledge-results" class="knowledge-results" aria-live="polite"></div>
+      </section>
+
+      <section class="harness panel" aria-labelledby="runtime-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PER-PRODUCT ENVIRONMENTS · EXPLICIT INSTALLATION</p>
+            <h2 id="runtime-heading">Portfolio runtime manager</h2>
+          </div>
+        </div>
+        <p class="muted">
+          Inspect each product's actual target before installation. Managed Python products
+          use separate environments; reviewed local services can be started and stopped here.
+          Android, UEFI, Node/Electron and POSIX-only products require their target tooling;
+          those are not advertised as native Windows runtimes. Internet is required to fetch
+          dependencies; configured services may also need credentials or live data.
+        </p>
+        <div class="harness-controls">
+          <button id="runtime-python">Install Windows Python prerequisite</button>
+          <button id="runtime-refresh">Refresh runtime status</button>
+        </div>
+        <p id="runtime-message" class="message" role="status" aria-live="polite"></p>
+        <div id="runtime-list" class="product-grid"></div>
       </section>
 
       <section class="portfolio panel">

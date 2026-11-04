@@ -1,6 +1,6 @@
 # Product 45 — AxiomZero PC Suite
 
-**Version 0.1.0 · Windows desktop portfolio launcher, local evidence search and governed research harness · readiness not assessed**
+**Version 0.1.0 · Windows desktop portfolio suite, local evidence, native experimental PsiCat and governed runtime controls · production readiness not assessed**
 
 Product 45 is an offline-first desktop front door to the registered AxiomZero
 portfolio. Its bundled catalog is built from the canonical `12-AZ-IP/README.md`
@@ -9,14 +9,59 @@ calculators and engines, open local product documentation, and reach a
 user-selected work folder. Loopback service links are opened only after an
 explicit click.
 
-The app is a launcher and portfolio guide, **not an installer for all 45
-products**. It does not silently install Python/Node dependencies, start
-services, download models, run arbitrary commands, or grant access to the
-whole PC. Connect a local repository checkout to open its product folders and
-guides. Individual products retain their own setup, runtime, privacy and
-readiness boundaries. For example, PsiCat Navigator is a separate local
-service; Product 45 does not impersonate a running model or bypass its
-handshake.
+The app includes an actual **standalone native PsiCat character-model
+executable and locally trained seed weights**, plus consent-gated provisioning
+for registered Python products. It is **not yet an installer for every
+portfolio target**: Android applications, UEFI components, Node/Electron
+products, broken legacy launchers and POSIX/JAX-dependent services have explicit
+limits rather than fake installation success. Individual products retain
+their setup, privacy and readiness boundaries. No provisioned dependency
+environment or responsive status endpoint constitutes full capability
+certification. Product 20 handles its own handshake; its managed launch disables
+local command execution.
+
+## Embedded PsiCat and portfolio installation
+
+The packaged `PsiCatCore` executable contains the repository's own NumPy
+toroidal causal Transformer runtime and needs neither a separately installed
+Python interpreter nor Ollama. The build trains a small seed on public portfolio
+documentation: a small model with a 64-character context and 500 training steps.
+Its receipt records source hashes and training metadata. This is real offline
+inference, **not a competent general-purpose assistant**; output may be
+fragmentary or meaningless. It is explicitly labeled UNVERIFIED. The toroidal
+encoding is an experimental software architecture, not verified physical 5D
+information flow.
+
+Use **PsiCat native model** to inspect the checkpoint or request bounded
+generation. Unknown vocabulary characters block generation explicitly.
+**Train on local text** requires a native file selection and approval, permits
+1–2,000 steps, and replaces the user checkpoint only after successful training.
+Training runs in a separate bounded native process and is cancellable. Corpora
+and checkpoints remain local and unencrypted; private ZIP imports are never
+automatically used for training. Training from scratch on selected text does
+not promise retention of the seed model's behavior.
+
+The **Portfolio runtime manager** displays all 45 reviewed target contracts.
+After approval it can bootstrap user-scoped Windows Python 3.12 with winget,
+create separate product environments, install reviewed requirements or
+pyproject packages, and run `pip check`. These operations require internet
+access and execute third-party installation code. Calculator products use
+the checked-in scientific dependency profile. Product 26's POSIX execution
+and Product 36's unverified native-Windows JAX backend are blocked explicitly.
+Non-Python target tooling is not managed.
+
+Registered loopback launch contracts cover Products 20, 21, 23, 28–35 and
+37–44. Install dependencies first, then approve **Start local service**.
+The manager rejects occupied ports, requires a responsive health route,
+retains bounded startup diagnostics and owns the process until **Stop service**
+or desktop shutdown. Changed source/dependency locations require reinstallation.
+A selected checkout is used when connected; otherwise the installer supplies
+a checksum-receipted tracked-source pack that is copied into a content-scoped
+user-data worktree before use. Installation resources are never used as mutable
+working storage. The source receipt explicitly inventories excluded binaries,
+large files, test/build/dependency folders and symlinks; external datasets,
+credentials, Android/UEFI artifacts and all runtime-specific data are not
+implied to be bundled.
 
 ## What works offline
 
@@ -52,8 +97,10 @@ account and imported data accordingly. “Remove index” deletes only Product 4
 local index; the original folder or ZIP remains untouched. Re-import or refresh
 is explicit.
 
-The app makes no automatic network requests. An explicitly approved optional
-research step can contact the fixed local Ollama service described below.
+The app makes no automatic network requests on startup. Approved dependency
+installation contacts package services; started products may contact their
+documented integrations. An explicitly approved optional research step can
+contact the fixed local Ollama service described below.
 “Open local service” hands a
 catalogued `localhost`/`127.0.0.1` address to the system browser; the target
 service must already be running. The PsiCat shortcut likewise opens the
@@ -69,6 +116,7 @@ access for dependency/bootstrap downloads:
 ```powershell
 cd 12-AZ-IP/45-axiomzero-pc-suite
 npm ci
+python -m pip install -r requirements-native-build.txt
 npm test
 npm run catalog:check
 npm run dist:win
@@ -78,8 +126,11 @@ npm run smoke:win
 Artifacts are written to `dist/`. `npm run smoke:win` silently installs and
 uninstalls the per-user NSIS build, launches both installed and portable
 applications, and verifies that the window renders all 45 products and the
-local evidence controls, creates a research plan and cancels it through the
-preload bridge without renderer exceptions. The repository workflow
+local evidence/runtime/native-model controls, creates a research plan and cancels
+it through the preload bridge without renderer exceptions. It also runs
+standalone installed native inference and training, verifies the bundled source
+checksums, installs a real Product 43 environment, and starts/health-checks/stops
+that service. This does not certify every product. The repository workflow
 `.github/workflows/pc-suite-windows.yml` builds and uploads them as a workflow
 artifact on pull requests and manual dispatch. Each executable is accompanied
 by a SHA-256 checksum. A `pc-suite-v*` tag additionally publishes the installer
@@ -106,12 +157,14 @@ preload bridge. The bridge exposes only fixed catalog, folder-picker, portfolio 
 actions; it accepts product/task IDs and fixed category names rather
 than arbitrary filesystem paths or commands. Local service URLs are restricted
 to loopback. The app does not open arbitrary external links, run shell
-commands, access browser passwords, or elevate privileges.
+arbitrary shell commands, access browser passwords, or elevate privileges.
+Approved runtime installation and launch execute fixed product/package programs
+with the user's permissions; these processes are **not OS-sandboxed**.
 
 The selected checkout path and its availability are stored in the user's
 application settings. Protect the Windows account and the selected checkout
 as usual. Product 45 does not provide repository authentication, encrypted
-sync, service health monitoring, or a full backup/restore facility.
+sync, continuous service health monitoring, or a full backup/restore facility.
 
 ## Validation
 
@@ -145,9 +198,10 @@ available RAM and 10 GiB free disk. Meeting these thresholds only permits
 identifiers are not reliable measurements of dedicated VRAM or CUDA capability;
 these remain explicitly unverified. Training readiness is never inferred.
 The exact licensed model and its measured memory/latency/context requirements
-must still be approved before any provisioning. No deployment-quality PsiCat
-weights have been bundled. Product 43's existing causal character-level
-train/resume/sample workflow is experimental, not a production assistant.
+must still be evaluated before production use. Only the small experimental
+own-model seed described above is bundled; no deployment-quality general
+assistant weights are supplied. Product 43's causal character-level workflow
+is experimental, not a production assistant.
 
 ### Task execution
 

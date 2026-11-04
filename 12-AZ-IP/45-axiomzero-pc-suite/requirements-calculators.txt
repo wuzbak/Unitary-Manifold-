@@ -1,0 +1,6 @@
+numpy>=1.24,<3
+scipy>=1.11,<2
+sympy>=1.12,<2
+Pillow>=10,<13
+PyYAML>=6,<7
+z3-solver>=4.12,<5

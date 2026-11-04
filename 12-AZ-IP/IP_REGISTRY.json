@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -338,10 +338,16 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "8fc0501f604ad4c964018dba8a77b3bcd7e7b10c35bc98318494bd681abab174",
-      "size_bytes": 20998,
-      "reseal_note": "Refreshed 2026-11-04 for the governed Product 45 research harness; no scientific claim promotion.",
+      "sha256": "3138e21f5dd65c2599135410e3decb5017a5126859c51c285af472b5bf5ce6aa",
+      "size_bytes": 21625,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "8fc0501f604ad4c964018dba8a77b3bcd7e7b10c35bc98318494bd681abab174",
+          "size_bytes": 20998,
+          "reseal_note": "Refreshed 2026-11-04 for the governed Product 45 research harness; no scientific claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "21d234b16f4a4a3460f452d3f28bb49b7f047f36295461f650901b156ea10702",
@@ -452,10 +458,16 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "a3d9bbb6e3aa109db45aabaabc05a8eebe894d1b1a22a9d0cc91ea96ff3ac586",
-      "size_bytes": 8409,
-      "reseal_note": "Refreshed 2026-11-04 to include the governed research harness in Product 45's license scope.",
+      "sha256": "df8b9cf75614ccb9aca655817c5833a93ed5c25d45239d6cd558d8ec71650451",
+      "size_bytes": 8459,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a3d9bbb6e3aa109db45aabaabc05a8eebe894d1b1a22a9d0cc91ea96ff3ac586",
+          "size_bytes": 8409,
+          "reseal_note": "Refreshed 2026-11-04 to include the governed research harness in Product 45's license scope."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "987803b2d638fbbaa2ebfceb859cf603380df8dfefa6223a74191fbd6ad84c67",
@@ -827,10 +839,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "938cd7409aff6a77a4645c6b9e4e38f101b2e5728f1413e9b62e542a73dbde08",
-      "size_bytes": 11163,
-      "reseal_note": "Refreshed 2026-11-04 for hardware-gated model evaluation and explicit training limits.",
+      "sha256": "585abc2154c4ca8f4b6319b3367fc6c4f2afddfdbd3110cbf2c52728e47631e9",
+      "size_bytes": 14735,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "938cd7409aff6a77a4645c6b9e4e38f101b2e5728f1413e9b62e542a73dbde08",
+          "size_bytes": 11163,
+          "reseal_note": "Refreshed 2026-11-04 for hardware-gated model evaluation and explicit training limits."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "7036e1121d574af7d7368f8a6e1c97d1a55feddfd3d429adca23260745418b03",
@@ -862,10 +880,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "72a2279841398f5bb32de0d3acd566f6a793a4e9bbff4033ba50f200392591e5",
-      "size_bytes": 2124,
-      "reseal_note": "Refreshed 2026-11-04 with the Windows install/UI/uninstall smoke command.",
+      "sha256": "1e91db8449f142107df35b773af1cb9c3b4b62ed5d024f554ac8dd1c78a9e462",
+      "size_bytes": 2843,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "72a2279841398f5bb32de0d3acd566f6a793a4e9bbff4033ba50f200392591e5",
+          "size_bytes": 2124,
+          "reseal_note": "Refreshed 2026-11-04 with the Windows install/UI/uninstall smoke command."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a4474d4dbee90e1d63176be6d00c7f3c137c2d147bf21ad9af025e535dcbb9f2",
@@ -902,10 +926,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "b9c8df20370f643a2ae08cec2a1a0602c681209aee6f2b4a59c15e70d1210966",
-      "size_bytes": 15578,
-      "reseal_note": "Refreshed 2026-11-04 with native-consented hardware detection and explicit export.",
+      "sha256": "41f0db6b569e7293b00cc562cd927032ded3305f117964482df347864a47576a",
+      "size_bytes": 22004,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "b9c8df20370f643a2ae08cec2a1a0602c681209aee6f2b4a59c15e70d1210966",
+          "size_bytes": 15578,
+          "reseal_note": "Refreshed 2026-11-04 with native-consented hardware detection and explicit export."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "bb05369b69110679c06d1c435fc8636e7f906a3079057424236224f73bf07b83",
@@ -937,10 +967,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "f01d8fdd70af5692f06d47244a983dad10025077fcb59a6725c2b8d880d03f00",
-      "size_bytes": 1989,
-      "reseal_note": "Refreshed 2026-11-04 with fixed local hardware diagnostic IPC methods.",
+      "sha256": "be8920ae2dd3d9a2460a2c1201930171bc530b33711c8c8bae77405dc2862ed2",
+      "size_bytes": 2593,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "f01d8fdd70af5692f06d47244a983dad10025077fcb59a6725c2b8d880d03f00",
+          "size_bytes": 1989,
+          "reseal_note": "Refreshed 2026-11-04 with fixed local hardware diagnostic IPC methods."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "d7f8b376b95b3ab42905adb6aaa0be7126a5eee193e501df6d4040a38b296c15",
@@ -966,10 +1002,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "3c3835ca0f17162e56ab9c66b1f37607a437e8bbe1ea41aab2aa50d2776d94fc",
-      "size_bytes": 24074,
-      "reseal_note": "Refreshed 2026-11-04 with measured hardware screening and visible model-selection blockers.",
+      "sha256": "cbdc072bf2502c68ac87a13dad994af195c6c4c0f3211906d983d9bc612abf57",
+      "size_bytes": 30243,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "3c3835ca0f17162e56ab9c66b1f37607a437e8bbe1ea41aab2aa50d2776d94fc",
+          "size_bytes": 24074,
+          "reseal_note": "Refreshed 2026-11-04 with measured hardware screening and visible model-selection blockers."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "1b88692d8098c03f8e0fce1d6ba1160cd835b9f51fe9c128d41468b83dff01de",
@@ -1007,10 +1049,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "6a4fe7fa2733434b128ded4799ee4afcbbf57417bfb8e76c00e771faaacdfc0c",
-      "size_bytes": 9066,
-      "reseal_note": "Refreshed 2026-11-04 with hardware readiness and explicit no-automatic-model-selection disclosure.",
+      "sha256": "4bb97fbf87f61d891b3cf738f72ff36ac5faee59509d201b195d4993a23dd872",
+      "size_bytes": 11689,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "6a4fe7fa2733434b128ded4799ee4afcbbf57417bfb8e76c00e771faaacdfc0c",
+          "size_bytes": 9066,
+          "reseal_note": "Refreshed 2026-11-04 with hardware readiness and explicit no-automatic-model-selection disclosure."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "1fd67785e35a91995eaa6e63e351af3c633c1d0c11b02fe6a7f924274bc3a2b2",
@@ -1048,10 +1096,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "c7505d52ff87a44bfba70d5fcaff57ebd92246945ff0e0bcee1af3566a29fee0",
-      "size_bytes": 8392,
-      "reseal_note": "Refreshed 2026-11-04 for responsive task selection, plans, checkpoint results and audit.",
+      "sha256": "1db8fe50a2570f7b796dbeb1668e3106212aed72b320a1bdea5622623ea0c32a",
+      "size_bytes": 8533,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "c7505d52ff87a44bfba70d5fcaff57ebd92246945ff0e0bcee1af3566a29fee0",
+          "size_bytes": 8392,
+          "reseal_note": "Refreshed 2026-11-04 for responsive task selection, plans, checkpoint results and audit."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "bf7709c4c07814a148165d9242f27d1d67edc1344a758691792d809c904b9f97",
@@ -1135,10 +1189,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "3ef45c6169f671add9f63240559d07c47a90aa9ecb248a93c1c4b2e970f1b946",
-      "size_bytes": 6562,
-      "reseal_note": "Refreshed 2026-11-04 with hardware UI and preload-capability smoke coverage.",
+      "sha256": "582ce62b07273e5b1f58edaa715304852f6dcf2d8c53572e7a89b5d93189fd2e",
+      "size_bytes": 7378,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "3ef45c6169f671add9f63240559d07c47a90aa9ecb248a93c1c4b2e970f1b946",
+          "size_bytes": 6562,
+          "reseal_note": "Refreshed 2026-11-04 with hardware UI and preload-capability smoke coverage."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "051e22e8224feffcaf6b470c59413c266312da8e362e17c541e0e82523580ca6",
@@ -1158,8 +1218,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "4a4016b49c9740de462c3ff58bab330d979d1c7c3db5168eb15887aba91c2d32",
-      "size_bytes": 2991
+      "sha256": "60217f4a8da8588b3c434ff9514540f6cfbdb75adbbc2066d55e7b31717709b8",
+      "size_bytes": 3399,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "4a4016b49c9740de462c3ff58bab330d979d1c7c3db5168eb15887aba91c2d32",
+          "size_bytes": 2991
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs": {
       "description": "Product 45 catalog, repository path, settings and operation-lock regression tests",
@@ -1182,10 +1250,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "5139ab826e24e0b3b831fade5db8e673db92a79898497e6683f34cc4448224a4",
-      "size_bytes": 16055,
-      "reseal_note": "Refreshed 2026-11-04 from the canonical portfolio row documenting the governed research harness.",
+      "sha256": "6fe6fd752ae89780e0f1bc38fd8b08bbedb94504c8dcc37bbca536c91ce07ab9",
+      "size_bytes": 16109,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "5139ab826e24e0b3b831fade5db8e673db92a79898497e6683f34cc4448224a4",
+          "size_bytes": 16055,
+          "reseal_note": "Refreshed 2026-11-04 from the canonical portfolio row documenting the governed research harness."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "1fa4f04162a1b68c41e365429aa889d0ee29ba64b9b66148aca0d4cccf3d7e72",
@@ -1253,10 +1327,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "ac5df122e1e3f195961f676039f348cbd031536f4d224fa4c96f2bdc9e041ce1",
-      "size_bytes": 5662,
-      "reseal_note": "Refreshed 2026-11-04 with native hardware consent/export IPC regressions.",
+      "sha256": "8fdfb6cb3f7f92da6d2f7725d046def58916d23a18042b82c8ab67da034d14ca",
+      "size_bytes": 6463,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "ac5df122e1e3f195961f676039f348cbd031536f4d224fa4c96f2bdc9e041ce1",
+          "size_bytes": 5662,
+          "reseal_note": "Refreshed 2026-11-04 with native hardware consent/export IPC regressions."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "730c1c6666bf937c7345ea902b6af52bbef5fa05804486f7abc9a958befc0a78",
@@ -1280,6 +1360,150 @@
       "updated": "2026-11-04",
       "sha256": "d4de72af231acd2d5e9492b37fd8de32178f03514eaa16fa04a91a51b4e4f338",
       "size_bytes": 4149
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json": {
+      "description": "Product 45 native model/runtime packaging and contracts: runtimes.json",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "df465a8dbcfb11405f1d702a3e584dda7dbcb65dc2c22f6d2fef83efac3f9d62",
+      "size_bytes": 32207,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/native-model.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: native-model.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "8df01db3b2d6fa955ea3dce2bd13605c4d887fa9f46a98234b9a471630d08384",
+      "size_bytes": 5077,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: portfolio-source.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "b2b7f07d312981d9f5dfe8134c68f5e3c00c0d5ff5b0ab18bd184da2a8024d31",
+      "size_bytes": 2145,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: runtime-manager.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "1a29d6756ec03dfc7652321c0e84f3f9141f342ddc39796325f9a9c906f35870",
+      "size_bytes": 10738,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/requirements-calculators.txt": {
+      "description": "Product 45 native model/runtime packaging and contracts: requirements-calculators.txt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "39ff50d845c624de83316712b11d877d194a25a3049e7b9456ab736de0797333",
+      "size_bytes": 92,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/requirements-native-build.txt": {
+      "description": "Product 45 native model/runtime packaging and contracts: requirements-native-build.txt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "c76630033cc01b2dd2fd0ffdef8d263e2345e32f57b0934b96bbea83a9f38567",
+      "size_bytes": 33,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_native.py": {
+      "description": "Product 45 native model/runtime packaging and contracts: build_native.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "74d20c5f2a66f264d5a59489b2602c441a6d0cd9603810060f7f031e2de4707c",
+      "size_bytes": 3115,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/native_smoke.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: native_smoke.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "02e23209458a95275338b0dcf983491ccf96df54502f92a694d46993d87bc0d5",
+      "size_bytes": 1770,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: portfolio_smoke.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a4ca35f4e385150d40afb274e676d3ddc1e05786b99d1453708585ca9264b298",
+      "size_bytes": 1922,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/psicat_core.py": {
+      "description": "Product 45 native model/runtime packaging and contracts: psicat_core.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "ba1158f3d5a4a3590463f6e9e6e93e4909f3e81e6d5c53c83821684322f64784",
+      "size_bytes": 4023,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/stage_portfolio.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: stage_portfolio.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "3734f181e658c6ee4443ad3cf9f0042804f14853679b235dc914684de125b830",
+      "size_bytes": 1787,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/native-model.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: native-model.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a7a6cb043bf98eaeffec2941c5a3d9cfbe57350966f309e27592ac35408cf93e",
+      "size_bytes": 4332,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: portfolio-source.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "4afacc4d579457d93440e4704bbbdf0fae519441a99072873f7adf40c956732a",
+      "size_bytes": 2422,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: runtime-manager.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "d330293bb41989007635865c05c2bd28a58ee452d1db91d6071976934e71038d",
+      "size_bytes": 6920,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: runtime-manifest.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "df230d9f0844fab618e6f70b40d03be50e7abfb68180953e26658df0f029d20a",
+      "size_bytes": 7998,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py": {
+      "description": "Product 45 native model/runtime packaging and contracts: test_psicat_core.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "b4a6f3b2d3a6492ad24b4f99b7974b47dcc9b5aa4bdf8df73e8e2836afc49d00",
+      "size_bytes": 2009,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -1704,7 +1928,7 @@
       "trl": "TRL-1",
       "port": "CLI / Python library + web (http://localhost:8143)",
       "tests": "46",
-      "description": "From-scratch (NumPy-only, custom reverse-mode autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5\u00b2+7\u00b2, (5,7) braid winding) instead of standard sinusoidal RoPE: a toroidal rotary encoding with finite per-channel orbit periods, plus a toroidal relative-distance attention bias. Verified end-to-end training on a toroidal-copy toy task (loss 2.94\u21920.38, accuracy ~96%). Wired as getToriTransformerGeometry/getToriTransformerDemo native PsiCat Navigator tools and exposed to PsiCat Browser via the Navigator's generic /api/psicat surface (no separate Browser code required). ADJACENT TRACK: a compute-architecture application of the lattice constants, not a hardgate physics claim.",
+      "description": "From-scratch (NumPy-only, custom reverse-mode autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5²+7², (5,7) braid winding) instead of standard sinusoidal RoPE: a toroidal rotary encoding with finite per-channel orbit periods, plus a toroidal relative-distance attention bias. Verified end-to-end training on a toroidal-copy toy task (loss 2.94→0.38, accuracy ~96%). Wired as getToriTransformerGeometry/getToriTransformerDemo native PsiCat Navigator tools and exposed to PsiCat Browser via the Navigator's generic /api/psicat surface (no separate Browser code required). ADJACENT TRACK: a compute-architecture application of the lattice constants, not a hardgate physics claim.",
       "link": "43-az-geometric-tori-transformer/"
     },
     {

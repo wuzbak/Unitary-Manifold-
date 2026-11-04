@@ -50,6 +50,14 @@ if (-not (Test-Path -LiteralPath $installedApp -PathType Leaf)) {
 }
 
 try {
+    & node (Join-Path $PSScriptRoot "native_smoke.cjs") (Join-Path $installDirectory "resources\psicat-native")
+    if ($LASTEXITCODE -ne 0) {
+        throw "Installed native model smoke failed."
+    }
+    & node (Join-Path $PSScriptRoot "portfolio_smoke.cjs") (Join-Path $installDirectory "resources\portfolio")
+    if ($LASTEXITCODE -ne 0) {
+        throw "Installed portfolio runtime smoke failed."
+    }
     Test-ProductWindow $installedApp "Installed"
 } finally {
     if (Test-Path -LiteralPath $uninstaller -PathType Leaf) {

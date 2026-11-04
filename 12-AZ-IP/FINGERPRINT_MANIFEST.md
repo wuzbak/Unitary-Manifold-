@@ -424,6 +424,45 @@ history.
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/hardware.cjs` | `93c871a2ae7b22e08338d8601b01fed4644748015e8cf50015723eb79143c2b2` | 4437 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs` | `d4de72af231acd2d5e9492b37fd8de32178f03514eaa16fa04a91a51b4e4f338` | 4149 |
 
+### Product 45 native model and runtime provisioning reseal - 2026-11-04
+
+Registered a genuinely trained experimental native model, offline inference/local training,
+consent-gated Python dependency provisioning, checksum-receipted bundled source and reviewed
+loopback lifecycle. Non-Windows/unsupported targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `585abc2154c4ca8f4b6319b3367fc6c4f2afddfdbd3110cbf2c52728e47631e9` | 14735 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `6fe6fd752ae89780e0f1bc38fd8b08bbedb94504c8dcc37bbca536c91ce07ab9` | 16109 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `df465a8dbcfb11405f1d702a3e584dda7dbcb65dc2c22f6d2fef83efac3f9d62` | 32207 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `4bb97fbf87f61d891b3cf738f72ff36ac5faee59509d201b195d4993a23dd872` | 11689 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/native-model.cjs` | `8df01db3b2d6fa955ea3dce2bd13605c4d887fa9f46a98234b9a471630d08384` | 5077 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs` | `b2b7f07d312981d9f5dfe8134c68f5e3c00c0d5ff5b0ab18bd184da2a8024d31` | 2145 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `1a29d6756ec03dfc7652321c0e84f3f9141f342ddc39796325f9a9c906f35870` | 10738 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `41f0db6b569e7293b00cc562cd927032ded3305f117964482df347864a47576a` | 22004 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `1e91db8449f142107df35b773af1cb9c3b4b62ed5d024f554ac8dd1c78a9e462` | 2843 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `be8920ae2dd3d9a2460a2c1201930171bc530b33711c8c8bae77405dc2862ed2` | 2593 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `cbdc072bf2502c68ac87a13dad994af195c6c4c0f3211906d983d9bc612abf57` | 30243 |
+| `12-AZ-IP/45-axiomzero-pc-suite/requirements-calculators.txt` | `39ff50d845c624de83316712b11d877d194a25a3049e7b9456ab736de0797333` | 92 |
+| `12-AZ-IP/45-axiomzero-pc-suite/requirements-native-build.txt` | `c76630033cc01b2dd2fd0ffdef8d263e2345e32f57b0934b96bbea83a9f38567` | 33 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/build_native.py` | `74d20c5f2a66f264d5a59489b2602c441a6d0cd9603810060f7f031e2de4707c` | 3115 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `582ce62b07273e5b1f58edaa715304852f6dcf2d8c53572e7a89b5d93189fd2e` | 7378 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/native_smoke.cjs` | `02e23209458a95275338b0dcf983491ccf96df54502f92a694d46993d87bc0d5` | 1770 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `a4ca35f4e385150d40afb274e676d3ddc1e05786b99d1453708585ca9264b298` | 1922 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/psicat_core.py` | `ba1158f3d5a4a3590463f6e9e6e93e4909f3e81e6d5c53c83821684322f64784` | 4023 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/stage_portfolio.cjs` | `3734f181e658c6ee4443ad3cf9f0042804f14853679b235dc914684de125b830` | 1787 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1` | `60217f4a8da8588b3c434ff9514540f6cfbdb75adbbc2066d55e7b31717709b8` | 3399 |
+| `12-AZ-IP/45-axiomzero-pc-suite/styles.css` | `1db8fe50a2570f7b796dbeb1668e3106212aed72b320a1bdea5622623ea0c32a` | 8533 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `8fdfb6cb3f7f92da6d2f7725d046def58916d23a18042b82c8ab67da034d14ca` | 6463 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/native-model.test.cjs` | `a7a6cb043bf98eaeffec2941c5a3d9cfbe57350966f309e27592ac35408cf93e` | 4332 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs` | `4afacc4d579457d93440e4704bbbdf0fae519441a99072873f7adf40c956732a` | 2422 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `d330293bb41989007635865c05c2bd28a58ee452d1db91d6071976934e71038d` | 6920 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs` | `df230d9f0844fab618e6f70b40d03be50e7abfb68180953e26658df0f029d20a` | 7998 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py` | `b4a6f3b2d3a6492ad24b4f99b7974b47dcc9b5aa4bdf8df73e8e2836afc49d00` | 2009 |
+| `12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md` | `df8b9cf75614ccb9aca655817c5833a93ed5c25d45239d6cd558d8ec71650451` | 8459 |
+| `12-AZ-IP/README.md` | `3138e21f5dd65c2599135410e3decb5017a5126859c51c285af472b5bf5ce6aa` | 21625 |
+
 ## Verification Protocol
 
 To verify any registered asset:

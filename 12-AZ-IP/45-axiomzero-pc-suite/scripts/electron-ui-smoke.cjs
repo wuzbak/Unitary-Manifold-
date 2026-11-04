@@ -72,7 +72,8 @@ async function verifyWindow(target) {
         expression: `({
           title: document.title,
           body: document.body.innerText,
-          cards: document.querySelectorAll(".product-card").length
+          cards: document.querySelectorAll("#product-list .product-card").length,
+          runtimes: document.querySelectorAll("#runtime-list .product-card").length
         })`,
         returnByValue: true
       });
@@ -82,7 +83,8 @@ async function verifyWindow(target) {
     }
     assert.equal(rendered.title, "AxiomZero PC Suite");
     assert.equal(rendered.cards, 45, "all catalog entries should render");
-    for (const text of ["Local evidence library", "Search locally", "Open PsiCat Navigator", "Research control plane", "PC readiness assessment"]) {
+    assert.equal(rendered.runtimes, 45, "all actual runtime contracts should render");
+    for (const text of ["Local evidence library", "Search locally", "Open PsiCat Navigator", "Research control plane", "PC readiness assessment", "PsiCat native model", "Portfolio runtime manager"]) {
       assert.ok(rendered.body.includes(text), `the window should render "${text}"`);
     }
     const created = await send("Runtime.evaluate", {
@@ -142,6 +144,18 @@ async function verifyWindow(target) {
     assert.deepEqual(diagnostics.result.value, {
       available: true, exportAvailable: true, initialExportDisabled: true, initialResultHidden: true
     });
+    const native = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        const state = await window.axiomSuite.getNativeModel();
+        return {
+          status: state.status, context: state.contextLength,
+          verified: state.productionAssistantVerified,
+          runtimes: (await window.axiomSuite.listRuntimes()).length
+        };
+      })()`,
+      returnByValue: true, awaitPromise: true
+    });
+    assert.deepEqual(native.result.value, { status: "ready", context: 64, verified: false, runtimes: 45 });
     assert.deepEqual(exceptions, [], "the renderer should not throw JavaScript exceptions");
   } finally {
     try {
@@ -153,7 +167,7 @@ async function verifyWindow(target) {
 
 waitForPage()
   .then(verifyWindow)
-  .then(() => console.log("Product 45 rendered all 45 products and created/cancelled a checkpointed research task without renderer exceptions."))
+  .then(() => console.log("Product 45 rendered 45 products/runtime contracts, reached its native model and created/cancelled a checkpointed research task without renderer exceptions."))
   .catch((error) => {
     console.error(error);
     process.exitCode = 1;

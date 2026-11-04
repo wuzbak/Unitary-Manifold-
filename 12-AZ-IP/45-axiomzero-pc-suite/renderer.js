@@ -15,6 +15,99 @@ let harnessState;
 let selectedTaskId;
 let harnessBusy = false;
 let hardwareBusy = false;
+let nativeBusy = false;
+let runtimeBusy = false;
+
+function renderRuntimes(entries) {
+  const list = document.querySelector("#runtime-list");
+  list.replaceChildren();
+  for (const entry of entries) {
+    const card = document.createElement("article");
+    card.className = "product-card";
+    const heading = document.createElement("h3");
+    heading.textContent = `Product ${entry.id} | ${entry.kind}`;
+    const status = document.createElement("p");
+    status.className = "muted";
+    status.textContent = entry.running ? "Running in this desktop session" : entry.receipt?.status === "installed"
+      ? "Dependencies installed (not a full capability certification)"
+      : entry.receipt?.status === "failed" ? `Installation failed: ${entry.receipt.error}` : "Not provisioned by this suite";
+    const details = document.createElement("details");
+    const summary = document.createElement("summary");
+    summary.textContent = "Prerequisites and operational limits";
+    const text = document.createElement("p");
+    text.className = "muted";
+    text.textContent = `${entry.prerequisites.join("; ")}. ${entry.limitation}`;
+    details.append(summary, text);
+    const actions = document.createElement("div");
+    actions.className = "harness-controls";
+    for (const [action, label, disabled] of [
+      ["install", "Install dependencies", entry.installMode !== "python-venv" || runtimeBusy || ["26", "36"].includes(entry.id)],
+      ["start", "Start local service", !entry.managedService || entry.running || runtimeBusy || entry.receipt?.status !== "installed"],
+      ["stop", "Stop service", !entry.running]
+    ]) {
+      const button = document.createElement("button");
+      button.type = "button"; button.dataset.runtimeAction = action; button.dataset.id = entry.id;
+      button.textContent = label; button.disabled = disabled; actions.append(button);
+    }
+    card.append(heading, status, details, actions);
+    list.append(card);
+  }
+}
+
+async function runRuntimeAction(action, id) {
+  const message = document.querySelector("#runtime-message");
+  if (runtimeBusy && action !== "stop") return;
+  if (action !== "stop") runtimeBusy = true;
+  message.textContent = action === "refresh" ? "" : "Awaiting approval or executing the selected runtime operation...";
+  document.querySelector("#runtime-python").disabled = runtimeBusy;
+  try {
+    if (action === "python") await window.axiomSuite.installRuntimePython();
+    else if (action === "install") await window.axiomSuite.installRuntime(id);
+    else if (action === "start") await window.axiomSuite.startRuntime(id);
+    else if (action === "stop") await window.axiomSuite.stopRuntime(id);
+    message.textContent = action === "refresh" ? "" : "Operation finished. Inspect the per-product state and limits below.";
+  } catch (error) { message.textContent = `Runtime operation failed: ${error.message}`; }
+  finally {
+    if (action !== "stop") runtimeBusy = false;
+    document.querySelector("#runtime-python").disabled = runtimeBusy;
+    try { renderRuntimes(await window.axiomSuite.listRuntimes()); }
+    catch (error) { message.textContent = `Runtime state could not be read: ${error.message}`; }
+  }
+}
+
+async function runNativeAction(action) {
+  const message = document.querySelector("#native-message");
+  if (action === "cancel") {
+    try {
+      await window.axiomSuite.cancelNativeModel();
+      message.textContent = "Cancellation requested. A prior completed checkpoint is retained.";
+    } catch (error) { message.textContent = error.message; }
+    return;
+  }
+  if (nativeBusy) return;
+  nativeBusy = true;
+  document.querySelectorAll("#native-status, #native-train, #native-generate").forEach((button) => { button.disabled = true; });
+  document.querySelector("#native-cancel").disabled = false;
+  message.textContent = action === "train" ? "Awaiting corpus selection and native approval. Training may take up to ten minutes." : "Running the installed local model...";
+  try {
+    const result = await (action === "status" ? window.axiomSuite.getNativeModel()
+      : action === "train" ? window.axiomSuite.trainNativeModel(500)
+      : window.axiomSuite.generateNativeModel(document.querySelector("#native-prompt").value));
+    if (result.canceled) { message.textContent = "Action cancelled."; return; }
+    if (result.status === "blocked-vocabulary") {
+      message.textContent = `The checkpoint cannot represent these prompt characters: ${result.unknownCharacters.join(" ")}`;
+      return;
+    }
+    message.textContent = `${result.status}: own toroidal model. Output is UNVERIFIED; production assistant capability is not established.`;
+    document.querySelector("#native-output").textContent = result.completion ?? JSON.stringify(result, null, 2);
+  } catch (error) {
+    message.textContent = `Native operation failed: ${error.message}`;
+  } finally {
+    nativeBusy = false;
+    document.querySelectorAll("#native-status, #native-train, #native-generate").forEach((button) => { button.disabled = false; });
+    document.querySelector("#native-cancel").disabled = true;
+  }
+}
 
 function renderHardware(report) {
   const panel = document.querySelector("#hardware-result");
@@ -483,6 +576,11 @@ async function loadCatalog() {
   render();
   updateState(state);
   try {
+    renderRuntimes(await window.axiomSuite.listRuntimes());
+  } catch (error) {
+    document.querySelector("#runtime-message").textContent = `Runtime manager unavailable: ${error.message}`;
+  }
+  try {
     renderHarness(await window.axiomSuite.getHarness());
   } catch (error) {
     document.querySelector("#harness-message").textContent = `Harness unavailable: ${error.message}`;
@@ -495,6 +593,19 @@ async function loadCatalog() {
 }
 
 search.addEventListener("input", render);
+document.querySelector("#runtime-python").addEventListener("click", () => runRuntimeAction("python"));
+document.querySelector("#runtime-refresh").addEventListener("click", () => runRuntimeAction("refresh"));
+document.querySelector("#runtime-list").addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-runtime-action]");
+  if (button && !button.disabled) runRuntimeAction(button.dataset.runtimeAction, button.dataset.id);
+});
+document.querySelector("#native-status").addEventListener("click", () => runNativeAction("status"));
+document.querySelector("#native-train").addEventListener("click", () => runNativeAction("train"));
+document.querySelector("#native-cancel").addEventListener("click", () => runNativeAction("cancel"));
+document.querySelector("#native-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  runNativeAction("generate");
+});
 document.querySelector("#hardware-detect").addEventListener("click", () => runHardwareAction());
 document.querySelector("#hardware-export").addEventListener("click", () => runHardwareAction(true));
 document.querySelector("#harness-use-model").addEventListener("change", (event) => {
