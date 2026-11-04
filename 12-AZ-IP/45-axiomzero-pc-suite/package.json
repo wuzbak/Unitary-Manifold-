@@ -33,6 +33,14 @@
     "asar": true,
     "extraResources": [
       {
+        "from": "build/platform-targets",
+        "to": "platform-targets"
+      },
+      {
+        "from": "build/instruction",
+        "to": "psicat-instruction"
+      },
+      {
         "from": "scripts/extract-node.ps1",
         "to": "node-bootstrap/extract-node.ps1"
       },

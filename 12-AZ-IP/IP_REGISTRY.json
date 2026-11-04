@@ -947,10 +947,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "4a59b8baff3539f8157b7e099671bf60a56ff042af5400f99c488cbf6c2b8c27",
-      "size_bytes": 19357,
+      "sha256": "bc7c6a2a5d17d0f1f4b04cb6f56d8062a00f1acca0f668ca981fb5a9cc4fb406",
+      "size_bytes": 23914,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "4a59b8baff3539f8157b7e099671bf60a56ff042af5400f99c488cbf6c2b8c27",
+          "size_bytes": 19357,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "4f3de87c6621aa35cfb983056165588781c732a4a8e94832306a7ef50d70ad12",
@@ -1030,10 +1036,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "a06f49a65c7bf716837ff4ea07c205c78f51df99da0010016adabbb229d1d789",
-      "size_bytes": 2952,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "sha256": "fa02b64f6afe58828ceeef62bb236143dc2ef8ef329617ddbb78941dec8ef453",
+      "size_bytes": 3133,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a06f49a65c7bf716837ff4ea07c205c78f51df99da0010016adabbb229d1d789",
+          "size_bytes": 2952,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "1e91db8449f142107df35b773af1cb9c3b4b62ed5d024f554ac8dd1c78a9e462",
@@ -1082,10 +1094,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "97f4478f213f947579c31b6590a6deecded7d6c5145c381094ba3aecaa1a8f92",
-      "size_bytes": 25168,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "sha256": "a0e58b8c746f846250413ec985b0e77dfbd245f43bd4c3d711a258bf5186d3f1",
+      "size_bytes": 35520,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "97f4478f213f947579c31b6590a6deecded7d6c5145c381094ba3aecaa1a8f92",
+          "size_bytes": 25168,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a7fbdee6bf24ee1ab72eed1149e1c8a88917ed81901e73f3bf03e1989572e20d",
@@ -1135,10 +1153,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "239177ad01f99875448cd5e4c4478cf78d0c361613be64a2c62764c40465679d",
-      "size_bytes": 3031,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "sha256": "0b14fc9b6d1e3b5f8bd9f080ae04fe26ccbe56ce9600f969ff560d3d48fb2a5b",
+      "size_bytes": 3617,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "239177ad01f99875448cd5e4c4478cf78d0c361613be64a2c62764c40465679d",
+          "size_bytes": 3031,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "3932f7510c83a0188016cec15068159f0adba7762d57871ca44a41330b31878d",
@@ -1182,10 +1206,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "9705a40cb835ca3b52aa221fa114020572defac0eda9ec98ce4d9daebe92b839",
-      "size_bytes": 31406,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "sha256": "cda180ac63ea6549bd4cb5da0d8004e49761ea054b9f11ba9f59596b942c2e38",
+      "size_bytes": 39553,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "9705a40cb835ca3b52aa221fa114020572defac0eda9ec98ce4d9daebe92b839",
+          "size_bytes": 31406,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "d9923abf7637bf711ee116ce8a40160a0288ef93c76599a5b862bd28eb99aec7",
@@ -1241,10 +1271,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "7c38b909fd20ce79f76b517f76003572f542ea76fcdf732cf3be585876748fca",
-      "size_bytes": 12074,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "sha256": "91b32169095b9c8b879fe6d5a3784547bf667441ee8153715f9574b23c793725",
+      "size_bytes": 15911,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "7c38b909fd20ce79f76b517f76003572f542ea76fcdf732cf3be585876748fca",
+          "size_bytes": 12074,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "78dd1e6049337e93fdef92c35375825848f13985341dfa18120e245be038f61d",
@@ -1300,10 +1336,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "1db8fe50a2570f7b796dbeb1668e3106212aed72b320a1bdea5622623ea0c32a",
-      "size_bytes": 8533,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "sha256": "ef05f8cc96b13dfe592636a3e04110e8fe0f36552b534299ee8f653149969372",
+      "size_bytes": 8948,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "1db8fe50a2570f7b796dbeb1668e3106212aed72b320a1bdea5622623ea0c32a",
+          "size_bytes": 8533,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "c7505d52ff87a44bfba70d5fcaff57ebd92246945ff0e0bcee1af3566a29fee0",
@@ -1393,10 +1435,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "733a19a7001fcc2f18dab36342138d30b019892c53c55992d66336499b81e5f4",
-      "size_bytes": 8039,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "sha256": "2d881033c860bcf4c5258d6739daed96ae8f7011ec985367d8c9602949b54e16",
+      "size_bytes": 9795,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "733a19a7001fcc2f18dab36342138d30b019892c53c55992d66336499b81e5f4",
+          "size_bytes": 8039,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "6a1a410d8b11525aec965ede1caadee518cafde380c50c5dc4f5ad51265f2d92",
@@ -1434,16 +1482,22 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "60217f4a8da8588b3c434ff9514540f6cfbdb75adbbc2066d55e7b31717709b8",
-      "size_bytes": 3399,
+      "sha256": "16372ce44a47c9c41be76306002109d8311ff642a94f647c26020153a34b6d83",
+      "size_bytes": 3862,
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "60217f4a8da8588b3c434ff9514540f6cfbdb75adbbc2066d55e7b31717709b8",
+          "size_bytes": 3399,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "4a4016b49c9740de462c3ff58bab330d979d1c7c3db5168eb15887aba91c2d32",
           "size_bytes": 2991
         }
       ],
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs": {
       "description": "Product 45 catalog, repository path, settings and operation-lock regression tests",
@@ -1507,8 +1561,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "01bc648aa011b25f4033dfdce8d16d35cfca40801a29411f7e09d6144e232f4e",
-      "size_bytes": 17191
+      "sha256": "acb591eeacdab3eca3b8e39774e93aa37138ac3fe8ae466014df26fd1b44a3bd",
+      "size_bytes": 17852,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "01bc648aa011b25f4033dfdce8d16d35cfca40801a29411f7e09d6144e232f4e",
+          "size_bytes": 17191
+        }
+      ],
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs": {
       "description": "Product 45 fixed-loopback bounded Ollama reasoning transport",
@@ -1539,8 +1601,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "7add3cb6bb5537c00cee4a26b6a101dfa42dd2389e5c68b1d62c29d95ad3130f",
-      "size_bytes": 12857
+      "sha256": "b82bb2389b5436b7313535f9260bd25990ea27f1ae70742530ad713405d4fd12",
+      "size_bytes": 14094,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "7add3cb6bb5537c00cee4a26b6a101dfa42dd2389e5c68b1d62c29d95ad3130f",
+          "size_bytes": 12857
+        }
+      ],
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs": {
       "description": "Product 45 bounded local model transport contract regressions",
@@ -1555,10 +1625,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "448a4af2cd45718c17fa9c6318df41e9aa709a89799359f6c5cfae3743982cbc",
-      "size_bytes": 8972,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "sha256": "7d2d51cab6d0a906bf973df0985a75cb771ae3bb6205c1adf639996b3c00703b",
+      "size_bytes": 15416,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "448a4af2cd45718c17fa9c6318df41e9aa709a89799359f6c5cfae3743982cbc",
+          "size_bytes": 8972,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "90e6c2eab3d1e0cc9b2b008b9667c3022548c27938958cb2bc41bc31a1c7ceb4",
@@ -2175,9 +2251,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "916bf6ab9242955a77a531513e4ff0bd5de7ec74928729aa3bde403f989667e0",
-      "size_bytes": 1020,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+      "sha256": "fbcb2382206ebf48a52fb9d852dc9e9377c1debcecebc086305e6ae8a39e0543",
+      "size_bytes": 1915,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "916bf6ab9242955a77a531513e4ff0bd5de7ec74928729aa3bde403f989667e0",
+          "size_bytes": 1020,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
     },
     "12-AZ-IP/24-psicat-web-browser/desktop/lib/startup-diagnostics.js": {
       "description": "Product 24 Windows runtime integration and contracts: startup-diagnostics.js",
@@ -2262,10 +2346,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "5f422967441093a4a94dda48dbcd138ac53babb44a03050bdea5c63ab1c42b7e",
-      "size_bytes": 43294,
+      "sha256": "32e285819a2ddf62db70b4a6285e85bbd1541301ae8b45b84c4c2b93dd594d53",
+      "size_bytes": 44773,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "5f422967441093a4a94dda48dbcd138ac53babb44a03050bdea5c63ab1c42b7e",
+          "size_bytes": 43294,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "935cb111b8ac14a5b40af435b21ce6f79d1e4f1401a86c539c28cc3b5f5da690",
@@ -2285,10 +2375,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "a983c5dae8d4b4a063759ce1326b156ed42e5bd81247a7bf6749868324a42d6f",
-      "size_bytes": 29024,
+      "sha256": "02425ce1bce0b35a0e98bd0bf51e7907c0f011497e0c58f5cba56150515e47f6",
+      "size_bytes": 29281,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a983c5dae8d4b4a063759ce1326b156ed42e5bd81247a7bf6749868324a42d6f",
+          "size_bytes": 29024,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "5e4986aed9ca0ff240abaad4306466603bf2a25fe95f0ef7ae3cca8f9ea2b067",
@@ -2355,6 +2451,69 @@
       "updated": "2026-11-04",
       "sha256": "cdb7a5e9eca0f3ee9424e77f5176203bbdc4f0b5ee67956a764efae81466c2e4",
       "size_bytes": 22533,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/feature/acoustic/src/main/java/com/gibbernode/feature/acoustic/AcousticViewModel.kt": {
+      "description": "Product 15 Windows runtime integration and contracts: AcousticViewModel.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "4c63f5d484f423580e850eb8b100d67bb21baec75096975b5374a811155cb34d",
+      "size_bytes": 13452,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: instruction-model.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4",
+      "size_bytes": 32811,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: platform-targets.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "8160f81810e6e0745561dda7618622583f46a35a6e31562bace1c4a37bb45e77",
+      "size_bytes": 37367,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/instruction_smoke.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: instruction_smoke.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "1642327c08917c930b533c25403ed8ee6ca96e935844ec51a5cbded308169957",
+      "size_bytes": 1722,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/platform_smoke.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: platform_smoke.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "90fd761fa25621528ba92a129c7084b16dadbab785432998e9664d7df01e2426",
+      "size_bytes": 2419,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: instruction-model.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",
+      "size_bytes": 25229,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: platform-targets.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "eceaf9a560109f3aa4e97672a34cf8fc76bd044fdd7f4ab57afd08b8cf7be524",
+      "size_bytes": 26569,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     }
   },

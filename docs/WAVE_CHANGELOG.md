@@ -1,5 +1,51 @@
 # Wave Changelog
 
+## Product 45 - Verified platform artifacts and explicit deployment consent (2026-11-04)
+
+Added digest-bound bundled APK/UEFI import, selected authorized-device Android
+installation, atomic integrity-checked artifact export and selected-distro WSL
+provision/start/stop controls. Source-build downloads default off; Android's
+wrapper cannot run offline without its complete matching cached distribution.
+Native approval names the actual download/device/distribution boundary.
+WSL execution remains disabled for local commands and unsupported networking
+fails explicitly. No firmware, partition, boot variable or removable-media
+write is implemented.
+
+The actual Windows UEFI and SDAM builds passed. Native Android builds exposed a
+non-terminal Kotlin encryption-callback binding error and Pentacorder's missing
+coroutine-context import, now corrected; the latter still requires a successful
+native rerun. Pentacorder's missing
+version catalog is restored without removing its documented JNI/hardware gaps.
+The installed Windows browser/Navigator lifecycle, CPU JAX, private Node
+workbench and installer/portable UI passed before the new model/platform
+embedding changes. The new combined installer must pass its own copied-resource
+inference/artifact and native lifecycle checks; earlier success is not a
+substitute. No expert-model or full portfolio readiness certification is claimed.
+
+The first actual Q4 backend evaluation passed arithmetic, exact instructions,
+grounded JSON citations and authentication, but failed the unchanged retrieval
+injection challenge by contradicting source platform limits. A stronger shared
+production trust/status policy must pass that same challenge before packaging.
+Measured baseline CPU throughput also required smaller evidence excerpts,
+128-token answers and an explicitly disclosed, cancellable six-minute deadline
+for embedded research only. Other research steps retain their 60-second limit.
+Neither the grader nor its original challenge was relaxed.
+
+## Product 45 - Packaged instruction assistant (2026-11-04; adjacent software only)
+
+Added an explicit native-approved Ask PsiCat surface, local catalog/imported
+evidence context, answer/source export, cancellation and quit coordination.
+The same backend is selectable as `psicat:embedded` in governed research steps.
+Windows packaging now depends on real instruction-backend acceptance and copies
+the complete pretrained Qwen/CPU llama.cpp artifact into installer resources;
+installed smoke must exercise those copied weights and executable.
+
+The language substrate is third-party pretrained software, separate from the
+repository's experimental toroidal character model. No expert-quality
+certification, physics/5D information-flow claim, private-data training or
+autonomous command authority is implied. Remaining native/platform gates must
+pass before merge readiness can be asserted.
+
 ## Product 45 - Native startup and instruction-backend gates (2026-11-04; adjacent software only)
 
 Windows now directly exercises Electron inherited IPC and enabled Navigator
