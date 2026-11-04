@@ -70,6 +70,25 @@ test("Python bootstrap uses the fixed user-scoped Windows package", async (t) =>
   assert.ok(calls[0].args.includes("Python.Python.3.12"));
   assert.ok(calls[0].args.includes("user"));
 });
+test("quit waits for active provisioning and prevents orphaning or starting another operation", async (t) => {
+  let finish;
+  const pending = new Promise((resolve) => { finish = resolve; });
+  let first = true;
+  const { manager } = fixture(t, async () => {
+    if (first) { first = false; await pending; }
+    return { output: "" };
+  });
+  const install = manager.install("20");
+  let stopped = false;
+  const shutdown = manager.stopAll().then(() => { stopped = true; });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(stopped, false);
+  await assert.rejects(manager.installPython(), /shutdown is in progress/);
+  finish();
+  await install;
+  await shutdown;
+  assert.equal(stopped, true);
+});
 test("loopback lifecycle checks health and owns the process without enabling PsiCat command execution", async (t) => {
   let child;
   let server;
@@ -120,7 +139,7 @@ test("calculator requirements and pyproject packages are genuinely provisioned, 
     entries: [
       { id: "31", installMode: "python-venv", dependencyManifest: null, productFolder: packageFolder },
       { id: "44", installMode: "python-venv", dependencyManifest: `${packageFolder}/pyproject.toml`, productFolder: packageFolder },
-      { id: "26", installMode: "python-venv" }, { id: "36", installMode: "python-venv" }
+      { id: "26", installMode: "python-venv" }
     ], sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32",
     execute: async (exe, args) => { calls.push({ exe, args }); }
   });
@@ -129,7 +148,68 @@ test("calculator requirements and pyproject packages are genuinely provisioned, 
   assert.equal(calls[4].args.at(-1), path.join(root, packageFolder));
   assert.equal(calls[4].args.includes("-r"), false);
   await assert.rejects(manager.install("26"), /POSIX/);
-  await assert.rejects(manager.install("36"), /JAX/);
+});
+test("JAX installation verifies real CPU slider gradients and persists failures, not a successful status probe", async (t) => {
+  const { root } = fixture(t);
+  const folder = "12-AZ-IP/36-az-cosmology-slider/";
+  fs.mkdirSync(path.join(root, folder), { recursive: true });
+  fs.writeFileSync(path.join(root, folder, "requirements.txt"), "jax==0.12.0.1\njaxlib==0.12.0.1\n");
+  const calls = [];
+  let fail = true;
+  const manager = createRuntimeManager({
+    entries: [{ id: "36", installMode: "python-venv", productFolder: folder, dependencyManifest: `${folder}requirements.txt` }],
+    sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32",
+    execute: async (_exe, args) => {
+      calls.push(args);
+      if (args[0] === "-c" && fail) throw new Error("JAX backend unavailable");
+    }
+  });
+  await assert.rejects(manager.install("36"), /JAX backend unavailable/);
+  assert.equal(manager.list()[0].receipt.status, "failed");
+  assert.equal(manager.list()[0].managedService, true);
+  fail = false;
+  const receipt = await manager.install("36");
+  assert.equal(receipt.backend, "jax-cpu");
+  assert.equal(receipt.status, "installed");
+  assert.match(calls.at(-1)[1], /slider_reading\(10.0,5.0\)/);
+  assert.match(calls.at(-1)[1], /jax_platforms','cpu'/);
+});
+test("managed JAX launch forces CPU and uses the live numerical endpoint for health", async (t) => {
+  const { root } = fixture(t);
+  const folder = "12-AZ-IP/36-az-cosmology-slider/";
+  fs.mkdirSync(path.join(root, folder), { recursive: true });
+  fs.writeFileSync(path.join(root, folder, "requirements.txt"), "jax\njaxlib\n");
+  fs.writeFileSync(path.join(root, folder, "run.py"), "");
+  let child;
+  const manager = createRuntimeManager({
+    entries: [{ id: "36", installMode: "python-venv", productFolder: folder,
+      dependencyManifest: `${folder}requirements.txt`, entrypoint: `${folder}run.py`,
+      launchArgs: ["--serve", "--port", "8136"], healthPath: "/api/slider" }],
+    sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32",
+    execute: async (_exe, args) => {
+      if (args.includes("venv")) {
+        fs.mkdirSync(path.join(args.at(-1), "Scripts"), { recursive: true });
+        fs.writeFileSync(path.join(args.at(-1), "Scripts", "python.exe"), "");
+      }
+    },
+    spawnProcess(_exe, _args, options) {
+      assert.equal(options.env.JAX_PLATFORMS, "cpu");
+      child = new EventEmitter();
+      child.stdout = new PassThrough(); child.stderr = new PassThrough();
+      const server = http.createServer((request, response) => {
+        assert.equal(request.url, "/api/slider");
+        response.end("{}");
+      });
+      server.listen(8136, "127.0.0.1");
+      child.kill = () => { server.close(() => child.emit("close", 0)); return true; };
+      return child;
+    }
+  });
+  t.after(() => manager.stopAll());
+  await manager.install("36");
+  assert.equal((await manager.start("36")).status, "running");
+  manager.stop("36");
+  await new Promise((resolve) => child.once("close", resolve));
 });
 test("Node workbench installs the lockfile, builds the actual dashboard and retains no token in receipts", async (t) => {
     const { root } = fixture(t);
@@ -169,6 +249,73 @@ test("Node workbench installs the lockfile, builds the actual dashboard and reta
         child.kill = () => { server.close(() => child.emit("close", 0)); return true; };
         return child;
       }
+    });
+    test("browser provisioning verifies locked Windows Electron, Python sidecars and owned IPC cleanup", async (t) => {
+      const { root } = fixture(t);
+      const folder = "12-AZ-IP/24-psicat-web-browser/";
+      const target = path.join(root, folder);
+      fs.mkdirSync(path.join(target, "desktop"), { recursive: true });
+      fs.writeFileSync(path.join(target, "desktop/main.js"), "");
+      fs.writeFileSync(path.join(target, "package.json"), JSON.stringify({ main: "desktop/main.js", devDependencies: { electron: "44.10.2" } }));
+      fs.writeFileSync(path.join(target, "package-lock.json"), "{}");
+      const node = path.join(root, "node.exe");
+      const calls = [];
+      let notifications = 0;
+      const manager = createRuntimeManager({
+        entries: [{ id: "24", installMode: "desktop", dependencyManifest: `${folder}package.json`, productFolder: folder, entrypoint: `${folder}desktop/main.js` }],
+        sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32",
+        onStateChange: () => { notifications++; },
+        nodeToolchain: () => ({ node, npm: path.join(root, "npm-cli.js") }),
+        execute: async (_exe, args) => {
+          calls.push(args);
+          if (args.includes("ci")) {
+            fs.mkdirSync(path.join(target, "node_modules/electron/dist"), { recursive: true });
+            fs.writeFileSync(path.join(target, "node_modules/electron/install.js"), "");
+          }
+          if (args[0].endsWith("install.js")) {
+            for (const [name, value] of [["path.txt", "electron.exe"], ["dist/version", "44.10.2"], ["dist/electron.exe", "Windows browser"]]) {
+              fs.writeFileSync(path.join(target, "node_modules/electron", name), value);
+            }
+          }
+          if (args.includes("venv")) {
+            fs.mkdirSync(path.join(args.at(-1), "Scripts"), { recursive: true });
+            fs.writeFileSync(path.join(args.at(-1), "Scripts/python.exe"), "Python");
+          }
+        },
+        spawnProcess(exe, args, options) {
+          assert.ok(exe.endsWith("electron.exe"));
+          assert.deepEqual(args, [path.resolve(target)]);
+          assert.equal(options.env.PSICAT_BROWSER_SUITE_IPC, "1");
+          assert.ok(options.env.PSICAT_BROWSER_PYTHON.endsWith("environments/24/Scripts/python.exe"));
+          assert.equal(options.env.PSICAT_BROWSER_DISABLE_NAVIGATOR, "0");
+          assert.deepEqual(options.stdio, ["ignore", "pipe", "pipe", "ipc"]);
+          const child = new EventEmitter();
+          child.stdout = new PassThrough(); child.stderr = new PassThrough();
+          child.send = (message, callback) => {
+            callback();
+            queueMicrotask(() => {
+              child.emit("message", { protocol: message.protocol, product_id: 24, type: "stopped", request_id: message.request_id });
+              child.emit("close", 0);
+            });
+          };
+          queueMicrotask(() => child.emit("message", { protocol: "psicat-browser-lifecycle-v1", product_id: 24,
+            type: "ready", sync: { status: "ready" }, navigator: { status: "ready" } }));
+          return child;
+        }
+      });
+      const receipt = await manager.install("24");
+      assert.equal(receipt.status, "installed");
+      assert.equal(receipt.electronSha256.length, 64);
+      assert.equal(calls.length, 6);
+      assert.ok(calls[1].includes("--ignore-scripts"));
+      assert.equal(manager.list()[0].managedDesktop, true);
+      await manager.start("24");
+      assert.throws(() => manager.access("24"), /taskbar/);
+      assert.equal((await manager.stop("24")).forced, false);
+      assert.equal(manager.list()[0].running, false);
+      assert.equal(notifications, 1);
+      fs.writeFileSync(path.join(target, "node_modules/electron/dist/electron.exe"), "changed");
+      await assert.rejects(manager.start("24"), /browser binary/);
     });
     t.after(() => manager.stopAll());
     const receipt = await manager.install("27");

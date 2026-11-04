@@ -258,7 +258,7 @@
     "entrypoint": "12-AZ-IP/24-psicat-web-browser/desktop/main.js",
     "installMode": "desktop",
     "prerequisites": ["Node.js and npm", "Electron desktop environment", "Python and Product 20 dependencies for the PsiCat sidecar", "Network access for installation and browsing"],
-    "limitation": "npm start runs Electron with desktop/main.js as its package entrypoint; Python PsiCat and sync sidecars are separate runtimes. Android and browser-extension trees are not installed by npm start. Windows sidecar availability and browser behavior have not been verified."
+    "limitation": "The suite provisions pinned Windows Electron and isolated Python dependencies, opens the real browser desktop, waits for UI/sidecar readiness over inherited IPC, and requests graceful shutdown before a bounded owned-process-tree fallback. Sidecar ports 8020/8787 must be free; separately running instances are not adopted. Android/extensions, model competence, external integrations, OS confinement and ongoing update delivery are not certified. Native Windows execution requires the installed workflow check."
   },
   {
     "id": "25",
@@ -394,13 +394,13 @@
     "id": "36",
     "productFolder": "12-AZ-IP/36-az-cosmology-slider/",
     "kind": "python-service",
-    "dependencyManifest": null,
+    "dependencyManifest": "12-AZ-IP/36-az-cosmology-slider/requirements.txt",
     "entrypoint": "12-AZ-IP/36-az-cosmology-slider/run.py",
     "launchArgs": ["--serve", "--port", "8136"],
-    "healthPath": "/api/status",
+    "healthPath": "/api/slider",
     "installMode": "python-venv",
     "prerequisites": ["Python", "Repository checkout with src.core", "JAX and NumPy for live slider calculations"],
-    "limitation": "The documented --serve flag, not a serve subcommand, launches the loopback API. No per-product dependency manifest exists. The server can report status without JAX, but slider_reading calls require_jax and cannot compute without that backend; there is no numerical fallback. Windows startup and JAX execution have not been verified."
+    "limitation": "The suite installs pinned JAX/jaxlib in an isolated environment and verifies actual slider values and both gradients on CPU before accepting installation. Managed launches force the CPU backend. No GPU/TPU availability, observational confirmation or numerical fallback is asserted. Native Windows execution remains subject to the installed workflow check."
   },
   {
     "id": "37",

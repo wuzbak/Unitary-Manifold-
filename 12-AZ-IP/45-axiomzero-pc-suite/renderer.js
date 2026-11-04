@@ -41,10 +41,10 @@ function renderRuntimes(entries) {
     const actions = document.createElement("div");
     actions.className = "harness-controls";
     for (const [action, label, disabled] of [
-      ["install", "Install dependencies", (entry.installMode !== "python-venv" && entry.id !== "27") || runtimeBusy || entry.running || ["26", "36"].includes(entry.id)],
-      ["start", "Start local service", !entry.managedService || entry.running || runtimeBusy || entry.receipt?.status !== "installed"],
-      ["stop", "Stop service", !entry.running],
-      ["open", "Open running dashboard", !entry.running || runtimeBusy]
+      ["install", "Install dependencies", (entry.installMode !== "python-venv" && !["24", "27"].includes(entry.id)) || runtimeBusy || entry.running || entry.id === "26"],
+      ["start", entry.managedDesktop ? "Open browser desktop" : "Start local service", (!entry.managedService && !entry.managedDesktop) || entry.running || runtimeBusy || entry.receipt?.status !== "installed"],
+      ["stop", entry.managedDesktop ? "Close browser desktop" : "Stop service", !entry.running],
+      ["open", "Open running dashboard", !entry.running || runtimeBusy || entry.managedDesktop]
     ]) {
       const button = document.createElement("button");
       button.type = "button"; button.dataset.runtimeAction = action; button.dataset.id = entry.id;
@@ -71,6 +71,7 @@ async function runRuntimeAction(action, id) {
     else if (action === "stop") result = await window.axiomSuite.stopRuntime(id);
     else if (action === "open") result = await window.axiomSuite.openRuntime(id);
     message.textContent = action === "refresh" ? "" : result?.canceled ? "Operation cancelled; no installation or launch was approved."
+      : result?.forced ? `Owned browser tree was stopped after graceful cleanup failed: ${result.warning}`
       : "Operation finished. Inspect the per-product state and limits below.";
   } catch (error) { message.textContent = `Runtime operation failed: ${error.message}`; }
   finally {
@@ -603,6 +604,10 @@ search.addEventListener("input", render);
 document.querySelector("#runtime-python").addEventListener("click", () => runRuntimeAction("python"));
 document.querySelector("#runtime-node").addEventListener("click", () => runRuntimeAction("node"));
 document.querySelector("#runtime-refresh").addEventListener("click", () => runRuntimeAction("refresh"));
+window.axiomSuite.onRuntimesChanged(async () => {
+  try { renderRuntimes(await window.axiomSuite.listRuntimes()); }
+  catch (error) { document.querySelector("#runtime-message").textContent = `Runtime state could not be read: ${error.message}`; }
+});
 document.querySelector("#runtime-list").addEventListener("click", (event) => {
   const button = event.target.closest("button[data-runtime-action]");
   if (button && !button.disabled) runRuntimeAction(button.dataset.runtimeAction, button.dataset.id);

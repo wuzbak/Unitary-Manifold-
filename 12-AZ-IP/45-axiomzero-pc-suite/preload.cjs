@@ -25,6 +25,12 @@ contextBridge.exposeInMainWorld("axiomSuite", Object.freeze({
   startRuntime: (id) => ipcRenderer.invoke("runtime:start", id),
   stopRuntime: (id) => ipcRenderer.invoke("runtime:stop", id),
   openRuntime: (id) => ipcRenderer.invoke("runtime:open", id),
+  onRuntimesChanged: (callback) => {
+    if (typeof callback !== "function") throw new TypeError("Runtime state listener must be a function.");
+    const listener = () => callback();
+    ipcRenderer.on("runtime:changed", listener);
+    return () => ipcRenderer.removeListener("runtime:changed", listener);
+  },
   getHarness: () => ipcRenderer.invoke("harness:state"),
   createHarnessTask: (request) => ipcRenderer.invoke("harness:create", request),
   runHarnessStep: (id) => ipcRenderer.invoke("harness:run-step", id),

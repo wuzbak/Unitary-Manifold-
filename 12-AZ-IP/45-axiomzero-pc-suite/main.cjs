@@ -116,7 +116,7 @@ function registerHandlers() {
     const response = await dialog.showMessageBox(mainWindow, {
       type: "warning", title: "Install private Node.js LTS",
       message: "Download official Windows x64 Node.js LTS into this suite's user data?",
-      detail: "The suite fetches the maintained Node 24 LTS archive and SHA-256 manifest from nodejs.org over HTTPS without redirects, verifies the hash, extracts it and runs its version check. The official archive includes its license. This requires internet access and executes downloaded software; no administrator rights, global PATH changes or system-wide installation are requested. Product 27 then installs its own locked npm dependencies after separate approval.",
+      detail: "The suite fetches the maintained Node 24 LTS archive and SHA-256 manifest from nodejs.org over HTTPS without redirects, verifies the hash, extracts it and runs its version check. The official archive includes its license. This requires internet access and executes downloaded software; no administrator rights, global PATH changes or system-wide installation are requested. Products 24 and 27 then install their own locked npm dependencies/runtime assets after separate approval.",
       buttons: ["Cancel", "Install private Node LTS"], defaultId: 0, cancelId: 0, noLink: true
     });
     if (response.response !== 1) return { canceled: true };
@@ -148,7 +148,7 @@ function registerHandlers() {
     const response = await dialog.showMessageBox(mainWindow, {
       type: "question", title: `Start Product ${id}`,
       message: "Start the registered local runtime?",
-      detail: "This executes the installed product code with your user permissions. It may read/write its own local state and use its documented network integrations. Only reviewed loopback launches are offered. Product 20 local command execution is disabled. The desktop owns this process and stops it when quitting.",
+      detail: "This executes installed product code with your user permissions. Product 24 opens its own browser window and loopback Python sidecars on ports 8020/8787; stop separately running instances first. Other managed launches are reviewed loopback services. These applications can read/write local state and use documented network integrations; supplied web/project content must be trusted. Product 20 local command execution is disabled. The suite owns the processes and requests cleanup when quitting.",
       buttons: ["Cancel", "Start local runtime"], defaultId: 0, cancelId: 0, noLink: true
     });
     if (response.response !== 1) return { canceled: true };
@@ -483,6 +483,9 @@ app.whenReady().then(() => {
   runtimeManager = createRuntimeManager({
     entries: runtimeEntries, sourceRoot: portfolioRoot,
     dataDirectory: path.join(app.getPath("userData"), "runtimes"),
+    onStateChange: () => {
+      if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send("runtime:changed");
+    },
     extractionScript: app.isPackaged ? path.join(process.resourcesPath, "node-bootstrap/extract-node.ps1")
       : path.join(__dirname, "scripts/extract-node.ps1")
   });
@@ -514,10 +517,21 @@ app.whenReady().then(() => {
   app.quit();
 });
 
-app.on("before-quit", () => {
+let runtimeShutdownComplete = false;
+let runtimeShutdown;
+app.on("before-quit", (event) => {
   if (harness?.active) harness.stop(harness.active.id);
   if (nativeModel?.isActive()) nativeModel.cancel();
-  runtimeManager?.stopAll();
+  if (runtimeShutdownComplete) return;
+  event.preventDefault();
+  if (runtimeShutdown) return;
+  runtimeShutdown = Promise.resolve(runtimeManager?.stopAll()).then(() => {
+    runtimeShutdownComplete = true;
+    app.quit();
+  }).catch((error) => {
+    runtimeShutdown = null;
+    dialog.showErrorBox("Managed runtime cleanup failed", error.message);
+  });
 });
 
 app.on("window-all-closed", () => {

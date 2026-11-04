@@ -338,10 +338,16 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "b78e6f34fd0432d3bc5395b571715f3ce7a6f8dcea8c703bbd5856a07dca7ae3",
-      "size_bytes": 21632,
+      "sha256": "9521202c8a6ada31f09667171d68f3b736bcfd43cd89705d06045a44c6addaa8",
+      "size_bytes": 21908,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "b78e6f34fd0432d3bc5395b571715f3ce7a6f8dcea8c703bbd5856a07dca7ae3",
+          "size_bytes": 21632,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "3138e21f5dd65c2599135410e3decb5017a5126859c51c285af472b5bf5ce6aa",
@@ -526,11 +532,17 @@
       "description": "Product 24 documentation — desktop, Android, extension, workspace, and sync scaffold",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-01",
-      "sha256": "b4c6e81a47e5e6f516104278e3cc3017dc5a8edf5dbc6525d6dee1401079c2e6",
-      "size_bytes": 8246,
-      "reseal_note": "Authorized desktop integration follow-through: explicit context sharing, session-cookie handshake, deadlines, cancellation and honest limits. Previous registry-recorded seal retained; no claim it matched the pre-change working file.",
+      "updated": "2026-11-04",
+      "sha256": "e88de5a970e113ee422c828b0f7d9fc28acdf2e18e6d3e3e40b178aa952f285d",
+      "size_bytes": 21241,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-01",
+          "sha256": "b4c6e81a47e5e6f516104278e3cc3017dc5a8edf5dbc6525d6dee1401079c2e6",
+          "size_bytes": 8246,
+          "reseal_note": "Authorized desktop integration follow-through: explicit context sharing, session-cookie handshake, deadlines, cancellation and honest limits. Previous registry-recorded seal retained; no claim it matched the pre-change working file."
+        },
         {
           "updated": "2026-09-10",
           "sha256": "ecd8903e70ff395b3115f54942e7ac3e857e8097634b9e61d1fcae5773bcbf43",
@@ -542,19 +554,33 @@
       "description": "Product 24 Electron package manifest and Playwright-first test scripts",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-09-10",
-      "sha256": "a08625f00a0514c81e400c4beb849289c2c3760f9e65523eb506de76ea3a12c1",
-      "size_bytes": 830
+      "updated": "2026-11-04",
+      "sha256": "a277b33be1133c376d9bf76c777820783d092140210284e38aca1940e4453c83",
+      "size_bytes": 965,
+      "reseal_history": [
+        {
+          "updated": "2026-09-10",
+          "sha256": "a08625f00a0514c81e400c4beb849289c2c3760f9e65523eb506de76ea3a12c1",
+          "size_bytes": 830
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/24-psicat-web-browser/desktop/main.js": {
       "description": "Product 24 Electron runtime — tabs, split workspaces, PsiCat sidecar, sync backend integration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-01",
-      "sha256": "23d00f8f6146a47d04b06a70b4f09cec118534b9a7edfc4bb1e89fca75152620",
-      "size_bytes": 28007,
-      "reseal_note": "Authorized desktop integration follow-through: reusable bounded PsiCat query adapter, correlated responses, cancellation, private-context gate and visible transport failures. Previous registry-recorded seal retained; no claim it matched the pre-change working file.",
+      "updated": "2026-11-04",
+      "sha256": "5ca09709968ce4d98b764adf44e3a148ba20fa0b2138ba1b03ba98b66574600a",
+      "size_bytes": 30204,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-01",
+          "sha256": "23d00f8f6146a47d04b06a70b4f09cec118534b9a7edfc4bb1e89fca75152620",
+          "size_bytes": 28007,
+          "reseal_note": "Authorized desktop integration follow-through: reusable bounded PsiCat query adapter, correlated responses, cancellation, private-context gate and visible transport failures. Previous registry-recorded seal retained; no claim it matched the pre-change working file."
+        },
         {
           "updated": "2026-09-10",
           "sha256": "db59a3f46485e24cd5868cbf9085911d05ab189de0f4c6dc13eef8e97861f119",
@@ -590,9 +616,17 @@
       "description": "Product 24 local sync backend scaffold for account-scoped packet push and pull",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-09-10",
-      "sha256": "867d86ff0b7d7dc4fa785cd1592b4d32c541e3735ce7204780eb36c9b1b9f54f",
-      "size_bytes": 5086
+      "updated": "2026-11-04",
+      "sha256": "1c5ed24fc0b6c0a990f4143d07ed50fe8e126d49dde13e1596afc52fb2a480b8",
+      "size_bytes": 6480,
+      "reseal_history": [
+        {
+          "updated": "2026-09-10",
+          "sha256": "867d86ff0b7d7dc4fa785cd1592b4d32c541e3735ce7204780eb36c9b1b9f54f",
+          "size_bytes": 5086
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/26-um-arts/run.py": {
       "description": "Product 26 canonical UM-ARTS CLI launcher",
@@ -678,9 +712,17 @@
       "description": "Product 24 Playwright-first browser proving-ground test configuration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-09-10",
-      "sha256": "29f508dc743f95bcddd890fa327c2592495e883e60b5c21aee5b830188e23c72",
-      "size_bytes": 399
+      "updated": "2026-11-04",
+      "sha256": "56758da4b97eeef2353f15e52673da922a219ad72b44d6d1e72a8c698f67e0c0",
+      "size_bytes": 354,
+      "reseal_history": [
+        {
+          "updated": "2026-09-10",
+          "sha256": "29f508dc743f95bcddd890fa327c2592495e883e60b5c21aee5b830188e23c72",
+          "size_bytes": 399
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/28-az-calorimetry-console/README.md": {
       "description": "Product 28 AZ Calorimetry Console README with epistemic-status section",
@@ -758,9 +800,17 @@
       "description": "Product 36 AZ Differentiable Cosmology Slider README with epistemic-status section",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "925f654670702b75e7f4125689bccea91a232fee38224198b8caad7684624f52",
-      "size_bytes": 1897
+      "updated": "2026-11-04",
+      "sha256": "36fd4fcc42648b04195b3c38619d12baa07aada5b8b18682bb2d90d7c6e6089b",
+      "size_bytes": 3450,
+      "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "925f654670702b75e7f4125689bccea91a232fee38224198b8caad7684624f52",
+          "size_bytes": 1897
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/37-az-holographic-condensed-matter-comparator/README.md": {
       "description": "Product 37 AZ Holographic Condensed-Matter Comparator README documenting validated user CSV references, reproducible reports, and limits on material correspondence",
@@ -861,10 +911,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "4863ce41e2ff0ef741957f444d0813b63ecf9500d5ba26f245340d8dec2a0351",
-      "size_bytes": 16857,
+      "sha256": "795c730afdaa447a7837b0ca49d8009597a9cc5fc922fd41d89ccf276baaf450",
+      "size_bytes": 18366,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "4863ce41e2ff0ef741957f444d0813b63ecf9500d5ba26f245340d8dec2a0351",
+          "size_bytes": 16857,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "f7e136b3c568da7bb75218473cb584996c289c0ccaada0c3feb0584a3ba0fd6d",
@@ -972,10 +1028,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "a7fbdee6bf24ee1ab72eed1149e1c8a88917ed81901e73f3bf03e1989572e20d",
-      "size_bytes": 24428,
+      "sha256": "97f4478f213f947579c31b6590a6deecded7d6c5145c381094ba3aecaa1a8f92",
+      "size_bytes": 25168,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a7fbdee6bf24ee1ab72eed1149e1c8a88917ed81901e73f3bf03e1989572e20d",
+          "size_bytes": 24428,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "41f0db6b569e7293b00cc562cd927032ded3305f117964482df347864a47576a",
@@ -1019,10 +1081,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "3932f7510c83a0188016cec15068159f0adba7762d57871ca44a41330b31878d",
-      "size_bytes": 2720,
+      "sha256": "239177ad01f99875448cd5e4c4478cf78d0c361613be64a2c62764c40465679d",
+      "size_bytes": 3031,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "3932f7510c83a0188016cec15068159f0adba7762d57871ca44a41330b31878d",
+          "size_bytes": 2720,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "be8920ae2dd3d9a2460a2c1201930171bc530b33711c8c8bae77405dc2862ed2",
@@ -1060,10 +1128,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "d9923abf7637bf711ee116ce8a40160a0288ef93c76599a5b862bd28eb99aec7",
-      "size_bytes": 30900,
+      "sha256": "9705a40cb835ca3b52aa221fa114020572defac0eda9ec98ce4d9daebe92b839",
+      "size_bytes": 31406,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "d9923abf7637bf711ee116ce8a40160a0288ef93c76599a5b862bd28eb99aec7",
+          "size_bytes": 30900,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "cbdc072bf2502c68ac87a13dad994af195c6c4c0f3211906d983d9bc612abf57",
@@ -1113,10 +1187,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "78dd1e6049337e93fdef92c35375825848f13985341dfa18120e245be038f61d",
-      "size_bytes": 11923,
+      "sha256": "7c38b909fd20ce79f76b517f76003572f542ea76fcdf732cf3be585876748fca",
+      "size_bytes": 12074,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "78dd1e6049337e93fdef92c35375825848f13985341dfa18120e245be038f61d",
+          "size_bytes": 11923,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "4bb97fbf87f61d891b3cf738f72ff36ac5faee59509d201b195d4993a23dd872",
@@ -1259,10 +1339,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "6a1a410d8b11525aec965ede1caadee518cafde380c50c5dc4f5ad51265f2d92",
-      "size_bytes": 7379,
+      "sha256": "733a19a7001fcc2f18dab36342138d30b019892c53c55992d66336499b81e5f4",
+      "size_bytes": 8039,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "6a1a410d8b11525aec965ede1caadee518cafde380c50c5dc4f5ad51265f2d92",
+          "size_bytes": 7379,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "582ce62b07273e5b1f58edaa715304852f6dcf2d8c53572e7a89b5d93189fd2e",
@@ -1326,10 +1412,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "dfa752a64563e8bad3b5db2320e6c80dc232fb9aa59491a5fad5b59806491ffb",
-      "size_bytes": 16116,
+      "sha256": "71e44ae481012492aca6d938378321a19cb480d7a62ed063b07bba9e58179d9b",
+      "size_bytes": 16136,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "dfa752a64563e8bad3b5db2320e6c80dc232fb9aa59491a5fad5b59806491ffb",
+          "size_bytes": 16116,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "6fe6fd752ae89780e0f1bc38fd8b08bbedb94504c8dcc37bbca536c91ce07ab9",
@@ -1409,10 +1501,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "90e6c2eab3d1e0cc9b2b008b9667c3022548c27938958cb2bc41bc31a1c7ceb4",
-      "size_bytes": 7778,
+      "sha256": "448a4af2cd45718c17fa9c6318df41e9aa709a89799359f6c5cfae3743982cbc",
+      "size_bytes": 8972,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "90e6c2eab3d1e0cc9b2b008b9667c3022548c27938958cb2bc41bc31a1c7ceb4",
+          "size_bytes": 7778,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "8fdfb6cb3f7f92da6d2f7725d046def58916d23a18042b82c8ab67da034d14ca",
@@ -1454,10 +1552,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "f29a97e3d16c84b6eea719093349e8fb9bf64cb13c100298a76aa8fec48f4b44",
-      "size_bytes": 32377,
+      "sha256": "65d40342f81c09d216773642e763bb908dfe6aca19bd337841cd36a81e6789d2",
+      "size_bytes": 32687,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "f29a97e3d16c84b6eea719093349e8fb9bf64cb13c100298a76aa8fec48f4b44",
+          "size_bytes": 32377,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "df465a8dbcfb11405f1d702a3e584dda7dbcb65dc2c22f6d2fef83efac3f9d62",
@@ -1497,10 +1601,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "541a06b8cb5ccb0f4b0bddc5de29b29c306ef686b5073ee1890243aa6adb5923",
-      "size_bytes": 13639,
+      "sha256": "49510b9eb48ae2fe6f8625ec850ffd974ae127561128a6e6164cd5383860199e",
+      "size_bytes": 20171,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "541a06b8cb5ccb0f4b0bddc5de29b29c306ef686b5073ee1890243aa6adb5923",
+          "size_bytes": 13639,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "1a29d6756ec03dfc7652321c0e84f3f9141f342ddc39796325f9a9c906f35870",
@@ -1564,10 +1674,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "08c34e3aecb53e0c4b942b66c12d6dd3b7e0755a58b3255180f4ec1083046186",
-      "size_bytes": 3671,
+      "sha256": "34c4ce09fccf57bba2b0b6640c30c92151102aee59a83003305cbe10da660c26",
+      "size_bytes": 5969,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "08c34e3aecb53e0c4b942b66c12d6dd3b7e0755a58b3255180f4ec1083046186",
+          "size_bytes": 3671,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "93e670afc7ebe732b395f03d880226f3273ee01dccff2aa6c3276b59aa56c9a7",
@@ -1645,10 +1761,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "de1c418c857454a6a33433ca6b0d9757359375268c9d4fe770a6592e6a7aed27",
-      "size_bytes": 9822,
+      "sha256": "78495ff889cb130922eda31b891fffc9f5db07398d591a912d566db244a55d86",
+      "size_bytes": 17329,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "de1c418c857454a6a33433ca6b0d9757359375268c9d4fe770a6592e6a7aed27",
+          "size_bytes": 9822,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "d330293bb41989007635865c05c2bd28a58ee452d1db91d6071976934e71038d",
@@ -1718,6 +1840,141 @@
       "updated": "2026-11-04",
       "sha256": "5d3a646079d9e402c741d6479e60df2ff65893bbfe0f488c49ef0a1d78debb52",
       "size_bytes": 1113,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/lib/desktop-boundary.js": {
+      "description": "Product 24 Windows runtime integration and contracts: desktop-boundary.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "b9fa7dfa764b669e7a8c1a831b983fdb281c6e37aeaf3a57200e95233cce3ccd",
+      "size_bytes": 510,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/lib/sidecar.js": {
+      "description": "Product 24 Windows runtime integration and contracts: sidecar.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "57ab2946e4036b3f14dedac09a807ea5db862b08b462f439298a4011e6913fc8",
+      "size_bytes": 7153,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/lib/suite-lifecycle.js": {
+      "description": "Product 24 Windows runtime integration and contracts: suite-lifecycle.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "7def35a724bbb98264fb8c32eff36149c1c8b8866aa072b0a58141af9520b39f",
+      "size_bytes": 1536,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/package-lock.json": {
+      "description": "Product 24 Windows runtime integration and contracts: package-lock.json",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "6f86c7010894f91af8f3ffc40cb884e2d52f21ea0121e2a3066ec7db4f9d958e",
+      "size_bytes": 7292,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/desktop-boundary.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: desktop-boundary.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "f8a14ebf0dcc57819dc92eaadeb9b843e265144f38b574a3d58c59a93ceb6494",
+      "size_bytes": 1507,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/desktop-runtime.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: desktop-runtime.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "e1454003f7aba5efaf4c27af0ed6e0d2157add37039cf7dd1e9fb135aa6d9a1c",
+      "size_bytes": 6749,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/serve-ui.js": {
+      "description": "Product 24 Windows runtime integration and contracts: serve-ui.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "da84d370f1059d07395272a9e9f4b2b18178c48b9343a8bfddb3cc7342862d8a",
+      "size_bytes": 765,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/sidecar.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: sidecar.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "c4562e2a4708a081382b6aad20e9da498f576dc5ec775472ac8a4ddd845739b3",
+      "size_bytes": 11861,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/suite-lifecycle.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: suite-lifecycle.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "cea4b44fd3b73c28ba0c5ef7bd9397454a226e2fd30cdbab44bda67f62cf11ab",
+      "size_bytes": 2125,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/test_product24_structure.py": {
+      "description": "Product 24 Windows runtime integration and contracts: test_product24_structure.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "67c2afe48404560ba93da944f9f1d09e442a78e34bea160c46b11a40c6a19597",
+      "size_bytes": 2251,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/test_sync_backend.py": {
+      "description": "Product 24 Windows runtime integration and contracts: test_sync_backend.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a2b802e230d6a70e57d3ca3ddeef22efe13069906e73103c9d7578a8e07d5c5e",
+      "size_bytes": 4807,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/36-az-cosmology-slider/requirements.txt": {
+      "description": "Product 36 Windows runtime integration and contracts: requirements.txt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "80f9be4514d8c3528a4ef97e8d6dbca988ac1eb9fefaae8f62e8981e3af806cf",
+      "size_bytes": 31,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/desktop-runtime.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: desktop-runtime.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "7ec1b834944b940b29e93fd68168c491094408a4008591a580a8460f47364df7",
+      "size_bytes": 3301,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: desktop-runtime.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "c590cdd84c9960ce0a00494a7a577c9a913173c443a3b1935b8eb14e8d08939a",
+      "size_bytes": 2898,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: preload-state.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "916bf6ab9242955a77a531513e4ff0bd5de7ec74928729aa3bde403f989667e0",
+      "size_bytes": 1020,
       "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     }
   },

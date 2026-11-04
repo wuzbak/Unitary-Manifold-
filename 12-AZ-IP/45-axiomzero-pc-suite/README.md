@@ -12,8 +12,8 @@ explicit click.
 The app includes an actual **standalone native PsiCat character-model
 executable and locally trained seed weights**, plus consent-gated provisioning
 for registered Python products. It is **not yet an installer for every
-portfolio target**: Android applications, UEFI components, the separate Electron
-products, broken legacy launchers and POSIX/JAX-dependent services have explicit
+portfolio target**: Android applications, UEFI components, other desktop
+products, broken legacy launchers and POSIX-dependent services have explicit
 limits rather than fake installation success. Individual products retain
 their setup, privacy and readiness boundaries. No provisioned dependency
 environment or responsive status endpoint constitutes full capability
@@ -47,10 +47,14 @@ create separate product environments, install reviewed requirements or
 pyproject packages, and run `pip check`. These operations require internet
 access and execute third-party installation code. Calculator products use
 the checked-in scientific dependency profile. Product 26's POSIX execution
-and Product 36's unverified native-Windows JAX backend are blocked explicitly.
+is blocked explicitly. Product 36 installs pinned JAX/jaxlib in its own
+environment and verifies actual CPU slider values and both gradients before
+accepting installation; managed launches force the CPU backend. GPU/TPU
+support is not asserted. Startup health uses a live slider calculation, not
+the status page; installed Windows execution still needs its workflow check.
 Other non-Python target tooling is not managed.
 
-Product 27 is the Node exception. **Install private Node LTS** downloads the
+Products 24 and 27 use the managed Node toolchain. **Install private Node LTS** downloads the
 maintained Node 24 Windows x64 archive and checksum manifest from fixed
 `nodejs.org` HTTPS endpoints, forbids redirects, verifies SHA-256, and extracts
 the licensed runtime into suite user data. Native approval is required.
@@ -71,13 +75,31 @@ receipts/settings or place it in a URL. Stopping discards the session token.
 Project storage is under suite user data, not a system/home default.
 After dependencies are installed, local project creation, inspection, preview
 and build can operate offline; supplied project source must still be reviewed
-before execution. Node/Electron Product 24 remains outside this managed path.
+before execution.
 
-Registered loopback launch contracts cover Products 20, 21, 23, 28–35 and
-37–44, plus Product 27's Node workbench. Install dependencies first, then approve **Start local service**.
+Product 24 provisions pinned Windows Electron 44.10.2, preserving its full
+licensed runtime, and a separate Python environment for its sync/Navigator
+sidecars. The suite restores the lock without package scripts, then explicitly
+runs the locked Electron installer. **Open browser desktop** launches the real
+Electron window directly; inherited IPC confirms UI and sidecar readiness.
+Ports 8020 and 8787 must be free: stop a separately managed Navigator first.
+No existing service or its authority is silently adopted. Browser-owned
+Navigator local command execution remains disabled; saved browser settings may explicitly
+disable Navigator startup. Android and extension trees are not installed.
+**Close browser desktop** requests correlated graceful cleanup and waits for
+process exit. An unresponsive desktop may require terminating its specific
+owned Windows process tree; this escalation is reported, not OS confinement.
+Browser state lives in suite user data. This is not a verified expert model or
+an ongoing browser-update mechanism; native Windows behavior needs its workflow check.
+
+Registered loopback launch contracts cover Products 20, 21, 23 and 28–44,
+plus Product 27's Node workbench and Product 24's supervised desktop.
+Install dependencies first, then approve the corresponding start action.
 The manager rejects occupied ports, requires a responsive health route,
 retains bounded startup diagnostics and owns the process until **Stop service**
-or desktop shutdown. Changed source/dependency locations require reinstallation.
+or desktop shutdown. Quit waits for any active bounded installation to finish
+and for owned runtimes to exit; new installations/launches are blocked while
+quitting. Changed source/dependency locations require reinstallation.
 A selected checkout is used when connected; otherwise the installer supplies
 a checksum-receipted tracked-source pack that is copied into a content-scoped
 user-data worktree before use. Installation resources are never used as mutable

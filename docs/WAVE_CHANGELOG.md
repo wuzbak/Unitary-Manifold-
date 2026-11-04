@@ -16,6 +16,16 @@ remain unfinished; no physics, score, pillar or falsifier boundary changes.
 Windows smoke exposed an authorized workspace short-path alias being rejected
 as a project symlink; canonical root pinning fixes that without permitting
 symlinked project directories or sources.
+Product 36 now has pinned CPU JAX dependencies and an installation-time
+verification of its actual slider value and both gradients; the installed
+Windows smoke exercises its live numerical endpoint. No GPU support or new
+physics confirmation is asserted.
+Product 24 now has explicit Windows Python discovery, owned loopback sidecar
+health/lifecycle, a pinned maintained Electron patch, and suite provisioning.
+Inherited IPC gates desktop readiness and correlated graceful shutdown; only
+the owned process tree is eligible for bounded forced cleanup. Suite quit waits
+for active provisioning and runtime exit. Android/extensions, assistant quality,
+ongoing updates and native Windows validation are not inferred from local tests.
 
 ## Product 45 - Native model and runtime provisioning (2026-11-04; adjacent software only)
 

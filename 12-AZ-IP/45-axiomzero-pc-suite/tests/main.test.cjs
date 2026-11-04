@@ -7,7 +7,7 @@ const vm = require("node:vm");
 const { createRequire } = require("node:module");
 const { EventEmitter } = require("node:events");
 
-async function desktop(t, { corrupt = false, runtimeAccess } = {}) {
+async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll } = {}) {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "p45-main-"));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   if (corrupt) fs.writeFileSync(path.join(directory, "research-harness.json"), "{broken");
@@ -23,7 +23,12 @@ async function desktop(t, { corrupt = false, runtimeAccess } = {}) {
   app.getPath = () => directory;
   app.getVersion = () => "0.1.0";
   app.getGPUInfo = async () => ({ gpuDevice: [{ vendorId: 4318, deviceId: 1234 }] });
-  app.quit = () => { app.emit("before-quit"); };
+  const quitEvents = [];
+  app.quit = () => {
+    const event = { prevented: false, preventDefault() { this.prevented = true; } };
+    app.emit("before-quit", event);
+    quitEvents.push(event);
+  };
   class BrowserWindow {
     constructor(options) {
       this.options = options;
@@ -53,16 +58,18 @@ async function desktop(t, { corrupt = false, runtimeAccess } = {}) {
       shell: { openExternal: async (value) => opened.push(value) }
     } : name === "./lib/local-model.cjs" ? {
       reasonLocally: async () => "UNVERIFIED mocked local model response"
-    } : name === "./lib/runtime-manager.cjs" && runtimeAccess ? {
+    } : name === "./lib/runtime-manager.cjs" && (runtimeAccess || runtimeStopAll) ? {
       createRuntimeManager: (options) => ({
-        ...localRequire(name).createRuntimeManager(options), access: runtimeAccess
+        ...localRequire(name).createRuntimeManager(options),
+        ...(runtimeAccess ? { access: runtimeAccess } : {}),
+        ...(runtimeStopAll ? { stopAll: runtimeStopAll } : {})
       })
     } : localRequire(name),
     __dirname: path.dirname(file), process
   }, { filename: file });
   await new Promise((resolve) => setImmediate(resolve));
   const invoke = (channel, ...args) => handlers.get(channel)(null, ...args);
-  return { directory, window, errors, dialog, approvals, invoke, handlers, app, clipboardWrites, opened };
+  return { directory, window, errors, dialog, approvals, invoke, handlers, app, clipboardWrites, opened, quitEvents };
 }
 
 test("desktop starts and wires real harness IPC, native approvals and evidence worker", async (t) => {
@@ -107,6 +114,24 @@ test("invalid checkpoint produces an explicit startup error instead of silent re
   assert.equal(handlers.size, 0);
   assert.equal(errors.length, 1);
   assert.equal(errors[0].title, "AxiomZero PC Suite could not start");
+});
+test("suite quit waits for owned desktop cleanup and surfaces cleanup failures", async (t) => {
+  let finish;
+  const pending = new Promise((resolve) => { finish = resolve; });
+  const { app, quitEvents } = await desktop(t, { runtimeStopAll: () => pending });
+  app.quit();
+  assert.equal(quitEvents.length, 1);
+  assert.equal(quitEvents[0].prevented, true);
+  finish();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(quitEvents.length, 2);
+  assert.equal(quitEvents[1].prevented, false);
+  const failure = await desktop(t, { runtimeStopAll: async () => { throw new Error("Owned process remains alive"); } });
+  failure.app.quit();
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(failure.quitEvents.length, 1);
+  assert.equal(failure.quitEvents[0].prevented, true);
+  assert.match(failure.errors[0].message, /Owned process remains alive/);
 });
 
 test("hardware diagnostics require native consent and export only after detection", async (t) => {

@@ -73,7 +73,10 @@ async function verifyWindow(target) {
           title: document.title,
           body: document.body.innerText,
           cards: document.querySelectorAll("#product-list .product-card").length,
-          runtimes: document.querySelectorAll("#runtime-list .product-card").length
+          runtimes: document.querySelectorAll("#runtime-list .product-card").length,
+          jaxInstallDisabled: document.querySelector('[data-runtime-action="install"][data-id="36"]')?.disabled,
+          browserInstallDisabled: document.querySelector('[data-runtime-action="install"][data-id="24"]')?.disabled,
+          posixInstallDisabled: document.querySelector('[data-runtime-action="install"][data-id="26"]')?.disabled
         })`,
         returnByValue: true
       });
@@ -84,6 +87,9 @@ async function verifyWindow(target) {
     assert.equal(rendered.title, "AxiomZero PC Suite");
     assert.equal(rendered.cards, 45, "all catalog entries should render");
     assert.equal(rendered.runtimes, 45, "all actual runtime contracts should render");
+    assert.equal(rendered.jaxInstallDisabled, false, "the CPU JAX installer must be available");
+    assert.equal(rendered.browserInstallDisabled, false, "the Windows browser installer must be available");
+    assert.equal(rendered.posixInstallDisabled, true, "unsupported POSIX installation must remain blocked");
     for (const text of ["Local evidence library", "Search locally", "Open PsiCat Navigator", "Research control plane", "PC readiness assessment", "PsiCat native model", "Portfolio runtime manager"]) {
       assert.ok(rendered.body.includes(text), `the window should render "${text}"`);
     }

@@ -543,6 +543,50 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/27-psicat-vite-web-workbench/workbench.js` | `c25cc508a71aea0abf4b8140593b02b468e505489f696c882716edfd46b0fa35` | 13972 |
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `08c34e3aecb53e0c4b942b66c12d6dd3b7e0755a58b3255180f4ec1083046186` | 3671 |
 
+### Product 45 native model and runtime provisioning reseal - 2026-11-04
+
+Registered a genuinely trained experimental native model, offline inference/local training,
+consent-gated Python dependency provisioning, checksum-receipted bundled source and reviewed
+loopback lifecycle. Non-Windows/unsupported targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/24-psicat-web-browser/README.md` | `e88de5a970e113ee422c828b0f7d9fc28acdf2e18e6d3e3e40b178aa952f285d` | 21241 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/lib/desktop-boundary.js` | `b9fa7dfa764b669e7a8c1a831b983fdb281c6e37aeaf3a57200e95233cce3ccd` | 510 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/lib/sidecar.js` | `57ab2946e4036b3f14dedac09a807ea5db862b08b462f439298a4011e6913fc8` | 7153 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/lib/suite-lifecycle.js` | `7def35a724bbb98264fb8c32eff36149c1c8b8866aa072b0a58141af9520b39f` | 1536 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/main.js` | `5ca09709968ce4d98b764adf44e3a148ba20fa0b2138ba1b03ba98b66574600a` | 30204 |
+| `12-AZ-IP/24-psicat-web-browser/package-lock.json` | `6f86c7010894f91af8f3ffc40cb884e2d52f21ea0121e2a3066ec7db4f9d958e` | 7292 |
+| `12-AZ-IP/24-psicat-web-browser/package.json` | `a277b33be1133c376d9bf76c777820783d092140210284e38aca1940e4453c83` | 965 |
+| `12-AZ-IP/24-psicat-web-browser/playwright.config.js` | `56758da4b97eeef2353f15e52673da922a219ad72b44d6d1e72a8c698f67e0c0` | 354 |
+| `12-AZ-IP/24-psicat-web-browser/sync_backend/server.py` | `1c5ed24fc0b6c0a990f4143d07ed50fe8e126d49dde13e1596afc52fb2a480b8` | 6480 |
+| `12-AZ-IP/24-psicat-web-browser/tests/desktop-boundary.test.js` | `f8a14ebf0dcc57819dc92eaadeb9b843e265144f38b574a3d58c59a93ceb6494` | 1507 |
+| `12-AZ-IP/24-psicat-web-browser/tests/desktop-runtime.test.js` | `e1454003f7aba5efaf4c27af0ed6e0d2157add37039cf7dd1e9fb135aa6d9a1c` | 6749 |
+| `12-AZ-IP/24-psicat-web-browser/tests/serve-ui.js` | `da84d370f1059d07395272a9e9f4b2b18178c48b9343a8bfddb3cc7342862d8a` | 765 |
+| `12-AZ-IP/24-psicat-web-browser/tests/sidecar.test.js` | `c4562e2a4708a081382b6aad20e9da498f576dc5ec775472ac8a4ddd845739b3` | 11861 |
+| `12-AZ-IP/24-psicat-web-browser/tests/suite-lifecycle.test.js` | `cea4b44fd3b73c28ba0c5ef7bd9397454a226e2fd30cdbab44bda67f62cf11ab` | 2125 |
+| `12-AZ-IP/24-psicat-web-browser/tests/test_product24_structure.py` | `67c2afe48404560ba93da944f9f1d09e442a78e34bea160c46b11a40c6a19597` | 2251 |
+| `12-AZ-IP/24-psicat-web-browser/tests/test_sync_backend.py` | `a2b802e230d6a70e57d3ca3ddeef22efe13069906e73103c9d7578a8e07d5c5e` | 4807 |
+| `12-AZ-IP/36-az-cosmology-slider/README.md` | `36fd4fcc42648b04195b3c38619d12baa07aada5b8b18682bb2d90d7c6e6089b` | 3450 |
+| `12-AZ-IP/36-az-cosmology-slider/requirements.txt` | `80f9be4514d8c3528a4ef97e8d6dbca988ac1eb9fefaae8f62e8981e3af806cf` | 31 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `795c730afdaa447a7837b0ca49d8009597a9cc5fc922fd41d89ccf276baaf450` | 18366 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `71e44ae481012492aca6d938378321a19cb480d7a62ed063b07bba9e58179d9b` | 16136 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `65d40342f81c09d216773642e763bb908dfe6aca19bd337841cd36a81e6789d2` | 32687 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `7c38b909fd20ce79f76b517f76003572f542ea76fcdf732cf3be585876748fca` | 12074 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/desktop-runtime.cjs` | `7ec1b834944b940b29e93fd68168c491094408a4008591a580a8460f47364df7` | 3301 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `49510b9eb48ae2fe6f8625ec850ffd974ae127561128a6e6164cd5383860199e` | 20171 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `97f4478f213f947579c31b6590a6deecded7d6c5145c381094ba3aecaa1a8f92` | 25168 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `239177ad01f99875448cd5e4c4478cf78d0c361613be64a2c62764c40465679d` | 3031 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `9705a40cb835ca3b52aa221fa114020572defac0eda9ec98ce4d9daebe92b839` | 31406 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `733a19a7001fcc2f18dab36342138d30b019892c53c55992d66336499b81e5f4` | 8039 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `34c4ce09fccf57bba2b0b6640c30c92151102aee59a83003305cbe10da660c26` | 5969 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs` | `c590cdd84c9960ce0a00494a7a577c9a913173c443a3b1935b8eb14e8d08939a` | 2898 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `448a4af2cd45718c17fa9c6318df41e9aa709a89799359f6c5cfae3743982cbc` | 8972 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs` | `916bf6ab9242955a77a531513e4ff0bd5de7ec74928729aa3bde403f989667e0` | 1020 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `78495ff889cb130922eda31b891fffc9f5db07398d591a912d566db244a55d86` | 17329 |
+| `12-AZ-IP/README.md` | `9521202c8a6ada31f09667171d68f3b736bcfd43cd89705d06045a44c6addaa8` | 21908 |
+
 ## Verification Protocol
 
 To verify any registered asset:

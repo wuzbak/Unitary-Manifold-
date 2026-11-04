@@ -1,18 +1,20 @@
 const { app, BrowserWindow, BrowserView, Menu, dialog, ipcMain, shell, session } = require('electron');
 const path = require('node:path');
-const fs = require('node:fs');
+const { mkdirSync } = require('node:fs');
 const fsp = require('node:fs/promises');
 const crypto = require('node:crypto');
-const { spawn } = require('node:child_process');
 const core = require('./lib/browser-core');
 const pageContext = require('./lib/page-context');
 const syncPolicy = require('./lib/sync-policy');
 const psiCatClient = require('./lib/psicat-client');
+const { Sidecar, navigatorEnvironment } = require('./lib/sidecar');
+const { isTrustedSender, isWebUrl } = require('./lib/desktop-boundary');
+const { attachSuiteLifecycle } = require('./lib/suite-lifecycle');
 
 const PRODUCT_ROOT = path.resolve(__dirname, '..');
-const REPO_ROOT = path.resolve(PRODUCT_ROOT, '..', '..');
 const UI_ENTRY = path.join(__dirname, 'ui', 'index.html');
-const PSICAT_RUN_PATH = path.resolve(PRODUCT_ROOT, '..', '20-psicat-navigator', 'run.py');
+const PSICAT_RUN_PATH = process.env.PSICAT_BROWSER_NAVIGATOR_RUN
+  || path.resolve(PRODUCT_ROOT, '..', '20-psicat-navigator', 'run.py');
 const SYNC_BACKEND_RUN_PATH = path.join(PRODUCT_ROOT, 'sync_backend', 'server.py');
 const PSICAT_HOST = '127.0.0.1';
 const PSICAT_PORT = 8020;
@@ -25,12 +27,18 @@ let syncMirrorPath;
 let state = core.createInitialState();
 let tabViews = new Map();
 let psiCatSidecar = { status: 'not_started', pid: null, baseUrl: `http://${PSICAT_HOST}:${PSICAT_PORT}`, error: '' };
-let psiCatProcess = null;
 let syncBackend = { status: 'not_started', pid: null, baseUrl: `http://${SYNC_HOST}:${SYNC_PORT}`, error: '' };
-let syncBackendProcess = null;
+let psiCatManager;
+let syncManager;
+let shutdownComplete = false;
+let shuttingDown = null;
 const trackedSessions = new WeakSet();
 const queryControllers = new Map();
 const psiCatQuerySession = { cookie: '' };
+const suiteLifecycle = attachSuiteLifecycle({
+  enabled: process.env.PSICAT_BROWSER_SUITE_IPC === '1',
+  onShutdown: () => app.quit(),
+});
 
 function sha256(text) {
   return crypto.createHash('sha256').update(text).digest('hex');
@@ -58,11 +66,8 @@ function serializeState() {
   return { ...state, psiCatSidecar, syncBackend };
 }
 
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 function broadcastState() {
+  suiteLifecycle.notify('state', { sync: syncBackend, navigator: psiCatSidecar });
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.webContents.send('browser:state', serializeState());
   }
@@ -74,10 +79,12 @@ function createBrowserView(tab) {
       partition: tab.private ? `memory:${tab.id}` : undefined,
       contextIsolation: true,
       sandbox: true,
+      nodeIntegration: false,
     },
   });
   registerDownloadTracking(view.webContents.session);
   view.webContents.setWindowOpenHandler(({ url }) => {
+    if (!isWebUrl(url)) return { action: 'deny' };
     state = core.addTab(state, url, { title: 'New Tab' });
     const nextTab = getActiveTab();
     mountTab(nextTab);
@@ -368,74 +375,31 @@ async function navigateActive(action, url) {
 }
 
 async function startPsiCatSidecar() {
-  if (!state.settings.autoStartPsiCat || !fs.existsSync(PSICAT_RUN_PATH)) {
-    psiCatSidecar = { ...psiCatSidecar, status: 'disabled', error: fs.existsSync(PSICAT_RUN_PATH) ? '' : 'Product 20 run.py not found' };
-    return;
-  }
-  psiCatSidecar = { ...psiCatSidecar, status: 'starting', error: '' };
-  broadcastState();
-  psiCatProcess = spawn('python3', [PSICAT_RUN_PATH, '--host', PSICAT_HOST, '--port', String(PSICAT_PORT), '--no-open'], {
-    cwd: path.dirname(PSICAT_RUN_PATH),
-    env: process.env,
-    stdio: 'ignore',
-    detached: false,
+  psiCatManager ||= new Sidecar({
+    name: 'PsiCat Navigator', script: PSICAT_RUN_PATH, port: PSICAT_PORT,
+    args: ['--no-open', '--local-execution', 'off'],
+    healthPath: '/api/psicat/status',
+    validateHealth: (payload) => payload.psicat_available === true && typeof payload.memory_profile_token === 'string',
+    env: navigatorEnvironment(),
+    onChange: (next) => { psiCatSidecar = next; broadcastState(); },
   });
-  psiCatSidecar = { ...psiCatSidecar, pid: psiCatProcess.pid };
-  psiCatProcess.on('exit', (code) => {
-    psiCatSidecar = { ...psiCatSidecar, status: 'stopped', error: code === 0 ? '' : `PsiCat sidecar exited with code ${code}` };
-    broadcastState();
+  await psiCatManager.start({
+    enabled: state.settings.autoStartPsiCat && process.env.PSICAT_BROWSER_DISABLE_NAVIGATOR !== '1',
   });
-  for (let attempt = 0; attempt < 20; attempt += 1) {
-    try {
-      const response = await fetch(`${psiCatSidecar.baseUrl}/api/psicat/status`);
-      if (response.ok) {
-        psiCatSidecar = { ...psiCatSidecar, status: 'ready', error: '' };
-        broadcastState();
-        return;
-      }
-    } catch (_error) {
-      // wait for sidecar readiness
-    }
-    await delay(500);
-  }
-  psiCatSidecar = { ...psiCatSidecar, status: 'degraded', error: 'PsiCat sidecar did not become ready in time' };
-  broadcastState();
 }
 
 async function startSyncBackend() {
-  if (!fs.existsSync(SYNC_BACKEND_RUN_PATH)) {
-    syncBackend = { ...syncBackend, status: 'disabled', error: 'Sync backend server.py not found' };
-    broadcastState();
-    return;
+  if (!syncManager) {
+    const instanceId = crypto.randomUUID();
+    syncManager = new Sidecar({
+      name: 'Browser sync backend', script: SYNC_BACKEND_RUN_PATH, port: SYNC_PORT,
+      args: ['--store', path.join(app.getPath('userData'), 'sync-backend', 'sync_store.json'), '--instance-id', instanceId],
+      healthPath: '/api/sync/health',
+      validateHealth: (payload) => payload.ok === true && payload.service === 'psicat-sync-backend' && payload.instance_id === instanceId,
+      onChange: (next) => { syncBackend = next; broadcastState(); },
+    });
   }
-  syncBackend = { ...syncBackend, status: 'starting', error: '' };
-  broadcastState();
-  syncBackendProcess = spawn('python3', [SYNC_BACKEND_RUN_PATH, '--host', SYNC_HOST, '--port', String(SYNC_PORT)], {
-    cwd: path.dirname(SYNC_BACKEND_RUN_PATH),
-    env: process.env,
-    stdio: 'ignore',
-    detached: false,
-  });
-  syncBackend = { ...syncBackend, pid: syncBackendProcess.pid };
-  syncBackendProcess.on('exit', (code) => {
-    syncBackend = { ...syncBackend, status: 'stopped', error: code === 0 ? '' : `Sync backend exited with code ${code}` };
-    broadcastState();
-  });
-  for (let attempt = 0; attempt < 20; attempt += 1) {
-    try {
-      const response = await fetch(`${syncBackend.baseUrl}/api/sync/health`);
-      if (response.ok) {
-        syncBackend = { ...syncBackend, status: 'ready', error: '' };
-        broadcastState();
-        return;
-      }
-    } catch (_error) {
-      // wait for backend readiness
-    }
-    await delay(500);
-  }
-  syncBackend = { ...syncBackend, status: 'degraded', error: 'Sync backend did not become ready in time' };
-  broadcastState();
+  await syncManager.start();
 }
 
 async function callPsiCat({ question, requestId, includeLibrary = false }) {
@@ -445,7 +409,7 @@ async function callPsiCat({ question, requestId, includeLibrary = false }) {
   } catch (error) {
     return { mode: 'blocked', request_id: requestId, answer: `Query blocked: ${error.message}` };
   }
-  if (!['ready', 'degraded'].includes(psiCatSidecar.status)) {
+  if (!['ready', 'degraded'].includes(psiCatSidecar.status) || !psiCatManager?.child) {
     return {
       mode: 'local',
       request_id: requestId,
@@ -526,6 +490,7 @@ async function writeSyncMirror(source = 'local-mirror') {
 }
 
 async function pushSyncToBackend() {
+  if (syncBackend.status !== 'ready') throw new Error(`Sync backend unavailable: ${syncBackend.error || syncBackend.status}`);
   if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
   if (!state.settings.syncAccessToken) throw new Error('Sync access token is required before backend sync.');
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
@@ -557,6 +522,7 @@ async function pushSyncToBackend() {
 }
 
 async function pullSyncFromBackend() {
+  if (syncBackend.status !== 'ready') throw new Error(`Sync backend unavailable: ${syncBackend.error || syncBackend.status}`);
   if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
   if (!state.settings.syncAccessToken) throw new Error('Sync access token is required before backend sync.');
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
@@ -627,48 +593,56 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       sandbox: true,
+      nodeIntegration: false,
     },
   });
-  mainWindow.loadFile(UI_ENTRY);
+  const loaded = mainWindow.loadFile(UI_ENTRY);
+  mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
+  mainWindow.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   mainWindow.on('resize', layoutViews);
   mainWindow.on('maximize', layoutViews);
+  return loaded;
 }
 
 function installIpc() {
-  ipcMain.handle('browser:get-state', async () => serializeState());
-  ipcMain.handle('browser:create-tab', async (_event, url, options) => {
+  const handle = (channel, listener) => ipcMain.handle(channel, (event, ...args) => {
+    if (!isTrustedSender(event, mainWindow, UI_ENTRY)) throw new Error('Browser IPC requires the local desktop UI main frame.');
+    return listener(event, ...args);
+  });
+  handle('browser:get-state', async () => serializeState());
+  handle('browser:create-tab', async (_event, url, options) => {
     ipcCreateTab(url, options || {});
     return serializeState();
   });
-  ipcMain.handle('browser:close-tab', async (_event, tabId) => {
+  handle('browser:close-tab', async (_event, tabId) => {
     await closeTab(tabId);
     return serializeState();
   });
-  ipcMain.handle('browser:activate-tab', async (_event, tabId) => {
+  handle('browser:activate-tab', async (_event, tabId) => {
     state = core.activateTab(state, tabId);
     mountTab(getActiveTab());
     return serializeState();
   });
-  ipcMain.handle('browser:navigate', async (_event, url) => navigateActive('load', url));
-  ipcMain.handle('browser:go-back', async () => navigateActive('back'));
-  ipcMain.handle('browser:go-forward', async () => navigateActive('forward'));
-  ipcMain.handle('browser:go-home', async () => navigateActive('load', state.settings.homePage));
-  ipcMain.handle('browser:reload', async () => navigateActive('reload'));
-  ipcMain.handle('browser:stop', async () => navigateActive('stop'));
-  ipcMain.handle('browser:reopen-closed-tab', async () => reopenClosedTab());
-  ipcMain.handle('browser:update-workspace-layout', async (_event, layout, secondaryTabId) => updateWorkspaceLayout(layout, secondaryTabId));
-  ipcMain.handle('browser:save-workspace', async (_event, name) => saveWorkspace(name));
-  ipcMain.handle('browser:apply-workspace', async (_event, workspaceId) => applyWorkspace(workspaceId));
-  ipcMain.handle('browser:add-bookmark', async () => { await addBookmark(); return serializeState(); });
-  ipcMain.handle('browser:remember-active-page', async () => rememberActivePage());
-  ipcMain.handle('browser:add-notebook-entry', async (_event, entry) => {
+  handle('browser:navigate', async (_event, url) => navigateActive('load', url));
+  handle('browser:go-back', async () => navigateActive('back'));
+  handle('browser:go-forward', async () => navigateActive('forward'));
+  handle('browser:go-home', async () => navigateActive('load', state.settings.homePage));
+  handle('browser:reload', async () => navigateActive('reload'));
+  handle('browser:stop', async () => navigateActive('stop'));
+  handle('browser:reopen-closed-tab', async () => reopenClosedTab());
+  handle('browser:update-workspace-layout', async (_event, layout, secondaryTabId) => updateWorkspaceLayout(layout, secondaryTabId));
+  handle('browser:save-workspace', async (_event, name) => saveWorkspace(name));
+  handle('browser:apply-workspace', async (_event, workspaceId) => applyWorkspace(workspaceId));
+  handle('browser:add-bookmark', async () => { await addBookmark(); return serializeState(); });
+  handle('browser:remember-active-page', async () => rememberActivePage());
+  handle('browser:add-notebook-entry', async (_event, entry) => {
     state = core.addNotebookEntry(state, entry || {});
     await persistState();
     if (state.sync.accountEmail) await writeSyncMirror('local-mirror');
     broadcastState();
     return serializeState();
   });
-  ipcMain.handle('browser:update-settings', async (_event, patch) => {
+  handle('browser:update-settings', async (_event, patch) => {
     const nextPatch = patch || {};
     state = core.normalizeState({
       ...state,
@@ -681,53 +655,111 @@ function installIpc() {
     broadcastState();
     return serializeState();
   });
-  ipcMain.handle('browser:query-psicat', async (_event, payload) => callPsiCat({
+  handle('browser:query-psicat', async (_event, payload) => callPsiCat({
     question: String(payload?.question || ''),
     requestId: payload?.requestId || crypto.randomUUID(),
     includeLibrary: payload?.includeLibrary === true,
   }));
-  ipcMain.handle('browser:cancel-psicat', (_event, requestId) => {
+  handle('browser:cancel-psicat', (_event, requestId) => {
     const controller = queryControllers.get(requestId);
     if (!controller) return false;
     controller.abort();
     return true;
   });
-  ipcMain.handle('browser:import-research-files', async () => handleImportResearchFiles());
-  ipcMain.handle('browser:export-research-bundle', async () => handleExportResearchBundle());
-  ipcMain.handle('browser:export-sync-packet', async () => handleExportSyncPacket());
-  ipcMain.handle('browser:import-sync-packet', async () => handleImportSyncPacket());
-  ipcMain.handle('browser:sync-now', async () => {
+  handle('browser:import-research-files', async () => handleImportResearchFiles());
+  handle('browser:export-research-bundle', async () => handleExportResearchBundle());
+  handle('browser:export-sync-packet', async () => handleExportSyncPacket());
+  handle('browser:import-sync-packet', async () => handleImportSyncPacket());
+  handle('browser:sync-now', async () => {
     if (!syncPolicy.shouldUseBackendSync(state)) return writeSyncMirror('local-mirror');
     return pushSyncToBackend();
   });
-  ipcMain.handle('browser:sync-pull', async () => {
+  handle('browser:sync-pull', async () => {
     if (!syncPolicy.shouldUseBackendSync(state)) {
       return { skipped: true, message: 'Local-only mode leaves remote pull disabled.' };
     }
     return pullSyncFromBackend();
   });
-  ipcMain.handle('browser:open-external', async (_event, url) => shell.openExternal(url));
-  ipcMain.handle('browser:open-download', async (_event, downloadPath) => shell.openPath(downloadPath));
+  handle('browser:open-external', async (_event, url) => {
+    if (!isWebUrl(url)) throw new Error('Only HTTP(S) external URLs are supported.');
+    return shell.openExternal(url);
+  });
+  handle('browser:open-download', async (_event, downloadPath) => {
+    if (!state.downloads.some((download) => download.savePath === downloadPath)) throw new Error('Unknown browser download.');
+    return shell.openPath(downloadPath);
+  });
+}
+
+if (process.env.PSICAT_BROWSER_USER_DATA) {
+  if (!path.isAbsolute(process.env.PSICAT_BROWSER_USER_DATA)) throw new Error('PSICAT_BROWSER_USER_DATA must be an absolute writable directory.');
+  mkdirSync(process.env.PSICAT_BROWSER_USER_DATA, { recursive: true });
+  app.setPath('userData', process.env.PSICAT_BROWSER_USER_DATA);
+}
+
+if (process.env.PSICAT_BROWSER_NAVIGATOR_RUN && !path.isAbsolute(PSICAT_RUN_PATH)) {
+  throw new Error('PSICAT_BROWSER_NAVIGATOR_RUN must be an absolute run.py path.');
+}
+
+const ownsInstance = app.requestSingleInstanceLock();
+if (!ownsInstance) {
+  suiteLifecycle.notify('startup-failed', { error: 'Another Product 24 instance owns this user-data directory.' }).then(() => app.quit());
 }
 
 app.whenReady().then(async () => {
+  if (!ownsInstance) return;
   statePath = path.join(app.getPath('userData'), 'psicat-browser-state.json');
   syncMirrorPath = path.join(app.getPath('userData'), 'psicat-browser-sync.json');
   await loadState();
-  createWindow();
+  if (shuttingDown || shutdownComplete) return;
   buildMenu();
   installIpc();
-  await startPsiCatSidecar();
-  await startSyncBackend();
+  await Promise.all([createWindow(), startPsiCatSidecar(), startSyncBackend()]);
+  if (shuttingDown) return;
   ensureWorkspaceViews();
   registerDownloadTracking(session.defaultSession);
   broadcastState();
+  if (suiteLifecycle.enabled) {
+    if (syncBackend.status !== 'ready') throw new Error(`Required sync sidecar failed: ${syncBackend.error || syncBackend.status}`);
+    await suiteLifecycle.notify('ready', { sync: syncBackend, navigator: psiCatSidecar });
+  }
+}).catch(async (error) => {
+  await suiteLifecycle.notify('startup-failed', { error: error.message || error, sync: syncBackend, navigator: psiCatSidecar });
+  if (!suiteLifecycle.enabled) dialog.showErrorBox('PsiCat Browser startup failed', String(error.message || error));
+  app.quit();
+});
+
+async function stopSidecars() {
+  psiCatQuerySession.cookie = '';
+  for (const controller of queryControllers.values()) controller.abort();
+  const results = await Promise.allSettled([psiCatManager?.stop(), syncManager?.stop()]);
+  const failure = results.find((result) => result.status === 'rejected');
+  if (failure) throw failure.reason;
+}
+
+app.on('before-quit', (event) => {
+  if (shutdownComplete) return;
+  event.preventDefault();
+  shuttingDown ||= stopSidecars().then(async () => {
+    shutdownComplete = true;
+    await suiteLifecycle.notify('stopped', { sync: syncBackend, navigator: psiCatSidecar });
+    app.quit();
+  }).catch(async (error) => {
+    shuttingDown = null;
+    await suiteLifecycle.notify('shutdown-failed', { error: error.message || error, sync: syncBackend, navigator: psiCatSidecar });
+    if (!suiteLifecycle.enabled) dialog.showErrorBox('PsiCat Browser cleanup failed', String(error.message || error));
+  });
 });
 
 app.on('window-all-closed', () => {
-  psiCatQuerySession.cookie = '';
-  for (const controller of queryControllers.values()) controller.abort();
-  if (psiCatProcess && !psiCatProcess.killed) psiCatProcess.kill();
-  if (syncBackendProcess && !syncBackendProcess.killed) syncBackendProcess.kill();
   if (process.platform !== 'darwin') app.quit();
+  else stopSidecars().catch((error) => dialog.showErrorBox('PsiCat Browser cleanup failed', error.message));
+});
+
+app.on('activate', async () => {
+  if (BrowserWindow.getAllWindows().length || shuttingDown) return;
+  tabViews.clear();
+  await Promise.all([createWindow(), startPsiCatSidecar(), startSyncBackend()]);
+  if (shuttingDown) return;
+  ensureWorkspaceViews();
+  broadcastState();
 });

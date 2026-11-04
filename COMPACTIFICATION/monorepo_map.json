@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8460,
+  "file_count": 8472,
   "lanes": {
-    "az_ip": 2607,
+    "az_ip": 2619,
     "compactification": 9,
     "other": 5394,
     "psicat_articles": 354,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2607,
+    "12-AZ-IP": 2619,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2340,8 +2340,11 @@
       "12-AZ-IP/24-psicat-web-browser/android/gradle/libs.versions.toml",
       "12-AZ-IP/24-psicat-web-browser/android/settings.gradle.kts",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/browser-core.js",
+      "12-AZ-IP/24-psicat-web-browser/desktop/lib/desktop-boundary.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/page-context.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/psicat-client.js",
+      "12-AZ-IP/24-psicat-web-browser/desktop/lib/sidecar.js",
+      "12-AZ-IP/24-psicat-web-browser/desktop/lib/suite-lifecycle.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/sync-policy.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/main.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/preload.js",
@@ -2358,10 +2361,15 @@
       "12-AZ-IP/24-psicat-web-browser/playwright.config.js",
       "12-AZ-IP/24-psicat-web-browser/sync_backend/server.py",
       "12-AZ-IP/24-psicat-web-browser/tests/browser-core.test.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/desktop-boundary.test.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/desktop-runtime.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/e2e/desktop-ui.spec.js",
       "12-AZ-IP/24-psicat-web-browser/tests/e2e/network-sandbox.spec.js",
       "12-AZ-IP/24-psicat-web-browser/tests/page-context.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/psicat-client.test.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/serve-ui.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/sidecar.test.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/suite-lifecycle.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/test_product24_structure.py",
       "12-AZ-IP/24-psicat-web-browser/tests/test_sync_backend.py"
     ],
@@ -2559,6 +2567,7 @@
       "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/app/__init__.py",
       "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/app/server.py",
       "12-AZ-IP/36-az-cosmology-slider/az_cosmology_slider/slider.py",
+      "12-AZ-IP/36-az-cosmology-slider/requirements.txt",
       "12-AZ-IP/36-az-cosmology-slider/run.py",
       "12-AZ-IP/36-az-cosmology-slider/tests/test_api.py",
       "12-AZ-IP/36-az-cosmology-slider/tests/test_cosmology_slider.py",
@@ -2733,6 +2742,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json",
       "12-AZ-IP/45-axiomzero-pc-suite/index.html",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/catalog.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/desktop-runtime.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/evidence-worker.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/hardware.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs",
@@ -2765,6 +2775,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1",
       "12-AZ-IP/45-axiomzero-pc-suite/styles.css",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs",
@@ -2774,6 +2785,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/tests/node-bootstrap.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/node-toolchain.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py"
@@ -19141,6 +19153,13 @@
       "product": "24-psicat-web-browser"
     },
     {
+      "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/desktop-boundary.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
       "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/page-context.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -19149,6 +19168,20 @@
     },
     {
       "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/psicat-client.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/sidecar.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/suite-lifecycle.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -19267,6 +19300,20 @@
       "product": "24-psicat-web-browser"
     },
     {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/desktop-boundary.test.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/desktop-runtime.test.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
       "path": "12-AZ-IP/24-psicat-web-browser/tests/e2e/desktop-ui.spec.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -19289,6 +19336,27 @@
     },
     {
       "path": "12-AZ-IP/24-psicat-web-browser/tests/psicat-client.test.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/serve-ui.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/sidecar.test.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/suite-lifecycle.test.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -20506,6 +20574,13 @@
       "product": "36-az-cosmology-slider"
     },
     {
+      "path": "12-AZ-IP/36-az-cosmology-slider/requirements.txt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "36-az-cosmology-slider"
+    },
+    {
       "path": "12-AZ-IP/36-az-cosmology-slider/run.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21598,6 +21673,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/desktop-runtime.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/evidence-worker.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21822,6 +21904,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21879,6 +21968,13 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
