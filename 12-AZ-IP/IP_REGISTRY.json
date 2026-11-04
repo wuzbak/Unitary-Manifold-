@@ -1456,9 +1456,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "3734f181e658c6ee4443ad3cf9f0042804f14853679b235dc914684de125b830",
-      "size_bytes": 1787,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+      "sha256": "54b9861c20ba359ef29854c48ed6d3cd7ccc2402b1fd87d1d1c360866e403315",
+      "size_bytes": 1882,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "3734f181e658c6ee4443ad3cf9f0042804f14853679b235dc914684de125b830",
+          "size_bytes": 1787,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/native-model.test.cjs": {
       "description": "Product 45 native model/runtime packaging and contracts: native-model.test.cjs",

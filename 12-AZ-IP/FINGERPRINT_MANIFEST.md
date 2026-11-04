@@ -463,6 +463,17 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md` | `df8b9cf75614ccb9aca655817c5833a93ed5c25d45239d6cd558d8ec71650451` | 8459 |
 | `12-AZ-IP/README.md` | `3138e21f5dd65c2599135410e3decb5017a5126859c51c285af472b5bf5ce6aa` | 21625 |
 
+### Product 45 native model and runtime provisioning reseal - 2026-11-04
+
+Registered a genuinely trained experimental native model, offline inference/local training,
+consent-gated Python dependency provisioning, checksum-receipted bundled source and reviewed
+loopback lifecycle. Non-Windows/unsupported targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/stage_portfolio.cjs` | `54b9861c20ba359ef29854c48ed6d3cd7ccc2402b1fd87d1d1c360866e403315` | 1882 |
+
 ## Verification Protocol
 
 To verify any registered asset:
