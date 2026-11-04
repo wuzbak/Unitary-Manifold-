@@ -53,6 +53,7 @@ def main() -> None:
     report = train_text_file(corpus, output / "psicat-seed.npz", steps=500, **PROFILE)
     receipt = {
         "schema": "psicat-native-seed-v1", "sources": sources, "training": report,
+        "sourceSha256": {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in sources},
         "checkpointSha256": hashlib.sha256((output / "psicat-seed.npz").read_bytes()).hexdigest(),
         "scope": "Own toroidal character-model seed; experimental generation, not a verified production assistant.",
     }

@@ -16,10 +16,10 @@ function materializePortfolioSource(source, directory) {
   if (fs.existsSync(destination)) return validateCheckout(destination);
   const seen = new Set();
   for (const file of receipt.files) {
-    if (seen.has(file.path) || !Number.isSafeInteger(file.bytes) || file.bytes < 0 || !/^[0-9a-f]{64}$/.test(file.sha256)) {
+    if (typeof file.path !== "string" || seen.has(file.path.toLowerCase()) || !Number.isSafeInteger(file.bytes) || file.bytes < 0 || !/^[0-9a-f]{64}$/.test(file.sha256)) {
       throw new Error("Bundled portfolio file receipt is invalid.");
     }
-    seen.add(file.path);
+    seen.add(file.path.toLowerCase());
     const content = fs.readFileSync(inside(source, file.path));
     if (content.length !== file.bytes || crypto.createHash("sha256").update(content).digest("hex") !== file.sha256) {
       throw new Error(`Bundled portfolio checksum failed: ${file.path}`);

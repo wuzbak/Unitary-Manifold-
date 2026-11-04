@@ -474,6 +474,21 @@ Native Windows validation is separate; no all-target operational certification i
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/stage_portfolio.cjs` | `54b9861c20ba359ef29854c48ed6d3cd7ccc2402b1fd87d1d1c360866e403315` | 1882 |
 
+### Product 45 native model and runtime provisioning reseal - 2026-11-04
+
+Registered a genuinely trained experimental native model, offline inference/local training,
+consent-gated Python dependency provisioning, checksum-receipted bundled source and reviewed
+loopback lifecycle. Non-Windows/unsupported targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `2cdd03b339912a7c86aaa1eb9597faf3ba604a90a84ce288cf83de2aa997046a` | 14862 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs` | `9f6e879e9436de37ee3b125c7cd2ac8f84f151c3b1e2e433c6746e4f67a9ecc5` | 2206 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/build_native.py` | `efd2b84bfaff5a16b4f276891a86896d6350ea26983045125bebdc3d9fb21d06` | 3223 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/stage_portfolio.cjs` | `4322a6ade32fbc4b1b4523f612dabfdf0d1962377dfe73d8117159af80363ad6` | 2366 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs` | `e27a591407934e885c3f5d86f5cf953591576f7b04f6df1e51a1447b3b2489b3` | 2626 |
+
 ## Verification Protocol
 
 To verify any registered asset:

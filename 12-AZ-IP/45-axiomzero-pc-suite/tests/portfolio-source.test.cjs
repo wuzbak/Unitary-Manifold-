@@ -35,6 +35,9 @@ test("source receipts fail closed on modified bytes, duplicate files and escapin
   fs.writeFileSync(path.join(source, "12-AZ-IP/README.md"), "Portfolio");
   receipt.files.push(receipt.files[0]); save();
   assert.throws(() => materializePortfolioSource(source, destination), /receipt/);
+  receipt.files.pop();
+  receipt.files.push({ ...receipt.files[0], path: receipt.files[0].path.toLowerCase() }); save();
+  assert.throws(() => materializePortfolioSource(source, destination), /receipt/);
   receipt.files.pop(); receipt.files[0].path = "../outside"; save();
   assert.throws(() => materializePortfolioSource(source, destination), /invalid/);
   assert.equal(fs.existsSync(destination), false);

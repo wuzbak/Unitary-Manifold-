@@ -10,6 +10,8 @@ fs.mkdirSync(destination, { recursive: true });
 const entries = execFileSync("git", ["ls-files", "--cached", "-s", "-z"], { cwd: root }).toString().split("\0").filter(Boolean);
 const receipt = { schema: "axiomzero-portfolio-source-v1", head: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root }).toString().trim(), files: [], excluded: [] };
 const prefixes = ["12-AZ-IP/", "src/", "claims/", "recycling/", "5-GOVERNANCE/Unitary Pentad/"];
+const windowsPaths = new Map();
+receipt.caseAliases = [];
 for (const entry of entries) {
   const name = entry.slice(entry.indexOf("\t") + 1);
   if (!prefixes.some((prefix) => name.startsWith(prefix)) && !["requirements.txt", "README.md", "FALLIBILITY.md"].includes(name)) continue;
@@ -21,10 +23,20 @@ for (const entry of entries) {
     continue;
   }
   const data = fs.readFileSync(source);
+  const digest = crypto.createHash("sha256").update(data).digest("hex");
+  const key = name.toLowerCase();
+  const prior = windowsPaths.get(key);
+  if (prior) {
+    if (prior.sha256 !== digest) throw new Error(`Windows source-path collision has different contents: ${prior.path} and ${name}`);
+    receipt.excluded.push(name);
+    receipt.caseAliases.push({ path: name, retainedPath: prior.path });
+    continue;
+  }
+  windowsPaths.set(key, { path: name, sha256: digest });
   const target = path.join(destination, name);
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, data);
-  receipt.files.push({ path: name, bytes: data.length, sha256: crypto.createHash("sha256").update(data).digest("hex") });
+  receipt.files.push({ path: name, bytes: data.length, sha256: digest });
 }
 fs.writeFileSync(path.join(destination, "SOURCE_RECEIPT.json"), `${JSON.stringify(receipt, null, 2)}\n`);
 console.log(`Staged ${receipt.files.length} tracked portfolio/core source files; ${receipt.excluded.length} explicit exclusions.`);

@@ -61,7 +61,8 @@ user-data worktree before use. Installation resources are never used as mutable
 working storage. The source receipt explicitly inventories excluded binaries,
 large files, test/build/dependency folders and symlinks; external datasets,
 credentials, Android/UEFI artifacts and all runtime-specific data are not
-implied to be bundled.
+implied to be bundled. Byte-identical Windows case aliases are deduplicated
+and recorded explicitly; conflicting alias contents abort source staging.
 
 ## What works offline
 
