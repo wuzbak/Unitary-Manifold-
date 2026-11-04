@@ -31,6 +31,9 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
       - name: Build actual Android applications with verified Gradle distribution
         env:
           ANDROID_PROJECT: ${{ matrix.project }}
@@ -42,7 +45,7 @@ jobs:
           Add-Content "$project/gradle/wrapper/gradle-wrapper.properties" "`ndistributionSha256Sum=$checksum" -Encoding ascii
           Push-Location $project
           try {
-            .\gradlew.bat --no-daemon assembleDebug
+            .\gradlew.bat --no-daemon --continue assembleDebug
             if ($LASTEXITCODE -ne 0) { throw "Actual Android build failed: $project" }
           } finally { Pop-Location }
           New-Item -ItemType Directory -Force platform-output | Out-Null

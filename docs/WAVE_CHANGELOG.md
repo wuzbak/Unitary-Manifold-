@@ -30,6 +30,10 @@ Measured baseline CPU throughput also required smaller evidence excerpts,
 128-token answers and an explicitly disclosed, cancellable six-minute deadline
 for embedded research only. Other research steps retain their 60-second limit.
 Neither the grader nor its original challenge was relaxed.
+The strengthened policy preserved source platform status on the next native
+run but still failed the required refusal rationale. The candidate remains
+rejected; there is no successful instruction-runtime artifact or merge-ready
+embedded installer from those runs.
 
 The slow-inclusive repository run exposed 23 Product 1 compatibility symlinks
 hard-coded to a GitHub runner's absolute checkout. They now preserve the same
