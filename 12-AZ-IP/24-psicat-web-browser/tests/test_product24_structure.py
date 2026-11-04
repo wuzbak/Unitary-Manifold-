@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+
 from __future__ import annotations
 
 import json
@@ -29,7 +32,10 @@ class Product24StructureTests(unittest.TestCase):
     def test_playwright_config_exists_for_browser_proving_ground(self) -> None:
         config = (PRODUCT_ROOT / 'playwright.config.js').read_text(encoding='utf-8')
         self.assertIn("testDir: './tests/e2e'", config)
-        self.assertIn('python3 -m http.server', config)
+        self.assertIn('node tests/serve-ui.js', config)
+        server = (PRODUCT_ROOT / 'tests' / 'serve-ui.js').read_text(encoding='utf-8')
+        self.assertIn('pythonCommand()', server)
+        self.assertIn("'127.0.0.1'", server)
 
     def test_resume_ledger_points_to_readme_entrypoint(self) -> None:
         resume = json.loads((PRODUCT_ROOT / 'SESSION_RESUME.json').read_text(encoding='utf-8'))

@@ -1,7 +1,7 @@
 package com.gibbernode.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BioTech
+import androidx.compose.material.icons.filled.Biotech
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.LocalHospital
 import androidx.compose.material.icons.filled.Radio
@@ -60,7 +60,7 @@ sealed class BottomNavItem(
     object Labs : BottomNavItem(
         route = "labs",
         label = "Labs",
-        icon  = Icons.Filled.BioTech,
+        icon  = Icons.Filled.Biotech,
     )
 
     companion object {

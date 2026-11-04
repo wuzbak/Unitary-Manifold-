@@ -70,6 +70,7 @@ import com.gibbernode.gibberwave.ParsedPayload
 import com.gibbernode.gibberwave.PayloadParser
 import com.gibbernode.ui.GibberAmber
 import com.gibbernode.ui.GibberBlue
+import com.gibbernode.ui.GibberDiode
 import com.gibbernode.ui.GibberGreen
 import com.gibbernode.ui.GibberRed
 import com.gibbernode.ui.OnSurfaceDim
@@ -77,9 +78,6 @@ import com.gibbernode.ui.SurfaceDark
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
-// Charcoal colour for DIODE mode (dark, stealthy)
-private val GibberDiode = Color(0xFF607D8B)
 
 /**
  * ModeScreen — Transmit tab (S5 + S6)

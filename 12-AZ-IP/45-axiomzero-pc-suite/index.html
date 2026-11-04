@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AxiomZero PC Suite</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">AXIOMZERO · LOCAL DESKTOP</p>
+        <h1>AxiomZero PC Suite</h1>
+      </div>
+      <div class="status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Offline-ready catalog</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="welcome panel">
+        <div>
+          <p class="eyebrow">ONE DESKTOP, THE WHOLE PORTFOLIO</p>
+          <h2>Find and open your tools.</h2>
+          <p class="muted">
+            Browse the registered software, calculators, engines, and shared tools.
+            The catalog works offline; connecting a checkout enables local file access.
+            PsiCat opens its local Navigator when that service is running.
+          </p>
+        </div>
+        <div class="actions">
+          <button id="open-psicat">Open PsiCat Navigator</button>
+          <button id="open-legal">Licenses and notices</button>
+          <button id="connect-repository" class="primary">Connect repository</button>
+          <button id="open-workspace">Open a work folder</button>
+        </div>
+      </section>
+
+      <section class="connection panel" aria-live="polite">
+        <div>
+          <span class="label">LOCAL CHECKOUT</span>
+          <p id="repository-status" class="muted">Not connected. Select a repository checkout to open its apps and documentation.</p>
+        </div>
+        <button id="disconnect-repository" class="quiet" hidden>Disconnect</button>
+      </section>
+
+      <section class="harness panel" aria-labelledby="instruction-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">EMBEDDED INSTRUCTION MODEL · LOCAL EVIDENCE · NO CLOUD</p>
+            <h2 id="instruction-heading">Ask PsiCat</h2>
+          </div>
+        </div>
+        <p class="muted">
+          Ask about the portfolio or your imported Webspace and PsiCat Mind evidence.
+          Bundled Qwen instruction weights run locally through a CPU llama.cpp engine;
+          no separate model service is required. This pretrained language substrate is
+          distinct from our experimental toroidal model below. Answers are unverified,
+          not scientific proof; citations identify supplied references, not guaranteed entailment.
+          No commands or tools are executed by model output.
+        </p>
+        <form id="instruction-form" class="harness-form">
+          <label for="instruction-question">Your question (up to 400 characters / 512 UTF-8 bytes)</label>
+          <input id="instruction-question" maxlength="400" required placeholder="What can PsiCat do offline, and what are its limits?">
+          <button id="instruction-ask" type="submit" class="primary">Ask locally with evidence</button>
+        </form>
+        <div class="harness-controls">
+          <button id="instruction-status">Verify bundled backend</button>
+          <button id="instruction-cancel" disabled>Cancel and stop model</button>
+          <button id="instruction-export" disabled>Export answer and evidence</button>
+        </div>
+        <p id="instruction-message" class="message" role="status" aria-live="polite"></p>
+        <pre id="instruction-output" class="native-output"></pre>
+        <details><summary>References supplied to this answer</summary><pre id="instruction-sources" class="native-output"></pre></details>
+      </section>
+
+      <section class="harness panel" aria-labelledby="native-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">OWN ARCHITECTURE · EMBEDDED · NO CLOUD</p>
+            <h2 id="native-heading">PsiCat native model</h2>
+          </div>
+        </div>
+        <p class="muted">
+          The installed native runtime includes real toroidal character-model weights.
+          It runs offline without Python, Ollama or another model service. This research
+          model generates characters, not verified assistant answers; it cannot operate tools.
+          Train a new local checkpoint only on text you approve.
+        </p>
+        <div class="harness-controls">
+          <button id="native-status">Inspect installed model</button>
+          <button id="native-train">Train on selected text (500 steps)</button>
+          <button id="native-cancel" disabled>Cancel native operation</button>
+        </div>
+        <form id="native-form" class="harness-form">
+          <label for="native-prompt">Experimental generation prompt</label>
+          <input id="native-prompt" maxlength="400" required placeholder="PsiCat">
+          <button id="native-generate" type="submit" class="primary">Generate with own model</button>
+        </form>
+        <p id="native-message" class="message" role="status" aria-live="polite"></p>
+        <pre id="native-output" class="native-output"></pre>
+      </section>
+
+      <section class="harness panel" aria-labelledby="hardware-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LOCAL MODEL SETUP · MEASURE FIRST</p>
+            <h2 id="hardware-heading">PC readiness assessment</h2>
+          </div>
+        </div>
+        <p class="muted">
+          Detect this PC before choosing model weights or training settings. This is a
+          read-only assessment, not a model installer or proof of GPU compatibility.
+          No model is automatically selected, downloaded or trained.
+        </p>
+        <div class="harness-controls">
+          <button id="hardware-detect" class="primary">Detect this PC</button>
+          <button id="hardware-export" disabled>Export assessment</button>
+        </div>
+        <p id="hardware-message" class="message" role="status" aria-live="polite"></p>
+        <div id="hardware-result" class="harness-detail" hidden></div>
+      </section>
+
+      <section class="harness panel" aria-labelledby="harness-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">HUMAN-GOVERNED · CHECKPOINTED · BOUNDED</p>
+            <h2 id="harness-heading">Research control plane</h2>
+          </div>
+          <span id="harness-count" class="label">0 tasks</span>
+        </div>
+        <p class="muted">
+          Plan a local research task, inspect each tool, then approve one step at a time.
+          Catalog and imported evidence produce a source-cited report. Optional reasoning
+          uses the embedded backend or an explicitly named installed Ollama model. No shell, source
+          writes, cloud calls, or autonomous approval. All outputs remain unverified.
+        </p>
+        <form id="harness-form" class="harness-form">
+          <label for="harness-goal">Research goal</label>
+          <input id="harness-goal" maxlength="400" required placeholder="e.g. PsiCat offline memory and provider capabilities">
+          <div class="harness-options">
+            <label for="harness-use-model"><input id="harness-use-model" type="checkbox"> Add local reasoning</label>
+            <label for="harness-model">Backend (psicat:embedded or installed Ollama model)
+              <input id="harness-model" maxlength="80" disabled value="psicat:embedded" placeholder="psicat:embedded">
+            </label>
+            <button id="harness-create" class="primary" type="submit">Create research plan</button>
+          </div>
+        </form>
+        <p class="harness-policy muted">
+          Six attempts per task · 60-second ordinary / 6-minute embedded CPU step deadlines · 50 saved tasks.
+          Checkpoints and the bounded hash-linked audit are plaintext in this user profile.
+          Approvals never survive a restart; interrupted tasks do not replay automatically.
+        </p>
+        <p id="harness-message" class="message" role="status" aria-live="polite"></p>
+        <div class="harness-layout">
+          <div id="harness-tasks" class="harness-tasks" aria-label="Saved research tasks"></div>
+          <div id="harness-detail" class="harness-detail" aria-live="polite">
+            <p class="empty">Create a task to review its plan, evidence, and audit trail.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="knowledge panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PRIVATE · OFFLINE · SOURCE-CITED</p>
+            <h2>Local evidence library</h2>
+          </div>
+          <span id="knowledge-count" class="label">0 collections</span>
+        </div>
+        <p class="muted knowledge-intro">
+          Import a source folder or ZIP to search its supported UTF-8 text files on this PC.
+          Search is exact, local keyword matching—not a live PsiCat model or generated answer.
+          Original files are never changed, executed, or uploaded. The index is stored locally
+          without encryption; PDFs and other binary formats are listed but not read. Files over
+          8 MiB are skipped when they are in a supported text format. Imports are bounded to
+          10,000 entries, 256 MiB per ZIP, 512 MiB
+          expanded, and 64 MiB searchable text per collection (five collections maximum).
+        </p>
+        <div class="knowledge-actions">
+          <button id="import-knowledge-folder" class="primary">Import a folder</button>
+          <button id="import-knowledge-zip">Import a ZIP</button>
+        </div>
+        <div id="knowledge-collections" class="knowledge-collections" aria-live="polite"></div>
+        <form id="knowledge-search-form" class="knowledge-search">
+          <label for="knowledge-query">Search imported evidence</label>
+          <div class="knowledge-search-row">
+            <input id="knowledge-query" type="search" maxlength="400" placeholder="e.g. offline capability, local models, entity export">
+            <button id="knowledge-search-button" type="submit" class="primary" disabled>Search locally</button>
+          </div>
+        </form>
+        <p id="knowledge-message" class="knowledge-message" role="status" aria-live="polite"></p>
+        <div id="knowledge-results" class="knowledge-results" aria-live="polite"></div>
+      </section>
+
+      <section class="harness panel" aria-labelledby="platform-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">ANDROID · UEFI ARTIFACTS · SELECTED WSL DISTRIBUTION</p>
+            <h2 id="platform-heading">Target-specific deployment</h2>
+          </div>
+        </div>
+        <p class="muted">
+          Use verified bundled Android/UEFI artifacts offline, build Android packages,
+          install to one explicitly authorized device, export
+          a UEFI artifact without flashing, or provision a registered WSL environment.
+          Building requires Android SDK/JDK or Rust; Android installation requires ADB.
+          WSL prerequisites and a distribution must be installed separately.
+          These are not native Windows applications. Unsupported builds fail explicitly.
+        </p>
+        <div class="harness-controls">
+          <button id="platform-refresh">Inspect platform targets</button>
+          <button id="platform-devices">List authorized Android devices</button>
+          <button id="platform-distros">List registered WSL distributions</button>
+        </div>
+        <div class="harness-options">
+          <label><input id="platform-network" type="checkbox">
+            Allow dependency downloads for this build (off by default)
+          </label>
+          <label for="platform-device">Android device (no automatic selection)
+            <select id="platform-device"><option value="">Select a device</option></select>
+          </label>
+          <label for="platform-distro">WSL distribution (no automatic selection)
+            <select id="platform-distro"><option value="">Select a distribution</option></select>
+          </label>
+        </div>
+        <p id="platform-message" class="message" role="status" aria-live="polite"></p>
+        <div id="platform-list" class="product-list"></div>
+      </section>
+
+      <section class="harness panel" aria-labelledby="runtime-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PER-PRODUCT ENVIRONMENTS · EXPLICIT INSTALLATION</p>
+            <h2 id="runtime-heading">Portfolio runtime manager</h2>
+          </div>
+        </div>
+        <p class="muted">
+          Inspect each product's actual target before installation. Managed Python products
+          use separate environments; reviewed local services can be started and stopped here.
+          Product 27 installs locked Node dependencies and builds its authenticated dashboard.
+          Product 24 provisions its own browser desktop and Python sidecars.
+          Product 36 installs and checks its CPU JAX slider and gradients.
+          Install private Node LTS here or use an existing Node installation. Android, UEFI, other desktop and POSIX-only products require their target tooling;
+          those are not advertised as native Windows runtimes. Internet is required to fetch
+          dependencies; configured services may also need credentials or live data.
+        </p>
+        <div class="harness-controls">
+          <button id="runtime-python">Install Windows Python prerequisite</button>
+          <button id="runtime-node">Install private Node LTS</button>
+          <button id="runtime-refresh">Refresh runtime status</button>
+        </div>
+        <p id="runtime-message" class="message" role="status" aria-live="polite"></p>
+        <div id="runtime-list" class="product-grid"></div>
+      </section>
+
+      <section class="portfolio panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PORTFOLIO ACCESS</p>
+            <h2>Shared collections</h2>
+          </div>
+        </div>
+        <div class="collection-grid">
+          <button data-category="apps"><strong>Apps</strong><span>Reusable app components</span></button>
+          <button data-category="calculators"><strong>Calculators</strong><span>Calculation tools</span></button>
+          <button data-category="engines"><strong>Engines</strong><span>Shared computation</span></button>
+          <button data-category="tools"><strong>Tools</strong><span>Utilities and workflows</span></button>
+          <button data-category="os"><strong>Operating systems</strong><span>OS and kernel projects</span></button>
+          <button data-category="lib"><strong>Shared libraries</strong><span>Cross-product foundations</span></button>
+        </div>
+      </section>
+
+      <section class="catalog panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">PRODUCT DIRECTORY</p>
+            <h2><span id="product-count">0</span> registered products</h2>
+          </div>
+          <label class="search">
+            <span class="visually-hidden">Search products</span>
+            <input id="search" type="search" placeholder="Search products, tools, or topics">
+          </label>
+        </div>
+        <p class="catalog-note muted">
+          A product entry is a portfolio guide, not a claim that every service or dependency
+          is installed. Open its folder or README for the verified setup requirements.
+        </p>
+        <div id="product-list" class="product-grid" aria-live="polite"></div>
+      </section>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </main>
+    <script src="renderer.js"></script>
+  </body>
+</html>

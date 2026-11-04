@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
+# Copyright (C) 2026  ThomasCory Walker-Pearson
+
 import argparse
 import hashlib
 import json
@@ -37,27 +40,55 @@ def hash_token(token: str) -> str:
 
 
 class SyncHandler(BaseHTTPRequestHandler):
+    def _allow_origin(self) -> bool:
+        origin = self.headers.get("Origin")
+        if origin is None or origin == "null":
+            return True
+        try:
+            parsed = urlparse(origin)
+            return parsed.scheme in ("http", "https") and parsed.hostname in ("127.0.0.1", "localhost", "::1")
+        except ValueError:
+            return False
+
+    def _sanitize_header_value(self, value: str) -> str:
+        return value.replace("\r", "").replace("\n", "").strip()
+
+    def _cors_headers(self) -> None:
+        origin = self.headers.get("Origin")
+        if origin and self._allow_origin():
+            safe_origin = self._sanitize_header_value(origin)
+            self.send_header("Access-Control-Allow-Origin", safe_origin)
+            self.send_header("Vary", "Origin")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Sync-Token")
+
     def _send_json(self, status: int, payload: dict) -> None:
         body = json.dumps(payload).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(body)))
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Sync-Token")
+        self._cors_headers()
         self.end_headers()
         self.wfile.write(body)
 
     def do_OPTIONS(self) -> None:  # noqa: N802
+        if not self._allow_origin():
+            self._send_json(403, {"error": "remote origins are not allowed"})
+            return
         self.send_response(204)
-        self.send_header("Access-Control-Allow-Origin", "*")
+        self._cors_headers()
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Sync-Token")
         self.end_headers()
 
     def do_GET(self) -> None:  # noqa: N802
+        if not self._allow_origin():
+            self._send_json(403, {"error": "remote origins are not allowed"})
+            return
         parsed = urlparse(self.path)
         if parsed.path == "/api/sync/health":
-            self._send_json(200, {"ok": True, "service": "psicat-sync-backend", "updated_at": utc_now()})
+            self._send_json(200, {
+                "ok": True, "service": "psicat-sync-backend", "updated_at": utc_now(),
+                "instance_id": getattr(self.server, "instance_id", ""),
+            })
             return
         if parsed.path == "/api/sync/pull":
             account_email = parse_qs(parsed.query).get("account_email", [""])[0].strip().lower()
@@ -79,6 +110,9 @@ class SyncHandler(BaseHTTPRequestHandler):
         self._send_json(404, {"error": "not found"})
 
     def do_POST(self) -> None:  # noqa: N802
+        if not self._allow_origin():
+            self._send_json(403, {"error": "remote origins are not allowed"})
+            return
         if self.path != "/api/sync/push":
             self._send_json(404, {"error": "not found"})
             return
@@ -117,11 +151,17 @@ class SyncHandler(BaseHTTPRequestHandler):
 
 
 def main() -> None:
+    global STORE_PATH
     parser = argparse.ArgumentParser()
-    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--host", choices=("127.0.0.1", "localhost"), default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8787)
+    parser.add_argument("--store", type=Path, default=STORE_PATH)
+    parser.add_argument("--instance-id", default="")
     args = parser.parse_args()
-    server = ThreadingHTTPServer((args.host, args.port), SyncHandler)
+    STORE_PATH = args.store.resolve()
+    STORE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    server = ThreadingHTTPServer(("127.0.0.1", args.port), SyncHandler)
+    server.instance_id = args.instance_id
     try:
         server.serve_forever()
     except KeyboardInterrupt:

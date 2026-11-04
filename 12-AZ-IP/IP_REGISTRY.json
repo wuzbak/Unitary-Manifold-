@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -281,9 +281,17 @@
       "description": "Canonical merged Axiom OS suite README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "5cabf9cfb1bad808503845a6f9c2850c2f7ae4b2e8f8615e4eddd4ea5218748c",
-      "size_bytes": 2191
+      "updated": "2026-11-04",
+      "sha256": "fa9a470cd1f8732a3e691190381e58a78a3b9b5da2aef7da2b3db391d64ed6de",
+      "size_bytes": 9736,
+      "reseal_history": [
+        {
+          "updated": "2026-08-18",
+          "sha256": "5cabf9cfb1bad808503845a6f9c2850c2f7ae4b2e8f8615e4eddd4ea5218748c",
+          "size_bytes": 2191
+        }
+      ],
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/02-az-kernel/README.md": {
       "description": "Canonical merged AZ-KERNEL README",
@@ -337,11 +345,53 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-03",
-      "sha256": "0c1222cb41920b7c6b4ec44ee57faa2db84a8c3e1f35df5aab1dfc4d507a67a2",
-      "size_bytes": 18758,
-      "reseal_note": "Refreshed 2026-11-03 to register Product 44 AxiomZero Weave, an adjacent local integration runtime. Earlier seals retained in reseal_history; no scientific claim promotion.",
+      "updated": "2026-11-04",
+      "sha256": "9521202c8a6ada31f09667171d68f3b736bcfd43cd89705d06045a44c6addaa8",
+      "size_bytes": 21908,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "b78e6f34fd0432d3bc5395b571715f3ce7a6f8dcea8c703bbd5856a07dca7ae3",
+          "size_bytes": 21632,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "3138e21f5dd65c2599135410e3decb5017a5126859c51c285af472b5bf5ce6aa",
+          "size_bytes": 21625,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "8fc0501f604ad4c964018dba8a77b3bcd7e7b10c35bc98318494bd681abab174",
+          "size_bytes": 20998,
+          "reseal_note": "Refreshed 2026-11-04 for the governed Product 45 research harness; no scientific claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "21d234b16f4a4a3460f452d3f28bb49b7f047f36295461f650901b156ea10702",
+          "size_bytes": 20569,
+          "reseal_note": "Previous Windows qualification seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "4f2934c661e25135618535650b111777de4e98e91e9b6cf33e64837cd8f54dd7",
+          "size_bytes": 20532,
+          "reseal_note": "Registered Product 45's local evidence library and seven focused tests."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "d7e1ba72b66e7e21152c15f795c224c8e00d3bd493f0016a3f0c77d0fdb71ea4",
+          "size_bytes": 20194,
+          "reseal_note": "Previous seal registered Product 45 AxiomZero PC Suite."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "0c1222cb41920b7c6b4ec44ee57faa2db84a8c3e1f35df5aab1dfc4d507a67a2",
+          "size_bytes": 18758,
+          "reseal_note": "Previous seal registered Product 44 AxiomZero Weave and the 44-product catalog."
+        },
         {
           "updated": "2026-11-03",
           "sha256": "87506b41d32f781a99b6dee0700538ce11d7593d695b5f0f97c057f261fa6f42",
@@ -390,15 +440,59 @@
       "description": "Canonical AxiomZero notice file",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-10-07",
-      "sha256": "136c758ccd29b0a44cdfaf6f4fdf88f7f14c5dd8da6f31ae81d5ff8e86e95d1f",
-      "size_bytes": 6939,
-      "reseal_note": "Authorized additive reciprocity clarification AZ-RECIPROCITY-2026-10-07. Previous registry-recorded seal retained in reseal_history; no claim that the old seal matched the pre-change working file.",
+      "updated": "2026-11-04",
+      "sha256": "85843e9e5bb870300d544cec9a8e5dfe229222648b12af4178d29aad530558a3",
+      "size_bytes": 9767,
+      "reseal_note": "Refreshed 2026-11-04 with Product 45's bundled Yauzl and Pend MIT notices.",
       "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "c2b9856c0a9b2ccd022f0ecfb39ea8b9adf72274da1f2e000a44caa6606ad4b1",
+          "size_bytes": 7360,
+          "reseal_note": "Previous seal recognized Product 45 in the software portfolio count."
+        },
+        {
+          "updated": "2026-10-07",
+          "sha256": "136c758ccd29b0a44cdfaf6f4fdf88f7f14c5dd8da6f31ae81d5ff8e86e95d1f",
+          "size_bytes": 6939,
+          "reseal_note": "Previous seal after the additive reciprocity clarification."
+        },
         {
           "updated": "2026-08-18",
           "sha256": "34d225c70d36ddc941f2412caafef832e2ca15bf3ea8f219aec9f48ad8efda5c",
           "size_bytes": 593
+        }
+      ]
+    },
+    "12-AZ-IP/LICENSE-AGPL": {
+      "description": "AGPL software license scope for the registered portfolio",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "b1ba76c1f17e23f25a2d84a0d60338f45b7ecfd9f92f002f8994d5ff2236650d",
+      "size_bytes": 7844,
+      "reseal_note": "Registered the current AGPL scope identifying the 45-product software portfolio."
+    },
+    "12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md": {
+      "description": "Product-level portfolio licensing schedule",
+      "category": "tools",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "df8b9cf75614ccb9aca655817c5833a93ed5c25d45239d6cd558d8ec71650451",
+      "size_bytes": 8459,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a3d9bbb6e3aa109db45aabaabc05a8eebe894d1b1a22a9d0cc91ea96ff3ac586",
+          "size_bytes": 8409,
+          "reseal_note": "Refreshed 2026-11-04 to include the governed research harness in Product 45's license scope."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "987803b2d638fbbaa2ebfceb859cf603380df8dfefa6223a74191fbd6ad84c67",
+          "size_bytes": 8390,
+          "reseal_note": "Previous Product 45 license schedule seal."
         }
       ]
     },
@@ -446,11 +540,29 @@
       "description": "Product 24 documentation — desktop, Android, extension, workspace, and sync scaffold",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-01",
-      "sha256": "b4c6e81a47e5e6f516104278e3cc3017dc5a8edf5dbc6525d6dee1401079c2e6",
-      "size_bytes": 8246,
-      "reseal_note": "Authorized desktop integration follow-through: explicit context sharing, session-cookie handshake, deadlines, cancellation and honest limits. Previous registry-recorded seal retained; no claim it matched the pre-change working file.",
+      "updated": "2026-11-04",
+      "sha256": "8743b9b7b4b2cc214260424fe463da5d59d80194417204e34fc781d42ea48f92",
+      "size_bytes": 25264,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "c9ae91627e60ad3ca3fa1892dc04755908f63978b442a31c02d888c8151bfe38",
+          "size_bytes": 23813,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "e88de5a970e113ee422c828b0f7d9fc28acdf2e18e6d3e3e40b178aa952f285d",
+          "size_bytes": 21241,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-01",
+          "sha256": "b4c6e81a47e5e6f516104278e3cc3017dc5a8edf5dbc6525d6dee1401079c2e6",
+          "size_bytes": 8246,
+          "reseal_note": "Authorized desktop integration follow-through: explicit context sharing, session-cookie handshake, deadlines, cancellation and honest limits. Previous registry-recorded seal retained; no claim it matched the pre-change working file."
+        },
         {
           "updated": "2026-09-10",
           "sha256": "ecd8903e70ff395b3115f54942e7ac3e857e8097634b9e61d1fcae5773bcbf43",
@@ -462,19 +574,45 @@
       "description": "Product 24 Electron package manifest and Playwright-first test scripts",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-09-10",
-      "sha256": "a08625f00a0514c81e400c4beb849289c2c3760f9e65523eb506de76ea3a12c1",
-      "size_bytes": 830
+      "updated": "2026-11-04",
+      "sha256": "fea57fc2e3b7c3317a5665ea7ef0d1e4bf7164752a40806b023674069eac95ad",
+      "size_bytes": 1134,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a277b33be1133c376d9bf76c777820783d092140210284e38aca1940e4453c83",
+          "size_bytes": 965,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-09-10",
+          "sha256": "a08625f00a0514c81e400c4beb849289c2c3760f9e65523eb506de76ea3a12c1",
+          "size_bytes": 830
+        }
+      ],
+      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/24-psicat-web-browser/desktop/main.js": {
       "description": "Product 24 Electron runtime — tabs, split workspaces, PsiCat sidecar, sync backend integration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-01",
-      "sha256": "23d00f8f6146a47d04b06a70b4f09cec118534b9a7edfc4bb1e89fca75152620",
-      "size_bytes": 28007,
-      "reseal_note": "Authorized desktop integration follow-through: reusable bounded PsiCat query adapter, correlated responses, cancellation, private-context gate and visible transport failures. Previous registry-recorded seal retained; no claim it matched the pre-change working file.",
+      "updated": "2026-11-04",
+      "sha256": "00ee262107ccc70cf8c5e9e267c71c39bf75b3715989c8d9b11c158a3017f51f",
+      "size_bytes": 350,
+      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "5ca09709968ce4d98b764adf44e3a148ba20fa0b2138ba1b03ba98b66574600a",
+          "size_bytes": 30204,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-01",
+          "sha256": "23d00f8f6146a47d04b06a70b4f09cec118534b9a7edfc4bb1e89fca75152620",
+          "size_bytes": 28007,
+          "reseal_note": "Authorized desktop integration follow-through: reusable bounded PsiCat query adapter, correlated responses, cancellation, private-context gate and visible transport failures. Previous registry-recorded seal retained; no claim it matched the pre-change working file."
+        },
         {
           "updated": "2026-09-10",
           "sha256": "db59a3f46485e24cd5868cbf9085911d05ab189de0f4c6dc13eef8e97861f119",
@@ -510,9 +648,17 @@
       "description": "Product 24 local sync backend scaffold for account-scoped packet push and pull",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-09-10",
-      "sha256": "867d86ff0b7d7dc4fa785cd1592b4d32c541e3735ce7204780eb36c9b1b9f54f",
-      "size_bytes": 5086
+      "updated": "2026-11-04",
+      "sha256": "1c5ed24fc0b6c0a990f4143d07ed50fe8e126d49dde13e1596afc52fb2a480b8",
+      "size_bytes": 6480,
+      "reseal_history": [
+        {
+          "updated": "2026-09-10",
+          "sha256": "867d86ff0b7d7dc4fa785cd1592b4d32c541e3735ce7204780eb36c9b1b9f54f",
+          "size_bytes": 5086
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/26-um-arts/run.py": {
       "description": "Product 26 canonical UM-ARTS CLI launcher",
@@ -542,9 +688,23 @@
       "description": "Product 27 PsiCat Vite Web Workbench operating and security guide",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-07",
-      "sha256": "21fb3eef3f5c021e56c31f4a776222e7954ed741bcf8a759f03f14f0f7332adf",
-      "size_bytes": 4684
+      "updated": "2026-11-04",
+      "sha256": "0ed1d307fa0af0a781f0766f09c1497056b8726a4bc943de31ec875bfe39fbf9",
+      "size_bytes": 5642,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "eadf4d30c4761b5e6e93dadbeb800ece3ae33134aeb84caf3e1dba369c840c56",
+          "size_bytes": 5518,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-10-07",
+          "sha256": "21fb3eef3f5c021e56c31f4a776222e7954ed741bcf8a759f03f14f0f7332adf",
+          "size_bytes": 4684
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/27-psicat-vite-web-workbench/package.json": {
       "description": "Product 27 pinned Vite app package and workbench commands",
@@ -574,17 +734,39 @@
       "description": "Product 27 bounded Vite project scaffold, inspect, preview, and build engine",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-07",
-      "sha256": "b29dc3d070116a08cedc2d8ce5649b7006ee1e35b6d0a625bcf22899a0147b52",
-      "size_bytes": 13747
+      "updated": "2026-11-04",
+      "sha256": "d342ddd281a887f87159d8866b56f374306e3ca47d7074543aa87a88adebd58e",
+      "size_bytes": 14054,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "c25cc508a71aea0abf4b8140593b02b468e505489f696c882716edfd46b0fa35",
+          "size_bytes": 13972,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-10-07",
+          "sha256": "b29dc3d070116a08cedc2d8ce5649b7006ee1e35b6d0a625bcf22899a0147b52",
+          "size_bytes": 13747
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/24-psicat-web-browser/playwright.config.js": {
       "description": "Product 24 Playwright-first browser proving-ground test configuration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-09-10",
-      "sha256": "29f508dc743f95bcddd890fa327c2592495e883e60b5c21aee5b830188e23c72",
-      "size_bytes": 399
+      "updated": "2026-11-04",
+      "sha256": "56758da4b97eeef2353f15e52673da922a219ad72b44d6d1e72a8c698f67e0c0",
+      "size_bytes": 354,
+      "reseal_history": [
+        {
+          "updated": "2026-09-10",
+          "sha256": "29f508dc743f95bcddd890fa327c2592495e883e60b5c21aee5b830188e23c72",
+          "size_bytes": 399
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/28-az-calorimetry-console/README.md": {
       "description": "Product 28 AZ Calorimetry Console README with epistemic-status section",
@@ -662,9 +844,17 @@
       "description": "Product 36 AZ Differentiable Cosmology Slider README with epistemic-status section",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "925f654670702b75e7f4125689bccea91a232fee38224198b8caad7684624f52",
-      "size_bytes": 1897
+      "updated": "2026-11-04",
+      "sha256": "36fd4fcc42648b04195b3c38619d12baa07aada5b8b18682bb2d90d7c6e6089b",
+      "size_bytes": 3450,
+      "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "925f654670702b75e7f4125689bccea91a232fee38224198b8caad7684624f52",
+          "size_bytes": 1897
+        }
+      ],
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
     },
     "12-AZ-IP/37-az-holographic-condensed-matter-comparator/README.md": {
       "description": "Product 37 AZ Holographic Condensed-Matter Comparator README documenting validated user CSV references, reproducible reports, and limits on material correspondence",
@@ -759,6 +949,1622 @@
       "updated": "2026-11-03",
       "sha256": "fdb3ff3b1f4b35185055b3bd723f9fc67173bbbe0e00c942a73817cd42a205b2",
       "size_bytes": 504
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/README.md": {
+      "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
+      "size_bytes": 24058,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "bc7c6a2a5d17d0f1f4b04cb6f56d8062a00f1acca0f668ca981fb5a9cc4fb406",
+          "size_bytes": 23914,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "4a59b8baff3539f8157b7e099671bf60a56ff042af5400f99c488cbf6c2b8c27",
+          "size_bytes": 19357,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "4f3de87c6621aa35cfb983056165588781c732a4a8e94832306a7ef50d70ad12",
+          "size_bytes": 19215,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "3ac82294ed18e48192041a9fdfba91aa0f244c5c55ea263b2559fdefb08528c0",
+          "size_bytes": 18922,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "795c730afdaa447a7837b0ca49d8009597a9cc5fc922fd41d89ccf276baaf450",
+          "size_bytes": 18366,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "4863ce41e2ff0ef741957f444d0813b63ecf9500d5ba26f245340d8dec2a0351",
+          "size_bytes": 16857,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "f7e136b3c568da7bb75218473cb584996c289c0ccaada0c3feb0584a3ba0fd6d",
+          "size_bytes": 15015,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "2cdd03b339912a7c86aaa1eb9597faf3ba604a90a84ce288cf83de2aa997046a",
+          "size_bytes": 14862,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "585abc2154c4ca8f4b6319b3367fc6c4f2afddfdbd3110cbf2c52728e47631e9",
+          "size_bytes": 14735,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "938cd7409aff6a77a4645c6b9e4e38f101b2e5728f1413e9b62e542a73dbde08",
+          "size_bytes": 11163,
+          "reseal_note": "Refreshed 2026-11-04 for hardware-gated model evaluation and explicit training limits."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "7036e1121d574af7d7368f8a6e1c97d1a55feddfd3d429adca23260745418b03",
+          "size_bytes": 9954,
+          "reseal_note": "Previous governed harness seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "115e5fd4c3abce7a6b72d472c9d3795987f1f07b0c1c3ccb988d867b3b40cb2a",
+          "size_bytes": 6208,
+          "reseal_note": "Previous Windows qualification seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "c8f195d3a68b25d4f1fae535bf10b19258313222d1249c244183237c0a4ddc16",
+          "size_bytes": 5875,
+          "reseal_note": "Documented bounded local folder/ZIP indexing and private, source-cited search."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "16311f776a20f0e3d152aed1b07f503c696809f0017dd83e658e1f51224cbf35",
+          "size_bytes": 4577,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/package.json": {
+      "description": "Product 45 Electron desktop, ZIP reader dependency and Windows installer configuration",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "fa02b64f6afe58828ceeef62bb236143dc2ef8ef329617ddbb78941dec8ef453",
+      "size_bytes": 3133,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a06f49a65c7bf716837ff4ea07c205c78f51df99da0010016adabbb229d1d789",
+          "size_bytes": 2952,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "1e91db8449f142107df35b773af1cb9c3b4b62ed5d024f554ac8dd1c78a9e462",
+          "size_bytes": 2843,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "72a2279841398f5bb32de0d3acd566f6a793a4e9bbff4033ba50f200392591e5",
+          "size_bytes": 2124,
+          "reseal_note": "Refreshed 2026-11-04 with the Windows install/UI/uninstall smoke command."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "a4474d4dbee90e1d63176be6d00c7f3c137c2d147bf21ad9af025e535dcbb9f2",
+          "size_bytes": 2026,
+          "reseal_note": "Added the locked Yauzl ZIP reader for local evidence imports."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "917664125cd75b9a15c28b27232146ca7e399997bdee5710ee5ac9686b2350ff",
+          "size_bytes": 1983,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/package-lock.json": {
+      "description": "Product 45 locked Electron, Yauzl and Windows packaging dependency graph",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "7f35936d61a62553899c59edbb106ba477985886062df87e8d916140c2909259",
+      "size_bytes": 127807,
+      "reseal_note": "Refreshed 2026-11-04 with the locked runtime ZIP reader and its MIT-licensed dependency.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "e1056c5236fd7fbbd50ce79a008d946020af7904be74597b7763c25b519ebf8a",
+          "size_bytes": 127094,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/main.cjs": {
+      "description": "Product 45 main-process security boundaries, local data imports and portfolio actions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a0e58b8c746f846250413ec985b0e77dfbd245f43bd4c3d711a258bf5186d3f1",
+      "size_bytes": 35520,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "97f4478f213f947579c31b6590a6deecded7d6c5145c381094ba3aecaa1a8f92",
+          "size_bytes": 25168,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "a7fbdee6bf24ee1ab72eed1149e1c8a88917ed81901e73f3bf03e1989572e20d",
+          "size_bytes": 24428,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "41f0db6b569e7293b00cc562cd927032ded3305f117964482df347864a47576a",
+          "size_bytes": 22004,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "b9c8df20370f643a2ae08cec2a1a0602c681209aee6f2b4a59c15e70d1210966",
+          "size_bytes": 15578,
+          "reseal_note": "Refreshed 2026-11-04 with native-consented hardware detection and explicit export."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "bb05369b69110679c06d1c435fc8636e7f906a3079057424236224f73bf07b83",
+          "size_bytes": 13920,
+          "reseal_note": "Previous governed harness seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "9e8b49881b15f1c30b031d2ae59053aa8b1ec59f513dedff7992e3e05f785837",
+          "size_bytes": 10357,
+          "reseal_note": "Previous Windows qualification seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "36056959a8fcc298d85e55b7bcacda8baf329a1bda7c6675cb376c6cd7ce773b",
+          "size_bytes": 9936,
+          "reseal_note": "Added allowlisted local folder/ZIP library operations."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "a65d7c69db51777aaf2a379fd0ff23f9011a3255487dd6bbed76d12a9eacab68",
+          "size_bytes": 6334,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/preload.cjs": {
+      "description": "Product 45 allowlisted context-isolated bridge, including local knowledge operations",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "0b14fc9b6d1e3b5f8bd9f080ae04fe26ccbe56ce9600f969ff560d3d48fb2a5b",
+      "size_bytes": 3617,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "239177ad01f99875448cd5e4c4478cf78d0c361613be64a2c62764c40465679d",
+          "size_bytes": 3031,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "3932f7510c83a0188016cec15068159f0adba7762d57871ca44a41330b31878d",
+          "size_bytes": 2720,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "be8920ae2dd3d9a2460a2c1201930171bc530b33711c8c8bae77405dc2862ed2",
+          "size_bytes": 2593,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "f01d8fdd70af5692f06d47244a983dad10025077fcb59a6725c2b8d880d03f00",
+          "size_bytes": 1989,
+          "reseal_note": "Refreshed 2026-11-04 with fixed local hardware diagnostic IPC methods."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "d7f8b376b95b3ab42905adb6aaa0be7126a5eee193e501df6d4040a38b296c15",
+          "size_bytes": 1863,
+          "reseal_note": "Previous governed harness seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "a04148a74778f295851039be5607294a77e23d366942315f110e690bed1c8444",
+          "size_bytes": 1373,
+          "reseal_note": "Previous local evidence bridge seal."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "15abbb565824f6c74fcd722a245c27750e28a06bd27b3bffd43c636e7a73625f",
+          "size_bytes": 941,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/renderer.js": {
+      "description": "Product 45 desktop catalog, local library and cited search interface",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "cda180ac63ea6549bd4cb5da0d8004e49761ea054b9f11ba9f59596b942c2e38",
+      "size_bytes": 39553,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "9705a40cb835ca3b52aa221fa114020572defac0eda9ec98ce4d9daebe92b839",
+          "size_bytes": 31406,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "d9923abf7637bf711ee116ce8a40160a0288ef93c76599a5b862bd28eb99aec7",
+          "size_bytes": 30900,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "cbdc072bf2502c68ac87a13dad994af195c6c4c0f3211906d983d9bc612abf57",
+          "size_bytes": 30243,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "3c3835ca0f17162e56ab9c66b1f37607a437e8bbe1ea41aab2aa50d2776d94fc",
+          "size_bytes": 24074,
+          "reseal_note": "Refreshed 2026-11-04 with measured hardware screening and visible model-selection blockers."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "1b88692d8098c03f8e0fce1d6ba1160cd835b9f51fe9c128d41468b83dff01de",
+          "size_bytes": 21535,
+          "reseal_note": "Previous governed harness seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "ead18116c5198760c7a2fd6f05902abbab09ae645e57b49c6cb00746dcc1c303",
+          "size_bytes": 14282,
+          "reseal_note": "Previous Windows qualification seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "256b98eea9ebc0a609306b6043a20f14f24a4b307e8c43160d72f8c7fc0bb502",
+          "size_bytes": 13730,
+          "reseal_note": "Final local evidence library UI hardening and smoke verification."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "0d1dc77681320b02e0839e3c3205f0f8a0bbf8b8f48e18e04e9f1d2a16bce3a6",
+          "size_bytes": 13507,
+          "reseal_note": "Refreshed with private library import controls, skipped-file details and cited results."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "203da940a2cbec4c44a38e221417eb59c8f5f3fa460d2733df40a788dc8370a4",
+          "size_bytes": 5187,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/index.html": {
+      "description": "Product 45 local desktop UI with privacy disclosure and restrictive content policy",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "91b32169095b9c8b879fe6d5a3784547bf667441ee8153715f9574b23c793725",
+      "size_bytes": 15911,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "7c38b909fd20ce79f76b517f76003572f542ea76fcdf732cf3be585876748fca",
+          "size_bytes": 12074,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "78dd1e6049337e93fdef92c35375825848f13985341dfa18120e245be038f61d",
+          "size_bytes": 11923,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "4bb97fbf87f61d891b3cf738f72ff36ac5faee59509d201b195d4993a23dd872",
+          "size_bytes": 11689,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "6a4fe7fa2733434b128ded4799ee4afcbbf57417bfb8e76c00e771faaacdfc0c",
+          "size_bytes": 9066,
+          "reseal_note": "Refreshed 2026-11-04 with hardware readiness and explicit no-automatic-model-selection disclosure."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "1fd67785e35a91995eaa6e63e351af3c633c1d0c11b02fe6a7f924274bc3a2b2",
+          "size_bytes": 8106,
+          "reseal_note": "Previous governed harness seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "2dcb2d7a66c077d2d44769e5bd6d0f9277aaa149b071d4103fd8ab431a018b22",
+          "size_bytes": 5833,
+          "reseal_note": "Previous Windows qualification seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "cfdb4e8048f6d0083d0b1fdf3e8ab44e1ffd154fdc563da724b1d5fa5697adab",
+          "size_bytes": 5804,
+          "reseal_note": "Final local evidence library UI hardening and smoke verification."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "b526fefda04cbb15f075e4df29a717c33db13c3294face8762839ee4f0c17bf7",
+          "size_bytes": 5697,
+          "reseal_note": "Refreshed with local evidence search controls, explicit privacy terms and import limits."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "850f1ee2c939b521c141e0fd780916c221bab5b01fe710ad60a04c66add2586b",
+          "size_bytes": 3875,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/styles.css": {
+      "description": "Product 45 Windows desktop catalog and local evidence search presentation",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "ef05f8cc96b13dfe592636a3e04110e8fe0f36552b534299ee8f653149969372",
+      "size_bytes": 8948,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "1db8fe50a2570f7b796dbeb1668e3106212aed72b320a1bdea5622623ea0c32a",
+          "size_bytes": 8533,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "c7505d52ff87a44bfba70d5fcaff57ebd92246945ff0e0bcee1af3566a29fee0",
+          "size_bytes": 8392,
+          "reseal_note": "Refreshed 2026-11-04 for responsive task selection, plans, checkpoint results and audit."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "bf7709c4c07814a148165d9242f27d1d67edc1344a758691792d809c904b9f97",
+          "size_bytes": 6600,
+          "reseal_note": "Previous Windows qualification seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "8993220cfe6809d788f7176bd22223c0399c784697ef26998875ecb45340753f",
+          "size_bytes": 6509,
+          "reseal_note": "Refreshed for the local evidence library and responsive result cards."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "600bfd85d5e15dd7251bb729b28f7db2b37d8b907ac4961465d175d91f291332",
+          "size_bytes": 4229,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/catalog.cjs": {
+      "description": "Product 45 offline product catalog validation",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-03",
+      "sha256": "85ecb2f319113e8b4b3b553a40ed4cdc40297731fbf47e9050997405154357f7",
+      "size_bytes": 987
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/repository.cjs": {
+      "description": "Product 45 checkout validation and repository path containment",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-03",
+      "sha256": "46b091fa2d7a708958ce3cba1f64a72fb7ad3756b78539b0f135424c553e0e57",
+      "size_bytes": 2160
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/settings.cjs": {
+      "description": "Product 45 local user settings and validated knowledge collection identifiers",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "e39d1bf107c1261588a4f5312622c3ff496101f805fdf72c480f36dea456d5bb",
+      "size_bytes": 1501,
+      "reseal_note": "Refreshed 2026-11-04 to persist a bounded set of validated local evidence indexes.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "16f3368472ba2c3605613eb012eb8dcd4d7ac32ee61162761af9985ec339b289",
+          "size_bytes": 970,
+          "reseal_note": "Initial Product 45 registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/knowledge.cjs": {
+      "description": "Product 45 bounded folder/ZIP text indexing, local evidence search and collection persistence",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "bedb4592cf95adcb7e91632c5e708a571a4b7c57c525ddb65156403f41a1b71d",
+      "size_bytes": 19799,
+      "reseal_note": "Registered the Product 45 private local evidence library; archive contents are never extracted or executed."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/operation-lock.cjs": {
+      "description": "Product 45 exclusive-operation guard for local library mutations",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "ad944f08b44f00f605a1d9dd786ab00bcdf4b2d57d66545bdb10e6273e9fb7a3",
+      "size_bytes": 310
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py": {
+      "description": "Product 45 canonical portfolio catalog generator and freshness check",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-03",
+      "sha256": "a0eda09dafc5c1d93d2b37dc822e0d875af36e4358f6e85dcc14352548d43000",
+      "size_bytes": 3118
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs": {
+      "description": "Product 45 Windows Electron DevTools UI and renderer exception smoke check",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "2d881033c860bcf4c5258d6739daed96ae8f7011ec985367d8c9602949b54e16",
+      "size_bytes": 9795,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "733a19a7001fcc2f18dab36342138d30b019892c53c55992d66336499b81e5f4",
+          "size_bytes": 8039,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "6a1a410d8b11525aec965ede1caadee518cafde380c50c5dc4f5ad51265f2d92",
+          "size_bytes": 7379,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "582ce62b07273e5b1f58edaa715304852f6dcf2d8c53572e7a89b5d93189fd2e",
+          "size_bytes": 7378,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "3ef45c6169f671add9f63240559d07c47a90aa9ecb248a93c1c4b2e970f1b946",
+          "size_bytes": 6562,
+          "reseal_note": "Refreshed 2026-11-04 with hardware UI and preload-capability smoke coverage."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "051e22e8224feffcaf6b470c59413c266312da8e362e17c541e0e82523580ca6",
+          "size_bytes": 5934,
+          "reseal_note": "Previous governed harness seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "e14ae2eff591e8eb9cd54cbea49e67aa4d80869b4e3fbedec775c9f1b4b9b741",
+          "size_bytes": 3474,
+          "reseal_note": "Previous Windows qualification seal."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1": {
+      "description": "Product 45 Windows installer, uninstall and portable executable smoke harness",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "16372ce44a47c9c41be76306002109d8311ff642a94f647c26020153a34b6d83",
+      "size_bytes": 3862,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "60217f4a8da8588b3c434ff9514540f6cfbdb75adbbc2066d55e7b31717709b8",
+          "size_bytes": 3399,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "4a4016b49c9740de462c3ff58bab330d979d1c7c3db5168eb15887aba91c2d32",
+          "size_bytes": 2991
+        }
+      ],
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs": {
+      "description": "Product 45 catalog, repository path, settings and operation-lock regression tests",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "c8e060309450c60d5681c717628348be04b9b43016dcc544303253bd956a7c82",
+      "size_bytes": 3116
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs": {
+      "description": "Product 45 bounded ZIP indexing, search citation and local collection tests",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a2d32735dd8820aef44fcfe37646658b48b3f146315a89399f32ad2f194d404d",
+      "size_bytes": 6516
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json": {
+      "description": "Product 45 generated offline catalog for Products 01-45",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "71e44ae481012492aca6d938378321a19cb480d7a62ed063b07bba9e58179d9b",
+      "size_bytes": 16136,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "dfa752a64563e8bad3b5db2320e6c80dc232fb9aa59491a5fad5b59806491ffb",
+          "size_bytes": 16116,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "6fe6fd752ae89780e0f1bc38fd8b08bbedb94504c8dcc37bbca536c91ce07ab9",
+          "size_bytes": 16109,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "5139ab826e24e0b3b831fade5db8e673db92a79898497e6683f34cc4448224a4",
+          "size_bytes": 16055,
+          "reseal_note": "Refreshed 2026-11-04 from the canonical portfolio row documenting the governed research harness."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "1fa4f04162a1b68c41e365429aa889d0ee29ba64b9b66148aca0d4cccf3d7e72",
+          "size_bytes": 16073,
+          "reseal_note": "Previous local evidence catalog seal."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "327bd0d7fc076caede76ad7555010cb644b42242b185bfab8b7ac15bbd81f492",
+          "size_bytes": 16042,
+          "reseal_note": "Initial Product 45 catalog registration."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs": {
+      "description": "Product 45 bounded research policy, durable tasks, approvals and hash-linked audit",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "acb591eeacdab3eca3b8e39774e93aa37138ac3fe8ae466014df26fd1b44a3bd",
+      "size_bytes": 17852,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "01bc648aa011b25f4033dfdce8d16d35cfca40801a29411f7e09d6144e232f4e",
+          "size_bytes": 17191
+        }
+      ],
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs": {
+      "description": "Product 45 fixed-loopback bounded Ollama reasoning transport",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "24018a05d12ed66fb651d8f1bbf49402812ea7f1988bd5151d7880706f0e0647",
+      "size_bytes": 6520
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/worker-search.cjs": {
+      "description": "Product 45 cancellable evidence worker lifecycle",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "6a6ffc2291c9e5362aeb05a0af6f1905324ca95308cebd0949192170c8cfa919",
+      "size_bytes": 1187
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/evidence-worker.cjs": {
+      "description": "Product 45 persisted-index evidence search worker",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "bbbd2e2ddff166d2b71a8e9bccf7c53aad0826d5f48b2078c578f5b72d8bbe22",
+      "size_bytes": 390
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs": {
+      "description": "Product 45 task/approval/budget/recovery/audit/worker regressions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "b82bb2389b5436b7313535f9260bd25990ea27f1ae70742530ad713405d4fd12",
+      "size_bytes": 14094,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "7add3cb6bb5537c00cee4a26b6a101dfa42dd2389e5c68b1d62c29d95ad3130f",
+          "size_bytes": 12857
+        }
+      ],
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs": {
+      "description": "Product 45 bounded local model transport contract regressions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "743755f1c54891a1511180b655144a42446791cd8eeed1a33936457d00768614",
+      "size_bytes": 9050
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs": {
+      "description": "Product 45 desktop startup, native approval IPC and fail-closed checkpoint regressions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "7d2d51cab6d0a906bf973df0985a75cb771ae3bb6205c1adf639996b3c00703b",
+      "size_bytes": 15416,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "448a4af2cd45718c17fa9c6318df41e9aa709a89799359f6c5cfae3743982cbc",
+          "size_bytes": 8972,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "90e6c2eab3d1e0cc9b2b008b9667c3022548c27938958cb2bc41bc31a1c7ceb4",
+          "size_bytes": 7778,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "8fdfb6cb3f7f92da6d2f7725d046def58916d23a18042b82c8ab67da034d14ca",
+          "size_bytes": 6463,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "ac5df122e1e3f195961f676039f348cbd031536f4d224fa4c96f2bdc9e041ce1",
+          "size_bytes": 5662,
+          "reseal_note": "Refreshed 2026-11-04 with native hardware consent/export IPC regressions."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "730c1c6666bf937c7345ea902b6af52bbef5fa05804486f7abc9a958befc0a78",
+          "size_bytes": 4718,
+          "reseal_note": "Previous governed harness seal."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/hardware.cjs": {
+      "description": "Product 45 read-only hardware measurement and conservative model screening",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "93c871a2ae7b22e08338d8601b01fed4644748015e8cf50015723eb79143c2b2",
+      "size_bytes": 4437
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs": {
+      "description": "Product 45 hardware thresholds, diagnostic privacy and deadline regressions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "d4de72af231acd2d5e9492b37fd8de32178f03514eaa16fa04a91a51b4e4f338",
+      "size_bytes": 4149
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json": {
+      "description": "Product 45 native model/runtime packaging and contracts: runtimes.json",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "65d40342f81c09d216773642e763bb908dfe6aca19bd337841cd36a81e6789d2",
+      "size_bytes": 32687,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "f29a97e3d16c84b6eea719093349e8fb9bf64cb13c100298a76aa8fec48f4b44",
+          "size_bytes": 32377,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "df465a8dbcfb11405f1d702a3e584dda7dbcb65dc2c22f6d2fef83efac3f9d62",
+          "size_bytes": 32207,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/native-model.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: native-model.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "8df01db3b2d6fa955ea3dce2bd13605c4d887fa9f46a98234b9a471630d08384",
+      "size_bytes": 5077,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: portfolio-source.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "afcb1446693a98217d0977373b769a25bded2ed446255aaae0eb7bc5245bdb1d",
+      "size_bytes": 2633,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "dac30fbb0a8580c7d40cf45b77f7a474a125fd8b4036e1f94cb1e1ed604d0e86",
+          "size_bytes": 2185,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "9f6e879e9436de37ee3b125c7cd2ac8f84f151c3b1e2e433c6746e4f67a9ecc5",
+          "size_bytes": 2206,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "b2b7f07d312981d9f5dfe8134c68f5e3c00c0d5ff5b0ab18bd184da2a8024d31",
+          "size_bytes": 2145,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: runtime-manager.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "f92898014b70f6fff2f717113870d6f61faa859b772621d0b31d208a94da2574",
+      "size_bytes": 20263,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "38b9e1ce661d34ef83edea87789700875c8f16e6749dc9bd100d4226fe8e7916",
+          "size_bytes": 20198,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "49510b9eb48ae2fe6f8625ec850ffd974ae127561128a6e6164cd5383860199e",
+          "size_bytes": 20171,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "541a06b8cb5ccb0f4b0bddc5de29b29c306ef686b5073ee1890243aa6adb5923",
+          "size_bytes": 13639,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "1a29d6756ec03dfc7652321c0e84f3f9141f342ddc39796325f9a9c906f35870",
+          "size_bytes": 10738,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/requirements-calculators.txt": {
+      "description": "Product 45 native model/runtime packaging and contracts: requirements-calculators.txt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "39ff50d845c624de83316712b11d877d194a25a3049e7b9456ab736de0797333",
+      "size_bytes": 92,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/requirements-native-build.txt": {
+      "description": "Product 45 native model/runtime packaging and contracts: requirements-native-build.txt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "c76630033cc01b2dd2fd0ffdef8d263e2345e32f57b0934b96bbea83a9f38567",
+      "size_bytes": 33,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_native.py": {
+      "description": "Product 45 native model/runtime packaging and contracts: build_native.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "098d30b57417f3f65858929730c780a9899311a3aa51050886c3a5c0990fb24a",
+      "size_bytes": 3197,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "efd2b84bfaff5a16b4f276891a86896d6350ea26983045125bebdc3d9fb21d06",
+          "size_bytes": 3223,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "74d20c5f2a66f264d5a59489b2602c441a6d0cd9603810060f7f031e2de4707c",
+          "size_bytes": 3115,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/native_smoke.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: native_smoke.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "02e23209458a95275338b0dcf983491ccf96df54502f92a694d46993d87bc0d5",
+      "size_bytes": 1770,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: portfolio_smoke.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "51e4ab3c5c01b6d525931b9825b0dd32069f39d2a660b58f54f714bfe670fbdd",
+      "size_bytes": 7197,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "5fe7c4137291f0065faf0e5f1c3aac2741ac0c67f17802c12954048e763a2e6e",
+          "size_bytes": 6421,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "34c4ce09fccf57bba2b0b6640c30c92151102aee59a83003305cbe10da660c26",
+          "size_bytes": 5969,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "08c34e3aecb53e0c4b942b66c12d6dd3b7e0755a58b3255180f4ec1083046186",
+          "size_bytes": 3671,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "93e670afc7ebe732b395f03d880226f3273ee01dccff2aa6c3276b59aa56c9a7",
+          "size_bytes": 3589,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "a4ca35f4e385150d40afb274e676d3ddc1e05786b99d1453708585ca9264b298",
+          "size_bytes": 1922,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/psicat_core.py": {
+      "description": "Product 45 native model/runtime packaging and contracts: psicat_core.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "ba1158f3d5a4a3590463f6e9e6e93e4909f3e81e6d5c53c83821684322f64784",
+      "size_bytes": 4023,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/stage_portfolio.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: stage_portfolio.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "4923f9476d5e45ab463248c0a4c571f3daf1189fc47f7f8451273943246da2f2",
+      "size_bytes": 2241,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "4322a6ade32fbc4b1b4523f612dabfdf0d1962377dfe73d8117159af80363ad6",
+          "size_bytes": 2366,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "54b9861c20ba359ef29854c48ed6d3cd7ccc2402b1fd87d1d1c360866e403315",
+          "size_bytes": 1882,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "3734f181e658c6ee4443ad3cf9f0042804f14853679b235dc914684de125b830",
+          "size_bytes": 1787,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/native-model.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: native-model.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a7a6cb043bf98eaeffec2941c5a3d9cfbe57350966f309e27592ac35408cf93e",
+      "size_bytes": 4332,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: portfolio-source.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "1a63a4b9bcb3d39e2a3874e19cb0dc333c9c9660705ae5181ad42faa91bf8f6c",
+      "size_bytes": 3801,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "34cfdc6a1353a4e6fd6cfd5eb7ff5ed377c628c8be619acf3f6854a84813de73",
+          "size_bytes": 3234,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "e27a591407934e885c3f5d86f5cf953591576f7b04f6df1e51a1447b3b2489b3",
+          "size_bytes": 2626,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "4afacc4d579457d93440e4704bbbdf0fae519441a99072873f7adf40c956732a",
+          "size_bytes": 2422,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: runtime-manager.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "2f252d451c2ba74f929a07dfc5345b90c2c7985b16d3bfe3dadfedb04771859c",
+      "size_bytes": 17119,
+      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "ac15ad00f7810c3f8fbbeee4f36545628bb1781962116f0d27e5eb6abe2e6203",
+          "size_bytes": 17092,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "78495ff889cb130922eda31b891fffc9f5db07398d591a912d566db244a55d86",
+          "size_bytes": 17329,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "de1c418c857454a6a33433ca6b0d9757359375268c9d4fe770a6592e6a7aed27",
+          "size_bytes": 9822,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "d330293bb41989007635865c05c2bd28a58ee452d1db91d6071976934e71038d",
+          "size_bytes": 6920,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: runtime-manifest.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "df230d9f0844fab618e6f70b40d03be50e7abfb68180953e26658df0f029d20a",
+      "size_bytes": 7998,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py": {
+      "description": "Product 45 native model/runtime packaging and contracts: test_psicat_core.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "b4a6f3b2d3a6492ad24b4f99b7974b47dcc9b5aa4bdf8df73e8e2836afc49d00",
+      "size_bytes": 2009,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/node-bootstrap.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: node-bootstrap.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "79571e0b3230f73b5081c418a68d7a44e6919a9042b422325f2ac55633a2e40f",
+      "size_bytes": 3253,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/node-toolchain.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: node-toolchain.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "26c8ed2d1b324d1141bed5911c5b3d37c75750325697c91c6cc6893cd5bb2dcc",
+      "size_bytes": 906,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/extract-node.ps1": {
+      "description": "Product 45 native model/runtime packaging and contracts: extract-node.ps1",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "acf8a5b122e7398ba372a4105196a93fcb08e4d8e541abf50b4028865ac5c371",
+      "size_bytes": 211,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/node-bootstrap.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: node-bootstrap.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "403fcf082bf0c7da53a922bbe6f818073dea761f55c309823f6609cdac658e84",
+      "size_bytes": 3355,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/node-toolchain.test.cjs": {
+      "description": "Product 45 native model/runtime packaging and contracts: node-toolchain.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "5d3a646079d9e402c741d6479e60df2ff65893bbfe0f488c49ef0a1d78debb52",
+      "size_bytes": 1113,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/lib/desktop-boundary.js": {
+      "description": "Product 24 Windows runtime integration and contracts: desktop-boundary.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "b9fa7dfa764b669e7a8c1a831b983fdb281c6e37aeaf3a57200e95233cce3ccd",
+      "size_bytes": 510,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/lib/sidecar.js": {
+      "description": "Product 24 Windows runtime integration and contracts: sidecar.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "fe821e6fcc575f47b51f00ae9890827dc0df1f5c78a3e491957ae92761eb8d90",
+      "size_bytes": 8595,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "508ef05ddf0b84d5d0206c3fce73e9f813c35ea1657eabec8ffb4b46da66f6a2",
+          "size_bytes": 7326,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "57ab2946e4036b3f14dedac09a807ea5db862b08b462f439298a4011e6913fc8",
+          "size_bytes": 7153,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/lib/suite-lifecycle.js": {
+      "description": "Product 24 Windows runtime integration and contracts: suite-lifecycle.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "7def35a724bbb98264fb8c32eff36149c1c8b8866aa072b0a58141af9520b39f",
+      "size_bytes": 1536,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/package-lock.json": {
+      "description": "Product 24 Windows runtime integration and contracts: package-lock.json",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "6f86c7010894f91af8f3ffc40cb884e2d52f21ea0121e2a3066ec7db4f9d958e",
+      "size_bytes": 7292,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/desktop-boundary.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: desktop-boundary.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "f8a14ebf0dcc57819dc92eaadeb9b843e265144f38b574a3d58c59a93ceb6494",
+      "size_bytes": 1507,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/desktop-runtime.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: desktop-runtime.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "5f15c5a9940aefeffbf898c030a17e51dbf67454d6ca46dfbd5383c020ba8d06",
+      "size_bytes": 9537,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "26978f146cbc1f5f1aeb5ca44af976870a0ef9bf06faac09e135dde3e5c03928",
+          "size_bytes": 9089,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "e1454003f7aba5efaf4c27af0ed6e0d2157add37039cf7dd1e9fb135aa6d9a1c",
+          "size_bytes": 6749,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/serve-ui.js": {
+      "description": "Product 24 Windows runtime integration and contracts: serve-ui.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "da84d370f1059d07395272a9e9f4b2b18178c48b9343a8bfddb3cc7342862d8a",
+      "size_bytes": 765,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/sidecar.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: sidecar.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "ed0c00d1138aca52f427bc15de8b4f47627be0c912834821f8adc2055db6e4d4",
+      "size_bytes": 13164,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "08355d219cbc1ea4b467a7f5c422600fea8b275fa57109971eee016da4666f63",
+          "size_bytes": 12264,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "c4562e2a4708a081382b6aad20e9da498f576dc5ec775472ac8a4ddd845739b3",
+          "size_bytes": 11861,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/suite-lifecycle.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: suite-lifecycle.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "cea4b44fd3b73c28ba0c5ef7bd9397454a226e2fd30cdbab44bda67f62cf11ab",
+      "size_bytes": 2125,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/test_product24_structure.py": {
+      "description": "Product 24 Windows runtime integration and contracts: test_product24_structure.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "67c2afe48404560ba93da944f9f1d09e442a78e34bea160c46b11a40c6a19597",
+      "size_bytes": 2251,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/test_sync_backend.py": {
+      "description": "Product 24 Windows runtime integration and contracts: test_sync_backend.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a2b802e230d6a70e57d3ca3ddeef22efe13069906e73103c9d7578a8e07d5c5e",
+      "size_bytes": 4807,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/36-az-cosmology-slider/requirements.txt": {
+      "description": "Product 36 Windows runtime integration and contracts: requirements.txt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "80f9be4514d8c3528a4ef97e8d6dbca988ac1eb9fefaae8f62e8981e3af806cf",
+      "size_bytes": 31,
+      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/desktop-runtime.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: desktop-runtime.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "3c56968a9330e39755c75d80f9188b90a3da5a0e368bdb964696b71e912c4176",
+      "size_bytes": 6152,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "999bc622c10ccf0cb260a6e4b383a5f34ce5bb1fd399889bb1bce5f75ff0a140",
+          "size_bytes": 6131,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "0eab62595e8b9abb069dd62ae0cf4a5faa625e2cb6b676d1223f90730b5c3434",
+          "size_bytes": 3356,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "7ec1b834944b940b29e93fd68168c491094408a4008591a580a8460f47364df7",
+          "size_bytes": 3301,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: desktop-runtime.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "bea91f8eaf0b7dae051a2ec863025fe2e24e7af8acd65d69dea8fbfe20664c96",
+      "size_bytes": 5311,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "e96b8ab76840acbf25e999c27e71d3eda8c96962c9b388245b8fe309aa1bfcf0",
+          "size_bytes": 4926,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "bbd60cd213cb63a3795b4803e20c7e6159f615bcb34558aaa32087220b7eecb3",
+          "size_bytes": 3173,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "c590cdd84c9960ce0a00494a7a577c9a913173c443a3b1935b8eb14e8d08939a",
+          "size_bytes": 2898,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: preload-state.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "fbcb2382206ebf48a52fb9d852dc9e9377c1debcecebc086305e6ae8a39e0543",
+      "size_bytes": 1915,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "916bf6ab9242955a77a531513e4ff0bd5de7ec74928729aa3bde403f989667e0",
+          "size_bytes": 1020,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/lib/startup-diagnostics.js": {
+      "description": "Product 24 Windows runtime integration and contracts: startup-diagnostics.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "19c52e29668236e93043e47f14e292b63a02116fff365287f2ee650796851fe9",
+      "size_bytes": 3081,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "22cd6a6452379d6eed57591f17fae8e33f87539b66560a0e4bb49b21d8741301",
+          "size_bytes": 2433,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/runtime.js": {
+      "description": "Product 24 Windows runtime integration and contracts: runtime.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a5eeb785e9cd4252720a156184567de080831282d98a74b6ae02cca72bb8d9ac",
+      "size_bytes": 32924,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a7ad4ae1d5a798d66d9dd4244c0fea92c5a51eba7c83790557f350bf4daaef65",
+          "size_bytes": 31159,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/electron-ipc-probe.js": {
+      "description": "Product 24 Windows runtime integration and contracts: electron-ipc-probe.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "a859b39357c96adce9006977423dd0ed778ebce7b8c73514c6cd2b372c359041",
+      "size_bytes": 1073,
+      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/run-ipc-probe.js": {
+      "description": "Product 24 Windows runtime integration and contracts: run-ipc-probe.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "5870f833b5bf6f5c4a0be49c040252e764bb1832dd6eb49f66de8c61aa190283",
+      "size_bytes": 2457,
+      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/startup-diagnostics.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: startup-diagnostics.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "d11d67c9cd264fa0f1ed9bd31a875794161721b820a911c792adbde0852c768d",
+      "size_bytes": 2812,
+      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/43-az-geometric-tori-transformer/README.md": {
+      "description": "Product 43 Windows runtime integration and contracts: README.md",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
+      "size_bytes": 23001,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "f59fd606e504d7fcb5c7be9d57d4222077bf2c6a17c89ea1b322a5a2ae28616c",
+          "size_bytes": 22732,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py": {
+      "description": "Product 43 Windows runtime integration and contracts: test_candidate_engine.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "32e285819a2ddf62db70b4a6285e85bbd1541301ae8b45b84c4c2b93dd594d53",
+      "size_bytes": 44773,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "5f422967441093a4a94dda48dbcd138ac53babb44a03050bdea5c63ab1c42b7e",
+          "size_bytes": 43294,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "935cb111b8ac14a5b40af435b21ce6f79d1e4f1401a86c539c28cc3b5f5da690",
+          "size_bytes": 42833,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "d6429aeddd2415774771b3a47c85e95b89f67ae0c63af8b804cf1a70f2a0cc75",
+          "size_bytes": 35798,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py": {
+      "description": "Product 43 Windows runtime integration and contracts: verify_embedded_engine.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "02425ce1bce0b35a0e98bd0bf51e7907c0f011497e0c58f5cba56150515e47f6",
+      "size_bytes": 29281,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a983c5dae8d4b4a063759ce1326b156ed42e5bd81247a7bf6749868324a42d6f",
+          "size_bytes": 29024,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "5e4986aed9ca0ff240abaad4306466603bf2a25fe95f0ef7ae3cca8f9ea2b067",
+          "size_bytes": 28898,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "cfa09b183075b768f400e5bbb531e539645581e008348312fe224c80d37b0a5d",
+          "size_bytes": 27510,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        }
+      ]
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/lib/component-diagnostics.js": {
+      "description": "Product 24 Windows runtime integration and contracts: component-diagnostics.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "40a7939685f2380394f902ce451570a678aa49db195aea97c32a308c3598fce9",
+      "size_bytes": 3779,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/component-diagnostics.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: component-diagnostics.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "3f28de7d6ae015350140a1ce60b7d401efb31bc673fff8dd75d0de7c454de2a4",
+      "size_bytes": 2863,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/README.md": {
+      "description": "Product 15 Windows runtime integration and contracts: README.md",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "6068cdff68cf8cb07cd77d8d8dc528018edef7163c8d7ccf1b199a249c59d92c",
+      "size_bytes": 15949,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/gradle/libs.versions.toml": {
+      "description": "Product 15 Windows runtime integration and contracts: libs.versions.toml",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "e2f9feed22f79a891aa9050faabf281486368f5e464aaf842891ed41f45c28af",
+      "size_bytes": 4134,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py": {
+      "description": "Product 45 Windows runtime integration and contracts: test_android_catalog.py",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "992820f107886505e97c017fb32a36c16b9c4c05c02ebbb4dcf89a4e49f4e249",
+      "size_bytes": 1222,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/14-sdam/app/app/src/main/java/com/sdam/ui/MainViewModel.kt": {
+      "description": "Product 14 Windows runtime integration and contracts: MainViewModel.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "cdb7a5e9eca0f3ee9424e77f5176203bbdc4f0b5ee67956a764efae81466c2e4",
+      "size_bytes": 22533,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/feature/acoustic/src/main/java/com/gibbernode/feature/acoustic/AcousticViewModel.kt": {
+      "description": "Product 15 Windows runtime integration and contracts: AcousticViewModel.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "4c63f5d484f423580e850eb8b100d67bb21baec75096975b5374a811155cb34d",
+      "size_bytes": 13452,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: instruction-model.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4",
+      "size_bytes": 32811,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: platform-targets.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "8160f81810e6e0745561dda7618622583f46a35a6e31562bace1c4a37bb45e77",
+      "size_bytes": 37367,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/instruction_smoke.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: instruction_smoke.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "1642327c08917c930b533c25403ed8ee6ca96e935844ec51a5cbded308169957",
+      "size_bytes": 1722,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/platform_smoke.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: platform_smoke.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "90fd761fa25621528ba92a129c7084b16dadbab785432998e9664d7df01e2426",
+      "size_bytes": 2419,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: instruction-model.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",
+      "size_bytes": 25229,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs": {
+      "description": "Product 45 Windows runtime integration and contracts: platform-targets.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "eceaf9a560109f3aa4e97672a34cf8fc76bd044fdd7f4ab57afd08b8cf7be524",
+      "size_bytes": 26569,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/core/ui/src/main/java/com/gibbernode/ui/Theme.kt": {
+      "description": "Product 15 Windows runtime integration and contracts: Theme.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "bd835c3fe6b3e9695b60638ac43c24058413853f29a3fa54e2ae0ecf5b99d627",
+      "size_bytes": 1829,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/feature/dashboard/src/main/java/com/gibbernode/feature/dashboard/DashboardScreen.kt": {
+      "description": "Product 15 Windows runtime integration and contracts: DashboardScreen.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "4623ab693e885b1b6a3854b991cde3ec050ebd7e988a132bee3a36716c9c9399",
+      "size_bytes": 18184,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/feature/mode/src/main/java/com/gibbernode/feature/mode/ModeScreen.kt": {
+      "description": "Product 15 Windows runtime integration and contracts: ModeScreen.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "7d2d1c4adac4d8c5cd5bce1ba4e53d0d4c48adbebbd0c4120ac554d58e6f945e",
+      "size_bytes": 39367,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/15-pentacorder/feature/labs/src/main/java/com/gibbernode/feature/labs/SensorStatusScreen.kt": {
+      "description": "Product 15 Windows runtime integration and contracts: SensorStatusScreen.kt",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "179aa04b0b381c82d64c79e326db47a749c232b0308c226458baebf1fc540270",
+      "size_bytes": 5398,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -1183,7 +2989,7 @@
       "trl": "TRL-1",
       "port": "CLI / Python library + web (http://localhost:8143)",
       "tests": "46",
-      "description": "From-scratch (NumPy-only, custom reverse-mode autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5\u00b2+7\u00b2, (5,7) braid winding) instead of standard sinusoidal RoPE: a toroidal rotary encoding with finite per-channel orbit periods, plus a toroidal relative-distance attention bias. Verified end-to-end training on a toroidal-copy toy task (loss 2.94\u21920.38, accuracy ~96%). Wired as getToriTransformerGeometry/getToriTransformerDemo native PsiCat Navigator tools and exposed to PsiCat Browser via the Navigator's generic /api/psicat surface (no separate Browser code required). ADJACENT TRACK: a compute-architecture application of the lattice constants, not a hardgate physics claim.",
+      "description": "From-scratch (NumPy-only, custom reverse-mode autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5²+7², (5,7) braid winding) instead of standard sinusoidal RoPE: a toroidal rotary encoding with finite per-channel orbit periods, plus a toroidal relative-distance attention bias. Verified end-to-end training on a toroidal-copy toy task (loss 2.94→0.38, accuracy ~96%). Wired as getToriTransformerGeometry/getToriTransformerDemo native PsiCat Navigator tools and exposed to PsiCat Browser via the Navigator's generic /api/psicat surface (no separate Browser code required). ADJACENT TRACK: a compute-architecture application of the lattice constants, not a hardgate physics claim.",
       "link": "43-az-geometric-tori-transformer/"
     },
     {
@@ -1194,6 +3000,15 @@
       "tests": "Focused pytest suites",
       "description": "Five-strand seven-operation local evidence and computation integration with current source grounding, scoped memory, real Product 16/43 adapters, controlled synthetic experiments and durable Pentad-constrained effects. Adjacent software, not physics closure or model superiority. Private exports excluded.",
       "link": "44-axiomzero-weave/"
+    },
+    {
+      "name": "AxiomZero PC Suite",
+      "version": "0.1.0",
+      "trl": "Not assessed",
+      "port": "Windows desktop installer / portable",
+      "tests": "78 focused Node tests + Windows install/UI/uninstall and research-plan smoke",
+      "description": "Offline-first portfolio launcher, local source-cited search and a bounded, human-approved research harness with optional loopback Ollama reasoning; does not bundle every runtime or a live PsiCat model.",
+      "link": "45-axiomzero-pc-suite/"
     }
   ]
 }

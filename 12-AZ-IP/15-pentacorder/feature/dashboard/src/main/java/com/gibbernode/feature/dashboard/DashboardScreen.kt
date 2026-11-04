@@ -56,6 +56,7 @@ import com.gibbernode.gibberwave.OperationalMode
 import com.gibbernode.gibberwave.SentinelMood
 import com.gibbernode.ui.GibberAmber
 import com.gibbernode.ui.GibberBlue
+import com.gibbernode.ui.GibberDiode
 import com.gibbernode.ui.GibberGreen
 import com.gibbernode.ui.GibberRed
 import com.gibbernode.ui.OnSurfaceDim
@@ -152,6 +153,7 @@ private fun ModeRing(
             OperationalMode.RED   -> GibberRed
             OperationalMode.BLUE  -> GibberBlue
             OperationalMode.AMBER -> GibberAmber
+            OperationalMode.DIODE -> GibberDiode
         },
         animationSpec = tween(500),
         label         = "ring_color",

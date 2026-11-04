@@ -164,6 +164,14 @@
       ]
     },
     {
+      "slice_id": "python-azip-product-45",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/45-axiomzero-pc-suite"
+      ]
+    },
+    {
       "slice_id": "python-repository-tooling",
       "language": "python",
       "build_mode": "none",

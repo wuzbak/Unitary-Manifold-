@@ -52,7 +52,7 @@ fun SensorStatusScreen(viewModel: SensorStatusViewModel = hiltViewModel()) {
 
         if (sensors.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No sensors match "${state.filterText}"",
+                Text("No sensors match \"${state.filterText}\"",
                     style = MaterialTheme.typography.bodyMedium, color = OnSurfaceDim)
             }
         } else {

@@ -51,7 +51,7 @@ Layer 2 — SOFTWARE IMPLEMENTATION (Python source code and all automation)
     Scope:   src/   tests/   recycling/   scripts/   submission/
              Unitary Pentad/   omega/   bot/   embryology-manifold/
              12-AZ-IP/   TOOLS/   9-INFRASTRUCTURE/   public-site/
-             All 27 AxiomZero products, including PsiCat Products 20, 23–25,
+             All 45 AxiomZero products, including PsiCat Products 20, 23–25,
              and 27, are identified in PORTFOLIO_LICENSE_SCHEDULE.md.
              The schedule enumerates the registered operating systems,
              engines, applications, calculators, tools, and file-level IP.
@@ -109,3 +109,54 @@ Machine-readable index: ../9-INFRASTRUCTURE/licensing_policy.json.
 Portfolio license schedule: PORTFOLIO_LICENSE_SCHEDULE.md.
 
 ────────────────────────────────────────────────────────────────────────────
+
+PRODUCT 45 THIRD-PARTY NOTICES
+──────────────────────────────
+
+Product 45 bundles the following runtime ZIP-reading dependencies:
+
+Yauzl 3.4.0 — MIT License
+Copyright (c) 2014 Josh Wolfe
+
+The MIT License (MIT)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Pend 1.2.0 — MIT License
+Copyright (c) 2014 Andrew Kelley
+
+The MIT License (Expat)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

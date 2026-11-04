@@ -5,8 +5,11 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 from pathlib import Path
+import tempfile
+import time
 from typing import Any
 
 import numpy as np
@@ -16,7 +19,7 @@ from .model import GeometricToriTransformer, GeometricToriTransformerConfig
 from .optim import Adam
 from .tensor import cross_entropy
 
-__all__ = ["train_text_file", "generate_text"]
+__all__ = ["train_text_file", "generate_text", "run_text_ablation", "evaluate_text_file"]
 
 MAX_TEXT_BYTES = 8 * 1024 * 1024
 MAX_CONTEXT_LENGTH = 512
@@ -90,6 +93,7 @@ def train_text_file(
     num_layers: int = 2,
     seed: int = 0,
     resume: bool = False,
+    positional_mode: str = "toroidal",
 ) -> dict[str, Any]:
     """Train or continue a causal character model on a UTF-8 text file.
 
@@ -103,6 +107,8 @@ def train_text_file(
     dim = _bounded_int("dim", dim, 2, 512)
     num_heads = _bounded_int("num_heads", num_heads, 1, 64)
     num_layers = _bounded_int("num_layers", num_layers, 1, 32)
+    if positional_mode not in ("toroidal", "rope_matched"):
+        raise ValueError("text positional_mode must be 'toroidal' or 'rope_matched'")
     if batch_size * context_length * dim * num_layers > MAX_TRAINING_ACTIVATIONS:
         raise ValueError("batch/model settings exceed the training activation budget")
     if batch_size * context_length**2 * num_heads * num_layers > MAX_TRAINING_ATTENTION_CELLS:
@@ -162,6 +168,8 @@ def train_text_file(
             raise ValueError("resume learning_rate must match the checkpoint optimizer")
         if (model.cfg.dim, model.cfg.num_heads, model.cfg.num_layers) != (dim, num_heads, num_layers):
             raise ValueError("resume model dimensions must match the checkpoint")
+        if model.cfg.positional_mode != positional_mode:
+            raise ValueError("resume positional_mode must match the checkpoint")
     else:
         if learning_rate is None:
             learning_rate = DEFAULT_LEARNING_RATE
@@ -172,10 +180,15 @@ def train_text_file(
             num_layers=num_layers,
             causal=True,
             seed=seed,
+            positional_mode=positional_mode,
         )
         model = GeometricToriTransformer(config)
         optimizer = Adam(model.parameters(), lr=float(learning_rate))
         rng = np.random.default_rng(seed + 1)
+    initial_parameters_hash = hashlib.sha256()
+    for name, parameter in model.named_parameters().items():
+        initial_parameters_hash.update(json.dumps([name, parameter.shape], separators=(",", ":")).encode("utf-8"))
+        initial_parameters_hash.update(parameter.data.tobytes())
     eval_window_count = max(
         1,
         min(
@@ -232,6 +245,8 @@ def train_text_file(
         "vocabulary_size": len(vocabulary),
         "context_length": context_length,
         "parameter_count": model.num_parameters(),
+        "initial_parameters_sha256": initial_parameters_hash.hexdigest(),
+        "positional_mode": model.cfg.positional_mode,
         "initial_train_loss": initial_train_loss,
         "final_train_loss": final_train_loss,
         "initial_validation_loss": initial_validation_loss,
@@ -239,6 +254,188 @@ def train_text_file(
         "final_validation_accuracy": final_validation_accuracy,
         "final_train_accuracy": final_train_accuracy,
     }
+
+
+def run_text_ablation(
+    text_path: str | Path,
+    output_directory: str | Path,
+    *,
+    seeds: tuple[int, ...] = (0, 1, 2),
+    steps: int = 100,
+    context_length: int = 32,
+    batch_size: int = 16,
+    dim: int = 32,
+    num_heads: int = 4,
+    num_layers: int = 2,
+    validation_fraction: float = 0.1,
+) -> dict[str, Any]:
+    """Train actual corpus checkpoints against an identically initialized control.
+
+    A private local snapshot fixes the corpus bytes across arms. This measures
+    character prediction only, not assistant capability or physics validity.
+    """
+    if not isinstance(seeds, tuple) or not 1 <= len(seeds) <= 5:
+        raise ValueError("seeds must be a tuple of 1-5 distinct integers")
+    for seed in seeds:
+        _bounded_int("seed", seed, 0, 2**32 - 1)
+    if len(set(seeds)) != len(seeds):
+        raise ValueError("seeds must be distinct")
+    if _validate_fraction(validation_fraction) <= 0:
+        raise ValueError("corpus ablation requires a nonempty held-out validation split")
+    text, source_hash, source_bytes = _read_corpus(text_path)
+    destination = Path(output_directory)
+    if not destination.is_dir():
+        raise ValueError("output_directory must be an existing local directory")
+    run_directory = Path(tempfile.mkdtemp(prefix="psicat-corpus-ablation-", dir=destination))
+    corpus = run_directory / "corpus.txt"
+    corpus.write_text(text, encoding="utf-8", newline="")
+    receipt_path = run_directory / "receipt.json"
+    receipt: dict[str, Any] = {
+        "schema": "psicat-corpus-ablation-v1",
+        "status": "running",
+        "epistemic_label": "UNVERIFIED",
+        "dataset_sha256": source_hash,
+        "corpus_bytes": source_bytes,
+        "run_directory": str(run_directory),
+        "scope": "Descriptive character prediction on one chronological holdout; not an independent test set, assistant benchmark, 5D physics test or model-superiority claim.",
+        "privacy": "A private local corpus snapshot and real checkpoints are retained here. No upload or training on unselected files.",
+        "arms": [],
+    }
+
+    def persist() -> None:
+        temporary = receipt_path.with_suffix(".pending")
+        temporary.write_text(json.dumps(receipt, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+        temporary.replace(receipt_path)
+
+    persist()
+    try:
+        for seed in seeds:
+            matched_hash = None
+            for mode in ("toroidal", "rope_matched"):
+                checkpoint = run_directory / f"{mode}-seed-{seed}.npz"
+                started = time.monotonic()
+                report = train_text_file(
+                    corpus, checkpoint, steps=steps, context_length=context_length,
+                    batch_size=batch_size, dim=dim, num_heads=num_heads,
+                    num_layers=num_layers, seed=seed, validation_fraction=validation_fraction,
+                    positional_mode=mode,
+                )
+                if report["dataset_sha256"] != source_hash:
+                    raise ValueError("corpus snapshot changed during the comparison")
+                if matched_hash is not None and report["initial_parameters_sha256"] != matched_hash:
+                    raise ValueError("control parameter schema or initial weights do not match")
+                matched_hash = report["initial_parameters_sha256"]
+                receipt["arms"].append({
+                    "seed": seed,
+                    "elapsed_seconds": time.monotonic() - started,
+                    "checkpoint_sha256": hashlib.sha256(checkpoint.read_bytes()).hexdigest(),
+                    **report,
+                })
+                persist()
+            for arm in receipt["arms"]:
+                if arm["seed"] == seed:
+                    arm["initial_parameters_matched"] = True
+            persist()
+        receipt["status"] = "completed"
+        receipt["paired_validation_loss_deltas"] = [
+            {
+                "seed": seed,
+                "toroidal_minus_matched_rope": next(
+                    arm["final_validation_loss"] for arm in receipt["arms"]
+                    if arm["seed"] == seed and arm["positional_mode"] == "toroidal"
+                ) - next(
+                    arm["final_validation_loss"] for arm in receipt["arms"]
+                    if arm["seed"] == seed and arm["positional_mode"] == "rope_matched"
+                ),
+            }
+            for seed in seeds
+        ]
+        persist()
+        return receipt
+    except (OSError, ValueError, FloatingPointError) as error:
+        receipt["status"] = "failed"
+        receipt["error"] = str(error)
+        persist()
+        raise
+
+
+def evaluate_text_file(
+    checkpoint_path: str | Path,
+    text_path: str | Path,
+    *,
+    max_windows: int = 64,
+) -> dict[str, Any]:
+    """Measure a frozen checkpoint on explicitly selected, separate text."""
+    max_windows = _bounded_int("max_windows", max_windows, 1, 256)
+    text, dataset_hash, corpus_bytes = _read_corpus(text_path)
+    checkpoint = Path(checkpoint_path)
+    loaded = load_checkpoint(checkpoint)
+    vocabulary = loaded.metadata.get("vocabulary")
+    if not loaded.model.cfg.causal or loaded.metadata.get("task") != TASK_NAME:
+        raise ValueError("checkpoint is not a causal character-language-model checkpoint")
+    if (
+        not isinstance(vocabulary, list) or not vocabulary
+        or any(type(char) is not str or len(char) != 1 for char in vocabulary)
+        or len(set(vocabulary)) != len(vocabulary)
+        or len(vocabulary) != loaded.model.cfg.vocab_size
+    ):
+        raise ValueError("checkpoint character vocabulary does not match model configuration")
+    context = loaded.metadata.get("context_length")
+    if type(context) is not int or not 2 <= context <= MAX_CONTEXT_LENGTH:
+        raise ValueError("checkpoint has an invalid context length")
+    if dataset_hash == loaded.metadata.get("dataset_sha256"):
+        raise ValueError("independent evaluation requires text different from the training corpus")
+    unknown = sorted(set(text) - set(vocabulary))
+    unknown_set = set(unknown)
+    report: dict[str, Any] = {
+        "schema": "psicat-frozen-text-evaluation-v1",
+        "epistemic_label": "UNVERIFIED",
+        "dataset_sha256": dataset_hash,
+        "training_dataset_sha256": loaded.metadata.get("dataset_sha256"),
+        "corpus_bytes": corpus_bytes,
+        "corpus_characters": len(text),
+        "positional_mode": loaded.model.cfg.positional_mode,
+        "parameter_count": loaded.model.num_parameters(),
+        "unknown_character_count": len(unknown),
+        "unknown_character_occurrences": sum(char in unknown_set for char in text),
+        "scope": "Frozen character prediction on operator-selected text. Different file hashes do not prove document independence or absence of training overlap. Not an assistant, tool-use or physics benchmark.",
+    }
+    if unknown:
+        report.update({
+            "status": "blocked-vocabulary",
+            "unknown_characters": unknown[:64],
+            "omitted_unknown_characters": max(0, len(unknown) - 64),
+        })
+        return report
+    cfg = loaded.model.cfg
+    attention_cells = context**2 * cfg.num_heads * cfg.num_layers
+    if attention_cells > MAX_EVALUATION_ATTENTION_CELLS:
+        raise ValueError("checkpoint exceeds the evaluation attention budget")
+    if context * cfg.dim * cfg.num_layers > MAX_TRAINING_ACTIVATIONS:
+        raise ValueError("checkpoint exceeds the evaluation activation budget")
+    mapping = {char: index for index, char in enumerate(vocabulary)}
+    tokens = np.fromiter((mapping[char] for char in text), dtype=np.int64, count=len(text))
+    inputs, targets = _windows(tokens, context, count=max_windows)
+    losses, accuracies = [], []
+    # One window per forward pass keeps peak evaluation memory independent of sample count.
+    for index in range(len(inputs)):
+        loss, accuracy = _loss_and_accuracy(
+            loaded.model, inputs[index:index + 1], targets[index:index + 1]
+        )
+        if not math.isfinite(loss) or not math.isfinite(accuracy):
+            raise FloatingPointError("evaluation metrics became non-finite")
+        losses.append(loss)
+        accuracies.append(accuracy)
+    report.update({
+        "status": "completed",
+        "windows_evaluated": len(inputs),
+        "context_length": context,
+        "cross_entropy_nats": float(np.mean(losses)),
+        "character_accuracy": float(np.mean(accuracies)),
+        "sampling": "At most max_windows evenly spaced windows; overlapping contexts are possible.",
+        "weights_updated": False,
+    })
+    return report
 
 
 def generate_text(

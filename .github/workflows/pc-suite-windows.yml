@@ -1,0 +1,150 @@
+name: AxiomZero PC Suite Windows Build
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/pc-suite-windows.yml"
+      - ".github/workflows/pc-suite-embedded-model.yml"
+      - ".github/workflows/pc-suite-platforms.yml"
+      - "12-AZ-IP/**"
+      - "src/**"
+      - "bot/__init__.py"
+      - "bot/assistant_api.py"
+      - "bot/rag_index.py"
+      - "bot/session_bootstrap.py"
+      - "bot/research_resources.py"
+      - "claims/**"
+      - "recycling/**"
+      - "5-GOVERNANCE/Unitary Pentad/**"
+      - "README.md"
+      - "FALLIBILITY.md"
+      - "requirements*.txt"
+  workflow_dispatch:
+  push:
+    tags:
+      - "pc-suite-v*"
+
+permissions:
+  contents: read
+
+jobs:
+  instruction-backend:
+    uses: ./.github/workflows/pc-suite-embedded-model.yml
+
+  platform-artifacts:
+    uses: ./.github/workflows/pc-suite-platforms.yml
+
+  browser-desktop-runtime:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: 12-AZ-IP/24-psicat-web-browser
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: 12-AZ-IP/24-psicat-web-browser/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci --include=dev --ignore-scripts --no-audit --no-fund
+      - run: node node_modules/electron/install.js
+      - name: Verify inherited Electron IPC before provisioning Python
+        run: node tests/run-ipc-probe.js
+      - run: python -m pip install -r ../20-psicat-navigator/requirements.txt
+      - name: Exercise native Windows desktop readiness and cleanup
+        env:
+          PSICAT_BROWSER_ELECTRON_TEST: "1"
+        run: |
+          node --test --test-reporter=junit --test-reporter-destination=desktop-runtime.xml tests/desktop-runtime.test.js
+          if ($LASTEXITCODE -ne 0) {
+            throw "Native Windows browser runtime test failed."
+          }
+          [xml]$report = Get-Content desktop-runtime.xml -Raw
+          if ($report.SelectNodes("//testcase").Count -eq 0 -or $report.SelectNodes("//skipped").Count -ne 0) {
+            throw "Native Windows browser runtime verification must execute without skips."
+          }
+      - name: Upload native browser test diagnostics
+        if: always() && hashFiles('12-AZ-IP/24-psicat-web-browser/desktop-runtime.xml') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: psicat-browser-windows-runtime-report
+          path: 12-AZ-IP/24-psicat-web-browser/desktop-runtime.xml
+          if-no-files-found: error
+
+  test-and-package:
+    needs: [browser-desktop-runtime, instruction-backend, platform-artifacts]
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: 12-AZ-IP/45-axiomzero-pc-suite
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: 12-AZ-IP/45-axiomzero-pc-suite/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: psicat-instruction-runtime
+          path: 12-AZ-IP/45-axiomzero-pc-suite/build/instruction
+      - uses: actions/download-artifact@v4
+        with:
+          name: pc-suite-platform-targets
+          path: 12-AZ-IP/45-axiomzero-pc-suite/build/platform-targets
+      - run: python -m pip install -r requirements-native-build.txt
+      - run: npm test
+      - run: npm run catalog:check
+      - run: npm run dist:win
+      - run: npm run smoke:win
+      - name: Write artifact checksums
+        shell: pwsh
+        run: |
+          Get-ChildItem dist -File -Filter *.exe |
+            Get-FileHash -Algorithm SHA256 |
+            ForEach-Object { "$($_.Hash.ToLower())  $([System.IO.Path]::GetFileName($_.Path))" } |
+            Set-Content -Encoding ascii dist/SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: axiomzero-pc-suite-windows
+          path: |
+            12-AZ-IP/45-axiomzero-pc-suite/dist/*.exe
+            12-AZ-IP/45-axiomzero-pc-suite/dist/SHA256SUMS.txt
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/pc-suite-v')
+    needs: test-and-package
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: axiomzero-pc-suite-windows
+          path: 12-AZ-IP/45-axiomzero-pc-suite/dist
+      - name: Validate release tag and publish artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $packagePath = "12-AZ-IP/45-axiomzero-pc-suite/package.json"
+          $distPath = "12-AZ-IP/45-axiomzero-pc-suite/dist"
+          $packageVersion = (Get-Content $packagePath -Raw | ConvertFrom-Json).version
+          if ($env:GITHUB_REF_NAME -ne "pc-suite-v$packageVersion") {
+            throw "Release tag must match package version pc-suite-v$packageVersion."
+          }
+          $artifacts = Get-ChildItem -Path $distPath -File |
+            Where-Object { $_.Extension -eq ".exe" -or $_.Name -eq "SHA256SUMS.txt" } |
+            ForEach-Object { $_.FullName }
+          if (-not $artifacts) {
+            throw "No Windows release artifacts were produced."
+          }
+          gh release create "$env:GITHUB_REF_NAME" $artifacts --title "AxiomZero PC Suite $env:GITHUB_REF_NAME" --notes-file "12-AZ-IP/45-axiomzero-pc-suite/README.md"

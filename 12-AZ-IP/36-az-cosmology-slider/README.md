@@ -28,6 +28,18 @@ if JAX is unavailable at serve time.
 
 ## Usage
 
+For the pinned CPU runtime, use Python 3.12+ in a virtual environment:
+
+```bash
+python -m pip install -r 12-AZ-IP/36-az-cosmology-slider/requirements.txt
+```
+
+Product 45 installs these dependencies in a separate Windows environment and
+checks a real slider reading and both gradients before recording installation
+success. Its managed service forces `JAX_PLATFORMS=cpu`; no GPU/TPU setup or
+fallback result is implied. The installed Windows workflow also exercises the
+live `/api/slider` endpoint, not just JAX availability or service status.
+
 ```bash
 python 12-AZ-IP/36-az-cosmology-slider/run.py --phi0 10.0 --n-w 5.0
 python 12-AZ-IP/36-az-cosmology-slider/run.py --phi0 10.0 --sweep

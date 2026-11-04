@@ -67,6 +67,21 @@ test('rejects a symlinked build output before writing outside the workspace', as
   await assert.rejects(workbench.buildProject('linked-output'), /Symbolic links/);
   assert.equal(await fs.readFile(path.join(external, 'keep.txt'), 'utf8'), 'keep');
 });
+test('ignores project PostCSS configuration during preview transforms and production builds', async (t) => {
+  const { root, workbench } = await temporaryWorkbench(t);
+  await workbench.createProject({ name: 'css-config' });
+  const marker = path.join(root, 'postcss-config-executed');
+  await fs.writeFile(path.join(root, 'projects', 'css-config', 'postcss.config.cjs'),
+    `require('node:fs').writeFileSync(${JSON.stringify(marker)}, 'executed'); module.exports = { plugins: [] };`);
+  const preview = await workbench.startPreview('css-config');
+  const css = await fetch(`${preview.url}src/style.css`);
+  assert.equal(css.status, 200);
+  assert.ok((await css.text()).length > 0);
+  assert.equal(await fs.stat(marker).catch(() => null), null);
+  await workbench.stopPreview('css-config');
+  await workbench.buildProject('css-config');
+  assert.equal(await fs.stat(marker).catch(() => null), null);
+});
 
 test('rejects symlinks added to project sources', async (t) => {
   const { root, workbench } = await temporaryWorkbench(t);
@@ -74,4 +89,23 @@ test('rejects symlinks added to project sources', async (t) => {
   const projectRoot = path.join(root, 'projects', 'linked-source');
   await fs.symlink(path.join(projectRoot, 'index.html'), path.join(projectRoot, 'outside-link'));
   await assert.rejects(workbench.inspectProject('linked-source'), /Symbolic links/);
+});
+test('pins an authorized workspace alias without accepting symlinked project directories', async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'psicat-vite-alias-'));
+  const actual = path.join(root, 'actual');
+  const alias = path.join(root, 'alias');
+  await fs.mkdir(actual);
+  await fs.symlink(actual, alias, 'junction');
+  const workbench = new ViteWorkbench({ workspaceRoot: alias });
+  t.after(async () => {
+    await workbench.close();
+    await fs.rm(root, { recursive: true, force: true });
+  });
+  await workbench.initialize();
+  assert.equal(workbench.workspaceRoot, await fs.realpath(actual));
+  assert.equal((await workbench.createProject({ name: 'canonical-app' })).project.name, 'canonical-app');
+  const external = path.join(root, 'external');
+  await fs.mkdir(external);
+  await fs.symlink(external, path.join(workbench.projectsRoot, 'outside-project'), 'junction');
+  await assert.rejects(workbench.inspectProject('outside-project'), /does not exist/);
 });

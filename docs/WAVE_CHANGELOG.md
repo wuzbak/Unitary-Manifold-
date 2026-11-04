@@ -1,5 +1,181 @@
 # Wave Changelog
 
+## Product 45 - Verified platform artifacts and explicit deployment consent (2026-11-04)
+
+Added digest-bound bundled APK/UEFI import, selected authorized-device Android
+installation, atomic integrity-checked artifact export and selected-distro WSL
+provision/start/stop controls. Source-build downloads default off; Android's
+wrapper cannot run offline without its complete matching cached distribution.
+Native approval names the actual download/device/distribution boundary.
+WSL execution remains disabled for local commands and unsupported networking
+fails explicitly. No firmware, partition, boot variable or removable-media
+write is implemented.
+
+The actual Windows UEFI and SDAM builds passed. Native Android builds exposed a
+non-terminal Kotlin encryption-callback binding error and Pentacorder's missing
+coroutine-context import, now corrected; the latter still requires a successful
+native rerun. Pentacorder's missing
+version catalog is restored without removing its documented JNI/hardware gaps.
+The installed Windows browser/Navigator lifecycle, CPU JAX, private Node
+workbench and installer/portable UI passed before the new model/platform
+embedding changes. The new combined installer must pass its own copied-resource
+inference/artifact and native lifecycle checks; earlier success is not a
+substitute. No expert-model or full portfolio readiness certification is claimed.
+
+The first actual Q4 backend evaluation passed arithmetic, exact instructions,
+grounded JSON citations and authentication, but failed the unchanged retrieval
+injection challenge by contradicting source platform limits. A stronger shared
+production trust/status policy must pass that same challenge before packaging.
+Measured baseline CPU throughput also required smaller evidence excerpts,
+128-token answers and an explicitly disclosed, cancellable six-minute deadline
+for embedded research only. Other research steps retain their 60-second limit.
+Neither the grader nor its original challenge was relaxed.
+The strengthened policy preserved source platform status on the next native
+run but still failed the required refusal rationale. The candidate remains
+rejected; there is no successful instruction-runtime artifact or merge-ready
+embedded installer from those runs.
+
+The slow-inclusive repository run exposed 23 Product 1 compatibility symlinks
+hard-coded to a GitHub runner's absolute checkout. They now preserve the same
+canonical targets using relative paths, without creating an external runner
+directory or weakening source-fingerprint checks. Actual wheel/editable
+packaging and a relocated-checkout link contract pass after the repair.
+
+## Product 45 - Packaged instruction assistant (2026-11-04; adjacent software only)
+
+Added an explicit native-approved Ask PsiCat surface, local catalog/imported
+evidence context, answer/source export, cancellation and quit coordination.
+The same backend is selectable as `psicat:embedded` in governed research steps.
+Windows packaging now depends on real instruction-backend acceptance and copies
+the complete pretrained Qwen/CPU llama.cpp artifact into installer resources;
+installed smoke must exercise those copied weights and executable.
+
+The language substrate is third-party pretrained software, separate from the
+repository's experimental toroidal character model. No expert-quality
+certification, physics/5D information-flow claim, private-data training or
+autonomous command authority is implied. Remaining native/platform gates must
+pass before merge readiness can be asserted.
+
+## Product 45 - Native startup and instruction-backend gates (2026-11-04; adjacent software only)
+
+Windows now directly exercises Electron inherited IPC and enabled Navigator
+readiness before installer packaging. That standalone check passed; installed
+browser startup still failed with exit code 1. Boot diagnostics are recovered
+before temporary-data cleanup. Content-scoped worktree names retain full SHA-256
+identity while removing a redundant 40-character HEAD prefix that puts native
+Electron resource paths beyond the traditional Windows path budget.
+The next installed run reached sidecar startup; a filtered-source reproduction
+identified five omitted `bot/` Python dependencies. The pack now includes those
+exact modules, and startup failures identify sanitized component/module codes
+without raw stderr or credentials. Installed Windows verification remains
+separate from the successful filtered-source Linux health/lifecycle check.
+
+Added a separate checksum/provenance-validated instruction-backend gate and a
+Windows evaluation pipeline for a locally compiled CPU llama.cpp engine with
+official Qwen GGUF weights. This is a pretrained third-party language candidate,
+not our from-scratch toroidal model. Actual model evaluation, frontend embedding,
+expert quality and incompatible portfolio platforms remain unfinished. No
+physics label, pillar, score, falsifier or required quality threshold changes.
+
+## Product 45 - Authenticated Node workbench deployment (2026-11-04; adjacent software only)
+
+Added Product 27 locked npm installation, actual Vite dashboard build and
+managed loopback lifecycle using external Node LTS without shell shims.
+An approved private Node 24 bootstrap downloads a fixed official HTTPS
+manifest/archive, checks its SHA-256 and retains the licensed runtime in user
+data without elevation or PATH edits.
+Per-launch tokens stay out of suite receipts/settings/logs/URLs; opening the
+dashboard requires native clipboard-sharing approval. Workbench storage is
+isolated in suite user data. Windows installation smoke now checks unauthorized
+API rejection, authenticated project creation/build, dashboard serving and
+stop/token disposal. Other target integrations and general-assistant quality
+remain unfinished; no physics, score, pillar or falsifier boundary changes.
+Windows smoke exposed an authorized workspace short-path alias being rejected
+as a project symlink; canonical root pinning fixes that without permitting
+symlinked project directories or sources.
+Product 36 now has pinned CPU JAX dependencies and an installation-time
+verification of its actual slider value and both gradients; the installed
+Windows smoke exercises its live numerical endpoint. No GPU support or new
+physics confirmation is asserted.
+Product 24 now has explicit Windows Python discovery, owned loopback sidecar
+health/lifecycle, a pinned maintained Electron patch, and suite provisioning.
+Inherited IPC gates desktop readiness and correlated graceful shutdown; only
+the owned process tree is eligible for bounded forced cleanup. Suite quit waits
+for active provisioning and runtime exit. Android/extensions, assistant quality,
+ongoing updates and native Windows validation are not inferred from local tests.
+Follow-up audit reproduced implicit project PostCSS configuration execution;
+preview/build now suppress that discovery explicitly and test the boundary.
+Windows test paths use platform-native joins, and the installer workflow tracks
+all packaged source surfaces rather than only the shell/native-model folders.
+
+## Product 45 - Native model and runtime provisioning (2026-11-04; adjacent software only)
+
+Embedded the actual Product 43 toroidal character-model runtime as a
+standalone native executable, with a genuinely trained public-documentation
+seed, bundled redistribution licenses, bounded offline inference and
+explicitly approved/cancellable local training. Added all-45 source-reviewed
+runtime contracts, checksum-receipted bundled source, user-scoped Python
+bootstrap, isolated dependency provisioning and reviewed loopback
+start/health/stop controls. New desktop and native protocol tests cover
+approval, failure, cancellation, checkpoint promotion and source containment.
+
+This is not production-quality assistant intelligence, validated physical
+5D information flow or installation of every target. Node/Electron, Android,
+UEFI, broken legacy launchers and POSIX/unverified-JAX Windows requirements
+remain visible limits. Installed dependencies and responsive status routes
+are not full operational certification. No physics label, pillar, score or
+falsification condition changed; the independent mutation hard gate is not
+weakened or bypassed.
+
+## PsiCat frozen-checkpoint evaluation (2026-11-04; adjacent software only)
+
+Added operator-selected independent-text evaluation without weight/tokenizer
+updates. Byte-identical training corpora are refused; unknown vocabulary is
+reported as blocked, not silently removed. Bounded sequential forward passes
+report frozen character accuracy/cross-entropy. Different corpus hashes do
+not prove absence of training overlap or assistant competence; no promotion
+of research checkpoints, physical information-flow or superiority claim.
+
+## PsiCat own-model corpus research (2026-11-04; adjacent software only)
+
+Extended Product 43's real causal character-model trainer with a matched
+RoPE control and reproducible corpus comparisons. Runs retain private
+local corpus snapshots, per-seed real optimizer/RNG checkpoints,
+initial-parameter hashes, held-out loss deltas, elapsed times and explicit
+failure receipts. Resume checks positional mode. No synthetic-task result
+is promoted to assistant ability, physical information flow, model
+superiority or production deployment. The corpus is operator-selected;
+no private exports are committed or implicitly used for training.
+
+## Product 45 - Hardware-gated model preparation (2026-11-04; adjacent software only)
+
+Added native-consented CPU/RAM/application-data disk/GPU diagnostics with a
+deadline, visible screening blockers and explicit local export. No model is
+selected or downloaded automatically; GPU VRAM/compute and training readiness
+remain unverified. Identifiers/account metadata are not collected. This is a
+prerequisite for choosing an actual licensed assistant model, not a claim
+that experimental Product 43 training already produces production PsiCat
+weights or that every portfolio runtime has a Windows installer.
+No physics label, pillar, score or falsification boundary changed.
+
+## Product 45 - Governed desktop research harness (2026-11-04; adjacent software only)
+
+Added a fixed read-only research plan over the bundled portfolio and local
+evidence library, with per-step native operator approval, atomic checkpoints,
+dependency ordering, six-attempt budgets, execution deadlines, cancellable
+worker search, explicit retry/restart recovery, bounded context and a rolling
+hash-linked audit/export. Optional Ollama reasoning contacts only fixed IPv4
+loopback after a separate disclosure and approval; model tool calls and
+automatic cloud fallbacks are refused. UI exposes plans, status, results,
+errors, pause/cancel and local export/removal.
+
+The desktop remains a portfolio launcher, not an installer/orchestrator for
+all product runtimes or an embedded PsiCat model. Source excerpts are untrusted
+data, model output is unverified, local memory is plaintext, and worker
+isolation is not an OS security sandbox. Windows smoke coverage now also
+creates/cancels a task through the actual preload bridge. No pillar,
+TOE-score, physics-label or falsification condition changed.
+
 ## Product 44 - AxiomZero Weave (2026-11-03; adjacent software only)
 
 Connected the native five strands and seven operations through explicit

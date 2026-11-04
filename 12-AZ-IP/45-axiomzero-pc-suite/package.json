@@ -1,0 +1,116 @@
+{
+  "name": "axiomzero-pc-suite",
+  "version": "0.1.0",
+  "description": "Offline-first Windows desktop portfolio launcher with private local evidence search",
+  "author": "ThomasCory Walker-Pearson",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wuzbak/Unitary-Manifold-.git",
+    "directory": "12-AZ-IP/45-axiomzero-pc-suite"
+  },
+  "main": "main.cjs",
+  "private": true,
+  "dependencies": {
+    "yauzl": "^3.4.0"
+  },
+  "scripts": {
+    "catalog": "python scripts/build_catalog.py",
+    "catalog:check": "python scripts/build_catalog.py --check",
+    "native:build": "python scripts/build_native.py",
+    "portfolio:stage": "node scripts/stage_portfolio.cjs",
+    "start": "npm run catalog && electron .",
+    "test": "node --test",
+    "smoke:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-smoke.ps1",
+    "dist:win": "npm run catalog && npm run native:build && npm run portfolio:stage && electron-builder --win nsis portable"
+  },
+  "devDependencies": {
+    "electron": "^44.3.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "org.axiomzero.pc-suite",
+    "productName": "AxiomZero PC Suite",
+    "asar": true,
+    "extraResources": [
+      {
+        "from": "build/platform-targets",
+        "to": "platform-targets"
+      },
+      {
+        "from": "build/instruction",
+        "to": "psicat-instruction"
+      },
+      {
+        "from": "scripts/extract-node.ps1",
+        "to": "node-bootstrap/extract-node.ps1"
+      },
+      {
+        "from": "build/portfolio",
+        "to": "portfolio"
+      },
+      {
+        "from": "build/native/PsiCatCore",
+        "to": "psicat-native/PsiCatCore"
+      },
+      {
+        "from": "build/native/psicat-seed.npz",
+        "to": "psicat-native/psicat-seed.npz"
+      },
+      {
+        "from": "build/native/seed-receipt.json",
+        "to": "psicat-native/seed-receipt.json"
+      },
+      {
+        "from": "build/native/NATIVE-LICENSES.txt",
+        "to": "psicat-native/NATIVE-LICENSES.txt"
+      },
+      {
+        "from": "README.md",
+        "to": "PRODUCT_README.md"
+      },
+      {
+        "from": "../LICENSE-AGPL",
+        "to": "LICENSE-AGPL"
+      },
+      {
+        "from": "../NOTICE",
+        "to": "NOTICE"
+      },
+      {
+        "from": "../PORTFOLIO_LICENSE_SCHEDULE.md",
+        "to": "PORTFOLIO_LICENSE_SCHEDULE.md"
+      }
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "renderer.js",
+      "index.html",
+      "styles.css",
+      "lib/**/*.cjs",
+      "catalog/products.json",
+      "catalog/runtimes.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "AxiomZero-PC-Suite-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AxiomZero PC Suite"
+    },
+    "portable": {
+      "artifactName": "AxiomZero-PC-Suite-${version}-portable-${arch}.${ext}"
+    }
+  }
+}

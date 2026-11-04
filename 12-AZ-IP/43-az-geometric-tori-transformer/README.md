@@ -22,6 +22,32 @@ existing published architecture. Every op (matmul, softmax, layer norm,
 GELU, embedding gather, the rotary encoding, and the relative-position
 bias) is implemented and differentiated here (`tensor.py`), in NumPy only.
 
+## Separate instruction-backend verification
+
+`verify_embedded_engine.py` validates an absolute-path, checksum-pinned local
+llama.cpp server and Qwen3 GGUF before any frontend integration. It checks real
+instructions, supplied citation IDs, unsupported portfolio-platform limits and
+refusal of malicious retrieved instructions. The server runs CPU-only on an
+owned authenticated loopback endpoint with bounded requests and cleanup.
+The report records actual outputs, latency, failures and shutdown status.
+
+The Windows `pc-suite-embedded-model.yml` workflow builds a pinned static engine,
+obtains official model revision/LFS hashes and licensing, and downloads
+the official Q8_0 weights with byte/time limits. The pinned engine's quantizer
+then produces Q4_K_M locally, recording the source and output hashes and the
+quantizer hash before exercising that gate. The official repository does not
+publish this Q4 file. Requantization can reduce quality; the gate is not an expert
+reasoning benchmark. The candidate is a
+**third-party pretrained language substrate**, not this repository's toroidal
+model, not trained by this project, and not evidence of physical 5D information
+flow. Backend sanity checks do not certify expert-assistant quality.
+Weights are not committed, private exports are not uploaded, and Product 45
+does not yet ship or integrate this candidate.
+
+```bash
+python -m unittest discover -s 12-AZ-IP/43-az-geometric-tori-transformer/tests -p test_candidate_engine.py -q
+```
+
 ## The two geometric mechanisms
 
 1. **Toroidal rotary encoding** (`positional.py::toroidal_rotation_table`,
@@ -243,7 +269,57 @@ production language model, or evidence that the toroidal mechanism improves
 real-corpus quality. It is local CLI/library functionality; the HTTP demo
 does not accept corpus paths or load checkpoints.
 
+### PsiCat own-model corpus comparison
+
+`compare-text` trains actual toroidal and parameter-matched RoPE character
+models on a user-selected corpus, rather than substituting a synthetic copy
+task for language training. Both arms use the same corpus snapshot, seeds,
+initial parameter schema/values, optimizer settings, batch sampling and
+chronological validation tail. The comparison reports per-seed held-out
+loss deltas, parameter hashes/counts, elapsed time and SHA-256 of real
+loadable checkpoints. Failed runs retain an explicit failure receipt and
+already completed arms; results are not selected to make toroidal win.
+
+```powershell
+python 12-AZ-IP/43-az-geometric-tori-transformer/run.py compare-text `
+  --text-file approved-psicat-corpus.txt --output-directory local-experiments `
+  --seeds 0 1 2 --steps 100 --context-length 32 --batch-size 16
+```
+
+The output directory must already exist. Each comparison creates a unique
+subdirectory containing a **plaintext corpus snapshot**, model/Adam/RNG
+checkpoints and `receipt.json`; keep these local/private. Source files are
+not changed or uploaded. There is no implicit ingestion of the monorepo,
+Mind exports, other profiles or third-party data. Select and review the
+corpus before training. `train --positional-mode rope_matched` can continue
+the control checkpoint; resume enforces the selected positional mode.
+
+This is an honest own-model research path, **not an embedded production
+PsiCat assistant**. A chronological validation tail is not an independent
+test set; the tokenizer vocabulary is constructed from the full corpus.
+Repeated/duplicated text may invalidate generalization claims. The model
+is character-level with bounded context and NumPy execution; there is no
+claimed 5D physical information channel, QA/tool-use competence, large-scale
+GPU trainer or automatic deployment/promotion. It still needs independent
+corpus/assistant evaluations and measured hardware suitability.
+
 ### Schema v1 and interoperability
+
+For a **frozen-checkpoint evaluation** on separately selected text:
+
+```powershell
+python 12-AZ-IP/43-az-geometric-tori-transformer/run.py evaluate-text `
+  --checkpoint local-model.npz --text-file independent-evaluation.txt --max-windows 64
+```
+
+This never updates weights or the tokenizer. It rejects the byte-identical
+training corpus and reports unrepresentable characters as
+`blocked-vocabulary` (CLI exit 2), rather than silently dropping them or
+reporting a success-shaped score. Completed evaluations report character
+accuracy and cross-entropy over bounded, evenly spaced windows, one forward
+pass at a time. Different hashes alone cannot establish that documents are
+independent: the operator must exclude duplicates and training overlap.
+This evaluates character prediction, not question-answering or agent safety.
 
 The file is a standard ZIP-based NumPy **NPZ** archive of NPY arrays, readable
 with `numpy.load(path, allow_pickle=False)`. Its *application schema* is

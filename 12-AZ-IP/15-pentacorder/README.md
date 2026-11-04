@@ -7,10 +7,11 @@
 - **Version:** 1.0.0
 - **Status:** 🟡 In development — not validated or release-ready
 
-The native project has not yet been verified as buildable: its Gradle version
-catalog is missing, so plugin and library versions used by the build scripts
-are not fully pinned. The native ggwave implementation is still a JNI stub;
-CI/release signing and on-device field validation are also unfinished
+The Gradle version catalog now pins the plugin/library aliases used by the
+project, aligned with SDAM's Android/Kotlin/Compose toolchain. The PC Suite
+platform workflow must resolve those dependencies and build the actual APK;
+restoring the catalog alone is not build verification. The native ggwave
+implementation is still a JNI stub; release signing and on-device field validation remain unfinished
 (ROADMAP phases P7–P9). No production APK or hardware capability is claimed.
 
 ---
