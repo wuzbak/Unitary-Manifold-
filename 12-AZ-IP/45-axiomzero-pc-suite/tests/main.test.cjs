@@ -7,13 +7,15 @@ const vm = require("node:vm");
 const { createRequire } = require("node:module");
 const { EventEmitter } = require("node:events");
 
-async function desktop(t, { corrupt = false } = {}) {
+async function desktop(t, { corrupt = false, runtimeAccess } = {}) {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "p45-main-"));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   if (corrupt) fs.writeFileSync(path.join(directory, "research-harness.json"), "{broken");
   const handlers = new Map();
   const approvals = [];
   const errors = [];
+  const clipboardWrites = [];
+  const opened = [];
   const app = new EventEmitter();
   let window;
   app.requestSingleInstanceLock = () => true;
@@ -47,15 +49,20 @@ async function desktop(t, { corrupt = false } = {}) {
     require: (name) => name === "electron" ? {
       app, BrowserWindow, dialog,
       ipcMain: { handle: (channel, handler) => handlers.set(channel, handler) },
-      shell: {}
+      clipboard: { writeText: (value) => clipboardWrites.push(value) },
+      shell: { openExternal: async (value) => opened.push(value) }
     } : name === "./lib/local-model.cjs" ? {
       reasonLocally: async () => "UNVERIFIED mocked local model response"
+    } : name === "./lib/runtime-manager.cjs" && runtimeAccess ? {
+      createRuntimeManager: (options) => ({
+        ...localRequire(name).createRuntimeManager(options), access: runtimeAccess
+      })
     } : localRequire(name),
     __dirname: path.dirname(file), process
   }, { filename: file });
   await new Promise((resolve) => setImmediate(resolve));
   const invoke = (channel, ...args) => handlers.get(channel)(null, ...args);
-  return { directory, window, errors, dialog, approvals, invoke, handlers, app };
+  return { directory, window, errors, dialog, approvals, invoke, handlers, app, clipboardWrites, opened };
 }
 
 test("desktop starts and wires real harness IPC, native approvals and evidence worker", async (t) => {
@@ -125,8 +132,26 @@ test("runtime provisioning and service execution require separate native approva
   assert.equal((await invoke("runtime:install", "43")).canceled, true);
   assert.equal((await invoke("runtime:start", "43")).canceled, true);
   assert.match(approvals[0].detail, /third-party software/);
-  assert.match(approvals[1].detail, /pip downloads and executes/);
+  assert.match(approvals[1].detail, /pip or npm downloads and executes/);
   assert.match(approvals[2].detail, /local command execution is disabled/);
   assert.equal(approvals.every((approval) => approval.defaultId === 0), true);
+  assert.equal((await invoke("runtime:node")).canceled, true);
+  assert.match(approvals.at(-1).detail, /nodejs.org/);
   await assert.rejects(invoke("runtime:install", "../bad"), /not registered/);
+});
+test("authenticated dashboard token copying requires native approval and never enters the URL", async (t) => {
+  const token = "b".repeat(64);
+  const { invoke, dialog, clipboardWrites, opened, approvals } = await desktop(t, {
+    runtimeAccess: () => ({ token, endpoint: "http://127.0.0.1:8327" })
+  });
+  assert.equal((await invoke("runtime:open", "27")).canceled, true);
+  assert.deepEqual(clipboardWrites, []);
+  assert.deepEqual(opened, []);
+  dialog.response = 1;
+  await invoke("runtime:open", "27");
+  assert.deepEqual(clipboardWrites, [token]);
+  assert.deepEqual(opened, ["http://127.0.0.1:8327"]);
+  assert.equal(approvals[0].defaultId, 0);
+  assert.match(approvals[0].detail, /clipboard-reading/);
+  assert.equal(approvals[0].detail.includes(token), false);
 });

@@ -12,7 +12,7 @@ explicit click.
 The app includes an actual **standalone native PsiCat character-model
 executable and locally trained seed weights**, plus consent-gated provisioning
 for registered Python products. It is **not yet an installer for every
-portfolio target**: Android applications, UEFI components, Node/Electron
+portfolio target**: Android applications, UEFI components, the separate Electron
 products, broken legacy launchers and POSIX/JAX-dependent services have explicit
 limits rather than fake installation success. Individual products retain
 their setup, privacy and readiness boundaries. No provisioned dependency
@@ -48,10 +48,33 @@ pyproject packages, and run `pip check`. These operations require internet
 access and execute third-party installation code. Calculator products use
 the checked-in scientific dependency profile. Product 26's POSIX execution
 and Product 36's unverified native-Windows JAX backend are blocked explicitly.
-Non-Python target tooling is not managed.
+Other non-Python target tooling is not managed.
+
+Product 27 is the Node exception. **Install private Node LTS** downloads the
+maintained Node 24 Windows x64 archive and checksum manifest from fixed
+`nodejs.org` HTTPS endpoints, forbids redirects, verifies SHA-256, and extracts
+the licensed runtime into suite user data. Native approval is required.
+No administrator rights, global PATH edits or system-wide installation are
+requested. Download/extraction failures abort installation; the download has
+time/byte bounds. This verifies integrity against the official HTTPS manifest,
+not a separately verified release-signing key. An existing Node.js LTS installation
+(at least 22.12) with npm can also be used.
+**Install dependencies** executes npm's JavaScript
+CLI directly (no command-shell shim), installs the checked-in lockfile and
+builds the actual Vite dashboard. **Start local service** uses a fixed loopback
+host/port and fresh random token; protected API operations are never exposed
+without authentication. **Open running dashboard** requires separate native
+approval to replace the clipboard with that token. Paste it into the dashboard's
+token field; the browser retains it in session storage, and clipboard-reading
+applications can see it. The suite does not log or persist the token in
+receipts/settings or place it in a URL. Stopping discards the session token.
+Project storage is under suite user data, not a system/home default.
+After dependencies are installed, local project creation, inspection, preview
+and build can operate offline; supplied project source must still be reviewed
+before execution. Node/Electron Product 24 remains outside this managed path.
 
 Registered loopback launch contracts cover Products 20, 21, 23, 28–35 and
-37–44. Install dependencies first, then approve **Start local service**.
+37–44, plus Product 27's Node workbench. Install dependencies first, then approve **Start local service**.
 The manager rejects occupied ports, requires a responsive health route,
 retains bounded startup diagnostics and owns the process until **Stop service**
 or desktop shutdown. Changed source/dependency locations require reinstallation.
@@ -132,6 +155,8 @@ it through the preload bridge without renderer exceptions. It also runs
 standalone installed native inference and training, verifies the bundled source
 checksums, installs a real Product 43 environment, and starts/health-checks/stops
 that service. This does not certify every product. The repository workflow
+also installs private Node LTS, provisions Product 27, rejects unauthenticated
+API requests and creates/builds a real local project through the authenticated API.
 `.github/workflows/pc-suite-windows.yml` builds and uploads them as a workflow
 artifact on pull requests and manual dispatch. Each executable is accompanied
 by a SHA-256 checksum. A `pc-suite-v*` tag additionally publishes the installer

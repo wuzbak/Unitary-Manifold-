@@ -131,3 +131,57 @@ test("calculator requirements and pyproject packages are genuinely provisioned, 
   await assert.rejects(manager.install("26"), /POSIX/);
   await assert.rejects(manager.install("36"), /JAX/);
 });
+test("Node workbench installs the lockfile, builds the actual dashboard and retains no token in receipts", async (t) => {
+    const { root } = fixture(t);
+    const folder = "12-AZ-IP/27-psicat-vite-web-workbench/";
+    const target = path.join(root, folder);
+    fs.mkdirSync(target, { recursive: true });
+    fs.writeFileSync(path.join(target, "package.json"), JSON.stringify({ scripts: { build: "vite build --config vite.config.mjs" } }));
+    fs.writeFileSync(path.join(target, "package-lock.json"), "{}");
+    fs.writeFileSync(path.join(target, "server.js"), "");
+    const node = path.join(root, "node.exe");
+    fs.writeFileSync(node, "");
+    const calls = [];
+    let child;
+    const manager = createRuntimeManager({
+      entries: [{ id: "27", installMode: "node-npm", dependencyManifest: `${folder}package.json`, productFolder: folder, entrypoint: `${folder}server.js`, launchArgs: [], healthPath: "/health" }],
+      sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32",
+      nodeToolchain: () => ({ node, npm: path.join(root, "npm-cli.js") }),
+      execute: async (exe, args) => {
+        calls.push({ exe, args });
+        if (args.includes("ci")) {
+          fs.mkdirSync(path.join(target, "node_modules/vite/bin"), { recursive: true });
+          fs.writeFileSync(path.join(target, "node_modules/vite/bin/vite.js"), "");
+        }
+        if (args.includes("build")) {
+          fs.mkdirSync(path.join(target, "dist"), { recursive: true });
+          fs.writeFileSync(path.join(target, "dist/index.html"), "dashboard");
+        }
+      },
+      spawnProcess(exe, args, options) {
+        assert.equal(exe, node);
+        assert.equal(options.env.PSICAT_VITE_WORKBENCH_HOST, "127.0.0.1");
+        assert.match(options.env.PSICAT_VITE_WORKBENCH_TOKEN, /^[0-9a-f]{64}$/);
+        child = new EventEmitter();
+        child.stdout = new PassThrough(); child.stderr = new PassThrough();
+        const server = http.createServer((_request, response) => response.end("{}"));
+        server.listen(8327, "127.0.0.1");
+        child.kill = () => { server.close(() => child.emit("close", 0)); return true; };
+        return child;
+      }
+    });
+    t.after(() => manager.stopAll());
+    const receipt = await manager.install("27");
+    assert.equal(calls.length, 3);
+    assert.ok(calls[1].args.includes("ci"));
+    assert.equal(receipt.lockSha256.length, 64);
+    assert.equal(receipt.token, undefined);
+    await manager.start("27");
+    assert.equal(manager.access("27").token.length, 64);
+    assert.equal(JSON.stringify(manager.list()).includes(manager.access("27").token), false);
+    manager.stop("27");
+    await new Promise((resolve) => child.once("close", resolve));
+    assert.throws(() => manager.access("27"), /Start/);
+    fs.writeFileSync(path.join(target, "package-lock.json"), "changed");
+    await assert.rejects(manager.start("27"), /lockfile/);
+});

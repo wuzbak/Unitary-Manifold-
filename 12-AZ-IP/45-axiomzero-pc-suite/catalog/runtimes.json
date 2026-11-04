@@ -292,7 +292,7 @@
     "healthPath": "/health",
     "installMode": "node-npm",
     "prerequisites": ["Node.js and npm", "npm run build to produce dashboard assets", "PSICAT_VITE_WORKBENCH_TOKEN for protected API operations", "Browser"],
-    "limitation": "npm start runs node server.js; npm run dev is the separate Vite dashboard server. The API serves built dist assets and requires a token for protected operations; it does not install arbitrary generated projects. Windows execution has not been verified."
+    "limitation": "The suite installs locked dependencies with Node >=22.12/npm, builds the dashboard and manages the loopback server at port 8327. Protected actions require a fresh per-launch token, copied only after separate native consent. Project storage stays in suite user data. Generated projects execute their source when previewed/built; review it first. External integrations and every possible generated project are not certified."
   },
   {
     "id": "28",

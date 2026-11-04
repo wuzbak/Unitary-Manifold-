@@ -502,6 +502,34 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/build_native.py` | `098d30b57417f3f65858929730c780a9899311a3aa51050886c3a5c0990fb24a` | 3197 |
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `6a1a410d8b11525aec965ede1caadee518cafde380c50c5dc4f5ad51265f2d92` | 7379 |
 
+### Product 45 native model and runtime provisioning reseal - 2026-11-04
+
+Registered a genuinely trained experimental native model, offline inference/local training,
+consent-gated Python dependency provisioning, checksum-receipted bundled source and reviewed
+loopback lifecycle. Non-Windows/unsupported targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `4863ce41e2ff0ef741957f444d0813b63ecf9500d5ba26f245340d8dec2a0351` | 16857 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `dfa752a64563e8bad3b5db2320e6c80dc232fb9aa59491a5fad5b59806491ffb` | 16116 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `f29a97e3d16c84b6eea719093349e8fb9bf64cb13c100298a76aa8fec48f4b44` | 32377 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `78dd1e6049337e93fdef92c35375825848f13985341dfa18120e245be038f61d` | 11923 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/node-bootstrap.cjs` | `79571e0b3230f73b5081c418a68d7a44e6919a9042b422325f2ac55633a2e40f` | 3253 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/node-toolchain.cjs` | `26c8ed2d1b324d1141bed5911c5b3d37c75750325697c91c6cc6893cd5bb2dcc` | 906 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `541a06b8cb5ccb0f4b0bddc5de29b29c306ef686b5073ee1890243aa6adb5923` | 13639 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `a7fbdee6bf24ee1ab72eed1149e1c8a88917ed81901e73f3bf03e1989572e20d` | 24428 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `a06f49a65c7bf716837ff4ea07c205c78f51df99da0010016adabbb229d1d789` | 2952 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `3932f7510c83a0188016cec15068159f0adba7762d57871ca44a41330b31878d` | 2720 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `d9923abf7637bf711ee116ce8a40160a0288ef93c76599a5b862bd28eb99aec7` | 30900 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/extract-node.ps1` | `acf8a5b122e7398ba372a4105196a93fcb08e4d8e541abf50b4028865ac5c371` | 211 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `93e670afc7ebe732b395f03d880226f3273ee01dccff2aa6c3276b59aa56c9a7` | 3589 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `90e6c2eab3d1e0cc9b2b008b9667c3022548c27938958cb2bc41bc31a1c7ceb4` | 7778 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/node-bootstrap.test.cjs` | `403fcf082bf0c7da53a922bbe6f818073dea761f55c309823f6609cdac658e84` | 3355 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/node-toolchain.test.cjs` | `5d3a646079d9e402c741d6479e60df2ff65893bbfe0f488c49ef0a1d78debb52` | 1113 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `de1c418c857454a6a33433ca6b0d9757359375268c9d4fe770a6592e6a7aed27` | 9822 |
+| `12-AZ-IP/README.md` | `b78e6f34fd0432d3bc5395b571715f3ce7a6f8dcea8c703bbd5856a07dca7ae3` | 21632 |
+
 ## Verification Protocol
 
 To verify any registered asset:

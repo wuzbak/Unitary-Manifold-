@@ -29,6 +29,34 @@ async function main() {
     }
     assert.equal(manager.list().find((entry) => entry.id === "43").running, false);
     console.log("Installed bundled-source checksums, isolated Python dependencies and Product 43 loopback start/health/stop passed.");
+    await manager.installNode();
+    await manager.install("27");
+    const nodeRuntime = await manager.start("27");
+    const access = manager.access("27");
+    assert.equal(nodeRuntime.endpoint, "http://127.0.0.1:8327");
+    assert.match(access.token, /^[0-9a-f]{64}$/);
+    const unauthorized = await fetch(`${access.endpoint}/api/status`, { signal: AbortSignal.timeout(5000) });
+    assert.equal(unauthorized.status, 401);
+    const headers = { Authorization: `Bearer ${access.token}`, "Content-Type": "application/json" };
+    async function action(value) {
+      const response = await fetch(`${access.endpoint}/api/action`, {
+        method: "POST", headers, body: JSON.stringify(value), signal: AbortSignal.timeout(30000)
+      });
+      assert.equal(response.status, 200);
+      return response.json();
+    }
+    assert.equal((await action({ action: "create", name: "installed-smoke" })).project.name, "installed-smoke");
+    await action({ action: "build", name: "installed-smoke" });
+    const dashboard = await fetch(access.endpoint, { signal: AbortSignal.timeout(5000) });
+    assert.equal(dashboard.status, 200);
+    assert.match(await dashboard.text(), /PsiCat/);
+    manager.stop("27");
+    for (let attempt = 0; attempt < 100 && manager.list().find((entry) => entry.id === "27").running; attempt++) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    assert.equal(manager.list().find((entry) => entry.id === "27").running, false);
+    assert.throws(() => manager.access("27"), /Start/);
+    console.log("Installed Node workbench locked dependencies, dashboard, authentication, project creation/build and start/stop passed.");
   } finally {
     manager.stopAll();
     fs.rmSync(temporary, { recursive: true, force: true });

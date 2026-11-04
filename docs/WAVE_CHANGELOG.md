@@ -1,5 +1,19 @@
 # Wave Changelog
 
+## Product 45 - Authenticated Node workbench deployment (2026-11-04; adjacent software only)
+
+Added Product 27 locked npm installation, actual Vite dashboard build and
+managed loopback lifecycle using external Node LTS without shell shims.
+An approved private Node 24 bootstrap downloads a fixed official HTTPS
+manifest/archive, checks its SHA-256 and retains the licensed runtime in user
+data without elevation or PATH edits.
+Per-launch tokens stay out of suite receipts/settings/logs/URLs; opening the
+dashboard requires native clipboard-sharing approval. Workbench storage is
+isolated in suite user data. Windows installation smoke now checks unauthorized
+API rejection, authenticated project creation/build, dashboard serving and
+stop/token disposal. Other target integrations and general-assistant quality
+remain unfinished; no physics, score, pillar or falsifier boundary changes.
+
 ## Product 45 - Native model and runtime provisioning (2026-11-04; adjacent software only)
 
 Embedded the actual Product 43 toroidal character-model runtime as a

@@ -33,6 +33,10 @@
     "asar": true,
     "extraResources": [
       {
+        "from": "scripts/extract-node.ps1",
+        "to": "node-bootstrap/extract-node.ps1"
+      },
+      {
         "from": "build/portfolio",
         "to": "portfolio"
       },

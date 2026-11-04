@@ -4,6 +4,8 @@ const { spawn } = require("node:child_process");
 const crypto = require("node:crypto");
 const http = require("node:http");
 const { createExclusiveOperation } = require("./operation-lock.cjs");
+const { resolveNodeToolchain } = require("./node-toolchain.cjs");
+const { installNodeLts } = require("./node-bootstrap.cjs");
 
 function inside(root, relative) {
   if (typeof relative !== "string" || !relative || path.isAbsolute(relative) ||
@@ -42,12 +44,15 @@ function runCommand(executable, args, { cwd, timeoutMs = 600000, spawnProcess = 
 
 function createRuntimeManager({
   entries, sourceRoot, dataDirectory, platform = process.platform, execute = runCommand,
-  spawnProcess = spawn, serviceDeadlineMs = 30000
+  spawnProcess = spawn, serviceDeadlineMs = 30000, nodeToolchain,
+  extractionScript = path.join(__dirname, "../scripts/extract-node.ps1")
 }) {
+  const tools = nodeToolchain || (() => resolveNodeToolchain(process.env, path.join(dataDirectory, "tools/node-lts")));
   const runExclusive = createExclusiveOperation("A runtime installation is already in progress.");
   const receiptsDirectory = path.join(dataDirectory, "receipts");
   const services = new Map();
-  const ports = new Map([["20", 8020], ["21", 8021], ["23", 8033], ...Array.from({ length: 16 }, (_, index) => [String(index + 28), 8128 + index]), ["44", 8144]]);
+  const credentials = new Map();
+  const ports = new Map([["20", 8020], ["21", 8021], ["23", 8033], ["27", 8327], ...Array.from({ length: 16 }, (_, index) => [String(index + 28), 8128 + index]), ["44", 8144]]);
   function entryById(id) {
     const entry = entries.find((item) => item.id === id);
     if (!entry || typeof id !== "string" || !/^\d{2}$/.test(id)) throw new Error("Runtime product identifier is invalid.");
@@ -66,7 +71,7 @@ function createRuntimeManager({
       const entry = entryById(id);
       if (services.has(id)) throw new Error("Stop this runtime before reinstalling its environment.");
       if (platform !== "win32") throw new Error("Managed portfolio provisioning currently requires Windows.");
-      if (entry.installMode !== "python-venv") {
+      if (id !== "27" && entry.installMode !== "python-venv") {
         throw new Error(`Product ${id} requires ${entry.installMode}; its dedicated target installer is not managed here. ${entry.limitation}`);
       }
       if (id === "26") throw new Error("Product 26 requires POSIX fcntl/process groups; native Windows execution is not supported.");
@@ -76,9 +81,9 @@ function createRuntimeManager({
         (Number(id) >= 28 && Number(id) <= 43 ? "12-AZ-IP/45-axiomzero-pc-suite/requirements-calculators.txt" : null);
       if (!dependency) throw new Error("This product has no reviewed dependency manifest.");
       const requirements = inside(root, dependency);
-      if (!/\.(?:txt|lock|toml)$/.test(requirements)) throw new Error("Unsupported dependency manifest.");
+      if (id !== "27" && !/\.(?:txt|lock|toml)$/.test(requirements)) throw new Error("Unsupported dependency manifest.");
       const folder = inside(root, entry.productFolder);
-      const environment = path.join(dataDirectory, "environments", id);
+      const environment = id === "27" ? folder : path.join(dataDirectory, "environments", id);
       const python = path.join(environment, "Scripts", "python.exe");
       const receiptFile = path.join(receiptsDirectory, `${id}.json`);
       fs.mkdirSync(receiptsDirectory, { recursive: true });
@@ -90,15 +95,29 @@ function createRuntimeManager({
         environment, at: new Date().toISOString()
       };
       try {
-        // The Windows Python launcher chooses the explicitly requested Python version.
-        await execute("py", ["-3.12", "-m", "venv", environment], { cwd: folder, timeoutMs: 120000 });
-        await execute(python, [
-          "-m", "pip", "install", "--quiet", "--disable-pip-version-check",
-          ...(requirements.endsWith("pyproject.toml") ? [folder] : ["-r", requirements])
-        ], { cwd: folder });
-        await execute(python, ["-m", "pip", "check"], { cwd: folder, timeoutMs: 120000 });
+        if (id === "27") {
+          const { node, npm } = tools();
+          const lock = inside(root, `${entry.productFolder}package-lock.json`);
+          const expected = JSON.parse(fs.readFileSync(requirements, "utf8"));
+          if (expected.scripts?.build !== "vite build --config vite.config.mjs") throw new Error("The reviewed Node build command changed.");
+          await execute(node, ["-e", "const [major,minor]=process.versions.node.split('.').map(Number);if(major<22||(major===22&&minor<12))throw Error('Node >=22.12 required')"], { cwd: folder });
+          await execute(node, [npm, "ci", "--no-audit", "--no-fund"], { cwd: folder });
+          await execute(node, [inside(root, `${entry.productFolder}node_modules/vite/bin/vite.js`), "build", "--config", "vite.config.mjs"], { cwd: folder });
+          if (!fs.existsSync(path.join(folder, "dist/index.html"))) throw new Error("The Node dashboard build produced no index.html.");
+          receipt.lockSha256 = crypto.createHash("sha256").update(fs.readFileSync(lock)).digest("hex");
+          receipt.node = node;
+          receipt.meaning = "Locked Node dependencies installed and dashboard built; external integrations are not certified.";
+        } else {
+          // The Windows Python launcher chooses the explicitly requested Python version.
+          await execute("py", ["-3.12", "-m", "venv", environment], { cwd: folder, timeoutMs: 120000 });
+          await execute(python, [
+            "-m", "pip", "install", "--quiet", "--disable-pip-version-check",
+            ...(requirements.endsWith("pyproject.toml") ? [folder] : ["-r", requirements])
+          ], { cwd: folder });
+          await execute(python, ["-m", "pip", "check"], { cwd: folder, timeoutMs: 120000 });
+          receipt.meaning = "Dependencies installed and pip check passed; service/UI and external integrations are not certified.";
+        }
         receipt.status = "installed";
-        receipt.meaning = "Dependencies installed and pip check passed; service/UI and external integrations are not certified.";
         fs.writeFileSync(receiptFile, `${JSON.stringify(receipt, null, 2)}\n`, { mode: 0o600 });
         return receipt;
       } catch (error) {
@@ -115,6 +134,9 @@ function createRuntimeManager({
         "--accept-package-agreements", "--accept-source-agreements"
       ], { cwd: dataDirectory, timeoutMs: 600000 });
     }),
+    installNode: () => runExclusive(() => installNodeLts({
+      directory: path.join(dataDirectory, "tools"), extractionScript, execute, platform
+    })),
     start: (id) => runExclusive(async () => {
       const entry = entryById(id);
       if (services.has(id)) throw new Error("This runtime is already running.");
@@ -129,8 +151,13 @@ function createRuntimeManager({
       }
       const script = inside(root, entry.entrypoint);
       const folder = inside(root, entry.productFolder);
-      const python = path.join(dataDirectory, "environments", id, "Scripts", "python.exe");
-      if (!fs.existsSync(python)) throw new Error("Installed runtime Python is missing; reinstall this product.");
+      const executable = id === "27" ? tools().node : path.join(dataDirectory, "environments", id, "Scripts", "python.exe");
+      if (!fs.existsSync(executable)) throw new Error("Installed runtime Python is missing; reinstall this product.");
+      if (id === "27") {
+        const lock = inside(root, `${entry.productFolder}package-lock.json`);
+        if (crypto.createHash("sha256").update(fs.readFileSync(lock)).digest("hex") !== receipt.lockSha256 ||
+            receipt.node !== executable) throw new Error("The Node lockfile or executable changed; reinstall this product.");
+      }
       const port = ports.get(id);
       const net = require("node:net");
       await new Promise((resolve, reject) => {
@@ -140,16 +167,23 @@ function createRuntimeManager({
       });
       const args = [...entry.launchArgs];
       if (id === "20") args.push("--host", "127.0.0.1", "--local-execution", "off");
-      const child = spawnProcess(python, [script, ...args], {
+      const token = id === "27" ? crypto.randomBytes(32).toString("hex") : null;
+      const child = spawnProcess(executable, [script, ...args], {
         cwd: folder, shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe"],
         env: {
           ...process.env, PYTHONPATH: root, PYTHONNOUSERSITE: "1",
           MERLIN_LOCAL_EXECUTION_ENABLED: "0",
           MERLIN_TRAINING_RUNTIME_DIR: path.join(dataDirectory, "psicat-training"),
-          OPENBLAS_NUM_THREADS: "1", OMP_NUM_THREADS: "1"
+          OPENBLAS_NUM_THREADS: "1", OMP_NUM_THREADS: "1",
+          ...(id === "27" ? {
+            PSICAT_VITE_WORKBENCH_HOST: "127.0.0.1", PSICAT_VITE_WORKBENCH_PORT: "8327",
+            PSICAT_VITE_WORKBENCH_TOKEN: token,
+            PSICAT_VITE_WORKBENCH_HOME: path.join(dataDirectory, "workbench")
+          } : {})
         }
       });
       services.set(id, child);
+      if (token) credentials.set(id, token);
       let failure;
       let output = "";
       const record = (chunk) => { output = (output + chunk.toString("utf8")).slice(-4000); };
@@ -159,6 +193,7 @@ function createRuntimeManager({
       child.on("close", (code) => {
         failure ||= new Error(`Runtime exited ${code}: ${output}`);
         services.delete(id);
+        credentials.delete(id);
       });
       const deadline = Date.now() + serviceDeadlineMs;
       let lastError;
@@ -181,6 +216,11 @@ function createRuntimeManager({
       child.kill();
       throw failure || new Error(`Runtime did not become healthy: ${lastError?.message || "deadline"}`);
     }),
+    access: (id) => {
+      entryById(id);
+      if (!services.has(id)) throw new Error("Start this managed runtime before opening it.");
+      return { endpoint: `http://127.0.0.1:${ports.get(id)}`, token: credentials.get(id) || null };
+    },
     stop: (id) => {
       entryById(id);
       const child = services.get(id);

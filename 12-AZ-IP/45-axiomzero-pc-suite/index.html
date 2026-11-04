@@ -178,12 +178,14 @@
         <p class="muted">
           Inspect each product's actual target before installation. Managed Python products
           use separate environments; reviewed local services can be started and stopped here.
-          Android, UEFI, Node/Electron and POSIX-only products require their target tooling;
+          Product 27 installs locked Node dependencies and builds its authenticated dashboard.
+          Install private Node LTS here or use an existing Node installation. Android, UEFI, other Electron and POSIX-only products require their target tooling;
           those are not advertised as native Windows runtimes. Internet is required to fetch
           dependencies; configured services may also need credentials or live data.
         </p>
         <div class="harness-controls">
           <button id="runtime-python">Install Windows Python prerequisite</button>
+          <button id="runtime-node">Install private Node LTS</button>
           <button id="runtime-refresh">Refresh runtime status</button>
         </div>
         <p id="runtime-message" class="message" role="status" aria-live="polite"></p>

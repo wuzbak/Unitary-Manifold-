@@ -41,9 +41,10 @@ function renderRuntimes(entries) {
     const actions = document.createElement("div");
     actions.className = "harness-controls";
     for (const [action, label, disabled] of [
-      ["install", "Install dependencies", entry.installMode !== "python-venv" || runtimeBusy || ["26", "36"].includes(entry.id)],
+      ["install", "Install dependencies", (entry.installMode !== "python-venv" && entry.id !== "27") || runtimeBusy || entry.running || ["26", "36"].includes(entry.id)],
       ["start", "Start local service", !entry.managedService || entry.running || runtimeBusy || entry.receipt?.status !== "installed"],
-      ["stop", "Stop service", !entry.running]
+      ["stop", "Stop service", !entry.running],
+      ["open", "Open running dashboard", !entry.running || runtimeBusy]
     ]) {
       const button = document.createElement("button");
       button.type = "button"; button.dataset.runtimeAction = action; button.dataset.id = entry.id;
@@ -60,16 +61,22 @@ async function runRuntimeAction(action, id) {
   if (action !== "stop") runtimeBusy = true;
   message.textContent = action === "refresh" ? "" : "Awaiting approval or executing the selected runtime operation...";
   document.querySelector("#runtime-python").disabled = runtimeBusy;
+  document.querySelector("#runtime-node").disabled = runtimeBusy;
   try {
-    if (action === "python") await window.axiomSuite.installRuntimePython();
-    else if (action === "install") await window.axiomSuite.installRuntime(id);
-    else if (action === "start") await window.axiomSuite.startRuntime(id);
-    else if (action === "stop") await window.axiomSuite.stopRuntime(id);
-    message.textContent = action === "refresh" ? "" : "Operation finished. Inspect the per-product state and limits below.";
+    let result;
+    if (action === "python") result = await window.axiomSuite.installRuntimePython();
+    else if (action === "node") result = await window.axiomSuite.installRuntimeNode();
+    else if (action === "install") result = await window.axiomSuite.installRuntime(id);
+    else if (action === "start") result = await window.axiomSuite.startRuntime(id);
+    else if (action === "stop") result = await window.axiomSuite.stopRuntime(id);
+    else if (action === "open") result = await window.axiomSuite.openRuntime(id);
+    message.textContent = action === "refresh" ? "" : result?.canceled ? "Operation cancelled; no installation or launch was approved."
+      : "Operation finished. Inspect the per-product state and limits below.";
   } catch (error) { message.textContent = `Runtime operation failed: ${error.message}`; }
   finally {
     if (action !== "stop") runtimeBusy = false;
     document.querySelector("#runtime-python").disabled = runtimeBusy;
+    document.querySelector("#runtime-node").disabled = runtimeBusy;
     try { renderRuntimes(await window.axiomSuite.listRuntimes()); }
     catch (error) { message.textContent = `Runtime state could not be read: ${error.message}`; }
   }
@@ -594,6 +601,7 @@ async function loadCatalog() {
 
 search.addEventListener("input", render);
 document.querySelector("#runtime-python").addEventListener("click", () => runRuntimeAction("python"));
+document.querySelector("#runtime-node").addEventListener("click", () => runRuntimeAction("node"));
 document.querySelector("#runtime-refresh").addEventListener("click", () => runRuntimeAction("refresh"));
 document.querySelector("#runtime-list").addEventListener("click", (event) => {
   const button = event.target.closest("button[data-runtime-action]");

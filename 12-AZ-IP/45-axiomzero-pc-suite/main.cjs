@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain, shell } = require("electron");
+const { app, BrowserWindow, clipboard, dialog, ipcMain, shell } = require("electron");
 const fs = require("node:fs");
 const path = require("node:path");
 const { pathToFileURL } = require("node:url");
@@ -112,6 +112,16 @@ async function openLocalPath(target) {
 
 function registerHandlers() {
   ipcMain.handle("runtime:list", () => runtimeManager.list());
+  ipcMain.handle("runtime:node", async () => {
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "warning", title: "Install private Node.js LTS",
+      message: "Download official Windows x64 Node.js LTS into this suite's user data?",
+      detail: "The suite fetches the maintained Node 24 LTS archive and SHA-256 manifest from nodejs.org over HTTPS without redirects, verifies the hash, extracts it and runs its version check. The official archive includes its license. This requires internet access and executes downloaded software; no administrator rights, global PATH changes or system-wide installation are requested. Product 27 then installs its own locked npm dependencies after separate approval.",
+      buttons: ["Cancel", "Install private Node LTS"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    return runtimeManager.installNode();
+  });
   ipcMain.handle("runtime:python", async () => {
     const response = await dialog.showMessageBox(mainWindow, {
       type: "warning", title: "Install Windows Python prerequisite",
@@ -127,8 +137,8 @@ function registerHandlers() {
     if (!entry) throw new Error("That runtime is not registered.");
     const response = await dialog.showMessageBox(mainWindow, {
       type: "warning", title: `Install Product ${id} dependencies`,
-      message: "Provision this product in its own local Python environment?",
-      detail: `${entry.limitation}\n\nThe suite copies its bundled tracked source into a user-data worktree if no checkout is connected. pip downloads and executes package installation code from the configured package index; installation may take ten minutes. External services/credentials and target-specific compatibility remain separate. Dependency success is not full product certification.`,
+      message: "Install this product's reviewed dependencies and runtime assets?",
+      detail: `${entry.limitation}\n\nThe suite copies its bundled tracked source into a user-data worktree if no checkout is connected. pip or npm downloads and executes package installation code from the configured package index; installation may take ten minutes. Node products require installed Node.js LTS with npm. External services/credentials and target-specific compatibility remain separate. Dependency success is not full product certification.`,
       buttons: ["Cancel", "Install this runtime"], defaultId: 0, cancelId: 0, noLink: true
     });
     if (response.response !== 1) return { canceled: true };
@@ -145,6 +155,23 @@ function registerHandlers() {
     return runtimeManager.start(id);
   });
   ipcMain.handle("runtime:stop", (_event, id) => runtimeManager.stop(id));
+  ipcMain.handle("runtime:open", async (_event, id) => {
+    const access = runtimeManager.access(id);
+    if (access.token) {
+      const choice = await dialog.showMessageBox(mainWindow, {
+        type: "warning", title: "Open authenticated local workbench",
+        message: "Copy this session's workbench access token to the clipboard and open its dashboard?",
+        detail: "Paste the token into the dashboard's token field. It authorizes local project actions until the service stops. Other clipboard-reading applications may see it; do not share it. The suite does not store it in settings, receipts, logs or URLs; the dashboard retains it in browser session storage after connecting. This replaces your current clipboard contents.",
+        buttons: ["Cancel", "Copy token and open dashboard"], defaultId: 0, cancelId: 0, noLink: true
+      });
+      if (choice.response !== 1) return { canceled: true };
+      // Resolve again after approval in case the runtime exited while the dialog was open.
+      const current = runtimeManager.access(id);
+      clipboard.writeText(current.token);
+      await shell.openExternal(current.endpoint);
+    } else await shell.openExternal(access.endpoint);
+    return { canceled: false };
+  });
   ipcMain.handle("native:status", () => nativeModel.status());
   ipcMain.handle("native:generate", (_event, prompt) => runNativeMutation(async () => {
     if (typeof prompt !== "string" || !prompt.trim() || prompt.length > 400) throw new Error("Enter a prompt of 1-400 characters.");
@@ -455,7 +482,9 @@ app.whenReady().then(() => {
   }
   runtimeManager = createRuntimeManager({
     entries: runtimeEntries, sourceRoot: portfolioRoot,
-    dataDirectory: path.join(app.getPath("userData"), "runtimes")
+    dataDirectory: path.join(app.getPath("userData"), "runtimes"),
+    extractionScript: app.isPackaged ? path.join(process.resourcesPath, "node-bootstrap/extract-node.ps1")
+      : path.join(__dirname, "scripts/extract-node.ps1")
   });
   const nativeDirectory = app.isPackaged
     ? path.join(process.resourcesPath, "psicat-native")
