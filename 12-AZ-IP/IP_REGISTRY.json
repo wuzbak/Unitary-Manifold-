@@ -947,10 +947,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "bc7c6a2a5d17d0f1f4b04cb6f56d8062a00f1acca0f668ca981fb5a9cc4fb406",
-      "size_bytes": 23914,
+      "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
+      "size_bytes": 24058,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "bc7c6a2a5d17d0f1f4b04cb6f56d8062a00f1acca0f668ca981fb5a9cc4fb406",
+          "size_bytes": 23914,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "4a59b8baff3539f8157b7e099671bf60a56ff042af5400f99c488cbf6c2b8c27",

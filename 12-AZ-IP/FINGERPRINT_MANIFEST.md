@@ -775,6 +775,17 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/15-pentacorder/feature/dashboard/src/main/java/com/gibbernode/feature/dashboard/DashboardScreen.kt` | `4623ab693e885b1b6a3854b991cde3ec050ebd7e988a132bee3a36716c9c9399` | 18184 |
 | `12-AZ-IP/15-pentacorder/feature/mode/src/main/java/com/gibbernode/feature/mode/ModeScreen.kt` | `7d2d1c4adac4d8c5cd5bce1ba4e53d0d4c48adbebbd0c4120ac554d58e6f945e` | 39367 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11` | 24058 |
+
 ## Verification Protocol
 
 To verify any registered asset:

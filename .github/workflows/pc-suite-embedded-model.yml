@@ -16,6 +16,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check governed instruction runtime contracts
+        run: node --test 12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs
       - name: Check candidate verifier contracts
         run: python -m unittest discover -s 12-AZ-IP/43-az-geometric-tori-transformer/tests -p test_candidate_engine.py -q
       - uses: actions/checkout@v4
@@ -173,6 +178,10 @@ jobs:
           git -C native-engine/source archive --format=zip --output="$([System.IO.Path]::GetFullPath('candidate/engine-source.zip'))" HEAD
           if ($LASTEXITCODE -ne 0) { throw "Pinned source/license archive creation failed." }
           Copy-Item native-engine/build/bin/Release/llama-server.exe candidate/llama-server.exe
+      - name: Exercise governed Node backend against actual candidate
+        run: |
+          node 12-AZ-IP/45-axiomzero-pc-suite/scripts/instruction_smoke.cjs "$([System.IO.Path]::GetFullPath('candidate'))"
+          if ($LASTEXITCODE -ne 0) { throw "Actual governed Node instruction runtime failed." }
       - name: Upload validated complete offline runtime
         uses: actions/upload-artifact@v4
         with:

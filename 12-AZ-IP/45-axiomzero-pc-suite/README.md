@@ -60,6 +60,8 @@ the installer. Source builds require the validated runtime artifact in
 `build/instruction/`, including `manifest.json`, the declared GGUF,
 `llama-server.exe`, model card, Apache license, provenance and pinned engine
 source/license archive. No model weights or private exports are committed.
+The reusable model gate also runs the governed Node client against the actual
+candidate engine/weights before publishing that runtime artifact.
 Installed smoke exercises the copied model, not an already running server.
 Passing these checks does **not** establish expert-level general reasoning or
 certify every portfolio target.
