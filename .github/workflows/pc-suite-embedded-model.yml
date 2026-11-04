@@ -33,14 +33,15 @@ jobs:
           cmake -S native-engine/source -B native-engine/build -A x64 `
             -DBUILD_SHARED_LIBS=OFF -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded `
             -DGGML_NATIVE=OFF -DGGML_OPENMP=OFF -DGGML_SSE42=OFF `
-            -DGGML_AVX=OFF -DGGML_AVX2=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF -DGGML_BMI2=OFF `
+            -DGGML_AVX=OFF -DGGML_AVX2=OFF -DGGML_BMI2=OFF `
             -DGGML_AVX512=OFF -DLLAMA_OPENSSL=OFF -DLLAMA_SUBPROCESS=OFF `
             -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF `
             -DLLAMA_BUILD_TOOLS=ON -DLLAMA_BUILD_SERVER=ON `
             -DLLAMA_BUILD_UI=OFF -DLLAMA_CONNECT=OFF
           if ($LASTEXITCODE -ne 0) { throw "CPU engine configuration failed." }
           $cache = Get-Content native-engine/build/CMakeCache.txt -Raw
-          foreach ($option in @("BUILD_SHARED_LIBS", "GGML_NATIVE", "GGML_OPENMP", "GGML_SSE42", "GGML_AVX", "GGML_AVX2", "GGML_FMA", "GGML_F16C", "GGML_BMI2", "GGML_AVX512", "LLAMA_OPENSSL", "LLAMA_SUBPROCESS", "LLAMA_BUILD_UI", "LLAMA_CONNECT")) {
+          # MSVC implies FMA/F16C through AVX2/AVX512; it has no separate FMA/F16C options.
+          foreach ($option in @("BUILD_SHARED_LIBS", "GGML_NATIVE", "GGML_OPENMP", "GGML_SSE42", "GGML_AVX", "GGML_AVX2", "GGML_BMI2", "GGML_AVX512", "LLAMA_OPENSSL", "LLAMA_SUBPROCESS", "LLAMA_BUILD_UI", "LLAMA_CONNECT")) {
             if ($cache -notmatch "(?m)^${option}:BOOL=OFF\r?$") {
               throw "Required portable/offline build option was not honored: $option"
             }
