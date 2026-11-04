@@ -155,14 +155,11 @@ jobs:
       - uses: actions/setup-python@v7.0.0
         with:
           python-version: "3.12"
-          cache: pip
-          cache-dependency-path: |
-            requirements.txt
-            requirements-dev.txt
-            12-AZ-IP/**/requirements*.txt
       - name: Install root and package-declared test dependencies
         env:
           PRODUCT_REQUIREMENTS: ${{ toJSON(matrix.requirements) }}
+          # Avoid retaining multi-GB ML/CUDA wheels alongside installed packages.
+          PIP_NO_CACHE_DIR: "1"
         run: |
           python - <<'PY'
           import json
