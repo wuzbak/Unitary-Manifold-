@@ -647,6 +647,20 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs` | `e96b8ab76840acbf25e999c27e71d3eda8c96962c9b388245b8fe309aa1bfcf0` | 4926 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs` | `34cfdc6a1353a4e6fd6cfd5eb7ff5ed377c628c8be619acf3f6854a84813de73` | 3234 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `935cb111b8ac14a5b40af435b21ce6f79d1e4f1401a86c539c28cc3b5f5da690` | 42833 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `5e4986aed9ca0ff240abaad4306466603bf2a25fe95f0ef7ae3cca8f9ea2b067` | 28898 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/desktop-runtime.cjs` | `3c56968a9330e39755c75d80f9188b90a3da5a0e368bdb964696b71e912c4176` | 6152 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs` | `bea91f8eaf0b7dae051a2ec863025fe2e24e7af8acd65d69dea8fbfe20664c96` | 5311 |
+
 ## Verification Protocol
 
 To verify any registered asset:

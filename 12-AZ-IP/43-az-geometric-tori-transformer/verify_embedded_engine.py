@@ -167,8 +167,27 @@ def fingerprint(info):
     return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns)
 
 
+def check_artifact_snapshots(path, path_before, path_after, fd_before, fd_after):
+    snapshots = (path_before, path_after, fd_before, fd_after)
+    if not all(stat.S_ISREG(info.st_mode) for info in snapshots):
+        raise VerificationError(f"Not a regular artifact: {path.name}")
+    # Windows path stat and CRT descriptor fstat can expose different identity
+    # or timestamp representations. Never round timestamps or discard identity:
+    # compare each source exactly against itself and seal both for launch.
+    changed = (
+        fingerprint(path_before) != fingerprint(path_after)
+        or fingerprint(fd_before) != fingerprint(fd_after)
+        or path_after.st_size != fd_after.st_size
+        or (not IS_WINDOWS and fingerprint(path_after) != fingerprint(fd_after))
+    )
+    if changed:
+        raise VerificationError(f"Artifact changed while hashing: {path.name}")
+    return {"path": fingerprint(path_after), "descriptor": fingerprint(fd_after)}
+
+
 def hash_artifact(path):
     digest = hashlib.sha256()
+    path_before = path.stat(follow_symlinks=False)
     with path.open("rb") as stream:
         before = os.fstat(stream.fileno())
         if not stat.S_ISREG(before.st_mode):
@@ -176,9 +195,21 @@ def hash_artifact(path):
         while chunk := stream.read(HASH_CHUNK_BYTES):
             digest.update(chunk)
         after = os.fstat(stream.fileno())
-    if fingerprint(before) != fingerprint(after) or fingerprint(after) != fingerprint(path.stat()):
-        raise VerificationError(f"Artifact changed while hashing: {path.name}")
-    return {"sha256": digest.hexdigest(), "sizeBytes": after.st_size}, fingerprint(after)
+        path_after = path.stat(follow_symlinks=False)
+        seal = check_artifact_snapshots(path, path_before, path_after, before, after)
+    return {"sha256": digest.hexdigest(), "sizeBytes": after.st_size}, seal
+
+
+def check_artifact_before_launch(path, seal):
+    path_before = path.stat(follow_symlinks=False)
+    with path.open("rb") as stream:
+        fd_before = os.fstat(stream.fileno())
+        path_after = path.stat(follow_symlinks=False)
+        fd_after = os.fstat(stream.fileno())
+        observed = check_artifact_snapshots(
+            path, path_before, path_after, fd_before, fd_after)
+    if observed != seal:
+        raise VerificationError(f"Verified artifact changed before launch: {path.name}")
 
 
 def verify_artifacts(engine, model, manifest):
@@ -210,7 +241,7 @@ def sanitized_environment():
     # Preserve OS loader essentials, but never inherit llama settings, model
     # credentials, arbitrary preload hooks, proxy settings, or tool configuration.
     allowed = {"SYSTEMROOT", "WINDIR", "HOME", "USERPROFILE", "LANG", "LC_ALL"}
-    env = {key: value for key, value in os.environ.items() if key.upper() in allowed}
+    env = {key.upper(): value for key, value in os.environ.items() if key.upper() in allowed}
     env.update({"HF_HUB_OFFLINE": "1", "HF_DATASETS_OFFLINE": "1"})
     return env
 
@@ -470,8 +501,7 @@ def run_gate(args, report):
     artifacts, stamps = verify_artifacts(engine, model, manifest)
     report.update({"manifest": manifest, "verifiedArtifacts": artifacts})
     for path, stamp in stamps:
-        if fingerprint(path.stat()) != stamp:
-            raise VerificationError(f"Verified artifact changed before launch: {path.name}")
+        check_artifact_before_launch(path, stamp)
     reservation, port = reserve_port()
     key = secrets.token_urlsafe(32)
     argv = engine_argv(engine, model, port, key, args.threads, args.context,

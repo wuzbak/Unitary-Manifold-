@@ -59,13 +59,22 @@ function superviseDesktop(child, { readyDeadlineMs = 30000, stopDeadlineMs = 100
   const listeners = new Set();
   const update = () => { for (const notify of listeners) notify(); };
   const requestId = crypto.randomUUID();
+  function startupDetails() {
+    if (!startupDirectory) return "";
+    try { return readStartupDiagnostics(startupDirectory, child.pid); }
+    catch (error) {
+      const reason = error instanceof SyntaxError ? "invalid JSON" :
+        error instanceof TypeError ? "invalid UTF-8" : "unreadable, unsafe or over the 64 KiB limit";
+      return `Startup diagnostic read failed: ${reason}.`;
+    }
+  }
   child.on("message", (message) => {
     if (message?.protocol !== PROTOCOL || message.product_id !== 24) return;
     if (message.type === "ready" && message.sync?.status === "ready" &&
         ["ready", "disabled"].includes(message.navigator?.status)) ready = true;
     if (message.type === "stopped" && message.request_id === requestId) acknowledged = true;
     if (["startup-failed", "shutdown-failed"].includes(message.type)) {
-      failure = new Error(`Browser ${message.type}: ${String(message.error || "No diagnostic").slice(0, 4000)}`);
+      failure = new Error(`Browser ${message.type}: ${String(message.error || "No diagnostic").slice(0, 4000)} ${startupDetails()}`);
     }
     update();
   });
@@ -73,16 +82,7 @@ function superviseDesktop(child, { readyDeadlineMs = 30000, stopDeadlineMs = 100
   child.on("close", (code, signal) => {
     closed = true;
     if (!ready && !failure) {
-      let boot = "";
-      if (startupDirectory) {
-        try { boot = readStartupDiagnostics(startupDirectory, child.pid); }
-        catch (error) {
-          const reason = error instanceof SyntaxError ? "invalid JSON" :
-            error instanceof TypeError ? "invalid UTF-8" : "unreadable, unsafe or over the 64 KiB limit";
-          boot = `Startup diagnostic read failed: ${reason}.`;
-        }
-      }
-      failure = new Error(`Browser exited before readiness (code ${code}, signal ${signal || "none"}): ${diagnostics} ${boot}`);
+      failure = new Error(`Browser exited before readiness (code ${code}, signal ${signal || "none"}): ${diagnostics} ${startupDetails()}`);
     }
     update();
   });

@@ -60,6 +60,11 @@ test("startup diagnostics are PID-scoped, bounded and exclude credentials and ra
   const pending = owned.control.ready();
   owned.child.emit("close", 1, null);
   await assert.rejects(pending, /MODULE_NOT_FOUND/);
+  const reported = fixture({ startupDirectory: root });
+  const failedReady = reported.control.ready();
+  reported.child.emit("message", { protocol: PROTOCOL, product_id: 24, type: "startup-failed", error: "Sidecar failed" });
+  await assert.rejects(failedReady, (error) => /MODULE_NOT_FOUND/.test(error.message) && !/DO_NOT_LOG/.test(error.message));
+  await reported.control.stop();
   fs.writeFileSync(filename, " ".repeat(65537));
   assert.throws(() => readStartupDiagnostics(root, 12345), /64 KiB/);
   fs.writeFileSync(filename, '{"private":"DO_NOT_LOG" broken');

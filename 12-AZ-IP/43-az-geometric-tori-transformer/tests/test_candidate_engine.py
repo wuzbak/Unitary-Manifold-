@@ -173,6 +173,15 @@ class ArtifactFixture(unittest.TestCase):
 
 
 class ManifestTests(ArtifactFixture):
+    def changed_stat(self, original, **updates):
+        fields = {
+            name: getattr(original, name)
+            for name in ("st_dev", "st_ino", "st_size", "st_mtime_ns",
+                         "st_ctime_ns", "st_mode")
+        }
+        fields.update(updates)
+        return argparse.Namespace(**fields)
+
     def test_valid_exact_schema_and_artifacts(self):
         self.assertEqual(gate.validate_manifest(self.manifest), self.manifest)
         verified, stamps = gate.verify_artifacts(self.engine, self.model, self.manifest)
@@ -268,6 +277,111 @@ class ManifestTests(ArtifactFixture):
         with patch.object(gate.os, "fstat", side_effect=[original, changed]):
             with self.assertRaisesRegex(gate.VerificationError, "changed"):
                 gate.hash_artifact(self.model)
+
+    def test_windows_distinct_stat_sources_preserve_exact_seals_and_magic_errors(self):
+        real_fstat = gate.os.fstat
+
+        def windows_descriptor(fd):
+            original = real_fstat(fd)
+            return self.changed_stat(
+                original, st_dev=0, st_ino=0,
+                st_mtime_ns=original.st_mtime_ns // 1_000_000_000 * 1_000_000_000,
+                st_ctime_ns=original.st_ctime_ns + 123)
+
+        with patch.object(gate, "IS_WINDOWS", True), \
+                patch.object(gate.os, "fstat", side_effect=windows_descriptor):
+            verified, stamps = gate.verify_artifacts(self.engine, self.model, self.manifest)
+            self.assertEqual(verified["model"]["sha256"], self.manifest["model"]["sha256"])
+            for path, seal in stamps:
+                self.assertNotEqual(seal["path"], seal["descriptor"])
+                self.assertEqual(seal["path"], gate.fingerprint(path.stat()))
+                gate.check_artifact_before_launch(path, seal)
+            self.engine.write_bytes(b"#!/bin/sh\nnot-native")
+            self.manifest["engine"]["sha256"] = hashlib.sha256(self.engine.read_bytes()).hexdigest()
+            with self.assertRaisesRegex(gate.VerificationError, "compiled"):
+                gate.verify_artifacts(self.engine, self.model, self.manifest)
+
+    def test_windows_both_sources_detect_every_identity_timestamp_and_size_change(self):
+        original_path = self.model.stat()
+        original_fd = self.changed_stat(
+            original_path, st_dev=0, st_ino=0, st_mtime_ns=1000000000,
+            st_ctime_ns=2000000000)
+        for source in ("path", "descriptor"):
+            for field in ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns"):
+                with self.subTest(source=source, field=field), \
+                        patch.object(gate, "IS_WINDOWS", True):
+                    changed = self.changed_stat(
+                        original_path if source == "path" else original_fd,
+                        **{field: getattr(original_path if source == "path" else original_fd,
+                                          field) + 1})
+                    fake_path = Mock(name="artifact")
+                    fake_path.name = "artifact"
+                    fake_path.open.side_effect = self.model.open
+                    fake_path.stat.side_effect = [
+                        original_path, changed if source == "path" else original_path]
+                    with patch.object(gate.os, "fstat", side_effect=[
+                        original_fd, changed if source == "descriptor" else original_fd]):
+                        with self.assertRaisesRegex(gate.VerificationError, "changed"):
+                            gate.hash_artifact(fake_path)
+
+    def test_windows_cross_source_size_mismatch_fails_even_when_sources_are_stable(self):
+        path_info = self.model.stat()
+        fd_info = self.changed_stat(path_info, st_size=path_info.st_size + 1)
+        with patch.object(gate, "IS_WINDOWS", True):
+            with self.assertRaisesRegex(gate.VerificationError, "changed"):
+                gate.check_artifact_snapshots(self.model, path_info, path_info,
+                                              fd_info, fd_info)
+
+    def test_posix_cross_source_identity_mismatch_remains_rejected(self):
+        path_info = self.model.stat()
+        fd_info = self.changed_stat(path_info, st_ino=path_info.st_ino + 1)
+        with patch.object(gate, "IS_WINDOWS", False):
+            with self.assertRaisesRegex(gate.VerificationError, "changed"):
+                gate.check_artifact_snapshots(self.model, path_info, path_info,
+                                              fd_info, fd_info)
+
+    def test_windows_prelaunch_rechecks_both_sealed_sources(self):
+        path_info = self.model.stat()
+        fd_info = self.changed_stat(path_info, st_dev=0, st_ino=0,
+                                    st_mtime_ns=1000000000, st_ctime_ns=2000000000)
+        seal = {"path": gate.fingerprint(path_info), "descriptor": gate.fingerprint(fd_info)}
+        for source in ("path", "descriptor"):
+            for field in ("st_dev", "st_ino", "st_size", "st_mtime_ns", "st_ctime_ns"):
+                with self.subTest(source=source, field=field), \
+                        patch.object(gate, "IS_WINDOWS", True):
+                    path_current, fd_current = path_info, fd_info
+                    if source == "path":
+                        path_current = self.changed_stat(
+                            path_info, **{field: getattr(path_info, field) + 1})
+                    else:
+                        fd_current = self.changed_stat(
+                            fd_info, **{field: getattr(fd_info, field) + 1})
+                    fake_path = Mock(name="artifact")
+                    fake_path.name = "artifact"
+                    fake_path.open.side_effect = self.model.open
+                    fake_path.stat.return_value = path_current
+                    with patch.object(gate.os, "fstat", return_value=fd_current):
+                        with self.assertRaisesRegex(gate.VerificationError, "changed"):
+                            gate.check_artifact_before_launch(fake_path, seal)
+
+    def test_real_same_size_path_replacement_is_rejected_before_launch(self):
+        _, seal = gate.hash_artifact(self.model)
+        replacement = self.root / "replacement.gguf"
+        replacement.write_bytes(self.model.read_bytes())
+        self.assertEqual(replacement.stat().st_size, self.model.stat().st_size)
+        replacement.replace(self.model)
+        with self.assertRaisesRegex(gate.VerificationError, "changed"):
+            gate.check_artifact_before_launch(self.model, seal)
+
+    def test_real_same_size_content_mutation_is_rejected_before_launch(self):
+        _, seal = gate.hash_artifact(self.model)
+        original = self.model.stat()
+        content = self.model.read_bytes()
+        self.model.write_bytes(content[:-1] + bytes([content[-1] ^ 1]))
+        os.utime(self.model, ns=(original.st_atime_ns, original.st_mtime_ns + 1000000000))
+        self.assertEqual(self.model.stat().st_size, original.st_size)
+        with self.assertRaisesRegex(gate.VerificationError, "changed"):
+            gate.check_artifact_before_launch(self.model, seal)
 
     def test_native_magic_gguf_version_and_filename(self):
         self.engine.write_bytes(b"#!/bin/sh\nnot-native")
@@ -460,6 +574,14 @@ class ProtocolTests(unittest.TestCase):
 
 
 class LifecycleTests(ArtifactFixture):
+    def test_systemroot_environment_casing_is_canonical_on_every_host(self):
+        for key in ("SystemRoot", "SYSTEMROOT", "systemroot"):
+            with self.subTest(key=key), \
+                    patch.dict(gate.os.environ, {key: "C:\\Windows"}, clear=True):
+                env = gate.sanitized_environment()
+            self.assertEqual(env, {"SYSTEMROOT": "C:\\Windows", "HF_HUB_OFFLINE": "1",
+                                   "HF_DATASETS_OFFLINE": "1"})
+
     def test_safe_argv_and_environment(self):
         argv = gate.engine_argv(self.engine, self.model, 54321, "secret", 4, 2048, 1)
         self.assertEqual(argv[0], str(self.engine))
@@ -479,7 +601,7 @@ class LifecycleTests(ArtifactFixture):
             "HF_TOKEN": "private", "LD_PRELOAD": "ambient", "PATH": "ambient",
             "HTTPS_PROXY": "ambient", "SystemRoot": "C:\\Windows"}, clear=True):
             env = gate.sanitized_environment()
-        self.assertEqual(env, {"SystemRoot": "C:\\Windows", "HF_HUB_OFFLINE": "1",
+        self.assertEqual(env, {"SYSTEMROOT": "C:\\Windows", "HF_HUB_OFFLINE": "1",
                                "HF_DATASETS_OFFLINE": "1"})
 
     def test_ephemeral_loopback_reservation_and_occupied_port_failure(self):

@@ -2069,10 +2069,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "999bc622c10ccf0cb260a6e4b383a5f34ce5bb1fd399889bb1bce5f75ff0a140",
-      "size_bytes": 6131,
+      "sha256": "3c56968a9330e39755c75d80f9188b90a3da5a0e368bdb964696b71e912c4176",
+      "size_bytes": 6152,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "999bc622c10ccf0cb260a6e4b383a5f34ce5bb1fd399889bb1bce5f75ff0a140",
+          "size_bytes": 6131,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "0eab62595e8b9abb069dd62ae0cf4a5faa625e2cb6b676d1223f90730b5c3434",
@@ -2092,10 +2098,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "e96b8ab76840acbf25e999c27e71d3eda8c96962c9b388245b8fe309aa1bfcf0",
-      "size_bytes": 4926,
+      "sha256": "bea91f8eaf0b7dae051a2ec863025fe2e24e7af8acd65d69dea8fbfe20664c96",
+      "size_bytes": 5311,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "e96b8ab76840acbf25e999c27e71d3eda8c96962c9b388245b8fe309aa1bfcf0",
+          "size_bytes": 4926,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "bbd60cd213cb63a3795b4803e20c7e6159f615bcb34558aaa32087220b7eecb3",
@@ -2178,18 +2190,34 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "d6429aeddd2415774771b3a47c85e95b89f67ae0c63af8b804cf1a70f2a0cc75",
-      "size_bytes": 35798,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "sha256": "935cb111b8ac14a5b40af435b21ce6f79d1e4f1401a86c539c28cc3b5f5da690",
+      "size_bytes": 42833,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "d6429aeddd2415774771b3a47c85e95b89f67ae0c63af8b804cf1a70f2a0cc75",
+          "size_bytes": 35798,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        }
+      ]
     },
     "12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py": {
       "description": "Product 43 Windows runtime integration and contracts: verify_embedded_engine.py",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "cfa09b183075b768f400e5bbb531e539645581e008348312fe224c80d37b0a5d",
-      "size_bytes": 27510,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "sha256": "5e4986aed9ca0ff240abaad4306466603bf2a25fe95f0ef7ae3cca8f9ea2b067",
+      "size_bytes": 28898,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "cfa09b183075b768f400e5bbb531e539645581e008348312fe224c80d37b0a5d",
+          "size_bytes": 27510,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        }
+      ]
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
