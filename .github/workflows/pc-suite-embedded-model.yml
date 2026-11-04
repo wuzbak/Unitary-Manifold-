@@ -56,11 +56,14 @@ jobs:
           if ($metadata.private -or $metadata.gated -or $metadata.cardData.license -cne "apache-2.0") {
             throw "Candidate must be public, ungated and declared Apache-2.0 by its official model card."
           }
-          $assets = @($metadata.siblings | Where-Object { $_.rfilename -ceq $file })
+          $assets = @($metadata.siblings | Where-Object { $_.rfilename -ieq $file })
+          $metadata | ConvertTo-Json -Depth 8 | Set-Content model-metadata.json -Encoding utf8NoBOM
           if ($assets.Count -ne 1 -or $metadata.sha -cnotmatch "^[a-f0-9]{40}$") {
-            throw "Official model revision or exact quantization file is missing."
+            $metadata.siblings.rfilename | Write-Output
+            throw "Official model revision or unique Q4_K_M quantization file is missing."
           }
           $asset = $assets[0]
+          $file = $asset.rfilename
           if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 1600000000) {
             throw "Authoritative LFS digest/size is missing or exceeds the candidate size budget."
           }
@@ -144,9 +147,10 @@ jobs:
           $manifest | ConvertTo-Json -Depth 6
       - name: Exercise actual local model instructions, citations and refusal
         run: |
+          $manifest = Get-Content candidate/manifest.json -Raw | ConvertFrom-Json
           python 12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py `
             --engine "$([System.IO.Path]::GetFullPath('native-engine/build/bin/Release/llama-server.exe'))" `
-            --model "$([System.IO.Path]::GetFullPath('candidate/Qwen3-1.7B-Q4_K_M.gguf'))" `
+            --model "$([System.IO.Path]::GetFullPath("candidate/$($manifest.model.file)"))" `
             --manifest "$([System.IO.Path]::GetFullPath('candidate/manifest.json'))" `
             --report "$([System.IO.Path]::GetFullPath('candidate/validation.json'))"
           if ($LASTEXITCODE -ne 0) { throw "Actual instruction backend acceptance failed." }

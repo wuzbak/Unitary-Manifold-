@@ -136,7 +136,6 @@ def validate_manifest(value):
     exact_keys(engine, ("repository", "revision", "sha256", "license"), "engine")
     for item, expected, label in (
         (model["repository"], MODEL_REPOSITORY, "model repository"),
-        (model["file"], MODEL_FILE, "model file"),
         (model["license"], "Apache-2.0", "model license"),
         (engine["repository"], "ggml-org/llama.cpp", "engine repository"),
         (engine["revision"], ENGINE_REVISION, "engine revision"),
@@ -144,6 +143,8 @@ def validate_manifest(value):
     ):
         if item != expected:
             raise VerificationError(f"Unexpected {label}; required {expected}")
+    if not isinstance(model["file"], str) or model["file"].casefold() != MODEL_FILE.casefold():
+        raise VerificationError(f"Unexpected model file; required {MODEL_FILE}")
     hexadecimal(model["revision"], 40, "model revision")
     hexadecimal(model["sha256"], 64, "model sha256")
     hexadecimal(engine["sha256"], 64, "engine sha256")
