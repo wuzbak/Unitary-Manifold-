@@ -533,10 +533,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "c9ae91627e60ad3ca3fa1892dc04755908f63978b442a31c02d888c8151bfe38",
-      "size_bytes": 23813,
-      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion.",
+      "sha256": "8743b9b7b4b2cc214260424fe463da5d59d80194417204e34fc781d42ea48f92",
+      "size_bytes": 25264,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "c9ae91627e60ad3ca3fa1892dc04755908f63978b442a31c02d888c8151bfe38",
+          "size_bytes": 23813,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "e88de5a970e113ee422c828b0f7d9fc28acdf2e18e6d3e3e40b178aa952f285d",
@@ -941,10 +947,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "4f3de87c6621aa35cfb983056165588781c732a4a8e94832306a7ef50d70ad12",
-      "size_bytes": 19215,
+      "sha256": "4a59b8baff3539f8157b7e099671bf60a56ff042af5400f99c488cbf6c2b8c27",
+      "size_bytes": 19357,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "4f3de87c6621aa35cfb983056165588781c732a4a8e94832306a7ef50d70ad12",
+          "size_bytes": 19215,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "3ac82294ed18e48192041a9fdfba91aa0f244c5c55ea263b2559fdefb08528c0",
@@ -1626,10 +1638,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "dac30fbb0a8580c7d40cf45b77f7a474a125fd8b4036e1f94cb1e1ed604d0e86",
-      "size_bytes": 2185,
+      "sha256": "afcb1446693a98217d0977373b769a25bded2ed446255aaae0eb7bc5245bdb1d",
+      "size_bytes": 2633,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "dac30fbb0a8580c7d40cf45b77f7a474a125fd8b4036e1f94cb1e1ed604d0e86",
+          "size_bytes": 2185,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "9f6e879e9436de37ee3b125c7cd2ac8f84f151c3b1e2e433c6746e4f67a9ecc5",
@@ -1784,10 +1802,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "4322a6ade32fbc4b1b4523f612dabfdf0d1962377dfe73d8117159af80363ad6",
-      "size_bytes": 2366,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "sha256": "4923f9476d5e45ab463248c0a4c571f3daf1189fc47f7f8451273943246da2f2",
+      "size_bytes": 2241,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "4322a6ade32fbc4b1b4523f612dabfdf0d1962377dfe73d8117159af80363ad6",
+          "size_bytes": 2366,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "54b9861c20ba359ef29854c48ed6d3cd7ccc2402b1fd87d1d1c360866e403315",
@@ -1816,10 +1840,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "34cfdc6a1353a4e6fd6cfd5eb7ff5ed377c628c8be619acf3f6854a84813de73",
-      "size_bytes": 3234,
+      "sha256": "1a63a4b9bcb3d39e2a3874e19cb0dc333c9c9660705ae5181ad42faa91bf8f6c",
+      "size_bytes": 3801,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "34cfdc6a1353a4e6fd6cfd5eb7ff5ed377c628c8be619acf3f6854a84813de73",
+          "size_bytes": 3234,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "e27a591407934e885c3f5d86f5cf953591576f7b04f6df1e51a1447b3b2489b3",
@@ -1946,10 +1976,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "508ef05ddf0b84d5d0206c3fce73e9f813c35ea1657eabec8ffb4b46da66f6a2",
-      "size_bytes": 7326,
-      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion.",
+      "sha256": "fe821e6fcc575f47b51f00ae9890827dc0df1f5c78a3e491957ae92761eb8d90",
+      "size_bytes": 8595,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "508ef05ddf0b84d5d0206c3fce73e9f813c35ea1657eabec8ffb4b46da66f6a2",
+          "size_bytes": 7326,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "57ab2946e4036b3f14dedac09a807ea5db862b08b462f439298a4011e6913fc8",
@@ -1990,10 +2026,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "26978f146cbc1f5f1aeb5ca44af976870a0ef9bf06faac09e135dde3e5c03928",
-      "size_bytes": 9089,
-      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion.",
+      "sha256": "5f15c5a9940aefeffbf898c030a17e51dbf67454d6ca46dfbd5383c020ba8d06",
+      "size_bytes": 9537,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "26978f146cbc1f5f1aeb5ca44af976870a0ef9bf06faac09e135dde3e5c03928",
+          "size_bytes": 9089,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "e1454003f7aba5efaf4c27af0ed6e0d2157add37039cf7dd1e9fb135aa6d9a1c",
@@ -2016,10 +2058,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "08355d219cbc1ea4b467a7f5c422600fea8b275fa57109971eee016da4666f63",
-      "size_bytes": 12264,
-      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion.",
+      "sha256": "ed0c00d1138aca52f427bc15de8b4f47627be0c912834821f8adc2055db6e4d4",
+      "size_bytes": 13164,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "08355d219cbc1ea4b467a7f5c422600fea8b275fa57109971eee016da4666f63",
+          "size_bytes": 12264,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "c4562e2a4708a081382b6aad20e9da498f576dc5ec775472ac8a4ddd845739b3",
@@ -2136,18 +2184,34 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "22cd6a6452379d6eed57591f17fae8e33f87539b66560a0e4bb49b21d8741301",
-      "size_bytes": 2433,
-      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+      "sha256": "19c52e29668236e93043e47f14e292b63a02116fff365287f2ee650796851fe9",
+      "size_bytes": 3081,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "22cd6a6452379d6eed57591f17fae8e33f87539b66560a0e4bb49b21d8741301",
+          "size_bytes": 2433,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        }
+      ]
     },
     "12-AZ-IP/24-psicat-web-browser/desktop/runtime.js": {
       "description": "Product 24 Windows runtime integration and contracts: runtime.js",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "a7ad4ae1d5a798d66d9dd4244c0fea92c5a51eba7c83790557f350bf4daaef65",
-      "size_bytes": 31159,
-      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+      "sha256": "a5eeb785e9cd4252720a156184567de080831282d98a74b6ae02cca72bb8d9ac",
+      "size_bytes": 32924,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a7ad4ae1d5a798d66d9dd4244c0fea92c5a51eba7c83790557f350bf4daaef65",
+          "size_bytes": 31159,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
+        }
+      ]
     },
     "12-AZ-IP/24-psicat-web-browser/tests/electron-ipc-probe.js": {
       "description": "Product 24 Windows runtime integration and contracts: electron-ipc-probe.js",
@@ -2218,6 +2282,24 @@
           "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
         }
       ]
+    },
+    "12-AZ-IP/24-psicat-web-browser/desktop/lib/component-diagnostics.js": {
+      "description": "Product 24 Windows runtime integration and contracts: component-diagnostics.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "40a7939685f2380394f902ce451570a678aa49db195aea97c32a308c3598fce9",
+      "size_bytes": 3779,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/24-psicat-web-browser/tests/component-diagnostics.test.js": {
+      "description": "Product 24 Windows runtime integration and contracts: component-diagnostics.test.js",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "3f28de7d6ae015350140a1ce60b7d401efb31bc673fff8dd75d0de7c454de2a4",
+      "size_bytes": 2863,
+      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",

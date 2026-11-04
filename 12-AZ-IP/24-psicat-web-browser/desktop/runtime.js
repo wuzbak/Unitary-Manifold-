@@ -1,6 +1,6 @@
 const { app, BrowserWindow, BrowserView, Menu, dialog, ipcMain, shell, session } = require('electron');
 const path = require('node:path');
-const { mkdirSync } = require('node:fs');
+const { mkdirSync, existsSync } = require('node:fs');
 const fsp = require('node:fs/promises');
 const crypto = require('node:crypto');
 const core = require('./lib/browser-core');
@@ -35,6 +35,8 @@ let psiCatManager;
 let syncManager;
 let shutdownComplete = false;
 let shuttingDown = null;
+let uiReadiness = { status: 'not_started', failure_code: 'UNKNOWN' };
+let startupComponent = 'ui';
 const trackedSessions = new WeakSet();
 const queryControllers = new Map();
 const psiCatQuerySession = { cookie: '' };
@@ -589,6 +591,7 @@ async function handleImportSyncPacket() {
 }
 
 function createWindow() {
+  uiReadiness = { status: 'starting', failure_code: 'UNKNOWN' };
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 980,
@@ -600,7 +603,12 @@ function createWindow() {
       nodeIntegration: false,
     },
   });
-  const loaded = mainWindow.loadFile(UI_ENTRY);
+  const loaded = mainWindow.loadFile(UI_ENTRY).then(() => {
+    uiReadiness = { status: 'ready', failure_code: 'UNKNOWN' };
+  }, (error) => {
+    uiReadiness = { status: 'failed', failure_code: 'UI_LOAD_FAILED' };
+    throw error;
+  });
   mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
   mainWindow.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
   mainWindow.on('resize', layoutViews);
@@ -728,16 +736,38 @@ app.whenReady().then(async () => {
   registerDownloadTracking(session.defaultSession);
   broadcastState();
   if (suiteLifecycle.enabled) {
-    if (syncBackend.status !== 'ready') throw new Error(`Required sync sidecar failed: ${syncBackend.error || syncBackend.status}`);
+    if (syncBackend.status !== 'ready') {
+      startupComponent = 'sync';
+      throw new Error('Required sync sidecar failed.');
+    }
     if (psiCatSidecar.status !== 'disabled' && psiCatSidecar.status !== 'ready') {
-      throw new Error(`Enabled Navigator sidecar failed: ${psiCatSidecar.error || psiCatSidecar.status}`);
+      startupComponent = 'navigator';
+      throw new Error('Enabled Navigator sidecar failed.');
     }
     await suiteLifecycle.notify('ready', { sync: syncBackend, navigator: psiCatSidecar });
     startupDiagnostics.mark('suite-ready');
   }
 }).catch(async (error) => {
-  await startupDiagnostics.failure(error);
-  await suiteLifecycle.notify('startup-failed', { error: error.message || error, sync: syncBackend, navigator: psiCatSidecar });
+  const resources = [
+    ['run.py', PSICAT_RUN_PATH],
+    ['ox_navigator/app/server.py', path.join(path.dirname(PSICAT_RUN_PATH), 'ox_navigator', 'app', 'server.py')],
+    ['ox_navigator/engine/merlin_benchmark.py', path.join(path.dirname(PSICAT_RUN_PATH), 'ox_navigator', 'engine', 'merlin_benchmark.py')],
+    ['src/infrastructure/execution_spine.py', path.join(NAVIGATOR_REPO_ROOT, 'src', 'infrastructure', 'execution_spine.py')],
+    ['bot/assistant_api.py', path.join(NAVIGATOR_REPO_ROOT, 'bot', 'assistant_api.py')],
+    ['bot/rag_index.py', path.join(NAVIGATOR_REPO_ROOT, 'bot', 'rag_index.py')],
+    ['bot/__init__.py', path.join(NAVIGATOR_REPO_ROOT, 'bot', '__init__.py')],
+    ['bot/session_bootstrap.py', path.join(NAVIGATOR_REPO_ROOT, 'bot', 'session_bootstrap.py')],
+    ['bot/research_resources.py', path.join(NAVIGATOR_REPO_ROOT, 'bot', 'research_resources.py')],
+    ['ui/interrogator-kb.json', path.join(path.dirname(PSICAT_RUN_PATH), 'ui', 'interrogator-kb.json')],
+    ['9-INFRASTRUCTURE/ox_full_context.md', path.join(NAVIGATOR_REPO_ROOT, '9-INFRASTRUCTURE', 'ox_full_context.md')],
+    ['sync_backend/server.py', SYNC_BACKEND_RUN_PATH],
+    ['desktop/ui/index.html', UI_ENTRY],
+    ['desktop/ui/app.js', path.join(__dirname, 'ui', 'app.js')],
+    ['desktop/ui/app.css', path.join(__dirname, 'ui', 'app.css')],
+  ].map(([resource, file]) => ({ resource, exists: existsSync(file) }));
+  await startupDiagnostics.failure(error, {
+    component: startupComponent, components: { ui: uiReadiness, sync: syncBackend, navigator: psiCatSidecar }, resources,
+  });
   if (!suiteLifecycle.enabled) dialog.showErrorBox('PsiCat Browser startup failed', String(error.message || error));
   app.quit();
 });

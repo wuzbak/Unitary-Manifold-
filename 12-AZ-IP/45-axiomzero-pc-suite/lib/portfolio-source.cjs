@@ -4,6 +4,13 @@ const crypto = require("node:crypto");
 const { inside } = require("./runtime-manager.cjs");
 const { validateCheckout } = require("./repository.cjs");
 
+function isPortfolioSource(name) {
+  const prefixes = ["12-AZ-IP/", "src/", "claims/", "recycling/", "5-GOVERNANCE/Unitary Pentad/"];
+  const dependencies = ["requirements.txt", "README.md", "FALLIBILITY.md", "bot/__init__.py",
+    "bot/assistant_api.py", "bot/rag_index.py", "bot/session_bootstrap.py", "bot/research_resources.py"];
+  return prefixes.some((prefix) => name.startsWith(prefix)) || dependencies.includes(name);
+}
+
 function materializePortfolioSource(source, directory) {
   const bytes = fs.readFileSync(path.join(source, "SOURCE_RECEIPT.json"));
   const receipt = JSON.parse(bytes);
@@ -44,4 +51,4 @@ function materializePortfolioSource(source, directory) {
   return destination;
 }
 
-module.exports = { materializePortfolioSource };
+module.exports = { materializePortfolioSource, isPortfolioSource };

@@ -661,6 +661,28 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/desktop-runtime.cjs` | `3c56968a9330e39755c75d80f9188b90a3da5a0e368bdb964696b71e912c4176` | 6152 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs` | `bea91f8eaf0b7dae051a2ec863025fe2e24e7af8acd65d69dea8fbfe20664c96` | 5311 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/24-psicat-web-browser/README.md` | `8743b9b7b4b2cc214260424fe463da5d59d80194417204e34fc781d42ea48f92` | 25264 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/lib/component-diagnostics.js` | `40a7939685f2380394f902ce451570a678aa49db195aea97c32a308c3598fce9` | 3779 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/lib/sidecar.js` | `fe821e6fcc575f47b51f00ae9890827dc0df1f5c78a3e491957ae92761eb8d90` | 8595 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/lib/startup-diagnostics.js` | `19c52e29668236e93043e47f14e292b63a02116fff365287f2ee650796851fe9` | 3081 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/runtime.js` | `a5eeb785e9cd4252720a156184567de080831282d98a74b6ae02cca72bb8d9ac` | 32924 |
+| `12-AZ-IP/24-psicat-web-browser/tests/component-diagnostics.test.js` | `3f28de7d6ae015350140a1ce60b7d401efb31bc673fff8dd75d0de7c454de2a4` | 2863 |
+| `12-AZ-IP/24-psicat-web-browser/tests/desktop-runtime.test.js` | `5f15c5a9940aefeffbf898c030a17e51dbf67454d6ca46dfbd5383c020ba8d06` | 9537 |
+| `12-AZ-IP/24-psicat-web-browser/tests/sidecar.test.js` | `ed0c00d1138aca52f427bc15de8b4f47627be0c912834821f8adc2055db6e4d4` | 13164 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `4a59b8baff3539f8157b7e099671bf60a56ff042af5400f99c488cbf6c2b8c27` | 19357 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs` | `afcb1446693a98217d0977373b769a25bded2ed446255aaae0eb7bc5245bdb1d` | 2633 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/stage_portfolio.cjs` | `4923f9476d5e45ab463248c0a4c571f3daf1189fc47f7f8451273943246da2f2` | 2241 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs` | `1a63a4b9bcb3d39e2a3874e19cb0dc333c9c9660705ae5181ad42faa91bf8f6c` | 3801 |
+
 ## Verification Protocol
 
 To verify any registered asset:

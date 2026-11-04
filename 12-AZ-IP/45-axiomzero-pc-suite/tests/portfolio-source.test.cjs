@@ -4,7 +4,17 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const crypto = require("node:crypto");
-const { materializePortfolioSource } = require("../lib/portfolio-source.cjs");
+const { materializePortfolioSource, isPortfolioSource } = require("../lib/portfolio-source.cjs");
+
+test("source packaging includes Navigator's exact bot import dependencies without unrelated bot data", () => {
+  for (const name of ["__init__.py", "assistant_api.py", "rag_index.py", "session_bootstrap.py", "research_resources.py"]) {
+    assert.equal(isPortfolioSource(`bot/${name}`), true, name);
+  }
+  for (const name of ["bot/private-export.json", "bot/.env", "bot/tests/test_api.py", ".env"]) {
+    assert.equal(isPortfolioSource(name), false, name);
+  }
+  assert.equal(isPortfolioSource("src/infrastructure/execution_spine.py"), true);
+});
 
 function fixture(t) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "p45-source-"));

@@ -2,6 +2,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const crypto = require("node:crypto");
 const { execFileSync } = require("node:child_process");
+const { isPortfolioSource } = require("../lib/portfolio-source.cjs");
 
 const root = path.resolve(__dirname, "../../..");
 const destination = path.resolve(__dirname, "../build/portfolio");
@@ -9,12 +10,11 @@ fs.rmSync(destination, { recursive: true, force: true });
 fs.mkdirSync(destination, { recursive: true });
 const entries = execFileSync("git", ["ls-files", "--cached", "-s", "-z"], { cwd: root }).toString().split("\0").filter(Boolean);
 const receipt = { schema: "axiomzero-portfolio-source-v1", head: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root }).toString().trim(), files: [], excluded: [] };
-const prefixes = ["12-AZ-IP/", "src/", "claims/", "recycling/", "5-GOVERNANCE/Unitary Pentad/"];
 const windowsPaths = new Map();
 receipt.caseAliases = [];
 for (const entry of entries) {
   const name = entry.slice(entry.indexOf("\t") + 1);
-  if (!prefixes.some((prefix) => name.startsWith(prefix)) && !["requirements.txt", "README.md", "FALLIBILITY.md"].includes(name)) continue;
+  if (!isPortfolioSource(name)) continue;
   const source = path.join(root, name);
   const stat = fs.lstatSync(source);
   if (entry.startsWith("120000 ") || !stat.isFile() || /(?:^|\/)(?:tests|node_modules|build|dist)(?:\/|$)/.test(name) ||

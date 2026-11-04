@@ -112,6 +112,8 @@ Worktree names use the full receipt SHA-256 without redundantly appending HEAD,
 reducing Windows path lengths while retaining the complete content identity.
 Early browser failures include bounded, PID-scoped bootstrap records when
 available; credentials and raw exception stacks are excluded.
+The source pack includes Navigator's five explicit `bot/` Python import
+dependencies, without bundling unrelated bot data or private exports.
 
 ## What works offline
 

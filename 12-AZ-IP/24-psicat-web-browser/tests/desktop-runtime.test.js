@@ -50,6 +50,7 @@ test('real Electron UI starts its owned sync sidecar and cleans it up on quit', 
               PSICAT_BROWSER_PYTHON: invalidPython ? path.join(work, 'missing-python.exe') : python,
               PSICAT_BROWSER_USER_DATA: invalidUserData ? 'relative-user-data' : path.join(work, scenario),
               PSICAT_BROWSER_DISABLE_NAVIGATOR: navigatorEnabled ? '0' : '1',
+              MERLIN_MEMORY_STORE_PATH: path.join(work, scenario, 'navigator-memory.json'),
               PSICAT_BROWSER_NAVIGATOR_RUN: navigatorMissing ? path.join(work, 'missing-run.py')
                 : path.resolve(root, '../20-psicat-navigator/run.py'),
             },
@@ -103,6 +104,11 @@ test('real Electron UI starts its owned sync sidecar and cleans it up on quit', 
             } else {
               await exit;
               assert.equal(messages.some((message) => message.type === 'ready'), false);
+              if (invalidPython || navigatorMissing) {
+                assert.equal(result.component, invalidPython ? 'sync' : 'navigator');
+                assert.equal(result.components[result.component].failure_code, invalidPython ? 'SPAWN_ERROR' : 'ENTRY_NOT_FOUND');
+                assert.equal(result.components.ui.status, 'ready');
+              }
               if (!invalidUserData) assert.equal(messages.some((message) => message.type === 'stopped'), true);
               else assert.match(result.error, /entry/);
             }

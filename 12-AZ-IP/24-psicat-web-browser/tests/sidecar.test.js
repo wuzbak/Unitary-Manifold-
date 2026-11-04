@@ -167,6 +167,29 @@ test('unexpected exit after readiness is a visible failure', async () => {
   assert.equal(manager.state.pid, null);
 });
 
+test('child stderr records only useful safe import diagnostics on early exit', async () => {
+  const child = fakeChild();
+  child.stderr = new EventEmitter();
+  const { manager } = fakeManager({
+    spawnImpl: () => {
+      setImmediate(() => {
+        child.stderr.emit('data', Buffer.from("secret never-leak\nModuleNotFoundError: No module named 'httpx'\n"));
+        child.exitCode = 1;
+        child.emit('exit', 1, null);
+        child.emit('close', 1, null);
+      });
+      return child;
+    },
+    fetchImpl: async () => { throw new Error('not ready'); },
+  });
+  await manager.start();
+  assert.equal(manager.state.failure_code, 'PROCESS_EXIT');
+  assert.equal(manager.state.exit_code, 1);
+  assert.equal(manager.state.python_error, 'MODULE_NOT_FOUND');
+  assert.equal(manager.state.missing_module, 'httpx');
+  assert.equal(JSON.stringify(manager.state).includes('never-leak'), false);
+});
+
 test('stubborn owned child receives bounded specific-process escalation', async () => {
   const child = fakeChild();
   const originalKill = child.kill;

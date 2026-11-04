@@ -85,6 +85,13 @@ httpx), that product's source/resources, **and the canonical repository**
 `src.infrastructure.execution_spine` on startup; its pip requirements alone
 are insufficient. The launch adapter supplies the canonical repository root
 as `PYTHONPATH` so those imports work when its working directory is Product 20.
+Product 20 also eagerly loads `bot/assistant_api.py` and `bot/rag_index.py`;
+their import chain requires `bot/__init__.py`, `bot/session_bootstrap.py` and
+`bot/research_resources.py` (plus the existing `src/core/pillar258_trusted_open_resource_registry.py`).
+An isolated source-filter reproduction excluding `bot/` failed before serving
+with `FileNotFoundError` for `bot/assistant_api.py`; including the genuine
+source-only `bot/` subtree allowed the actual server imports. These dependencies
+must be staged; browser launch does not substitute missing RAG implementations.
 Readiness checks
 `GET /api/psicat/status` for `psicat_available: true` and handshake profile
 material; readiness is **not** evidence of model competence or live inference.
@@ -194,6 +201,18 @@ Messages use `protocol: "psicat-browser-lifecycle-v1"` and `product_id: 24`:
   `<PSICAT_BROWSER_USER_DATA>/product24-startup.jsonl` so Windows console
   redirection cannot hide all main-process diagnostics. Unknown exception
   reports include phase/name/code, not exception messages, stacks or environment.
+  A startup failure additionally includes allowlisted `component` (`ui`, `sync`,
+  `navigator`, `bootstrap`), `components` status/error classifications, and
+  fixed repository-relative `resources` existence checks. The **first**
+  `startup-failed` message's human-readable error identifies the failed
+  component, code, Python exception class and recognized missing import/resource.
+  Sidecar stderr is drained through an 8 KiB parser window; raw output and
+  traceback paths are never transmitted or written to diagnostic files.
+  Unknown module/resource names are redacted. Component fields include
+  `failure_code`, `exit_code`, `exit_signal`, `spawn_code`, `python_error`,
+  `missing_module`, `missing_resource`, `health_http_status` and
+  `health_payload_valid` when available. Health response bodies, handshake
+  credentials and arbitrary exception messages are excluded.
   An empty/missing file and no `entry` IPC record means the Product 24 entry
   was not observed running; it does not establish a Node IPC limitation.
 - `state`: public state changes, **not** startup-success evidence. After ready,

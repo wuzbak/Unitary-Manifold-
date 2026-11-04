@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8480,
+  "file_count": 8482,
   "lanes": {
-    "az_ip": 2626,
+    "az_ip": 2628,
     "compactification": 9,
     "other": 5395,
     "psicat_articles": 354,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2626,
+    "12-AZ-IP": 2628,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2340,6 +2340,7 @@
       "12-AZ-IP/24-psicat-web-browser/android/gradle/libs.versions.toml",
       "12-AZ-IP/24-psicat-web-browser/android/settings.gradle.kts",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/browser-core.js",
+      "12-AZ-IP/24-psicat-web-browser/desktop/lib/component-diagnostics.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/desktop-boundary.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/page-context.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/psicat-client.js",
@@ -2363,6 +2364,7 @@
       "12-AZ-IP/24-psicat-web-browser/playwright.config.js",
       "12-AZ-IP/24-psicat-web-browser/sync_backend/server.py",
       "12-AZ-IP/24-psicat-web-browser/tests/browser-core.test.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/component-diagnostics.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/desktop-boundary.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/desktop-runtime.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/e2e/desktop-ui.spec.js",
@@ -19166,6 +19168,13 @@
       "product": "24-psicat-web-browser"
     },
     {
+      "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/component-diagnostics.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
       "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/desktop-boundary.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -19321,6 +19330,13 @@
     },
     {
       "path": "12-AZ-IP/24-psicat-web-browser/tests/browser-core.test.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/component-diagnostics.test.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",

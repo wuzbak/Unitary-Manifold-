@@ -3,6 +3,7 @@ const net = require('node:net');
 const path = require('node:path');
 const fs = require('node:fs');
 const { setTimeout: delay } = require('node:timers/promises');
+const { pythonFailure } = require('./component-diagnostics');
 
 function pythonCommand(env = process.env, platform = process.platform) {
   const executable = env.PSICAT_BROWSER_PYTHON;
@@ -71,27 +72,41 @@ class Sidecar {
   }
 
   async startOwned(signal) {
-    this.update({ status: 'starting', pid: null, error: '' });
+    this.update({ status: 'starting', pid: null, error: '', failure_code: 'UNKNOWN',
+      exit_code: null, exit_signal: null, spawn_code: null, python_error: null, missing_module: null, missing_resource: null,
+      health_http_status: null, health_payload_valid: null });
+    let stage = 'entry';
     try {
       if (!fs.existsSync(this.script)) throw new Error(`${this.name} entry point not found: ${this.script}`);
+      stage = 'python';
       const command = pythonCommand(this.env);
+      stage = 'port';
       await this.checkPort(this.port, signal);
       signal.throwIfAborted();
+      stage = 'spawn';
       const child = this.spawnImpl(command.executable, [
         ...command.args, '-u', this.script, '--host', '127.0.0.1', '--port', String(this.port), ...this.args,
       ], {
-        cwd: path.dirname(this.script), env: this.env, stdio: 'ignore',
+        cwd: path.dirname(this.script), env: this.env, stdio: ['ignore', 'ignore', 'pipe'],
         shell: false, detached: false, windowsHide: true,
       });
       this.child = child;
+      let diagnosticTail = '';
+      child.stderr?.on('data', (chunk) => {
+        // Drain stderr, retain only a bounded parser window, never publish raw Python output.
+        diagnosticTail = `${diagnosticTail}${chunk.toString('utf8')}`.slice(-8192);
+        this.update(pythonFailure(diagnosticTail));
+      });
       this.closed = new Promise((resolve) => child.once('close', resolve));
       child.on('error', (error) => {
-        this.update({ status: 'failed', error: `${this.name} could not start (${error.code || 'spawn error'}). Check the Python executable and dependencies.` });
+        this.update({ status: 'failed', failure_code: 'SPAWN_ERROR', spawn_code: error.code,
+          error: `${this.name} could not start (${error.code || 'spawn error'}). Check the Python executable and dependencies.` });
         this.controller.abort();
       });
       child.once('exit', (code, exitSignal) => {
         if (!['stopping', 'failed'].includes(this.state.status)) {
-          this.update({ status: 'failed', pid: null, error: `${this.name} exited (${exitSignal || code}); check its Python dependencies and port.` });
+          this.update({ status: 'failed', pid: null, failure_code: 'PROCESS_EXIT', exit_code: code,
+            exit_signal: exitSignal, error: `${this.name} exited (${exitSignal || code}); check its Python dependencies and port.` });
           this.controller.abort();
         } else this.update({ pid: null });
       });
@@ -99,6 +114,7 @@ class Sidecar {
         if (this.child === child) this.child = null;
       });
       this.update({ pid: child.pid || null });
+      stage = 'health';
       const deadline = AbortSignal.timeout(this.timeoutMs);
       const startupSignal = AbortSignal.any([signal, deadline]);
       while (!startupSignal.aborted) {
@@ -108,7 +124,9 @@ class Sidecar {
             redirect: 'error',
           });
           const payload = response.ok ? await response.json() : null;
-          if (payload && this.validateHealth(payload) && !startupSignal.aborted && this.child === child
+          const valid = Boolean(payload && this.validateHealth(payload));
+          this.update({ health_http_status: response.status, health_payload_valid: valid });
+          if (valid && !startupSignal.aborted && this.child === child
             && child.exitCode === null && child.signalCode === null) {
             this.update({ status: 'ready', error: '' });
             return this.state;
@@ -121,7 +139,12 @@ class Sidecar {
       throw new Error(`${this.name} readiness timed out.`);
     } catch (error) {
       if (!['failed', 'stopping'].includes(this.state.status)) {
-        this.update({ status: 'failed', error: signal.aborted ? `${this.name} startup cancelled.` : `${this.name} startup failed: ${error.name === 'AbortError' || error.name === 'TimeoutError' ? 'health-check deadline exceeded' : error.message}` });
+        this.update({ status: 'failed',
+          failure_code: signal.aborted ? 'START_CANCELLED' : ({
+            entry: 'ENTRY_NOT_FOUND', python: 'INVALID_PYTHON', port: 'PORT_UNAVAILABLE',
+            spawn: 'SPAWN_ERROR', health: 'HEALTH_TIMEOUT',
+          }[stage] || 'START_ERROR'),
+          error: signal.aborted ? `${this.name} startup cancelled.` : `${this.name} startup failed: ${error.name === 'AbortError' || error.name === 'TimeoutError' ? 'health-check deadline exceeded' : error.message}` });
       }
       await this.terminateChild();
       return this.state;

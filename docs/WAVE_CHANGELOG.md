@@ -8,6 +8,11 @@ browser startup still failed with exit code 1. Boot diagnostics are recovered
 before temporary-data cleanup. Content-scoped worktree names retain full SHA-256
 identity while removing a redundant 40-character HEAD prefix that puts native
 Electron resource paths beyond the traditional Windows path budget.
+The next installed run reached sidecar startup; a filtered-source reproduction
+identified five omitted `bot/` Python dependencies. The pack now includes those
+exact modules, and startup failures identify sanitized component/module codes
+without raw stderr or credentials. Installed Windows verification remains
+separate from the successful filtered-source Linux health/lifecycle check.
 
 Added a separate checksum/provenance-validated instruction-backend gate and a
 Windows evaluation pipeline for a locally compiled CPU llama.cpp engine with

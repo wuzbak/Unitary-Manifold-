@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const PROTOCOL = 'psicat-browser-lifecycle-v1';
+const { safeFailureContext } = require('./component-diagnostics');
 
 function createStartupDiagnostics({ processImpl = process, fsImpl = fs } = {}) {
   const directory = processImpl.env.PSICAT_BROWSER_USER_DATA;
@@ -42,12 +43,18 @@ function createStartupDiagnostics({ processImpl = process, fsImpl = fs } = {}) {
       phase = nextPhase;
       send(record('boot'));
     },
-    failure(error) {
+    failure(error, context) {
       // Unknown exception messages/stacks may contain credentials or page content.
       const name = typeof error?.name === 'string' && /^[A-Za-z]{1,40}$/.test(error.name) ? error.name : 'Error';
       const code = typeof error?.code === 'string' && /^[A-Z0-9_]{1,40}$/.test(error.code) ? error.code : null;
+      const details = context ? safeFailureContext(context) : {};
+      const failed = details.components?.[details.component];
+      const summary = failed
+        ? `; component=${details.component}, status=${failed.status}, code=${failed.failure_code}${failed.python_error ? `, python=${failed.python_error}` : ''}${failed.missing_module ? `, module=${failed.missing_module}` : ''}${failed.missing_resource ? `, resource=${failed.missing_resource}` : ''}${failed.exit_code !== undefined ? `, exit=${failed.exit_code}` : ''}`
+        : '';
       return send(record('startup-failed', {
-        error: `Product 24 failed during ${phase} (${name}${code ? `/${code}` : ''}); inspect the installed entry point and dependencies.`,
+        error: `Product 24 failed during ${phase} (${name}${code ? `/${code}` : ''})${summary}; inspect the installed entry point and dependencies.`,
+        ...details,
       }));
     },
   };
