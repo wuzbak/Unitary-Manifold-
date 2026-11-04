@@ -50,10 +50,14 @@ class SyncHandler(BaseHTTPRequestHandler):
         except ValueError:
             return False
 
+    def _sanitize_header_value(self, value: str) -> str:
+        return value.replace("\r", "").replace("\n", "").strip()
+
     def _cors_headers(self) -> None:
         origin = self.headers.get("Origin")
         if origin and self._allow_origin():
-            self.send_header("Access-Control-Allow-Origin", origin)
+            safe_origin = self._sanitize_header_value(origin)
+            self.send_header("Access-Control-Allow-Origin", safe_origin)
             self.send_header("Vary", "Origin")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, X-Sync-Token")
 
