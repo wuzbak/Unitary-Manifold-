@@ -19,6 +19,7 @@ from az_tori_transformer import (
     run_toroidal_copy_demo,
     train_text_file,
 )
+from az_tori_transformer.text_workflow import run_text_ablation
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -48,6 +49,18 @@ def main(argv: list[str] | None = None) -> int:
     train_cmd.add_argument("--layers", type=int, default=2)
     train_cmd.add_argument("--seed", type=int, default=0)
     train_cmd.add_argument("--resume", action="store_true", help="Continue the compatible checkpoint in place")
+    train_cmd.add_argument("--positional-mode", choices=("toroidal", "rope_matched"), default="toroidal")
+    compare_cmd = sub.add_parser("compare-text", help="Train corpus checkpoints and a matched RoPE control; not an assistant benchmark")
+    compare_cmd.add_argument("--text-file", required=True)
+    compare_cmd.add_argument("--output-directory", required=True, help="Existing directory for private corpus snapshot, checkpoints and receipts")
+    compare_cmd.add_argument("--steps", type=int, default=100)
+    compare_cmd.add_argument("--seeds", type=int, nargs="+", default=[0, 1, 2])
+    compare_cmd.add_argument("--context-length", type=int, default=32)
+    compare_cmd.add_argument("--batch-size", type=int, default=16)
+    compare_cmd.add_argument("--dim", type=int, default=32)
+    compare_cmd.add_argument("--heads", type=int, default=4)
+    compare_cmd.add_argument("--layers", type=int, default=2)
+    compare_cmd.add_argument("--validation-fraction", type=float, default=0.1)
     generate_cmd = sub.add_parser("generate", help="Sample text from a trained character-model checkpoint")
     generate_cmd.add_argument("--checkpoint", required=True)
     generate_cmd.add_argument("--prompt", required=True)
@@ -72,6 +85,20 @@ def main(argv: list[str] | None = None) -> int:
                 num_layers=args.layers,
                 seed=args.seed,
                 resume=args.resume,
+                positional_mode=args.positional_mode,
+            )
+        except (OSError, ValueError, FloatingPointError) as exc:
+            parser.error(str(exc))
+        print(json.dumps(report, indent=2))
+        return 0
+
+    if args.command == "compare-text":
+        try:
+            report = run_text_ablation(
+                args.text_file, args.output_directory, seeds=tuple(args.seeds),
+                steps=args.steps, context_length=args.context_length,
+                batch_size=args.batch_size, dim=args.dim, num_heads=args.heads,
+                num_layers=args.layers, validation_fraction=args.validation_fraction,
             )
         except (OSError, ValueError, FloatingPointError) as exc:
             parser.error(str(exc))

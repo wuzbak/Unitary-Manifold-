@@ -1,5 +1,16 @@
 # Wave Changelog
 
+## PsiCat own-model corpus research (2026-11-04; adjacent software only)
+
+Extended Product 43's real causal character-model trainer with a matched
+RoPE control and reproducible corpus comparisons. Runs retain private
+local corpus snapshots, per-seed real optimizer/RNG checkpoints,
+initial-parameter hashes, held-out loss deltas, elapsed times and explicit
+failure receipts. Resume checks positional mode. No synthetic-task result
+is promoted to assistant ability, physical information flow, model
+superiority or production deployment. The corpus is operator-selected;
+no private exports are committed or implicitly used for training.
+
 ## Product 45 - Hardware-gated model preparation (2026-11-04; adjacent software only)
 
 Added native-consented CPU/RAM/application-data disk/GPU diagnostics with a

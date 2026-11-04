@@ -136,3 +136,94 @@ def test_rejects_training_settings_over_aggregate_memory_budgets(
     corpus, checkpoint = corpus_and_checkpoint
     with pytest.raises(ValueError, match=message):
         train_text_file(corpus, checkpoint, steps=1, **settings)
+
+
+def test_corpus_comparison_trains_real_matched_checkpoints_and_retains_receipt(
+    corpus_and_checkpoint, tmp_path
+):
+    corpus, _ = corpus_and_checkpoint
+    report = text_workflow.run_text_ablation(
+        corpus, tmp_path, seeds=(2, 7), steps=2, context_length=4,
+        batch_size=2, dim=8, num_heads=2, num_layers=1,
+    )
+    assert report["status"] == "completed"
+    assert report["epistemic_label"] == "UNVERIFIED"
+    assert len(report["arms"]) == 4
+    run_directory = Path(report["run_directory"])
+    assert (run_directory / "corpus.txt").read_bytes() == corpus.read_bytes()
+    saved = json.loads((run_directory / "receipt.json").read_text(encoding="utf-8"))
+    assert saved == report
+    for seed in (2, 7):
+        pair = [arm for arm in report["arms"] if arm["seed"] == seed]
+        assert {arm["positional_mode"] for arm in pair} == {"toroidal", "rope_matched"}
+        assert pair[0]["parameter_count"] == pair[1]["parameter_count"]
+        assert pair[0]["initial_parameters_sha256"] == pair[1]["initial_parameters_sha256"]
+        for arm in pair:
+            assert arm["initial_parameters_matched"] is True
+            assert arm["validation_characters"] > 0
+            loaded = load_checkpoint(arm["checkpoint"])
+            assert loaded.optimizer.t == 2
+            assert loaded.model.cfg.positional_mode == arm["positional_mode"]
+            assert arm["elapsed_seconds"] > 0
+            assert len(arm["checkpoint_sha256"]) == 64
+        delta = next(item for item in report["paired_validation_loss_deltas"] if item["seed"] == seed)
+        assert delta["toroidal_minus_matched_rope"] == pair[0]["final_validation_loss"] - pair[1]["final_validation_loss"]
+
+
+def test_comparison_failures_leave_an_explicit_receipt(corpus_and_checkpoint, tmp_path, monkeypatch):
+    corpus, _ = corpus_and_checkpoint
+    original_train = text_workflow.train_text_file
+
+    def failing_control(*args, **kwargs):
+        if kwargs["positional_mode"] == "rope_matched":
+            raise FloatingPointError("control failed")
+        return original_train(*args, **kwargs)
+
+    monkeypatch.setattr(text_workflow, "train_text_file", failing_control)
+    with pytest.raises(FloatingPointError, match="control failed"):
+        text_workflow.run_text_ablation(
+            corpus, tmp_path, seeds=(0,), steps=1, context_length=4,
+            batch_size=2, dim=8, num_heads=2, num_layers=1,
+        )
+    receipts = list(tmp_path.glob("psicat-corpus-ablation-*/receipt.json"))
+    assert len(receipts) == 1
+    receipt = json.loads(receipts[0].read_text(encoding="utf-8"))
+    assert receipt["status"] == "failed"
+    assert receipt["error"] == "control failed"
+    assert len(receipt["arms"]) == 1
+    assert "initial_parameters_matched" not in receipt["arms"][0]
+    assert Path(receipt["arms"][0]["checkpoint"]).is_file()
+
+
+def test_resume_requires_the_selected_positional_mode(corpus_and_checkpoint):
+    corpus, checkpoint = corpus_and_checkpoint
+    settings = dict(context_length=4, steps=1, batch_size=2, dim=8, num_heads=2, num_layers=1)
+    train_text_file(corpus, checkpoint, positional_mode="rope_matched", **settings)
+    with pytest.raises(ValueError, match="positional_mode"):
+        train_text_file(corpus, checkpoint, resume=True, **settings)
+    report = train_text_file(corpus, checkpoint, resume=True, positional_mode="rope_matched", **settings)
+    assert report["completed_steps"] == 2
+
+
+@pytest.mark.parametrize("seeds", [(), (1, 1), (True,), (-1,), tuple(range(6)), [0]])
+def test_comparison_rejects_invalid_seed_sets_before_creating_outputs(
+    corpus_and_checkpoint, tmp_path, seeds
+):
+    corpus, _ = corpus_and_checkpoint
+    with pytest.raises(ValueError):
+        text_workflow.run_text_ablation(corpus, tmp_path, seeds=seeds)
+    assert not list(tmp_path.glob("psicat-corpus-ablation-*"))
+
+
+def test_comparison_requires_holdout_and_cli_runs(corpus_and_checkpoint, tmp_path, capsys):
+    corpus, _ = corpus_and_checkpoint
+    with pytest.raises(ValueError, match="held-out"):
+        text_workflow.run_text_ablation(corpus, tmp_path, validation_fraction=0)
+    assert main([
+        "compare-text", "--text-file", str(corpus), "--output-directory", str(tmp_path),
+        "--seeds", "0", "--steps", "1", "--context-length", "4", "--batch-size", "2",
+        "--dim", "8", "--heads", "2", "--layers", "1",
+    ]) == 0
+    report = json.loads(capsys.readouterr().out)
+    assert report["status"] == "completed"
+    assert len(report["arms"]) == 2

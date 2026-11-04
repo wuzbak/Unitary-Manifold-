@@ -243,6 +243,40 @@ production language model, or evidence that the toroidal mechanism improves
 real-corpus quality. It is local CLI/library functionality; the HTTP demo
 does not accept corpus paths or load checkpoints.
 
+### PsiCat own-model corpus comparison
+
+`compare-text` trains actual toroidal and parameter-matched RoPE character
+models on a user-selected corpus, rather than substituting a synthetic copy
+task for language training. Both arms use the same corpus snapshot, seeds,
+initial parameter schema/values, optimizer settings, batch sampling and
+chronological validation tail. The comparison reports per-seed held-out
+loss deltas, parameter hashes/counts, elapsed time and SHA-256 of real
+loadable checkpoints. Failed runs retain an explicit failure receipt and
+already completed arms; results are not selected to make toroidal win.
+
+```powershell
+python 12-AZ-IP/43-az-geometric-tori-transformer/run.py compare-text `
+  --text-file approved-psicat-corpus.txt --output-directory local-experiments `
+  --seeds 0 1 2 --steps 100 --context-length 32 --batch-size 16
+```
+
+The output directory must already exist. Each comparison creates a unique
+subdirectory containing a **plaintext corpus snapshot**, model/Adam/RNG
+checkpoints and `receipt.json`; keep these local/private. Source files are
+not changed or uploaded. There is no implicit ingestion of the monorepo,
+Mind exports, other profiles or third-party data. Select and review the
+corpus before training. `train --positional-mode rope_matched` can continue
+the control checkpoint; resume enforces the selected positional mode.
+
+This is an honest own-model research path, **not an embedded production
+PsiCat assistant**. A chronological validation tail is not an independent
+test set; the tokenizer vocabulary is constructed from the full corpus.
+Repeated/duplicated text may invalidate generalization claims. The model
+is character-level with bounded context and NumPy execution; there is no
+claimed 5D physical information channel, QA/tool-use competence, large-scale
+GPU trainer or automatic deployment/promotion. It still needs independent
+corpus/assistant evaluations and measured hardware suitability.
+
 ### Schema v1 and interoperability
 
 The file is a standard ZIP-based NumPy **NPZ** archive of NPY arrays, readable
