@@ -627,6 +627,26 @@ Native Windows validation is separate; no all-target operational certification i
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs` | `bbd60cd213cb63a3795b4803e20c7e6159f615bcb34558aaa32087220b7eecb3` | 3173 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `2f252d451c2ba74f929a07dfc5345b90c2c7985b16d3bfe3dadfedb04771859c` | 17119 |
 
+### Windows desktop startup and lifecycle reseal - 2026-11-04
+
+Resealed selected tracked runtime assets after desktop startup diagnostics and lifecycle
+regression fixes. Untracked local environments are not registered. Non-Windows/unsupported
+targets and assistant-quality limits remain explicit.
+Native Windows validation is separate; no all-target operational certification is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `f59fd606e504d7fcb5c7be9d57d4222077bf2c6a17c89ea1b322a5a2ae28616c` | 22732 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `d6429aeddd2415774771b3a47c85e95b89f67ae0c63af8b804cf1a70f2a0cc75` | 35798 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `cfa09b183075b768f400e5bbb531e539645581e008348312fe224c80d37b0a5d` | 27510 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `4f3de87c6621aa35cfb983056165588781c732a4a8e94832306a7ef50d70ad12` | 19215 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/desktop-runtime.cjs` | `999bc622c10ccf0cb260a6e4b383a5f34ce5bb1fd399889bb1bce5f75ff0a140` | 6131 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs` | `dac30fbb0a8580c7d40cf45b77f7a474a125fd8b4036e1f94cb1e1ed604d0e86` | 2185 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `f92898014b70f6fff2f717113870d6f61faa859b772621d0b31d208a94da2574` | 20263 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `51e4ab3c5c01b6d525931b9825b0dd32069f39d2a660b58f54f714bfe670fbdd` | 7197 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs` | `e96b8ab76840acbf25e999c27e71d3eda8c96962c9b388245b8fe309aa1bfcf0` | 4926 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs` | `34cfdc6a1353a4e6fd6cfd5eb7ff5ed377c628c8be619acf3f6854a84813de73` | 3234 |
+
 ## Verification Protocol
 
 To verify any registered asset:

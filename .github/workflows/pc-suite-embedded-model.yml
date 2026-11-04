@@ -1,0 +1,171 @@
+name: Embedded PsiCat Instruction Backend Evaluation
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/pc-suite-embedded-model.yml"
+      - "12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py"
+      - "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate-cpu-backend:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check candidate verifier contracts
+        run: python -m unittest discover -s 12-AZ-IP/43-az-geometric-tori-transformer/tests -p test_candidate_engine.py -q
+      - uses: actions/checkout@v4
+        with:
+          repository: ggml-org/llama.cpp
+          ref: 52e53a76df0298d2c316ae7e704eeec03b0bf478
+          path: native-engine/source
+          persist-credentials: false
+      - name: Build pinned portable CPU engine without subprocess or HTTPS support
+        run: |
+          cmake -S native-engine/source -B native-engine/build -A x64 `
+            -DBUILD_SHARED_LIBS=OFF -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded `
+            -DGGML_NATIVE=OFF -DGGML_OPENMP=OFF -DGGML_SSE42=OFF `
+            -DGGML_AVX=OFF -DGGML_AVX2=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF `
+            -DGGML_AVX512=OFF -DLLAMA_OPENSSL=OFF -DLLAMA_SUBPROCESS=OFF `
+            -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF `
+            -DLLAMA_BUILD_TOOLS=ON -DLLAMA_BUILD_SERVER=ON `
+            -DLLAMA_BUILD_UI=OFF -DLLAMA_CONNECT=OFF
+          if ($LASTEXITCODE -ne 0) { throw "CPU engine configuration failed." }
+          $cache = Get-Content native-engine/build/CMakeCache.txt -Raw
+          foreach ($option in @("BUILD_SHARED_LIBS", "GGML_NATIVE", "GGML_OPENMP", "GGML_SSE42", "GGML_AVX", "GGML_AVX2", "GGML_FMA", "GGML_F16C", "GGML_AVX512", "LLAMA_OPENSSL", "LLAMA_SUBPROCESS", "LLAMA_BUILD_UI", "LLAMA_CONNECT")) {
+            if ($cache -notmatch "(?m)^${option}:BOOL=OFF$") {
+              throw "Required portable/offline build option was not honored: $option"
+            }
+          }
+          cmake --build native-engine/build --config Release --target llama-server --parallel 2
+          if ($LASTEXITCODE -ne 0) { throw "CPU engine compilation failed." }
+      - name: Fetch authoritative public model metadata and checksum-bound weights
+        run: |
+          $repository = "Qwen/Qwen3-1.7B-GGUF"
+          $file = "Qwen3-1.7B-Q4_K_M.gguf"
+          $metadata = Invoke-RestMethod -Uri "https://huggingface.co/api/models/${repository}?blobs=true" -TimeoutSec 60 -MaximumRedirection 0
+          if ($metadata.private -or $metadata.gated -or $metadata.cardData.license -cne "apache-2.0") {
+            throw "Candidate must be public, ungated and declared Apache-2.0 by its official model card."
+          }
+          $assets = @($metadata.siblings | Where-Object { $_.rfilename -ceq $file })
+          if ($assets.Count -ne 1 -or $metadata.sha -cnotmatch "^[a-f0-9]{40}$") {
+            throw "Official model revision or exact quantization file is missing."
+          }
+          $asset = $assets[0]
+          if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 1600000000) {
+            throw "Authoritative LFS digest/size is missing or exceeds the candidate size budget."
+          }
+          New-Item -ItemType Directory -Force candidate | Out-Null
+          function Receive-PublicAsset([string]$url, [string]$destination, [long]$maximum, [long]$expected = -1) {
+            $handler = [System.Net.Http.HttpClientHandler]::new()
+            $handler.AllowAutoRedirect = $false
+            $client = [System.Net.Http.HttpClient]::new($handler)
+            $deadline = [System.Threading.CancellationTokenSource]::new([TimeSpan]::FromMinutes(15))
+            $response = $null
+            $inputStream = $null
+            $outputStream = $null
+            try {
+              $uri = [Uri]$url
+              for ($redirect = 0; $redirect -le 5; $redirect++) {
+                if ($uri.Scheme -cne "https" -or -not ($uri.Host -eq "huggingface.co" -or $uri.Host.EndsWith(".huggingface.co") -or $uri.Host.EndsWith(".hf.co") -or $uri.Host -in @("apache.org", "www.apache.org"))) {
+                  throw "Public artifact redirect escaped the approved HTTPS publishers."
+                }
+                $response = $client.GetAsync($uri, [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead, $deadline.Token).GetAwaiter().GetResult()
+                if ([int]$response.StatusCode -notin @(301, 302, 303, 307, 308)) { break }
+                if ($redirect -eq 5 -or $null -eq $response.Headers.Location) { throw "Artifact redirect limit exceeded." }
+                $uri = [Uri]::new($uri, $response.Headers.Location)
+                $response.Dispose()
+                $response = $null
+              }
+              $response.EnsureSuccessStatusCode() | Out-Null
+              $length = $response.Content.Headers.ContentLength
+              if ($null -ne $length -and ($length -gt $maximum -or ($expected -ge 0 -and $length -ne $expected))) {
+                throw "Artifact declared byte length is invalid."
+              }
+              $inputStream = $response.Content.ReadAsStreamAsync().GetAwaiter().GetResult()
+              $outputStream = [System.IO.File]::Open($destination, [System.IO.FileMode]::CreateNew)
+              $buffer = [byte[]]::new(1048576)
+              [long]$total = 0
+              while (($count = $inputStream.ReadAsync($buffer, 0, $buffer.Length, $deadline.Token).GetAwaiter().GetResult()) -gt 0) {
+                $total += $count
+                if ($total -gt $maximum) { throw "Artifact exceeded its byte budget." }
+                $outputStream.Write($buffer, 0, $count)
+              }
+              if ($expected -ge 0 -and $total -ne $expected) { throw "Artifact actual byte length is invalid." }
+            } finally {
+              if ($null -ne $outputStream) { $outputStream.Dispose() }
+              if ($null -ne $inputStream) { $inputStream.Dispose() }
+              if ($null -ne $response) { $response.Dispose() }
+              $deadline.Dispose()
+              $client.Dispose()
+            }
+          }
+          $url = "https://huggingface.co/${repository}/resolve/$($metadata.sha)/${file}"
+          $modelPath = [System.IO.Path]::GetFullPath("candidate/$file")
+          Receive-PublicAsset $url $modelPath $asset.lfs.size $asset.lfs.size
+          $actual = (Get-FileHash $modelPath -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -cne $asset.lfs.sha256) { throw "Downloaded model does not match authoritative LFS SHA-256." }
+          Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/README.md" ([System.IO.Path]::GetFullPath("candidate/MODEL_CARD.md")) 262144
+          Receive-PublicAsset "https://www.apache.org/licenses/LICENSE-2.0.txt" ([System.IO.Path]::GetFullPath("candidate/MODEL_LICENSE")) 65536
+          foreach ($notice in @($metadata.siblings | Where-Object { $_.rfilename -cin @("NOTICE", "NOTICE.txt", "NOTICE.md") })) {
+            Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$($notice.rfilename)" ([System.IO.Path]::GetFullPath("candidate/$($notice.rfilename)")) 65536
+          }
+          $enginePath = [System.IO.Path]::GetFullPath("native-engine/build/bin/Release/llama-server.exe")
+          $manifest = [ordered]@{
+            formatVersion = 1
+            model = [ordered]@{
+              repository = $repository; revision = $metadata.sha; file = $file
+              sha256 = $actual; sizeBytes = $asset.lfs.size; license = "Apache-2.0"
+            }
+            engine = [ordered]@{
+              repository = "ggml-org/llama.cpp"
+              revision = "52e53a76df0298d2c316ae7e704eeec03b0bf478"
+              sha256 = (Get-FileHash $enginePath -Algorithm SHA256).Hash.ToLowerInvariant()
+              license = "MIT"
+            }
+          }
+          $manifest | ConvertTo-Json -Depth 6 | Set-Content candidate/manifest.json -Encoding utf8NoBOM
+          [ordered]@{
+            url = $url
+            modelCardSha256 = (Get-FileHash candidate/MODEL_CARD.md -Algorithm SHA256).Hash.ToLowerInvariant()
+            licenseSha256 = (Get-FileHash candidate/MODEL_LICENSE -Algorithm SHA256).Hash.ToLowerInvariant()
+            licenseSource = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            productionAssistantVerified = $false
+          } | ConvertTo-Json | Set-Content candidate/source-provenance.json -Encoding utf8NoBOM
+          $manifest | ConvertTo-Json -Depth 6
+      - name: Exercise actual local model instructions, citations and refusal
+        run: |
+          python 12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py `
+            --engine "$([System.IO.Path]::GetFullPath('native-engine/build/bin/Release/llama-server.exe'))" `
+            --model "$([System.IO.Path]::GetFullPath('candidate/Qwen3-1.7B-Q4_K_M.gguf'))" `
+            --manifest "$([System.IO.Path]::GetFullPath('candidate/manifest.json'))" `
+            --report "$([System.IO.Path]::GetFullPath('candidate/validation.json'))"
+          if ($LASTEXITCODE -ne 0) { throw "Actual instruction backend acceptance failed." }
+      - name: Preserve source licenses for the evaluated engine
+        run: |
+          git -C native-engine/source archive --format=zip --output="$([System.IO.Path]::GetFullPath('candidate/engine-source.zip'))" HEAD
+          if ($LASTEXITCODE -ne 0) { throw "Pinned source/license archive creation failed." }
+          Copy-Item native-engine/build/bin/Release/llama-server.exe candidate/llama-server.exe
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('candidate/manifest.json') != ''
+        with:
+          name: psicat-instruction-backend-evaluation
+          retention-days: 7
+          path: |
+            candidate/manifest.json
+            candidate/source-provenance.json
+            candidate/validation.json
+            candidate/MODEL_CARD.md
+            candidate/MODEL_LICENSE
+            candidate/NOTICE*
+            candidate/llama-server.exe
+            candidate/engine-source.zip
+          if-no-files-found: error

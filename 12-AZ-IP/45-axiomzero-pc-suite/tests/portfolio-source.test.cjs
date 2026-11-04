@@ -24,6 +24,12 @@ test("bundled source is checksum-verified and copied into a stable content-scope
   const { source, destination } = fixture(t);
   const result = materializePortfolioSource(source, destination);
   assert.notEqual(result, source);
+  const identity = crypto.createHash("sha256").update(fs.readFileSync(path.join(source, "SOURCE_RECEIPT.json"))).digest("hex");
+  assert.equal(path.basename(result), identity);
+  const windowsDirectory = "C:\\Users\\runneradmin\\AppData\\Local\\Temp\\p45-portfolio-smoke-123456\\source";
+  const runtimeResource = "12-AZ-IP\\24-psicat-web-browser\\node_modules\\electron\\dist\\resources\\default_app.asar";
+  assert.ok(path.win32.join(windowsDirectory, identity, runtimeResource).length < 260);
+  assert.ok(path.win32.join(windowsDirectory, `${"a".repeat(40)}-${identity}`, runtimeResource).length >= 260);
   assert.equal(fs.readFileSync(path.join(result, "12-AZ-IP/README.md"), "utf8"), "Portfolio");
   assert.equal(materializePortfolioSource(source, destination), result);
   assert.equal(fs.readFileSync(path.join(source, "12-AZ-IP/README.md"), "utf8"), "Portfolio");

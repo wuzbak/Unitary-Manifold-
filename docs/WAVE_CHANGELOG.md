@@ -1,5 +1,21 @@
 # Wave Changelog
 
+## Product 45 - Native startup and instruction-backend gates (2026-11-04; adjacent software only)
+
+Windows now directly exercises Electron inherited IPC and enabled Navigator
+readiness before installer packaging. That standalone check passed; installed
+browser startup still failed with exit code 1. Boot diagnostics are recovered
+before temporary-data cleanup. Content-scoped worktree names retain full SHA-256
+identity while removing a redundant 40-character HEAD prefix that puts native
+Electron resource paths beyond the traditional Windows path budget.
+
+Added a separate checksum/provenance-validated instruction-backend gate and a
+Windows evaluation pipeline for a locally compiled CPU llama.cpp engine with
+official Qwen GGUF weights. This is a pretrained third-party language candidate,
+not our from-scratch toroidal model. Actual model evaluation, frontend embedding,
+expert quality and incompatible portfolio platforms remain unfinished. No
+physics label, pillar, score, falsifier or required quality threshold changes.
+
 ## Product 45 - Authenticated Node workbench deployment (2026-11-04; adjacent software only)
 
 Added Product 27 locked npm installation, actual Vite dashboard build and

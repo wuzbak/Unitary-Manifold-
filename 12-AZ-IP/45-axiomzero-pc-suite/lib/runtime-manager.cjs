@@ -220,6 +220,7 @@ function createRuntimeManager({
         child.stdout.resume(); child.stderr.resume();
         const control = superviseDesktop(child, {
           readyDeadlineMs: serviceDeadlineMs,
+          startupDirectory: path.join(dataDirectory, "browser"),
           terminateTree: async (owned) => {
             if (!Number.isInteger(owned.pid) || owned.pid <= 0) throw new Error("Owned desktop PID is invalid.");
             const windowsRoot = process.env.SystemRoot;

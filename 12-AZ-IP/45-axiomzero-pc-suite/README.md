@@ -108,6 +108,10 @@ large files, test/build/dependency folders and symlinks; external datasets,
 credentials, Android/UEFI artifacts and all runtime-specific data are not
 implied to be bundled. Byte-identical Windows case aliases are deduplicated
 and recorded explicitly; conflicting alias contents abort source staging.
+Worktree names use the full receipt SHA-256 without redundantly appending HEAD,
+reducing Windows path lengths while retaining the complete content identity.
+Early browser failures include bounded, PID-scoped bootstrap records when
+available; credentials and raw exception stacks are excluded.
 
 ## What works offline
 

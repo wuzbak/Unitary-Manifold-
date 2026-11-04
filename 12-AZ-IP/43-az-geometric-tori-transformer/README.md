@@ -22,6 +22,28 @@ existing published architecture. Every op (matmul, softmax, layer norm,
 GELU, embedding gather, the rotary encoding, and the relative-position
 bias) is implemented and differentiated here (`tensor.py`), in NumPy only.
 
+## Separate instruction-backend verification
+
+`verify_embedded_engine.py` validates an absolute-path, checksum-pinned local
+llama.cpp server and Qwen3 GGUF before any frontend integration. It checks real
+instructions, supplied citation IDs, unsupported portfolio-platform limits and
+refusal of malicious retrieved instructions. The server runs CPU-only on an
+owned authenticated loopback endpoint with bounded requests and cleanup.
+The report records actual outputs, latency, failures and shutdown status.
+
+The Windows `pc-suite-embedded-model.yml` workflow builds a pinned static engine,
+obtains official model revision/LFS hashes and declared licensing, and downloads
+weights with byte/time limits before exercising that gate. The candidate is a
+**third-party pretrained language substrate**, not this repository's toroidal
+model, not trained by this project, and not evidence of physical 5D information
+flow. Backend sanity checks do not certify expert-assistant quality.
+Weights are not committed, private exports are not uploaded, and Product 45
+does not yet ship or integrate this candidate.
+
+```bash
+python -m unittest discover -s 12-AZ-IP/43-az-geometric-tori-transformer/tests -p test_candidate_engine.py -q
+```
+
 ## The two geometric mechanisms
 
 1. **Toroidal rotary encoding** (`positional.py::toroidal_rotation_table`,

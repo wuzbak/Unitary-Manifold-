@@ -1,7 +1,52 @@
 const crypto = require("node:crypto");
+const fs = require("node:fs");
+const path = require("node:path");
 const PROTOCOL = "psicat-browser-lifecycle-v1";
 
-function superviseDesktop(child, { readyDeadlineMs = 30000, stopDeadlineMs = 10000, terminateTree }) {
+function readStartupDiagnostics(directory, pid) {
+  const filename = path.join(directory, "product24-startup.jsonl");
+  if (!fs.existsSync(filename)) return "No Product 24 entry record was written; its bootstrap may not have loaded.";
+  const relative = path.relative(fs.realpathSync(directory), fs.realpathSync(filename));
+  if (relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+    throw new Error("Browser startup diagnostics escape the owned data directory.");
+  }
+  const fd = fs.openSync(filename, "r");
+  let text;
+  try {
+    if (!fs.fstatSync(fd).isFile()) throw new Error("Browser startup diagnostics are not a regular file.");
+    const buffer = Buffer.alloc(65537);
+    let count = 0;
+    while (count < buffer.length) {
+      const received = fs.readSync(fd, buffer, count, buffer.length - count, count);
+      if (!received) break;
+      count += received;
+    }
+    if (count > 65536) throw new Error("Browser startup diagnostics exceed the 64 KiB limit.");
+    text = new TextDecoder("utf-8", { fatal: true }).decode(buffer.subarray(0, count));
+  } finally { fs.closeSync(fd); }
+  const records = [];
+  for (const line of text.split("\n").filter((value) => value.trim())) {
+    const record = JSON.parse(line);
+    if (!record || typeof record !== "object" || Array.isArray(record)) throw new Error("Browser startup diagnostic record is invalid.");
+    if (record.pid !== pid) continue;
+    const filtered = {};
+    for (const key of ["protocol", "product_id", "type", "phase", "pid", "platform", "electron", "ipc_available", "connected"]) {
+      const value = record[key];
+      if (typeof value === "string") filtered[key] = value.slice(0, 160);
+      else if (typeof value === "boolean" || (typeof value === "number" && Number.isFinite(value))) filtered[key] = value;
+    }
+    if (record.error && typeof record.error === "object") {
+      filtered.error = {};
+      for (const key of ["name", "code"]) {
+        if (typeof record.error[key] === "string") filtered.error[key] = record.error[key].slice(0, 160);
+      }
+    }
+    records.push(filtered);
+  }
+  return records.length ? JSON.stringify(records) : "No startup record matches the owned browser PID.";
+}
+
+function superviseDesktop(child, { readyDeadlineMs = 30000, stopDeadlineMs = 10000, terminateTree, startupDirectory }) {
   let ready = false;
   let closed = false;
   let acknowledged = false;
@@ -27,7 +72,18 @@ function superviseDesktop(child, { readyDeadlineMs = 30000, stopDeadlineMs = 100
   child.on("error", (error) => { failure = error; update(); });
   child.on("close", (code, signal) => {
     closed = true;
-    if (!ready) failure ||= new Error(`Browser exited before readiness (code ${code}, signal ${signal || "none"}): ${diagnostics}`);
+    if (!ready && !failure) {
+      let boot = "";
+      if (startupDirectory) {
+        try { boot = readStartupDiagnostics(startupDirectory, child.pid); }
+        catch (error) {
+          const reason = error instanceof SyntaxError ? "invalid JSON" :
+            error instanceof TypeError ? "invalid UTF-8" : "unreadable, unsafe or over the 64 KiB limit";
+          boot = `Startup diagnostic read failed: ${reason}.`;
+        }
+      }
+      failure = new Error(`Browser exited before readiness (code ${code}, signal ${signal || "none"}): ${diagnostics} ${boot}`);
+    }
     update();
   });
   function waitUntil(predicate, deadlineMs, label, failOnError = false) {
@@ -74,4 +130,4 @@ function superviseDesktop(child, { readyDeadlineMs = 30000, stopDeadlineMs = 100
   };
 }
 
-module.exports = { superviseDesktop, PROTOCOL };
+module.exports = { superviseDesktop, readStartupDiagnostics, PROTOCOL };

@@ -12,7 +12,7 @@ function materializePortfolioSource(source, directory) {
     throw new Error("Bundled portfolio source receipt is invalid.");
   }
   const identity = crypto.createHash("sha256").update(bytes).digest("hex");
-  const destination = path.join(directory, `${receipt.head}-${identity}`);
+  const destination = path.join(directory, identity);
   if (fs.existsSync(destination)) return validateCheckout(destination);
   const seen = new Set();
   for (const file of receipt.files) {

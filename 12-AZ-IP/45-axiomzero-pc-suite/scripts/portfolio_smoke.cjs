@@ -77,7 +77,19 @@ async function main() {
     assert.throws(() => manager.access("27"), /Start/);
     console.log("Installed Node workbench locked dependencies, dashboard, authentication, project creation/build and start/stop passed.");
     await manager.install("24");
-    const browser = await manager.start("24");
+    let browser;
+    try { browser = await manager.start("24"); }
+    catch (error) {
+      const folder = path.join(materializePortfolioSource(source, path.join(temporary, "source")), "12-AZ-IP/24-psicat-web-browser");
+      const resources = ["desktop/main.js", "desktop/runtime.js", "desktop/lib/startup-diagnostics.js",
+        "desktop/lib/suite-lifecycle.js", "node_modules/electron/dist/electron.exe",
+        "node_modules/electron/dist/resources/default_app.asar", "node_modules/electron/dist/v8_context_snapshot.bin"];
+      console.error("Installed browser bootstrap resource diagnostics:", resources.map((relative) => {
+        const filename = path.join(folder, relative);
+        return { resource: relative, pathLength: filename.length, exists: fs.existsSync(filename) };
+      }));
+      throw error;
+    }
     assert.equal(browser.desktop, true);
     const syncResponse = await fetch("http://127.0.0.1:8787/api/sync/health", { signal: AbortSignal.timeout(5000) });
     assert.equal(syncResponse.status, 200);

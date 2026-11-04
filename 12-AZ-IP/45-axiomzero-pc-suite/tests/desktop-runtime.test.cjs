@@ -1,7 +1,10 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const { EventEmitter } = require("node:events");
-const { superviseDesktop, PROTOCOL } = require("../lib/desktop-runtime.cjs");
+const fs = require("node:fs");
+const os = require("node:os");
+const path = require("node:path");
+const { superviseDesktop, readStartupDiagnostics, PROTOCOL } = require("../lib/desktop-runtime.cjs");
 
 function fixture(options = {}) {
   const child = new EventEmitter();
@@ -39,6 +42,32 @@ test("early native desktop exit reports the actual exit status instead of a blan
   const pending = control.ready();
   child.emit("close", 42, null);
   await assert.rejects(pending, /code 42, signal none/);
+});
+test("startup diagnostics are PID-scoped, bounded and exclude credentials and raw exception stacks", async (t) => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "p45-startup-diagnostics-"));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  assert.match(readStartupDiagnostics(root, 12345), /No Product 24 entry record/);
+  const filename = path.join(root, "product24-startup.jsonl");
+  fs.writeFileSync(filename, [
+    JSON.stringify({ pid: 1, type: "unrelated", error: { name: "unrelated" } }),
+    JSON.stringify({ pid: 12345, phase: "entry", ipc_available: true, environment: { key: "DO_NOT_LOG" },
+      error: { name: "Error", code: "MODULE_NOT_FOUND", stack: "DO_NOT_LOG", message: "DO_NOT_LOG" } })
+  ].join("\n"));
+  const reading = readStartupDiagnostics(root, 12345);
+  assert.match(reading, /MODULE_NOT_FOUND/);
+  assert.doesNotMatch(reading, /DO_NOT_LOG|unrelated|stack|message/);
+  const owned = fixture({ startupDirectory: root });
+  const pending = owned.control.ready();
+  owned.child.emit("close", 1, null);
+  await assert.rejects(pending, /MODULE_NOT_FOUND/);
+  fs.writeFileSync(filename, " ".repeat(65537));
+  assert.throws(() => readStartupDiagnostics(root, 12345), /64 KiB/);
+  fs.writeFileSync(filename, '{"private":"DO_NOT_LOG" broken');
+  assert.throws(() => readStartupDiagnostics(root, 12345), SyntaxError);
+  const invalid = fixture({ startupDirectory: root });
+  const invalidReady = invalid.control.ready();
+  invalid.child.emit("close", 1, null);
+  await assert.rejects(invalidReady, (error) => /invalid JSON/.test(error.message) && !/DO_NOT_LOG/.test(error.message));
 });
 test("unresponsive graceful shutdown terminates only the owned tree and reports escalation", async () => {
   let terminated;

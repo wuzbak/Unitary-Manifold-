@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8477,
+  "file_count": 8480,
   "lanes": {
-    "az_ip": 2624,
+    "az_ip": 2626,
     "compactification": 9,
-    "other": 5394,
+    "other": 5395,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -16,14 +16,14 @@
     ".dvc": 1,
     ".firebaserc": 1,
     ".gitattributes": 1,
-    ".github": 51,
+    ".github": 52,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2624,
+    "12-AZ-IP": 2626,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2707,6 +2707,7 @@
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_api.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_attention.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_baseline_benchmark.py",
+      "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_checkpoint.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_model.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_positional.py",
@@ -2714,7 +2715,8 @@
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_text_workflow.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_toroidal_geometry.py",
       "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_training.py",
-      "12-AZ-IP/43-az-geometric-tori-transformer/ui/index.html"
+      "12-AZ-IP/43-az-geometric-tori-transformer/ui/index.html",
+      "12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py"
     ],
     "44-axiomzero-weave": [
       "12-AZ-IP/44-axiomzero-weave/README.md",
@@ -3519,6 +3521,12 @@
     },
     {
       "path": ".github/workflows/pages.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/workflows/pc-suite-embedded-model.yml",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -21461,6 +21469,13 @@
       "product": "43-az-geometric-tori-transformer"
     },
     {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
       "path": "12-AZ-IP/43-az-geometric-tori-transformer/tests/test_checkpoint.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21511,6 +21526,13 @@
     },
     {
       "path": "12-AZ-IP/43-az-geometric-tori-transformer/ui/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "43-az-geometric-tori-transformer"
+    },
+    {
+      "path": "12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
