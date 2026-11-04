@@ -102,6 +102,31 @@ main { max-width: 1440px; margin: 0 auto; padding: 28px clamp(24px, 5vw, 72px) 4
 .evidence-card code { display: block; margin-top: 6px; overflow-wrap: anywhere; }
 .knowledge[aria-busy="true"] { opacity: .7; pointer-events: none; }
 
+.harness { padding: 22px; }
+.harness > .muted { font-size: 13px; }
+.harness-form { display: grid; gap: 8px; margin-top: 18px; }
+.harness-form label { color: #c4d2e6; font-size: 13px; }
+.harness-form input:not([type="checkbox"]) {
+  min-width: 0; min-height: 42px; border: 1px solid #33425a; border-radius: 8px;
+  background: #0a1321; color: #e5eaf3; padding: 9px 12px; width: 100%;
+}
+.harness-options { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.harness-options label { display: flex; gap: 8px; align-items: center; }
+.harness-policy { margin-top: 14px; }
+.harness-layout { display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 3fr); gap: 16px; margin-top: 14px; }
+.harness-tasks { display: flex; flex-direction: column; gap: 8px; max-height: 650px; overflow-y: auto; }
+.harness-tasks button { text-align: left; overflow-wrap: anywhere; flex-shrink: 0; }
+.harness-tasks button[aria-pressed="true"] { border-color: #8bc2ff; background: #1c2d48; }
+.harness-detail { min-width: 0; border: 1px solid #263650; border-radius: 10px; padding: 16px; background: #0d1726; }
+.harness-detail h3 { margin: 0 0 8px; overflow-wrap: anywhere; }
+.harness-detail p, .harness-detail li { font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.harness-detail ol { padding-left: 22px; }
+.harness-detail details { margin-top: 10px; }
+.harness-detail summary { cursor: pointer; font-size: 13px; color: #88bcff; }
+.harness-detail pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.55 Consolas, monospace; max-height: 400px; overflow-y: auto; }
+.harness-step-error { color: #f3c778; }
+.harness-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+
 .portfolio, .catalog { padding: 22px; }
 .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 17px; }
 .section-heading h2 { margin-top: 5px; }
@@ -128,4 +153,6 @@ main { max-width: 1440px; margin: 0 auto; padding: 28px clamp(24px, 5vw, 72px) 4
   .product-grid { grid-template-columns: 1fr; }
   .collection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .knowledge-collections { grid-template-columns: 1fr; }
+  .harness-layout { grid-template-columns: 1fr; }
+  .harness-tasks { max-height: 200px; }
 }

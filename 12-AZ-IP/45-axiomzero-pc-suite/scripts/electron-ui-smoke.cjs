@@ -82,9 +82,54 @@ async function verifyWindow(target) {
     }
     assert.equal(rendered.title, "AxiomZero PC Suite");
     assert.equal(rendered.cards, 45, "all catalog entries should render");
-    for (const text of ["Local evidence library", "Search locally", "Open PsiCat Navigator"]) {
+    for (const text of ["Local evidence library", "Search locally", "Open PsiCat Navigator", "Research control plane"]) {
       assert.ok(rendered.body.includes(text), `the window should render "${text}"`);
     }
+    const created = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        document.querySelector("#harness-goal").value = "Smoke test offline memory";
+        document.querySelector("#harness-form").requestSubmit();
+        for (let i = 0; i < 100; i++) {
+          const state = await window.axiomSuite.getHarness();
+          const run = state.runs.at(-1);
+          if (run?.goal === "Smoke test offline memory" && document.querySelector("#harness-detail h3")?.textContent === run.goal) {
+            return {
+              id: run.id, status: run.status, label: run.epistemicLabel,
+              steps: run.steps.map(step => step.tool),
+              controls: [...document.querySelectorAll("[data-harness-action]")].map(button => button.dataset.harnessAction)
+            };
+          }
+          await new Promise(resolve => setTimeout(resolve, 50));
+        }
+        throw new Error("The research plan did not render.");
+      })()`,
+      returnByValue: true, awaitPromise: true
+    });
+    assert.equal(created.result.value?.status, "pending");
+    assert.equal(created.result.value.label, "UNVERIFIED");
+    assert.deepEqual(created.result.value.steps, ["catalog.search", "evidence.search", "report.compose"]);
+    assert.deepEqual(created.result.value.controls, ["run", "pause", "cancel", "export", "remove"]);
+    const cancelled = await send("Runtime.evaluate", {
+      expression: `(async () => {
+        document.querySelector('[data-harness-action="cancel"]').click();
+        for (let i = 0; i < 100; i++) {
+          const state = await window.axiomSuite.getHarness();
+          const run = state.runs.find(run => run.id === ${JSON.stringify(created.result.value.id)});
+          if (run?.status === "cancelled") return {
+            status: run.status, attempts: run.attempts,
+            outputs: run.steps.map(step => step.output),
+            event: state.events.at(-1).action
+          };
+          await new Promise(resolve => setTimeout(resolve, 50));
+        }
+        throw new Error("The research task did not cancel.");
+      })()`,
+      returnByValue: true, awaitPromise: true
+    });
+    assert.equal(cancelled.result.value?.status, "cancelled");
+    assert.equal(cancelled.result.value.attempts, 0);
+    assert.deepEqual(cancelled.result.value.outputs, [null, null, null]);
+    assert.equal(cancelled.result.value.event, "cancelled");
     assert.deepEqual(exceptions, [], "the renderer should not throw JavaScript exceptions");
   } finally {
     try {
@@ -96,7 +141,7 @@ async function verifyWindow(target) {
 
 waitForPage()
   .then(verifyWindow)
-  .then(() => console.log("Product 45 window rendered all 45 products without renderer exceptions."))
+  .then(() => console.log("Product 45 rendered all 45 products and created/cancelled a checkpointed research task without renderer exceptions."))
   .catch((error) => {
     console.error(error);
     process.exitCode = 1;

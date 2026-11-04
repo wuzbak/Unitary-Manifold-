@@ -10,6 +10,9 @@ const {
 } = require("./lib/repository.cjs");
 const { readSettings, writeSettings } = require("./lib/settings.cjs");
 const { createExclusiveOperation } = require("./lib/operation-lock.cjs");
+const { ResearchHarness, searchCatalog, composeReport } = require("./lib/harness.cjs");
+const { searchEvidence } = require("./lib/worker-search.cjs");
+const { reasonLocally } = require("./lib/local-model.cjs");
 const {
   MAX_COLLECTIONS,
   buildCollection,
@@ -25,6 +28,16 @@ let products;
 let settingsPath;
 let knowledgeDirectory;
 let settings;
+let harness;
+const ownsInstance = app.requestSingleInstanceLock();
+if (!ownsInstance) app.quit();
+app.on("second-instance", () => {
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.show();
+    mainWindow.focus();
+  }
+});
 const knowledgeCache = new Map();
 const runKnowledgeMutation = createExclusiveOperation(
   "Another local library change is already in progress."
@@ -89,6 +102,53 @@ async function openLocalPath(target) {
 }
 
 function registerHandlers() {
+  ipcMain.handle("harness:state", () => harness.snapshot());
+  ipcMain.handle("harness:create", (_event, request) => harness.create(request));
+  ipcMain.handle("harness:run-step", async (_event, id) => {
+    const proposal = harness.proposal(id);
+    await harness.execute(proposal, async (step) => {
+      const response = await dialog.showMessageBox(mainWindow, {
+        type: "question",
+        title: "Approve one harness step",
+        message: `${step.tool} for "${step.goal}"`,
+        detail: `${step.disclosure}\n\nAttempt budget: six per task. Deadline: 60 seconds per step. Approval applies only to this step and expires if its checkpoint changes.${step.contextTruncated ? "\nPrior context is truncated to 12,000 characters; full results remain in the checkpoint." : ""}`,
+        buttons: ["Cancel", "Approve this step"],
+        defaultId: 0, cancelId: 0, noLink: true
+      });
+      return response.response === 1;
+    });
+    return harness.snapshot();
+  });
+  ipcMain.handle("harness:pause", (_event, id) => {
+    harness.stop(id);
+    return harness.snapshot();
+  });
+  ipcMain.handle("harness:cancel", (_event, id) => {
+    harness.stop(id, true);
+    return harness.snapshot();
+  });
+  ipcMain.handle("harness:remove", async (_event, id) => {
+    const run = harness.get(id);
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "warning", title: "Remove harness checkpoint?",
+      message: `Remove the task and results for "${run.goal}"?`,
+      detail: "Export first if needed. Original sources are unchanged. The bounded audit trail retains task IDs and action metadata, not the removed results.",
+      buttons: ["Cancel", "Remove checkpoint"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response === 1) harness.remove(id);
+    return harness.snapshot();
+  });
+  ipcMain.handle("harness:export", async (_event, id) => {
+    harness.get(id);
+    const result = await dialog.showSaveDialog(mainWindow, {
+      title: "Export research checkpoint and audit",
+      defaultPath: `axiomzero-research-${id}.json`,
+      filters: [{ name: "Research checkpoint", extensions: ["json"] }]
+    });
+    if (result.canceled) return { canceled: true };
+    fs.writeFileSync(result.filePath, `${JSON.stringify(harness.export(id), null, 2)}\n`, { mode: 0o600 });
+    return { canceled: false };
+  });
   ipcMain.handle("suite:get-state", () => ({
     repositoryRoot: settings.repositoryRoot,
     productCount: products.length,
@@ -284,10 +344,19 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  if (!ownsInstance) return;
   products = loadProducts(path.join(__dirname, "catalog", "products.json"));
   settingsPath = path.join(app.getPath("userData"), "settings.json");
   knowledgeDirectory = path.join(app.getPath("userData"), "knowledge");
   settings = readSettings(settingsPath);
+  harness = new ResearchHarness(path.join(app.getPath("userData"), "research-harness.json"), {
+    "catalog.search": ({ goal }) => searchCatalog(products, goal),
+    "evidence.search": ({ goal, signal }) => runKnowledgeMutation(() => searchEvidence({
+      directory: knowledgeDirectory, ids: [...settings.knowledgeCollectionIds], goal, signal
+    })),
+    "report.compose": composeReport,
+    "model.reason": ({ goal, model, context, signal }) => reasonLocally({ goal, model, context, signal })
+  });
   registerHandlers();
   createWindow();
   app.on("activate", () => {
@@ -295,6 +364,13 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+}).catch((error) => {
+  dialog.showErrorBox("AxiomZero PC Suite could not start", error.message);
+  app.quit();
+});
+
+app.on("before-quit", () => {
+  if (harness?.active) harness.stop(harness.active.id);
 });
 
 app.on("window-all-closed", () => {

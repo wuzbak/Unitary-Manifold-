@@ -59,7 +59,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 42 | AZ Awareness & Creation Toolkit | 1.1.0 | TRL-2 | CLI / Python library + web (http://localhost:8142) | 66 passed | Adds custom JSON Q/A deck creation and validated SM-2 review endpoints, with browser-local deck persistence and explicit request/card limits; existing repository-aware tools remain wired to PsiCat. | [42-az-awareness-creation-toolkit/](42-az-awareness-creation-toolkit/) |
 | 43 | AZ Geometric Tori Transformer | 1.0.0 | TRL-1 | CLI / Python library + web (http://localhost:8143) | 46 | From-scratch (NumPy-only, custom autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5²+7², (5,7) braid winding) instead of standard sinusoidal RoPE — toroidal rotary encoding with finite orbit periods plus a toroidal relative-distance attention bias; wired as `getToriTransformerGeometry`/`getToriTransformerDemo` native PsiCat tools, exposed via PsiCat Browser through the Navigator's generic `/api/psicat` surface. ADJACENT TRACK, not a hardgate physics claim. | [43-az-geometric-tori-transformer/](43-az-geometric-tori-transformer/) |
 | 44 | AxiomZero Weave | 0.1.0 | Not assessed | CLI / local HTTP (http://127.0.0.1:8144) + native PsiCat tools | Focused pytest suites | Five-strand, seven-operation evidence and computation integration: current grounding, scoped memory, real Oracle/Transformer adapters, matched synthetic controls, and durable Pentad-constrained effects. Adjacent software only; private exports remain excluded. | [44-axiomzero-weave/](44-axiomzero-weave/) |
-| 45 | AxiomZero PC Suite | 0.1.0 | Not assessed | Windows desktop installer / portable | 8 focused Node tests + Windows install/UI/uninstall smoke | Offline-first desktop portfolio catalog and launcher with private local keyword search over user-selected folders or ZIPs, including the Webspace seed and PsiCat Mind exports; returns file-cited evidence and does not bundle or install every product runtime. | [45-axiomzero-pc-suite/](45-axiomzero-pc-suite/) |
+| 45 | AxiomZero PC Suite | 0.1.0 | Not assessed | Windows desktop installer / portable | Focused Node suites + Windows install/UI/uninstall smoke | Offline-first portfolio launcher, source-cited local folder/ZIP search and a checkpointed, human-approved research harness with optional local Ollama reasoning. No arbitrary shell, automatic cloud fallback, or bundled all-product runtimes. | [45-axiomzero-pc-suite/](45-axiomzero-pc-suite/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
@@ -149,10 +149,16 @@ user-selected access to repository folders, product guides, shared tool
 collections, and the local PsiCat Navigator. Its local evidence library imports
 user-selected folders or ZIP archives without extracting or executing files,
 then searches supported text locally with file/line citations. The index is
-plaintext in the Windows user's app data and is never uploaded; PDF and other
+plaintext in the Windows user's app data; direct search never uploads it. An
+optional research reasoning step sends bounded context to a fixed loopback
+Ollama service only after native operator approval. PDF and other
 binary contents are not indexed. Product 45 does not silently install products,
 runtimes, models, or dependencies. The connected checkout and each product
-retain their own execution boundaries.
+retain their own execution boundaries. The research control plane checkpoints
+each tool/result, enforces deadlines and attempt/context budgets, supports
+pause/cancel/restart recovery, and exports a bounded hash-linked audit.
+Outputs remain unverified; neither imported text nor a model can grant itself
+tool permissions or promote physics claims.
 
 On Windows, run `npm ci`, `npm test`, `npm run catalog:check`, and
 `npm run dist:win` from `12-AZ-IP/45-axiomzero-pc-suite/` to build an NSIS

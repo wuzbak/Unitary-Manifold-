@@ -49,6 +49,45 @@
         <button id="disconnect-repository" class="quiet" hidden>Disconnect</button>
       </section>
 
+      <section class="harness panel" aria-labelledby="harness-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">HUMAN-GOVERNED · CHECKPOINTED · BOUNDED</p>
+            <h2 id="harness-heading">Research control plane</h2>
+          </div>
+          <span id="harness-count" class="label">0 tasks</span>
+        </div>
+        <p class="muted">
+          Plan a local research task, inspect each tool, then approve one step at a time.
+          Catalog and imported evidence produce a source-cited report. Optional Ollama reasoning
+          uses an already installed local model, not an embedded PsiCat model. No shell, source
+          writes, cloud calls, or autonomous approval. All outputs remain unverified.
+        </p>
+        <form id="harness-form" class="harness-form">
+          <label for="harness-goal">Research goal</label>
+          <input id="harness-goal" maxlength="400" required placeholder="e.g. PsiCat offline memory and provider capabilities">
+          <div class="harness-options">
+            <label for="harness-use-model"><input id="harness-use-model" type="checkbox"> Add local Ollama reasoning</label>
+            <label for="harness-model">Installed model name
+              <input id="harness-model" maxlength="80" disabled placeholder="e.g. llama3.2:3b">
+            </label>
+            <button id="harness-create" class="primary" type="submit">Create research plan</button>
+          </div>
+        </form>
+        <p class="harness-policy muted">
+          Six attempts per task · 60-second step deadline · 12,000-character context · 50 saved tasks.
+          Checkpoints and the bounded hash-linked audit are plaintext in this user profile.
+          Approvals never survive a restart; interrupted tasks do not replay automatically.
+        </p>
+        <p id="harness-message" class="message" role="status" aria-live="polite"></p>
+        <div class="harness-layout">
+          <div id="harness-tasks" class="harness-tasks" aria-label="Saved research tasks"></div>
+          <div id="harness-detail" class="harness-detail" aria-live="polite">
+            <p class="empty">Create a task to review its plan, evidence, and audit trail.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="knowledge panel">
         <div class="section-heading">
           <div>

@@ -401,7 +401,7 @@
     "version": "0.1.0",
     "trl": "Not assessed",
     "endpoint": "Windows desktop installer / portable",
-    "description": "Offline-first desktop portfolio catalog and launcher with private local keyword search over user-selected folders or ZIPs, including the Webspace seed and PsiCat Mind exports; returns file-cited evidence and does not bundle or install every product runtime.",
+    "description": "Offline-first portfolio launcher, source-cited local folder/ZIP search and a checkpointed, human-approved research harness with optional local Ollama reasoning. No arbitrary shell, automatic cloud fallback, or bundled all-product runtimes.",
     "folder": "12-AZ-IP/45-axiomzero-pc-suite/"
   }
 ]

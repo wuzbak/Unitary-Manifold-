@@ -376,6 +376,35 @@ results are reported by the pull-request workflow.
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs` | `c8e060309450c60d5681c717628348be04b9b43016dcc544303253bd956a7c82` | 3116 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs` | `a2d32735dd8820aef44fcfe37646658b48b3f146315a89399f32ad2f194d404d` | 6516 |
 
+### Product 45 governed research harness reseal - 2026-11-04
+
+Added dependency-ordered research tools, native per-step approvals, durable
+checkpoints, bounded attempts/deadlines/context, cancellable evidence workers,
+optional fixed-loopback Ollama reasoning, and a bounded hash-linked audit.
+Task output remains unverified. No arbitrary shell, automatic cloud fallback,
+all-product runtime bundle, embedded PsiCat model or physics promotion.
+Resealed prior assets retain their previous values in registry reseal history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/README.md` | `8fc0501f604ad4c964018dba8a77b3bcd7e7b10c35bc98318494bd681abab174` | 20998 |
+| `12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md` | `a3d9bbb6e3aa109db45aabaabc05a8eebe894d1b1a22a9d0cc91ea96ff3ac586` | 8409 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `7036e1121d574af7d7368f8a6e1c97d1a55feddfd3d429adca23260745418b03` | 9954 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `bb05369b69110679c06d1c435fc8636e7f906a3079057424236224f73bf07b83` | 13920 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `d7f8b376b95b3ab42905adb6aaa0be7126a5eee193e501df6d4040a38b296c15` | 1863 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `1b88692d8098c03f8e0fce1d6ba1160cd835b9f51fe9c128d41468b83dff01de` | 21535 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `1fd67785e35a91995eaa6e63e351af3c633c1d0c11b02fe6a7f924274bc3a2b2` | 8106 |
+| `12-AZ-IP/45-axiomzero-pc-suite/styles.css` | `c7505d52ff87a44bfba70d5fcaff57ebd92246945ff0e0bcee1af3566a29fee0` | 8392 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `5139ab826e24e0b3b831fade5db8e673db92a79898497e6683f34cc4448224a4` | 16055 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `051e22e8224feffcaf6b470c59413c266312da8e362e17c541e0e82523580ca6` | 5934 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs` | `01bc648aa011b25f4033dfdce8d16d35cfca40801a29411f7e09d6144e232f4e` | 17191 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs` | `24018a05d12ed66fb651d8f1bbf49402812ea7f1988bd5151d7880706f0e0647` | 6520 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/worker-search.cjs` | `6a6ffc2291c9e5362aeb05a0af6f1905324ca95308cebd0949192170c8cfa919` | 1187 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/evidence-worker.cjs` | `bbbd2e2ddff166d2b71a8e9bccf7c53aad0826d5f48b2078c578f5b72d8bbe22` | 390 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs` | `7add3cb6bb5537c00cee4a26b6a101dfa42dd2389e5c68b1d62c29d95ad3130f` | 12857 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs` | `743755f1c54891a1511180b655144a42446791cd8eeed1a33936457d00768614` | 9050 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `730c1c6666bf937c7345ea902b6af52bbef5fa05804486f7abc9a958befc0a78` | 4718 |
+
 ## Verification Protocol
 
 To verify any registered asset:

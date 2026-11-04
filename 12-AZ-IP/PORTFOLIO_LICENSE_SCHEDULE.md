@@ -63,7 +63,7 @@ The following 45 products and surfaces are listed in the canonical registry at
 | 42 | AZ Awareness & Creation Toolkit | Awareness, routing, and creation toolkit | `12-AZ-IP/42-az-awareness-creation-toolkit/` |
 | 43 | AZ Geometric Tori Transformer | AI/ML library and application | `12-AZ-IP/43-az-geometric-tori-transformer/` |
 | 44 | AxiomZero Weave | Governed evidence and computation integration | `12-AZ-IP/44-axiomzero-weave/` |
-| 45 | AxiomZero PC Suite | Offline-first Windows desktop portfolio launcher and local evidence search | `12-AZ-IP/45-axiomzero-pc-suite/` |
+| 45 | AxiomZero PC Suite | Offline-first Windows portfolio launcher, local evidence search and governed research harness | `12-AZ-IP/45-axiomzero-pc-suite/` |
 
 The PsiCat portfolio comprises Products 20, 23, 24, 25, and 27. Its name and
 product identities are subject to the separate

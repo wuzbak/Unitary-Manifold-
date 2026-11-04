@@ -338,10 +338,16 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "21d234b16f4a4a3460f452d3f28bb49b7f047f36295461f650901b156ea10702",
-      "size_bytes": 20569,
-      "reseal_note": "Refreshed 2026-11-04 with Product 45 Windows smoke validation and eight focused tests; no scientific claim promotion.",
+      "sha256": "8fc0501f604ad4c964018dba8a77b3bcd7e7b10c35bc98318494bd681abab174",
+      "size_bytes": 20998,
+      "reseal_note": "Refreshed 2026-11-04 for the governed Product 45 research harness; no scientific claim promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "21d234b16f4a4a3460f452d3f28bb49b7f047f36295461f650901b156ea10702",
+          "size_bytes": 20569,
+          "reseal_note": "Previous Windows qualification seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "4f2934c661e25135618535650b111777de4e98e91e9b6cf33e64837cd8f54dd7",
@@ -446,9 +452,17 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "987803b2d638fbbaa2ebfceb859cf603380df8dfefa6223a74191fbd6ad84c67",
-      "size_bytes": 8390,
-      "reseal_note": "Registered the deduplicated Product 45 portfolio license entry."
+      "sha256": "a3d9bbb6e3aa109db45aabaabc05a8eebe894d1b1a22a9d0cc91ea96ff3ac586",
+      "size_bytes": 8409,
+      "reseal_note": "Refreshed 2026-11-04 to include the governed research harness in Product 45's license scope.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "987803b2d638fbbaa2ebfceb859cf603380df8dfefa6223a74191fbd6ad84c67",
+          "size_bytes": 8390,
+          "reseal_note": "Previous Product 45 license schedule seal."
+        }
+      ]
     },
     "12-AZ-IP/17-um-image-generator/image_generator/engine/visualizations.py": {
       "description": "UM Image Generator — 8 visualization data functions (CMB, birefringence, KK tower, winding mode, phi-landscape, Penrose, holographic, braided speed)",
@@ -813,10 +827,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "115e5fd4c3abce7a6b72d472c9d3795987f1f07b0c1c3ccb988d867b3b40cb2a",
-      "size_bytes": 6208,
-      "reseal_note": "Refreshed 2026-11-04 with Windows install/UI/uninstall smoke coverage and updated limitations.",
+      "sha256": "7036e1121d574af7d7368f8a6e1c97d1a55feddfd3d429adca23260745418b03",
+      "size_bytes": 9954,
+      "reseal_note": "Refreshed 2026-11-04 with bounded harness policy, local reasoning, persistence and honest release boundaries.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "115e5fd4c3abce7a6b72d472c9d3795987f1f07b0c1c3ccb988d867b3b40cb2a",
+          "size_bytes": 6208,
+          "reseal_note": "Previous Windows qualification seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "c8f195d3a68b25d4f1fae535bf10b19258313222d1249c244183237c0a4ddc16",
@@ -876,10 +896,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "9e8b49881b15f1c30b031d2ae59053aa8b1ec59f513dedff7992e3e05f785837",
-      "size_bytes": 10357,
-      "reseal_note": "Refreshed 2026-11-04 to serialize local library mutations and prevent collection races.",
+      "sha256": "bb05369b69110679c06d1c435fc8636e7f906a3079057424236224f73bf07b83",
+      "size_bytes": 13920,
+      "reseal_note": "Refreshed 2026-11-04 with native step approvals, durable harness IPC, worker search and single-instance control.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "9e8b49881b15f1c30b031d2ae59053aa8b1ec59f513dedff7992e3e05f785837",
+          "size_bytes": 10357,
+          "reseal_note": "Previous Windows qualification seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "36056959a8fcc298d85e55b7bcacda8baf329a1bda7c6675cb376c6cd7ce773b",
@@ -899,10 +925,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "a04148a74778f295851039be5607294a77e23d366942315f110e690bed1c8444",
-      "size_bytes": 1373,
-      "reseal_note": "Refreshed 2026-11-04 with fixed IPC methods for local evidence import, search and maintenance.",
+      "sha256": "d7f8b376b95b3ab42905adb6aaa0be7126a5eee193e501df6d4040a38b296c15",
+      "size_bytes": 1863,
+      "reseal_note": "Refreshed 2026-11-04 with fixed harness lifecycle, approval and export IPC methods.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a04148a74778f295851039be5607294a77e23d366942315f110e690bed1c8444",
+          "size_bytes": 1373,
+          "reseal_note": "Previous local evidence bridge seal."
+        },
         {
           "updated": "2026-11-03",
           "sha256": "15abbb565824f6c74fcd722a245c27750e28a06bd27b3bffd43c636e7a73625f",
@@ -916,10 +948,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "ead18116c5198760c7a2fd6f05902abbab09ae645e57b49c6cb00746dcc1c303",
-      "size_bytes": 14282,
-      "reseal_note": "Refreshed 2026-11-04 to disable concurrent library actions and keep UI state consistent.",
+      "sha256": "1b88692d8098c03f8e0fce1d6ba1160cd835b9f51fe9c128d41468b83dff01de",
+      "size_bytes": 21535,
+      "reseal_note": "Refreshed 2026-11-04 with inspectable research plans, result checkpoints, audit and pause/cancel controls.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "ead18116c5198760c7a2fd6f05902abbab09ae645e57b49c6cb00746dcc1c303",
+          "size_bytes": 14282,
+          "reseal_note": "Previous Windows qualification seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "256b98eea9ebc0a609306b6043a20f14f24a4b307e8c43160d72f8c7fc0bb502",
@@ -945,10 +983,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "2dcb2d7a66c077d2d44769e5bd6d0f9277aaa149b071d4103fd8ab431a018b22",
-      "size_bytes": 5833,
-      "reseal_note": "Refreshed 2026-11-04 with the local library search control identifier.",
+      "sha256": "1fd67785e35a91995eaa6e63e351af3c633c1d0c11b02fe6a7f924274bc3a2b2",
+      "size_bytes": 8106,
+      "reseal_note": "Refreshed 2026-11-04 with the governed research control plane and explicit local-model/privacy disclosure.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "2dcb2d7a66c077d2d44769e5bd6d0f9277aaa149b071d4103fd8ab431a018b22",
+          "size_bytes": 5833,
+          "reseal_note": "Previous Windows qualification seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "cfdb4e8048f6d0083d0b1fdf3e8ab44e1ffd154fdc563da724b1d5fa5697adab",
@@ -974,10 +1018,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "bf7709c4c07814a148165d9242f27d1d67edc1344a758691792d809c904b9f97",
-      "size_bytes": 6600,
-      "reseal_note": "Refreshed 2026-11-04 after final local evidence library UI hardening and smoke verification.",
+      "sha256": "c7505d52ff87a44bfba70d5fcaff57ebd92246945ff0e0bcee1af3566a29fee0",
+      "size_bytes": 8392,
+      "reseal_note": "Refreshed 2026-11-04 for responsive task selection, plans, checkpoint results and audit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "bf7709c4c07814a148165d9242f27d1d67edc1344a758691792d809c904b9f97",
+          "size_bytes": 6600,
+          "reseal_note": "Previous Windows qualification seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "8993220cfe6809d788f7176bd22223c0399c784697ef26998875ecb45340753f",
@@ -1055,8 +1105,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "e14ae2eff591e8eb9cd54cbea49e67aa4d80869b4e3fbedec775c9f1b4b9b741",
-      "size_bytes": 3474
+      "sha256": "051e22e8224feffcaf6b470c59413c266312da8e362e17c541e0e82523580ca6",
+      "size_bytes": 5934,
+      "reseal_note": "Refreshed 2026-11-04 to create/cancel a durable research task through the rendered desktop preload bridge.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "e14ae2eff591e8eb9cd54cbea49e67aa4d80869b4e3fbedec775c9f1b4b9b741",
+          "size_bytes": 3474,
+          "reseal_note": "Previous Windows qualification seal."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1": {
       "description": "Product 45 Windows installer, uninstall and portable executable smoke harness",
@@ -1087,10 +1146,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-04",
-      "sha256": "1fa4f04162a1b68c41e365429aa889d0ee29ba64b9b66148aca0d4cccf3d7e72",
-      "size_bytes": 16073,
-      "reseal_note": "Refreshed 2026-11-04 from the canonical portfolio row documenting local evidence search.",
+      "sha256": "5139ab826e24e0b3b831fade5db8e673db92a79898497e6683f34cc4448224a4",
+      "size_bytes": 16055,
+      "reseal_note": "Refreshed 2026-11-04 from the canonical portfolio row documenting the governed research harness.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "1fa4f04162a1b68c41e365429aa889d0ee29ba64b9b66148aca0d4cccf3d7e72",
+          "size_bytes": 16073,
+          "reseal_note": "Previous local evidence catalog seal."
+        },
         {
           "updated": "2026-11-03",
           "sha256": "327bd0d7fc076caede76ad7555010cb644b42242b185bfab8b7ac15bbd81f492",
@@ -1098,6 +1163,62 @@
           "reseal_note": "Initial Product 45 catalog registration."
         }
       ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs": {
+      "description": "Product 45 bounded research policy, durable tasks, approvals and hash-linked audit",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "01bc648aa011b25f4033dfdce8d16d35cfca40801a29411f7e09d6144e232f4e",
+      "size_bytes": 17191
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs": {
+      "description": "Product 45 fixed-loopback bounded Ollama reasoning transport",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "24018a05d12ed66fb651d8f1bbf49402812ea7f1988bd5151d7880706f0e0647",
+      "size_bytes": 6520
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/worker-search.cjs": {
+      "description": "Product 45 cancellable evidence worker lifecycle",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "6a6ffc2291c9e5362aeb05a0af6f1905324ca95308cebd0949192170c8cfa919",
+      "size_bytes": 1187
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/evidence-worker.cjs": {
+      "description": "Product 45 persisted-index evidence search worker",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "bbbd2e2ddff166d2b71a8e9bccf7c53aad0826d5f48b2078c578f5b72d8bbe22",
+      "size_bytes": 390
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs": {
+      "description": "Product 45 task/approval/budget/recovery/audit/worker regressions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "7add3cb6bb5537c00cee4a26b6a101dfa42dd2389e5c68b1d62c29d95ad3130f",
+      "size_bytes": 12857
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs": {
+      "description": "Product 45 bounded local model transport contract regressions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "743755f1c54891a1511180b655144a42446791cd8eeed1a33936457d00768614",
+      "size_bytes": 9050
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs": {
+      "description": "Product 45 desktop startup, native approval IPC and fail-closed checkpoint regressions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-04",
+      "sha256": "730c1c6666bf937c7345ea902b6af52bbef5fa05804486f7abc9a958befc0a78",
+      "size_bytes": 4718
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -1539,8 +1660,8 @@
       "version": "0.1.0",
       "trl": "Not assessed",
       "port": "Windows desktop installer / portable",
-      "tests": "8 focused Node tests + Windows install/UI/uninstall smoke",
-      "description": "Offline-first desktop portfolio launcher with private local keyword search over user-selected folders or ZIPs; returns source-cited evidence and does not bundle every product runtime.",
+      "tests": "70 focused Node tests + Windows install/UI/uninstall and research-plan smoke",
+      "description": "Offline-first portfolio launcher, local source-cited search and a bounded, human-approved research harness with optional loopback Ollama reasoning; does not bundle every runtime or a live PsiCat model.",
       "link": "45-axiomzero-pc-suite/"
     }
   ]

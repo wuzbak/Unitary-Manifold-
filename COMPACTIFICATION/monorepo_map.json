@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8430,
+  "file_count": 8437,
   "lanes": {
-    "az_ip": 2577,
+    "az_ip": 2584,
     "compactification": 9,
     "other": 5394,
     "psicat_articles": 354,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2577,
+    "12-AZ-IP": 2584,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2732,10 +2732,14 @@
       "12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json",
       "12-AZ-IP/45-axiomzero-pc-suite/index.html",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/catalog.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/evidence-worker.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/knowledge.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/operation-lock.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/repository.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/settings.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/worker-search.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/main.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/package-lock.json",
       "12-AZ-IP/45-axiomzero-pc-suite/package.json",
@@ -2746,7 +2750,10 @@
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1",
       "12-AZ-IP/45-axiomzero-pc-suite/styles.css",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs",
-      "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs"
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs"
     ]
   },
   "psicat_literature": {
@@ -21561,7 +21568,28 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/evidence-worker.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/knowledge.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -21583,6 +21611,13 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/settings.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/worker-search.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -21659,7 +21694,28 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",

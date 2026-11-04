@@ -11,6 +11,139 @@ let products = [];
 let repositoryConnected = false;
 let knowledgeBusy = false;
 let knowledgeCollectionTotal = 0;
+let harnessState;
+let selectedTaskId;
+let harnessBusy = false;
+
+function renderHarness(state) {
+  harnessState = state;
+  const tasks = document.querySelector("#harness-tasks");
+  const detail = document.querySelector("#harness-detail");
+  document.querySelector("#harness-count").textContent = `${state.runs.length} / ${state.policy.maxRuns} tasks`;
+  document.querySelector("#harness-create").disabled = harnessBusy || state.runs.length >= state.policy.maxRuns;
+  tasks.replaceChildren();
+  if (!state.runs.some((run) => run.id === selectedTaskId)) selectedTaskId = state.runs.at(-1)?.id;
+  for (const run of [...state.runs].reverse()) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.taskId = run.id;
+    button.setAttribute("aria-pressed", String(run.id === selectedTaskId));
+    button.textContent = `${run.goal}\n${run.status} | ${run.steps.filter((step) => step.status === "completed").length}/${run.steps.length} steps`;
+    tasks.append(button);
+  }
+  detail.replaceChildren();
+  const run = state.runs.find((item) => item.id === selectedTaskId);
+  if (!run) {
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = "Create a task to review its plan, evidence, and audit trail.";
+    detail.append(empty);
+    return;
+  }
+  const heading = document.createElement("h3");
+  heading.textContent = run.goal;
+  const statusLine = document.createElement("p");
+  statusLine.className = "muted";
+  statusLine.textContent = `${run.status.toUpperCase()} | UNVERIFIED | ${run.attempts}/6 attempts | ${run.model ? `Ollama: ${run.model}` : "Evidence only"} | ${new Date(run.updatedAt).toLocaleString()}`;
+  const controls = document.createElement("div");
+  controls.className = "harness-controls";
+  const terminal = ["completed", "cancelled"].includes(run.status);
+  for (const [action, label, disabled] of [
+    ["run", run.status === "failed" ? "Review & retry next step" : "Review & run next step", harnessBusy || terminal || run.attempts >= 6],
+    ["pause", "Pause", terminal || run.status === "paused"],
+    ["cancel", "Cancel task", terminal],
+    ["export", "Export checkpoint", harnessBusy],
+    ["remove", "Remove checkpoint", harnessBusy || !terminal]
+  ]) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = label;
+    button.dataset.harnessAction = action;
+    button.dataset.taskId = run.id;
+    button.disabled = disabled;
+    if (action === "run") button.className = "primary";
+    controls.append(button);
+  }
+  const plan = document.createElement("ol");
+  for (const step of run.steps) {
+    const item = document.createElement("li");
+    item.textContent = `${step.tool} - ${step.status}`;
+    if (step.error) {
+      const error = document.createElement("p");
+      error.className = "harness-step-error";
+      error.textContent = step.error;
+      item.append(error);
+    }
+    if (step.output !== null) {
+      const output = document.createElement("details");
+      output.open = step.tool === "report.compose" || step.tool === "model.reason";
+      const summary = document.createElement("summary");
+      summary.textContent = step.tool === "model.reason" ? "Unverified local model response" : "Checkpointed result";
+      const text = document.createElement("pre");
+      text.textContent = step.output;
+      output.append(summary, text);
+      item.append(output);
+    }
+    plan.append(item);
+  }
+  const audit = document.createElement("details");
+  const auditLabel = document.createElement("summary");
+  auditLabel.textContent = "Audit trail (bounded, hash-linked; not tamper-proof)";
+  const events = document.createElement("pre");
+  events.textContent = state.events.filter((event) => event.runId === run.id).map((event) =>
+    `${event.sequence} | ${event.at} | ${event.action}\n${event.detail}\nSHA-256: ${event.hash}`
+  ).join("\n\n");
+  audit.append(auditLabel, events);
+  detail.append(heading, statusLine, controls, plan, audit);
+}
+
+async function runHarnessAction(action, id) {
+  const text = document.querySelector("#harness-message");
+  if (["pause", "cancel"].includes(action)) {
+    try {
+      renderHarness(await (action === "pause"
+        ? window.axiomSuite.pauseHarnessTask(id)
+        : window.axiomSuite.cancelHarnessTask(id)));
+      text.textContent = action === "pause" ? "Task paused. A fresh approval is required to continue." : "Task cancelled. Completed checkpoints retained.";
+    } catch (error) {
+      text.textContent = error.message;
+    }
+    return;
+  }
+  if (harnessBusy) return;
+  harnessBusy = true;
+  if (harnessState) renderHarness(harnessState);
+  text.textContent = action === "run" ? "Awaiting your native approval, then running one bounded step. Pause or cancel remains available." : "";
+  try {
+    if (action === "create") {
+      const useModel = document.querySelector("#harness-use-model").checked;
+      const run = await window.axiomSuite.createHarnessTask({
+        goal: document.querySelector("#harness-goal").value,
+        model: useModel ? document.querySelector("#harness-model").value : null
+      });
+      selectedTaskId = run.id;
+      text.textContent = "Plan checkpointed. Review and approve the first step to begin.";
+    } else if (action === "run") {
+      renderHarness(await window.axiomSuite.runHarnessStep(id));
+      const run = harnessState.runs.find((item) => item.id === id);
+      text.textContent = `Task ${run.status}. Each remaining step requires a fresh approval.`;
+    } else if (action === "remove") {
+      renderHarness(await window.axiomSuite.removeHarnessTask(id));
+    } else if (action === "export") {
+      const result = await window.axiomSuite.exportHarnessTask(id);
+      text.textContent = result.canceled ? "Export cancelled." : "Research checkpoint and bounded audit exported.";
+    }
+  } catch (error) {
+    text.textContent = error.message || "Harness action failed.";
+  } finally {
+    harnessBusy = false;
+    try {
+      renderHarness(await window.axiomSuite.getHarness());
+    } catch (error) {
+      text.textContent = `Harness checkpoint could not be loaded: ${error.message}`;
+    }
+  }
+}
 
 function showMessage(text) {
   message.textContent = text;
@@ -298,6 +431,11 @@ async function loadCatalog() {
   render();
   updateState(state);
   try {
+    renderHarness(await window.axiomSuite.getHarness());
+  } catch (error) {
+    document.querySelector("#harness-message").textContent = `Harness unavailable: ${error.message}`;
+  }
+  try {
     renderKnowledgeCollections(await window.axiomSuite.listKnowledge());
   } catch (error) {
     showKnowledgeMessage(`The local evidence library could not be loaded: ${error.message}`);
@@ -305,6 +443,26 @@ async function loadCatalog() {
 }
 
 search.addEventListener("input", render);
+document.querySelector("#harness-use-model").addEventListener("change", (event) => {
+  const model = document.querySelector("#harness-model");
+  model.disabled = !event.target.checked;
+  model.required = event.target.checked;
+});
+document.querySelector("#harness-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  runHarnessAction("create");
+});
+document.querySelector("#harness-tasks").addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-task-id]");
+  if (!button) return;
+  selectedTaskId = button.dataset.taskId;
+  renderHarness(harnessState);
+});
+document.querySelector("#harness-detail").addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-harness-action]");
+  if (!button || button.disabled) return;
+  runHarnessAction(button.dataset.harnessAction, button.dataset.taskId);
+});
 document.querySelector("#import-knowledge-folder").addEventListener("click", () =>
   runKnowledgeAction("import-folder")
 );

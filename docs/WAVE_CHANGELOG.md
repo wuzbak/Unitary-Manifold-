@@ -1,5 +1,23 @@
 # Wave Changelog
 
+## Product 45 - Governed desktop research harness (2026-11-04; adjacent software only)
+
+Added a fixed read-only research plan over the bundled portfolio and local
+evidence library, with per-step native operator approval, atomic checkpoints,
+dependency ordering, six-attempt budgets, execution deadlines, cancellable
+worker search, explicit retry/restart recovery, bounded context and a rolling
+hash-linked audit/export. Optional Ollama reasoning contacts only fixed IPv4
+loopback after a separate disclosure and approval; model tool calls and
+automatic cloud fallbacks are refused. UI exposes plans, status, results,
+errors, pause/cancel and local export/removal.
+
+The desktop remains a portfolio launcher, not an installer/orchestrator for
+all product runtimes or an embedded PsiCat model. Source excerpts are untrusted
+data, model output is unverified, local memory is plaintext, and worker
+isolation is not an OS security sandbox. Windows smoke coverage now also
+creates/cancels a task through the actual preload bridge. No pillar,
+TOE-score, physics-label or falsification condition changed.
+
 ## Product 44 - AxiomZero Weave (2026-11-03; adjacent software only)
 
 Connected the native five strands and seven operations through explicit
