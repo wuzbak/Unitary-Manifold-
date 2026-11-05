@@ -4,10 +4,13 @@ This folder is the curated PsiCat editorial lane for outreach.
 
 ## Structure
 
-- `Books/` — long-form narrative rewrites (book-length voice, context-rich)
+- `Books/` — **58 individual, complete books**, one Markdown file per book:
+  50 narrative rewrites and 8 original commissioned works.
 - `Articles/` — short-form narrative rewrites (tight, readable, precise)
 - `Releases/` — original commissioned explainers of corporate policy, separately
   indexed from the historical book/article rewrite counts.
+- `Archive/` — frozen, byte-for-byte source files from the individual assembly
+  of Books 53–58; see the [preservation record](Archive/README.md).
 
 ## Corporate policy releases
 
@@ -41,12 +44,19 @@ No grounded rewrite source is assigned to these works, because none exists. Book
 Books 57 and 58 are original commissions in PsiCat's editorial voice, researched
 and produced in this repository session by GitHub Copilot and six specialist AI
 agents, with actual local RAG/PsiCat retrieval consultations. They do not claim
-external PsiCat inference or Base44 authorship. Each consists of a reading index
-and six manuscript parts, with chapter-level citations, explicit mainline versus
+external PsiCat inference or Base44 authorship. Each is a complete single-volume
+book with six internal sections, chapter-level citations, explicit mainline versus
 unmerged master-plan branch provenance, and three editorial gates. These are
 publication checks, not scientific or deployment certifications. The existing
-opt-in editorial corpus discovers all their Markdown files automatically; its
+opt-in editorial corpus discovers their complete book files automatically, not
+the frozen source archive; its
 default-off behavior and non-hardgate status are unchanged.
+
+Books 53–58 are now individually assembled at their existing main filenames,
+with internal contents links and all manuscript sections and appendices included.
+There is no separate index-only book or competing `FULL` reading edition.
+Original source files are retained in the archive with SHA-256 checksums.
+Books 1–52 are unchanged; no books have been combined with one another.
 
 ## Current coverage in this pass
 
@@ -111,14 +121,14 @@ Original works (not rewrites): **10** — Books 51, 52, 53, 54, 55, 56, 57, 58; 
 
 1. `book-51-concentration-ledger-public-records-investigation.md` — *The Concentration Ledger: A Public-Records Field Investigation* (companion investigation grounded in substack Book 48)
 2. `book-52-the-unit.md` — *The Unit*
-3. `book-53-what-the-geometry-knew.md` — *What the Geometry Knew* (reading index; 11 part-files `book-53-part-*.md` plus the assembled single-volume copy `book-53-what-the-geometry-knew-FULL.md`; 46 chapters, 12 parts, 5 appendices)
-4. `book-54-axiomzero-surveillance-exposure.md` — *The Cloud Has a Memory* (three-part original AXIOM Journalist investigation; public-record and human-review caveats apply)
-5. `book-55-the-architecture-of-impunity.md` — *The Architecture of Impunity* (reading index; 11 part-files `book-55-part-*.md`, the last two of which are Appendix A and Appendix B; 27 chapters, 9 narrative Parts, 2 appendices; synthesis of Books 9, 39, 45-v2, 48/51, 52, and 54 into a single through-lined investigation)
+3. [`book-53-what-the-geometry-knew.md`](Books/book-53-what-the-geometry-knew.md) — *What the Geometry Knew* (complete single-volume book; 46 chapters, 12 internal parts, 5 appendices)
+4. [`book-54-axiomzero-surveillance-exposure.md`](Books/book-54-axiomzero-surveillance-exposure.md) — *The Cloud Has a Memory* (complete single-volume original AXIOM Journalist investigation with three internal sections; public-record and human-review caveats apply)
+5. [`book-55-the-architecture-of-impunity.md`](Books/book-55-the-architecture-of-impunity.md) — *The Architecture of Impunity* (complete single-volume book; 27 chapters, 9 narrative sections, 2 appendices; synthesis of Books 9, 39, 45-v2, 48/51, 52, and 54 into a single through-lined investigation)
 6. `article-353-the-state-of-the-manifold-october-2026.md` — *The State of the Manifold: A Full Inspection, October 2026* (first original-work article; full-repository audit, not grounded in any substack source)
 7. `article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md` — *The Untouched Manifold: What This Monorepo Could Still Become* (second original-work article; expanded commissioned technology-transfer essay with phased roadmaps for 8 adjacent-track directions plus 5 additional directions — differentiable JAX backend, holographic dual-CFT dictionary, Z3 formal verification, the MAS Wave Engine gap-tracker, and the live-public-data ingestion pattern — researched via `bot/rag_index.py`; not grounded in any substack source)
-8. `book-56-the-complete-pillar-guide.md` — *The Complete Pillar Guide* (reading index; 10 part-files `book-56-part-*.md`; 47 chapters across 10 Parts covering every hardgate pillar 1–208 by domain, the adjacent-track economy 218+ by theme, and a corrected epistemic ledger; researched directly against `docs/mas_tracker.yml`, `STATUS.md`, `docs/TRUTH_LAYER.md`, `FALLIBILITY.md`, `PILLARS/README.md`, and `bot/rag_index.py`, with the frozen v18.5 `7-OUTREACH/pillar-guide/` descriptions adapted and corrected against current status; not grounded in any substack source)
-9. [`book-57-axiomzero-applied-sciences-and-intellectual-properties.md`](Books/book-57-axiomzero-applied-sciences-and-intellectual-properties.md) — *AxiomZero Applied Sciences and Intellectual Properties* (original commissioned manuscript in six parts; all 45 canonical products, their integration boundaries, applied-science aims, and the separately pinned AZ ML master-plan development branch).
-10. [`book-58-the-state-of-the-manifold.md`](Books/book-58-the-state-of-the-manifold.md) — *The State of the Manifold: The AxiomZero Monorepo* (original commissioned manuscript in six parts; scientific foundations, formal and observational evidence, independent governance, applied domains, publication, engineering, holistic strengths, weaknesses, and next decisions).
+8. [`book-56-the-complete-pillar-guide.md`](Books/book-56-the-complete-pillar-guide.md) — *The Complete Pillar Guide* (complete single-volume book; 10 main sections and all 5 adjacent-track catalog blocks covering every hardgate pillar 1–208 by domain, the adjacent-track economy 218+ by theme and individually through 1131, and a corrected epistemic ledger; researched directly against `docs/mas_tracker.yml`, `STATUS.md`, `docs/TRUTH_LAYER.md`, `FALLIBILITY.md`, `PILLARS/README.md`, and `bot/rag_index.py`, with the frozen v18.5 `7-OUTREACH/pillar-guide/` descriptions adapted and corrected against current status; not grounded in any substack source)
+9. [`book-57-axiomzero-applied-sciences-and-intellectual-properties.md`](Books/book-57-axiomzero-applied-sciences-and-intellectual-properties.md) — *AxiomZero Applied Sciences and Intellectual Properties* (complete single-volume original commissioned manuscript with six internal sections; all 45 canonical products, their integration boundaries, applied-science aims, and the separately pinned AZ ML master-plan development branch).
+10. [`book-58-the-state-of-the-manifold.md`](Books/book-58-the-state-of-the-manifold.md) — *The State of the Manifold: The AxiomZero Monorepo* (complete single-volume original commissioned manuscript with six internal sections; scientific foundations, formal and observational evidence, independent governance, applied domains, publication, engineering, holistic strengths, weaknesses, and next decisions).
 
 ### Articles
 

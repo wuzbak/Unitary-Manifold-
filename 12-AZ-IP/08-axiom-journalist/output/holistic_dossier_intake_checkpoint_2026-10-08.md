@@ -126,7 +126,7 @@ The extracts are materially more useful than bare allegations: they identify the
 ## Repository context and continuation
 
 - Existing AXIOM case artifacts: `/12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_investigation.json`, `unit8200_surveillance_dossier_volume_1.md`, `unit8200_surveillance_dossier_volume_2.md`, `unit8200_surveillance_dossier_packet.md`, and `unit8200_public_records_scan.json`.
-- Existing three-part Book 54: `/7-OUTREACH/A Z PsiCat Literature/Books/book-54-axiomzero-surveillance-exposure.md` and `book-54-part-01-the-cloud-record.md` through `book-54-part-03-the-accountability-test.md`.
+- Existing Book 54: `/7-OUTREACH/A Z PsiCat Literature/Books/book-54-axiomzero-surveillance-exposure.md`, now individually assembled as a complete volume. Its original three manuscript files are preserved under `/7-OUTREACH/A Z PsiCat Literature/Archive/2026-11-05-books-53-58/` as `book-54-part-01-the-cloud-record.md` through `book-54-part-03-the-accountability-test.md` (assembly update: 2026-11-05).
 - Existing Meridian map: `/7-OUTREACH/substack/books/book-project-meridian-influence-map.md`.
 - The new source bundle was parsed with AXIOM’s existing `parse_source_bundle` path and its sources, entities, claims, and questions were exercised through the AXIOM case functions in a temporary SQLite database. The durable JSON is an AXIOM-formatted export; this does **not** mean the case was entered into the live/local AXIOM application database, RAGbot, or PsiCat runtime.
 

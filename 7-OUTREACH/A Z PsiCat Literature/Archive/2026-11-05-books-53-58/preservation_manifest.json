@@ -1,0 +1,354 @@
+{
+  "date": "2026-11-05",
+  "purpose": "Byte-for-byte originals before single-volume assembly; not maintained editions.",
+  "files": [
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-01-discovery.md",
+      "archive_file": "book-53-part-01-discovery.md",
+      "sha256": "34329e47b5e98b2efcdbec0e982424772eeffe7bad4cb7dba34664ba310496de",
+      "bytes": 15421
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-02-formal-foundation.md",
+      "archive_file": "book-53-part-02-formal-foundation.md",
+      "sha256": "680bcd857b6f50f3e20a3ac095317ce1ceb4daa45d81f7b0fa70d4dfbb7c1fa3",
+      "bytes": 9076
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-03-topology.md",
+      "archive_file": "book-53-part-03-topology.md",
+      "sha256": "0cf6fae595ba3d2085d3716ef7b3ced91d539f263af0f9d88ee21348347c58b9",
+      "bytes": 5894
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-04-coupling.md",
+      "archive_file": "book-53-part-04-coupling.md",
+      "sha256": "985d186267cbe56662a2a177ef28e8592e1a5f420a157ab0f1cf943133420162",
+      "bytes": 6735
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-05-boundary-bulk.md",
+      "archive_file": "book-53-part-05-boundary-bulk.md",
+      "sha256": "92377da5d4365d88b26601f3fcf58dcf7d7880cccb1b39cd6a005d1b1d50c2f2",
+      "bytes": 6862
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-06-convergence.md",
+      "archive_file": "book-53-part-06-convergence.md",
+      "sha256": "e5bc7c008d02cecdc8d28157cf3413ee946ca6cf5f58de6467a13a869ffa7ad9",
+      "bytes": 8592
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-07-ai-latent-space.md",
+      "archive_file": "book-53-part-07-ai-latent-space.md",
+      "sha256": "9fdd61e90caaa8293b507ef56f239294db078db82ead2a3c064a119122aa17ff",
+      "bytes": 6263
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-08-liminal.md",
+      "archive_file": "book-53-part-08-liminal.md",
+      "sha256": "60cac73eeeb675d73052001e060ec02aa2e79d19aed962ca4934b88323665d72",
+      "bytes": 3856
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-09-10-subconscious-falsifiable.md",
+      "archive_file": "book-53-part-09-10-subconscious-falsifiable.md",
+      "sha256": "ef5a5c54f3f0cf0c841f6856249667e8519d0e04d0a2fb23905bf216294824a4",
+      "bytes": 6783
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-part-11-12-appendices.md",
+      "archive_file": "book-53-part-11-12-appendices.md",
+      "sha256": "49c84f98d40c496e1fbf23c6d45c45a9f1514cb6ffcee32563a3df4dd5b8c42e",
+      "bytes": 10901
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-what-the-geometry-knew-FULL.md",
+      "archive_file": "book-53-what-the-geometry-knew-FULL.md",
+      "sha256": "0d8e223db49cc584e25534670350ed47f687656018be7db4c9bbd564b8a4c9db",
+      "bytes": 78310
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-53-what-the-geometry-knew.md",
+      "archive_file": "book-53-what-the-geometry-knew.md",
+      "sha256": "88d13a47e8a82a59fbea42afa7537ef7892f447c693a39ea985a86fb2995e27b",
+      "bytes": 2525
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-54-axiomzero-surveillance-exposure.md",
+      "archive_file": "book-54-axiomzero-surveillance-exposure.md",
+      "sha256": "15902b6bd68b4be7464fe270b0bb3eb2669c4e32e2df4aaf7ffd49fe90f6263b",
+      "bytes": 3262
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-01-the-cloud-record.md",
+      "archive_file": "book-54-part-01-the-cloud-record.md",
+      "sha256": "9e93abcac3c408371d7be7f157c46b39df38087048a68db35bfdf426aa3cad9d",
+      "bytes": 10164
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-02-the-algorithm-bridge.md",
+      "archive_file": "book-54-part-02-the-algorithm-bridge.md",
+      "sha256": "de1b044b0736f2bc23ef2a2e2950d4b8c808c2efa17c8b8b3ff3aaeb5bca0738",
+      "bytes": 9714
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-03-the-accountability-test.md",
+      "archive_file": "book-54-part-03-the-accountability-test.md",
+      "sha256": "5db082219ad98a0effe58facd6b5c2b102fefc9b219f18b255de0f6c6896f996",
+      "bytes": 12842
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-01-the-foundry.md",
+      "archive_file": "book-55-part-01-the-foundry.md",
+      "sha256": "228e8bd8494d6ee213488943b4a9f245ae07853fab1c691cd19874099510b473",
+      "bytes": 14434
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-02-the-bridge.md",
+      "archive_file": "book-55-part-02-the-bridge.md",
+      "sha256": "ec54a467952b7aa9990a75ce7d5eea2c336cdb939079f83ee11063da13546625",
+      "bytes": 13864
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-03-the-vault.md",
+      "archive_file": "book-55-part-03-the-vault.md",
+      "sha256": "690af77d685f49d6904c5bede55e73b987974bee07132620567345cc900eda50",
+      "bytes": 13522
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-04-the-cover.md",
+      "archive_file": "book-55-part-04-the-cover.md",
+      "sha256": "576bb5ccfc03a4a2828471940e2e4b3f2815fd01c0f8f4bb3ea6369d176087ef",
+      "bytes": 13069
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-05-the-throughline.md",
+      "archive_file": "book-55-part-05-the-throughline.md",
+      "sha256": "ec8e5a28258532b48099dea6a94d75cf0f14c287f3bdf12c446735418c93e20e",
+      "bytes": 17064
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-06-the-concentration.md",
+      "archive_file": "book-55-part-06-the-concentration.md",
+      "sha256": "84c1a87871e68ec6afebc05f882f75bbfd7338c13a5f834ff511ba72d001c404",
+      "bytes": 10842
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-07-the-blank-check.md",
+      "archive_file": "book-55-part-07-the-blank-check.md",
+      "sha256": "419d30e2ce73fbcb03b1cf4983d874d9d0da4854ddefffdc82c32a648da71b60",
+      "bytes": 9963
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-08-the-architecture-synthesis.md",
+      "archive_file": "book-55-part-08-the-architecture-synthesis.md",
+      "sha256": "2df509b4f66b548ca867fbfb4ee53b30fe396c97a00e73e83d4153ee5c089b40",
+      "bytes": 13817
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-09-what-can-be-done.md",
+      "archive_file": "book-55-part-09-what-can-be-done.md",
+      "sha256": "c507fe7337cdbec6734b6c5aa1dcaac320ba3eebf05975833b177b98c56acd53",
+      "bytes": 8232
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-10-appendix-a-expert.md",
+      "archive_file": "book-55-part-10-appendix-a-expert.md",
+      "sha256": "f05932b3e3f07af394dfa6b3cda03c1d4fb73ba7ad79bdd8d0e6ddf65e42828c",
+      "bytes": 12633
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-part-11-appendix-b-empirical.md",
+      "archive_file": "book-55-part-11-appendix-b-empirical.md",
+      "sha256": "18d6f97fed5f65b8cf34eccc6d830360e6a87e543a227f8299feaf6920ad0e6d",
+      "bytes": 11320
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-55-the-architecture-of-impunity.md",
+      "archive_file": "book-55-the-architecture-of-impunity.md",
+      "sha256": "5b94d88a9bb580aeb4a135b9398e8a85918285ce04cf39254f97ab225c4d671f",
+      "bytes": 11281
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-01-architecture-and-alignment.md",
+      "archive_file": "book-56-part-01-architecture-and-alignment.md",
+      "sha256": "2b75a9a15ec5b798723c6016ca53130870480426ac8bc3ee5987f86056877343",
+      "bytes": 10039
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-02-foundational-architecture.md",
+      "archive_file": "book-56-part-02-foundational-architecture.md",
+      "sha256": "40a2ddc9781dd201a699c3db302f5558b91cc438d7c39b3e971bd52666f907b6",
+      "bytes": 8576
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-03-applied-science-and-social-domains.md",
+      "archive_file": "book-56-part-03-applied-science-and-social-domains.md",
+      "sha256": "7a6b8182d3b686eef4715d0f1d10a2f478f70806cfdeeffd5e1c22e8b7b1c796",
+      "bytes": 7865
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-04-braided-winding-cmb.md",
+      "archive_file": "book-56-part-04-braided-winding-cmb.md",
+      "sha256": "731defc6d1f77a8efd329e2c1aa9a2c567cb53b917b62c5f4cbf36dc40cc4881",
+      "bytes": 7504
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-05-uniqueness-proofs.md",
+      "archive_file": "book-56-part-05-uniqueness-proofs.md",
+      "sha256": "a94d8cdf3c3256c1fc6a8acc065683400b81c4cd679508e20a9263e12d5f5079",
+      "bytes": 12687
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-06-geometric-expansion.md",
+      "archive_file": "book-56-part-06-geometric-expansion.md",
+      "sha256": "6021e530c56fbc3ebe185b56712182413ab05c088b5f3aa312a3f3fbad3e1ee0",
+      "bytes": 8925
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-07-sm-closure-and-hardening.md",
+      "archive_file": "book-56-part-07-sm-closure-and-hardening.md",
+      "sha256": "50fca0c20bf052151d648bc9d15e5588e149e8393e7b3c5c620168374a1accf5",
+      "bytes": 14499
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08-adjacent-tracks.md",
+      "archive_file": "book-56-part-08-adjacent-tracks.md",
+      "sha256": "922e73f470987bdcb8d4a137c27675bc95f11b09dfeef883fa48702bb4e95415",
+      "bytes": 12100
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08a-catalog-218-399.md",
+      "archive_file": "book-56-part-08a-catalog-218-399.md",
+      "sha256": "d09f2367bb7b7e85cff8ebc09b032d8c6af9a7c6f1a63cc953940800a2dac498",
+      "bytes": 63274
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08b-catalog-400-581.md",
+      "archive_file": "book-56-part-08b-catalog-400-581.md",
+      "sha256": "ad225f9859b288c31b2a5b41b8607a5fd96f88ef38e64223537111774949997f",
+      "bytes": 57328
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08c-catalog-582-763.md",
+      "archive_file": "book-56-part-08c-catalog-582-763.md",
+      "sha256": "13a5ba56646ae5ade68a57dbcc15b41cf8c91db65ecca78dbd7a1e44366f9b64",
+      "bytes": 41292
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08d-catalog-764-945.md",
+      "archive_file": "book-56-part-08d-catalog-764-945.md",
+      "sha256": "5b1752d519497c8e621376351684b5327a06b2de0d8fa06f5680534328c826e2",
+      "bytes": 52823
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08e-catalog-946-1131.md",
+      "archive_file": "book-56-part-08e-catalog-946-1131.md",
+      "sha256": "4cf45931eec90a55a3c4bfa524d0452276d79d70313e0412141de8a6969e06c7",
+      "bytes": 49041
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-09-epistemics-and-falsification.md",
+      "archive_file": "book-56-part-09-epistemics-and-falsification.md",
+      "sha256": "49728c3a229a84c6e8ef7c5662d58a186257c150e620cde19fe1555f6c0ab125",
+      "bytes": 11119
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-10-appendix-master-tables.md",
+      "archive_file": "book-56-part-10-appendix-master-tables.md",
+      "sha256": "cd865cb679b59600cecc631c2fa602c48cba373d67b072f31347007763734d99",
+      "bytes": 11140
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-the-complete-pillar-guide.md",
+      "archive_file": "book-56-the-complete-pillar-guide.md",
+      "sha256": "524897827c14976abe3c872a68567299d374b7d611552594747eb5b24eb538ad",
+      "bytes": 9606
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-axiomzero-applied-sciences-and-intellectual-properties.md",
+      "archive_file": "book-57-axiomzero-applied-sciences-and-intellectual-properties.md",
+      "sha256": "230f83deb6664cbc97284abe1b86a8245075b9e7401d003251803676ee8a275f",
+      "bytes": 15670
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-01-foundational-products.md",
+      "archive_file": "book-57-part-01-foundational-products.md",
+      "sha256": "873968fa394912ea29df74197e7187316adec884259d3eec46624cc4005cdd94",
+      "bytes": 36750
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-02-science-and-domain-products.md",
+      "archive_file": "book-57-part-02-science-and-domain-products.md",
+      "sha256": "3ac317c38ad25767f29246c2eaaf01cd24fa234f593fc5710c5deaba68ca7a52",
+      "bytes": 48676
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-03-psicat-and-public-instruments.md",
+      "archive_file": "book-57-part-03-psicat-and-public-instruments.md",
+      "sha256": "b57adec548950b358ef3e38ce7cc116eecb7295b11f0e3db8611ab511c13dc15",
+      "bytes": 38229
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-04-evidence-and-applied-laboratories.md",
+      "archive_file": "book-57-part-04-evidence-and-applied-laboratories.md",
+      "sha256": "2c3260048a7266ca949278a46d54c6198cb1116dc369d35a4733c48fa69afb0c",
+      "bytes": 45934
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-05-advanced-products-and-weave.md",
+      "archive_file": "book-57-part-05-advanced-products-and-weave.md",
+      "sha256": "84292b835d84749139ae852d30dbac92fc2077a9a7d625d7b30fd166b57bb6ad",
+      "bytes": 51412
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-06-master-plan-and-integrated-results.md",
+      "archive_file": "book-57-part-06-master-plan-and-integrated-results.md",
+      "sha256": "b9f0978d5cc6e0fb1a92e9e5d566c79824db877f7679c585f22f78a3065f8c3a",
+      "bytes": 44411
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-01-scientific-foundations.md",
+      "archive_file": "book-58-part-01-scientific-foundations.md",
+      "sha256": "0239a41fa147f28f5ad434de730f961c6d8f6fdbc6e6456b0783b35461245cb1",
+      "bytes": 41069
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-02-proof-predictions-and-adjacent-science.md",
+      "archive_file": "book-58-part-02-proof-predictions-and-adjacent-science.md",
+      "sha256": "dc329ba57e32b4d43f98f0ecd0ec6783b5823fe7fae41054a41a1c13e179bab6",
+      "bytes": 45030
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-03-governance-and-human-domains.md",
+      "archive_file": "book-58-part-03-governance-and-human-domains.md",
+      "sha256": "2c45b32532eed685e8d3f0e8eebac5742c0fc41e912b0d2126670276ad37e57c",
+      "bytes": 73845
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-04-knowledge-publication-and-institution.md",
+      "archive_file": "book-58-part-04-knowledge-publication-and-institution.md",
+      "sha256": "1f58539fd021e69f855a13cd43f68c8f05dae933cb9293c17c929f9449b567dc",
+      "bytes": 31884
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-05-runtime-evidence-and-engineering.md",
+      "archive_file": "book-58-part-05-runtime-evidence-and-engineering.md",
+      "sha256": "203dc30749622bb658737aa76102de7d659a55c6ab6db9b5b3c590282dce7d3e",
+      "bytes": 47647
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-06-master-plan-risks-and-next-decisions.md",
+      "archive_file": "book-58-part-06-master-plan-risks-and-next-decisions.md",
+      "sha256": "48d4c18bc24cbbe218bdc9825f471f61993e432238a62f5e74e3f226bb1d0671",
+      "bytes": 50286
+    },
+    {
+      "original_path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-the-state-of-the-manifold.md",
+      "archive_file": "book-58-the-state-of-the-manifold.md",
+      "sha256": "c6e1d008c9fc55241a62ab924512234b11414671012fc34231755c8ef864a860",
+      "bytes": 17202
+    }
+  ]
+}

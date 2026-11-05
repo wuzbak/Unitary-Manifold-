@@ -3,8 +3,12 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 from pathlib import Path
+
+import pytest
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -12,6 +16,7 @@ PSICAT_ROOT = REPO_ROOT / "7-OUTREACH" / "A Z PsiCat Literature"
 BOOKS_DIR = PSICAT_ROOT / "Books"
 ARTICLES_DIR = PSICAT_ROOT / "Articles"
 README_PATH = PSICAT_ROOT / "README.md"
+ARCHIVE_DIR = PSICAT_ROOT / "Archive" / "2026-11-05-books-53-58"
 EXPECTED_BOOK_COUNT = 50
 EXPECTED_ARTICLE_COUNT = 354
 EXPECTED_REWRITE_ARTICLE_COUNT = 352
@@ -157,32 +162,90 @@ def test_psicat_readme_coverage_matches_actual_corpus() -> None:
     assert expected_articles == EXPECTED_ARTICLE_COUNT
 
 
+def test_collection_has_exactly_58_individual_complete_books() -> None:
+    books = _markdown_files(BOOKS_DIR)
+    numbers = [int(BOOK_NUMBER_PATTERN.match(path.name).group(1)) for path in books]
+    assert sorted(numbers) == list(range(1, 59))
+    assert not any("-part-" in path.name or path.name.endswith("-FULL.md") for path in books)
+
+
+def test_preassembly_sources_are_preserved_byte_for_byte() -> None:
+    manifest = json.loads((ARCHIVE_DIR / "preservation_manifest.json").read_text(encoding="utf-8"))
+    assert len(manifest["files"]) == 58
+    names = [entry["archive_file"] for entry in manifest["files"]]
+    assert len(names) == len(set(names))
+    assert set(names) == {path.name for path in _markdown_files(ARCHIVE_DIR)}
+    for entry in manifest["files"]:
+        data = (ARCHIVE_DIR / entry["archive_file"]).read_bytes()
+        assert len(data) == entry["bytes"]
+        assert hashlib.sha256(data).hexdigest() == entry["sha256"]
+        assert entry["original_path"] == str(
+            (BOOKS_DIR / entry["archive_file"]).relative_to(REPO_ROOT)
+        )
+
+
+def _assembly_text(text: str) -> str:
+    """Ignore navigation markup and heading nesting, not manuscript content."""
+    text = re.sub(
+        r"^\*Part file of Book [^\n]*(?:\n[^\n]+)*\n", "", text, flags=re.MULTILINE
+    )
+    text = text.replace(
+        "carried in five companion catalog files "
+        "(`book-56-part-08a-*.md` through `book-56-part-08e-*.md`), then name",
+        "assembled in the five catalog sections below, then name",
+    ).replace(
+        "Five companion files carry Chapters 40 through 44",
+        "The five catalog sections below carry Chapters 40 through 44",
+    )
+    text = re.sub(r"^#{1,6} ", "", text, flags=re.MULTILINE)
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
+    return " ".join(text.replace("`", "").split())
+
+
+@pytest.mark.parametrize(
+    ("number", "section_count"),
+    [(53, 10), (54, 3), (55, 11), (56, 15), (57, 6), (58, 6)],
+)
+def test_individual_assemblies_include_every_source_in_order(
+    number: int, section_count: int
+) -> None:
+    primary, = BOOKS_DIR.glob(f"book-{number}-*.md")
+    manuscript = primary.read_text(encoding="utf-8")
+    parts = sorted(ARCHIVE_DIR.glob(f"book-{number}-part-*.md"))
+    assert len(parts) == section_count
+    assert re.findall(r'<a id="([^"]+)"></a>', manuscript) == [p.stem for p in parts]
+    for index, part in enumerate(parts):
+        anchor = f'<a id="{part.stem}"></a>'
+        assert manuscript.count(anchor) == 1
+        assert f"](#{part.stem})" in manuscript, f"{part.name} missing from internal contents"
+        section = manuscript.split(anchor, 1)[1]
+        if index + 1 < len(parts):
+            section = section.split(f'<a id="{parts[index + 1].stem}"></a>', 1)[0]
+            section = section.rsplit("---", 1)[0]
+        assert _assembly_text(section) == _assembly_text(part.read_text(encoding="utf-8"))
+    assert not re.search(r"\]\(book-\d+-part-", manuscript)
+    assert len(re.findall(r"^# ", manuscript, re.MULTILINE)) == 1
+
+
+@pytest.mark.parametrize(("number", "chapters"), [(53, 46), (55, 27), (56, 52)])
+def test_assembled_chapter_numbering_is_complete_and_sequential(
+    number: int, chapters: int
+) -> None:
+    primary, = BOOKS_DIR.glob(f"book-{number}-*.md")
+    numbers = re.findall(r"^### Chapter (\d+)\b", primary.read_text(encoding="utf-8"), re.MULTILINE)
+    assert list(map(int, numbers)) == list(range(1, chapters + 1))
+
+
 def test_commissioned_books_have_complete_book_length_manuscripts() -> None:
     for number in ("57", "58"):
-        parts = sorted(BOOKS_DIR.glob(f"book-{number}-part-*.md"))
-        assert len(parts) == 6, f"Book {number} requires its six manuscript parts"
-        assert [p.name.split("-")[3] for p in parts] == [
-            "01", "02", "03", "04", "05", "06"
-        ]
-        primary = next(
-            p for p in _original_book_files()
-            if p.name.startswith(f"book-{number}-") and "-part-" not in p.name
-        )
+        primary, = BOOKS_DIR.glob(f"book-{number}-*.md")
         index = primary.read_text(encoding="utf-8")
-        for part in parts:
-            assert f"]({part.name})" in index, f"Book {number} does not link {part.name}"
-        chapter_ids = [
-            chapter
-            for part in parts
-            for chapter in re.findall(
-                r"^#{2,3} ([A-F]\d+) ", part.read_text(encoding="utf-8"), re.MULTILINE
-            )
-        ]
+        chapter_ids = re.findall(r"^#{2,3} ([A-F]\d+) ", index, re.MULTILINE)
         assert len(chapter_ids) >= 24, f"Book {number} is missing its detailed chapters"
         assert len(chapter_ids) == len(set(chapter_ids)), (
             f"Book {number} repeats chapter identifiers"
         )
-        words = sum(len(p.read_text(encoding="utf-8").split()) for p in [primary, *parts])
+        words = len(index.split())
         assert 30_000 <= words <= 50_000, (
             f"Book {number} has {words:,} words; commission requires 30,000–50,000"
         )
@@ -192,9 +255,10 @@ def test_commissioned_books_have_complete_book_length_manuscripts() -> None:
 
 
 def test_applied_sciences_book_traces_all_commissioned_products() -> None:
-    manuscript = "\n".join(
-        p.read_text(encoding="utf-8")
-        for p in sorted(BOOKS_DIR.glob("book-57-part-*.md"))
+    manuscript = (
+        BOOKS_DIR / "book-57-axiomzero-applied-sciences-and-intellectual-properties.md"
+    ).read_text(
+        encoding="utf-8"
     )
     for number in range(1, 46):
         products = list((REPO_ROOT / "12-AZ-IP").glob(f"{number:02d}-*"))
