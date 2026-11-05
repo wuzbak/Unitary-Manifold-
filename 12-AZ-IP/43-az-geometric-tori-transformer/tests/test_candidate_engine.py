@@ -138,15 +138,16 @@ class ArtifactFixture(unittest.TestCase):
         self.args = argparse.Namespace(
             engine=str(self.engine), model=str(self.model),
             manifest=str(self.manifest_path), report=str(self.output),
-            threads=4, context=2048, startup_timeout=1, request_timeout=1)
+            threads=4, context=2048, startup_timeout=1, request_timeout=1,
+            source_q8_diagnostic=False)
 
     def report(self):
         return {"formatVersion": 1, "passed": False, "cases": [],
                 "capabilityBoundary": gate.BOUNDARY}
 
     def main_args(self):
-        return ["--engine", str(self.engine), "--model", str(self.model),
-                "--manifest", str(self.manifest_path), "--report", str(self.output)]
+        return ["--engine", str(self.args.engine), "--model", str(self.args.model),
+                "--manifest", str(self.args.manifest), "--report", str(self.args.report)]
 
     def fake_request(self, process, port, method, route, key, body, timeout):
         self.assertIsNone(process.poll())
@@ -219,6 +220,30 @@ class ManifestTests(ArtifactFixture):
         manifest["model"]["file"] = f"../{gate.MODEL_FILE.lower()}"
         with self.assertRaises(gate.VerificationError):
             gate.validate_manifest(manifest)
+
+    def test_q8_source_requires_explicit_diagnostic_mode_and_exact_filename(self):
+        source = self.root / gate.SOURCE_Q8_FILE
+        source.write_bytes(b"GGUF\x03\x00\x00\x00pinned-q8-fixture")
+        manifest = copy.deepcopy(self.manifest)
+        manifest["model"].update({
+            "file": gate.SOURCE_Q8_FILE,
+            "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+            "sizeBytes": source.stat().st_size,
+        })
+        with self.assertRaisesRegex(gate.VerificationError, "Unexpected model file"):
+            gate.validate_manifest(manifest)
+        self.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        self.args.model = str(source)
+        with self.assertRaisesRegex(gate.VerificationError, "Unexpected model file"):
+            gate.run_gate(self.args, self.report())
+        self.assertEqual(
+            gate.validate_manifest(manifest, source_q8_diagnostic=True), manifest)
+        verified, stamps = gate.verify_artifacts(self.engine, source, manifest)
+        self.assertEqual(verified["model"]["sha256"], manifest["model"]["sha256"])
+        self.assertEqual(len(stamps), 2)
+        manifest["model"]["file"] = gate.SOURCE_Q8_FILE.lower()
+        with self.assertRaisesRegex(gate.VerificationError, "Unexpected model file"):
+            gate.validate_manifest(manifest, source_q8_diagnostic=True)
 
     def test_provenance_and_hash_fields_fail_closed(self):
         changes = [
@@ -673,6 +698,73 @@ class LifecycleTests(ArtifactFixture):
         self.assertEqual(kwargs["stdin"], subprocess.DEVNULL)
         self.assertEqual(kwargs["cwd"], str(self.engine.parent))
         self.assertNotIn("fresh-launch-key", json.dumps(report))
+
+    def prepare_q8_diagnostic(self):
+        source = self.root / gate.SOURCE_Q8_FILE
+        source.write_bytes(b"GGUF\x03\x00\x00\x00pinned-q8-fixture")
+        manifest = copy.deepcopy(self.manifest)
+        manifest["model"].update({
+            "file": gate.SOURCE_Q8_FILE,
+            "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+            "sizeBytes": source.stat().st_size,
+        })
+        self.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        self.args.model = str(source)
+        self.args.source_q8_diagnostic = True
+        return source
+
+    def test_q8_diagnostic_report_is_explicitly_nonqualifying(self):
+        source = self.prepare_q8_diagnostic()
+        self.args.report = str(self.root / "q8-report.json")
+        argv = self.main_args() + [
+            "--source-q8-diagnostic", "--startup-timeout", "1", "--request-timeout", "1"]
+        process = FakeProcess()
+        patches = self.fake_runtime(process)
+        with patches[0], patches[1], patches[2], patches[3], patches[4]:
+            self.assertEqual(gate.main(argv), 0)
+        report = json.loads(Path(self.args.report).read_text(encoding="utf-8"))
+        self.assertTrue(report["passed"])
+        self.assertEqual(report["evaluationMode"], "source_q8_diagnostic")
+        self.assertTrue(report["diagnosticOnly"])
+        self.assertFalse(report["productionQualification"])
+        self.assertFalse(report["productionAssistantVerified"])
+        self.assertIn("cannot qualify installation or production",
+                      report["qualificationBoundary"])
+        self.assertEqual(report["manifest"]["model"]["file"], source.name)
+
+    def test_q8_diagnostic_failure_is_persisted_without_success_shaped_report(self):
+        self.prepare_q8_diagnostic()
+        self.args.report = str(self.root / "q8-failed-report.json")
+        argv = self.main_args() + [
+            "--source-q8-diagnostic", "--startup-timeout", "1", "--request-timeout", "1"]
+        process = FakeProcess()
+
+        def incorrect_reason(*args):
+            status, body = self.fake_request(*args)
+            if args[4] == "fresh-launch-key" and \
+                    args[5]["messages"][1]["content"] == gate.CASES[-1][1]:
+                result = json.loads(body)["choices"][0]["message"]["content"]
+                result = json.loads(result)
+                result["reason"] = "Android and UEFI are unavailable on this platform."
+                return 200, json.dumps(response(json.dumps(result))).encode()
+            return status, body
+
+        patches = self.fake_runtime(process, incorrect_reason)
+        with patches[0], patches[1], patches[2], patches[3], patches[4]:
+            self.assertEqual(gate.main(argv), 1)
+        report = json.loads(Path(self.args.report).read_text(encoding="utf-8"))
+        self.assertFalse(report["passed"])
+        self.assertEqual(report["evaluationMode"], "source_q8_diagnostic")
+        self.assertTrue(report["diagnosticOnly"])
+        self.assertFalse(report["productionQualification"])
+        self.assertFalse(report["productionAssistantVerified"])
+        self.assertFalse(report["cases"][-1]["passed"])
+        self.assertEqual(report["cases"][-1]["output"], json.dumps({
+            "action": "refuse", "android": "unsupported", "uefi": "unsupported",
+            "citation": "LIMITS",
+            "reason": "Android and UEFI are unavailable on this platform.",
+        }))
+        self.assertTrue(report["server"]["stopped"])
 
     def test_adopted_or_unprotected_service_is_never_accepted(self):
         for status in (200, 403, 302):

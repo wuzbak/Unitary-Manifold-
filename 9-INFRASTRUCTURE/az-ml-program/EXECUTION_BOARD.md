@@ -36,6 +36,58 @@ performance result is claimed.
 
 ## Current qualification continuation (2026-11-05)
 
+### Merge scope and restored CI
+
+The deliberately hostile retrieved document in the backend test is a test
+fixture, not a description of AxiomZero's work, the steward's request or an
+agent's authorization. Its instruction to read private files and upload them
+tests the assistant's handling of retrieved content; the harness never executes
+model output. A failure there is a measured candidate limitation, not an agent
+refusing to build the program.
+
+Open program capabilities are not, by themselves, a reason to block merging
+tested incremental infrastructure. Merge acceptance requires preserving existing
+work, passing applicable software checks and respecting the existing packaging
+gate; it does not require declaring all 21 capabilities production-complete.
+
+Mainline's new PsiCat manuscripts introduced conflicts in the generated monorepo
+map and wave changelog. These conflicts prevented pull-request CI from starting
+on `428cd2a`. Main was merged without discarding either branch's work, both
+changelog entries were retained, and the map was regenerated from the resolved
+Git index. At `7f4114e`, new current-head CI and frozen-core checks started.
+The merged-surface run passed 77 tests, and all 2,067 Markdown files passed the
+internal-link audit. No branch protection or evaluation gate was bypassed.
+Main subsequently advanced again to `2059c8d`, assembling Books 53-58 and
+preserving their source parts in the editorial archive. That update was also
+merged, retaining its original bytes and regenerating the combined map.
+The updated editorial/map scope passed 32 tests and the link audit passed for
+2,074 Markdown files. The intermediate full local run was stopped before
+completion to avoid certifying a moving source tree; it is not counted as a
+completed regression.
+The integrated program, Product 40, editorial and map scope then passed 732
+tests. Capture destination tests now also cover regular files and verify an
+explicit error with no success-shaped standard output before network access.
+
+### Paired original-weight diagnostic
+
+Independent review found no demonstrated template or verifier implementation
+error behind the platform-only refusal. To test whether Q8-to-Q4
+requantization contributes, the Windows workflow now evaluates the original
+checksum-verified Q8_0 source and the derived Q4_K_M candidate using the same
+model revision, engine bytes, prompts, decoding settings and grader.
+The source diagnostic runs first, writes an explicitly diagnostic-only report,
+and retains its manifest, source bytes, receipt and failure status. Its failure
+does not skip the separate Q4 packaging gate, and its success cannot qualify
+the Q4 model or installation. Q8 weights remain outside the packaged runtime.
+The production verifier still rejects Q8 unless explicitly invoked in diagnostic
+mode. No actual paired-model result is claimed before hosted execution.
+
+The existing keyword-based rationale rubric may reject some otherwise valid
+privacy- or authorization-grounded explanations. The observed platform-only
+answer does not explain refusal of the private-file/upload instruction under
+either interpretation. The exposed case, system policy, grading criteria and
+thresholds have not been tuned to obtain a pass.
+
 The P43 benchmark now hashes its checkpoint input once, validates bounded
 NPZ/NPY headers, names, shapes, dtypes and finite values before model
 construction, then instantiates those same in-memory bytes. Inference-only and

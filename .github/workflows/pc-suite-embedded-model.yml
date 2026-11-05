@@ -57,14 +57,16 @@ jobs:
           if ($metadata.private -or $metadata.gated -or $metadata.cardData.license -cne "apache-2.0") {
             throw "Candidate must be public, ungated and declared Apache-2.0 by its official model card."
           }
-          $assets = @($metadata.siblings | Where-Object { $_.rfilename -ieq $file })
+          $assets = @($metadata.siblings | Where-Object { $_.rfilename -ceq $file })
           $metadata | ConvertTo-Json -Depth 8 | Set-Content model-metadata.json -Encoding utf8NoBOM
           if ($assets.Count -ne 1 -or $metadata.sha -cnotmatch "^[a-f0-9]{40}$") {
             $metadata.siblings.rfilename | Write-Output
             throw "Official model revision or unique Q8_0 source file is missing."
           }
           $asset = $assets[0]
-          $file = $asset.rfilename
+          if ($asset.rfilename -cne "Qwen3-1.7B-Q8_0.gguf") {
+            throw "Pinned Q8 diagnostic requires the exact official Q8_0 filename."
+          }
           if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 2600000000) {
             throw "Authoritative LFS digest/size is missing or exceeds the candidate size budget."
           }
@@ -118,6 +120,20 @@ jobs:
           Receive-PublicAsset $url $sourceModelPath $asset.lfs.size $asset.lfs.size
           $sourceSha = (Get-FileHash $sourceModelPath -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($sourceSha -cne $asset.lfs.sha256) { throw "Downloaded source model does not match authoritative LFS SHA-256." }
+          [ordered]@{
+            formatVersion = 1
+            repository = $repository
+            revision = $metadata.sha
+            sourceFile = $file
+            sourceUrl = $url
+            sha256 = $sourceSha
+            sizeBytes = $asset.lfs.size
+            license = "Apache-2.0"
+            checksumVerified = $true
+            sourceQuantization = "Q8_0"
+            diagnosticOnly = $true
+            productionQualification = $false
+          } | ConvertTo-Json | Set-Content candidate/source-q8-receipt.json -Encoding utf8NoBOM
           $outputFile = "Qwen3-1.7B-Q4_K_M.gguf"
           $modelPath = [System.IO.Path]::GetFullPath("candidate/$outputFile")
           $quantizerPath = [System.IO.Path]::GetFullPath("native-engine/build/bin/Release/llama-quantize.exe")
@@ -132,6 +148,21 @@ jobs:
             Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$($notice.rfilename)" ([System.IO.Path]::GetFullPath("candidate/$($notice.rfilename)")) 65536
           }
           $enginePath = [System.IO.Path]::GetFullPath("native-engine/build/bin/Release/llama-server.exe")
+          $engineSha = (Get-FileHash $enginePath -Algorithm SHA256).Hash.ToLowerInvariant()
+          $q8Manifest = [ordered]@{
+            formatVersion = 1
+            model = [ordered]@{
+              repository = $repository; revision = $metadata.sha; file = $file
+              sha256 = $sourceSha; sizeBytes = $asset.lfs.size; license = "Apache-2.0"
+            }
+            engine = [ordered]@{
+              repository = "ggml-org/llama.cpp"
+              revision = "52e53a76df0298d2c316ae7e704eeec03b0bf478"
+              sha256 = $engineSha
+              license = "MIT"
+            }
+          }
+          $q8Manifest | ConvertTo-Json -Depth 6 | Set-Content candidate/source-q8-manifest.json -Encoding utf8NoBOM
           $manifest = [ordered]@{
             formatVersion = 1
             model = [ordered]@{
@@ -141,7 +172,7 @@ jobs:
             engine = [ordered]@{
               repository = "ggml-org/llama.cpp"
               revision = "52e53a76df0298d2c316ae7e704eeec03b0bf478"
-              sha256 = (Get-FileHash $enginePath -Algorithm SHA256).Hash.ToLowerInvariant()
+              sha256 = $engineSha
               license = "MIT"
             }
           }
@@ -164,6 +195,73 @@ jobs:
             productionAssistantVerified = $false
           } | ConvertTo-Json | Set-Content candidate/source-provenance.json -Encoding utf8NoBOM
           $manifest | ConvertTo-Json -Depth 6
+      - name: Run paired original Q8 source diagnostic
+        continue-on-error: true
+        run: |
+          $diagnosticExit = 2
+          $invocationError = $null
+          $reportValid = $false
+          $reportPassed = $false
+          $diagnosticOnly = $false
+          $reason = $null
+          try {
+            $q8 = Get-Content candidate/source-q8-manifest.json -Raw | ConvertFrom-Json
+            $q4 = Get-Content candidate/manifest.json -Raw | ConvertFrom-Json
+            if ($q8.model.repository -cne $q4.model.repository -or
+                $q8.model.revision -cne $q4.model.revision -or
+                $q8.engine.repository -cne $q4.engine.repository -or
+                $q8.engine.revision -cne $q4.engine.revision -or
+                $q8.engine.sha256 -cne $q4.engine.sha256) {
+              throw "Paired source manifests do not share model revision and exact engine."
+            }
+            python 12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py `
+              --engine "$([System.IO.Path]::GetFullPath('native-engine/build/bin/Release/llama-server.exe'))" `
+              --model "$([System.IO.Path]::GetFullPath($q8.model.file))" `
+              --manifest "$([System.IO.Path]::GetFullPath('candidate/source-q8-manifest.json'))" `
+              --report "$([System.IO.Path]::GetFullPath('candidate/source-q8-validation.json'))" `
+              --source-q8-diagnostic
+            $diagnosticExit = $LASTEXITCODE
+            if (Test-Path candidate/source-q8-validation.json -PathType Leaf) {
+              $q8Report = Get-Content candidate/source-q8-validation.json -Raw | ConvertFrom-Json
+              $reportValid = $q8Report.evaluationMode -ceq "source_q8_diagnostic" -and
+                $q8Report.diagnosticOnly -eq $true -and
+                $q8Report.productionQualification -eq $false -and
+                $q8Report.productionAssistantVerified -eq $false
+              $reportPassed = $q8Report.passed -eq $true
+              $diagnosticOnly = $q8Report.diagnosticOnly -eq $true
+            }
+          } catch {
+            $invocationError = $_.Exception.Message
+            $reason = "Diagnostic invocation/report validation failed: $invocationError"
+          }
+          $outcome = "invalid_or_unreported"
+          if ($reportValid -and $diagnosticExit -eq 0 -and $reportPassed) {
+            $outcome = "passed_diagnostic_only"
+          } elseif ($reportValid -and $diagnosticExit -eq 1 -and -not $reportPassed) {
+            $outcome = "failed_diagnostic"
+            $reason = "Q8 source did not pass all candidate cases; this diagnostic does not qualify the installation."
+          } elseif ($null -eq $reason) {
+            $reason = "Q8 diagnostic exit/report state was inconsistent (exit=$diagnosticExit, reportValid=$reportValid, passed=$reportPassed)."
+          }
+          [ordered]@{
+            formatVersion = 1
+            diagnosticOnly = $true
+            productionQualification = $false
+            sourceReceipt = "source-q8-receipt.json"
+            manifest = "source-q8-manifest.json"
+            report = "source-q8-validation.json"
+            exitCode = $diagnosticExit
+            reportValid = $reportValid
+            reportPassed = $reportPassed
+            reportDiagnosticOnly = $diagnosticOnly
+            outcome = $outcome
+            reason = $reason
+          } | ConvertTo-Json -Depth 5 | Set-Content candidate/source-q8-diagnostic-status.json -Encoding utf8NoBOM
+          Get-Content candidate/source-q8-diagnostic-status.json
+          if ($outcome -cne "passed_diagnostic_only") {
+            throw $reason
+          }
+
       - name: Exercise actual local model instructions, citations and refusal
         run: |
           $manifest = Get-Content candidate/manifest.json -Raw | ConvertFrom-Json
@@ -191,13 +289,19 @@ jobs:
           path: candidate/
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('candidate/manifest.json') != ''
+        if: always() && (hashFiles('candidate/manifest.json') != '' || hashFiles('candidate/source-q8-receipt.json') != '')
         with:
           name: psicat-instruction-backend-evaluation
           retention-days: 7
+          compression-level: 0
           path: |
             candidate/manifest.json
             candidate/source-provenance.json
+            Qwen3-1.7B-Q8_0.gguf
+            candidate/source-q8-receipt.json
+            candidate/source-q8-manifest.json
+            candidate/source-q8-validation.json
+            candidate/source-q8-diagnostic-status.json
             candidate/validation.json
             candidate/MODEL_CARD.md
             candidate/MODEL_LICENSE

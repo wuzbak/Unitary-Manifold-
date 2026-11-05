@@ -10,6 +10,9 @@ sizeBytes is the authoritative model file byte count. Fixed candidate:
 Qwen/Qwen3-1.7B-GGUF, Qwen3-1.7B-Q4_K_M.gguf, Apache-2.0; engine:
 ggml-org/llama.cpp, 52e53a76df0298d2c316ae7e704eeec03b0bf478, MIT.
 Supply authoritative public metadata and trusted compiled artifacts yourself.
+The optional --source-q8-diagnostic mode accepts only the matching repository's
+Qwen3-1.7B-Q8_0.gguf source and marks its report diagnostic-only; it can never
+qualify an installation or production assistant.
 
 Exit codes: 0=all real sanity cases passed and server stopped; 1=gate failed
 (JSON evidence persisted); 2=invalid invocation/output path or report write
@@ -38,6 +41,7 @@ import time
 ENGINE_REVISION = "52e53a76df0298d2c316ae7e704eeec03b0bf478"
 MODEL_REPOSITORY = "Qwen/Qwen3-1.7B-GGUF"
 MODEL_FILE = "Qwen3-1.7B-Q4_K_M.gguf"
+SOURCE_Q8_FILE = "Qwen3-1.7B-Q8_0.gguf"
 HOST = "127.0.0.1"
 IS_WINDOWS = os.name == "nt"
 ALIAS = "merlin-candidate"
@@ -129,7 +133,7 @@ def hexadecimal(value, length, label):
         raise VerificationError(f"{label} must be {length} lowercase hex characters")
 
 
-def validate_manifest(value):
+def validate_manifest(value, source_q8_diagnostic=False):
     exact_keys(value, ("formatVersion", "model", "engine"), "manifest")
     if type(value["formatVersion"]) is not int or value["formatVersion"] != 1:
         raise VerificationError("formatVersion must be integer 1")
@@ -146,8 +150,13 @@ def validate_manifest(value):
     ):
         if item != expected:
             raise VerificationError(f"Unexpected {label}; required {expected}")
-    if not isinstance(model["file"], str) or model["file"].casefold() != MODEL_FILE.casefold():
-        raise VerificationError(f"Unexpected model file; required {MODEL_FILE}")
+    expected_file = SOURCE_Q8_FILE if source_q8_diagnostic else MODEL_FILE
+    filename_matches = (
+        model["file"] == expected_file if source_q8_diagnostic
+        else isinstance(model["file"], str) and model["file"].casefold() == expected_file.casefold()
+    )
+    if not filename_matches:
+        raise VerificationError(f"Unexpected model file; required {expected_file}")
     hexadecimal(model["revision"], 40, "model revision")
     hexadecimal(model["sha256"], 64, "model sha256")
     hexadecimal(engine["sha256"], 64, "engine sha256")
@@ -492,6 +501,18 @@ def stop_owned(process):
 
 
 def run_gate(args, report):
+    source_q8_diagnostic = bool(getattr(args, "source_q8_diagnostic", False))
+    if source_q8_diagnostic:
+        report.update({
+            "evaluationMode": "source_q8_diagnostic",
+            "diagnosticOnly": True,
+            "productionQualification": False,
+            "productionAssistantVerified": False,
+            "qualificationBoundary": (
+                "Diagnostic-only evaluation of the pinned original Q8_0 source; "
+                "cannot qualify installation or production."
+            ),
+        })
     engine = absolute_file(args.engine, "engine")
     model = absolute_file(args.model, "model")
     manifest_path = absolute_file(args.manifest, "manifest")
@@ -501,7 +522,8 @@ def run_gate(args, report):
         raw_manifest = stream.read(MAX_JSON_BYTES + 1)
     if len(raw_manifest) > MAX_JSON_BYTES:
         raise VerificationError("Manifest exceeds size limit")
-    manifest = validate_manifest(strict_json(raw_manifest))
+    manifest = validate_manifest(
+        strict_json(raw_manifest), source_q8_diagnostic=source_q8_diagnostic)
     artifacts, stamps = verify_artifacts(engine, model, manifest)
     report.update({"manifest": manifest, "verifiedArtifacts": artifacts})
     for path, stamp in stamps:
@@ -594,6 +616,9 @@ def parser():
     cli.add_argument("--model", required=True, help="Absolute local official GGUF path")
     cli.add_argument("--manifest", required=True, help="Absolute authoritative metadata JSON path")
     cli.add_argument("--report", required=True, help="Local JSON output path; parent must exist")
+    cli.add_argument(
+        "--source-q8-diagnostic", action="store_true",
+        help="Evaluate only the matching pinned Q8_0 source; diagnostic-only, never qualification")
     cli.add_argument("--threads", type=bounded_int(1, 8), default=4)
     cli.add_argument("--context", type=bounded_int(1024, 4096), default=2048)
     cli.add_argument("--startup-timeout", type=bounded_timeout, default=180.0)
@@ -624,8 +649,20 @@ def main(argv=None):
     if output in {Path(value).resolve() for value in (args.engine, args.model, args.manifest)}:
         print("Report must not overwrite an input artifact", file=sys.stderr)
         return 2
+    source_q8_diagnostic = args.source_q8_diagnostic
     report = {"formatVersion": 1, "passed": False, "cases": [],
               "capabilityBoundary": BOUNDARY}
+    if source_q8_diagnostic:
+        report.update({
+            "evaluationMode": "source_q8_diagnostic",
+            "diagnosticOnly": True,
+            "productionQualification": False,
+            "productionAssistantVerified": False,
+            "qualificationBoundary": (
+                "Diagnostic-only evaluation of the pinned original Q8_0 source; "
+                "cannot qualify installation or production."
+            ),
+        })
     started = time.monotonic()
     try:
         run_gate(args, report)
@@ -639,7 +676,15 @@ def main(argv=None):
     except OSError as exc:
         print(f"Could not persist gate report: {exc}", file=sys.stderr)
         return 2
-    print(f"Candidate backend sanity gate: {'PASS' if report['passed'] else 'FAIL'}; {output}")
+    if source_q8_diagnostic:
+        print(
+            "Candidate backend Q8 source diagnostic: "
+            f"{'PASS' if report['passed'] else 'FAIL'} "
+            "(diagnostic-only; cannot qualify installation or production); "
+            f"{output}"
+        )
+    else:
+        print(f"Candidate backend sanity gate: {'PASS' if report['passed'] else 'FAIL'}; {output}")
     return 0 if report["passed"] else 1
 
 

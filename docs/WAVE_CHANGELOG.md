@@ -1,5 +1,23 @@
 # Wave Changelog
 
+## AZ ML merge integration and paired-source diagnosis (2026-11-05)
+
+Merged the new mainline PsiCat manuscripts and their subsequent complete-volume
+assembly without discarding either branch's work. Regenerated the combined
+Git-index inventory to resolve the actual merge conflicts that prevented new
+pull-request CI from starting. Open program capabilities are not themselves a
+blanket block on merging tested incremental infrastructure.
+
+The Windows backend workflow now compares the checksum-verified original Q8_0
+source against its derived Q4_K_M candidate with unchanged prompts, deterministic
+decoding and grading. Source results are explicitly diagnostic-only, with their
+own retained receipt and failure status; they cannot satisfy or bypass the Q4
+packaging gate. The original source weights are not added to the packaged
+runtime. This is a measurement path, not a claimed model-quality improvement.
+Product 40 destination tests also cover regular files and require explicit
+errors without success-shaped output before acquisition.
+No physics claim, score, pillar, falsifier or program completion flag changes.
+
 ## AZ ML infrastructure continuation (2026-11-05; adjacent software only)
 
 Added independent P43 NumPy forward/reverse/Adam parity checks, including every
