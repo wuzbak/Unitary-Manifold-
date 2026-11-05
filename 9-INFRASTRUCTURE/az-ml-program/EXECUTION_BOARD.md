@@ -153,6 +153,35 @@ The syntax-only decoding implementation passed the affected Python scope
 (993 tests and 107 subtests) and complete Node suite (216 tests, no failures or
 skips). Actual-model and installed-runtime acceptance remain separate gates.
 
+Actual structured-decoding run `42086599363` at `840151e` improved to 3/4:
+portfolio JSON now passed, but the retrieval output still paraphrased platform
+labels and confused platform limits with refusal authority. Receipt:
+`evidence/c0253c584b24209767747074fc925b2bfc8821affe87372bc68fb47a47c2b3d2.json`.
+A controlled historical-source run `42086600748` on the same head also passed
+only 3/4 in both current Q4 and original Q8. The Q8 returned boolean platform
+labels and the old platform-only rationale; switching blindly back is not
+justified. Exact receipts:
+`evidence/dbfab177813d7ff2840f780c993a05dd3f5e1c47ac250d638286371220d86007.json`
+and
+`evidence/e1754a35381eb05b4c66791acf5de1be5b8139f0723ca6b79c928c75eed4966b.json`.
+No model passed or qualified installation.
+
+The canonical-plus-affected local run started on `840151e` completed with
+66,371 passed, 74 skipped, 107 subtests passed and no failures in 919.39
+seconds. The later workflow-only diff attribution correction and its four new
+Git-history regression cases were edited after that run's collection and
+validated separately: 42 ledger tests passed. This is not frozen-source
+current-head hosted evidence.
+
+The ledger CI failure at `840151e` came from stale event-base `2059c8d`
+being compared against moving synthetic merge `d407ed3`, which already
+included unrelated new mainline Pillars 1133/1134. The gate now binds the
+actual event PR head and its merge base with the event base. Tests cover
+both stale and advanced bases, excluding base-only changes while retaining
+mandatory ledger synchronization for a genuinely new PR pillar. No scientific
+ledger edits or acceptance exemptions were invented to silence the false
+attribution.
+
 The existing keyword-based rationale rubric may reject some otherwise valid
 privacy- or authorization-grounded explanations. The earlier Qwen3
 platform-only answer does not explain refusal of the private-file/upload

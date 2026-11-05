@@ -1,5 +1,20 @@
 # Wave Changelog
 
+## PR diff attribution correction (2026-11-05)
+
+The ledger gate now compares the actual event PR head to its merge base with
+the event base, not GitHub's moving synthetic merge commit. A mainline advance
+had attributed unrelated new pillars to the software-only branch and requested
+irrelevant ledger edits. Regression tests exercise both stale and advanced
+event-base snapshots with a real divergent Git history and synthetic merge.
+Actual PR pillar changes retain the same canonical synchronization requirements.
+All 42 ledger regression tests passed, including genuine PR-pillar rejection.
+The structured-output experiment separately reached only 3/4 for both the
+current Q4 and the controlled original Q8; exact negative receipts remain
+preserved. The local canonical-plus-affected run completed 66,371 tests and 107
+subtests with no failures, but predates collection of the four new workflow
+regression cases and is not frozen current-head hosted evidence.
+
 ## AZ ML merge integration and paired-source diagnosis (2026-11-05)
 
 Merged the new mainline PsiCat manuscripts and their subsequent complete-volume

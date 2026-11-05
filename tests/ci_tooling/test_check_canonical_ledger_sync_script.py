@@ -4,10 +4,86 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 from pathlib import Path
+import subprocess
 import sys
 
 import pytest
+import yaml
+
+
+@pytest.mark.parametrize("base_advanced", [False, True])
+@pytest.mark.parametrize("pr_pillar", [False, True])
+def test_workflow_diff_excludes_base_only_changes_in_synthetic_merge(
+    tmp_path, base_advanced, pr_pillar, ledger_sync_script_module
+):
+    root = Path(__file__).resolve().parents[2]
+    workflow = yaml.safe_load(
+        (root / ".github/workflows/staleness-honesty-gate.yml").read_text(encoding="utf-8")
+    )
+    job = workflow["jobs"]["ledger-gate"]
+    assert job["env"]["PR_BASE_SHA"] == "${{ github.event.pull_request.base.sha }}"
+    assert job["env"]["PR_HEAD_SHA"] == "${{ github.event.pull_request.head.sha }}"
+    scripts = {step["name"]: step["run"] for step in job["steps"] if "run" in step}
+    ledger = scripts["Enforce canonical ledger sync for wave/pillar changes"]
+    onboarding = scripts["Enforce onboarding docs consistency with STATUS.md"]
+    assert 'git merge-base "$PR_BASE_SHA" "$PR_HEAD_SHA"' in ledger
+    assert '--head-sha "$PR_HEAD_SHA"' in ledger
+    assert "${{ github.sha }}" not in ledger + onboarding
+
+    def git(*args):
+        return subprocess.run(
+            ["git", *args], cwd=tmp_path, check=True, capture_output=True, text=True
+        ).stdout.strip()
+
+    git("init", "--initial-branch=main")
+    git("config", "user.name", "Ledger test")
+    git("config", "user.email", "ledger-test@example.invalid")
+    git("config", "commit.gpgsign", "false")
+    (tmp_path / "baseline.txt").write_text("baseline\n", encoding="utf-8")
+    git("add", ".")
+    git("commit", "-m", "Shared base")
+    common = git("rev-parse", "HEAD")
+    git("checkout", "-b", "feature")
+    (tmp_path / "software.txt").write_text("PR change\n", encoding="utf-8")
+    if pr_pillar:
+        (tmp_path / "src/core").mkdir(parents=True)
+        (tmp_path / "src/core/pillar9998_pr_only.py").write_text(
+            "PILLAR_STATUS = 'ADJACENT'\n", encoding="utf-8"
+        )
+    git("add", ".")
+    git("commit", "-m", "Software-only PR")
+    head = git("rev-parse", "HEAD")
+    git("checkout", "main")
+    (tmp_path / "src/core").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "src/core/pillar9999_base_only.py").write_text(
+        "PILLAR_STATUS = 'ADJACENT'\n", encoding="utf-8"
+    )
+    git("add", ".")
+    git("commit", "-m", "Unrelated base advance")
+    advanced = git("rev-parse", "HEAD")
+    git("merge", "--no-ff", "feature", "-m", "Synthetic merge")
+    assert "src/core/pillar9999_base_only.py" in git("diff", "--name-only", common, "HEAD")
+    prefix = onboarding.split("# Only check", 1)[0]
+    result = subprocess.run(
+        ["bash", "-c", prefix + '\nprintf "%s" "$CHANGED"\n'],
+        cwd=tmp_path,
+        env={**os.environ, "PR_BASE_SHA": advanced if base_advanced else common, "PR_HEAD_SHA": head},
+        check=True, capture_output=True, text=True,
+    )
+    expected = ["software.txt"]
+    if pr_pillar:
+        expected.append("src/core/pillar9998_pr_only.py")
+    assert result.stdout.splitlines() == expected
+    report = ledger_sync_script_module.canonical_ledger_sync_requirement(
+        changed_files=result.stdout.splitlines(),
+        name_status_lines=git("diff", "--name-status", common, head).splitlines(),
+    )
+    assert report["requires_sync"] is pr_pillar
+    if pr_pillar:
+        assert not report["all_required_paths_changed"]
+        assert "FALLIBILITY.md" in report["missing_required_paths"]
 
 
 @pytest.fixture
@@ -173,4 +249,5 @@ def test_workflow_invokes_ledger_sync_script():
     assert "python3 TOOLS/checks/check_canonical_ledger_sync.py" in content
     assert "--base-sha" in content
     assert "--head-sha" in content
-    assert '${{ github.sha }}' in content
+    assert '${{ github.event.pull_request.head.sha }}' in content
+    assert '${{ github.sha }}' not in content

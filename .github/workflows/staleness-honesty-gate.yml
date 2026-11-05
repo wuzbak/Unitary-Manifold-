@@ -11,6 +11,9 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
+    env:
+      PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,18 +23,18 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          BASE_SHA="$(git merge-base "$PR_BASE_SHA" "$PR_HEAD_SHA")"
           python3 TOOLS/checks/check_canonical_ledger_sync.py \
-            --base-sha "${{ github.event.pull_request.base.sha }}" \
-            --head-sha "${{ github.sha }}"
+            --base-sha "$BASE_SHA" \
+            --head-sha "$PR_HEAD_SHA"
 
       - name: Enforce onboarding docs consistency with STATUS.md
         shell: bash
         run: |
           set -euo pipefail
 
-          BASE_SHA="${{ github.event.pull_request.base.sha }}"
-          HEAD_SHA="${{ github.sha }}"
-          CHANGED="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | tr -d '\r')"
+          BASE_SHA="$(git merge-base "$PR_BASE_SHA" "$PR_HEAD_SHA")"
+          CHANGED="$(git diff --name-only "$BASE_SHA" "$PR_HEAD_SHA" | tr -d '\r')"
 
           # Only check when STATUS.md is among the changed files (canonical truth surface).
           if echo "$CHANGED" | grep -qx "STATUS.md"; then
