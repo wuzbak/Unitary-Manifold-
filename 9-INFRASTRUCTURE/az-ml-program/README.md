@@ -19,6 +19,12 @@ truth ledger or an autonomous scheduler. `/api/psicat` remains the canonical
 governed control plane. The register does not authorize actions or promote
 capabilities based on declarations.
 
+Both standard and intent-aware repository RAG indexes include this implementation
+inventory, the master plan and execution board as source content. Planning and
+recorded test results are not model reasoning or production qualification.
+Retrieval does not authorize actions; it supplements the existing `/api/psicat`
+control plane rather than introducing a separate assistant or status service.
+
 ## Inspect and resume
 
 Run from the repository root with Python 3.12+:
@@ -33,6 +39,28 @@ python -m src.infrastructure.ml_program receipt
 The commands use only the standard library. `next` identifies dependency-ready
 planning candidates, not approved execution. A planning receipt is wrapped in
 the existing `ExecutionSpineRecord`; it is not benchmark evidence.
+
+### Eligibility-first model experiment
+
+The current Qwen candidate repeatedly failed actual 3/4 acceptance, and the
+extra same-model review did not help. Before compiling another engine or
+downloading alternative weights, inspect official publisher metadata:
+
+```bash
+python -m src.infrastructure.model_candidate_discovery --output candidate-metadata.json
+```
+
+This fixed-scope SmolLM3/HuggingFaceTB query checks public/ungated Apache-2.0
+provenance, repository revision, GGUF LFS digest and the unchanged 1.6 GB limit.
+It never downloads weights. Missing or inconsistent metadata is reported as
+unknown, not eligibility. A complete report may legitimately contain no eligible
+artifacts; eligibility does not establish instruction tuning, byte verification,
+engine compatibility, useful quality or packaging acceptance.
+
+On an HF-reachable runner, manually dispatch the existing
+`pc-suite-embedded-model.yml` with `metadata_only=true`. This dispatch-only
+research path skips compilation/evaluation and preserves its own report; normal
+PR/reusable packaging acceptance is unchanged and cannot enable this input.
 
 ## Original CPU reference libraries
 

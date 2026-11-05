@@ -3,6 +3,11 @@ name: Embedded PsiCat Instruction Backend Evaluation
 on:
   workflow_dispatch:
     inputs:
+      metadata_only:
+        description: Inspect official SmolLM3 metadata only, without compiling or qualifying a model
+        type: boolean
+        required: false
+        default: false
       run_source_q8_diagnostic:
         description: Re-run the pinned historical Qwen3 Q8 diagnostic
         type: boolean
@@ -30,7 +35,30 @@ permissions:
   contents: read
 
 jobs:
+  discover-candidate-metadata:
+    if: github.event_name == 'workflow_dispatch' && inputs.metadata_only
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Discover official SmolLM3 metadata without downloading weights
+        run: python -m src.infrastructure.model_candidate_discovery --output model-candidate-metadata.json
+      - name: Preserve eligibility report, including discovery failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: official-smollm3-candidate-metadata
+          path: model-candidate-metadata.json
+          if-no-files-found: error
+          retention-days: 14
+
   evaluate-cpu-backend:
+    if: github.event_name != 'workflow_dispatch' || !inputs.metadata_only
     runs-on: windows-latest
     timeout-minutes: 45
     steps:

@@ -2,6 +2,13 @@
 
 ## Mainline/recovery integration qualification (2026-11-05)
 
+The subsequent mainline merge of PR #1178 is also reconciled, retaining its
+scoped temporal-query and program-retrieval features. Its new temporal
+dependency is loaded only when requested, preserving standalone read-only
+Weave imports without platform lock modules. The combined temporal,
+retrieval, metadata-discovery, governance, inventory and map selector passes
+1,051 tests and 42 subtests; complete final-source execution remains separate.
+
 After PR #1173 merged, integration commit `3a0694b5b` reconciled its model
 work with recovery-owned process cleanup, both IP reseal histories, both
 compatible pillar shards and the union of canonical execution selections.
@@ -163,6 +170,22 @@ archive has only two JSONL evidence files; reconstructing missing HTTP tests
 does not recover or certify the original approximately 8% missing change set.
 No pillar/version promotion, scientific closure, TOE-score increase or weakened
 falsification condition is made.
+## AZ ML program retrieval integration (2026-11-05)
+
+Actual RAG/PsiCat/Weave consultation exposed missing program source coverage:
+the repository bot retrieved generic product guides instead of the ML program's
+implementation inventory and evidence. Both RAG builders now include three
+explicit program documents. The existing PsiCat-facing context scaffold and
+source-verified vector adapter preserve their provenance, allowlists, freshness
+checks and non-certification boundaries. This is not learned retrieval,
+independent model advice, automatic repair authorization or capability closure.
+
+Weave also consumes existing owner/hash-pinned temporal snapshots through an
+optional, read-only query context, preserving availability, freshness and origin
+policy without merging features into memory or citations. Hosted metadata-only
+research completed with zero eligible official SmolLM3 GGUF artifacts; both the
+initial fuzzy-search classification failure and corrected negative receipt are
+preserved. Packaging acceptance, model scores and all 21 open states are unchanged.
 
 ## Measured review non-improvement and integrated regression repair (2026-11-05)
 

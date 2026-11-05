@@ -91,6 +91,14 @@ _FOUNDATION_DOCUMENTS = [
     ("docs/TRUTH_LAYER.md", "Current foundation reassessment / action-derived flow"),
     ("1-THEORY/Z2_PARITY_NOTE.md", "Orbifold photon origin — open boundary"),
 ]
+_ML_PROGRAM_DOCUMENTS = [
+    ("9-INFRASTRUCTURE/az-ml-program/README.md",
+     "AZ ML program implementation inventory (adjacent software; not qualification)"),
+    ("9-INFRASTRUCTURE/az-ml-program/MASTER_PLAN.md",
+     "AZ ML program master plan (planning; not execution evidence)"),
+    ("9-INFRASTRUCTURE/az-ml-program/EXECUTION_BOARD.md",
+     "AZ ML program execution board (source-bound results and open qualification gates)"),
+]
 _CURRENT_TRUTH_SECTIONS = (
     (2, "Synthesis repair (2026-10-05)"),
     (3, "Mathematical findings and assumptions"),
@@ -1329,7 +1337,7 @@ class RAGIndex:
             ("STATUS.md", "Pillar Status Registry"),
             ("docs/LITEBIRD_FALSIFIER_BRIEF.md", "LiteBIRD Falsifier Brief"),
             ("1-THEORY/UNIFICATION_PROOF.md", "Historical unification argument — scoped by current reassessment"),
-        ] + _FOUNDATION_DOCUMENTS
+        ] + _FOUNDATION_DOCUMENTS + _ML_PROGRAM_DOCUMENTS
 
         for rel_path, title in target_files:
             full_path = repo_root / rel_path
@@ -1403,7 +1411,7 @@ class RAGIndex:
             ("docs/LITEBIRD_FALSIFIER_BRIEF.md", "LiteBIRD Falsifier Brief"),
             ("1-THEORY/UNIFICATION_PROOF.md", "Historical unification argument — scoped by current reassessment"),
             ("6-MONOGRAPH/MCP_INGEST.md", "MCP Ingest (full repo summary)"),
-        ] + _FOUNDATION_DOCUMENTS
+        ] + _FOUNDATION_DOCUMENTS + _ML_PROGRAM_DOCUMENTS
 
         for rel_path, title in intent_sources + standard_sources:
             full_path = repo_root / rel_path

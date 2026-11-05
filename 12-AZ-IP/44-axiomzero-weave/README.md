@@ -36,6 +36,52 @@ HOLD states. Pure queries create no persistent state. Semantic content hashes
 exclude receipt clocks and random run identifiers. Execution-spine records reuse
 the monorepo's existing contract; its governance metadata alone is not enforcement.
 
+### Optional point-in-time feature context
+
+The in-process `Weave.query` API can attach deterministic feature values from an
+already loaded `TemporalSnapshot`. Callers supply its owner and content hash,
+entity, feature names, timezone-aware decision time, and an explicit freshness
+TTL (`None` means no age cutoff). Only `real` origin is allowed by default;
+synthetic or fallback values require an explicit origin policy. Feature results
+remain separate from repository evidence and memory, preserve missing/stale
+reasons, and bind the snapshot hash and decision time. This uses the shared
+availability-aware replay primitive; it does not load caller-selected paths,
+persist query results, infer an answer, authorize effects, or qualify a feature
+service.
+
+Temporal infrastructure is imported only when this context is constructed or
+used; ordinary read-only API imports still work outside the repository root.
+
+```python
+from datetime import datetime, timezone
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path("12-AZ-IP/44-axiomzero-weave").resolve()))
+from az_weave.api import TemporalQueryContext, Weave
+from src.infrastructure.temporal_data import load_snapshot
+
+owner = "local-operator"
+snapshot = load_snapshot(
+    Path("approved-snapshot-directory"),
+    "SNAPSHOT_SHA256",
+    owner_scope=owner,
+)
+query = TemporalQueryContext(
+    snapshot=snapshot,
+    owner_scope=owner,
+    snapshot_hash=snapshot.content_hash,
+    entity_id="ENTITY_ID",
+    feature_names=("FEATURE_NAME",),
+    decision_time=datetime(2026, 1, 1, tzinfo=timezone.utc),
+    freshness_ttl_seconds=3600,
+)
+receipt = Weave(Path(".axiomzero-weave")).query(
+    "question for repository retrieval", owner, temporal=query,
+)
+print(receipt["temporal_context"])
+```
+
 ### Pentad is the foundation, not a sixth worker
 
 The Pentad's reality, observer, human intent, AI precision and coupling roles are

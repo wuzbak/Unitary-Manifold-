@@ -1004,6 +1004,17 @@ are retained above and in registry reseal history.
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72` | 35436 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb` | 33035 |
 
+### Product 44 point-in-time query context reseal - 2026-11-05
+
+The Weave README now documents optional, already-loaded temporal snapshots in
+read-only queries. Owner/hash binding, availability-aware selection, explicit
+freshness and origin policy do not constitute feature-service qualification.
+The previous exact-byte seal is retained in the registry's reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `bbad263a5a9b13181ab00db408379a2d5a181e1c22f3df34f9b3a8224d9fe52a` | 14603 |
+
 ## Verification Protocol
 
 To verify any registered asset:
@@ -1052,3 +1063,11 @@ Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4
 | `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `87a17bc612d154b1c862e9f97587c2562b175812ea1c5fe25017be0dcba83530` | 36607 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `b14ab56fca7d37c0748bb89e1bf98f6e0acf6ff3087ea26e2db5a6c4da7e1de8` | 36192 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `21f9bcdfcbcc3443d037547086324b4c63e773e76a8f2b50ae1bc0bbbb357688` | 37608 |
+
+### Mainline temporal/retrieval recovery reseal — 2026-11-05
+
+Reconcile mainline temporal/retrieval follow-through with standalone read-only Weave imports and recovery histories; preserve the approved stronger-model candidate and unchanged acceptance criteria. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `faab0463ca3a6abb67fddc77a8a5b795d6de81babe3ededb7d1217d9c61c73e6` | 16363 |

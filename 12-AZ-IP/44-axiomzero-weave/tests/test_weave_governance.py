@@ -267,6 +267,7 @@ def guarded(name, *args, **kwargs):
     return original(name, *args, **kwargs)
 builtins.__import__ = guarded
 from az_weave.api import capabilities, compute_readonly
+assert "src.infrastructure.temporal_data" not in sys.modules
 assert capabilities(pathlib.Path(root), checkpoints={})["product"] == 44
 assert compute_readonly("geometry", {}, repo_root=pathlib.Path(root))["alias_period"] == 74
 assert not pathlib.Path(".axiomzero-weave").exists()

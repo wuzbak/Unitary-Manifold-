@@ -526,6 +526,58 @@ def test_real_product_subject_answers_use_content_not_path_metadata(query, sourc
 # answer_question
 # ---------------------------------------------------------------------------
 
+@pytest.mark.parametrize("builder", [RAGIndex.build, RAGIndex.build_intent_index])
+@pytest.mark.parametrize(("filename", "query", "substance"), [
+    ("README.md", "checkpoint adam pcg64",
+     "Checkpoint Adam PCG64 restoration is a local reference, not distributed qualification."),
+    ("MASTER_PLAN.md", "vector retrieval repair",
+     "Vector retrieval repair needs bounded source verification before execution."),
+    ("EXECUTION_BOARD.md", "candidate acceptance outstanding",
+     "Candidate acceptance remains outstanding; no capability is complete."),
+])
+def test_ml_program_content_is_retrievable_without_path_inventory(
+    tmp_path, builder, filename, query, substance,
+):
+    source = f"9-INFRASTRUCTURE/az-ml-program/{filename}"
+    directory = tmp_path / "9-INFRASTRUCTURE/az-ml-program"
+    directory.mkdir(parents=True)
+    (directory / filename).write_text(substance, encoding="utf-8")
+    (directory / "unreviewed.md").write_text(
+        "unreviewed-secret-canary", encoding="utf-8",
+    )
+    index = builder(repo_root=tmp_path)
+    assert {chunk.source for chunk in index.chunks} == {source}
+    result = answer_question(index, query)
+    assert result["source_type"] == "document_retrieval"
+    assert result["sources"] == [source]
+    assert substance in result["answer"]
+    assert "unreviewed-secret-canary" not in result["answer"]
+    assert "not" in index.chunks[0].title or "open qualification" in index.chunks[0].title
+
+
+@pytest.mark.parametrize("builder", [RAGIndex.build, RAGIndex.build_intent_index])
+def test_actual_ml_program_coverage_preserves_source_content_and_chunk_bounds(builder):
+    root = Path(__file__).parent.parent
+    index = builder(repo_root=root, max_chunk_chars=400)
+    sources = {source for source, _ in rag_index_module._ML_PROGRAM_DOCUMENTS}
+    for source in sources:
+        chunks = [chunk for chunk in index.chunks if chunk.source == source]
+        assert chunks
+        assert all(len(chunk.text) <= 400 for chunk in chunks)
+        assert "".join(chunk.text for chunk in chunks) == (root / source).read_text(
+            encoding="utf-8",
+        )
+    results = index.search("AZ ML program qualification", top_k=5)
+    assert any(chunk.source in sources for _, chunk in results)
+    scaffold = build_context_scaffold(
+        index, "AZ ML program qualification", repo_root=root,
+    )
+    assert any(
+        source["path"] in sources for source in scaffold["provenance"]["sources"]
+    )
+    assert scaffold["boundary"]["guardrails"]["not_scientific_certification"] is True
+
+
 def test_answer_question_birefringence():
     idx = RAGIndex()
     result = answer_question(idx, "What is the birefringence prediction?")

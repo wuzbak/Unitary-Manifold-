@@ -4,11 +4,15 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 import hashlib
 import json
+import math
 import os
-from typing import Any
+import re
+from typing import TYPE_CHECKING, Any
 import time
 from uuid import uuid4
 
@@ -19,6 +23,123 @@ from .memory import ScopedMemory, ReadOnlyFederation
 from .backends import Backends
 from .scheduler import Node, run_dag
 from .receipts import execution_record
+if TYPE_CHECKING:
+    from src.infrastructure.temporal_data import TemporalSnapshot
+
+_SHA256 = re.compile(r"^[0-9a-f]{64}$")
+_TEMPORAL_ORIGINS = frozenset({"real", "synthetic", "fallback"})
+
+
+@dataclass(frozen=True, slots=True)
+class TemporalQueryContext:
+    """Explicit point-in-time features over an already loaded, pinned snapshot."""
+
+    snapshot: TemporalSnapshot
+    owner_scope: str
+    snapshot_hash: str
+    entity_id: str
+    feature_names: tuple[str, ...]
+    decision_time: datetime
+    freshness_ttl_seconds: float | None
+    allow_origins: tuple[str, ...] = ("real",)
+
+    def __post_init__(self) -> None:
+        from src.infrastructure.temporal_data import TemporalSnapshot
+
+        if not isinstance(self.snapshot, TemporalSnapshot):
+            raise ValueError("snapshot must be an already loaded TemporalSnapshot.")
+        if not isinstance(self.owner_scope, str) or not self.owner_scope.strip():
+            raise ValueError("owner_scope must be non-empty text.")
+        if self.snapshot.owner_scope != self.owner_scope:
+            raise ValueError("owner_scope does not match the temporal snapshot.")
+        if (
+            not isinstance(self.snapshot_hash, str)
+            or not _SHA256.fullmatch(self.snapshot_hash)
+            or self.snapshot_hash != self.snapshot.content_hash
+        ):
+            raise ValueError("snapshot_hash does not match the temporal snapshot.")
+        if not isinstance(self.entity_id, str) or not self.entity_id.strip():
+            raise ValueError("entity_id must be non-empty text.")
+        if (
+            not isinstance(self.feature_names, tuple)
+            or not self.feature_names
+            or any(not isinstance(name, str) or not name.strip() for name in self.feature_names)
+            or len(set(self.feature_names)) != len(self.feature_names)
+        ):
+            raise ValueError("feature_names must be a non-empty tuple of unique names.")
+        if (
+            not isinstance(self.decision_time, datetime)
+            or self.decision_time.tzinfo is None
+            or self.decision_time.utcoffset() is None
+        ):
+            raise ValueError("decision_time must be timezone-aware.")
+        ttl = self.freshness_ttl_seconds
+        if ttl is not None:
+            try:
+                valid_ttl = (
+                    not isinstance(ttl, bool)
+                    and isinstance(ttl, (int, float))
+                    and math.isfinite(float(ttl))
+                    and ttl >= 0
+                )
+            except (OverflowError, ValueError):
+                valid_ttl = False
+            if not valid_ttl:
+                raise ValueError("freshness_ttl_seconds must be finite and non-negative, or None.")
+        if (
+            not isinstance(self.allow_origins, tuple)
+            or any(
+                not isinstance(origin, str) or origin not in _TEMPORAL_ORIGINS
+                for origin in self.allow_origins
+            )
+            or len(set(self.allow_origins)) != len(self.allow_origins)
+        ):
+            raise ValueError("allow_origins must be a tuple of unique supported origins.")
+
+
+def _temporal_context_result(context: TemporalQueryContext) -> dict[str, Any]:
+    from src.infrastructure.temporal_data import point_in_time_features
+
+    decision_time = context.decision_time.astimezone(timezone.utc)
+    results = point_in_time_features(
+        context.snapshot,
+        owner_scope=context.owner_scope,
+        entity_id=context.entity_id,
+        feature_names=context.feature_names,
+        decision_time=decision_time,
+        freshness_ttl_seconds=context.freshness_ttl_seconds,
+        allow_origins=context.allow_origins,
+    )
+    return {
+        "snapshot_hash": context.snapshot_hash,
+        "owner_scope": context.owner_scope,
+        "entity_id": context.entity_id,
+        "feature_names": list(context.feature_names),
+        "decision_time": decision_time.isoformat(timespec="microseconds").replace("+00:00", "Z"),
+        "freshness_ttl_seconds": context.freshness_ttl_seconds,
+        "allow_origins": list(context.allow_origins),
+        "features": [
+            {
+                "feature_name": result.feature_name,
+                "value": result.value,
+                "missing_reason": result.missing_reason,
+                "event_time": (
+                    result.record.event_time.isoformat(timespec="microseconds").replace("+00:00", "Z")
+                    if result.record is not None else None
+                ),
+                "available_at": (
+                    result.record.available_at.isoformat(timespec="microseconds").replace("+00:00", "Z")
+                    if result.record is not None else None
+                ),
+                "revision_at": (
+                    result.record.revision_at.isoformat(timespec="microseconds").replace("+00:00", "Z")
+                    if result.record is not None and result.record.revision_at is not None else None
+                ),
+                "origin": result.record.origin if result.record is not None else None,
+            }
+            for result in results
+        ],
+    }
 
 
 def repository_root() -> Path:
@@ -144,17 +265,37 @@ class Weave:
         self.targets = {key: str(Path(value).resolve()) for key, value in (checkpoints or {}).items()}
         self.federation = federation
 
-    def query(self, query: str, principal: str, limit: int = 5) -> dict:
+    def query(
+        self,
+        query: str,
+        principal: str,
+        limit: int = 5,
+        *,
+        temporal: TemporalQueryContext | None = None,
+    ) -> dict:
         if not isinstance(query, str) or not query.strip() or len(query) > 2048:
             raise ValueError("query must contain 1..2048 characters")
         if type(limit) is not int or not 1 <= limit <= 20:
             raise ValueError("limit must be between 1 and 20")
+        if temporal is not None:
+            if not isinstance(temporal, TemporalQueryContext):
+                raise ValueError("temporal must be a TemporalQueryContext.")
+            if temporal.owner_scope != principal:
+                raise ValueError("temporal owner_scope must match the query principal.")
         def recall():
             records = self.memory.search(principal, query, limit=limit)
             if self.federation is not None:
                 records.extend(self.federation.search(principal, query, limit=limit))
             return records[:limit]
-        return _query(self.index, query, limit, recall)
+        receipt = _query(self.index, query, limit, recall)
+        if temporal is not None:
+            temporal_result = _temporal_context_result(temporal)
+            receipt["temporal_context"] = temporal_result
+            receipt["semantic_sha256"] = digest({
+                "base_semantic_sha256": receipt["semantic_sha256"],
+                "temporal_context": temporal_result,
+            })
+        return receipt
 
     def investigate(self, query: str, principal: str, *, experiment: dict,
                     oracle: dict, decision_id: str | None = None) -> dict:
