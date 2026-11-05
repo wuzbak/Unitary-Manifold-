@@ -41,11 +41,13 @@ These are working algorithm/reference packages, not finished model services:
 | Module under `src/infrastructure/` | Supported, testable behavior | Explicit boundary |
 |---|---|---|
 | `lowbit_quantization.py` | Symmetric/asymmetric groupwise 2/3/4-bit packing, checksummed artifacts, error and complete serialized-size metrics | Flat numeric vectors; quantization is lossy; no transformer/CUDA speed claim. |
+| `research_quantization.py` | Actual trained P43 model -> complete packed artifact -> fresh-model load -> fixed held-out comparison, with explicitly requested immutable model/evidence publication | Local constructed arithmetic only; baseline task generalization and 3-bit quality tolerance failed. |
 | `vector_index.py` | Exact cosine/L2 search, pinned manifests, deterministic ties, immutable generations, retrieval evaluation | No ANN or learned encoder; old saved generations need explicit purge. |
 | `repository_vectors.py` | Existing RAG chunks converted to a source-verified word-count baseline; changed sources block retrieval | Lexical, not semantic; source/chunk identity is not entailment. |
 | `drift_monitor.py` | Tied empirical KS statistic, conservative single-comparison DKW bound, temporal sampling and constructed replay | IID assumptions; no repeated-monitoring or prediction-performance guarantee. |
 | `data_lineage.py` | Content-addressed closed lineage DAGs, owner/origin checks, parent-kind validation and advisory deletion closures | Not execution proof, certified rights, DVC integration, artifact deletion or model unlearning. |
 | `performance_profile.py` | Warmed repeated wall/process-CPU samples, nearest-rank p50/p95 and Python allocation peaks with hardware observations | Includes profiler/process overhead; not native/GPU memory or serving-latency measurement. |
+| `research_serving.py` | Persistent P43 weight snapshot, incremental per-layer KV reuse, true heterogeneous-length CPU batches, bounded round-robin scheduling and explicit cancellation/deadlines | Causal toroidal P43 only, not a network server or paged GPU backend; owner strings are not authentication. |
 | `artifact_io.py` | Atomic no-overwrite publication, identical-content retries, file and directory synchronization | Caller-established POSIX directory; no distributed durability claim. |
 
 Run the measured acceptance fixtures, rather than inferring performance from a
@@ -65,6 +67,85 @@ declared queries over actual source-verified repository documents and a
 no-overlap query. None authorizes capability/deployment promotion.
 The low-bit workload is also profiled for five measured repetitions after one
 warmup; those timings are observations, not an isolated-host speedup claim.
+
+## Research serving, not production serving
+
+The steward authorized a local research baseline when no tracked trained model
+was found. `research_quantization` fixes the original 100-example arithmetic
+fixture, character vocabulary, 60/10/30 train/validation/test partition, seed,
+architecture, 160 optimizer steps, calibration and relative tolerance before
+evaluation. No test/validation examples train the model or fit the quantizer.
+
+**The negative results are part of the deliverable:** the native model answers
+**0/30 held-out arithmetic questions correctly**. Its 58.7% teacher-forced token
+accuracy largely reflects formatting and must not be presented as arithmetic
+competence. The complete 3-bit model reaches **3.3966 total bits/parameter** but
+fails its declared relative-quality tolerance: token cross-entropy rises from
+2.1218 to 2.8874 nats. The 4-bit reference preserves the declared relative
+tolerance but occupies 4.3979 total bits/parameter and does not fix the poor
+baseline. FP16-roundtrip means rounded weights evaluated in float64, not FP16
+kernels. Do not tune against this now-exposed test split.
+
+To reproduce and explicitly persist the original tiny synthetic baseline,
+packed 3/4-bit models and source-bound quality report:
+
+```bash
+python -m src.infrastructure.research_quantization \
+  --output-dir /existing/durable/evidence \
+  --checkpoint-dir /existing/durable/evidence \
+  --artifact-dir /existing/durable/evidence
+```
+
+Quality failure is recorded inside the measured report rather than discarded.
+A zero CLI exit means the measurement/publication completed, not that quality
+passed. Promotion is always disabled. Packed artifacts include config, stable
+parameter names/shapes and checksums; the packed loader rejects inconsistent or
+over-limit models before dense reconstruction/model allocation. Its limit is one
+million parameters, not a general large-model loader.
+The checkpoint, packed variants and report are individually atomic files, not
+one transaction. A publication failure propagates and may leave previously
+verified files; it must not be reported as a successful complete bundle.
+
+The in-process `ResearchServingSession` is a backend execution component under
+the existing spine, not a second control plane or an exposed HTTP endpoint.
+An authorized caller submits vocabulary token IDs under its explicit scope,
+then drives `tick()`, `result()`, `cancel()` and `forget()`. No model download,
+training, tool invocation, cloud fallback or effect authorization happens here.
+
+The decoder copies weights once so later training cannot mutate an active
+session. One CPU batch processes one token per selected request; prompts are
+prefilled incrementally and generated steps reuse actual per-layer keys and
+values. Padded positions are masked, and tests compare against the existing
+full-prefix P43 model, including positional wraparound. Model/context/shape and
+unsupported-architecture errors fail explicitly.
+
+Admission reserves the maximum retained KV payload before queuing, while
+allocated payload grows with consumed tokens and is released on completion,
+cancel, expiry or reported numerical failure. The byte limit does **not** cover
+the model, staging copies, padded scratch, Python overhead or process RSS.
+Active requests are rejected rather than silently evicted when reservations
+are exhausted. Retained terminal results are bounded by request capacity and
+must be explicitly forgotten. The scheduler is single-threaded; cancellation
+and deadlines are checked between CPU calls, not preemptively inside them.
+
+Measure an existing supported P43 checkpoint without implicit training:
+
+```bash
+python -m src.infrastructure.research_serving_benchmarks \
+  --checkpoint /path/to/research-model.npz \
+  --output-dir /existing/durable/evidence
+```
+
+For an original packed artifact, replace `--checkpoint` with
+`--quantized-model /path/to/model.azmq`. That reconstructs float64 weights before
+serving; it does not introduce low-bit execution kernels or reduced runtime
+weight-memory claims.
+
+The fixed token-ID trace compares full-prefix outputs, cached serial decoding
+and true continuous batches. It checks every prefill logit and generated token,
+reports actual CPU observations across warmed repetitions and counts evaluated
+token rows/backend calls. Any slower case remains in the receipt. Token parity
+is not semantic model quality, a production load test or a universal speedup.
 
 Product 40 now exposes an actual transport-to-temporal adapter via its CLI and
 HTTP API; see its
@@ -145,8 +226,12 @@ claims about a real feed.
    COMPACTIFICATION inventories and check their consistency. Follow existing
    fingerprint resealing rules if a registered asset is changed.
 
-Do not store model weights, private corpora, API keys, runtime stores, or
-machine-local environment paths in these planning files. No implicit external
+Do not store external model weights, private corpora, API keys, runtime stores,
+or machine-local environment paths in these planning files. The explicitly
+labeled tiny original synthetic research checkpoint and its packed variants
+are preserved under `evidence/`, with source/tokenizer/split identities and the
+P43 AGPL license context. They are not downloaded application-model weights.
+No implicit external
 upload, cloud fallback, training, or tool authorization is introduced here.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*

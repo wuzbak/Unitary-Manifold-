@@ -1,0 +1,603 @@
+{
+  "cached_serial_samples": [
+    {
+      "backend_batch_calls": 45,
+      "decoded_token_rows": 45,
+      "elapsed_seconds": 0.029386213999714528,
+      "execution_spine": {
+        "canonical_paths": [
+          "src/infrastructure/research_serving.py"
+        ],
+        "compatibility": {
+          "backend_calls": 45,
+          "decoded_token_rows": 45,
+          "max_batch_padding_tokens": 256,
+          "max_batch_size": 1,
+          "max_cache_bytes": 393216,
+          "model_sha256": "6ad8657944be5b2cce49c53a7d53392ca2c7fb27b8f87c8dc8279a6153000247"
+        },
+        "generated_at_utc": "2026-11-05T01:43:45.208884+00:00",
+        "governance": {
+          "compatibility_only": false,
+          "epistemic_label": "in-process CPU reference",
+          "fail_closed": true,
+          "optional_backend": false,
+          "promotion_rule": "No production, authentication or performance qualification from this reference.",
+          "residual_blockers": [
+            "No accelerator, pretrained-model, multi-process or network service validation.",
+            "Caller owner scopes are consistency checks, not authenticated identity.",
+            "Cache limits cover KV payload, not model, scratch arrays, Python or process memory.",
+            "Cancellation/deadlines are checked between CPU calls, not preemptively."
+          ]
+        },
+        "health_checks": [],
+        "lane": "az_ml_infrastructure",
+        "promotion": {
+          "effects_authorized": false,
+          "eligible": false,
+          "physics_claim": false
+        },
+        "repository": "wuzbak/Unitary-Manifold-",
+        "schema_version": "um_execution_spine_v1",
+        "sources": [],
+        "status": "research_only",
+        "summary": "Bounded P43 CPU incremental KV decoding and continuous batch scheduling.",
+        "surface_id": "az-ml-research-serving",
+        "surface_kind": "research_runtime_observation"
+      },
+      "generated_tokens": 32,
+      "generated_tokens_per_second": 1088.9459935298526,
+      "greedy_outputs_equal_full_prefix": true,
+      "latency_scope": "Four all-at-once requests measured from the first tick, including this scheduler's queue wait; not network latency.",
+      "maximum_batch_size": 1,
+      "peak_observed_kv_bytes_after_tick": 52224,
+      "peak_reserved_kv_bytes_after_tick": 69120,
+      "request_completion_p50_seconds": 0.023601739999776328,
+      "request_completion_p95_nearest_rank_seconds": 0.02938401099982002,
+      "request_completion_seconds": [
+        0.019037154999750783,
+        0.02938401099982002,
+        0.017988069000239193,
+        0.028166324999801873
+      ],
+      "terminal_kv_payload_released": true,
+      "time_to_first_token_seconds": [
+        0.004491992000112077,
+        0.013084356000035768,
+        0.0035931789998358,
+        0.010028533999502542
+      ],
+      "total_padded_token_slots": 283
+    },
+    {
+      "backend_batch_calls": 45,
+      "decoded_token_rows": 45,
+      "elapsed_seconds": 0.02082059999975172,
+      "execution_spine": {
+        "canonical_paths": [
+          "src/infrastructure/research_serving.py"
+        ],
+        "compatibility": {
+          "backend_calls": 45,
+          "decoded_token_rows": 45,
+          "max_batch_padding_tokens": 256,
+          "max_batch_size": 1,
+          "max_cache_bytes": 393216,
+          "model_sha256": "6ad8657944be5b2cce49c53a7d53392ca2c7fb27b8f87c8dc8279a6153000247"
+        },
+        "generated_at_utc": "2026-11-05T01:43:45.230289+00:00",
+        "governance": {
+          "compatibility_only": false,
+          "epistemic_label": "in-process CPU reference",
+          "fail_closed": true,
+          "optional_backend": false,
+          "promotion_rule": "No production, authentication or performance qualification from this reference.",
+          "residual_blockers": [
+            "No accelerator, pretrained-model, multi-process or network service validation.",
+            "Caller owner scopes are consistency checks, not authenticated identity.",
+            "Cache limits cover KV payload, not model, scratch arrays, Python or process memory.",
+            "Cancellation/deadlines are checked between CPU calls, not preemptively."
+          ]
+        },
+        "health_checks": [],
+        "lane": "az_ml_infrastructure",
+        "promotion": {
+          "effects_authorized": false,
+          "eligible": false,
+          "physics_claim": false
+        },
+        "repository": "wuzbak/Unitary-Manifold-",
+        "schema_version": "um_execution_spine_v1",
+        "sources": [],
+        "status": "research_only",
+        "summary": "Bounded P43 CPU incremental KV decoding and continuous batch scheduling.",
+        "surface_id": "az-ml-research-serving",
+        "surface_kind": "research_runtime_observation"
+      },
+      "generated_tokens": 32,
+      "generated_tokens_per_second": 1536.9393773657623,
+      "greedy_outputs_equal_full_prefix": true,
+      "latency_scope": "Four all-at-once requests measured from the first tick, including this scheduler's queue wait; not network latency.",
+      "maximum_batch_size": 1,
+      "peak_observed_kv_bytes_after_tick": 52224,
+      "peak_reserved_kv_bytes_after_tick": 69120,
+      "request_completion_p50_seconds": 0.018376229500063346,
+      "request_completion_p95_nearest_rank_seconds": 0.020818437000343692,
+      "request_completion_seconds": [
+        0.01710078300038731,
+        0.020818437000343692,
+        0.01607749499999045,
+        0.019651675999739382
+      ],
+      "terminal_kv_payload_released": true,
+      "time_to_first_token_seconds": [
+        0.004341539000051853,
+        0.012085334000403236,
+        0.003379793000021891,
+        0.009348135000436741
+      ],
+      "total_padded_token_slots": 283
+    },
+    {
+      "backend_batch_calls": 45,
+      "decoded_token_rows": 45,
+      "elapsed_seconds": 0.02102026600005047,
+      "execution_spine": {
+        "canonical_paths": [
+          "src/infrastructure/research_serving.py"
+        ],
+        "compatibility": {
+          "backend_calls": 45,
+          "decoded_token_rows": 45,
+          "max_batch_padding_tokens": 256,
+          "max_batch_size": 1,
+          "max_cache_bytes": 393216,
+          "model_sha256": "6ad8657944be5b2cce49c53a7d53392ca2c7fb27b8f87c8dc8279a6153000247"
+        },
+        "generated_at_utc": "2026-11-05T01:43:45.252211+00:00",
+        "governance": {
+          "compatibility_only": false,
+          "epistemic_label": "in-process CPU reference",
+          "fail_closed": true,
+          "optional_backend": false,
+          "promotion_rule": "No production, authentication or performance qualification from this reference.",
+          "residual_blockers": [
+            "No accelerator, pretrained-model, multi-process or network service validation.",
+            "Caller owner scopes are consistency checks, not authenticated identity.",
+            "Cache limits cover KV payload, not model, scratch arrays, Python or process memory.",
+            "Cancellation/deadlines are checked between CPU calls, not preemptively."
+          ]
+        },
+        "health_checks": [],
+        "lane": "az_ml_infrastructure",
+        "promotion": {
+          "effects_authorized": false,
+          "eligible": false,
+          "physics_claim": false
+        },
+        "repository": "wuzbak/Unitary-Manifold-",
+        "schema_version": "um_execution_spine_v1",
+        "sources": [],
+        "status": "research_only",
+        "summary": "Bounded P43 CPU incremental KV decoding and continuous batch scheduling.",
+        "surface_id": "az-ml-research-serving",
+        "surface_kind": "research_runtime_observation"
+      },
+      "generated_tokens": 32,
+      "generated_tokens_per_second": 1522.3403928343803,
+      "greedy_outputs_equal_full_prefix": true,
+      "latency_scope": "Four all-at-once requests measured from the first tick, including this scheduler's queue wait; not network latency.",
+      "maximum_batch_size": 1,
+      "peak_observed_kv_bytes_after_tick": 52224,
+      "peak_reserved_kv_bytes_after_tick": 69120,
+      "request_completion_p50_seconds": 0.018322960499972396,
+      "request_completion_p95_nearest_rank_seconds": 0.021018373000515567,
+      "request_completion_seconds": [
+        0.016557207000005292,
+        0.021018373000515567,
+        0.015643081000234815,
+        0.0200887139999395
+      ],
+      "terminal_kv_payload_released": true,
+      "time_to_first_token_seconds": [
+        0.003800617000706552,
+        0.011576610000702203,
+        0.0030257570006142487,
+        0.008599624000453332
+      ],
+      "total_padded_token_slots": 283
+    }
+  ],
+  "continuous_batch_samples": [
+    {
+      "backend_batch_calls": 14,
+      "decoded_token_rows": 45,
+      "elapsed_seconds": 0.009200977000546118,
+      "execution_spine": {
+        "canonical_paths": [
+          "src/infrastructure/research_serving.py"
+        ],
+        "compatibility": {
+          "backend_calls": 14,
+          "decoded_token_rows": 45,
+          "max_batch_padding_tokens": 256,
+          "max_batch_size": 4,
+          "max_cache_bytes": 393216,
+          "model_sha256": "6ad8657944be5b2cce49c53a7d53392ca2c7fb27b8f87c8dc8279a6153000247"
+        },
+        "generated_at_utc": "2026-11-05T01:43:45.262027+00:00",
+        "governance": {
+          "compatibility_only": false,
+          "epistemic_label": "in-process CPU reference",
+          "fail_closed": true,
+          "optional_backend": false,
+          "promotion_rule": "No production, authentication or performance qualification from this reference.",
+          "residual_blockers": [
+            "No accelerator, pretrained-model, multi-process or network service validation.",
+            "Caller owner scopes are consistency checks, not authenticated identity.",
+            "Cache limits cover KV payload, not model, scratch arrays, Python or process memory.",
+            "Cancellation/deadlines are checked between CPU calls, not preemptively."
+          ]
+        },
+        "health_checks": [],
+        "lane": "az_ml_infrastructure",
+        "promotion": {
+          "effects_authorized": false,
+          "eligible": false,
+          "physics_claim": false
+        },
+        "repository": "wuzbak/Unitary-Manifold-",
+        "schema_version": "um_execution_spine_v1",
+        "sources": [],
+        "status": "research_only",
+        "summary": "Bounded P43 CPU incremental KV decoding and continuous batch scheduling.",
+        "surface_id": "az-ml-research-serving",
+        "surface_kind": "research_runtime_observation"
+      },
+      "generated_tokens": 32,
+      "generated_tokens_per_second": 3477.891532399294,
+      "greedy_outputs_equal_full_prefix": true,
+      "latency_scope": "Four all-at-once requests measured from the first tick, including this scheduler's queue wait; not network latency.",
+      "maximum_batch_size": 4,
+      "peak_observed_kv_bytes_after_tick": 49152,
+      "peak_reserved_kv_bytes_after_tick": 69120,
+      "request_completion_p50_seconds": 0.007220880000204488,
+      "request_completion_p95_nearest_rank_seconds": 0.00919877400065161,
+      "request_completion_seconds": [
+        0.006519209000543924,
+        0.00919877400065161,
+        0.005904276999899594,
+        0.007922550999865052
+      ],
+      "terminal_kv_payload_released": true,
+      "time_to_first_token_seconds": [
+        0.002092464000270411,
+        0.004390672000226914,
+        0.0012957720000486006,
+        0.003286754999862751
+      ],
+      "total_padded_token_slots": 283
+    },
+    {
+      "backend_batch_calls": 14,
+      "decoded_token_rows": 45,
+      "elapsed_seconds": 0.00884066199978406,
+      "execution_spine": {
+        "canonical_paths": [
+          "src/infrastructure/research_serving.py"
+        ],
+        "compatibility": {
+          "backend_calls": 14,
+          "decoded_token_rows": 45,
+          "max_batch_padding_tokens": 256,
+          "max_batch_size": 4,
+          "max_cache_bytes": 393216,
+          "model_sha256": "6ad8657944be5b2cce49c53a7d53392ca2c7fb27b8f87c8dc8279a6153000247"
+        },
+        "generated_at_utc": "2026-11-05T01:43:45.271546+00:00",
+        "governance": {
+          "compatibility_only": false,
+          "epistemic_label": "in-process CPU reference",
+          "fail_closed": true,
+          "optional_backend": false,
+          "promotion_rule": "No production, authentication or performance qualification from this reference.",
+          "residual_blockers": [
+            "No accelerator, pretrained-model, multi-process or network service validation.",
+            "Caller owner scopes are consistency checks, not authenticated identity.",
+            "Cache limits cover KV payload, not model, scratch arrays, Python or process memory.",
+            "Cancellation/deadlines are checked between CPU calls, not preemptively."
+          ]
+        },
+        "health_checks": [],
+        "lane": "az_ml_infrastructure",
+        "promotion": {
+          "effects_authorized": false,
+          "eligible": false,
+          "physics_claim": false
+        },
+        "repository": "wuzbak/Unitary-Manifold-",
+        "schema_version": "um_execution_spine_v1",
+        "sources": [],
+        "status": "research_only",
+        "summary": "Bounded P43 CPU incremental KV decoding and continuous batch scheduling.",
+        "surface_id": "az-ml-research-serving",
+        "surface_kind": "research_runtime_observation"
+      },
+      "generated_tokens": 32,
+      "generated_tokens_per_second": 3619.6384389293044,
+      "greedy_outputs_equal_full_prefix": true,
+      "latency_scope": "Four all-at-once requests measured from the first tick, including this scheduler's queue wait; not network latency.",
+      "maximum_batch_size": 4,
+      "peak_observed_kv_bytes_after_tick": 49152,
+      "peak_reserved_kv_bytes_after_tick": 69120,
+      "request_completion_p50_seconds": 0.007088428499628208,
+      "request_completion_p95_nearest_rank_seconds": 0.008838598999318492,
+      "request_completion_seconds": [
+        0.006550104999405448,
+        0.008838598999318492,
+        0.005773312999735936,
+        0.007626751999850967
+      ],
+      "terminal_kv_payload_released": true,
+      "time_to_first_token_seconds": [
+        0.0017090949995690607,
+        0.004240138999193732,
+        0.0012222929999552434,
+        0.0029486129997167154
+      ],
+      "total_padded_token_slots": 283
+    },
+    {
+      "backend_batch_calls": 14,
+      "decoded_token_rows": 45,
+      "elapsed_seconds": 0.009242739000001166,
+      "execution_spine": {
+        "canonical_paths": [
+          "src/infrastructure/research_serving.py"
+        ],
+        "compatibility": {
+          "backend_calls": 14,
+          "decoded_token_rows": 45,
+          "max_batch_padding_tokens": 256,
+          "max_batch_size": 4,
+          "max_cache_bytes": 393216,
+          "model_sha256": "6ad8657944be5b2cce49c53a7d53392ca2c7fb27b8f87c8dc8279a6153000247"
+        },
+        "generated_at_utc": "2026-11-05T01:43:45.281430+00:00",
+        "governance": {
+          "compatibility_only": false,
+          "epistemic_label": "in-process CPU reference",
+          "fail_closed": true,
+          "optional_backend": false,
+          "promotion_rule": "No production, authentication or performance qualification from this reference.",
+          "residual_blockers": [
+            "No accelerator, pretrained-model, multi-process or network service validation.",
+            "Caller owner scopes are consistency checks, not authenticated identity.",
+            "Cache limits cover KV payload, not model, scratch arrays, Python or process memory.",
+            "Cancellation/deadlines are checked between CPU calls, not preemptively."
+          ]
+        },
+        "health_checks": [],
+        "lane": "az_ml_infrastructure",
+        "promotion": {
+          "effects_authorized": false,
+          "eligible": false,
+          "physics_claim": false
+        },
+        "repository": "wuzbak/Unitary-Manifold-",
+        "schema_version": "um_execution_spine_v1",
+        "sources": [],
+        "status": "research_only",
+        "summary": "Bounded P43 CPU incremental KV decoding and continuous batch scheduling.",
+        "surface_id": "az-ml-research-serving",
+        "surface_kind": "research_runtime_observation"
+      },
+      "generated_tokens": 32,
+      "generated_tokens_per_second": 3462.177174969018,
+      "greedy_outputs_equal_full_prefix": true,
+      "latency_scope": "Four all-at-once requests measured from the first tick, including this scheduler's queue wait; not network latency.",
+      "maximum_batch_size": 4,
+      "peak_observed_kv_bytes_after_tick": 49152,
+      "peak_reserved_kv_bytes_after_tick": 69120,
+      "request_completion_p50_seconds": 0.007481957500203862,
+      "request_completion_p95_nearest_rank_seconds": 0.009240546000000904,
+      "request_completion_seconds": [
+        0.006925482000042393,
+        0.009240546000000904,
+        0.006324621000203479,
+        0.00803843300036533
+      ],
+      "terminal_kv_payload_released": true,
+      "time_to_first_token_seconds": [
+        0.0022767769996789866,
+        0.004640582999854814,
+        0.0012677710001298692,
+        0.003383529000529961
+      ],
+      "total_padded_token_slots": 283
+    }
+  ],
+  "environment": {
+    "gpu": "unmeasured",
+    "numpy": "2.5.4",
+    "python": "3.12.3"
+  },
+  "execution_spine": {
+    "canonical_paths": [
+      "src/infrastructure/research_serving_benchmarks.py"
+    ],
+    "compatibility": {
+      "model_input": {
+        "evaluation_compute": "float64; packed weights are reconstructed before inference",
+        "format": "azmq",
+        "sha256": "58aff2c9dc295c8f912ba7a76e95ac7285d44e5ad52bed73d64edc6856af5727"
+      },
+      "source_sha256": {
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/__init__.py": "a6704c9b72de21b3fa9aa2a4e50a537adaf4b06132ef2bf3c9289e9fd246ab1d",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/api.py": "1a7805f1e47ef39d635c336f4f232742411e6f715d9a53ce39ad5b9fb6e2fc65",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/attention.py": "bcb804a03f94ff9560604d36a47f28e5287761b6a594f83c08ce679042beb6b0",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/baseline_attention.py": "b446b1fb053ec63ab1b574a254c8c1cf8239d6c8de593a309c03c66238fa0962",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/checkpoint.py": "16d288e70da1f59e40d600b844c6b8aee46f96a539c3bd82b8f81e3477b9d7f0",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/layers.py": "61c58e671d8e98390e592c37d65e2b0eb770ea3328c48486cab07adbe35de4ac",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/model.py": "a0abe4e9c728e5c4d2ed7d46004ff2c361719db8e8710ac14cdf3c9e0cbe01fb",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/optim.py": "29f6e0d85c3067272b00c526717d5d3b9a2f030bcf41076c10a07f333661570c",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/positional.py": "f9846651302dd544da8edc45863421994d954e3d4842ac6ed0304098e8802ca7",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/positional_ablation.py": "72eefbc845aa2796e7cd0cb3011412ab6f81b5a9cdfaf0c541920705df688401",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/tensor.py": "23acbf3efabd383ccc4f50a628b33aa8021a8f20c225b0ec88e6f004d163646f",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/text_workflow.py": "c632a6a31f7d7e12e680121e37fd3196c1dc6ac1a41d647867e96a1301aaa5e8",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/toroidal_geometry.py": "0b56f39587cda077e99a2e7710f55448c97947367caf36802d0c357fa6bee69c",
+        "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/train_demo.py": "67a7a9309b3f04d017734771434b6b77ecebaeb52beaf8173f08ad417d4d7120",
+        "src/infrastructure/artifact_io.py": "3dcf14855fd2a44ea3666f3a1a84036a9ad150a85f184cbe0403ca3c94284f2b",
+        "src/infrastructure/execution_spine.py": "ff131dde1b0214c2d59a1663f1d6caba012ec9a251e6747557b9ad0fa7eeebb4",
+        "src/infrastructure/lowbit_quantization.py": "7deca12c71b02bc24d08d02a3a494f56dbba60b56493960129711888fba160ec",
+        "src/infrastructure/research_quantization.py": "9878eb9e9abead428eca49ae01a0cee988c8c12e22a50459ab77efe23432eb8a",
+        "src/infrastructure/research_serving.py": "0d43257837d610cf81984330d7efea9a054ca931a4a5a1f73df3ae0e1d2e4703",
+        "src/infrastructure/research_serving_benchmarks.py": "82e46bdcaa691c8371637677947c012ed6a287096bddb4cd96ff1c4a30af5f7c"
+      }
+    },
+    "generated_at_utc": "2026-11-05T01:43:45.282960+00:00",
+    "governance": {
+      "compatibility_only": false,
+      "epistemic_label": "fixed research-model token trace",
+      "fail_closed": true,
+      "optional_backend": false,
+      "promotion_rule": "Parity and measured CPU observations do not qualify production or general model quality.",
+      "residual_blockers": [
+        "No pretrained model, GPU, authenticated network service or load/failure deployment validation.",
+        "In-process scheduler is an execution component, not a new control plane."
+      ]
+    },
+    "health_checks": [],
+    "lane": "az_ml_infrastructure",
+    "promotion": {
+      "eligible": false,
+      "physics_claim": false
+    },
+    "repository": "wuzbak/Unitary-Manifold-",
+    "schema_version": "um_execution_spine_v1",
+    "sources": [],
+    "status": "scoped_reference_gates_passed",
+    "summary": "Measured incremental and continuously batched CPU P43 decoding against full-prefix outputs.",
+    "surface_id": "az-ml-measured-research-serving",
+    "surface_kind": "reference_benchmark_receipt"
+  },
+  "full_prefix": {
+    "elapsed_seconds_single_run": 0.0283778879993406,
+    "evaluated_token_positions": 248,
+    "generated_token_ids": [
+      [
+        12,
+        2,
+        0,
+        12,
+        12,
+        12,
+        2,
+        0
+      ],
+      [
+        12,
+        12,
+        8,
+        0,
+        0,
+        12,
+        9,
+        0
+      ],
+      [
+        11,
+        12,
+        5,
+        0,
+        0,
+        12,
+        0,
+        0
+      ],
+      [
+        12,
+        12,
+        9,
+        0,
+        0,
+        12,
+        0,
+        0
+      ]
+    ],
+    "scope": "Untimed warmup is not applied to this parity-only single-run reference."
+  },
+  "gates": {
+    "all_cached_and_batched_greedy_outputs_equal": true,
+    "batched_backend_calls_lower_than_cached_serial": true,
+    "incremental_logits_allclose_rtol_atol_1e_10": true
+  },
+  "maximum_prefill_logit_absolute_error": 6.217248937900877e-15,
+  "model_input": {
+    "evaluation_compute": "float64; packed weights are reconstructed before inference",
+    "format": "azmq",
+    "sha256": "58aff2c9dc295c8f912ba7a76e95ac7285d44e5ad52bed73d64edc6856af5727"
+  },
+  "model_sha256": "6ad8657944be5b2cce49c53a7d53392ca2c7fb27b8f87c8dc8279a6153000247",
+  "observed_median_serial_to_batch_ratio": 2.284568910323635,
+  "promotion_eligible": false,
+  "schema_version": "az_ml_research_serving_v1",
+  "scope": "Fixed CPU token-ID trace on one model; not semantic quality, production latency or a speedup guarantee.",
+  "source_sha256": {
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/__init__.py": "a6704c9b72de21b3fa9aa2a4e50a537adaf4b06132ef2bf3c9289e9fd246ab1d",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/api.py": "1a7805f1e47ef39d635c336f4f232742411e6f715d9a53ce39ad5b9fb6e2fc65",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/attention.py": "bcb804a03f94ff9560604d36a47f28e5287761b6a594f83c08ce679042beb6b0",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/baseline_attention.py": "b446b1fb053ec63ab1b574a254c8c1cf8239d6c8de593a309c03c66238fa0962",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/checkpoint.py": "16d288e70da1f59e40d600b844c6b8aee46f96a539c3bd82b8f81e3477b9d7f0",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/layers.py": "61c58e671d8e98390e592c37d65e2b0eb770ea3328c48486cab07adbe35de4ac",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/model.py": "a0abe4e9c728e5c4d2ed7d46004ff2c361719db8e8710ac14cdf3c9e0cbe01fb",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/optim.py": "29f6e0d85c3067272b00c526717d5d3b9a2f030bcf41076c10a07f333661570c",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/positional.py": "f9846651302dd544da8edc45863421994d954e3d4842ac6ed0304098e8802ca7",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/positional_ablation.py": "72eefbc845aa2796e7cd0cb3011412ab6f81b5a9cdfaf0c541920705df688401",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/tensor.py": "23acbf3efabd383ccc4f50a628b33aa8021a8f20c225b0ec88e6f004d163646f",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/text_workflow.py": "c632a6a31f7d7e12e680121e37fd3196c1dc6ac1a41d647867e96a1301aaa5e8",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/toroidal_geometry.py": "0b56f39587cda077e99a2e7710f55448c97947367caf36802d0c357fa6bee69c",
+    "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/train_demo.py": "67a7a9309b3f04d017734771434b6b77ecebaeb52beaf8173f08ad417d4d7120",
+    "src/infrastructure/artifact_io.py": "3dcf14855fd2a44ea3666f3a1a84036a9ad150a85f184cbe0403ca3c94284f2b",
+    "src/infrastructure/execution_spine.py": "ff131dde1b0214c2d59a1663f1d6caba012ec9a251e6747557b9ad0fa7eeebb4",
+    "src/infrastructure/lowbit_quantization.py": "7deca12c71b02bc24d08d02a3a494f56dbba60b56493960129711888fba160ec",
+    "src/infrastructure/research_quantization.py": "9878eb9e9abead428eca49ae01a0cee988c8c12e22a50459ab77efe23432eb8a",
+    "src/infrastructure/research_serving.py": "0d43257837d610cf81984330d7efea9a054ca931a4a5a1f73df3ae0e1d2e4703",
+    "src/infrastructure/research_serving_benchmarks.py": "82e46bdcaa691c8371637677947c012ed6a287096bddb4cd96ff1c4a30af5f7c"
+  },
+  "workload": {
+    "arrival": "all admitted before the first tick",
+    "max_new_tokens": 8,
+    "measured_repetitions_per_cached_path": 3,
+    "prompt_token_ids": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    ],
+    "selection": "round robin under row and padded-KV-position limits",
+    "warmup_runs_per_cached_path": 1
+  }
+}

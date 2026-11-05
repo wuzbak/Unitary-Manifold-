@@ -255,7 +255,8 @@ plans. Capability identities and their full acceptance gates remain unchanged:
 
 | Capabilities | Implemented, bounded milestone | Still required for the full ambition |
 |---|---|---|
-| 1 | Original 2/3/4-bit groupwise packing, calibrated reconstruction and checksummed serialization; measured 3-bit fixture includes all serialized overhead | Supported model adapter, untouched quality holdout, matched conventional baselines, real memory/runtime and accelerator evaluation |
+| 1 | Original packing plus complete P43 model format, trained synthetic baseline and fixed held-out native/FP16-roundtrip/3-bit/4-bit comparison; exact artifacts retained | Native answer accuracy 0/30 and 3-bit relative-quality gate failed; establish useful model generalization, new untouched holdout, independent quantizer baseline and accelerator evidence |
+| 2/3 | Actual persistent P43 CPU decoder with incremental per-layer KV, true heterogeneous-length vectorized batches and bounded round-robin scheduling; full-prefix parity and owner/cancel/expiry checks | Pinned application backend through existing approvals, authenticated concurrency, representative arrivals, native/GPU peak memory, paged policy and production serving |
 | 7/8 | Exact pinned vector generations plus a source-hash-verified adapter around actual bot RAG chunks; stale-source and no-overlap rejection | Learned encoders and labeled retrieval evaluation, ANN comparison, authorized repair execution and rollback |
 | 11/14 | Actual P40 transport -> availability-aware snapshot -> source-linked DAG through CLI/API; immutable local publication with explicit errors | Network-enabled live run, retained raw-payload replay, predictive consumer, feature/run/model/index consumers, DVC interchange and serverless qualification |
 | 13 | Exact tied empirical KS plus conservative two-sample union-DKW bounds and seeded stationary/shift replay | Real predictions and outcomes, delayed-label performance drift, repeated-monitoring error policy and operational response |
@@ -280,6 +281,26 @@ without weakening the core release gate.
 The replacement unfiltered core run completed with **62,077 passed, 71 skipped,
 zero failed and zero deselected**. That clears the prior incomplete-core blocker
 for this checkpoint, not the remaining capability/deployment gates.
+
+The steward subsequently selected an existing tracked trained checkpoint if
+available, otherwise an explicitly labeled local research baseline. No tracked
+NPZ, NPY, safetensors, PT/PTH or GGUF checkpoint was found. The next research
+experiment therefore uses original constructed data and the existing P43
+architecture, not a secretly downloaded model or a deterministic responder
+called language inference. Frozen held-out quality and representation
+measurements must be distinguished from actual FP16/CUDA execution.
+That experiment has now run: all 39,293 trained parameters occupy 16,683 bytes
+in the complete 3-bit container, or 3.396635533 bits/parameter, but its quality
+tolerance failed. Native task generalization also failed: 0/30 held-out answer
+digits correct. Relative preservation of an inadequate baseline is not model
+utility. Preserve these results and do not retune on the exposed test examples.
+The exact synthetic checkpoint and both packed variants are retained.
+
+The serving slice consumes either that NPZ checkpoint or the original packed
+model and runs real incremental KV decoding and heterogeneous vectorized
+batches. Full-prefix reference outputs are preserved. This establishes
+research-backend parity and measurable scoped CPU work, not production serving,
+semantic quality, authenticated control-plane integration or low-bit kernels.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 

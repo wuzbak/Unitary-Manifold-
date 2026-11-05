@@ -29,7 +29,7 @@ def publish_immutable(
         raise ValueError("artifact_id must be a lowercase SHA-256 identifier")
     if not isinstance(content, bytes):
         raise ValueError("content must be immutable bytes")
-    if suffix not in (".json", ".bin", ".azlq"):
+    if suffix not in (".json", ".bin", ".azlq", ".azmq", ".npz"):
         raise ValueError("Unsupported artifact suffix")
     directory = Path(directory)
     directory_fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)

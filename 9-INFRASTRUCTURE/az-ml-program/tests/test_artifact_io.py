@@ -83,3 +83,12 @@ def test_existing_directory_and_bytes_and_supported_suffix_are_required(tmp_path
         publish_immutable(tmp_path, IDENTITY, "x")
     with pytest.raises(ValueError, match="suffix"):
         publish_immutable(tmp_path, IDENTITY, b"x", "/escape")
+
+
+@pytest.mark.parametrize("suffix", [".npz", ".azmq"])
+def test_model_formats_preserve_the_same_immutable_publication_contract(tmp_path, suffix):
+    path = publish_immutable(tmp_path, IDENTITY, b"model-bytes", suffix)
+    assert path.name == f"{IDENTITY}{suffix}"
+    assert publish_immutable(tmp_path, IDENTITY, b"model-bytes", suffix) == path
+    with pytest.raises(ValueError, match="does not match"):
+        publish_immutable(tmp_path, IDENTITY, b"different-model", suffix)

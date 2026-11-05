@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8518,
+  "file_count": 8530,
   "lanes": {
     "az_ip": 2638,
     "compactification": 9,
-    "other": 5421,
+    "other": 5433,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -31,7 +31,7 @@
     "6-MONOGRAPH": 20,
     "7-OUTREACH": 923,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 208,
+    "9-INFRASTRUCTURE": 217,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -109,7 +109,7 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1647,
+    "src": 1650,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
     "tests": 1564,
@@ -29708,7 +29708,43 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/58aff2c9dc295c8f912ba7a76e95ac7285d44e5ad52bed73d64edc6856af5727.azmq",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/7562cbde626ad82a001125b1282c3c2157ecf8086f76c75c6a2968b588e7fcdf.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/979847638ed7ec97277a0f5023515192779fc369050963048a12e0300fd8ede3.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/a335542da4f1a7c17bf6a9f058652f06c23772d263e912084c3a2ced1630be02.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/abff87f2999f404fbdf2c40aa8dea8cc52bbd972e489dcabb0d360660918f3c4.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/cdea72d22694fbe4c2108d75a4e15b3d5134382329e4144fb43bc7f1808641da.azmq",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/fbabaca6b18782ddf5b7b035b2742059600cc415473e6460826f4d72cd081401.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -29757,6 +29793,24 @@
     },
     {
       "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_repository_vectors.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_research_quantization.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_research_serving.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_research_serving_benchmarks.py",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -46629,6 +46683,24 @@
     },
     {
       "path": "src/infrastructure/repository_vectors.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/research_quantization.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/research_serving.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/research_serving_benchmarks.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"

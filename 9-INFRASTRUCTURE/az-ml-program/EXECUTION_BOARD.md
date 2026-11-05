@@ -97,13 +97,108 @@ The full-core result is earned, not inferred from focused tests or a file-count
 supervisor. It does not validate skipped integrations, a GPU, live feed access,
 trained-model quality, distributed operation or production readiness.
 
+## Trained-model and serving tranche
+
+The steward selected an existing repository-trained checkpoint if present,
+otherwise a clearly labeled local research baseline. Initial tracked-file
+inspection found no NPZ/NPY/safetensors/PT/PTH/GGUF checkpoint. A specialist
+builder therefore trained the existing P43 architecture on original constructed
+arithmetic rows. Separate reviewers examined quality/artifact loading and the
+serving implementation. The coordinator added answer-only scoring, fixed report
+hash publication, and addressed the review's pre-validation allocation defect.
+
+The protocol fixes 60 training, 10 validation and 30 test operand pairs, a
+predeclared character vocabulary, seed, architecture, 160 training steps and
+group calibration. No held-out rows fit the model or quantizer. Every native,
+FP16-roundtrip, 3-bit and 4-bit result is retained.
+
+**Model utility failed, and the 3-bit fidelity gate failed.** The native model
+answers **0/30** held-out arithmetic questions correctly. Aggregate
+teacher-forced token accuracy includes punctuation and cannot hide that result.
+The 3-bit model answers 1/30, which does not establish improved arithmetic.
+The relative tolerance requires a cross-entropy increase no greater than 0.25
+nats and token-accuracy delta no worse than -0.10. No thresholds were changed
+after observing these results.
+
+| Weight representation | Test token CE (nats) | Test token accuracy | Test answer accuracy | Total stored bits/parameter | Relative tolerance |
+|---|---:|---:|---:|---:|---|
+| Native float64 | 2.121831 | 58.67% | 0/30 | Raw-weight baseline, no container comparison | Reference only |
+| FP16-rounded, evaluated in float64 | 2.122105 | 58.67% | 0/30 | Raw-weight baseline, no container comparison | Passed; not FP16 execution |
+| Original 3-bit complete model | 2.887404 | 46.00% | 1/30 | **3.396636** | **Failed** |
+| Original 4-bit complete model | 2.320601 | 58.00% | 0/30 | 4.397933 | Passed relative fidelity; task utility still failed |
+
+The 39,293-parameter native checkpoint is 309,904 bytes. Its tokenizer, splits,
+training protocol and source identities are embedded in metadata. Its 3/4-bit
+variants occupy 16,683/21,601 bytes, including names, shapes, config, quantizer
+metadata, framing and checksums. These are tiny original synthetic research
+artifacts, not downloaded application-model weights. The NPZ retains inference
+weights and metadata, not an optimizer/RNG training-resume checkpoint.
+
+The actual CPU serving slice now consumes either NPZ or the original packed
+format. It snapshots weights once, performs per-layer incremental KV reuse and
+uses true masked vectorized batches of heterogeneous prefix lengths. A
+single-threaded round-robin scheduler enforces owner consistency, retained-KV
+reservation, context, row/padding limits, cancellation and between-call
+deadlines. Terminal caches are freed; retained results require explicit
+forgetting. No network service, tool authorization or second control plane was
+introduced. Packed models are reconstructed into float64 before serving:
+compressed storage is not low-bit kernel execution.
+
+Full-prefix greedy outputs match both cached serial and continuously batched
+decoding. On the fixed four-request trace, incremental decoding evaluates 45
+new token rows rather than 248 full-prefix token positions; batching uses 14
+backend calls instead of 45 cached-serial calls. These work counts are not a
+universal speedup or a production latency guarantee. Actual timing samples and
+first-token/completion waits are preserved without timing-based promotion.
+
+Persistent source-bound evidence:
+
+| Artifact | Scope |
+|---|---|
+| [Quality report](evidence/abff87f2999f404fbdf2c40aa8dea8cc52bbd972e489dcabb0d360660918f3c4.json) | All four representation arms, failed quality result, separate answer metrics, split/source identities and exact model filenames/hashes. |
+| [Native-model serving report](evidence/fbabaca6b18782ddf5b7b035b2742059600cc415473e6460826f4d72cd081401.json) | Exact retained trained NPZ -> full-prefix reference -> cached serial -> continuous batch. |
+| [Packed-model serving report](evidence/7562cbde626ad82a001125b1282c3c2157ecf8086f76c75c6a2968b588e7fcdf.json) | Actual original 3-bit artifact -> float64 reconstruction -> identical scoped parity protocol. |
+
+All three report basenames hash their complete JSON bytes; model basenames hash
+their complete binary bytes. The immutable earlier reference receipt remains
+historical to its prior Git checkpoint; it must not be presented as a
+current-source receipt after the publisher gained explicit model suffixes.
+
+### Trained-model tranche validation
+
+Serving commands below show the CLI spelling of the actual `main([...])` calls
+with the same arguments; those entrypoint calls produced the linked receipts.
+
+| Command | Actual outcome / scope |
+|---|---|
+| `python -m pytest 12-AZ-IP/43-az-geometric-tori-transformer/tests/ 9-INFRASTRUCTURE/az-ml-program/tests/ -q` | Pre-change model/reference baseline: **506 passed, 102 subtests passed**. |
+| `python -m pytest 9-INFRASTRUCTURE/az-ml-program/tests/test_research_quantization.py 9-INFRASTRUCTURE/az-ml-program/tests/test_artifact_io.py -m "" -q` | **26 passed** after fixing publication suffix handling, whole-report hashes and pre-allocation model-size validation. |
+| `python -m pytest 9-INFRASTRUCTURE/az-ml-program/tests/test_research_serving.py 9-INFRASTRUCTURE/az-ml-program/tests/test_research_serving_benchmarks.py -m "" -q` | **34 passed**, including native/packed input, full-prefix parity through positional wraparound, actual heterogeneous batches, cache identity, owner isolation, collision rejection, cancellation, deadlines and payload release. |
+| `python -m src.infrastructure.research_quantization --output-dir 9-INFRASTRUCTURE/az-ml-program/evidence --checkpoint-dir 9-INFRASTRUCTURE/az-ml-program/evidence --artifact-dir 9-INFRASTRUCTURE/az-ml-program/evidence` | Measurement/publication completed. Exact native/packed artifacts retained; **3-bit quality tolerance failed** and native task-generalization failure is recorded, not waived. |
+| `python -m src.infrastructure.research_serving_benchmarks --checkpoint 9-INFRASTRUCTURE/az-ml-program/evidence/979847638ed7ec97277a0f5023515192779fc369050963048a12e0300fd8ede3.npz --output-dir 9-INFRASTRUCTURE/az-ml-program/evidence` | Completed; output parity and scoped work-count gates passed. Maximum prefill logit error 2.44e-15. Actual warmed CPU timing ratio is an observation, not production qualification. |
+| `python -m src.infrastructure.research_serving_benchmarks --quantized-model 9-INFRASTRUCTURE/az-ml-program/evidence/58aff2c9dc295c8f912ba7a76e95ac7285d44e5ad52bed73d64edc6856af5727.azmq --output-dir 9-INFRASTRUCTURE/az-ml-program/evidence` | Completed; reconstructed-model parity and scoped work-count gates passed. Maximum prefill logit error 6.22e-15. This does not undo the separate quality-gate failure. |
+| `python -m pytest 9-INFRASTRUCTURE/az-ml-program/tests/ 12-AZ-IP/43-az-geometric-tori-transformer/tests/ 12-AZ-IP/40-az-live-data-harness/tests/ tests/test_execution_spine.py tests/test_um_arts_inventory.py COMPACTIFICATION/test_maps.py recycling/ "5-GOVERNANCE/Unitary Pentad/" -m "" -q` | Final affected-scope run: **4,041 passed, 3 skipped, 102 subtests passed**, no marker deselections. Includes the real training/publication test. |
+| `python TOOLS/audit/check_internal_links.py` | Passed: 2,053 Markdown files, all internal file links resolved. |
+| `python TOOLS/checks/check_licensing_policy.py` | Passed existing structural checks, not legal certification. |
+| `python -S -m src.infrastructure.ml_program check` | Passed: all 21 valid, promotion ineligible. |
+| `python -m pytest tests/ -m "" -q` | New unfiltered core run completed: **62,077 passed, 71 skipped, 0 failed, 0 deselected**, 927.73 seconds. The same two existing warnings remain. This is a new completed run, not reuse of the prior checkpoint's result. |
+
+Core regression remains green, while **model-quality qualification remains
+blocked by actual negative evidence**. Passing software tests validate correct
+reporting and implementation behavior; they do not turn a failed experiment
+into a qualified model. GPU execution, pretrained application-model quality,
+authenticated production serving and live-feed validation remain outstanding.
+
 ## Next bounded packages
 
-1. Connect one licensed, supported model artifact to the packed reference and
-   frozen held-out evaluation. Establish serving/resource baselines before KV,
-   batching or kernel speed claims.
-2. Implement bounded persistent serving/KV and trace-driven batching against that
-   supported backend, preserving owner, cancellation, overload and budget rules.
+1. Investigate the model's task-generalization failure using training/validation
+   only. Preregister a fresh untouched task-family holdout before another quality
+   experiment; never tune against the now-exposed 30 test questions.
+2. Improve quantization/calibration on training/validation, retain the failed
+   3-bit result, and compare an independent quantizer and licensed application
+   model. Extend the working research KV/batch backend through existing PsiCat
+   approvals only after absolute model utility and authenticated controls are
+   separately qualified.
 3. Add source-rebuild proposals and human-governed retrieval repair/rollback,
    learned-encoder evaluation and scoped reflective-memory replay.
 4. On a network-enabled host, capture a real P40 response, retain its raw payload
@@ -113,8 +208,8 @@ trained-model quality, distributed operation or production readiness.
    distributed checkpoints, assurance, interoperability, synthetic data,
    fairness, GPU kernels/XAI, RL and multimodal indexing remain committed scope.
 
-The current register records **14 planned and seven in-progress** capabilities
-(1, 7, 8, 11, 13, 14, 18); **zero full capabilities completed**. Original
+The current register records **12 planned and nine in-progress** capabilities
+(1, 2, 3, 7, 8, 11, 13, 14, 18); **zero full capabilities completed**. Original
 algorithm milestones do not bypass their integration dependencies.
 Hardware/network/dependency blockers remain visible, not scope deletions.
 
