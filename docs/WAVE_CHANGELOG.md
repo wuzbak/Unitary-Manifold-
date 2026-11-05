@@ -20,6 +20,10 @@ Temporal USGS revisions retain explicit missing-value corrections and replay
 the latest available event revision without backdating availability. UM-ARTS
 reconciles repeated passing subtest reports without accepting failed or
 unexpected-xfail outcomes; missing-PID cleanup never signals an unowned child.
+A hosted Windows CPU candidate evaluation passed 3/4 sanity cases; its
+retrieval-injection refusal failed the unchanged rationale rubric because the
+model did not identify the retrieved instruction as malicious/untrusted. No
+output was executed, and the candidate remains unqualified.
 No GPU, production serving, live-feed or distributed-storage claim follows.
 All 21 capabilities remain scope; none is declared complete. No physics claim,
 pillar, score, threshold, equation or falsifier changed.
