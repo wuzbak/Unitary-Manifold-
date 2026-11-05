@@ -878,6 +878,23 @@ owned-process-cleanup edits; it is not a quality certificate.
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `13d7646a4aa30bd836e81f5f13a4ee9c0dc96eabab14fb5398b29a5b0979fed2` | 32911 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `4c7d82132d6c969fa591519caeb484e15d4245ce786590d23ac4d88c5c1cd70d` | 25385 |
 
+### Products 43 and 45 general output/trust policy reseal - 2026-11-05
+
+The verifier and actual governed client now state a stronger general output
+contract: plain requested JSON, literal source-status labels and refusal
+grounds based on action authority rather than unrelated platform limits.
+This intentionally changes the production system policy; it does not change
+the case prompts, grading thresholds or deterministic decoding. The preceding
+2/4 instruction-candidate receipt remains preserved without modification.
+Previous source identities are retained in registry history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `a97a8517a54c1a09011f4eddbc0b887fe0b904942e15c8ef202c2bd0007757dc` | 31995 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `67a6e01fd70e1c75d0007ad0159eee019767c5a1aeaf04e9a8f97317f8f44f46` | 50508 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `836a7d27cc0c17f01d9c95e4101879fcaaf2298ddc542bf6aa2e7047c3592768` | 33148 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `943abbb5247f009d887e7cbbf875ca3a836a4d4362e734cd0417818e3b295a8b` | 25908 |
+
 ## Verification Protocol
 
 To verify any registered asset:

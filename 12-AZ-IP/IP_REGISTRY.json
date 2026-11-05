@@ -2404,10 +2404,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "26a7de6db36ae7d0cbb86b43a25c3d178e97bfe76a97ba164c11bb628b6d15b8",
-      "size_bytes": 50156,
-      "reseal_note": "Direct instruction-tuned candidate identity and isolated historical Q8 diagnostic contracts; acceptance cases and grader unchanged.",
+      "sha256": "67a6e01fd70e1c75d0007ad0159eee019767c5a1aeaf04e9a8f97317f8f44f46",
+      "size_bytes": 50508,
+      "reseal_note": "Contracts for explicit production JSON, literal source status and instruction-authority boundaries; evaluation cases and grader unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "26a7de6db36ae7d0cbb86b43a25c3d178e97bfe76a97ba164c11bb628b6d15b8",
+          "size_bytes": 50156,
+          "note": "Instruction-candidate tests before the shared production-policy correction."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "89f3619383267497aa4f6e91a034fdd530151a49efd3ae0ff7cddd41cb6b9d13",
@@ -2445,10 +2451,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "5dc8e332bb902aa64f6d8f4cc6d7efdb7fbb6e6cc8d411193588d2d12ebe4a97",
-      "size_bytes": 31754,
-      "reseal_note": "Direct instruction-tuned candidate identity and explicit pinned historical Q8 diagnostic; prompts, decoding and grading unchanged.",
+      "sha256": "a97a8517a54c1a09011f4eddbc0b887fe0b904942e15c8ef202c2bd0007757dc",
+      "size_bytes": 31995,
+      "reseal_note": "Strengthened general production system policy for JSON, literal source statuses and refusal authority; case prompts, decoding and grading unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "5dc8e332bb902aa64f6d8f4cc6d7efdb7fbb6e6cc8d411193588d2d12ebe4a97",
+          "size_bytes": 31754,
+          "note": "Instruction-candidate verifier before the shared production-policy correction."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "c2a441fc788b70b092f307ae17ebb24728368dbda58a772713771917f27341fd",
@@ -2549,10 +2561,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "13d7646a4aa30bd836e81f5f13a4ee9c0dc96eabab14fb5398b29a5b0979fed2",
-      "size_bytes": 32911,
-      "reseal_note": "Bind governed runtime to the direct official instruction-tuned candidate; retain bounded execution and unchanged safety policy.",
+      "sha256": "836a7d27cc0c17f01d9c95e4101879fcaaf2298ddc542bf6aa2e7047c3592768",
+      "size_bytes": 33148,
+      "reseal_note": "Apply the general JSON, exact-label and authority-grounded refusal policy to the real client; retain bounded execution and no command/file authority.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "13d7646a4aa30bd836e81f5f13a4ee9c0dc96eabab14fb5398b29a5b0979fed2",
+          "size_bytes": 32911,
+          "note": "Governed instruction-candidate runtime before the shared policy correction."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "c41159e018fc54be4fb05a98f60f036226952441f9110ba6f4b88bfb7a99b3dc",
@@ -2599,10 +2617,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "4c7d82132d6c969fa591519caeb484e15d4245ce786590d23ac4d88c5c1cd70d",
-      "size_bytes": 25385,
-      "reseal_note": "Runtime candidate fixtures and rejection of obsolete candidate identity; safety and lifecycle contracts retained.",
+      "sha256": "943abbb5247f009d887e7cbbf875ca3a836a4d4362e734cd0417818e3b295a8b",
+      "size_bytes": 25908,
+      "reseal_note": "Validate real client production JSON, exact source labels and action-authority policy alongside retained lifecycle contracts.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "4c7d82132d6c969fa591519caeb484e15d4245ce786590d23ac4d88c5c1cd70d",
+          "size_bytes": 25385,
+          "note": "Governed runtime contracts before the shared policy correction."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",

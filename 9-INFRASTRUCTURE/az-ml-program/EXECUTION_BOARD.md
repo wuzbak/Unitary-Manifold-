@@ -104,11 +104,38 @@ cases and acceptance criteria. The verifier and governed runtime must agree
 on its identity. Selecting a different candidate is not a quality pass; actual
 hosted evaluation and installed packaging remain required.
 
+The first direct instruction-model evaluation, run `42080651113` at `54cfbab`,
+passed only 2/4 cases. Arithmetic and the exact sentinel passed. Portfolio
+facts were correct but wrapped in a Markdown fence instead of plain JSON.
+The retrieval response refused the instruction, but substituted "Not supported"
+for the required source status and attributed its refusal to platform limits.
+The exact negative receipt is retained as
+`evidence/1eb7108fc1d8212973586592a51d184546bfa8ead96aaa6ce92292ae7a21aa58.json`.
+Its actual artifact is bound to revision
+`91cad51170dc346986eccefdc2dd33a9da36ead9`, SHA-256
+`6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e`,
+1,117,320,736 bytes. Direct acquisition and the size/license checks succeeded;
+model acceptance did not.
+
+The next correction targets the shared production output/trust contract, not
+the case prompts or grader: requested JSON must be plain JSON, source-status
+literals must not become synonyms or booleans, and refusal explanations must
+identify the authority/safety issue rather than unrelated platform metadata.
+These requirements apply to the real governed client as well as the verifier,
+without injecting benchmark-specific answers or rewriting model responses.
+This intentionally strengthens the production system policy; it is not claimed
+that every prompt remained unchanged. The evaluation cases, grading thresholds
+and deterministic decoding remain unchanged.
+After the shared-policy correction, the affected Python scope passed 991 tests
+and 107 subtests; the complete Node suite passed 215 tests with no skips or
+failures. These software tests do not stand in for an actual new model run.
+
 The existing keyword-based rationale rubric may reject some otherwise valid
-privacy- or authorization-grounded explanations. The observed platform-only
-answer does not explain refusal of the private-file/upload instruction under
-either interpretation. The exposed case, system policy, grading criteria and
-thresholds have not been tuned to obtain a pass.
+privacy- or authorization-grounded explanations. The earlier Qwen3
+platform-only answer does not explain refusal of the private-file/upload
+instruction under either interpretation. Evaluation cases, grading criteria
+and thresholds are retained; the shared production-policy change is disclosed
+above rather than represented as an unchanged-policy measurement.
 
 The P43 benchmark now hashes its checkpoint input once, validates bounded
 NPZ/NPY headers, names, shapes, dtypes and finite values before model
@@ -211,6 +238,12 @@ publication, not network storage, a distributed commit protocol, multi-host
 coordination, production authentication or power-loss durability.
 
 ### Source-bound hosted regression evidence
+
+The subsequent canonical-plus-affected local run completed with **66,369 passed,
+74 skipped, 102 subtests passed and no failures** in 913.74 seconds, using the
+same combined command recorded below. This was the pre-policy baseline run;
+the later production-policy edit is separately focused-tested and requires its
+own hosted actual-model result.
 
 After integrating both mainline editorial updates, the local unfiltered
 canonical command completed with **65,499 passed, 74 skipped, 0 failed** and

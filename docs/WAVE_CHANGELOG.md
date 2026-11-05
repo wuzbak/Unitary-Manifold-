@@ -26,6 +26,15 @@ The integrated slow-inclusive local canonical regression completed with
 65,499 passed, 74 skipped and zero failures in 900.72 seconds. This count does
 not include every isolated product suite or establish model quality.
 
+The direct instruction candidate's first actual run passed only 2/4: it
+returned correct portfolio facts inside an unwanted Markdown fence and
+substituted source-status words while explaining a refusal using platform
+limits. Its exact failed receipt is retained. The next correction strengthens
+the general production policy in both verifier and real client for plain JSON,
+literal source labels and action-authority-grounded refusal explanations.
+This is an explicitly disclosed system-policy change, not an unchanged-policy
+claim; case prompts, grading and deterministic decoding remain unchanged.
+
 ## AZ ML infrastructure continuation (2026-11-05; adjacent software only)
 
 Added independent P43 NumPy forward/reverse/Adam parity checks, including every
