@@ -141,10 +141,60 @@ def test_later_capture_preserves_later_correction_availability():
     assert first.snapshot.content_hash != later.snapshot.content_hash
 
 
-def test_unknown_magnitude_is_reported_not_zero_filled():
+def test_numeric_to_null_correction_is_persisted_and_replayed(tmp_path):
+    first = capture()
+    later = capture(feed(None), now=NOW + timedelta(minutes=5))
+    from src.infrastructure.temporal_data import TemporalSnapshot, save_snapshot
+
+    combined = TemporalSnapshot(
+        "test-project", NOW + timedelta(minutes=5),
+        first.snapshot.records + later.snapshot.records,
+    )
+    saved = save_snapshot(combined, tmp_path, owner_scope="test-project")
+    restored = load_snapshot(tmp_path, combined.content_hash, owner_scope="test-project")
+    common = dict(
+        snapshot=restored, owner_scope="test-project", entity_id="earthquake-a",
+        feature_names=("earthquake_magnitude",), allow_origins=("synthetic",),
+    )
+    before = point_in_time_features(**common, decision_time=NOW)[0]
+    after = point_in_time_features(**common, decision_time=NOW + timedelta(minutes=5))[0]
+    assert saved.is_file()
+    assert before.value == 2.5
+    assert after.value is None
+    assert after.missing_reason == "source_value_missing"
+
+
+def test_backward_event_time_revision_uses_latest_available_source_revision():
+    first = capture()
+    corrected = feed(3.0)
+    corrected["features"][0]["properties"]["time"] = (
+        NOW - timedelta(hours=2)
+    ).timestamp() * 1000
+    later = capture(corrected, now=NOW + timedelta(minutes=5))
+    from src.infrastructure.temporal_data import TemporalSnapshot
+
+    combined = TemporalSnapshot(
+        "test-project", NOW + timedelta(minutes=5),
+        first.snapshot.records + later.snapshot.records,
+    )
+    common = dict(
+        snapshot=combined, owner_scope="test-project", entity_id="earthquake-a",
+        feature_names=("earthquake_magnitude",), allow_origins=("synthetic",),
+    )
+    before = point_in_time_features(**common, decision_time=NOW)[0]
+    after = point_in_time_features(
+        **common, decision_time=NOW + timedelta(minutes=5),
+    )[0]
+    assert before.value == 2.5
+    assert after.value == 3.0
+    assert after.record.event_time == NOW - timedelta(hours=2)
+
+
+def test_unknown_magnitude_is_reported_and_persisted_not_zero_filled():
     result = capture(feed(None))
     assert result.event_count == 1
-    assert result.snapshot.records == ()
+    assert result.snapshot.records[0].value is None
+    assert result.snapshot.records[0].missing_reason == "source_value_missing"
     assert result.missing_magnitude_ids == ("earthquake-a",)
 
 

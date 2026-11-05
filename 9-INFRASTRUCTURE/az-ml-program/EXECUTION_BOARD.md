@@ -34,6 +34,40 @@ The inspected host had two available logical CPUs, no NVIDIA device nodes and
 no `nvidia-smi`/`nvcc` on PATH. No GPU, distributed, serverless or production
 performance result is claimed.
 
+## Current qualification continuation (2026-11-05)
+
+The P43 benchmark now hashes its checkpoint input once, validates bounded
+NPZ/NPY headers, names, shapes, dtypes and finite values before model
+construction, then instantiates those same in-memory bytes. Inference-only and
+training-state checkpoints retain native-loader compatibility. A path-replacement
+test confirms the reported hash remains bound to the model actually loaded.
+
+Checkpoint durability advanced by one local-filesystem test: a child writes and
+commits the P43 model/Adam/PCG64 shards, exits immediately after commit without
+acknowledging success, and a fresh interpreter restores exact fingerprints for
+weights, optimizer, RNG, config and metadata. This is not a distributed store,
+multi-worker coordination, mid-commit recovery or power-loss durability result.
+
+Temporal snapshots now use schema v2 for explicit missing-value corrections
+and source revision timestamps; v1 snapshots still round-trip. Point-in-time
+replay keeps earlier values available before a correction, then selects the
+latest observed revision even when its corrected event timestamp moves backward.
+Null corrections are persisted and never zero-filled.
+
+UM-ARTS now reconciles one or more passing pytest subtest call reports under a
+single planned test identity while retaining fail-closed handling for failed
+calls, unexpected xpasses, skipped setup and incomplete phases. Its local
+product-gate runs passed for P43 (161 tests) and P24 (10 tests); this checkout
+does not have the optional pytest-asyncio/benchmark plugins used by the hosted
+workflow. Product 45's Node suite passed after missing-PID cleanup was changed
+to avoid signaling a process that never started.
+
+The latest host probe again found no `nvidia-smi`, `nvcc` or PyTorch, so GPU
+execution remains unmeasured. A fresh USGS CLI retry at 2026-11-05 15:18 UTC
+failed with DNS `Errno -5` before receiving response bytes; no archive was
+created and no synthetic fallback was substituted. Production serving, useful
+model quality, live-feed validation and distributed durability remain open.
+
 ## Launch validation receipts (historical)
 
 Commands below use the isolated validation environment's `python` where pytest
@@ -441,10 +475,13 @@ test replaces the pathname with a symlink after commit; manifest, shards and
 receipt still land together on the original directory inode, while the decoy
 remains empty. Follow-up review found no significant issue in the bounded fix.
 
-This is actual checkpoint serialization and exact next-step parity, but still a
-constructed CPU fixture rather than arithmetic training state, a separate OS
-process restart, network/multi-worker storage, production crash consistency,
-throughput or model quality. Capability 5 remains in progress.
+The resume adapter test also terminates its writer process immediately after
+the durable commit, then restores and fingerprints model, Adam, RNG, config and
+metadata in a fresh interpreter. This exercises process restart on one local
+filesystem; it is not arithmetic training state, a large checkpoint,
+mid-commit/power-loss recovery, network/multi-worker storage, production crash
+consistency, throughput or model-quality evidence. Capability 5 remains in
+progress.
 
 ### Historical identity repair and validation
 

@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8577,
+  "file_count": 8578,
   "lanes": {
     "az_ip": 2638,
     "compactification": 9,
-    "other": 5480,
+    "other": 5481,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -112,7 +112,7 @@
     "src": 1658,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1564,
+    "tests": 1565,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -57105,6 +57105,12 @@
     },
     {
       "path": "tests/test_um_arts_source_isolation.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_subtest_reconciliation.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

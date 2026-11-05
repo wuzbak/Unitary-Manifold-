@@ -225,7 +225,12 @@ def _rng(state) -> None:
     _int(state["uinteger"], 0, 2**32 - 1, "PCG64 uinteger")
 
 
-def _validate(manifest: dict, shapes: dict[str, tuple[int, ...]]) -> None:
+def _validate(
+    manifest: dict,
+    shapes: dict[str, tuple[int, ...]],
+    *,
+    require_training_state: bool = True,
+) -> None:
     if set(manifest) != _CHECKPOINT_FIELDS:
         raise ValueError("invalid checkpoint manifest fields")
     api = _api()
@@ -234,23 +239,33 @@ def _validate(manifest: dict, shapes: dict[str, tuple[int, ...]]) -> None:
         raise ValueError("unsupported P43 checkpoint format or schema")
     params = _parameter_shapes(manifest["config"])
     adam = manifest["optimizer"]
-    if not isinstance(adam, dict) or set(adam) != {"lr", "beta1", "beta2", "eps", "t"}:
-        raise ValueError("requires exact Adam hyperparameters and step")
-    for name in ("lr", "beta1", "beta2", "eps"):
-        value = adam[name]
-        if (type(value) not in (int, float)
-                or (type(value) is int and abs(value) > 2**63 - 1)
-                or not math.isfinite(value)):
-            raise ValueError("Adam hyperparameters must be finite supported numbers")
-    if adam["lr"] <= 0 or adam["eps"] <= 0 or not (0 <= adam["beta1"] < 1 and 0 <= adam["beta2"] < 1):
-        raise ValueError("invalid Adam hyperparameters")
-    _int(adam["t"], 0, 2**63 - 1, "Adam step")
-    _rng(manifest["rng"])
+    if adam is None:
+        if require_training_state:
+            raise ValueError("training checkpoints require exact Adam state")
+    else:
+        if not isinstance(adam, dict) or set(adam) != {"lr", "beta1", "beta2", "eps", "t"}:
+            raise ValueError("requires exact Adam hyperparameters and step")
+        for name in ("lr", "beta1", "beta2", "eps"):
+            value = adam[name]
+            if (type(value) not in (int, float)
+                    or (type(value) is int and abs(value) > 2**63 - 1)
+                    or not math.isfinite(value)):
+                raise ValueError("Adam hyperparameters must be finite supported numbers")
+        if adam["lr"] <= 0 or adam["eps"] <= 0 or not (0 <= adam["beta1"] < 1 and 0 <= adam["beta2"] < 1):
+            raise ValueError("invalid Adam hyperparameters")
+        _int(adam["t"], 0, 2**63 - 1, "Adam step")
+    rng = manifest["rng"]
+    if rng is None:
+        if require_training_state:
+            raise ValueError("training checkpoints require exact PCG64 RNG state")
+    else:
+        _rng(rng)
     if not isinstance(manifest["metadata"], dict):
         raise ValueError("metadata must be a JSON object")
     expected = {f"model/{name}": shape for name, shape in params.items()}
-    expected.update({f"adam/{moment}/{name}": shape
-                     for moment in ("m", "v") for name, shape in params.items()})
+    if adam is not None:
+        expected.update({f"adam/{moment}/{name}": shape
+                         for moment in ("m", "v") for name, shape in params.items()})
     if shapes != expected:
         raise ValueError("checkpoint parameter names/shapes do not match model and Adam")
 
@@ -268,9 +283,9 @@ def _check_values(archive: _Archive) -> None:
 
 
 def load_p43_checkpoint(content: bytes):
-    """Safely restore a full Adam/PCG64 ``LoadedCheckpoint`` from P43 NPZ bytes."""
+    """Safely restore a P43 inference or training checkpoint from NPZ bytes."""
     archive = _inspect(content)
-    _validate(archive.manifest, archive.shapes)
+    _validate(archive.manifest, archive.shapes, require_training_state=False)
     _check_values(archive)
     return _api().load_checkpoint(io.BytesIO(content))
 

@@ -89,6 +89,7 @@ class EarthquakeCapture:
                 "availability_policy": "local_observation",
                 "feature": "earthquake_magnitude",
                 "units": "USGS reported magnitude; magnitude types may differ",
+                "revision_selection": "latest locally observed revision for the source event ID",
                 "lineage_graph_id": self.lineage().content_hash,
             },
             promotion={"eligible": False, "reason": "Data capture only; no model evaluation."},
@@ -112,6 +113,14 @@ class EarthquakeCapture:
                         "event_time": record.event_time.isoformat(),
                         "available_at": record.available_at.isoformat(),
                         "origin": record.origin,
+                        **(
+                            {"missing_reason": record.missing_reason}
+                            if record.missing_reason is not None else {}
+                        ),
+                        **(
+                            {"revision_at": record.revision_at.isoformat()}
+                            if record.revision_at is not None else {}
+                        ),
                     }
                     for record in self.snapshot.records
                 ],
@@ -161,6 +170,17 @@ def fetch_earthquake_snapshot(
             magnitude = properties.get("mag")
             if magnitude is None:
                 missing.append(event_id)
+                records.append(TemporalFeatureRecord(
+                    owner_scope=owner_scope,
+                    entity_id=event_id,
+                    feature_name="earthquake_magnitude",
+                    value=None,
+                    event_time=event_time,
+                    available_at=observed_at,
+                    origin=origin,
+                    missing_reason="source_value_missing",
+                    revision_at=observed_at,
+                ))
                 continue
             records.append(TemporalFeatureRecord(
                 owner_scope=owner_scope,
@@ -170,6 +190,7 @@ def fetch_earthquake_snapshot(
                 event_time=event_time,
                 available_at=observed_at,
                 origin=origin,
+                revision_at=observed_at,
             ))
     except (ValueError, KeyError, TypeError, OverflowError, OSError) as exc:
         raise LiveDataError(f"USGS temporal capture invalid: {exc}") from exc

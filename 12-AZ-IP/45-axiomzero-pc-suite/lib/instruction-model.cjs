@@ -451,7 +451,7 @@ function createInstructionModel(options) {
     return result;
   }
   async function stopOwned(owned) {
-    if (!owned || owned.closed) return;
+    if (!owned || owned.closed || !Number.isSafeInteger(owned.child.pid) || owned.child.pid < 1) return;
     const wait = async () => {
       let timer;
       try {

@@ -61,6 +61,31 @@ def test_snapshot_hash_is_stable_and_record_order_independent() -> None:
     assert left.records == right.records
 
 
+def test_legacy_v1_snapshot_roundtrips_without_correction_fields(tmp_path) -> None:
+    original = TemporalSnapshot(
+        "tenant-a", BASE, (record(),), schema_version="um_temporal_data_v1",
+    )
+    path = save_snapshot(original, tmp_path, owner_scope="tenant-a")
+
+    assert load_snapshot(tmp_path, original.content_hash, owner_scope="tenant-a") == original
+    with pytest.raises(ValueError, match="schema v1"):
+        TemporalSnapshot(
+            "tenant-a",
+            BASE,
+            (TemporalFeatureRecord(
+                owner_scope="tenant-a",
+                entity_id="event-1",
+                feature_name="magnitude",
+                value=None,
+                event_time=BASE,
+                available_at=BASE,
+                missing_reason="source_value_missing",
+            ),),
+            schema_version="um_temporal_data_v1",
+        )
+    assert path.is_file()
+
+
 def test_snapshot_is_immutable_and_rejects_mixed_scope_and_conflicting_keys() -> None:
     with pytest.raises(ValueError, match="owner_scope"):
         snapshot(record(scope="tenant-b"))

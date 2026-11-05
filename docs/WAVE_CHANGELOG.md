@@ -13,6 +13,13 @@ worker-loss recovery; this does not establish distributed durability.
 An actual P43 model/Adam/PCG64 adapter now validates bounded non-pickle state,
 splits model/optimizer/RNG roles, reconstructs the native checkpoint and matches
 the uninterrupted next training step exactly on a constructed CPU fixture.
+The writer is now also terminated immediately after local commit, and a fresh
+process restores the exact state. P43 benchmark loading now preflights and
+instantiates the exact hashed bytes, including inference-only checkpoints.
+Temporal USGS revisions retain explicit missing-value corrections and replay
+the latest available event revision without backdating availability. UM-ARTS
+reconciles repeated passing subtest reports without accepting failed or
+unexpected-xfail outcomes; missing-PID cleanup never signals an unowned child.
 No GPU, production serving, live-feed or distributed-storage claim follows.
 All 21 capabilities remain scope; none is declared complete. No physics claim,
 pillar, score, threshold, equation or falsifier changed.

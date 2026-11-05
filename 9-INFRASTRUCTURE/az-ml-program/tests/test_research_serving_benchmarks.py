@@ -40,6 +40,50 @@ def test_checkpoint_cli_pins_sources_and_publishes_immutable_receipt(tmp_path, c
     assert report["execution_spine"]["promotion"]["eligible"] is False
 
 
+def test_checkpoint_cli_loads_the_exact_bytes_it_hashes(tmp_path, capsys, monkeypatch):
+    original_model = GeometricToriTransformer(GeometricToriTransformerConfig(
+        vocab_size=7, dim=8, num_heads=2, num_layers=1, ff_hidden_dim=16,
+    ))
+    replacement_model = GeometricToriTransformer(GeometricToriTransformerConfig(
+        vocab_size=7, dim=12, num_heads=3, num_layers=1, ff_hidden_dim=24,
+    ))
+    checkpoint = tmp_path / "model.npz"
+    replacement = tmp_path / "replacement.npz"
+    save_checkpoint(checkpoint, original_model)
+    save_checkpoint(replacement, replacement_model)
+    hashed_bytes = checkpoint.read_bytes()
+    replacement_bytes = replacement.read_bytes()
+    original_read_bytes = Path.read_bytes
+    reads = 0
+    observed_configs = []
+    original_benchmark = benchmark_serving
+
+    def replace_after_hash(path):
+        nonlocal reads
+        if path == checkpoint:
+            reads += 1
+            data = original_read_bytes(path)
+            checkpoint.write_bytes(replacement_bytes)
+            return data
+        return original_read_bytes(path)
+
+    def record_model(model):
+        observed_configs.append(model.cfg)
+        return original_benchmark(model)
+
+    monkeypatch.setattr(Path, "read_bytes", replace_after_hash)
+    monkeypatch.setattr(
+        "src.infrastructure.research_serving_benchmarks.benchmark_serving",
+        record_model,
+    )
+    assert main(["--checkpoint", str(checkpoint), "--output-dir", str(tmp_path)]) == 0
+    evidence = Path(capsys.readouterr().out.strip())
+    report = json.loads(evidence.read_bytes())
+    assert reads == 1
+    assert report["checkpoint_sha256"] == hashlib.sha256(hashed_bytes).hexdigest()
+    assert observed_configs == [original_model.cfg]
+
+
 def test_original_packed_model_is_loadable_by_the_actual_serving_benchmark(tmp_path, capsys):
     from src.infrastructure.research_quantization import serialize_model
 

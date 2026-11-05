@@ -16,7 +16,12 @@ from typing import Iterable, Sequence
 from .execution_spine import ExecutionSpineRecord, build_fail_closed_governance
 from .artifact_io import publish_immutable
 
-TEMPORAL_DATA_SCHEMA_VERSION = "um_temporal_data_v1"
+TEMPORAL_DATA_SCHEMA_VERSION = "um_temporal_data_v2"
+_LEGACY_TEMPORAL_DATA_SCHEMA_VERSION = "um_temporal_data_v1"
+_SUPPORTED_TEMPORAL_DATA_SCHEMA_VERSIONS = (
+    _LEGACY_TEMPORAL_DATA_SCHEMA_VERSION,
+    TEMPORAL_DATA_SCHEMA_VERSION,
+)
 _ORIGINS = frozenset({"real", "synthetic", "fallback"})
 _HASH_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 
@@ -53,38 +58,54 @@ def _canonical_json(payload: dict[str, object]) -> str:
 
 @dataclass(frozen=True)
 class TemporalFeatureRecord:
-    """A single numeric feature value, scoped to an owner and entity."""
+    """A feature observation or explicit source-value correction."""
 
     owner_scope: str
     entity_id: str
     feature_name: str
-    value: float
+    value: float | None
     event_time: datetime
     available_at: datetime
     origin: str = "real"
+    missing_reason: str | None = None
+    revision_at: datetime | None = None
 
     def __post_init__(self) -> None:
         _require_text("owner_scope", self.owner_scope)
         _require_text("entity_id", self.entity_id)
         _require_text("feature_name", self.feature_name)
-        if isinstance(self.value, bool) or not isinstance(self.value, (int, float)):
-            raise ValueError("value must be a finite number.")
-        numeric_value = float(self.value)
-        if not math.isfinite(numeric_value):
-            raise ValueError("value must be a finite number.")
+        if self.value is None:
+            if not isinstance(self.missing_reason, str) or not self.missing_reason.strip():
+                raise ValueError("missing values require an explicit missing_reason.")
+            numeric_value = None
+        else:
+            if self.missing_reason is not None:
+                raise ValueError("numeric values cannot carry a missing_reason.")
+            if isinstance(self.value, bool) or not isinstance(self.value, (int, float)):
+                raise ValueError("value must be a finite number or an explicit missing value.")
+            numeric_value = float(self.value)
+            if not math.isfinite(numeric_value):
+                raise ValueError("value must be a finite number.")
         if not isinstance(self.origin, str) or self.origin not in _ORIGINS:
             raise ValueError(f"origin must be one of {sorted(_ORIGINS)}.")
         event_time = _utc_datetime("event_time", self.event_time)
         available_at = _utc_datetime("available_at", self.available_at)
         if available_at < event_time:
             raise ValueError("available_at cannot precede event_time.")
+        revision_at = (
+            _utc_datetime("revision_at", self.revision_at)
+            if self.revision_at is not None else None
+        )
+        if revision_at is not None and revision_at > available_at:
+            raise ValueError("revision_at cannot follow available_at.")
         object.__setattr__(self, "value", numeric_value)
         object.__setattr__(self, "event_time", event_time)
         object.__setattr__(self, "available_at", available_at)
+        object.__setattr__(self, "revision_at", revision_at)
 
 
 def _record_payload(record: TemporalFeatureRecord) -> dict[str, object]:
-    return {
+    payload = {
         "owner_scope": record.owner_scope,
         "entity_id": record.entity_id,
         "feature_name": record.feature_name,
@@ -93,6 +114,11 @@ def _record_payload(record: TemporalFeatureRecord) -> dict[str, object]:
         "available_at": _format_datetime(record.available_at),
         "origin": record.origin,
     }
+    if record.missing_reason is not None:
+        payload["missing_reason"] = record.missing_reason
+    if record.revision_at is not None:
+        payload["revision_at"] = _format_datetime(record.revision_at)
+    return payload
 
 
 def _record_sort_key(record: TemporalFeatureRecord) -> str:
@@ -110,7 +136,7 @@ class TemporalSnapshot:
 
     def __post_init__(self) -> None:
         _require_text("owner_scope", self.owner_scope)
-        if self.schema_version != TEMPORAL_DATA_SCHEMA_VERSION:
+        if self.schema_version not in _SUPPORTED_TEMPORAL_DATA_SCHEMA_VERSIONS:
             raise ValueError(f"Unsupported temporal data schema version: {self.schema_version!r}.")
         captured_at = _utc_datetime("captured_at", self.captured_at)
         if isinstance(self.records, (str, bytes)):
@@ -123,6 +149,11 @@ class TemporalSnapshot:
             raise ValueError("records must contain only TemporalFeatureRecord values.")
         if any(record.owner_scope != self.owner_scope for record in records):
             raise ValueError("Every record must belong to the snapshot owner_scope.")
+        if self.schema_version == _LEGACY_TEMPORAL_DATA_SCHEMA_VERSION and any(
+            record.missing_reason is not None or record.revision_at is not None
+            for record in records
+        ):
+            raise ValueError("Temporal data schema v1 cannot contain correction records.")
 
         seen: dict[tuple[object, ...], TemporalFeatureRecord] = {}
         for record in records:
@@ -132,6 +163,7 @@ class TemporalSnapshot:
                 record.feature_name,
                 record.event_time,
                 record.available_at,
+                record.revision_at,
             )
             previous = seen.get(key)
             if previous is not None and previous != record:
@@ -222,7 +254,17 @@ def point_in_time_features(
             reason = "origin_not_allowed" if eligible else "no_point_in_time_data"
             results.append(FeatureResult(feature_name, None, reason))
             continue
-        selected = max(permitted, key=lambda record: (record.event_time, record.available_at))
+        selected = max(
+            permitted,
+            key=lambda record: (
+                record.revision_at or record.event_time,
+                record.available_at,
+                record.event_time,
+            ),
+        )
+        if selected.value is None:
+            results.append(FeatureResult(feature_name, selected, selected.missing_reason))
+            continue
         if freshness_ttl_seconds is not None:
             age_seconds = (decision - selected.event_time).total_seconds()
             if age_seconds > freshness_ttl_seconds:
@@ -264,7 +306,7 @@ def _reject_duplicate_json_keys(pairs: list[tuple[str, object]]) -> dict[str, ob
 
 
 def _record_from_payload(payload: object) -> TemporalFeatureRecord:
-    expected = {
+    required = {
         "owner_scope",
         "entity_id",
         "feature_name",
@@ -273,7 +315,12 @@ def _record_from_payload(payload: object) -> TemporalFeatureRecord:
         "available_at",
         "origin",
     }
-    if not isinstance(payload, dict) or set(payload) != expected:
+    optional = {"missing_reason", "revision_at"}
+    if (
+        not isinstance(payload, dict)
+        or not required <= set(payload)
+        or set(payload) - required - optional
+    ):
         raise ValueError("Malformed temporal feature record schema.")
     return TemporalFeatureRecord(
         owner_scope=payload["owner_scope"],
@@ -283,6 +330,11 @@ def _record_from_payload(payload: object) -> TemporalFeatureRecord:
         event_time=_parse_datetime("event_time", payload["event_time"]),
         available_at=_parse_datetime("available_at", payload["available_at"]),
         origin=payload["origin"],
+        missing_reason=payload.get("missing_reason"),
+        revision_at=(
+            _parse_datetime("revision_at", payload["revision_at"])
+            if "revision_at" in payload else None
+        ),
     )
 
 
@@ -310,7 +362,7 @@ def load_snapshot(
     expected = {"schema_version", "owner_scope", "captured_at", "records", "content_hash"}
     if not isinstance(payload, dict) or set(payload) != expected:
         raise ValueError("Malformed temporal snapshot schema.")
-    if payload["schema_version"] != TEMPORAL_DATA_SCHEMA_VERSION:
+    if payload["schema_version"] not in _SUPPORTED_TEMPORAL_DATA_SCHEMA_VERSIONS:
         raise ValueError("Unsupported temporal snapshot schema version.")
     if payload["owner_scope"] != owner_scope:
         raise ValueError("Requested owner_scope does not match the snapshot.")

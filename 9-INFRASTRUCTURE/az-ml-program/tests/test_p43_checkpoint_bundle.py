@@ -8,6 +8,8 @@ import io
 import json
 from pathlib import Path
 import shutil
+import subprocess
+import sys
 from uuid import uuid4
 import zipfile
 
@@ -158,6 +160,99 @@ def test_zero_step_and_zero_layers_keep_all_three_roles(workspace):
     assert loaded.optimizer.t == optimizer.t == 0
     assert loaded.model.cfg.num_layers == 0
     _step(loaded.model, loaded.optimizer, loaded.rng)
+
+
+def test_safe_loader_accepts_bounded_inference_checkpoint_without_training_state(workspace):
+    source = workspace / "inference.npz"
+    model = _model()
+    api.save_checkpoint(source, model, metadata={"purpose": "inference"})
+
+    loaded = adapter.load_p43_checkpoint(source.read_bytes())
+
+    assert loaded.model.cfg == model.cfg
+    assert loaded.metadata == {"purpose": "inference"}
+    assert loaded.optimizer is None
+    assert loaded.rng is None
+
+
+def test_committed_checkpoint_survives_writer_process_loss_and_fresh_process_restore(workspace):
+    source = workspace / "source.npz"
+    model, optimizer, rng, metadata = _save(source)
+    content = source.read_bytes()
+
+    def digest(arrays):
+        state = hashlib.sha256()
+        for array in arrays:
+            state.update(array.tobytes(order="C"))
+        return state.hexdigest()
+
+    expected = {
+        "config": {
+            "causal": model.cfg.causal,
+            "dim": model.cfg.dim,
+            "ff_hidden_dim": model.cfg.ff_hidden_dim,
+            "num_heads": model.cfg.num_heads,
+            "num_layers": model.cfg.num_layers,
+            "positional_mode": model.cfg.positional_mode,
+            "seed": model.cfg.seed,
+            "vocab_size": model.cfg.vocab_size,
+        },
+        "metadata": metadata,
+        "model_sha256": digest(parameter.data for parameter in model.parameters()),
+        "optimizer": {
+            "beta1": optimizer.beta1,
+            "beta2": optimizer.beta2,
+            "eps": optimizer.eps,
+            "lr": optimizer.lr,
+            "t": optimizer.t,
+        },
+        "adam_m_sha256": digest(optimizer.m),
+        "adam_v_sha256": digest(optimizer.v),
+        "rng_state": rng.bit_generator.state,
+    }
+    writer = (
+        "import os,sys\n"
+        "from pathlib import Path\n"
+        "from src.infrastructure.p43_checkpoint_bundle import commit_checkpoint\n"
+        "commit_checkpoint(sys.argv[1], "
+        "content=Path(sys.argv[2]).read_bytes(), "
+        "checkpoint_id='restart-step', owner_scope='tenant:test')\n"
+        "os._exit(23)\n"
+    )
+    lost_writer = subprocess.run(
+        [sys.executable, "-c", writer, str(workspace), str(source)],
+        cwd=adapter._ROOT, capture_output=True, text=True, timeout=90,
+    )
+    assert lost_writer.returncode == 23
+    manifests = list(workspace.glob("*.json"))
+    assert len(manifests) == 1
+    manifest_id = manifests[0].stem
+    assert len(list(workspace.glob("*.bin"))) == 3
+
+    reader = (
+        "import hashlib,json,sys\n"
+        "from src.infrastructure.p43_checkpoint_bundle import load_checkpoint\n"
+        "def digest(arrays):\n"
+        " state=hashlib.sha256()\n"
+        " for array in arrays: state.update(array.tobytes(order='C'))\n"
+        " return state.hexdigest()\n"
+        "loaded=load_checkpoint(sys.argv[1],sys.argv[2],owner_scope='tenant:test')\n"
+        "print(json.dumps({\n"
+        " 'config':loaded.model.cfg.__dict__,\n"
+        " 'metadata':loaded.metadata,\n"
+        " 'model_sha256':digest(p.data for p in loaded.model.parameters()),\n"
+        " 'optimizer':{'beta1':loaded.optimizer.beta1,'beta2':loaded.optimizer.beta2,"
+        "'eps':loaded.optimizer.eps,'lr':loaded.optimizer.lr,'t':loaded.optimizer.t},\n"
+        " 'adam_m_sha256':digest(loaded.optimizer.m),\n"
+        " 'adam_v_sha256':digest(loaded.optimizer.v),\n"
+        " 'rng_state':loaded.rng.bit_generator.state},sort_keys=True))\n"
+    )
+    restored = subprocess.run(
+        [sys.executable, "-c", reader, str(workspace), manifest_id],
+        cwd=adapter._ROOT, capture_output=True, text=True, timeout=90,
+    )
+    assert restored.returncode == 0, restored.stderr
+    assert json.loads(restored.stdout) == expected
 
 
 def test_deterministic_split_reassembly_and_commit(content, workspace):
@@ -328,8 +423,11 @@ def test_unsupported_or_malformed_full_checkpoint_is_rejected(content, mutation)
     poisoned = _rewrite(content, mutate)
     with pytest.raises(ValueError):
         _split(poisoned)
-    with pytest.raises(ValueError):
-        adapter.load_p43_checkpoint(poisoned)
+    if mutation == "rng_none":
+        assert adapter.load_p43_checkpoint(poisoned).rng is None
+    else:
+        with pytest.raises(ValueError):
+            adapter.load_p43_checkpoint(poisoned)
 
 
 def _zip(members, *, compression=zipfile.ZIP_DEFLATED):

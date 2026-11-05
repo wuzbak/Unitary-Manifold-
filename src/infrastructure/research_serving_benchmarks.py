@@ -15,8 +15,8 @@ import numpy as np
 
 from .artifact_io import publish_immutable
 from .execution_spine import ExecutionSpineRecord, build_fail_closed_governance
+from .p43_checkpoint_bundle import load_p43_checkpoint
 from .research_serving import ResearchServingSession, ToriCPUDecoder
-from az_tori_transformer.checkpoint import load_checkpoint
 from az_tori_transformer.model import GeometricToriTransformer
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -162,9 +162,7 @@ def main(argv: list[str] | None = None) -> int:
 
             model = load_model_artifact(input_bytes)
         else:
-            model = load_checkpoint(input_path).model
-            if hashlib.sha256(input_path.read_bytes()).hexdigest() != input_sha256:
-                raise ValueError("checkpoint changed while loading")
+            model = load_p43_checkpoint(input_bytes).model
         report = benchmark_serving(model)
         if not all(report["gates"].values()):
             raise ValueError("declared serving-reference acceptance gates failed")
@@ -178,6 +176,7 @@ def main(argv: list[str] | None = None) -> int:
         paths = [
             "src/infrastructure/research_serving.py",
             "src/infrastructure/research_serving_benchmarks.py",
+            "src/infrastructure/p43_checkpoint_bundle.py",
             "src/infrastructure/artifact_io.py",
             "src/infrastructure/execution_spine.py",
         ] + [path.relative_to(ROOT).as_posix() for path in sorted(

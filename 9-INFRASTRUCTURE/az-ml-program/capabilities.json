@@ -84,12 +84,12 @@
       "dependencies": [14],
       "external_prerequisites": ["Authorized multi-worker processes and storage endpoints", "Pinned distributed training/checkpoint backend"],
       "acceptance_gates": ["Round-trip sharded model, optimizer and RNG state with content checksums", "Demonstrate atomic commit and recovery after partial writes, retries and worker loss", "Measure original AZ checkpoint layout against baseline at documented worker and shard counts"],
-      "next_action": "Validate P43 exact resume across process restart and bounded real training checkpoints, then implement authorized multi-worker coordination/object-store durability and matched throughput against a pinned distributed-checkpoint baseline.",
+      "next_action": "Scale the tested local process-restart path to large real-training checkpoints and inject failures during commit; then implement authorized multi-worker/object-store durability and matched throughput against a pinned distributed-checkpoint baseline.",
       "owner_role": "Distributed systems and storage engineer",
       "hardware_requirements": ["CPU and local disk for failure-injection tests", "Two or more authorized workers plus object storage for distributed validation"],
       "baseline_adapters": ["Planned PyTorch distributed-checkpoint adapter; not integrated"],
       "original_algorithm_goal": "Develop an AZ resumable content-addressed checkpoint transfer and commit protocol.",
-      "nonclaim": "Actual P43 model, Adam and PCG64 state now split and exactly resume across local bundle serialization on a constructed CPU fixture. No process-restart production run, multi-worker coordination, object-store durability, authenticated provenance or throughput is established.",
+      "nonclaim": "Actual P43 model, Adam and PCG64 state split and resume exactly on a constructed CPU fixture; a writer process terminated immediately after commit was restored in a fresh process. This tests one local filesystem process-restart path only, not large production checkpoints, mid-commit or power-loss durability, multi-worker coordination, object storage, authenticated provenance or throughput.",
       "completion_evidence": []
     },
     {
