@@ -73,6 +73,13 @@ ordinary answer schemas. Fresh governed smoke and installer evidence is
 still required. The Windows timestamp regression also uses a representable
 one-second metadata change rather than assuming one-nanosecond filesystem
 resolution; it asserts that the observed timestamp advances.
+Native run 42127782342 then passed the actual backend cases, governed Node
+smoke, recovered-product suite, browser lifecycle, UEFI and both Android
+builds. It retained the complete validated runtime as artifact 13462179905
+and evaluation evidence as artifact 13462828324. Packaging stopped before
+installer compilation because an unawaited nested preload test was cancelled
+by its completed parent; that independent test is now top-level, retaining
+all fixed-channel and IPC exposure assertions.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 
