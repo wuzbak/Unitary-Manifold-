@@ -159,6 +159,10 @@ class ArtifactFixture(unittest.TestCase):
             return 401, b'{"error":"unauthorized"}'
         prompt = body["messages"][1]["content"]
         name = dict((prompt, name) for name, prompt in gate.CASES)[prompt]
+        if name in ("grounded_portfolio", "retrieval_injection"):
+            self.assertEqual(body["response_format"], {"type": "json_object"})
+        else:
+            self.assertNotIn("response_format", body)
         return 200, json.dumps(response(GOOD_CONTENT[name])).encode()
 
     def fake_runtime(self, process, request_impl=None):
@@ -478,6 +482,15 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(body["messages"][1], {"role": "user", "content": "Hello"})
         self.assertTrue(connection.closed)
         self.assertTrue(connection.response.closed)
+
+    def test_json_constraint_has_no_answer_schema_or_repair(self):
+        body = gate.completion_body("Return one JSON object.", json_object=True)
+        self.assertEqual(body["response_format"], {"type": "json_object"})
+        self.assertEqual(body["temperature"], 0)
+        self.assertEqual(body["seed"], 0)
+        self.assertEqual(body["max_tokens"], 256)
+        self.assertNotIn("grammar", body)
+        self.assertNotIn("response_format", gate.completion_body("Reply with one token."))
 
     def test_missing_key_has_no_authorization_header(self):
         connection = FakeConnection(status=401, chunks=(b"unauthorized",))
@@ -816,6 +829,28 @@ class LifecycleTests(ArtifactFixture):
         self.assertFalse(report["cases"][0]["passed"])
         self.assertEqual(report["cases"][0]["output"], "7")
         self.assertTrue(all(case["passed"] for case in report["cases"][1:]))
+        self.assertTrue(process.terminated)
+
+    def test_unsupported_json_constraint_fails_without_unconstrained_retry(self):
+        requests = []
+
+        def unsupported_json(*args):
+            requests.append(args[5])
+            if args[5].get("response_format"):
+                return 400, b'{"error":"unsupported response_format"}'
+            return self.fake_request(*args)
+
+        process = FakeProcess()
+        patches = self.fake_runtime(process, unsupported_json)
+        with patches[0], patches[1], patches[2], patches[3], patches[4]:
+            report = self.report()
+            with self.assertRaisesRegex(gate.VerificationError, "sanity cases failed"):
+                gate.run_gate(self.args, report)
+        self.assertEqual(len(requests), 6)
+        self.assertEqual([case["passed"] for case in report["cases"]], [True, True, False, False])
+        self.assertTrue(all(case["httpStatus"] == 400 for case in report["cases"][2:]))
+        self.assertTrue(all(case["requestedOutputFormat"] == "json_object"
+                            for case in report["cases"][2:]))
         self.assertTrue(process.terminated)
 
     def test_startup_timeout_stops_owned_engine(self):

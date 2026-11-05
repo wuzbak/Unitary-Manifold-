@@ -36,6 +36,10 @@ choose an executable, endpoint, API key or arbitrary filesystem path. The owned
 server uses a fresh loopback port and API key, bounded CPU/context/output budgets
 and explicit cancellation/shutdown. Retrieved text is reference data, not tool
 authority; model output never runs tools, commands or file writes.
+The client requests generic JSON-object constrained decoding for answers,
+but not the ownership challenge. This does not supply answer values or prove
+grounding. Unsupported decoding fails explicitly; no output repair or
+unconstrained retry replaces the strict response checks.
 
 Answers remain UNVERIFIED. Citation IDs map to the supplied catalog or original
 file/line/hash excerpts; valid IDs do not prove that the answer follows from

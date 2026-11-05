@@ -40,6 +40,9 @@ const CHILD = String.raw`
         if (nonce) content = config.mode === "bad-challenge" ? "wrong" : nonce[0];
         else {
           if (process.send) process.send({type:"inference", body});
+          if (config.mode === "unsupported-json") {
+            response.writeHead(400); response.end('{"error":"unsupported response_format"}'); return;
+          }
           if (config.mode === "hang" || config.mode === "ignore-term") return;
           if (config.mode === "huge") { response.end("x".repeat(65537)); return; }
           if (config.mode === "huge-declared") {
@@ -164,10 +167,12 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
   assert.equal(input.max_tokens, 128);
   assert.equal(input.stream, false);
   assert.equal(input.chat_template_kwargs.enable_thinking, false);
+  assert.deepEqual(input.response_format, { type: "json_object" });
   const challengeRequests = f.messages.filter((message) => message.type === "request" &&
     message.body.messages[1].content.includes("READY_"));
   assert.equal(challengeRequests.length, 3);
   assert.ok(challengeRequests.every((message) => message.body.max_tokens === 64));
+  assert.ok(challengeRequests.every((message) => message.body.response_format === undefined));
 });
 
 test("official bundled basename may vary in case but local manifest spelling is exact", async (t) => {
@@ -313,6 +318,15 @@ test("default inference deadline is bounded at 300 seconds and remains cancellab
   assert.equal(args[args.indexOf("--timeout") + 1], "300");
   await f.runtime.cancel();
   await rejection;
+  assert.notEqual(f.children[0].signalCode, null);
+});
+
+test("unsupported JSON decoding fails without an unconstrained retry", async (t) => {
+  const f = await fixture(t, { mode: "unsupported-json" });
+  await assert.rejects(f.runtime.answer({ question: "x", evidence }), /HTTP 400/);
+  const inferences = f.messages.filter((message) => message.type === "inference");
+  assert.equal(inferences.length, 1);
+  assert.deepEqual(inferences[0].body.response_format, { type: "json_object" });
   assert.notEqual(f.children[0].signalCode, null);
 });
 

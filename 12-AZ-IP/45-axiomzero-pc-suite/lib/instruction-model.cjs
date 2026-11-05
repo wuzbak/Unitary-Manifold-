@@ -232,6 +232,7 @@ function completionBody(prompt, challenge = false) {
   const body = { model: ALIAS, stream: false, temperature: 0, seed: 0, max_tokens: challenge ? 64 : 128,
     chat_template_kwargs: { enable_thinking: false },
     messages: [{ role: "system", content: system }, { role: "user", content: prompt }] };
+  if (!challenge) body.response_format = { type: "json_object" };
   if (Buffer.byteLength(system + prompt) > LIMITS.promptBytes ||
       Buffer.byteLength(JSON.stringify(body)) > LIMITS.requestBytes) {
     throw failure("Instruction prompt exceeds the bounded 2048-token context budget.", "INPUT_LIMIT");

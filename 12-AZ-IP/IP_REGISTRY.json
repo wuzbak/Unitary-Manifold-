@@ -987,10 +987,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "4f283b0d700658e211eda7f1a904847b8e48ffb6257ca2a6f5b1c347a1945d2f",
-      "size_bytes": 24275,
-      "reseal_note": "Document direct official instruction-tuned Q4 candidate, preserved paired failures and unchanged packaging acceptance. No shipped-runtime or production-quality claim.",
+      "sha256": "6db8927c6722ca1747703fb3d257f68e97bcba18c2017e34ec6cc5eb6f28d087",
+      "size_bytes": 24553,
+      "reseal_note": "Document generic JSON-object decoding, strict semantic checks and explicit unsupported-engine failure; no quality promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "4f283b0d700658e211eda7f1a904847b8e48ffb6257ca2a6f5b1c347a1945d2f",
+          "size_bytes": 24275,
+          "note": "Instruction-candidate suite documentation before generic JSON-object decoding."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
@@ -2381,10 +2387,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "555dc31b1d4edc14e2987fa3bac4f0c06cc6181286d300dc6b9ca2567518879b",
-      "size_bytes": 23292,
-      "reseal_note": "Selected direct official instruction-tuned Q4 candidate after paired Qwen3 Q8/Q4 failures; actual acceptance remains required. No model-quality or physics promotion.",
+      "sha256": "114f7894c86268926e2a78cf43de3174770372f96c510cf8fa6368d0545833f9",
+      "size_bytes": 23636,
+      "reseal_note": "Explain syntax-only JSON constraints shared with the actual client, unchanged semantic grading and explicit failures.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "555dc31b1d4edc14e2987fa3bac4f0c06cc6181286d300dc6b9ca2567518879b",
+          "size_bytes": 23292,
+          "note": "Instruction-candidate verifier documentation before generic JSON-object decoding."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
@@ -2404,10 +2416,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "67a6e01fd70e1c75d0007ad0159eee019767c5a1aeaf04e9a8f97317f8f44f46",
-      "size_bytes": 50508,
-      "reseal_note": "Contracts for explicit production JSON, literal source status and instruction-authority boundaries; evaluation cases and grader unchanged.",
+      "sha256": "61a1bdaa2b89610f7754f7b73b4819db13a7e2695d259b93eda12a8ae9b83f8e",
+      "size_bytes": 52313,
+      "reseal_note": "Verify syntax-only JSON decoding, unchanged text challenges and failure without unconstrained fallback.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "67a6e01fd70e1c75d0007ad0159eee019767c5a1aeaf04e9a8f97317f8f44f46",
+          "size_bytes": 50508,
+          "note": "Candidate tests before generic JSON-object decoding."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "26a7de6db36ae7d0cbb86b43a25c3d178e97bfe76a97ba164c11bb628b6d15b8",
@@ -2451,10 +2469,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "a97a8517a54c1a09011f4eddbc0b887fe0b904942e15c8ef202c2bd0007757dc",
-      "size_bytes": 31995,
-      "reseal_note": "Strengthened general production system policy for JSON, literal source statuses and refusal authority; case prompts, decoding and grading unchanged.",
+      "sha256": "bf528717baf276a14308092f35f21bdb6ab9d1b1ab748878f308d097c00589d4",
+      "size_bytes": 32331,
+      "reseal_note": "Request generic JSON-object decoding for JSON cases without answer-bearing schemas; case prompts, grader and deterministic sampling unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "a97a8517a54c1a09011f4eddbc0b887fe0b904942e15c8ef202c2bd0007757dc",
+          "size_bytes": 31995,
+          "note": "Shared-policy verifier before generic JSON-object decoding."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "5dc8e332bb902aa64f6d8f4cc6d7efdb7fbb6e6cc8d411193588d2d12ebe4a97",
@@ -2561,10 +2585,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "836a7d27cc0c17f01d9c95e4101879fcaaf2298ddc542bf6aa2e7047c3592768",
-      "size_bytes": 33148,
-      "reseal_note": "Apply the general JSON, exact-label and authority-grounded refusal policy to the real client; retain bounded execution and no command/file authority.",
+      "sha256": "39083f6d476d4d9abf1b30a00f8153e86f927a2b064407ed3585c9ccb16ba2f0",
+      "size_bytes": 33214,
+      "reseal_note": "Constrain actual answers to generic JSON objects while leaving ownership challenges plain text and retaining strict validation.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "836a7d27cc0c17f01d9c95e4101879fcaaf2298ddc542bf6aa2e7047c3592768",
+          "size_bytes": 33148,
+          "note": "Shared-policy runtime before generic JSON-object decoding."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "13d7646a4aa30bd836e81f5f13a4ee9c0dc96eabab14fb5398b29a5b0979fed2",
@@ -2617,10 +2647,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "943abbb5247f009d887e7cbbf875ca3a836a4d4362e734cd0417818e3b295a8b",
-      "size_bytes": 25908,
-      "reseal_note": "Validate real client production JSON, exact source labels and action-authority policy alongside retained lifecycle contracts.",
+      "sha256": "59e6d3c9c1053f013e8a104e36a02b14e30e61f4ac0f92cfed66938850bc24ca",
+      "size_bytes": 26724,
+      "reseal_note": "Validate actual request syntax constraint, unconstrained ownership challenge and no fallback when the engine rejects JSON decoding.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "943abbb5247f009d887e7cbbf875ca3a836a4d4362e734cd0417818e3b295a8b",
+          "size_bytes": 25908,
+          "note": "Runtime contracts before generic JSON-object decoding."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "4c7d82132d6c969fa591519caeb484e15d4245ce786590d23ac4d88c5c1cd70d",

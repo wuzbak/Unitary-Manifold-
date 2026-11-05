@@ -35,6 +35,15 @@ literal source labels and action-authority-grounded refusal explanations.
 This is an explicitly disclosed system-policy change, not an unchanged-policy
 claim; case prompts, grading and deterministic decoding remain unchanged.
 
+The shared-policy run still failed 2/4; its exact receipt remains preserved.
+The complete local run on that committed policy passed 66,369 tests and 107
+subtests, with 74 skipped and no failures. The next serving correction requests
+generic JSON-object constrained decoding in both the actual client and
+JSON-requesting gate cases. This explicitly changes structured-output decoding;
+it supplies no answer values, leaves text challenges unconstrained and preserves
+case prompts, strict parsing and semantic grading. Unsupported decoding fails
+without an unconstrained retry. No model-quality pass is inferred.
+
 ## AZ ML infrastructure continuation (2026-11-05; adjacent software only)
 
 Added independent P43 NumPy forward/reverse/Adam parity checks, including every

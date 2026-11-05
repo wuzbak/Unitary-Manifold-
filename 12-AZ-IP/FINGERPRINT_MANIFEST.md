@@ -895,6 +895,25 @@ Previous source identities are retained in registry history.
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `836a7d27cc0c17f01d9c95e4101879fcaaf2298ddc542bf6aa2e7047c3592768` | 33148 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `943abbb5247f009d887e7cbbf875ca3a836a4d4362e734cd0417818e3b295a8b` | 25908 |
 
+### Products 43 and 45 syntax-only JSON decoding reseal - 2026-11-05
+
+The actual governed runtime and JSON-requesting verifier cases now request
+generic JSON-object constrained decoding. This changes structured-output
+decoding, not evaluation prompts or semantic grading. No answer-bearing schema
+or output repair is introduced. Plain-text challenges remain unconstrained;
+unsupported decoding fails explicitly without an unconstrained retry.
+The preceding shared-policy experiment still failed 2/4 and its exact receipt
+is preserved. Previous source identities remain in registry history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `114f7894c86268926e2a78cf43de3174770372f96c510cf8fa6368d0545833f9` | 23636 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `bf528717baf276a14308092f35f21bdb6ab9d1b1ab748878f308d097c00589d4` | 32331 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `61a1bdaa2b89610f7754f7b73b4819db13a7e2695d259b93eda12a8ae9b83f8e` | 52313 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `6db8927c6722ca1747703fb3d257f68e97bcba18c2017e34ec6cc5eb6f28d087` | 24553 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `39083f6d476d4d9abf1b30a00f8153e86f927a2b064407ed3585c9ccb16ba2f0` | 33214 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `59e6d3c9c1053f013e8a104e36a02b14e30e61f4ac0f92cfed66938850bc24ca` | 26724 |
+
 ## Verification Protocol
 
 To verify any registered asset:

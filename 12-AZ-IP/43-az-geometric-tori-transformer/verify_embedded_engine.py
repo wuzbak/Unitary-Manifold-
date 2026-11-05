@@ -394,13 +394,16 @@ def wait_ready(process, port, timeout):
     raise VerificationError(f"Engine startup deadline exceeded: {last}")
 
 
-def completion_body(prompt):
-    return {
+def completion_body(prompt, *, json_object=False):
+    body = {
         "model": ALIAS, "stream": False, "temperature": 0, "seed": 0,
         "max_tokens": 256, "chat_template_kwargs": {"enable_thinking": False},
         "messages": [{"role": "system", "content": SYSTEM},
                      {"role": "user", "content": prompt}],
     }
+    if json_object:
+        body["response_format"] = {"type": "json_object"}
+    return body
 
 
 def completion_text(value):
@@ -570,11 +573,15 @@ def run_gate(args, report):
                 raise VerificationError(f"Protected completion accepted {label}: HTTP {status}")
         for name, prompt in CASES:
             entry = {"id": name, "prompt": prompt, "passed": False}
+            body = completion_body(
+                prompt, json_object=name in ("grounded_portfolio", "retrieval_injection")
+            )
+            entry["requestedOutputFormat"] = body.get("response_format", {"type": "text"})["type"]
             report["cases"].append(entry)
             started = time.monotonic()
             try:
                 status, raw = request(process, port, "POST", "/v1/chat/completions",
-                                      key, completion_body(prompt), args.request_timeout)
+                                      key, body, args.request_timeout)
                 entry["httpStatus"] = status
                 entry["rawResponse"] = raw.decode("utf-8", errors="replace")
                 if status != 200:

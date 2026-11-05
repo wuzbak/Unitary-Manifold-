@@ -31,6 +31,11 @@ instructions, supplied citation IDs, unsupported portfolio-platform limits and
 refusal of malicious retrieved instructions. The server runs CPU-only on an
 owned authenticated loopback endpoint with bounded requests and cleanup.
 The report records actual outputs, latency, failures and shutdown status.
+JSON-requesting cases use generic JSON-object constrained decoding, as does the
+governed Product 45 runtime. Plain-text challenges do not. This constrains
+syntax only, not answers, field values, citations or refusal reasoning.
+Strict semantic checks remain unchanged; unsupported decoding fails without
+an unconstrained retry or output repair.
 
 The Windows `pc-suite-embedded-model.yml` workflow builds a pinned static engine,
 obtains official model revision/LFS hashes and licensing, and downloads the

@@ -1,4 +1,5 @@
 # Preserve byte-exact hosted receipts, including their Windows line endings.
 9-INFRASTRUCTURE/az-ml-program/evidence/1eb7108fc1d8212973586592a51d184546bfa8ead96aaa6ce92292ae7a21aa58.json -text whitespace=cr-at-eol
 9-INFRASTRUCTURE/az-ml-program/evidence/cebd721f77f4422dd68746e71f071c69639a2aeee6d2c47cbbf84b0871d9e91d.json -text whitespace=cr-at-eol
+9-INFRASTRUCTURE/az-ml-program/evidence/c1bda8364989c6131fa6a1d3ad98389928c253b2eec5adbc4fe2ffe8ca422be3.json -text whitespace=cr-at-eol
 9-INFRASTRUCTURE/az-ml-program/evidence/d73538e777738f757be17e1aea80252f3af9054e7a9aca2a6be258de80e496bd.json -text whitespace=cr-at-eol
