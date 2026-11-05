@@ -1,6 +1,6 @@
 # PILLARS — Master Index
 
-**Unitary Manifold v37.3 | Generated: 2026-09-08 | Total pillars: 495**
+**Unitary Manifold v38.5 | Generated: 2026-11-05 | Total pillars: 497**
 
 This is the auto-generated master navigation index for all pillars.
 For full claim details, see [`docs/mas_tracker.yml`](../docs/mas_tracker.yml).
@@ -84,7 +84,7 @@ These 64 pillars are formally closed (hardgate). Each has passing test suite.
 
 ## Adjacent Research Tracks (P209+)
 
-These 431 pillars are 🔵 ADJACENT TRACK — **not hardgate physics claims**.
+These 433 pillars are 🔵 ADJACENT TRACK — **not hardgate physics claims**.
 They are quantitative explorations connecting UM geometry to applied domains.
 They have full test suites and markdown documentation but do NOT affect the hardgate physics claim labels.
 
@@ -110,6 +110,8 @@ They have full test suites and markdown documentation but do NOT affect the hard
 | [1106](P1106/README.md) | Lane 3 PsiCat Receipt Completion | 🟡 ADJACENT | `src/core/pillar1106_lane3_psicat_receipt_completion.py` |
 | [1107](P1107/README.md) | Sprint CQ Status Coherence Certificate | 🟡 ADJACENT | `src/core/pillar1107_sprint_cq_status_coherence_certificate.py` |
 | [1108](P1108/README.md) | Sprint CQ Master Integration Certificate | 🟡 ADJACENT | `src/core/pillar1108_sprint_cq_master_integration_certificate.py` |
+| [1133](P1133/README.md) | Superfluid Effective-Theory Reference Calculation | 🟡 ADJACENT | `—` |
+| [1134](P1134/README.md) | Rare B-meson decay probes and the “zeptoverse” | 🟡 ADJACENT | `—` |
 | [209](P209/README.md) | universal_yukawa_bc | 🟡 ADJACENT | `src/core/pillar209_universal_yukawa_bc.py` |
 | [210](P210/README.md) | neutrino_mass_splittings | 🟡 ADJACENT | `src/core/pillar210_neutrino_mass_splittings.py` |
 | [211](P211/README.md) | higgs_mass_geometric | 🟡 ADJACENT | `src/core/pillar211_higgs_mass_geometric.py` |

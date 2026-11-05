@@ -1,6 +1,6 @@
-version: "v38.4"
-date: "2026-11-02"
-updated: "2026-11-02"
+version: "v38.5"
+date: "2026-11-05"
+updated: "2026-11-05"
 
 health_repair_2026_10_09:
   new_pillars: 0
@@ -18,8 +18,33 @@ canonical_status_notice: >
   legacy_pre_v31_mixed_format_archive_raw_text (a raw, non-canonical text
   block, not live YAML). That archive's own last recorded entry
   (sprint_id v30.0, next_pillar_slot 942) predates the compact tracker
-  format adopted at v31.0/Sprint BG and must never be read as the
+  format   adopted at v31.0/Sprint BG and must never be read as the
   repository's current pillar count, version, or regression total.
+
+v38_5_sprint_da:
+  sprint: DA
+  version: v38.5
+  date: "2026-11-05"
+  pillars: 1133-1134
+  new_pillars: 2
+  new_tests: 37
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures: []
+  advances:
+    - SUPERFLUID_BOGOLIUBOV_REFERENCE_CALCULATION_TESTED_ADJACENT
+    - RARE_DECAY_EVIDENCE_CLASSIFICATION_AND_COMPARISON_TESTED_ADJACENT
+  residual_obligations:
+    - SUPERFLUID_TO_UM_MAPPING_NOT_DERIVED
+    - UM_WET_MATCHING_AND_RARE_DECAY_PREDICTIONS_NOT_DERIVED
+  remaining_open:
+    - SUPERFLUID_DARK_MATTER_MODEL_CONSTRAINTS_AND_CORE_STABILITY
+    - UM_SUPERFLUID_EQUATION_OF_STATE_AND_PARAMETERIZATION
+    - UM_KK_SPECTRUM_COUPLINGS_AND_WET_OPERATOR_MATCHING
+  regression: "64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU historical record; no full regression run for Sprint DA)"
+  focused_regression: "37 passed across both pillar test files; 17 passed in tests/test_psicat_literature_integrity.py; 2 passed in tests/test_pillars_sprint_cp_navigation.py"
+  next_pillar_slot: 1135
 
 foundation_reassessment:
   date: "2026-09-05"
