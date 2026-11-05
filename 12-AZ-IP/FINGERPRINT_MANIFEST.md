@@ -981,6 +981,16 @@ Any modification to a registered asset after Pillar 536 registration changes
 its fingerprint. This is intentional — it enables downstream consumers to verify
 the exact state of AxiomZero IP as registered on 2026-06-15.
 
+### Product 43 retrieval-injection prompt clarification reseal - 2026-11-05
+
+The hosted gate failed 3/4: the model refused correctly but returned a sentence
+instead of `unsupported` for android/uefi. The prompt now states the literal
+required values. Grader and thresholds are unchanged.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `2ff9c4da6a6cb61f3a8dc3f49364016bf11904f90b048b58e3a032644287b563` | 36291 |
+
 ---
 
 *AxiomZero IP Fingerprint Manifest v1.0 — 2026-06-15*

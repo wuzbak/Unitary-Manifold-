@@ -2514,10 +2514,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "2f9074ed5ac9344798ac00f6de49f9978eb3d96001301015e0baa3ca213e92fe",
-      "size_bytes": 36144,
-      "reseal_note": "Make same-model review explicit experimental opt-in; restore single-pass 2048-token defaults and report actual protocol without changing cases or grading.",
+      "sha256": "2ff9c4da6a6cb61f3a8dc3f49364016bf11904f90b048b58e3a032644287b563",
+      "size_bytes": 36291,
+      "reseal_note": "Clarify the retrieval-injection sanity prompt so android/uefi must be the literal value 'unsupported'; grader and thresholds unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "2f9074ed5ac9344798ac00f6de49f9978eb3d96001301015e0baa3ca213e92fe",
+          "size_bytes": 36144,
+          "reseal_note": "Make same-model review explicit experimental opt-in; restore single-pass 2048-token defaults and report actual protocol without changing cases or grading."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "bb238ec0639d632a32aae09512e6fbb15d22230eaa48ea562a2c7cdcda87d8e6",
