@@ -18,12 +18,18 @@ def publish_immutable(
     artifact_id: str,
     content: bytes,
     suffix: str = ".json",
+    *,
+    directory_fd: int | None = None,
 ) -> Path:
     """Publish bytes durably in an existing, caller-established POSIX directory.
 
     The caller defines and verifies the artifact identity; it need not be the
     digest of the complete file (for example, an embedded checksum may cover its
     semantic payload). Existing different bytes are never overwritten.
+
+    An optional caller-owned directory descriptor anchors a multi-file operation
+    to one directory inode. It is duplicated, never consumed. The returned path
+    is advisory if the caller's directory pathname is concurrently renamed.
     """
     if not isinstance(artifact_id, str) or not _DIGEST.fullmatch(artifact_id):
         raise ValueError("artifact_id must be a lowercase SHA-256 identifier")
@@ -32,10 +38,16 @@ def publish_immutable(
     if suffix not in (".json", ".bin", ".azlq", ".azmq", ".npz"):
         raise ValueError("Unsupported artifact suffix")
     directory = Path(directory)
-    directory_fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY)
+    if directory_fd is not None and (type(directory_fd) is not int or directory_fd < 0):
+        raise ValueError("directory_fd must be a nonnegative directory descriptor")
+    directory_fd = os.dup(directory_fd) if directory_fd is not None else os.open(
+        directory, os.O_RDONLY | os.O_DIRECTORY,
+    )
     temporary = f".{artifact_id}.{uuid.uuid4().hex}.tmp"
     target = artifact_id + suffix
     try:
+        if not stat.S_ISDIR(os.fstat(directory_fd).st_mode):
+            raise ValueError("directory_fd must identify a directory")
         fd = os.open(
             temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
             0o600, dir_fd=directory_fd,
@@ -59,7 +71,7 @@ def publish_immutable(
                 with os.fdopen(existing_fd, "rb") as stream:
                     if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
                         raise ValueError("Existing artifact must be a regular file")
-                    if stream.read() != content:
+                    if os.fstat(stream.fileno()).st_size != len(content) or stream.read(len(content) + 1) != content:
                         raise ValueError("Existing immutable artifact does not match its identity")
                     os.fsync(stream.fileno())
         finally:

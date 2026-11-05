@@ -320,16 +320,144 @@ gate.
 | `python TOOLS/audit/check_internal_links.py` | Passed: 2,053 Markdown files, all internal file links resolved. |
 | `python TOOLS/checks/check_licensing_policy.py` | Passed existing structural evidence checks; not legal certification. |
 
+## Independent training, calibration and checkpoint recovery tranche
+
+The model-quality gate was investigated before opening another holdout.
+`p43_training_reference.py` implements separate explicit NumPy forward and
+reverse equations: closed-form normalization/GELU derivatives, attention,
+embedding accumulation, independent Z_74 rotation/bank equations and stateful
+Adam updates. It does not execute P43 Tensor operations to obtain its reference
+outputs or derivatives. P43 supplies the comparison implementation, config and
+initial weights. Tests also disable P43 forward/backward to exercise that
+separation and use central differences against the handwritten gradients.
+
+The [actual all-parameter receipt](evidence/d4502f0d1770b971d95adef08faf003522513e164475f83ee6d6d64310ea064c.json)
+passes the fixed 1e-9 absolute tolerance for logits, loss, every gradient, every
+Adam moment and updated weights over successive steps. It covers dimension-32
+one-layer, dimension-16 two-layer and dimension-8 wraparound context-75 cases.
+The selected failed modulo-11 checkpoint is compared separately on all 81
+training rows: maximum all-parameter gradient error 3.125e-16, logits error
+1.477e-14. No held-out rows are evaluated or used for updates by this package.
+Injected native-update and NaN-moment errors fail rather than disappearing in a
+Python `max()` reduction. Workspace bounds precede reference model allocation.
+
+PyTorch was not installed. Its CPU package restoration attempt, following the
+missing-import failure, failed on package-host DNS. The independent explicit
+NumPy implementation is a real alternative, **not an external-framework pass**.
+These checks do not prove a long training trajectory, generalization, or the
+requested 30/30. The failures are increasingly consistent with a learned
+representation/optimization problem, but no unique causal diagnosis is claimed.
+
+### Validation-selected calibration: bounded fidelity improvement
+
+The [immutable calibration protocol](evidence/6d48264d38decab4d424be3aa9273b34e077e1de26c6b0f70b3c1cdfcb485b6b.json)
+fixes the exact original native checkpoint, six group sizes (128--4,096), 3-bit
+packing and the **unchanged** relative fidelity limits before measuring any
+validation candidate. The rule selects the smallest complete representation
+among artifacts below four bits/parameter that pass validation. It does not
+select using test metrics. No candidate qualifies by silently relaxing size or
+quality requirements; that case is an explicit negative outcome.
+
+The [measured selection](evidence/f40786d9d661930141ded84821baa12fcc09523a48a65f4cae67a1cfd25c543f.json)
+chooses group size **2,048**, yielding a retained 16,903-byte artifact,
+**3.441427226 complete bits/parameter**, including all framing and metadata.
+Group 4,096 fails validation fidelity; groups 128/256 exceed four complete bits.
+Groups 512/1,024 pass validation but are larger than the selected artifact.
+
+Only after that selection, the **already exposed** original test diagnostic
+was computed. The selected artifact passes the unchanged historical relative
+limits: cross-entropy delta **+0.2231491 nats**, token-accuracy delta
+**-0.0866667**. This is a bounded fidelity improvement, **not a fresh quality
+qualification**. Native answers remain 0/30; the packed model answers 1/30,
+which does not establish improved arithmetic. The original 3.3966-bit artifact
+and its failed tolerance remain unchanged in evidence. The new
+[actual serving receipt](evidence/77aa36382bfb4799670aff9c10e27ebcb06dd776ee2256b88dcea344f4235c1b.json)
+also verifies the selected artifact through incremental and heterogeneous-batch
+CPU inference against its own full-prefix outputs. Packed weights still
+reconstruct to float64; no low-bit kernel or GPU-memory claim follows.
+
+### Local checkpoint recovery (capability 5 now in progress)
+
+`checkpoint_bundle.py` implements original bounded opaque shard publication.
+Content-addressed shard bytes precede a content-addressed manifest; the manifest
+is the sole commit point. Between 2 and 64 shards are supported. Each carries
+one allowed role (model, optimizer or RNG); subsets and repeated roles are
+allowed. Their contents remain **opaque**, not semantically validated tensor or
+training state. A reader verifies exact manifest/shard bytes, size limits,
+owner-scope assertion and no-symlink file access before returning a bundle.
+
+The [actual local failure-injection receipt](evidence/6c9a65da3a3d4fbd8d3a7c64dfe388e477b8777d10bd7bf2a23b8b8623ce936b.json)
+passes ten measured checks. A real local subprocess stages one model shard
+then intentionally exits 75. No manifest exists and loading is refused.
+Recovery publishes all three roles and the precomputed manifest, restores
+their exact bytes and repeats idempotently without extra files. A modified
+optimizer shard fails its checksum; a wrong owner scope is rejected.
+Temporary fixture stores are cleaned up, leaving only the immutable receipt;
+the measurement is repeatable in the same output directory.
+
+Independent review exposed two publication defects, now fixed and regression
+tested: pathname replacement could split a commit across directories, and an
+oversized existing conflict could trigger an unbounded read. The existing
+shared publisher now accepts an optional caller-owned directory descriptor,
+duplicates it and bounds conflict reads by supplied content length after
+checking file size. The bundle retains one validated descriptor across every
+shard and the final manifest. Tests rename the directory and install a decoy
+symlink/directory mid-commit; all committed files stay on the original inode.
+Other callers retain their existing API. Returned paths are advisory if a
+directory is concurrently moved. Parent directories above the established
+store are trusted; only its final component and contained files reject
+symlinks. `checkpoint_id` is descriptive, not a unique key or latest pointer:
+changed shard contents produce a different committed manifest even with the
+same checkpoint ID. Readers must already possess the exact manifest ID.
+
+This is one local filesystem and deliberately constructed role bytes.
+It does not qualify actual optimizer/RNG resumption, multi-worker coordination,
+network storage, distributed throughput or power-loss durability. Scope strings
+are not authentication. All promotion flags remain false.
+
+### Historical identity repair and validation
+
+The first integrated run exposed **4 failures, 4,173 passes, 3 skips**: the
+arithmetic audit required the historical evidence's publisher hash to equal the
+new publisher's working-file hash. This was an evidence-versioning failure,
+not a model-quality or source-safety pass. The fix preserves the exact original
+publisher [source bytes](evidence/3dcf14855fd2a44ea3666f3a1a84036a9ad150a85f184cbe0403ca3c94284f2b.bin)
+and gives that one path an explicit, hash-verified historical binding. All other
+source bindings remain strict. Missing/corrupt archives fail closed; there is
+no generic mismatch fallback, Git-history dependency at runtime or overwritten
+old receipt.
+
+The [new audit](evidence/0fc413921794cc23d701a1dfaaf5bafca88cc6855976174d10ca08dfbe12ca78.json)
+separately records the current publisher hash and its mismatch from the
+historical version; it explicitly does not assess current-source safety.
+Earlier model/preregistration receipts are historical source-version bindings,
+not certifications of the changed publisher. New measured receipts pin the
+current implementation. The actual original and later failed model outcomes
+remain unchanged. A separate reviewer verified the exact archive against the
+historical commit and found no significant issue in the bounded repair.
+
+| Command | Actual outcome / scope |
+|---|---|
+| `python -m pytest 9-INFRASTRUCTURE/az-ml-program/tests/test_quantization_calibration.py 9-INFRASTRUCTURE/az-ml-program/tests/test_p43_training_reference.py 9-INFRASTRUCTURE/az-ml-program/tests/test_checkpoint_bundle.py 9-INFRASTRUCTURE/az-ml-program/tests/test_artifact_io.py -m "" -q` | **81 passed**, including injected NaN, directory replacement, bounded conflict reads and validation-before-test ordering. |
+| `python -m pytest 9-INFRASTRUCTURE/az-ml-program/tests/test_research_quality_audit.py -m "" -q` | **8 passed** after the explicit historical-source binding repair; missing/corrupt archives reject. |
+| `python -m pytest 9-INFRASTRUCTURE/az-ml-program/tests/ 12-AZ-IP/43-az-geometric-tori-transformer/tests/ 12-AZ-IP/40-az-live-data-harness/tests/ tests/test_execution_spine.py tests/test_um_arts_inventory.py COMPACTIFICATION/test_maps.py recycling/ "5-GOVERNANCE/Unitary Pentad/" -m "" -q` | Final integrated run: **4,179 passed, 3 skipped, 102 subtests passed**, 36.81 seconds, no deselections. These scopes overlap selected core tests; do not sum them into a unique repository total. |
+| `python -m pytest tests/ -m "" -q` | New unfiltered core completed: **62,077 passed, 71 skipped, 0 failed, 0 deselected**, 927.87 seconds. The same two existing warnings remain. The full-core execution gate is clear; this does not change model-utility, fresh-fidelity, GPU, live-feed or production qualification. |
+| `python -S -m src.infrastructure.ml_program check` | Passed: all 21 valid; twelve in progress, nine planned, promotion ineligible. |
+| `python COMPACTIFICATION/build_maps.py --check` | Passed after staging the new implementation/test/evidence paths and regenerating the inventory. |
+| `python TOOLS/audit/check_internal_links.py` | Passed: 2,053 Markdown files, all internal file links resolved. |
+| `python TOOLS/checks/check_licensing_policy.py` | Passed existing structural evidence checks; not legal certification. |
+
 ## Next bounded packages
 
 1. Investigate the model's task-generalization failure using training/validation
-   only, including an independently implemented training reference. Preregister
+   only, building on the independent all-parameter reference rather than
+   attributing failure to unchecked gradients. Preregister
    a fresh untouched holdout before another quality experiment; all original,
    first-attempt and second-attempt test outcomes are now exposed and must not
    become model-selection targets.
-2. Improve quantization/calibration on training/validation, retain the failed
-   3-bit result, and compare an independent quantizer and licensed application
-   model. Extend the working research KV/batch backend through existing PsiCat
+2. Validate the selected calibration on a useful model with fresh fidelity
+   evidence, retain the original failed 3-bit result, and compare an independent
+   quantizer and licensed application model. Extend the research KV/batch backend through existing PsiCat
    approvals only after absolute model utility and authenticated controls are
    separately qualified.
 3. Add source-rebuild proposals and human-governed retrieval repair/rollback,
@@ -337,12 +465,14 @@ gate.
 4. On a network-enabled host, capture a real P40 response, retain its raw payload
    under explicit retention policy, and connect an identified prediction/label
    consumer before claiming a feature service or prediction-performance drift.
-5. Continue all remaining workstreams through their original acceptance gates:
-   distributed checkpoints, assurance, interoperability, synthetic data,
+5. Connect checkpoint shards to actual training-state serialization and
+   authorized multi-worker/storage failure tests; local opaque-byte recovery is
+   not distributed checkpoint completion. Continue the other original gates:
+   assurance, interoperability, synthetic data,
    fairness, GPU kernels/XAI, RL and multimodal indexing remain committed scope.
 
-The current register records **10 planned and eleven in-progress** capabilities
-(1, 2, 3, 7, 8, 10, 11, 13, 14, 18, 20); **zero full capabilities completed**. Original
+The current register records **nine planned and twelve in-progress** capabilities
+(1, 2, 3, 5, 7, 8, 10, 11, 13, 14, 18, 20); **zero full capabilities completed**. Original
 algorithm milestones do not bypass their integration dependencies.
 Hardware/network/dependency blockers remain visible, not scope deletions.
 

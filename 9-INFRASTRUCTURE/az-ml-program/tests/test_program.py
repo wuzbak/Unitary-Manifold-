@@ -40,7 +40,7 @@ def test_inventory_exact_identity_scope_and_reuse(payload):
     assert len({c.domain for c in program.capabilities}) == 5
     expected_stages = {
         1: "original", 2: "baseline", 3: "baseline", 7: "baseline", 8: "baseline",
-        10: "baseline", 11: "baseline", 13: "baseline", 14: "original", 18: "baseline", 20: "baseline",
+        5: "original", 10: "baseline", 11: "baseline", 13: "baseline", 14: "original", 18: "baseline", 20: "baseline",
     }
     for capability in program.capabilities:
         assert capability.status == ("in_progress" if capability.id in expected_stages else "planned")
@@ -250,8 +250,8 @@ def test_completed_cannot_bypass_unfinished_dependencies(payload):
 
 def test_status_is_inventory_not_test_count_readiness():
     status = load_manifest().status()
-    assert status["status_counts"] == {"in_progress": 11, "planned": 10}
-    assert status["stage_counts"] == {"baseline": 9, "inventory": 10, "original": 2}
+    assert status["status_counts"] == {"in_progress": 12, "planned": 9}
+    assert status["stage_counts"] == {"baseline": 9, "inventory": 9, "original": 3}
     assert "ready" not in status
     assert "test_count" not in status
 

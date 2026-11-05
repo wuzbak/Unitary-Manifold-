@@ -92,3 +92,72 @@ def test_model_formats_preserve_the_same_immutable_publication_contract(tmp_path
     assert publish_immutable(tmp_path, IDENTITY, b"model-bytes", suffix) == path
     with pytest.raises(ValueError, match="does not match"):
         publish_immutable(tmp_path, IDENTITY, b"different-model", suffix)
+
+
+def test_caller_directory_descriptor_survives_path_replacement(tmp_path):
+    directory = tmp_path / "store"
+    moved = tmp_path / "original-store"
+    replacement = tmp_path / "replacement"
+    directory.mkdir()
+    replacement.mkdir()
+    fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        directory.rename(moved)
+        directory.symlink_to(replacement, target_is_directory=True)
+        path = publish_immutable(directory, IDENTITY, b"anchored", directory_fd=fd)
+        assert path.name == f"{IDENTITY}.json"
+        assert (moved / path.name).read_bytes() == b"anchored"
+        assert list(replacement.iterdir()) == []
+        assert stat.S_ISDIR(os.fstat(fd).st_mode)
+    finally:
+        os.close(fd)
+
+
+def test_oversized_existing_conflict_rejected_without_reading(tmp_path, monkeypatch):
+    path = tmp_path / f"{IDENTITY}.json"
+    with path.open("wb") as stream:
+        stream.truncate(1024**3)
+    actual = os.fdopen
+
+    class NoRead:
+        def __init__(self, stream):
+            self.stream = stream
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            self.stream.close()
+
+        def fileno(self):
+            return self.stream.fileno()
+
+        def read(self, *args):
+            raise AssertionError("oversized existing artifact was read")
+
+    def wrapped(fd, mode):
+        stream = actual(fd, mode)
+        return NoRead(stream) if mode == "rb" else stream
+
+    monkeypatch.setattr("src.infrastructure.artifact_io.os.fdopen", wrapped)
+    with pytest.raises(ValueError, match="does not match"):
+        publish_immutable(tmp_path, IDENTITY, b"x")
+    assert path.stat().st_size == 1024**3
+
+
+@pytest.mark.parametrize("descriptor", [True, -1, "fd"])
+def test_invalid_directory_descriptors(tmp_path, descriptor):
+    with pytest.raises(ValueError, match="directory_fd"):
+        publish_immutable(tmp_path, IDENTITY, b"x", directory_fd=descriptor)
+
+
+def test_file_descriptor_is_not_a_directory_and_caller_retains_ownership(tmp_path):
+    path = tmp_path / "file"
+    path.write_bytes(b"untouched")
+    fd = os.open(path, os.O_RDONLY)
+    try:
+        with pytest.raises(ValueError, match="directory"):
+            publish_immutable(tmp_path, IDENTITY, b"x", directory_fd=fd)
+        assert os.fstat(fd).st_size == len(b"untouched")
+    finally:
+        os.close(fd)

@@ -46,6 +46,9 @@ These are working algorithm/reference packages, not finished model services:
 | `model_interchange.py` | Bounded inference NPZ -> original AZMQ with explicit lossy opt-in; reverse NPZ preserves reconstructed weights exactly and binds a tokenizer manifest | Not training-state interchange, model-quality qualification, runtime optimization or universal ONNX/GGUF translation. |
 | `research_quality_audit.py` | Exhaustive audit of the original arithmetic fixture, split overlap and answer-label distributions | Confounding is measured; causation of model failure is not established. |
 | `arithmetic_generalization.py` | Source-bound preregistration, actual answer-only P43 training and validation-selected inference checkpoint with immutable predictions | Both bounded attempts failed 0/30; the separate modulo-11 task also failed unseen-computation validation. No useful-model or 30/30 claim. |
+| `p43_training_reference.py` | Independently written NumPy forward/reverse equations and stateful Adam comparison against every P43 parameter gradient and update, including positional wraparound | Constructed CPU float64 parity and failed-checkpoint training data only; no new holdout, external-framework parity or generalization pass. |
+| `quantization_calibration.py` | Fixed six-group-size, validation-only calibration of the retained native model with complete sub-4-bit size accounting and unchanged relative-fidelity limits | The original test is exposed and diagnostic only; no native-weight training, fresh quality qualification or repaired 30/30 gate. |
+| `checkpoint_bundle.py` | Bounded content-addressed opaque shards, manifest-as-commit publication and local interrupted-write recovery | No semantic tensor/optimizer/RNG serializer, distributed transport, storage-service qualification or production durability. |
 | `vector_index.py` | Exact cosine/L2 search, pinned manifests, deterministic ties, immutable generations, retrieval evaluation | No ANN or learned encoder; old saved generations need explicit purge. |
 | `repository_vectors.py` | Existing RAG chunks converted to a source-verified word-count baseline; changed sources block retrieval | Lexical, not semantic; source/chunk identity is not entailment. |
 | `drift_monitor.py` | Tied empirical KS statistic, conservative single-comparison DKW bound, temporal sampling and constructed replay | IID assumptions; no repeated-monitoring or prediction-performance guarantee. |
@@ -60,6 +63,58 @@ test count:
 ```bash
 python -m src.infrastructure.ml_reference_benchmarks
 ```
+
+For the independent training implementation check (including every gradient,
+Adam moment and updated weight), run:
+
+```bash
+python -m src.infrastructure.p43_training_reference \
+  --output-dir 9-INFRASTRUCTURE/az-ml-program/evidence \
+  --checkpoint 9-INFRASTRUCTURE/az-ml-program/evidence/a01eda39d6c3edb942c619ea9f709fc46b46f5664b9c1c64abdffa0884ac5cdc.npz
+```
+
+The optional checkpoint comparison reads only its 81 declared training rows.
+The other comparisons use constructed prompts, including context beyond the
+74-position rotary period. No new test holdout is opened. The reference uses
+separate explicit NumPy forward/reverse equations, not P43 autograd or an
+external ML framework. CPU float64 implementation parity is not arithmetic
+generalization and cannot turn the recorded 0/30 outcomes into passes.
+
+To measure calibration without using the exposed test to select a candidate:
+
+```bash
+python -m src.infrastructure.quantization_calibration \
+  --output-dir 9-INFRASTRUCTURE/az-ml-program/evidence \
+  --checkpoint 9-INFRASTRUCTURE/az-ml-program/evidence/979847638ed7ec97277a0f5023515192779fc369050963048a12e0300fd8ede3.npz
+```
+
+The immutable protocol precedes all validation measurements. Only artifacts
+below four complete bits/parameter and passing the unchanged validation
+tolerance are eligible; the smallest byte representation wins. A missing
+eligible candidate is an explicit negative outcome, not a fallback. Only after
+selection is fixed are native and selected-model historical-test diagnostics
+computed. CLI exit zero means measurement/publication, not model qualification.
+
+The local checkpoint recovery fixture is separately runnable:
+
+```bash
+python -m src.infrastructure.checkpoint_bundle \
+  --output-dir 9-INFRASTRUCTURE/az-ml-program/evidence
+```
+
+The manifest is the only commit point; staged shards alone are not loadable as a
+checkpoint. The current storage bounds are 2--64 shards, 256 MiB per shard, 1 GiB
+total and a 64 KiB manifest. Shard roles describe opaque bytes, not validated
+tensor/training-state schemas. Caller scope strings are assertions, not
+authentication. Role subsets/repetitions are permitted; only the fixture has
+one shard of each role. Checkpoint IDs are descriptive: different bytes yield
+different manifest IDs, not a conflicting unique-name update or latest pointer.
+Parent directories above the established store are trusted. Individual shard
+publication and the manifest share one
+validated directory descriptor; concurrent pathname replacement cannot split
+one commit across directories. A returned pathname remains advisory if that
+directory is moved. Neither a passing local fixture nor `fsync` establishes
+multi-host, network-storage or hardware-crash durability.
 
 For an immutable JSON receipt, supply `--output-dir` with an **existing durable
 directory**. The report pins source identities, records actual CPU timings and

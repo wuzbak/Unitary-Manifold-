@@ -255,8 +255,9 @@ plans. Capability identities and their full acceptance gates remain unchanged:
 
 | Capabilities | Implemented, bounded milestone | Still required for the full ambition |
 |---|---|---|
-| 1 | Original packing plus complete P43 model format, trained synthetic baseline and fixed held-out native/FP16-roundtrip/3-bit/4-bit comparison; exact artifacts retained | Native answer accuracy 0/30 and 3-bit relative-quality gate failed; establish useful model generalization, new untouched holdout, independent quantizer baseline and accelerator evidence |
+| 1 | Original complete P43 packing; original failed artifact retained; validation-only calibration selects 3.4414-bit representation with a historical diagnostic fidelity pass; independent all-gradient/update parity checked | Native answer accuracy remains 0/30. Exposed-test fidelity is not fresh quality qualification; establish useful generalization, independent quantizer/application baseline and accelerator evidence |
 | 2/3 | Actual persistent P43 CPU decoder with incremental per-layer KV, true heterogeneous-length vectorized batches and bounded round-robin scheduling; full-prefix parity and owner/cancel/expiry checks | Pinned application backend through existing approvals, authenticated concurrency, representative arrivals, native/GPU peak memory, paged policy and production serving |
+| 5 | Original bounded opaque-shard checkpoint contract with immutable manifest as the commit point and local interrupted-publication recovery | Actual tensor/optimizer/RNG semantics, multi-worker coordination, authorized distributed storage, failure recovery and matched throughput baseline |
 | 10/20 | Exact supported Unicode-scalar tokenizer interchange and actual bounded P43 NPZ/AZMQ inference conversion, with explicit lossy opt-in and exact reverse reconstruction | Pinned external segmentation/operator matrix, independent runtime comparison, licensed application models and measured optimizations; no universal conversion claim |
 | 7/8 | Exact pinned vector generations plus a source-hash-verified adapter around actual bot RAG chunks; stale-source and no-overlap rejection | Learned encoders and labeled retrieval evaluation, ANN comparison, authorized repair execution and rollback |
 | 11/14 | Actual P40 transport -> availability-aware snapshot -> source-linked DAG through CLI/API; immutable local publication with explicit errors | Network-enabled live run, retained raw-payload replay, predictive consumer, feature/run/model/index consumers, DVC interchange and serverless qualification |
@@ -335,6 +336,21 @@ repairing the original model. Preserve each exposed failure before proceeding,
 choose models without test outcomes, and reassess quantization only after a
 useful native model exists. Even 30/30 on synthetic arithmetic does not establish
 useful application-model quality.
+
+The independent implementation package now compares handwritten NumPy
+forward/reverse equations, every parameter gradient, Adam moments and successive
+updates against P43, including positional wraparound and the selected failed
+checkpoint's training data. This narrows an implementation-bug hypothesis without
+claiming a model-quality pass. The attempted external PyTorch CPU installation
+failed package-host DNS; no external-framework comparison is claimed.
+
+Separately, a fixed validation-only search over six group sizes selected group
+2,048 at **3.441427 complete bits/parameter**. It passes the unchanged relative
+fidelity limits on the already exposed original test diagnostic (cross-entropy
+delta 0.2231491 nats; token-accuracy delta -0.0866667). The original failed
+group-4,096 artifact remains preserved. These are storage/fidelity observations,
+not independent fresh quality evidence or an improvement from native 0/30 to a
+useful model.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 

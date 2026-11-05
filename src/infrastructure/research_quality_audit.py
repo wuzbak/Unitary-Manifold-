@@ -30,6 +30,11 @@ _EVIDENCE = (
 _SPLITS = ("train", "validation", "test")
 _MAX_REPORT_BYTES = 1024 * 1024
 _MAX_CHECKPOINT_BYTES = 64 * 1024 * 1024
+_ARCHIVED_SOURCE_PATH = "src/infrastructure/artifact_io.py"
+_ARCHIVED_SOURCE_SHA256 = "3dcf14855fd2a44ea3666f3a1a84036a9ad150a85f184cbe0403ca3c94284f2b"
+_ARCHIVED_SOURCE = (
+    "9-INFRASTRUCTURE/az-ml-program/evidence/" + _ARCHIVED_SOURCE_SHA256 + ".bin"
+)
 
 
 def _json_bytes(value: dict[str, Any]) -> bytes:
@@ -91,11 +96,37 @@ def _verified_evidence(identities: dict[str, Any], vocabulary: list[str]) -> dic
     if set(source_hashes) != expected_paths:
         raise ValueError("published source manifest mismatch")
     verified_sources = {}
+    source_bindings = {}
     for relative in sorted(expected_paths):
         digest = hashlib.sha256(_read_bounded(_ROOT / relative, _MAX_REPORT_BYTES)).hexdigest()
+        if relative == _ARCHIVED_SOURCE_PATH:
+            if source_hashes[relative] != _ARCHIVED_SOURCE_SHA256:
+                raise ValueError("published archived source manifest identity mismatch")
+            try:
+                archived = _read_bounded(_ROOT / _ARCHIVED_SOURCE, _MAX_REPORT_BYTES)
+            except FileNotFoundError as exc:
+                raise ValueError("required historical source archive is missing") from exc
+            if hashlib.sha256(archived).hexdigest() != _ARCHIVED_SOURCE_SHA256:
+                raise ValueError("historical source archive SHA-256 mismatch")
+            source_bindings[relative] = {
+                "binding": "hash_verified_historical_archive_not_current_source",
+                "published_source_sha256": _ARCHIVED_SOURCE_SHA256,
+                "archive_path": _ARCHIVED_SOURCE,
+                "archive_sha256_verified": _ARCHIVED_SOURCE_SHA256,
+                "current_source_sha256": digest,
+                "current_matches_published_source": digest == _ARCHIVED_SOURCE_SHA256,
+                "current_source_safety_assessed": False,
+            }
+            continue
         if digest != source_hashes[relative]:
             raise ValueError(f"published source identity mismatch: {relative}")
         verified_sources[relative] = digest
+        source_bindings[relative] = {
+            "binding": "hash_verified_current_source",
+            "published_source_sha256": digest,
+            "current_source_sha256": digest,
+            "current_matches_published_source": True,
+        }
     checkpoint = report["trained_checkpoint"]
     checkpoint_digest = checkpoint["sha256"]
     if (
@@ -143,6 +174,7 @@ def _verified_evidence(identities: dict[str, Any], vocabulary: list[str]) -> dic
         "report_whole_bytes_verified": True,
         "fixture_identity_verified": True,
         "current_source_sha256_verified": verified_sources,
+        "source_bindings": source_bindings,
         "checkpoint_sha256": checkpoint_digest,
         "checkpoint_whole_bytes_verified": True,
         "checkpoint_loaded_or_executed": False,
@@ -323,7 +355,10 @@ def audit_arithmetic_protocol(output_dir: str | Path | None = None) -> dict[str,
         },
         "future_experiment_recommendation": _future_protocol(),
     }
-    paths = ["src/infrastructure/research_quality_audit.py", _EVIDENCE, *evidence["current_source_sha256_verified"]]
+    paths = [
+        "src/infrastructure/research_quality_audit.py", _EVIDENCE,
+        *evidence["source_bindings"], _ARCHIVED_SOURCE,
+    ]
     report["execution_spine"] = ExecutionSpineRecord(
         surface_id=f"arithmetic-protocol-audit:{report['fixture_sha256'][:16]}",
         surface_kind="exposed_research_protocol_audit",

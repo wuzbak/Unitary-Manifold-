@@ -123,6 +123,51 @@ def test_evidence_tampering_source_drift_and_size_bounds(monkeypatch):
         audit.audit_arithmetic_protocol()
 
 
+def test_pinned_archive_is_historical_not_current_verification(monkeypatch):
+    original = audit._read_bounded
+    current_bytes = b"intentionally changed working artifact_io source"
+    monkeypatch.setattr(
+        audit, "_read_bounded",
+        lambda path, limit: current_bytes
+        if path == audit._ROOT / audit._ARCHIVED_SOURCE_PATH else original(path, limit),
+    )
+    report = audit.audit_arithmetic_protocol()
+    evidence = report["existing_evidence"]
+    assert audit._ARCHIVED_SOURCE_PATH not in evidence["current_source_sha256_verified"]
+    binding = evidence["source_bindings"][audit._ARCHIVED_SOURCE_PATH]
+    assert binding["binding"] == "hash_verified_historical_archive_not_current_source"
+    assert binding["archive_path"] == audit._ARCHIVED_SOURCE
+    assert binding["archive_sha256_verified"] == audit._ARCHIVED_SOURCE_SHA256
+    assert binding["current_source_sha256"] == hashlib.sha256(current_bytes).hexdigest()
+    assert binding["current_matches_published_source"] is False
+    assert binding["current_source_safety_assessed"] is False
+    for path, other in evidence["source_bindings"].items():
+        if path != audit._ARCHIVED_SOURCE_PATH:
+            assert other["binding"] == "hash_verified_current_source"
+            assert other["current_matches_published_source"] is True
+    assert audit._ARCHIVED_SOURCE in report["execution_spine"]["sources"]
+
+
+def test_pinned_archive_corruption_and_missing_fail_closed(monkeypatch):
+    original = audit._read_bounded
+    monkeypatch.setattr(
+        audit, "_read_bounded",
+        lambda path, limit: b"corrupt historical source"
+        if path == audit._ROOT / audit._ARCHIVED_SOURCE else original(path, limit),
+    )
+    with pytest.raises(ValueError, match="historical source archive SHA-256 mismatch"):
+        audit.audit_arithmetic_protocol()
+
+    def missing_archive(path, limit):
+        if path == audit._ROOT / audit._ARCHIVED_SOURCE:
+            raise FileNotFoundError(path)
+        return original(path, limit)
+
+    monkeypatch.setattr(audit, "_read_bounded", missing_archive)
+    with pytest.raises(ValueError, match="historical source archive is missing"):
+        audit.audit_arithmetic_protocol()
+
+
 def test_publication_is_whole_byte_hash_and_cli(output_directory, capsys):
     report = audit.audit_arithmetic_protocol(output_directory)
     again = audit.audit_arithmetic_protocol(output_directory)
