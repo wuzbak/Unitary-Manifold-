@@ -49,6 +49,7 @@ These are working algorithm/reference packages, not finished model services:
 | `p43_training_reference.py` | Independently written NumPy forward/reverse equations and stateful Adam comparison against every P43 parameter gradient and update, including positional wraparound | Constructed CPU float64 parity and failed-checkpoint training data only; no new holdout, external-framework parity or generalization pass. |
 | `quantization_calibration.py` | Fixed six-group-size, validation-only calibration of the retained native model with complete sub-4-bit size accounting and unchanged relative-fidelity limits | The original test is exposed and diagnostic only; no native-weight training, fresh quality qualification or repaired 30/30 gate. |
 | `checkpoint_bundle.py` | Bounded content-addressed opaque shards, manifest-as-commit publication and local interrupted-write recovery | No semantic tensor/optimizer/RNG serializer, distributed transport, storage-service qualification or production durability. |
+| `p43_checkpoint_bundle.py` | Actual bounded P43 NPZ split into exactly one model/Adam/PCG64 shard each; validated non-pickle reconstruction and exact next-step continuation | Constructed CPU float64 fixture; no arithmetic training quality, independent process restart, authenticated store, distributed workers, network storage or crash durability. |
 | `vector_index.py` | Exact cosine/L2 search, pinned manifests, deterministic ties, immutable generations, retrieval evaluation | No ANN or learned encoder; old saved generations need explicit purge. |
 | `repository_vectors.py` | Existing RAG chunks converted to a source-verified word-count baseline; changed sources block retrieval | Lexical, not semantic; source/chunk identity is not entailment. |
 | `drift_monitor.py` | Tied empirical KS statistic, conservative single-comparison DKW bound, temporal sampling and constructed replay | IID assumptions; no repeated-monitoring or prediction-performance guarantee. |
@@ -115,6 +116,23 @@ validated directory descriptor; concurrent pathname replacement cannot split
 one commit across directories. A returned pathname remains advisory if that
 directory is moved. Neither a passing local fixture nor `fsync` establishes
 multi-host, network-storage or hardware-crash durability.
+
+The P43 adapter preserves the existing non-pickle model checkpoint format and
+requires all three roles exactly once. It rejects optimizer/RNG loss, validates
+config, parameter names/shapes, finite float64 weights and moments, exact PCG64
+state, bounded ZIP/NPY headers, and a cross-shard content binding before
+reconstruction. For the actual numeric resume receipt, it saved a 719-parameter
+P43 model after three Adam updates, reloaded it from the committed shards, and
+matched the uninterrupted next minibatch, logits, loss, all parameters and Adam
+moments, hyperparameters/step, and PCG64 outputs/state exactly. This is a
+constructed CPU fixture, not evidence from arithmetic training, an OS process
+restart, distributed training, or model utility. Run the exact fixture:
+
+```bash
+python -m src.infrastructure.p43_checkpoint_bundle \
+  --output-dir 9-INFRASTRUCTURE/az-ml-program/evidence \
+  --owner-scope research:checkpoint-fixture
+```
 
 For an immutable JSON receipt, supply `--output-dir` with an **existing durable
 directory**. The report pins source identities, records actual CPU timings and

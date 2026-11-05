@@ -185,6 +185,7 @@ def commit_checkpoint(
     checkpoint_id: str,
     owner_scope: str,
     shards: tuple[CheckpointShard, ...] | list[CheckpointShard],
+    directory_fd: int | None = None,
 ) -> str:
     """Publish shard bytes first and the content-addressed manifest last.
 
@@ -197,7 +198,7 @@ def commit_checkpoint(
     directory = Path(directory)
     # Every shard and the manifest are published relative to this one descriptor,
     # so a concurrent rename or symlink swap of the pathname cannot split them.
-    root_fd = _open_root(directory)
+    root_fd = _open_root(directory, directory_fd=directory_fd)
     try:
         for shard in ordered:
             _stage_at(root_fd, directory, shard)
@@ -208,9 +209,17 @@ def commit_checkpoint(
     return manifest_id
 
 
-def _open_root(directory: str | Path) -> int:
+def _open_root(directory: str | Path, *, directory_fd: int | None = None) -> int:
     try:
-        return os.open(Path(directory), os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        if directory_fd is None:
+            return os.open(Path(directory), os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+        if type(directory_fd) is not int or directory_fd < 0:
+            raise ValueError("directory_fd must be a nonnegative descriptor")
+        root_fd = os.dup(directory_fd)
+        if not stat.S_ISDIR(os.fstat(root_fd).st_mode):
+            os.close(root_fd)
+            raise ValueError("directory_fd must identify a directory")
+        return root_fd
     except OSError as exc:
         raise ValueError("Checkpoint directory must be an existing real directory") from exc
 
@@ -242,11 +251,12 @@ def load_checkpoint(
     manifest_id: str,
     *,
     owner_scope: str,
+    directory_fd: int | None = None,
 ) -> CheckpointBundle:
     """Read only a committed manifest and verify scope, schema, and every shard."""
     manifest_id = _digest(manifest_id)
     owner_scope = _text(owner_scope, "owner_scope")
-    root_fd = _open_root(directory)
+    root_fd = _open_root(directory, directory_fd=directory_fd)
     try:
         raw = _read_regular(root_fd, manifest_id + ".json", MAX_MANIFEST_BYTES)
         try:

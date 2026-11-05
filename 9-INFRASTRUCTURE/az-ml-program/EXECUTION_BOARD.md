@@ -415,6 +415,37 @@ It does not qualify actual optimizer/RNG resumption, multi-worker coordination,
 network storage, distributed throughput or power-loss durability. Scope strings
 are not authentication. All promotion flags remain false.
 
+### Actual P43 training-state adaptation
+
+The generic shard contract now has a strict P43 adapter. It validates bounded
+non-pickle NPZ/NPY input before array allocation; requires exactly one model,
+Adam and PCG64 shard; checks exact names/shapes/config/state and a cross-shard
+binding; then reconstructs through P43's existing checkpoint loader. This
+preserves the base bundle's manifest-as-commit and owner-scope semantics without
+claiming that the generic role labels themselves validate training state.
+
+The [actual resume receipt](evidence/b82680997e5352cb636ccba285ebba49580a9f36dfb172d6f803878e9ac7a667.json)
+binds all adapter, bundle, publisher, test and P43 source hashes. A bounded
+719-parameter P43 model ran three Adam updates on constructed numeric minibatches.
+After splitting, committing, reloading and reconstructing its checkpoint, the
+next identical minibatch matched uninterrupted execution **exactly** for logits,
+loss, model weights, both Adam moment arrays and hyperparameters/step, PCG64
+outputs and state, model config and metadata. Exact artifact bytes and complete
+publication accounting are retained: 30,497 bundle bytes and 97,024 bytes
+across all published artifacts plus the receipt. No pickle is used.
+
+An independent review found a CLI output-directory replacement race. The CLI
+now retains one validated directory descriptor through the whole run, threading
+it through shard commit/load and every artifact/receipt publication. The race
+test replaces the pathname with a symlink after commit; manifest, shards and
+receipt still land together on the original directory inode, while the decoy
+remains empty. Follow-up review found no significant issue in the bounded fix.
+
+This is actual checkpoint serialization and exact next-step parity, but still a
+constructed CPU fixture rather than arithmetic training state, a separate OS
+process restart, network/multi-worker storage, production crash consistency,
+throughput or model quality. Capability 5 remains in progress.
+
 ### Historical identity repair and validation
 
 The first integrated run exposed **4 failures, 4,173 passes, 3 skips**: the

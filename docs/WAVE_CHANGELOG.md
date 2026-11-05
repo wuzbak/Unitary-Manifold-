@@ -1,5 +1,22 @@
 # Wave Changelog
 
+## AZ ML infrastructure continuation (2026-11-05; adjacent software only)
+
+Added independent P43 NumPy forward/reverse/Adam parity checks, including every
+parameter gradient, optimizer moment and updated weight. Validation-only
+calibration selected a complete 3.4414-bit artifact for the retained synthetic
+model under unchanged fidelity limits; its later test observation is explicitly
+already exposed and is not fresh quality qualification. Native answer utility
+remains failed at 0/30. Added content-addressed checkpoint shards with the
+manifest as sole commit point, directory-inode-anchored publication and local
+worker-loss recovery; this does not establish distributed durability.
+An actual P43 model/Adam/PCG64 adapter now validates bounded non-pickle state,
+splits model/optimizer/RNG roles, reconstructs the native checkpoint and matches
+the uninterrupted next training step exactly on a constructed CPU fixture.
+No GPU, production serving, live-feed or distributed-storage claim follows.
+All 21 capabilities remain scope; none is declared complete. No physics claim,
+pillar, score, threshold, equation or falsifier changed.
+
 ## Product 45 - Verified platform artifacts and explicit deployment consent (2026-11-04)
 
 Added digest-bound bundled APK/UEFI import, selected authorized-device Android

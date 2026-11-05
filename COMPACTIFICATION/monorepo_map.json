@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8568,
+  "file_count": 8577,
   "lanes": {
     "az_ip": 2638,
     "compactification": 9,
-    "other": 5471,
+    "other": 5480,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -31,7 +31,7 @@
     "6-MONOGRAPH": 20,
     "7-OUTREACH": 923,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 248,
+    "9-INFRASTRUCTURE": 256,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -109,7 +109,7 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1657,
+    "src": 1658,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
     "tests": 1564,
@@ -29726,6 +29726,12 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/28083e94049ef074631df0fb428a3cebb40d836d65238054da719fe7a19d64fe.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/3dcf14855fd2a44ea3666f3a1a84036a9ad150a85f184cbe0403ca3c94284f2b.bin",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
@@ -29750,6 +29756,12 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/6b86bb8507c1033ec0e3413d180937cbaa01dbf276825ce17d05fa060dc848d6.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/6c9a65da3a3d4fbd8d3a7c64dfe388e477b8777d10bd7bf2a23b8b8623ce936b.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
@@ -29757,6 +29769,12 @@
     },
     {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/6d48264d38decab4d424be3aa9273b34e077e1de26c6b0f70b3c1cdfcb485b6b.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/6e986d3a14c32cc9ce6aef58f3f87b262620981494f425aecd8f01d5f7e62ce1.bin",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -29774,7 +29792,19 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/8373e7790bfd291056a1aae80c8bdd70de11fb173a3ae38b107184a3e27fb634.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/979847638ed7ec97277a0f5023515192779fc369050963048a12e0300fd8ede3.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/9931b3728d5abee5d0262dba152c4ebf6f98ad82e666b845189aaa19716d2ba2.npz",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -29828,7 +29858,19 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/b82680997e5352cb636ccba285ebba49580a9f36dfb172d6f803878e9ac7a667.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/b9e7a8c65b12cdf871e542489e884580ce7b5bf62c253fe0cd511ffd83318705.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/c663dccbb5ac17ac61fb3b833e456a883b8343bb0d0ebbc0afb821a3a0cd9a97.npz",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -29931,6 +29973,12 @@
     },
     {
       "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_model_interchange.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_p43_checkpoint_bundle.py",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -46875,6 +46923,12 @@
     },
     {
       "path": "src/infrastructure/model_interchange.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/p43_checkpoint_bundle.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
