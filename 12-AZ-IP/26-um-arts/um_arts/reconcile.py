@@ -78,7 +78,14 @@ def check_events(events: dict, process: dict, nonce: str, expected: list[str] | 
         for node in selected:
             phases = by_node.get(node, [])
             phase_names = [report.get("when") for report in phases]
-            if phase_names not in [["setup", "call", "teardown"], ["setup", "teardown"]]:
+            has_skipped_setup = phase_names == ["setup", "teardown"]
+            has_calls = (
+                len(phase_names) >= 3
+                and phase_names[0] == "setup"
+                and phase_names[-1] == "teardown"
+                and all(phase == "call" for phase in phase_names[1:-1])
+            )
+            if not has_skipped_setup and not has_calls:
                 errors.append(f"Incomplete/duplicate/out-of-order test phases: {node}")
                 continue
             duration = 0.0
@@ -98,17 +105,25 @@ def check_events(events: dict, process: dict, nonce: str, expected: list[str] | 
             elif phases[-1].get("outcome") != "passed":
                 errors.append(f"Teardown did not pass: {node}")
             elif phases[0].get("outcome") == "skipped":
-                if len(phases) != 2:
+                if has_calls:
                     errors.append(f"Skipped setup unexpectedly executed a call: {node}")
-                counts["xfailed" if phases[0].get("wasxfail") is not None else "skipped"] += 1
-            elif phases[0].get("outcome") != "passed" or len(phases) != 3:
+                else:
+                    counts["xfailed" if phases[0].get("wasxfail") is not None else "skipped"] += 1
+            elif phases[0].get("outcome") != "passed" or not has_calls:
                 errors.append(f"Missing call after successful setup: {node}")
-            elif phases[1].get("outcome") == "skipped":
-                counts["xfailed" if phases[1].get("wasxfail") is not None else "skipped"] += 1
-            elif phases[1].get("wasxfail") is not None:
+            elif any(
+                phase.get("outcome") == "passed" and phase.get("wasxfail") is not None
+                for phase in phases[1:-1]
+            ):
                 counts["xpassed"] += 1
                 # Unexpected success is visible, and does not silently satisfy the gate.
                 errors.append(f"Unexpected xfail success: {node}")
+            elif any(phase.get("outcome") == "skipped" for phase in phases[1:-1]):
+                if len(phases[1:-1]) != 1:
+                    errors.append(f"Subtest skip/xfail outcome requires explicit review: {node}")
+                else:
+                    call = phases[1]
+                    counts["xfailed" if call.get("wasxfail") is not None else "skipped"] += 1
             else:
                 counts["passed"] += 1
     return {"status": "passed" if not errors else "blocked", "errors": errors,

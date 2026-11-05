@@ -2,7 +2,29 @@ name: Embedded PsiCat Instruction Backend Evaluation
 
 on:
   workflow_dispatch:
+    inputs:
+      run_source_q8_diagnostic:
+        description: Re-run the pinned historical Qwen3 Q8 diagnostic
+        type: boolean
+        required: false
+        default: false
+      run_self_review_diagnostic:
+        description: Run experimental same-model review separately from acceptance
+        type: boolean
+        required: false
+        default: false
   workflow_call:
+    inputs:
+      run_source_q8_diagnostic:
+        description: Re-run the pinned historical Qwen3 Q8 diagnostic
+        type: boolean
+        required: false
+        default: false
+      run_self_review_diagnostic:
+        description: Run experimental same-model review separately from acceptance
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -49,26 +71,27 @@ jobs:
           }
           cmake --build native-engine/build --config Release --target llama-server llama-quantize --parallel 2
           if ($LASTEXITCODE -ne 0) { throw "CPU engine compilation failed." }
-      - name: Fetch authoritative public model metadata and checksum-bound weights
+      - name: Fetch direct official Qwen2.5 Q4 candidate and authoritative metadata
         run: |
-          $repository = "Qwen/Qwen3-1.7B-GGUF"
-          $file = "Qwen3-1.7B-Q8_0.gguf"
+          $repository = "Qwen/Qwen2.5-1.5B-Instruct-GGUF"
+          $expectedFile = "qwen2.5-1.5b-instruct-q4_k_m.gguf"
           $metadata = Invoke-RestMethod -Uri "https://huggingface.co/api/models/${repository}?blobs=true" -TimeoutSec 60 -MaximumRedirection 0
           if ($metadata.private -or $metadata.gated -or $metadata.cardData.license -cne "apache-2.0") {
             throw "Candidate must be public, ungated and declared Apache-2.0 by its official model card."
           }
-          $assets = @($metadata.siblings | Where-Object { $_.rfilename -ieq $file })
-          $metadata | ConvertTo-Json -Depth 8 | Set-Content model-metadata.json -Encoding utf8NoBOM
-          if ($assets.Count -ne 1 -or $metadata.sha -cnotmatch "^[a-f0-9]{40}$") {
+          New-Item -ItemType Directory -Force candidate | Out-Null
+          $metadata | ConvertTo-Json -Depth 8 | Set-Content candidate/model-metadata.json -Encoding utf8NoBOM
+          if ($metadata.sha -cnotmatch "^[a-f0-9]{40}$") { throw "Official model revision is invalid." }
+          $assets = @($metadata.siblings | Where-Object { $_.rfilename -ieq $expectedFile })
+          if ($assets.Count -ne 1 -or $assets[0].rfilename -cnotmatch ("(?i)^" + [regex]::Escape($expectedFile) + "$")) {
             $metadata.siblings.rfilename | Write-Output
-            throw "Official model revision or unique Q8_0 source file is missing."
+            throw "Official repository must contain exactly the expected direct Q4_K_M filename."
           }
           $asset = $assets[0]
           $file = $asset.rfilename
-          if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 2600000000) {
-            throw "Authoritative LFS digest/size is missing or exceeds the candidate size budget."
+          if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 1600000000) {
+            throw "Authoritative LFS digest/size is missing or exceeds the 1.6 GB installation budget."
           }
-          New-Item -ItemType Directory -Force candidate | Out-Null
           function Receive-PublicAsset([string]$url, [string]$destination, [long]$maximum, [long]$expected = -1) {
             $handler = [System.Net.Http.HttpClientHandler]::new()
             $handler.AllowAutoRedirect = $false
@@ -81,7 +104,7 @@ jobs:
               $uri = [Uri]$url
               for ($redirect = 0; $redirect -le 5; $redirect++) {
                 if ($uri.Scheme -cne "https" -or -not ($uri.Host -eq "huggingface.co" -or $uri.Host.EndsWith(".huggingface.co") -or $uri.Host.EndsWith(".hf.co") -or $uri.Host -in @("apache.org", "www.apache.org"))) {
-                  throw "Public artifact redirect escaped the approved HTTPS publishers."
+                  throw "Public artifact redirect escaped the approved HTTPS model publisher."
                 }
                 $response = $client.GetAsync($uri, [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead, $deadline.Token).GetAwaiter().GetResult()
                 if ([int]$response.StatusCode -notin @(301, 302, 303, 307, 308)) { break }
@@ -113,57 +136,221 @@ jobs:
               $client.Dispose()
             }
           }
-          $url = "https://huggingface.co/${repository}/resolve/$($metadata.sha)/${file}"
-          $sourceModelPath = [System.IO.Path]::GetFullPath($file)
-          Receive-PublicAsset $url $sourceModelPath $asset.lfs.size $asset.lfs.size
-          $sourceSha = (Get-FileHash $sourceModelPath -Algorithm SHA256).Hash.ToLowerInvariant()
-          if ($sourceSha -cne $asset.lfs.sha256) { throw "Downloaded source model does not match authoritative LFS SHA-256." }
-          $outputFile = "Qwen3-1.7B-Q4_K_M.gguf"
-          $modelPath = [System.IO.Path]::GetFullPath("candidate/$outputFile")
-          $quantizerPath = [System.IO.Path]::GetFullPath("native-engine/build/bin/Release/llama-quantize.exe")
-          & $quantizerPath --allow-requantize $sourceModelPath $modelPath Q4_K_M 2
-          if ($LASTEXITCODE -ne 0) { throw "Pinned local Q4_K_M quantization failed." }
-          $modelBytes = (Get-Item -LiteralPath $modelPath).Length
-          if ($modelBytes -lt 1000000 -or $modelBytes -gt 1600000000) { throw "Quantized model exceeds its installation budget." }
-          $actual = (Get-FileHash $modelPath -Algorithm SHA256).Hash.ToLowerInvariant()
+          $url = "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$([uri]::EscapeDataString($file))"
+          $modelPath = [System.IO.Path]::GetFullPath("candidate/$expectedFile")
+          Receive-PublicAsset $url $modelPath $asset.lfs.size $asset.lfs.size
+          $modelSha = (Get-FileHash $modelPath -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($modelSha -cne $asset.lfs.sha256) { throw "Downloaded official model does not match authoritative LFS SHA-256." }
+          if ([System.IO.Path]::GetFileName($modelPath) -cnotmatch ("(?i)^" + [regex]::Escape($expectedFile) + "$")) {
+            throw "Downloaded official model filename does not match the candidate profile."
+          }
           Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/README.md" ([System.IO.Path]::GetFullPath("candidate/MODEL_CARD.md")) 262144
-          Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/LICENSE" ([System.IO.Path]::GetFullPath("candidate/MODEL_LICENSE")) 65536
+          $repositoryLicenses = @($metadata.siblings | Where-Object { $_.rfilename -imatch "^LICENSE(?:\.txt|\.md)?$" })
+          if ($repositoryLicenses.Count -gt 1) { throw "Official model metadata has ambiguous LICENSE assets." }
+          if ($repositoryLicenses.Count -eq 1) {
+            $licenseFile = $repositoryLicenses[0].rfilename
+            if ([System.IO.Path]::GetFileName($licenseFile) -cne $licenseFile) {
+              throw "Official model LICENSE metadata contains an unsafe path."
+            }
+            $licenseSource = "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$([uri]::EscapeDataString($licenseFile))"
+            Receive-PublicAsset $licenseSource ([System.IO.Path]::GetFullPath("candidate/MODEL_LICENSE")) 65536
+            $repositoryLicenseFilePresent = $true
+          } else {
+            $licenseFile = $null
+            $licenseSource = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            Receive-PublicAsset $licenseSource ([System.IO.Path]::GetFullPath("candidate/MODEL_LICENSE")) 65536
+            $repositoryLicenseFilePresent = $false
+          }
+          $licenseSha = (Get-FileHash candidate/MODEL_LICENSE -Algorithm SHA256).Hash.ToLowerInvariant()
+          $licenseFallbackFact = $null
+          if (-not $repositoryLicenseFilePresent) {
+            $licenseFallbackFact = "No LICENSE, LICENSE.txt or LICENSE.md file was listed in authoritative repository metadata; canonical Apache-2.0 text was retrieved from apache.org after official model-card metadata declared apache-2.0."
+          }
+          [ordered]@{
+            formatVersion = 1
+            modelCardLicense = $metadata.cardData.license
+            repositoryLicenseFilePresent = $repositoryLicenseFilePresent
+            repositoryLicenseFile = $licenseFile
+            licenseSource = $licenseSource
+            licenseSha256 = $licenseSha
+            fallbackFact = $licenseFallbackFact
+          } | ConvertTo-Json -Depth 4 | Set-Content candidate/license-provenance.json -Encoding utf8NoBOM
           foreach ($notice in @($metadata.siblings | Where-Object { $_.rfilename -cin @("NOTICE", "NOTICE.txt", "NOTICE.md") })) {
-            Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$($notice.rfilename)" ([System.IO.Path]::GetFullPath("candidate/$($notice.rfilename)")) 65536
+            Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$([uri]::EscapeDataString($notice.rfilename))" ([System.IO.Path]::GetFullPath("candidate/$($notice.rfilename)")) 65536
           }
           $enginePath = [System.IO.Path]::GetFullPath("native-engine/build/bin/Release/llama-server.exe")
+          $engineSha = (Get-FileHash $enginePath -Algorithm SHA256).Hash.ToLowerInvariant()
           $manifest = [ordered]@{
             formatVersion = 1
             model = [ordered]@{
-              repository = $repository; revision = $metadata.sha; file = $outputFile
-              sha256 = $actual; sizeBytes = $modelBytes; license = "Apache-2.0"
+              repository = $repository; revision = $metadata.sha; file = $expectedFile
+              sha256 = $modelSha; sizeBytes = $asset.lfs.size; license = "Apache-2.0"
             }
             engine = [ordered]@{
               repository = "ggml-org/llama.cpp"
               revision = "52e53a76df0298d2c316ae7e704eeec03b0bf478"
-              sha256 = (Get-FileHash $enginePath -Algorithm SHA256).Hash.ToLowerInvariant()
+              sha256 = $engineSha
               license = "MIT"
             }
           }
           $manifest | ConvertTo-Json -Depth 6 | Set-Content candidate/manifest.json -Encoding utf8NoBOM
           [ordered]@{
+            formatVersion = 1
+            source = "official_direct_q4"
             url = $url
+            repository = $repository
             sourceFile = $file
-            sourceSha256 = $sourceSha
+            installedFile = $expectedFile
+            sourceSha256 = $modelSha
             sourceSizeBytes = $asset.lfs.size
             sourceRevision = $metadata.sha
             quantization = "Q4_K_M"
-            sourceQuantization = "Q8_0"
-            requantized = $true
-            qualityCaveat = "Requantization may reduce quality; actual backend gates do not establish expert competence."
-            quantizerSha256 = (Get-FileHash $quantizerPath -Algorithm SHA256).Hash.ToLowerInvariant()
-            quantizedSha256 = $actual
+            requantized = $false
+            license = "Apache-2.0"
+            licenseSource = $licenseSource
+            checksumVerified = $true
             modelCardSha256 = (Get-FileHash candidate/MODEL_CARD.md -Algorithm SHA256).Hash.ToLowerInvariant()
-            licenseSha256 = (Get-FileHash candidate/MODEL_LICENSE -Algorithm SHA256).Hash.ToLowerInvariant()
-            licenseSource = "https://huggingface.co/${repository}/resolve/$($metadata.sha)/LICENSE"
+            licenseSha256 = $licenseSha
+            modelCardLicense = $metadata.cardData.license
+            repositoryLicenseFilePresent = $repositoryLicenseFilePresent
             productionAssistantVerified = $false
           } | ConvertTo-Json | Set-Content candidate/source-provenance.json -Encoding utf8NoBOM
           $manifest | ConvertTo-Json -Depth 6
+      - name: Run optional pinned historical Qwen3 Q8 diagnostic
+        if: ${{ inputs.run_source_q8_diagnostic }}
+        continue-on-error: true
+        run: |
+          $sourceRepository = "Qwen/Qwen3-1.7B-GGUF"
+          $sourceRevision = "90862c4b9d2787eaed51d12237eafdfe7c5f6077"
+          $sourceFile = "Qwen3-1.7B-Q8_0.gguf"
+          $diagnosticExit = 2
+          $reportValid = $false
+          $reportPassed = $false
+          $reason = $null
+          New-Item -ItemType Directory -Force candidate | Out-Null
+          try {
+            $metadata = Invoke-RestMethod -Uri "https://huggingface.co/api/models/${sourceRepository}/revision/${sourceRevision}?blobs=true" -TimeoutSec 60 -MaximumRedirection 0
+            if ($metadata.private -or $metadata.gated -or $metadata.cardData.license -cne "apache-2.0" -or $metadata.sha -cne $sourceRevision) {
+              throw "Historical source metadata failed pinned revision, public, ungated or Apache-2.0 validation."
+            }
+            $assets = @($metadata.siblings | Where-Object { $_.rfilename -ceq $sourceFile })
+            if ($assets.Count -ne 1 -or $assets[0].lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $assets[0].lfs.size -lt 1000000 -or $assets[0].lfs.size -gt 2600000000) {
+              throw "Historical source file metadata is invalid."
+            }
+            $asset = $assets[0]
+            $handler = [System.Net.Http.HttpClientHandler]::new()
+            $handler.AllowAutoRedirect = $false
+            $client = [System.Net.Http.HttpClient]::new($handler)
+            $deadline = [System.Threading.CancellationTokenSource]::new([TimeSpan]::FromMinutes(15))
+            $response = $null
+            $inputStream = $null
+            $outputStream = $null
+            try {
+              $uri = [Uri]"https://huggingface.co/${sourceRepository}/resolve/${sourceRevision}/${sourceFile}"
+              for ($redirect = 0; $redirect -le 5; $redirect++) {
+                if ($uri.Scheme -cne "https" -or -not ($uri.Host -eq "huggingface.co" -or $uri.Host.EndsWith(".huggingface.co") -or $uri.Host.EndsWith(".hf.co"))) {
+                  throw "Historical source redirect escaped the approved HTTPS model publisher."
+                }
+                $response = $client.GetAsync($uri, [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead, $deadline.Token).GetAwaiter().GetResult()
+                if ([int]$response.StatusCode -notin @(301, 302, 303, 307, 308)) { break }
+                if ($redirect -eq 5 -or $null -eq $response.Headers.Location) { throw "Historical source redirect limit exceeded." }
+                $uri = [Uri]::new($uri, $response.Headers.Location)
+                $response.Dispose(); $response = $null
+              }
+              $response.EnsureSuccessStatusCode() | Out-Null
+              if ($null -ne $response.Content.Headers.ContentLength -and $response.Content.Headers.ContentLength -ne $asset.lfs.size) {
+                throw "Historical source declared byte length is invalid."
+              }
+              $inputStream = $response.Content.ReadAsStreamAsync().GetAwaiter().GetResult()
+              $outputStream = [System.IO.File]::Open([System.IO.Path]::GetFullPath("candidate/$sourceFile"), [System.IO.FileMode]::CreateNew)
+              $buffer = [byte[]]::new(1048576)
+              [long]$total = 0
+              while (($count = $inputStream.ReadAsync($buffer, 0, $buffer.Length, $deadline.Token).GetAwaiter().GetResult()) -gt 0) {
+                $total += $count
+                if ($total -gt $asset.lfs.size) { throw "Historical source exceeded its authoritative size." }
+                $outputStream.Write($buffer, 0, $count)
+              }
+              if ($total -ne $asset.lfs.size) { throw "Historical source failed authoritative size verification." }
+            } finally {
+              if ($null -ne $outputStream) { $outputStream.Dispose() }
+              if ($null -ne $inputStream) { $inputStream.Dispose() }
+              if ($null -ne $response) { $response.Dispose() }
+              $deadline.Dispose(); $client.Dispose()
+            }
+            $downloadSha = (Get-FileHash "candidate/$sourceFile" -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($downloadSha -cne $asset.lfs.sha256) { throw "Historical source failed authoritative SHA-256 verification." }
+            $q8Path = [System.IO.Path]::GetFullPath("candidate/$sourceFile")
+            [ordered]@{
+              formatVersion = 1; repository = $sourceRepository; revision = $sourceRevision
+              sourceFile = $sourceFile; sha256 = $asset.lfs.sha256; sizeBytes = $asset.lfs.size
+              license = "Apache-2.0"; checksumVerified = $true
+              diagnosticOnly = $true; productionQualification = $false
+            } | ConvertTo-Json | Set-Content candidate/source-q8-receipt.json -Encoding utf8NoBOM
+            $engineSha = (Get-FileHash native-engine/build/bin/Release/llama-server.exe -Algorithm SHA256).Hash.ToLowerInvariant()
+            $q8Manifest = [ordered]@{
+              formatVersion = 1
+              model = [ordered]@{
+                repository = $sourceRepository; revision = $sourceRevision; file = $sourceFile
+                sha256 = $asset.lfs.sha256; sizeBytes = $asset.lfs.size; license = "Apache-2.0"
+              }
+              engine = [ordered]@{
+                repository = "ggml-org/llama.cpp"; revision = "52e53a76df0298d2c316ae7e704eeec03b0bf478"
+                sha256 = $engineSha; license = "MIT"
+              }
+            }
+            $q8Manifest | ConvertTo-Json -Depth 6 | Set-Content candidate/source-q8-manifest.json -Encoding utf8NoBOM
+            python 12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py `
+              --engine "$([System.IO.Path]::GetFullPath('native-engine/build/bin/Release/llama-server.exe'))" `
+              --model "$q8Path" `
+              --manifest "$([System.IO.Path]::GetFullPath('candidate/source-q8-manifest.json'))" `
+              --report "$([System.IO.Path]::GetFullPath('candidate/source-q8-validation.json'))" `
+              --source-q8-diagnostic
+            $diagnosticExit = $LASTEXITCODE
+            if (Test-Path candidate/source-q8-validation.json -PathType Leaf) {
+              $report = Get-Content candidate/source-q8-validation.json -Raw | ConvertFrom-Json
+              $reportValid = $report.evaluationMode -ceq "source_q8_diagnostic" -and
+                $report.diagnosticOnly -eq $true -and $report.productionQualification -eq $false -and
+                $report.productionAssistantVerified -eq $false
+              $reportPassed = $report.passed -eq $true
+            }
+            if ($reportValid -and $diagnosticExit -eq 0 -and $reportPassed) {
+              $outcome = "passed_diagnostic_only"
+            } elseif ($reportValid -and $diagnosticExit -eq 1 -and -not $reportPassed) {
+              $outcome = "failed_diagnostic"
+              $reason = "Pinned Qwen3 Q8 diagnostic failed candidate cases; no production qualification."
+            } else {
+              $outcome = "invalid_or_unreported"
+              $reason = "Historical Q8 diagnostic exit/report state was inconsistent."
+            }
+          } catch {
+            $outcome = "invalid_or_unreported"
+            $reason = $_.Exception.Message
+          }
+          [ordered]@{
+            formatVersion = 1; diagnosticOnly = $true; productionQualification = $false
+            exitCode = $diagnosticExit; reportValid = $reportValid; reportPassed = $reportPassed
+            outcome = $outcome; reason = $reason
+          } | ConvertTo-Json -Depth 4 | Set-Content candidate/source-q8-diagnostic-status.json -Encoding utf8NoBOM
+          Get-Content candidate/source-q8-diagnostic-status.json
+          if (Test-Path candidate/Qwen3-1.7B-Q8_0.gguf -PathType Leaf) {
+            Remove-Item candidate/Qwen3-1.7B-Q8_0.gguf -Force
+          }
+          if ($outcome -cne "passed_diagnostic_only") {
+            Write-Host "::warning title=Historical Qwen3 Q8 diagnostic::$outcome; $reason"
+            throw $reason
+          }
+      - name: Diagnose experimental same-model review without qualifying packaging
+        if: inputs.run_self_review_diagnostic
+        continue-on-error: true
+        run: |
+          $manifest = Get-Content candidate/manifest.json -Raw | ConvertFrom-Json
+          python 12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py `
+            --engine "$([System.IO.Path]::GetFullPath('native-engine/build/bin/Release/llama-server.exe'))" `
+            --model "$([System.IO.Path]::GetFullPath("candidate/$($manifest.model.file)"))" `
+            --manifest "$([System.IO.Path]::GetFullPath('candidate/manifest.json'))" `
+            --report "$([System.IO.Path]::GetFullPath('candidate/self-review-validation.json'))" `
+            --review-json --context 4096
+          if ($LASTEXITCODE -ne 0) { throw "Experimental review failed; this diagnostic cannot qualify packaging." }
       - name: Exercise actual local model instructions, citations and refusal
         run: |
           $manifest = Get-Content candidate/manifest.json -Raw | ConvertFrom-Json
@@ -188,16 +375,35 @@ jobs:
           name: psicat-instruction-runtime
           retention-days: 7
           compression-level: 0
-          path: candidate/
+          path: |
+            candidate/qwen2.5-1.5b-instruct-q4_k_m.gguf
+            candidate/manifest.json
+            candidate/source-provenance.json
+            candidate/model-metadata.json
+            candidate/license-provenance.json
+            candidate/MODEL_CARD.md
+            candidate/MODEL_LICENSE
+            candidate/NOTICE*
+            candidate/validation.json
+            candidate/llama-server.exe
+            candidate/engine-source.zip
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
         if: always() && hashFiles('candidate/manifest.json') != ''
         with:
           name: psicat-instruction-backend-evaluation
           retention-days: 7
+          compression-level: 0
           path: |
             candidate/manifest.json
             candidate/source-provenance.json
+            candidate/model-metadata.json
+            candidate/license-provenance.json
+            candidate/source-q8-receipt.json
+            candidate/source-q8-manifest.json
+            candidate/source-q8-validation.json
+            candidate/source-q8-diagnostic-status.json
+            candidate/self-review-validation.json
             candidate/validation.json
             candidate/MODEL_CARD.md
             candidate/MODEL_LICENSE

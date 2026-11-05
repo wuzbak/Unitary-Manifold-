@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Mapping
 
 from .usgs_adapter import USGS_FEED_URL, fetch_earthquake_summary
 
-API_ENDPOINTS = ("/api/status", "/api/fetch-result")
+API_ENDPOINTS = ("/api/status", "/api/fetch-result", "/api/temporal-result")
 
 
 def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str, Any]:
@@ -23,5 +23,13 @@ def dispatch_api_request(path: str, query: Mapping[str, List[str]]) -> Dict[str,
 
     if path == "/api/fetch-result":
         return fetch_earthquake_summary()
+
+    if path == "/api/temporal-result":
+        from .temporal_adapter import fetch_earthquake_snapshot
+
+        scopes = query.get("owner_scope")
+        if not scopes or len(scopes) != 1 or not scopes[0].strip():
+            raise ValueError("Exactly one nonempty owner_scope is required")
+        return fetch_earthquake_snapshot(owner_scope=scopes[0]).to_dict()
 
     raise KeyError(f"unknown API endpoint: {path}")

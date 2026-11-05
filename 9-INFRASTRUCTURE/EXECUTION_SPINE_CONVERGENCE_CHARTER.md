@@ -144,6 +144,14 @@ same execution spine.
 7. No legacy compatibility route treated as a primary development center.
 8. No offensive swarm behavior, third-party commandeering, or hidden external automation.
 
+## ML capability program
+
+The [AZ ML capability program](az-ml-program/README.md) organizes all 21 requested
+model, runtime, data, agent and assurance capabilities under this charter.
+Its master plan, dependency register and execution board are planning artifacts,
+not another status authority or control plane. Local foundation tests do not
+promote deployment readiness or scientific claims.
+
 ## Definition of completion
 
 This convergence program is complete only when active runtime, artifact,

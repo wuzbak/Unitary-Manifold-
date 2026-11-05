@@ -25,19 +25,36 @@ bias) is implemented and differentiated here (`tensor.py`), in NumPy only.
 ## Separate instruction-backend verification
 
 `verify_embedded_engine.py` validates an absolute-path, checksum-pinned local
-llama.cpp server and Qwen3 GGUF before any frontend integration. It checks real
+llama.cpp server and the selected Qwen2.5-1.5B-Instruct Q4_K_M GGUF before any
+frontend integration. It checks real
 instructions, supplied citation IDs, unsupported portfolio-platform limits and
 refusal of malicious retrieved instructions. The server runs CPU-only on an
 owned authenticated loopback endpoint with bounded requests and cleanup.
 The report records actual outputs, latency, failures and shutdown status.
+JSON-requesting cases use generic JSON-object constrained decoding, as does the
+governed Product 45 runtime. Plain-text challenges do not. This constrains
+syntax only, not answers, field values, citations or refusal reasoning.
+Strict semantic checks remain unchanged; unsupported decoding fails without
+an unconstrained retry or output repair.
+The verifier defaults to one completion per case and a 2,048-token context.
+An experimental `--review-json` option adds a second completion to JSON cases:
+one generic self-review/revision pass that receives only the original request,
+supplied evidence and draft, never grader feedback. It is not an independent
+reviewer or a quality guarantee; measured hosted evaluation did not improve,
+while the extra pass adds CPU inference latency. Review errors fail closed
+without falling back to drafts. For this option, `--context 4096` is available
+when the engine needs additional prompt headroom.
 
 The Windows `pc-suite-embedded-model.yml` workflow builds a pinned static engine,
-obtains official model revision/LFS hashes and licensing, and downloads
-the official Q8_0 weights with byte/time limits. The pinned engine's quantizer
-then produces Q4_K_M locally, recording the source and output hashes and the
-quantizer hash before exercising that gate. The official repository does not
-publish this Q4 file. Requantization can reduce quality; the gate is not an expert
-reasoning benchmark. The candidate is a
+obtains official model revision/LFS hashes and licensing, and downloads the
+official instruction-tuned Q4_K_M weights directly with byte/time limits and
+the existing 1.6 GB installation budget. No local requantization is used for
+this candidate. Its actual hosted acceptance must pass before packaging.
+The preceding Qwen3-1.7B Q4 candidate and its original Q8 source both failed
+the same retrieval challenge; the preserved paired evidence does not support
+attributing that failure solely to compression. An explicit source-Q8
+diagnostic mode retains the old source experiment without qualifying it for
+installation. The gate is not an expert reasoning benchmark. The candidate is a
 **third-party pretrained language substrate**, not this repository's toroidal
 model, not trained by this project, and not evidence of physical 5D information
 flow. Backend sanity checks do not certify expert-assistant quality.

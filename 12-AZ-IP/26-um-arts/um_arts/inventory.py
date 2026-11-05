@@ -127,6 +127,8 @@ def _suite_root(relative: str) -> tuple[str, str] | None:
         return "proof", "isolated-formal-checks"
     if parts[0] == "COMPACTIFICATION":
         return "COMPACTIFICATION", "compactification-checks"
+    if parts[:3] == ("9-INFRASTRUCTURE", "az-ml-program", "tests"):
+        return "9-INFRASTRUCTURE/az-ml-program/tests", "ml-infrastructure"
     if parts[0] == "lean4":
         return "lean4", "lean-python-checks"
     if parts[:2] == ("src", "core"):

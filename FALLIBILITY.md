@@ -1,5 +1,13 @@
 # Fallibility, Limitations, and Failure Modes
 
+> **Current ledger: v38.5 Sprint DA (2026-11-05).** This synchronizes the
+> already registered adjacent P1133/P1134 research entries in `STATUS.md`.
+> A Bogoliubov reference calculation and rare-decay comparison tools do not
+> derive a UM connection, spectrum, coupling or observable prediction.
+> No hardgate closure, empirical confirmation or falsification condition changes.
+> The existing scientific limitations and historical regression marker remain;
+> the Sprint CZ narrative below is retained as historical context.
+
 > **Planar consistency correction (2026-11-03):** P1132's fixed-transverse
 > product metric cannot support the nonconstant real scalar evolution inferred
 > from its off-shell acceleration term. That interpretation is withdrawn;
