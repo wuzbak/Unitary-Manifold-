@@ -1,5 +1,15 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
+> **Adjacent-track research registration (2026-11-05; no hardgate claim or closure):**
+> P1133 adds a tested, SI-unit Bogoliubov reference calculation for a dilute
+> Bose gas; P1134 adds rare-decay evidence-classification and generic
+> prediction-comparison tools. The superfluid literature provides established
+> effective-theory and analogue-wave examples, while superfluid dark matter
+> remains model-dependent. LHCb's \(B^0\to\mu^+\mu^-\) result is evidence
+> consistent with the Standard Model, not a new-physics discovery. Neither
+> pillar derives a UM connection or prediction. Focused test details are
+> recorded in the v38.5 Sprint DA entry below; no full regression is claimed.
+
 > **Planar dynamics reassessment (2026-11-03; no version/pillar promotion):**
 > P1132's scalar acceleration coefficient is an off-shell identity, not proof
 > of nonconstant constraint-compatible propagation. Fixed flat transverse
@@ -39,6 +49,8 @@
 > remains unverified. Final reporting repairs passed separate targeted suites.
 > See [the current reassessment](docs/TRUTH_LAYER.md#foundation-reassessment)
 > for precise counterexamples, assumptions, and verification scope.
+
+*v38.5 Sprint DA — Superfluid and Rare-Decay Adjacent Research (2026-11-05): Pillars 1133–1134. P1133 implements the leading-order Bogoliubov dispersion and mean-field sound speed for a uniform, zero-temperature, dilute, repulsively interacting 3D Bose gas in SI units; it is a reference calculation, not Son's relativistic EFT, a superfluid-dark-matter halo model, or a derived UM connection. P1134 implements conventional significance classification and a generic residual from caller-supplied predictions and independent uncertainties. LHCb's \(B^0\to\mu^+\mu^-\) result is reported as 3.0σ evidence in Run 3 and 3.2σ combined, consistent with Standard Model expectations; the “zeptoverse” is press framing. No UM spectrum, coupling, effective-operator matching, or rare-decay prediction is derived. Both pillars are 🔵 ADJACENT TRACK — NOT A HARDGATE PHYSICS CLAIM; no physics closure or new-physics discovery is claimed. Focused verification: 37 pillar tests, 17 PsiCat literature-integrity tests, and 2 pillar-index navigation tests passed. Sprint totals: 2 pillars (1133–1134); Lean4 total→4080 (+0); next slot 1135. Latest verified full regression in current branch history remains the Sprint CU record (64,150 passed · 22 skipped · 18 deselected · 0 failed); no full regression was run for Sprint DA.*
 
 *v38.4 Sprint CZ — ADM Homogeneous Hyperbolic Evolution (2026-11-02): Pillar 1132 (P1132 `ADM_HOMOGENEOUS_GRAVITY_SCALAR_HYPERBOLIC_EVOLUTION_CERTIFIED`: adds a new, independent capability alongside — not in place of — Pillar 1130's two still-open residual obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`), both of which remain untouched. Every prior field-equation derivation in `src/core/action_derived_flow.py` varied the reduced action with a single spatial coordinate and no time dependence at all (the existing default flow's "t" is a fictitious relaxation parameter, not coordinate time). This pillar performs a genuine ADM (3+1) canonical decomposition of the same circle-reduced Einstein-frame action restricted to a declared homogeneous perimeter (x^2, x^3 flat/spectator, gauge field B_mu excluded this sprint) with fields depending on real coordinate time t = x^0 and one spatial coordinate x = x^1. Symbolic certification (`adm_homogeneous_hyperbolic_evolution_certificate()`) shows: the lapse (N) and shift (N_x) equations are genuine constraints with zero coefficient on any second time derivative; the spatial-metric (h) equation likewise has an exactly-zero d^2h/dt^2 coefficient (no propagating graviton in 1 spatial dimension, a known GR fact reproduced by the computation rather than assumed); the scalar (p) equation has a symbolically nonzero d^2p/dt^2 coefficient — genuine second-order hyperbolic evolution in real coordinate time. Setting the shift to zero and the fields to be t-independent reproduces, as an exact symbolic identity (not a sample-point check), the repository's own already-certified static Euler-Lagrange system via the repo's own `_symbolic_setup`/`_sym_ricci_scalar`/`_sym_reduced_lagrangian` helpers. This does not close either of Pillar 1130's residual obligations, does not cover the gauge field, the inhomogeneous sector, or the Z2 orbifold, and does not change `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` or `promotion_ready=False`; framework-level closure is not earned. Sprint CZ totals: 1 pillar (1132-1132); Lean4 total→4080 (+0); next slot 1133. Latest verified full regression in current branch history remains the Sprint CU record (64,150 passed · 22 skipped · 18 deselected · 0 failed); Sprint CZ's own focused/targeted verification is reported in docs/TRUTH_LAYER.md.*
 
