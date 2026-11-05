@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8621,
+  "file_count": 8622,
   "lanes": {
     "az_ip": 2639,
     "compactification": 9,
-    "other": 5559,
+    "other": 5560,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -31,7 +31,7 @@
     "6-MONOGRAPH": 20,
     "7-OUTREACH": 949,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 264,
+    "9-INFRASTRUCTURE": 265,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -29837,6 +29837,12 @@
     },
     {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/009364eeac53e8c413236411bbfdf0c58a7824a2bfa85d97ebac88418605b619.azmq",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/0568f990c178af658ee5ced4dce10fd5334962992925acf39ac183393ca27418.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"

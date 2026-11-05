@@ -28,6 +28,12 @@
   },
   "historical_continuity": [
     {
+      "version": "38.5",
+      "sprint": "DA",
+      "pillars": "1133-1134",
+      "next_slot": 1135
+    },
+    {
       "version": "38.4",
       "sprint": "CZ",
       "pillars": "1132",

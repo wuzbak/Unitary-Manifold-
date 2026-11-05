@@ -22,6 +22,16 @@ regression evidence remains required. The full adjusted Node suite passed
 passed 1,208 tests and 110 subtests, including every originally failing file;
 all 2,080 Markdown files passed the link audit. All 21 capabilities remain open.
 
+The replacement full run at `a9f6fa0` reached 66,422 passes but exposed one
+immutable-archive regression. Historical archive and assembled-book bytes were
+restored rather than changing their expected seals. Hosted validation also
+exposed missing current-version Sprint Plan continuity; its new adjacent-only
+entry preserves prior records. Restoring the declared missing FastAPI dependency
+enabled the previously skipped Base44 tests. Both repaired suites plus original
+status checks passed 79 tests with no skips or failures; fresh full evidence
+remains required. The restored-single-pass actual model still failed 3/4, and
+its exact receipt remains preserved without regrading or threshold changes.
+
 ## Mainline v38.5 ledger synchronization and bounded model review (2026-11-05)
 
 The approved mainline Sprint DA registration had advanced STATUS and the tracker

@@ -244,6 +244,31 @@ All 2,080 Markdown files passed the internal-link audit; licensing structure,
 historical onboarding consistency and staged-map freshness also passed.
 This does not replace the required complete canonical-plus-affected run.
 
+The frozen replacement on pushed `a9f6fa0` completed **66,422 passed, 1 failed,
+74 skipped, 110 subtests passed** in 914.84 seconds. The failure exposed a
+source-path update inside an immutable manuscript archive; both that archive
+part and the assembled Book 56 were restored to their original exact bytes,
+without changing archive manifest hashes. Hosted fast-batch validation also
+found that the Sprint Plan lacked the new current-version continuity record.
+A truthful v38.5 adjacent-registration entry was added and canonical live
+status regenerated while retaining every older record.
+
+Local Base44 coverage had been skipped because the declared FastAPI dependency
+was missing. The targeted command exposed that explicitly (one skipped module,
+exit 5); restoring `fastapi>=0.110,<1` from `requirements.txt` enabled execution.
+Both repaired suites and the original eight status suites then passed **79
+tests, no skips or failures**. All 58 archive byte counts and hashes match;
+the assembled Book 56 matches pre-sharding `62a3170` exactly. A new complete
+fixed-source run remains required after these corrections and environment
+restoration; the earlier partial-coverage result is not relabeled as clean.
+
+Actual restored-single-pass Windows run `42097896922` still passed only 3/4.
+Its exact receipt is
+`evidence/0568f990c178af658ee5ced4dce10fd5334962992925acf39ac183393ca27418.json`.
+The retrieval response remained wrong; reducing the unearned review cost did
+not qualify the candidate. Installed packaging and runtime smoke were correctly
+not reached. No acceptance criterion or program completion flag changed.
+
 The existing keyword-based rationale rubric may reject some otherwise valid
 privacy- or authorization-grounded explanations. The earlier Qwen3
 platform-only answer does not explain refusal of the private-file/upload
