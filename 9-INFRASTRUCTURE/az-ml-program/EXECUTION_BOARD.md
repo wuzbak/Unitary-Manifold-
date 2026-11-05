@@ -6,6 +6,33 @@ This board is a durable work handoff under the existing execution spine, not a
 deployment status authority. No capability is production-qualified by this
 launch. See [the master plan](MASTER_PLAN.md) and [the register](capabilities.json).
 
+## Post-merge continuation: existing-tool integration
+
+The fixed source `36b7a82` completed the local canonical-plus-affected run with
+66,438 passed, 69 skipped, 110 subtests passed and no failures in 914.30 seconds.
+Source and installed distributions remained unchanged throughout. This is not
+every isolated product suite or model qualification. The merge did not turn the
+repeated real 3/4 model failure into acceptance.
+
+Two bounded expert workstreams separately assessed candidate eligibility and
+the next reusable integration slice. Actual existing-tool consultation exposed
+a practical coverage gap: the RAG query
+`ML program self healing retrieval vector generation source provenance`
+returned engine/Axiom OS/Holon Zero guides, not this program's implementation
+or evidence. Weave returned grounded excerpts but no model reasoning. PsiCat's
+deterministic local provider explicitly returned no grounded answer, rather than
+independent expert advice. These are tool observations, not an inference council.
+
+Both existing RAG builders now ingest the program README, master plan and
+execution board explicitly; no unrestricted directory crawl or editorial opt-in
+change was introduced. The same query now retrieves this board and the master
+plan. The canonical PsiCat-facing context scaffold preserves source provenance
+and its non-certification boundary. An integration test also passes these real
+RAG chunks through the existing allowlisted vector adapter, rejects changed
+source bytes and builds a distinct replacement generation. This closes a real
+tool-coverage gap, not the learned-retrieval or self-healing-RAG qualification
+gate. All 21 capabilities remain open.
+
 ## Launch tranche (historical)
 
 | Package | Owner role | State | Deliverable / limitation |
