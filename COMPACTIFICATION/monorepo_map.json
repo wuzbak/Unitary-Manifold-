@@ -2,12 +2,12 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8608,
+  "file_count": 8618,
   "lanes": {
     "az_ip": 2639,
     "compactification": 9,
-    "other": 5548,
-    "psicat_articles": 354,
+    "other": 5556,
+    "psicat_articles": 356,
     "psicat_books": 58
   },
   "top_levels": {
@@ -29,7 +29,7 @@
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 945,
+    "7-OUTREACH": 949,
     "8-SAFETY": 8,
     "9-INFRASTRUCTURE": 263,
     "AGENTS.md": 1,
@@ -62,7 +62,7 @@
     "NOTICE": 1,
     "PEER_REVIEW_RESPONSE_v933.md": 1,
     "PENTAD_PRODUCT_NOTICE.md": 1,
-    "PILLARS": 529,
+    "PILLARS": 531,
     "PROVENANCE.md": 1,
     "README.md": 1,
     "RECOVERY": 2,
@@ -109,10 +109,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1658,
+    "src": 1660,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1565,
+    "tests": 1567,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -3226,7 +3226,9 @@
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-351-post-327-s04e030-ai-extinction-risk-governance-and-the-honest-monorepo.md",
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-352-post-329-repository-tracker-refresh-sep-2026.md",
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-353-the-state-of-the-manifold-october-2026.md",
-      "7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md"
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md",
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-355-p1133-superfluid-connections-without-overclaiming.md",
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-356-post-1134-the-zeptoverse-and-rare-b-decays.md"
     ]
   },
   "files": [
@@ -26504,6 +26506,18 @@
       "lane": "psicat_articles"
     },
     {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Articles/article-355-p1133-superfluid-connections-without-overclaiming.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_articles"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Articles/article-356-post-1134-the-zeptoverse-and-rare-b-decays.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_articles"
+    },
+    {
       "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-01-psicat-new-first-announcement.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -29438,6 +29452,18 @@
       "lane": "other"
     },
     {
+      "path": "7-OUTREACH/substack/research/p1133-superfluid-research-brief.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "7-OUTREACH/substack/research/p1134-rare-decay-research-brief.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "7-OUTREACH/substack/visuals/README.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -32187,6 +32213,18 @@
     },
     {
       "path": "PILLARS/P1108/README.md",
+      "top_level": "PILLARS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "PILLARS/P1133/README.md",
+      "top_level": "PILLARS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "PILLARS/P1134/README.md",
       "top_level": "PILLARS",
       "kind": "file",
       "lane": "other"
@@ -41247,6 +41285,18 @@
     },
     {
       "path": "src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar1133_superfluid_effective_theory.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar1134_rare_decay_probes.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -52167,6 +52217,18 @@
     },
     {
       "path": "tests/test_pillar1132_adm_homogeneous_hyperbolic_evolution.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar1133_superfluid_effective_theory.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar1134_rare_decay_probes.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
