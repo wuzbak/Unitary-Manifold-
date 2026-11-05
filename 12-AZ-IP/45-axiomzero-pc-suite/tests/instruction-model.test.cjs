@@ -189,6 +189,10 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
   assert.equal(challengeRequests.length, 3);
   assert.ok(challengeRequests.every((message) => message.body.max_tokens === 64));
   assert.ok(challengeRequests.every((message) => message.body.response_format === undefined));
+  assert.ok(challengeRequests.every((message) =>
+    message.body.messages[0].content.startsWith(input.messages[0].content)));
+  assert.ok(challengeRequests.every((message) =>
+    message.body.messages[0].content.includes("For this ownership challenge only")));
 });
 
 test("candidate bundled basename may vary in case but local manifest spelling is exact", async (t) => {

@@ -1077,10 +1077,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "399650bd971583b3733e877deae8d9dace5643f1e1a086e28e09b2a834955d5e",
-      "size_bytes": 28517,
-      "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates.",
+      "sha256": "bcf4546dead8a561eb6cbd0b7221b35214fcdeb6bf06d2bc6b88ab25fd048da3",
+      "size_bytes": 28799,
+      "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "399650bd971583b3733e877deae8d9dace5643f1e1a086e28e09b2a834955d5e",
+          "size_bytes": 28517,
+          "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "870684a4d8764c6eefb8eb377d712594420464958cd1388c76fa29f3736e635d",
@@ -2867,10 +2873,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "b14ab56fca7d37c0748bb89e1bf98f6e0acf6ff3087ea26e2db5a6c4da7e1de8",
-      "size_bytes": 36192,
-      "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated.",
+      "sha256": "82fa23b04b7f6977f19f5ec67c6ea9723ac28c3e52ad71d07cad4b28ce35f97e",
+      "size_bytes": 36191,
+      "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "b14ab56fca7d37c0748bb89e1bf98f6e0acf6ff3087ea26e2db5a6c4da7e1de8",
+          "size_bytes": 36192,
+          "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "d6b738b1ced2debf3e722d52cf629f557c61847621b4950c0b6969668babbc6e",
@@ -2971,10 +2983,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "21f9bcdfcbcc3443d037547086324b4c63e773e76a8f2b50ae1bc0bbbb357688",
-      "size_bytes": 37608,
-      "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated.",
+      "sha256": "aff1fd74eae7445f1a25f002b30bcd64dfc03dc4d6277c9173c4e23d81d46d47",
+      "size_bytes": 37870,
+      "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "21f9bcdfcbcc3443d037547086324b4c63e773e76a8f2b50ae1bc0bbbb357688",
+          "size_bytes": 37608,
+          "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "6d34f8a2bafe44afc95607873699cb74d7a6d042c05b9382a55c09eed071639b",

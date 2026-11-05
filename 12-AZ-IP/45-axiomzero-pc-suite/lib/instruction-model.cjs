@@ -233,7 +233,7 @@ function engineArguments(model, port, key, threads, timeout, enableModelReview) 
 }
 function completionBody(prompt, challenge = false, draft = null) {
   const system = challenge
-    ? "You are a local instruction sanity gate. Follow the user's task exactly. Answer directly without thinking text."
+    ? SYSTEM + " For this ownership challenge only, return the requested token verbatim instead of the JSON envelope."
     : SYSTEM;
   const body = { model: ALIAS, stream: false, temperature: 0, seed: 0, max_tokens: challenge ? 64 : 128,
     chat_template_kwargs: { enable_thinking: false },

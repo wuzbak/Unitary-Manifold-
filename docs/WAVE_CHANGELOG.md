@@ -64,6 +64,15 @@ receipts retain fail-closed timestamp validation. Deterministic regressions
 set source timestamps explicitly, with no sleeps or skipped coverage.
 These corrections require fresh native execution; replaying saved model
 outputs is diagnostic evidence, not a new packaging qualification.
+The corrected native backend gate subsequently passed, but the governed
+Node smoke exceeded its existing request deadline while prefilling the
+longer production policy from scratch. Ownership checks now share that
+policy prefix so the same owned engine can reuse its prompt cache, without
+increasing deadlines, weakening fresh-token authentication or changing
+ordinary answer schemas. Fresh governed smoke and installer evidence is
+still required. The Windows timestamp regression also uses a representable
+one-second metadata change rather than assuming one-nanosecond filesystem
+resolution; it asserts that the observed timestamp advances.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

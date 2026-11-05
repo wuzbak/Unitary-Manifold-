@@ -1082,3 +1082,13 @@ Steward-approved conservative negation-aware claim detection, pinned stronger-mo
 | `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `252ddfb733f84660df35c4576283f08a65b3440b26fe9f5d650aa50801ef3d81` | 25653 |
 | `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `1fbb97bcf90c4557e87df7070d54724f86d88fe244b52c2b1ce3a55b460bab20` | 68696 |
 | `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6` | 37632 |
+
+### Owned-engine policy-prefix reuse — 2026-11-05
+
+Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `bcf4546dead8a561eb6cbd0b7221b35214fcdeb6bf06d2bc6b88ab25fd048da3` | 28799 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `82fa23b04b7f6977f19f5ec67c6ea9723ac28c3e52ad71d07cad4b28ce35f97e` | 36191 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `aff1fd74eae7445f1a25f002b30bcd64dfc03dc4d6277c9173c4e23d81d46d47` | 37870 |
