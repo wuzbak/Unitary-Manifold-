@@ -1,0 +1,336 @@
+{
+  "environment": {
+    "gpu": "not_measured",
+    "logical_cpus": 2,
+    "machine": "x86_64",
+    "measurement_context": "Reference fixtures; no isolated-host or comparative performance guarantee",
+    "python": "3.12.3",
+    "system": "Linux"
+  },
+  "execution_spine": {
+    "canonical_paths": [
+      "src/infrastructure/ml_reference_benchmarks.py"
+    ],
+    "compatibility": {
+      "measurement_keys": [
+        "quantization",
+        "cpu_quantization_profile",
+        "exact_retrieval",
+        "rag_integration",
+        "distribution_drift",
+        "lineage_integrity"
+      ],
+      "source_sha256": {
+        "bot/rag_index.py": "42ad41789f2507452001709a6cf03aa3786bb99553668fecd24835c648b12a4b",
+        "src/infrastructure/artifact_io.py": "01acb58bd94ca25123eb8663e4da92d67c20d95fd9e6a23c3b74d6a4587ad58c",
+        "src/infrastructure/data_lineage.py": "bfba3008a3c2da4edd545611b14e4e48b4674010090f77efa54f98f4ffd27169",
+        "src/infrastructure/drift_monitor.py": "234831f66822e686661cc6645a38c750b29874301f7ce859b4666f5a79c34a08",
+        "src/infrastructure/execution_spine.py": "ff131dde1b0214c2d59a1663f1d6caba012ec9a251e6747557b9ad0fa7eeebb4",
+        "src/infrastructure/lowbit_quantization.py": "7deca12c71b02bc24d08d02a3a494f56dbba60b56493960129711888fba160ec",
+        "src/infrastructure/ml_reference_benchmarks.py": "cda409ce24a3ec6f3a93ef1afece5ed9a94fde41264aff77dac67d4f5068d1fe",
+        "src/infrastructure/performance_profile.py": "879d58448c423a83e76ca32c64d372d822e8566b13f31145c637dc24c3742f97",
+        "src/infrastructure/repository_vectors.py": "5bc4c21afa2bbe51737ebe20388e0c14002c0c7795dbe745e3c8a8396d2c4c41",
+        "src/infrastructure/temporal_data.py": "82af8cc9f7b3e36dcbd62ca74727794cf27a575c4757eb6a7ac3941563a9a00f",
+        "src/infrastructure/vector_index.py": "66f599d4481080722753668e4dda0f4d9e59988f18230d3d4814f4594308039b"
+      }
+    },
+    "generated_at_utc": "2026-11-05T01:08:17.044744+00:00",
+    "governance": {
+      "compatibility_only": false,
+      "epistemic_label": "constructed reference and bounded repository integration",
+      "fail_closed": true,
+      "optional_backend": false,
+      "promotion_rule": "Reference gates do not establish trained-model or production readiness.",
+      "residual_blockers": [
+        "No pretrained model, ANN backend, GPU or real prediction-performance monitoring measured.",
+        "Real USGS access is independently assessed; constructed responses are not live measurements."
+      ]
+    },
+    "health_checks": [],
+    "lane": "az_ml_infrastructure",
+    "promotion": {
+      "eligible": false,
+      "model_quality_claim": false,
+      "physics_claim": false
+    },
+    "repository": "wuzbak/Unitary-Manifold-",
+    "schema_version": "um_execution_spine_v1",
+    "sources": [
+      "src/infrastructure/artifact_io.py",
+      "src/infrastructure/lowbit_quantization.py",
+      "src/infrastructure/vector_index.py",
+      "src/infrastructure/repository_vectors.py",
+      "src/infrastructure/drift_monitor.py",
+      "src/infrastructure/data_lineage.py",
+      "src/infrastructure/performance_profile.py",
+      "src/infrastructure/temporal_data.py",
+      "src/infrastructure/ml_reference_benchmarks.py",
+      "src/infrastructure/execution_spine.py",
+      "bot/rag_index.py"
+    ],
+    "status": "scoped_reference_gates_passed",
+    "summary": "Measured low-bit, CPU profiling, retrieval, RAG adapter, drift and lineage reference fixtures.",
+    "surface_id": "az-ml-original-reference-baselines",
+    "surface_kind": "reference_benchmark_receipt"
+  },
+  "gates_passed": true,
+  "measured_at_utc": "2026-11-05T01:08:17.044692+00:00",
+  "measurements": {
+    "cpu_quantization_profile": {
+      "config": {
+        "owner_scope": "reference",
+        "repetitions": 5,
+        "subject": "3-bit symmetric quantization of 32768 constructed scalar weights",
+        "warmups": 1
+      },
+      "execution_spine": {
+        "canonical_paths": [],
+        "compatibility": {
+          "config": {
+            "owner_scope": "reference",
+            "repetitions": 5,
+            "subject": "3-bit symmetric quantization of 32768 constructed scalar weights",
+            "warmups": 1
+          },
+          "hardware": {
+            "affinity_cpu_count": 2,
+            "affinity_cpu_status": "observed",
+            "architecture": "x86_64",
+            "gpu_counters": {
+              "status": "unmeasured"
+            },
+            "logical_cpu_count": 2,
+            "logical_cpu_status": "observed",
+            "python_implementation": "CPython",
+            "python_version": "3.12.3",
+            "release": "6.12.8+",
+            "scope": "inventory only; not hardware qualification",
+            "system": "Linux"
+          },
+          "measurement_scope": "in-process CPU callable baseline including profiler overhead; not GPU/server latency, correctness, or hardware qualification",
+          "memory": {
+            "max_python_peak_bytes": 1102030,
+            "python_peak_bytes": [
+              1102030,
+              1102022,
+              1102014,
+              1102006,
+              1101990
+            ],
+            "scope": "process-local Python-traced allocations only; not RSS or native/GPU memory"
+          },
+          "process_cpu_time": {
+            "p50_seconds": 0.329680019,
+            "p95_seconds": 0.331507465,
+            "percentile_definition": "nearest rank: sorted[ceil(q*n)-1]",
+            "samples_seconds": [
+              0.331507465,
+              0.3291042310000001,
+              0.3302300920000001,
+              0.32753345999999994,
+              0.329680019
+            ]
+          },
+          "provenance": "subject and owner_scope are caller assertions; code identity unverified",
+          "status": "measured",
+          "wall_time": {
+            "p50_seconds": 0.42954910300022675,
+            "p95_seconds": 0.4782795119999719,
+            "percentile_definition": "nearest rank: sorted[ceil(q*n)-1]",
+            "samples_seconds": [
+              0.4782795119999719,
+              0.42954910300022675,
+              0.40690357699986635,
+              0.42006765199994334,
+              0.4392308219998995
+            ]
+          }
+        },
+        "generated_at_utc": "2026-11-05T01:08:16.781133+00:00",
+        "governance": {
+          "compatibility_only": false,
+          "epistemic_label": "measured local CPU baseline",
+          "fail_closed": true,
+          "optional_backend": false,
+          "promotion_rule": "Human review required; timings never authorize promotion.",
+          "residual_blockers": [
+            "No correctness, production latency, GPU, or hardware qualification.",
+            "Subject and ownership are caller assertions; code identity unverified."
+          ]
+        },
+        "health_checks": [],
+        "lane": "adjacent",
+        "promotion": {
+          "automatic_promotion": false,
+          "eligible": false
+        },
+        "repository": "wuzbak/Unitary-Manifold-",
+        "schema_version": "um_execution_spine_v1",
+        "sources": [],
+        "status": "measured",
+        "summary": "Local CPU callable measurements only; no qualification or promotion.",
+        "surface_id": "az-ml-performance-profile",
+        "surface_kind": "cpu-callable-profile"
+      },
+      "hardware": {
+        "affinity_cpu_count": 2,
+        "affinity_cpu_status": "observed",
+        "architecture": "x86_64",
+        "gpu_counters": {
+          "status": "unmeasured"
+        },
+        "logical_cpu_count": 2,
+        "logical_cpu_status": "observed",
+        "python_implementation": "CPython",
+        "python_version": "3.12.3",
+        "release": "6.12.8+",
+        "scope": "inventory only; not hardware qualification",
+        "system": "Linux"
+      },
+      "measurement_scope": "in-process CPU callable baseline including profiler overhead; not GPU/server latency, correctness, or hardware qualification",
+      "memory": {
+        "max_python_peak_bytes": 1102030,
+        "python_peak_bytes": [
+          1102030,
+          1102022,
+          1102014,
+          1102006,
+          1101990
+        ],
+        "scope": "process-local Python-traced allocations only; not RSS or native/GPU memory"
+      },
+      "process_cpu_time": {
+        "p50_seconds": 0.329680019,
+        "p95_seconds": 0.331507465,
+        "percentile_definition": "nearest rank: sorted[ceil(q*n)-1]",
+        "samples_seconds": [
+          0.331507465,
+          0.3291042310000001,
+          0.3302300920000001,
+          0.32753345999999994,
+          0.329680019
+        ]
+      },
+      "provenance": "subject and owner_scope are caller assertions; code identity unverified",
+      "status": "measured",
+      "values_per_call": 32768,
+      "wall_time": {
+        "p50_seconds": 0.42954910300022675,
+        "p95_seconds": 0.4782795119999719,
+        "percentile_definition": "nearest rank: sorted[ceil(q*n)-1]",
+        "samples_seconds": [
+          0.4782795119999719,
+          0.42954910300022675,
+          0.40690357699986635,
+          0.42006765199994334,
+          0.4392308219998995
+        ]
+      }
+    },
+    "distribution_drift": {
+      "alpha": 0.05,
+      "detection_rate": 1.0,
+      "detections": 20,
+      "elapsed_seconds": 0.05298192899999776,
+      "false_alert_fraction": 0.0,
+      "false_alerts": 0,
+      "gates": {
+        "detection_rate_min": 0.9,
+        "false_alert_fraction_max": 0.05
+      },
+      "promotion_eligible": false,
+      "sample_size": 256,
+      "scope": "Independent constructed Gaussian fixtures only; not production or performance drift.",
+      "seed": 1729,
+      "shift": 3.0,
+      "threshold": 0.18502589841259978,
+      "trials": 20
+    },
+    "exact_retrieval": {
+      "denominator": "3 queries with at least one positively judged relevant document",
+      "elapsed_seconds": 9.108500034926692e-05,
+      "evaluated_query_count": 3,
+      "fixture": "three orthogonal axes with one exact relevant document each",
+      "generation_ref": "49c1a224f80d09b0620799d3cf5e1d2a71bc69266d2b9af6cdf154bd47109aa1",
+      "k": 1,
+      "ndcg_at_k": 1.0,
+      "query_count": 3,
+      "recall_at_k": 1.0,
+      "skipped_no_queries": false,
+      "skipped_no_relevant": 0
+    },
+    "lineage_integrity": {
+      "claims_unlearning": false,
+      "deletes_artifacts": false,
+      "deletion_plan_count": 3,
+      "elapsed_seconds": 0.0007451849996868987,
+      "graph_id": "6d2896dd0382be559db3f6b274043472a70aba4a786ca0bbd3e683ead61b6985",
+      "node_count": 3,
+      "roundtrip_exact": true,
+      "scope": "Constructed manifest integrity only; the manifest does not prove execution or rights."
+    },
+    "quantization": {
+      "effective_bits_per_weight": 3.229248046875,
+      "elapsed_seconds": 0.1717712820000088,
+      "fixture": "constructed periodic bounded numerical weights; not a trained model",
+      "float32_raw_bytes": 131072,
+      "gates": {
+        "complete_serialized_representation_below_4_bits_per_weight": true,
+        "max_error_at_most_one_sixth": true,
+        "packed_serialization_roundtrip_exact": true
+      },
+      "group_size": 1024,
+      "input_sha256": "bd93d6b1bf5c1aa972ef908cc4e81e379dd38708dc11a33d1fd01d72498899e2",
+      "max_absolute_error": 0.16666666666666663,
+      "mean_squared_error": 0.009258117319809066,
+      "mode": "symmetric",
+      "nominal_bits": 3,
+      "serialized_bytes": 13227,
+      "value_count": 32768
+    },
+    "rag_integration": {
+      "elapsed_seconds": 0.20540829999981725,
+      "generation_ref": "5c4298a88da8c56612d7843170481606be8de928dd3925dbdf5881c99be87ecd",
+      "no_overlap_returned_no_hits": true,
+      "queries": [
+        {
+          "actual_source": "12-AZ-IP/40-az-live-data-harness/README.md",
+          "document_id": "88d47767df260cf3444c8b82f8fd324e9329845fb3903a34a2d817bbf42618e7",
+          "expected_source": "12-AZ-IP/40-az-live-data-harness/README.md",
+          "query": "availability observation earthquake",
+          "score": 0.10379985922153642
+        },
+        {
+          "actual_source": "12-AZ-IP/43-az-geometric-tori-transformer/README.md",
+          "document_id": "567bc729d4688664b59bac1c58be44bf2dc9d3baa33513351369e7f5a58dc2c8",
+          "expected_source": "12-AZ-IP/43-az-geometric-tori-transformer/README.md",
+          "query": "NumPy autograd transformer",
+          "score": 0.13548195365085125
+        }
+      ],
+      "rag_chunk_count": 1896,
+      "scope": "Two declared lexical fixtures over real repository documents; not a semantic-quality benchmark.",
+      "source_sha256": {
+        "12-AZ-IP/40-az-live-data-harness/README.md": "237a323a32a12aac208fa98e378ff69e6ac57629ac064803765cbf0ea27a68ae",
+        "12-AZ-IP/43-az-geometric-tori-transformer/README.md": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
+        "12-AZ-IP/44-axiomzero-weave/README.md": "31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63"
+      },
+      "vector_chunk_count": 12
+    }
+  },
+  "schema_version": "az_ml_reference_benchmarks_v1",
+  "scope": "Scoped CPU reference milestones only; no capability or deployment promotion.",
+  "source_sha256": {
+    "bot/rag_index.py": "42ad41789f2507452001709a6cf03aa3786bb99553668fecd24835c648b12a4b",
+    "src/infrastructure/artifact_io.py": "01acb58bd94ca25123eb8663e4da92d67c20d95fd9e6a23c3b74d6a4587ad58c",
+    "src/infrastructure/data_lineage.py": "bfba3008a3c2da4edd545611b14e4e48b4674010090f77efa54f98f4ffd27169",
+    "src/infrastructure/drift_monitor.py": "234831f66822e686661cc6645a38c750b29874301f7ce859b4666f5a79c34a08",
+    "src/infrastructure/execution_spine.py": "ff131dde1b0214c2d59a1663f1d6caba012ec9a251e6747557b9ad0fa7eeebb4",
+    "src/infrastructure/lowbit_quantization.py": "7deca12c71b02bc24d08d02a3a494f56dbba60b56493960129711888fba160ec",
+    "src/infrastructure/ml_reference_benchmarks.py": "cda409ce24a3ec6f3a93ef1afece5ed9a94fde41264aff77dac67d4f5068d1fe",
+    "src/infrastructure/performance_profile.py": "879d58448c423a83e76ca32c64d372d822e8566b13f31145c637dc24c3742f97",
+    "src/infrastructure/repository_vectors.py": "5bc4c21afa2bbe51737ebe20388e0c14002c0c7795dbe745e3c8a8396d2c4c41",
+    "src/infrastructure/temporal_data.py": "82af8cc9f7b3e36dcbd62ca74727794cf27a575c4757eb6a7ac3941563a9a00f",
+    "src/infrastructure/vector_index.py": "66f599d4481080722753668e4dda0f4d9e59988f18230d3d4814f4594308039b"
+  }
+}

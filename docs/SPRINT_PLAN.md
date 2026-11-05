@@ -2,7 +2,7 @@
 
 ## Recorded adjacent-track registration (2026-11-05)
 
-Historical continuity: v38.5 Sprint DA (Pillars 1133–1134; next slot 1135).
+Current registration: v38.5 Sprint DA (Pillars 1133–1134; next slot 1135).
 
 This synchronizes the registration already recorded in STATUS.md: a
 Bogoliubov reference calculation and a generic rare-decay comparison tool.
@@ -145,6 +145,7 @@ Proceed only when all three agree.
 | Primary target | **Derive genuine coordinate-time hyperbolic field equations for a declared homogeneous perimeter (gauge field excluded) and exact-identity cross-check against the already-certified static system, without overclaiming closure of the full action-to-evolution gap** |
 | Binary outcome | **P1132 valid, contract `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` with the same two residual obligations remaining, canonical surfaces on v38.4, no closure inflation** |
 
+Historical continuity: v38.5 Sprint DA (Pillars 1133-1134; next slot 1135) records adjacent superfluid-reference and rare-decay-tool registration above Sprint CZ, not a hardgate physics closure or a new full-regression claim; the historical Sprint CU regression record remains unchanged.
 Historical continuity: v38.4 Sprint CZ (Pillar 1132; next slot 1133) is the canonical ADM homogeneous hyperbolic evolution layer directly above Sprint CY.
 Historical continuity: v38.3 Sprint CY (Pillar 1131; next slot 1132) is the canonical offdiagonal exact reduction identity closure layer directly above Sprint CX.
 Historical continuity: v38.2 Sprint CX (Pillar 1130; next slot 1131) is the canonical action-derived flow steward-promotion layer directly above Sprint CW.

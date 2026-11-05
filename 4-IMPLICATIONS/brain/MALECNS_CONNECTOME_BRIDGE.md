@@ -107,7 +107,7 @@ Primary public interfaces tracked by this pillar:
 
 Implementation:
 
-- `src/core/pillar1129_malecns_connectome_empirical_bridge.py`
+- `src/core/pillar_1129_1168/pillar1129_malecns_connectome_empirical_bridge.py`
 - `tests/test_pillar1129_malecns_connectome_empirical_bridge.py`
 
 ### Bounded offline empirical reproduction

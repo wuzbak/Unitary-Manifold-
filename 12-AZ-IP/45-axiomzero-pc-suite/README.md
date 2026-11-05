@@ -22,8 +22,10 @@ local command execution.
 
 ## Embedded instruction assistant
 
-**Ask PsiCat** uses packaged Qwen3-1.7B Q4_K_M weights and a statically compiled,
-revision-pinned CPU llama.cpp server. No separate Python, Ollama or cloud model
+The selected **Ask PsiCat** candidate uses official Qwen2.5-1.5B-Instruct
+Q4_K_M weights and a statically compiled, revision-pinned CPU llama.cpp server.
+Actual backend acceptance remains a packaging prerequisite, not a claim that
+the candidate has already shipped. No separate Python, Ollama or cloud model
 service is needed for this path. This is a third-party pretrained language
 substrate under the suite's evidence/governance controls, **not** our from-scratch
 toroidal model and not proof of physical 5D information flow.
@@ -34,6 +36,28 @@ choose an executable, endpoint, API key or arbitrary filesystem path. The owned
 server uses a fresh loopback port and API key, bounded CPU/context/output budgets
 and explicit cancellation/shutdown. Retrieved text is reference data, not tool
 authority; model output never runs tools, commands or file writes.
+The client requests generic JSON-object constrained decoding for answers,
+but not the ownership challenge. This does not supply answer values or prove
+grounding. Unsupported decoding fails explicitly; no output repair or
+unconstrained retry replaces the strict response checks.
+The shared candidate/runtime policy requires categorical labels without
+explanatory prose and keeps refusal explanations about instruction authority
+or unsafe actions separate from capability limits. Contract tests check that
+both paths carry the same general rules; they do not establish that the real
+candidate follows them. Native acceptance must be rerun after policy changes.
+Answers use one generation and a 2,048-token CPU context by default. Hosted
+run `42091109622` found no improvement from same-model review: the candidate
+still passed only 3/4 cases, with identical incorrect retrieval draft and
+revision. That unqualified extra cost is not enabled for normal inference.
+Trusted main-process callers may explicitly set `enableModelReview: true`
+for the experimental two-generation protocol, with a 4,096-token context.
+It reviews the same task and evidence without grader feedback or expected
+answers; only the unmodified final generation is validated, and review errors
+never fall back to the draft. The returned `modelReview` record discloses
+whether review was enabled, generation count and raw outputs. This is not
+independent verification or demonstrated quality improvement. Opt-in generations
+share the existing five-minute inference deadline and remain cancellable;
+original question and evidence admission limits remain unchanged.
 
 Failed-spawn and already-exited child handles are not signalled; cleanup still
 waits for their close event within its deadline. Genuine signal errors remain
@@ -67,11 +91,12 @@ approval and is not recorded as completed. Named external Ollama models retain
 their separate explicit disclosure.
 
 Windows packaging depends on actual instruction/citation/refusal acceptance.
-The workflow verifies the official Qwen Q8_0 source weights against their LFS
-hash and revision, then locally requantizes to Q4_K_M with the same pinned
-llama.cpp quantizer. There is no official Q4_K_M file in this upstream model
-repository. Requantization can reduce quality; provenance records both hashes,
-the quantizer hash and that limitation. A failed gate blocks
+The workflow verifies the official instruction-tuned Q4_K_M weights against
+their LFS hash and exact repository revision, with the existing 1.6 GB model
+budget and Apache-2.0 metadata checks. This candidate is downloaded directly,
+not requantized from another quantization. The previous Qwen3-1.7B candidate
+failed the retrieval case in both Q4 and original-Q8 paired evaluation; those
+negative results remain recorded. A failed gate blocks
 the installer. Source builds require the validated runtime artifact in
 `build/instruction/`, including `manifest.json`, the declared GGUF,
 `llama-server.exe`, model card, Apache license, provenance and pinned engine

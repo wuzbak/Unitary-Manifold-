@@ -55,7 +55,9 @@ def test_identity() -> None:
 ])
 def test_legacy_import_uses_single_sharded_source(module_name):
     module = importlib.import_module(f"src.core.{module_name}")
-    assert Path(module.__file__).parent.name == "pillar_1132_1134"
+    expected_shard = ("pillar_1132_1134" if module_name.startswith("pillar1132_")
+                      else "pillar_1129_1168")
+    assert Path(module.__file__).parent.name == expected_shard
     assert module.__name__ == f"src.core.{module_name}"
     assert not (p1132._ROOT / "src/core" / f"{module_name}.py").exists()
     assert p1132._ROOT == Path(__file__).resolve().parents[1]

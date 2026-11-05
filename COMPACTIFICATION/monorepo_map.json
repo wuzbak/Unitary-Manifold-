@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8529,
+  "file_count": 8628,
   "lanes": {
-    "az_ip": 2641,
+    "az_ip": 2644,
     "compactification": 9,
-    "other": 5465,
+    "other": 5561,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2641,
+    "12-AZ-IP": 2644,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -31,7 +31,7 @@
     "6-MONOGRAPH": 20,
     "7-OUTREACH": 949,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 193,
+    "9-INFRASTRUCTURE": 265,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -109,10 +109,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1640,
+    "src": 1662,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1566,
+    "tests": 1568,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -2637,11 +2637,14 @@
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/api.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/__init__.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/server.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/capture_archive.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/harness.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/temporal_adapter.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/usgs_adapter.py",
       "12-AZ-IP/40-az-live-data-harness/run.py",
       "12-AZ-IP/40-az-live-data-harness/tests/test_api.py",
       "12-AZ-IP/40-az-live-data-harness/tests/test_live_data_harness.py",
+      "12-AZ-IP/40-az-live-data-harness/tests/test_temporal_capture.py",
       "12-AZ-IP/40-az-live-data-harness/ui/index.html"
     ],
     "41-az-media-suite": [
@@ -21006,7 +21009,21 @@
       "product": "40-az-live-data-harness"
     },
     {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/capture_archive.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
       "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/harness.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/temporal_adapter.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -21035,6 +21052,13 @@
     },
     {
       "path": "12-AZ-IP/40-az-live-data-harness/tests/test_live_data_harness.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/tests/test_temporal_capture.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -29823,6 +29847,438 @@
     },
     {
       "path": "9-INFRASTRUCTURE/_config.yml",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/EXECUTION_BOARD.md",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/MASTER_PLAN.md",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/README.md",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/capabilities.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/009364eeac53e8c413236411bbfdf0c58a7824a2bfa85d97ebac88418605b619.azmq",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/0568f990c178af658ee5ced4dce10fd5334962992925acf39ac183393ca27418.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/0fc413921794cc23d701a1dfaaf5bafca88cc6855976174d10ca08dfbe12ca78.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/1bf146f1bc92815b7320b92a8576877e73c6d88a046e859ccea7bcd713ee216f.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/1eb7108fc1d8212973586592a51d184546bfa8ead96aaa6ce92292ae7a21aa58.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/28083e94049ef074631df0fb428a3cebb40d836d65238054da719fe7a19d64fe.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/3dcf14855fd2a44ea3666f3a1a84036a9ad150a85f184cbe0403ca3c94284f2b.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/58aff2c9dc295c8f912ba7a76e95ac7285d44e5ad52bed73d64edc6856af5727.azmq",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/60ccd380f965c56e815e0417d3ee80baf962e791c6264dfb52cdd24a1f74a0b2.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/631fb1c4b621f1e6112a60bfa6be5a70cf3b3bf34be7677d629c7075a2b993dc.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/6b86bb8507c1033ec0e3413d180937cbaa01dbf276825ce17d05fa060dc848d6.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/6c9a65da3a3d4fbd8d3a7c64dfe388e477b8777d10bd7bf2a23b8b8623ce936b.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/6d48264d38decab4d424be3aa9273b34e077e1de26c6b0f70b3c1cdfcb485b6b.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/6e986d3a14c32cc9ce6aef58f3f87b262620981494f425aecd8f01d5f7e62ce1.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/7562cbde626ad82a001125b1282c3c2157ecf8086f76c75c6a2968b588e7fcdf.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/77aa36382bfb4799670aff9c10e27ebcb06dd776ee2256b88dcea344f4235c1b.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/8373e7790bfd291056a1aae80c8bdd70de11fb173a3ae38b107184a3e27fb634.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/979847638ed7ec97277a0f5023515192779fc369050963048a12e0300fd8ede3.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/9931b3728d5abee5d0262dba152c4ebf6f98ad82e666b845189aaa19716d2ba2.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/9dca9bef3247d4903819d691c8c3dd3f119f2eeeb317500f71d4a340f28e3cab.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/9ec2723b7b6a5056a4e706509b36b74721d856a2933708502982532ef75a2255.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/9fe90aba130e3da8a4a3ef6f2ef2d37d0281bd79a81969b6717f061f9ad306b1.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/a01eda39d6c3edb942c619ea9f709fc46b46f5664b9c1c64abdffa0884ac5cdc.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/a335542da4f1a7c17bf6a9f058652f06c23772d263e912084c3a2ced1630be02.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/abff87f2999f404fbdf2c40aa8dea8cc52bbd972e489dcabb0d360660918f3c4.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/b39d88258767398b9e49a6baa97e094ec9ffe962ba9abaf632e3abba03d97bb3.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/b39d88258767398b9e49a6baa97e094ec9ffe962ba9abaf632e3abba03d97bb3.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/b82680997e5352cb636ccba285ebba49580a9f36dfb172d6f803878e9ac7a667.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/b9e7a8c65b12cdf871e542489e884580ce7b5bf62c253fe0cd511ffd83318705.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/bc8d11064b804f9b5d34370a47d7330fade286b67ab2044d68ab62d25e6acf4f.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/c0253c584b24209767747074fc925b2bfc8821affe87372bc68fb47a47c2b3d2.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/c1bda8364989c6131fa6a1d3ad98389928c253b2eec5adbc4fe2ffe8ca422be3.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/c663dccbb5ac17ac61fb3b833e456a883b8343bb0d0ebbc0afb821a3a0cd9a97.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/cdea72d22694fbe4c2108d75a4e15b3d5134382329e4144fb43bc7f1808641da.azmq",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/ce3e94ef90a31c2b0f42ee51e74ac016fdf02a242944a378baca69b43e3a1aa8.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/cebd721f77f4422dd68746e71f071c69639a2aeee6d2c47cbbf84b0871d9e91d.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/d0495292f34ef0e427c2371066cc2c5f0de93dd2371341431e26d0ff3c5656f5.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/d314e7736e08dbe23b54635d4f0ce52f925d8c5b2264ee21db24d0b14765addc.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/d4502f0d1770b971d95adef08faf003522513e164475f83ee6d6d64310ea064c.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/d73538e777738f757be17e1aea80252f3af9054e7a9aca2a6be258de80e496bd.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/dbfab177813d7ff2840f780c993a05dd3f5e1c47ac250d638286371220d86007.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/e0b5dfc76540f8a5f817a5da45cec08b5d6ad75a3d3bb1bab7847eeb5b623394.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/e1754a35381eb05b4c66791acf5de1be5b8139f0723ca6b79c928c75eed4966b.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/f10058920421e05a3ec5c2f4e031684e5562ca8b5b5fbfad353169412644c3aa.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/f40786d9d661930141ded84821baa12fcc09523a48a65f4cae67a1cfd25c543f.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/fbabaca6b18782ddf5b7b035b2742059600cc415473e6460826f4d72cd081401.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/fd0f39c4f1023695f39a9d2edf0daa28e555f1c828c4645ca7f69ec2d7887814.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_arithmetic_generalization.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_artifact_io.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_checkpoint_bundle.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_data_lineage.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_drift_monitor.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_lowbit_quantization.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_model_interchange.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_p43_checkpoint_bundle.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_p43_training_reference.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_performance_profile.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_program.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_quantization_calibration.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_reference_benchmarks.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_repository_vectors.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_research_quality_audit.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_research_quantization.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_research_serving.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_research_serving_benchmarks.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_temporal_data.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_tokenizer_interchange.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_vector_index.py",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -40862,12 +41318,6 @@
       "lane": "other"
     },
     {
-      "path": "src/core/pillar1129_malecns_connectome_empirical_bridge.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
       "path": "src/core/pillar1130_action_derived_flow_steward_promotion.py",
       "top_level": "src",
       "kind": "file",
@@ -45566,6 +46016,30 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar_1129_1168/__init__.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1129_1168/pillar1129_malecns_connectome_empirical_bridge.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1129_1168/pillar1133_superfluid_effective_theory.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1129_1168/pillar1134_rare_decay_probes.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pillar_1132_1134/__init__.py",
       "top_level": "src",
       "kind": "file",
@@ -45573,18 +46047,6 @@
     },
     {
       "path": "src/core/pillar_1132_1134/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "src/core/pillar_1132_1134/pillar1133_superfluid_effective_theory.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "src/core/pillar_1132_1134/pillar1134_rare_decay_probes.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -46664,7 +47126,133 @@
       "lane": "other"
     },
     {
+      "path": "src/infrastructure/arithmetic_generalization.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/artifact_io.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/checkpoint_bundle.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/data_lineage.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/drift_monitor.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/infrastructure/execution_spine.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/lowbit_quantization.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/ml_program.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/ml_reference_benchmarks.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/model_interchange.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/p43_checkpoint_bundle.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/p43_training_reference.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/performance_profile.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/quantization_calibration.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/repository_vectors.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/research_quality_audit.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/research_quantization.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/research_serving.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/research_serving_benchmarks.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/temporal_data.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/tokenizer_interchange.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/vector_index.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -49239,6 +49827,12 @@
     },
     {
       "path": "tests/test_core_pillar102_brane_gw.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_core_pillar_shard_imports.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
@@ -56787,6 +57381,12 @@
     },
     {
       "path": "tests/test_um_arts_source_isolation.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_um_arts_subtest_reconciliation.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

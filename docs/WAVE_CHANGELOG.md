@@ -126,6 +126,168 @@ does not recover or certify the original approximately 8% missing change set.
 No pillar/version promotion, scientific closure, TOE-score increase or weakened
 falsification condition is made.
 
+## Measured review non-improvement and integrated regression repair (2026-11-05)
+
+Actual hosted two-pass evaluation at `62a3170` still passed only 3/4, with
+identical JSON drafts and revisions. The exact receipt is retained under
+SHA-256 `bc8d11064b804f9b5d34370a47d7330fade286b67ab2044d68ab62d25e6acf4f`.
+Same-model review remains available only through explicit experimental opt-in;
+normal inference returns to one generation and a 2,048-token context rather
+than imposing unearned latency and memory costs. An optional hosted diagnostic
+has its own report and never substitutes for packaging acceptance. Prompts,
+facts, grader and acceptance thresholds were not weakened.
+
+The complete integrated local run exposed 20 software failures, including stale
+status projections, omitted P1133/P1134 test membership and the existing
+`src/core` directory budget. P1129/P1133/P1134 are sharded byte-for-byte with
+standard package-path compatibility for their existing flat imports; the
+unchanged limit now passes at 1,368 tracked entries. Corrections preserve
+scientific claims and historical regression counts; replacement complete
+regression evidence remains required. The full adjusted Node suite passed
+227 tests without failures or skips. The combined affected Python replacement
+passed 1,208 tests and 110 subtests, including every originally failing file;
+all 2,080 Markdown files passed the link audit. All 21 capabilities remain open.
+
+The replacement full run at `a9f6fa0` reached 66,422 passes but exposed one
+immutable-archive regression. Historical archive and assembled-book bytes were
+restored rather than changing their expected seals. Hosted validation also
+exposed missing current-version Sprint Plan continuity; its new adjacent-only
+entry preserves prior records. Restoring the declared missing FastAPI dependency
+enabled the previously skipped Base44 tests. Both repaired suites plus original
+status checks passed 79 tests with no skips or failures; fresh full evidence
+remains required. The restored-single-pass actual model still failed 3/4, and
+its exact receipt remains preserved without regrading or threshold changes.
+
+## Mainline v38.5 ledger synchronization and bounded model review (2026-11-05)
+
+The approved mainline Sprint DA registration had advanced STATUS and the tracker
+without synchronizing the public/core ledger versions. Integrated-mainline
+testing exposed the genuine version-consistency failure. README, FALLIBILITY
+and DERIVATION_STATUS now explicitly reflect that existing adjacent registration,
+preserving all scientific limitations, falsifiers and the historical regression
+marker. This is not a new physics promotion. The combined Git-index inventory
+was also regenerated after integration rather than bypassing its stale-map gate.
+
+The instruction client and verifier now perform one generic model revision for
+every JSON answer, without grader feedback or expected-answer content. Draft
+and final generations remain distinguishable; review errors never fall back to
+the draft. Plain-text challenges remain single-pass. The bounded context is
+4,096 tokens, while original client question/evidence admission limits remain
+unchanged. Self-review adds CPU latency and is not independent verification;
+actual-model acceptance remains required.
+
+## PR diff attribution correction (2026-11-05)
+
+The ledger gate now compares the actual event PR head to its merge base with
+the event base, not GitHub's moving synthetic merge commit. A mainline advance
+had attributed unrelated new pillars to the software-only branch and requested
+irrelevant ledger edits. Regression tests exercise both stale and advanced
+event-base snapshots with a real divergent Git history and synthetic merge.
+Actual PR pillar changes retain the same canonical synchronization requirements.
+All 42 ledger regression tests passed, including genuine PR-pillar rejection.
+The structured-output experiment separately reached only 3/4 for both the
+current Q4 and the controlled original Q8; exact negative receipts remain
+preserved. The local canonical-plus-affected run completed 66,371 tests and 107
+subtests with no failures, but predates collection of the four new workflow
+regression cases and is not frozen current-head hosted evidence.
+
+## AZ ML merge integration and paired-source diagnosis (2026-11-05)
+
+Merged the new mainline PsiCat manuscripts and their subsequent complete-volume
+assembly without discarding either branch's work. Regenerated the combined
+Git-index inventory to resolve the actual merge conflicts that prevented new
+pull-request CI from starting. Open program capabilities are not themselves a
+blanket block on merging tested incremental infrastructure.
+
+The Windows backend workflow now compares the checksum-verified original Q8_0
+source against its derived Q4_K_M candidate with unchanged prompts, deterministic
+decoding and grading. Source results are explicitly diagnostic-only, with their
+own retained receipt and failure status; they cannot satisfy or bypass the Q4
+packaging gate. The original source weights are not added to the packaged
+runtime. This is a measurement path, not a claimed model-quality improvement.
+Product 40 destination tests also cover regular files and require explicit
+errors without success-shaped output before acquisition.
+No physics claim, score, pillar, falsifier or program completion flag changes.
+
+The paired hosted experiment subsequently passed only 3/4 in both Q8 and Q4, so
+compression alone is not established as the cause. The next selected candidate
+is the official Qwen2.5-1.5B-Instruct Q4_K_M direct artifact, with the same
+license, size, provenance and acceptance obligations; selection is not a pass.
+The integrated slow-inclusive local canonical regression completed with
+65,499 passed, 74 skipped and zero failures in 900.72 seconds. This count does
+not include every isolated product suite or establish model quality.
+
+The direct instruction candidate's first actual run passed only 2/4: it
+returned correct portfolio facts inside an unwanted Markdown fence and
+substituted source-status words while explaining a refusal using platform
+limits. Its exact failed receipt is retained. The next correction strengthens
+the general production policy in both verifier and real client for plain JSON,
+literal source labels and action-authority-grounded refusal explanations.
+This is an explicitly disclosed system-policy change, not an unchanged-policy
+claim; case prompts, grading and deterministic decoding remain unchanged.
+
+The shared-policy run still failed 2/4; its exact receipt remains preserved.
+The complete local run on that committed policy passed 66,369 tests and 107
+subtests, with 74 skipped and no failures. The next serving correction requests
+generic JSON-object constrained decoding in both the actual client and
+JSON-requesting gate cases. This explicitly changes structured-output decoding;
+it supplies no answer values, leaves text challenges unconstrained and preserves
+case prompts, strict parsing and semantic grading. Unsupported decoding fails
+without an unconstrained retry. No model-quality pass is inferred.
+
+## AZ ML infrastructure continuation (2026-11-05; adjacent software only)
+
+Added independent P43 NumPy forward/reverse/Adam parity checks, including every
+parameter gradient, optimizer moment and updated weight. Validation-only
+calibration selected a complete 3.4414-bit artifact for the retained synthetic
+model under unchanged fidelity limits; its later test observation is explicitly
+already exposed and is not fresh quality qualification. Native answer utility
+remains failed at 0/30. Added content-addressed checkpoint shards with the
+manifest as sole commit point, directory-inode-anchored publication and local
+worker-loss recovery; this does not establish distributed durability.
+An actual P43 model/Adam/PCG64 adapter now validates bounded non-pickle state,
+splits model/optimizer/RNG roles, reconstructs the native checkpoint and matches
+the uninterrupted next training step exactly on a constructed CPU fixture.
+The writer is now also terminated immediately after local commit, and a fresh
+process restores the exact state. P43 benchmark loading now preflights and
+instantiates the exact hashed bytes, including inference-only checkpoints.
+Temporal USGS revisions retain explicit missing-value corrections and replay
+the latest available event revision without backdating availability. UM-ARTS
+reconciles repeated passing subtest reports without accepting failed or
+unexpected-xfail outcomes; missing-PID cleanup never signals an unowned child.
+A hosted Windows CPU candidate evaluation passed 3/4 sanity cases; its
+retrieval-injection refusal failed the unchanged rationale rubric because the
+model did not identify the retrieved instruction as malicious/untrusted. No
+output was executed, and the candidate remains unqualified.
+No GPU, production serving, live-feed or distributed-storage claim follows.
+All 21 capabilities remain scope; none is declared complete. No physics claim,
+pillar, score, threshold, equation or falsifier changed.
+
+### Exact raw-response replay continuation
+
+Product 40 now optionally archives exact bounded USGS response bytes with their
+original observation time, origin, snapshot and transform-source bindings.
+Explicit offline replay verifies the immutable archive and never silently
+fetches or substitutes a current clock. Missing values and synthetic labels
+remain intact. Corruption, incompatible source versions, wrong scope, unsafe
+files and oversized payloads fail explicitly. Independent review caught and
+fixed an empty replay-ID path that could have fetched live data.
+This is tested local replay, not live-feed, serverless or production validation.
+The registered Product 40 README was resealed with its previous identity retained.
+Synchronized independent checkpoint writers now exercise identical and distinct
+bundles in one local POSIX directory, with fresh-reader verification, immutable
+idempotent retries and no temporary-file residue. This does not qualify network
+storage or distributed durability. The repeat hosted candidate remains 3/4;
+its rationale failure and the original 0/30 quality failures remain visible.
+The earlier frozen hosted run completed at its exact PR merge checkout with
+66,086 passed, 41 skipped and all 66,127 selected identities reconciled, plus
+45 passing isolated product-suite jobs. Later edits still require their own
+regression evidence; this is not an all-capability completion claim.
+The final local canonical-plus-affected combined run passed 66,345 tests with
+74 skips and 102 passing subtests, zero failures. A preceding register-wording
+failure was fixed by restoring its explicit partial-foundation nonclaim, not by
+weakening the assertion. The actual-model candidate gate remains failed.
+
 ## PsiCat Books 57 and 58 - Original AxiomZero commission (2026-11-05)
 
 Added two original, book-length Markdown manuscripts in the PsiCat Literature:

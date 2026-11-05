@@ -860,6 +860,150 @@ or hardware certification.
 | `12-AZ-IP/01-axiom-os/README.md` | `05ed1c24584a6fbe87a4b842b9fa1b8add1fc5491ad281709377e8487ba66cc9` | 9983 |
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `f6c464c311730e3d967d28073af8252bfe7bfcc3581dce3341cf332ea5b5a4ee` | 25807 |
 
+### Product 40 temporal capture documentation reseal - 2026-11-05
+
+The Product 40 README now documents its source-bound temporal CLI/API adapter,
+local observation-time availability, explicit missing magnitudes and remaining
+feature-store/drift boundaries. Tests use labeled constructed responses; a real
+live CLI attempt in this environment failed at DNS resolution, without fallback.
+
+The previous registry-recorded seal did not match the pre-change Git asset.
+`IP_REGISTRY.json` preserves both the historical registry identity and the actual
+pre-edit identity; this reseal does not certify that the older seal was valid.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/40-az-live-data-harness/README.md` | `237a323a32a12aac208fa98e378ff69e6ac57629ac064803765cbf0ea27a68ae` | 5431 |
+
+### Product 40 exact raw-response replay documentation reseal - 2026-11-05
+
+The Product 40 README now documents bounded raw-response archival and explicit
+offline replay preserving original observation time, origin, source and snapshot
+bindings. Temporal null corrections and backward-time revisions remain explicit.
+Constructed-response tests are not live-feed validation; the current live
+attempt still fails DNS without fallback. The prior seal remains in registry
+history and in the preceding dated subsection.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/40-az-live-data-harness/README.md` | `7bbe986e3ac04df2136b8cbba8563cabbbfee22eef4d73cac0eb364331fe813e` | 7350 |
+
+### Product 40 capture-destination preflight reseal - 2026-11-05
+
+The Product 40 README now states that requested snapshot and raw-archive
+directories are checked before a network acquisition begins. This avoids
+requesting a live payload when its explicit retention destination is missing
+or a symlink. The prior exact-replay documentation seal remains in registry
+history; no live-data success is implied.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/40-az-live-data-harness/README.md` | `4781f1b0cedb2f418d5616b27e6a5251f7c40a9b6c1ef7be22362a6d98833424` | 7638 |
+
+### Products 43 and 45 instruction-candidate selection reseal - 2026-11-05
+
+The registered READMEs now distinguish the selected direct official
+Qwen2.5-1.5B-Instruct Q4_K_M candidate from the preceding Qwen3 Q8/Q4 experiment.
+Both preceding artifacts failed acceptance; choosing another candidate does
+not qualify it. Actual hosted checks, the model budget, provenance checks and
+packaging acceptance remain required. Prior documentation identities are
+retained in registry history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `555dc31b1d4edc14e2987fa3bac4f0c06cc6181286d300dc6b9ca2567518879b` | 23292 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `4f283b0d700658e211eda7f1a904847b8e48ffb6257ca2a6f5b1c347a1945d2f` | 24275 |
+
+### Products 43 and 45 candidate/runtime contract reseal - 2026-11-05
+
+The verifier, its contracts, the governed Node client and matching tests now
+select the direct instruction-tuned candidate consistently. The historical
+Q8 profile remains diagnostic-only. Previous registered identities and the
+actual preceding committed diagnostic/runtime identities are retained in the
+registry. This also closes the seal gap introduced by earlier diagnostic and
+owned-process-cleanup edits; it is not a quality certificate.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `5dc8e332bb902aa64f6d8f4cc6d7efdb7fbb6e6cc8d411193588d2d12ebe4a97` | 31754 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `26a7de6db36ae7d0cbb86b43a25c3d178e97bfe76a97ba164c11bb628b6d15b8` | 50156 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `13d7646a4aa30bd836e81f5f13a4ee9c0dc96eabab14fb5398b29a5b0979fed2` | 32911 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `4c7d82132d6c969fa591519caeb484e15d4245ce786590d23ac4d88c5c1cd70d` | 25385 |
+
+### Products 43 and 45 general output/trust policy reseal - 2026-11-05
+
+The verifier and actual governed client now state a stronger general output
+contract: plain requested JSON, literal source-status labels and refusal
+grounds based on action authority rather than unrelated platform limits.
+This intentionally changes the production system policy; it does not change
+the case prompts, grading thresholds or deterministic decoding. The preceding
+2/4 instruction-candidate receipt remains preserved without modification.
+Previous source identities are retained in registry history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `a97a8517a54c1a09011f4eddbc0b887fe0b904942e15c8ef202c2bd0007757dc` | 31995 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `67a6e01fd70e1c75d0007ad0159eee019767c5a1aeaf04e9a8f97317f8f44f46` | 50508 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `836a7d27cc0c17f01d9c95e4101879fcaaf2298ddc542bf6aa2e7047c3592768` | 33148 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `943abbb5247f009d887e7cbbf875ca3a836a4d4362e734cd0417818e3b295a8b` | 25908 |
+
+### Products 43 and 45 syntax-only JSON decoding reseal - 2026-11-05
+
+The actual governed runtime and JSON-requesting verifier cases now request
+generic JSON-object constrained decoding. This changes structured-output
+decoding, not evaluation prompts or semantic grading. No answer-bearing schema
+or output repair is introduced. Plain-text challenges remain unconstrained;
+unsupported decoding fails explicitly without an unconstrained retry.
+The preceding shared-policy experiment still failed 2/4 and its exact receipt
+is preserved. Previous source identities remain in registry history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `114f7894c86268926e2a78cf43de3174770372f96c510cf8fa6368d0545833f9` | 23636 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `bf528717baf276a14308092f35f21bdb6ab9d1b1ab748878f308d097c00589d4` | 32331 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `61a1bdaa2b89610f7754f7b73b4819db13a7e2695d259b93eda12a8ae9b83f8e` | 52313 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `6db8927c6722ca1747703fb3d257f68e97bcba18c2017e34ec6cc5eb6f28d087` | 24553 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `39083f6d476d4d9abf1b30a00f8153e86f927a2b064407ed3585c9ccb16ba2f0` | 33214 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `59e6d3c9c1053f013e8a104e36a02b14e30e61f4ac0f92cfed66938850bc24ca` | 26724 |
+
+### Products 43 and 45 bounded model-review reseal - 2026-11-05
+
+Every JSON task now receives a draft and one generic same-model revision,
+without grader feedback or expected-answer content. Both generated texts remain
+distinguishable; a failed review never falls back to the draft. Plain-text
+challenges remain single-pass. The default CPU context is 4,096 tokens, while
+initial client input limits remain unchanged and client draft/review share the
+existing inference deadline (the verifier retains a per-HTTP timeout). This adds latency, not independent verification
+or an earned model-quality pass. Case prompts and grading remain unchanged;
+earlier negative receipts and previous source seals remain preserved.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `15cfbe885999a6ae298db911e0f98d2749aad03b7a64ee8b8627be3f0cbd6c0f` | 24197 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `bb238ec0639d632a32aae09512e6fbb15d22230eaa48ea562a2c7cdcda87d8e6` | 35730 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `b1e9c52e7a842dc318ed9932d7f3fa1c5159e72d509dff284931bd0c7f0e191e` | 61968 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `65c817a47a982248e21b2da290408b753bcc698f0cd08a9906bbf3ed03aa6e52` | 25217 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `3ae077b1ef9316a7d5c6b947a62bd6580e1dfb32ced282be1b65c53f18b4ccbb` | 34998 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `30667d76e58c8b88c45c536f34120e7b61c2ba63f63420174f4063cc0eb9cd1c` | 31676 |
+
+### Products 43 and 45 experimental review opt-in reseal - 2026-11-05
+
+Actual hosted two-pass evaluation still passed only 3/4 with identical JSON
+drafts and revisions. The unqualified extra generation is now explicit
+experimental opt-in; normal inference retains one generation and a 2,048-token
+context. No evaluation case, grader or threshold changed. Both review outputs
+and explicit failures remain available when opted in. Previous exact identities
+are retained above and in registry reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `b2b0c9d63dbe1a0f7ed9d220b8fc58108861147079aa7adb89316ae87e00231d` | 24228 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `2f9074ed5ac9344798ac00f6de49f9978eb3d96001301015e0baa3ca213e92fe` | 36144 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `f0dbc8a4d46db8ebcb8fa60839959018c8f1efadb6110ee3ef821871f00364ea` | 63548 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `e1e07d1ed6920b1ee3949a2d87ae851a091e4f7a1595ad642d3d0719021aa57e` | 25524 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72` | 35436 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb` | 33035 |
+
 ## Verification Protocol
 
 To verify any registered asset:
@@ -882,3 +1026,16 @@ the exact state of AxiomZero IP as registered on 2026-06-15.
 
 *AxiomZero IP Fingerprint Manifest v1.0 — 2026-06-15*
 *Pillar 536 — AXIOMZERO_IP_REGISTRY*
+
+### Integrated mainline/recovery model-policy reseal — 2026-11-05
+
+Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `d1a057e797f00d633c1e24345843c110fcb0ad210faafa46238805c88422607a` | 27654 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `3aef20a9f0d646deabaac0a69dbbdb998a0f7c32995a51b7f3b68325d2d4ba5b` | 24615 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `00e5a156adf21fa97510f7c5c4a705e9cecc04c6b86ce688c4925a607926a545` | 64462 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `999fcb761373bc88ba27b83eab819ea4bb6c1f92511b6d306a994948643cf8d2` | 36396 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d6b738b1ced2debf3e722d52cf629f557c61847621b4950c0b6969668babbc6e` | 36158 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `6d34f8a2bafe44afc95607873699cb74d7a6d042c05b9382a55c09eed071639b` | 37393 |

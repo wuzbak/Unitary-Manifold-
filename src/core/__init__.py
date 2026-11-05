@@ -1,8 +1,12 @@
-from os.path import join as _join
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026  ThomasCory Walker-Pearson
 
-# Preserve legacy pillar imports while keeping one physical implementation.
-__path__.append(_join(__path__[0], "pillar_1132_1134"))
-del _join
+from pathlib import Path as _Path
+
+# Keep flat src.core imports discoverable while storing later pillars in shards.
+__path__.append(str(_Path(__file__).with_name("pillar_1129_1168")))
+__path__.append(str(_Path(__file__).with_name("pillar_1132_1134")))
+del _Path
 
 __provenance__ = {
     "author": "ThomasCory Walker-Pearson",

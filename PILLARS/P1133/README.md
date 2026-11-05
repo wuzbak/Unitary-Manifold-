@@ -5,7 +5,7 @@
 **Status:** Bounded scientific reference calculation
 **Date:** 2026-11-05
 **Scope:** Bogoliubov dispersion for a homogeneous, dilute, repulsive 3D Bose gas
-**Source module:** `src/core/pillar_1132_1134/pillar1133_superfluid_effective_theory.py`
+**Source module:** `src/core/pillar_1129_1168/pillar1133_superfluid_effective_theory.py`
 
 The public import remains `src.core.pillar1133_superfluid_effective_theory`.
 The source is sharded for directory hygiene; no implementation is duplicated.
@@ -15,7 +15,7 @@ The source is sharded for directory hygiene; no implementation is duplicated.
 
 ## What this pillar does
 
-`src/core/pillar_1132_1134/pillar1133_superfluid_effective_theory.py` provides a small SI-unit
+`src/core/pillar_1129_1168/pillar1133_superfluid_effective_theory.py` provides a small SI-unit
 toolkit for the zero-temperature, leading-order Bogoliubov spectrum, its
 angular frequency, and the associated mean-field sound speed. The implemented
 convention is

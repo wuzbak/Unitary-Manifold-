@@ -93,8 +93,8 @@ class _Response:
     def __exit__(self, *_args):
         return False
 
-    def read(self):
-        return self.body
+    def read(self, size=-1):
+        return self.body if size < 0 else self.body[:size]
 
 
 def test_usgs_adapter_returns_live_provenance_and_latest_event():
@@ -155,3 +155,16 @@ def test_usgs_adapter_rejects_malformed_event_and_future_feed_timestamp():
     for payload in (malformed_event, future_feed):
         with pytest.raises(LiveDataError):
             fetch_earthquake_summary(opener=lambda *_a, **_kw: _Response(payload), now=now)
+
+
+def test_usgs_transport_bounds_response_read_before_parsing():
+    sizes = []
+
+    class OversizedResponse(_Response):
+        def read(self, size=-1):
+            sizes.append(size)
+            return b" " * size
+
+    with pytest.raises(LiveDataError, match="byte bound"):
+        fetch_earthquake_summary(opener=lambda *_a, **_kw: OversizedResponse({}))
+    assert sizes == [usgs_adapter.MAX_FEED_BYTES + 1]

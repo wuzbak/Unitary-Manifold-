@@ -56,6 +56,92 @@ The UI shows the live/stale/error state and displays the full JSON response.
 Fetching is on demand; opening the dashboard alone does not assert that a
 successful request occurred.
 
+## Temporal capture and historical replay
+
+The existing USGS transport now also supports availability-aware magnitude
+snapshots through the shared AZ ML temporal foundation:
+
+```bash
+python 12-AZ-IP/40-az-live-data-harness/run.py --temporal --owner-scope my-project
+```
+
+`GET /api/temporal-result?owner_scope=my-project` exposes the same read-only
+capture. Missing or repeated scope parameters return HTTP 400; feed failures
+remain HTTP 502. A caller-supplied scope is not authenticated multi-user access
+control. The existing summary endpoint and default CLI remain compatible.
+
+The capture carries the exact response SHA-256, feed publication and observation
+times, snapshot identity, explicit missing-magnitude IDs, origin and a
+promotion-ineligible execution-spine receipt. Magnitudes are USGS-reported
+values; magnitude types may differ, so this is not a homogeneous calibrated
+prediction dataset. Duplicate event IDs, future events, non-finite numbers and
+malformed records fail explicitly. Unknown magnitudes are reported, not filled
+with zero.
+Missing-value corrections are retained as null records, not dropped. New
+snapshots use schema v2 with local revision times; earlier v1 snapshots remain
+readable. Later source revisions supersede earlier values only once observed,
+even when a corrected event timestamp moves backward.
+
+Availability is **local observation time**, never the earthquake's historical
+event time. A later observed correction cannot leak into an earlier replay.
+The API always fetches; it does not silently substitute cached or generated
+data. Python callers injecting constructed responses must pass
+`origin="synthetic"`; such records are excluded by default temporal queries.
+
+Optionally add `--snapshot-dir /existing/durable/directory` to persist both the
+content-addressed temporal snapshot and its parent-linked lineage manifest.
+The source-payload node links to the temporal transform node with explicit
+origin, observation time, code/config identities and caller-asserted use policy.
+Deletion impact is an advisory descendant plan, not automatic deletion or model
+unlearning. The directory must already exist and have
+durably established ancestors. File/directory fsync and hard links require a
+supporting POSIX filesystem. Preserve the printed receipt alongside it to retain
+source provenance; the snapshot hash alone does not preserve the raw response
+or prove source authenticity. No raw feed archive is written without an explicit
+archive option.
+Each file is published atomically, but the pair is not one transaction. If the
+second publication fails, the CLI reports failure and a verified snapshot may
+remain; retrying identical artifacts is safe.
+
+### Exact raw-response archives
+
+Use `--archive-dir /existing/durable/directory` alongside `--temporal` and
+`--owner-scope` to preserve the exact response bytes in a single immutable,
+content-addressed archive. The archive includes scope, origin, original
+observation time, raw-response and snapshot hashes, and transform-source hashes.
+Transport reads are bounded to 8 MiB; oversized feeds fail rather than truncate.
+The base64-framed JSON archive has a separate bounded read limit.
+Requested snapshot and archive directories are checked as existing real
+directories before a live request, avoiding acquisition when the requested
+retention target is missing or a symlink. This is path preflight only; later
+filesystem errors can still cause explicit publication failure.
+
+Replay is an explicit, network-free operation, never a fallback for a failed
+live request:
+
+```bash
+python 12-AZ-IP/40-az-live-data-harness/run.py --temporal \
+  --owner-scope my-project --archive-dir /existing/durable/directory \
+  --replay-archive ARCHIVE_SHA256
+```
+
+Replace `ARCHIVE_SHA256` with the printed archive filename's SHA-256 stem.
+The result reports `mode="archive_replay"`. Replay verifies the archive, exact
+raw bytes, snapshot and current transform-source bindings. It preserves the
+original observation time, origin, missingness and historical stale flag; it
+does not attest present-day freshness or fetch today's feed. A changed transform
+requires the archived source version, not a silently substituted implementation.
+Synthetic archives remain synthetic. Wrong scope, missing/corrupt archives,
+unsupported schemas and unsafe files fail explicitly. Archive publication is
+atomic; an optional snapshot/lineage export is still a separate operation.
+An archive hash proves local byte identity, not upstream authenticity, training
+rights, authenticated ownership, power-loss recovery or live-feed qualification.
+
+This completes a scoped transport-to-temporal adapter, **not** a serverless
+feature store, statistical prediction-drift detector or deployment qualification.
+The broader program and remaining gates are tracked in
+[`../../9-INFRASTRUCTURE/az-ml-program/README.md`](../../9-INFRASTRUCTURE/az-ml-program/README.md).
+
 ## Tests
 
 ```bash

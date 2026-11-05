@@ -940,12 +940,44 @@
       "size_bytes": 2823
     },
     "12-AZ-IP/40-az-live-data-harness/README.md": {
-      "description": "Product 40 AZ Live-Data Harness README with epistemic-status section; resealed after Phase 2 web-product layer (api.py + app/server.py + ui/)",
+      "description": "Product 40 USGS summary, temporal correction capture and exact raw-response archive/replay documentation; bounded local provenance and explicit nonclaims",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "d01d560c6ead556f17ad2d8a1a540f511a2b8d074c23c0e43643afb56e6f1886",
-      "size_bytes": 3377
+      "updated": "2026-11-05",
+      "sha256": "4781f1b0cedb2f418d5616b27e6a5251f7c40a9b6c1ef7be22362a6d98833424",
+      "size_bytes": 7638,
+      "reseal_note": "Refreshed for bounded exact raw-response replay and preflight validation of snapshot/archive output directories before live acquisition. Prior temporal and archive seals retained; no live-feed or production qualification asserted.",
+      "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "d01d560c6ead556f17ad2d8a1a540f511a2b8d074c23c0e43643afb56e6f1886",
+          "size_bytes": 3377
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "4f90917097db78993fb785a453ebb8c37d750f5b64b83174fbdb5e7efd24fa69",
+          "size_bytes": 2731,
+          "note": "Actual Git HEAD asset before this authorized edit; not the previous registry-recorded seal."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "237a323a32a12aac208fa98e378ff69e6ac57629ac064803765cbf0ea27a68ae",
+          "size_bytes": 5431,
+          "note": "Temporal snapshot CLI/API documentation before raw-response archive and replay support."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "7bbe986e3ac04df2136b8cbba8563cabbbfee22eef4d73cac0eb364331fe813e",
+          "size_bytes": 7350,
+          "note": "Exact raw-response archive/replay documentation before output-directory preflight."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "bb035d2e5bfc9c8d91aff1a299f2992baa85b675e0d5ce2189ac82a7124ffb03",
+          "size_bytes": 7539,
+          "note": "Output-directory preflight documentation before filesystem-error clarification."
+        }
+      ]
     },
     "12-AZ-IP/41-az-media-suite/README.md": {
       "description": "Product 41 AZ Media & Feature-Inspection Suite README with epistemic-status section and REA-adaptation note",
@@ -1021,10 +1053,28 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "f6c464c311730e3d967d28073af8252bfe7bfcc3581dce3341cf332ea5b5a4ee",
-      "size_bytes": 25807,
-      "reseal_note": "Record actual native cleanup success and failed unchanged malicious-instruction rationale criterion; packaging remains blocked and model policy untouched.",
+      "sha256": "d1a057e797f00d633c1e24345843c110fcb0ad210faafa46238805c88422607a",
+      "size_bytes": 27654,
+      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "e1e07d1ed6920b1ee3949a2d87ae851a091e4f7a1595ad642d3d0719021aa57e",
+          "size_bytes": 25524,
+          "reseal_note": "Disclose actual 3/4 review non-improvement and experimental opt-in; restore single-generation 2048-token defaults without changing acceptance."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "f6c464c311730e3d967d28073af8252bfe7bfcc3581dce3341cf332ea5b5a4ee",
+          "size_bytes": 25807,
+          "reseal_note": "Record actual native cleanup success and failed unchanged malicious-instruction rationale criterion; packaging remains blocked and model policy untouched."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "e1e07d1ed6920b1ee3949a2d87ae851a091e4f7a1595ad642d3d0719021aa57e",
+          "size_bytes": 25524,
+          "reseal_note": "Disclose actual 3/4 review non-improvement and experimental opt-in; restore single-generation 2048-token defaults without changing acceptance."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "8a411975d343346d6594283395713bef020b70afb582e0aed2b53156f9ab3c23",
@@ -1126,6 +1176,30 @@
           "sha256": "16311f776a20f0e3d152aed1b07f503c696809f0017dd83e658e1f51224cbf35",
           "size_bytes": 4577,
           "reseal_note": "Initial Product 45 registration."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "65c817a47a982248e21b2da290408b753bcc698f0cd08a9906bbf3ed03aa6e52",
+          "size_bytes": 25217,
+          "reseal_note": "Disclose bounded same-model draft review, retained generations, shared inference deadline and 4096-token review headroom without quality promotion."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "6db8927c6722ca1747703fb3d257f68e97bcba18c2017e34ec6cc5eb6f28d087",
+          "size_bytes": 24553,
+          "note": "Instruction-suite documentation before bounded model review."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "4f283b0d700658e211eda7f1a904847b8e48ffb6257ca2a6f5b1c347a1945d2f",
+          "size_bytes": 24275,
+          "note": "Instruction-candidate suite documentation before generic JSON-object decoding."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
+          "size_bytes": 24058,
+          "note": "Suite assistant documentation before direct instruction-tuned candidate selection."
         }
       ]
     },
@@ -2451,10 +2525,28 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "0cb1943c7ae7522130e8c470b62c8c43fd23b9a4f47548a67d7fb945f18dcbd1",
-      "size_bytes": 23388,
-      "reseal_note": "State measured legacy parameter delta and unmatched task/orbit periods; preserve newer matched-bias ablation and unearned real-model limits.",
+      "sha256": "3aef20a9f0d646deabaac0a69dbbdb998a0f7c32995a51b7f3b68325d2d4ba5b",
+      "size_bytes": 24615,
+      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "b2b0c9d63dbe1a0f7ed9d220b8fc58108861147079aa7adb89316ae87e00231d",
+          "size_bytes": 24228,
+          "reseal_note": "Document default single-pass evaluation and explicit experimental --review-json after actual non-improvement, without acceptance promotion."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "0cb1943c7ae7522130e8c470b62c8c43fd23b9a4f47548a67d7fb945f18dcbd1",
+          "size_bytes": 23388,
+          "reseal_note": "State measured legacy parameter delta and unmatched task/orbit periods; preserve newer matched-bias ablation and unearned real-model limits."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "b2b0c9d63dbe1a0f7ed9d220b8fc58108861147079aa7adb89316ae87e00231d",
+          "size_bytes": 24228,
+          "reseal_note": "Document default single-pass evaluation and explicit experimental --review-json after actual non-improvement, without acceptance promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
@@ -2466,6 +2558,30 @@
           "sha256": "f59fd606e504d7fcb5c7be9d57d4222077bf2c6a17c89ea1b322a5a2ae28616c",
           "size_bytes": 22732,
           "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "15cfbe885999a6ae298db911e0f98d2749aad03b7a64ee8b8627be3f0cbd6c0f",
+          "size_bytes": 24197,
+          "reseal_note": "Disclose exactly one generic model revision for JSON tasks, preserved drafts, unchanged grading and additional CPU/context costs."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "114f7894c86268926e2a78cf43de3174770372f96c510cf8fa6368d0545833f9",
+          "size_bytes": 23636,
+          "note": "Verifier documentation before bounded model review."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "555dc31b1d4edc14e2987fa3bac4f0c06cc6181286d300dc6b9ca2567518879b",
+          "size_bytes": 23292,
+          "note": "Instruction-candidate verifier documentation before generic JSON-object decoding."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
+          "size_bytes": 23001,
+          "note": "Instruction-backend documentation before direct instruction-tuned candidate selection."
         }
       ]
     },
@@ -2473,11 +2589,53 @@
       "description": "Product 43 Windows runtime integration and contracts: test_candidate_engine.py",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "32e285819a2ddf62db70b4a6285e85bbd1541301ae8b45b84c4c2b93dd594d53",
-      "size_bytes": 44773,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "00e5a156adf21fa97510f7c5c4a705e9cecc04c6b86ce688c4925a607926a545",
+      "size_bytes": 64462,
+      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "f0dbc8a4d46db8ebcb8fa60839959018c8f1efadb6110ee3ef821871f00364ea",
+          "size_bytes": 63548,
+          "reseal_note": "Verify single-pass defaults, explicit experimental review, truthful generation accounting and retained strict final-only grading."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "b1e9c52e7a842dc318ed9932d7f3fa1c5159e72d509dff284931bd0c7f0e191e",
+          "size_bytes": 61968,
+          "reseal_note": "Verify unconditional bounded JSON review, final-only grading, preserved draft evidence, actual attempt counts and failure without draft fallback."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "61a1bdaa2b89610f7754f7b73b4819db13a7e2695d259b93eda12a8ae9b83f8e",
+          "size_bytes": 52313,
+          "note": "Candidate tests before bounded model review."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "67a6e01fd70e1c75d0007ad0159eee019767c5a1aeaf04e9a8f97317f8f44f46",
+          "size_bytes": 50508,
+          "note": "Candidate tests before generic JSON-object decoding."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "26a7de6db36ae7d0cbb86b43a25c3d178e97bfe76a97ba164c11bb628b6d15b8",
+          "size_bytes": 50156,
+          "note": "Instruction-candidate tests before the shared production-policy correction."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "89f3619383267497aa4f6e91a034fdd530151a49efd3ae0ff7cddd41cb6b9d13",
+          "size_bytes": 49693,
+          "note": "Actual committed paired-source diagnostic tests before candidate replacement."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "32e285819a2ddf62db70b4a6285e85bbd1541301ae8b45b84c4c2b93dd594d53",
+          "size_bytes": 44773,
+          "note": "Previously registered instruction-candidate contracts."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "5f422967441093a4a94dda48dbcd138ac53babb44a03050bdea5c63ab1c42b7e",
@@ -2502,11 +2660,53 @@
       "description": "Product 43 Windows runtime integration and contracts: verify_embedded_engine.py",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "02425ce1bce0b35a0e98bd0bf51e7907c0f011497e0c58f5cba56150515e47f6",
-      "size_bytes": 29281,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "999fcb761373bc88ba27b83eab819ea4bb6c1f92511b6d306a994948643cf8d2",
+      "size_bytes": 36396,
+      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "2f9074ed5ac9344798ac00f6de49f9978eb3d96001301015e0baa3ca213e92fe",
+          "size_bytes": 36144,
+          "reseal_note": "Make same-model review explicit experimental opt-in; restore single-pass 2048-token defaults and report actual protocol without changing cases or grading."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "bb238ec0639d632a32aae09512e6fbb15d22230eaa48ea562a2c7cdcda87d8e6",
+          "size_bytes": 35730,
+          "reseal_note": "Exactly one same-model revision for every JSON case without grader feedback; preserve draft/final evidence, actual attempts and unchanged case prompts and grading."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "bf528717baf276a14308092f35f21bdb6ab9d1b1ab748878f308d097c00589d4",
+          "size_bytes": 32331,
+          "note": "Syntax-constrained verifier before bounded model review."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "a97a8517a54c1a09011f4eddbc0b887fe0b904942e15c8ef202c2bd0007757dc",
+          "size_bytes": 31995,
+          "note": "Shared-policy verifier before generic JSON-object decoding."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "5dc8e332bb902aa64f6d8f4cc6d7efdb7fbb6e6cc8d411193588d2d12ebe4a97",
+          "size_bytes": 31754,
+          "note": "Instruction-candidate verifier before the shared production-policy correction."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "c2a441fc788b70b092f307ae17ebb24728368dbda58a772713771917f27341fd",
+          "size_bytes": 31298,
+          "note": "Actual committed paired-source verifier before candidate replacement."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "02425ce1bce0b35a0e98bd0bf51e7907c0f011497e0c58f5cba56150515e47f6",
+          "size_bytes": 29281,
+          "note": "Previously registered verifier identity."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a983c5dae8d4b4a063759ce1326b156ed42e5bd81247a7bf6749868324a42d6f",
@@ -2595,15 +2795,69 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "39e2204c3eb94b97a3e44ddf59f325e334d1a92a686b27ed4386eb2e82272e87",
-      "size_bytes": 33488,
-      "reseal_note": "Narrow owned-child cleanup repair: await failed-spawn/exited close, suppress only confirmed exit races, preserve primary and genuine cleanup failures. Model/policy/verifier unchanged.",
+      "sha256": "d6b738b1ced2debf3e722d52cf629f557c61847621b4950c0b6969668babbc6e",
+      "size_bytes": 36158,
+      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72",
+          "size_bytes": 35436,
+          "reseal_note": "Keep unqualified same-model review behind a typed trusted-caller opt-in, preserve shared deadlines and restore one-pass 2048-token production defaults."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "39e2204c3eb94b97a3e44ddf59f325e334d1a92a686b27ed4386eb2e82272e87",
+          "size_bytes": 33488,
+          "reseal_note": "Narrow owned-child cleanup repair: await failed-spawn/exited close, suppress only confirmed exit races, preserve primary and genuine cleanup failures. Model/policy/verifier unchanged."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72",
+          "size_bytes": 35436,
+          "reseal_note": "Keep unqualified same-model review behind a typed trusted-caller opt-in, preserve shared deadlines and restore one-pass 2048-token production defaults."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4",
           "size_bytes": 32811,
           "reseal_note": "Previous Windows instruction-backend runtime seal."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "3ae077b1ef9316a7d5c6b947a62bd6580e1dfb32ced282be1b65c53f18b4ccbb",
+          "size_bytes": 34998,
+          "reseal_note": "Bounded draft plus generic revision with retained texts, unchanged initial admission limits, shared deadline, explicit failures and final-only response validation."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "39083f6d476d4d9abf1b30a00f8153e86f927a2b064407ed3585c9ccb16ba2f0",
+          "size_bytes": 33214,
+          "note": "Syntax-constrained runtime before bounded model review."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "836a7d27cc0c17f01d9c95e4101879fcaaf2298ddc542bf6aa2e7047c3592768",
+          "size_bytes": 33148,
+          "note": "Shared-policy runtime before generic JSON-object decoding."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "13d7646a4aa30bd836e81f5f13a4ee9c0dc96eabab14fb5398b29a5b0979fed2",
+          "size_bytes": 32911,
+          "note": "Governed instruction-candidate runtime before the shared policy correction."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "c41159e018fc54be4fb05a98f60f036226952441f9110ba6f4b88bfb7a99b3dc",
+          "size_bytes": 32876,
+          "note": "Actual committed runtime before instruction-candidate replacement, including owned-process cleanup correction."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4",
+          "size_bytes": 32811,
+          "note": "Previously registered runtime identity."
         }
       ]
     },
@@ -2639,15 +2893,63 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "fcf1e2fb9ae9e9b6bb1b81bdeedb7e7ea10995386b4c8eec4928a9c90e7868f3",
-      "size_bytes": 29342,
-      "reseal_note": "Owned-child failed-spawn/exit-race and genuine-cleanup-failure regressions; acceptance thresholds and model policy unchanged.",
+      "sha256": "6d34f8a2bafe44afc95607873699cb74d7a6d042c05b9382a55c09eed071639b",
+      "size_bytes": 37393,
+      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb",
+          "size_bytes": 33035,
+          "reseal_note": "Cover single-pass defaults, strict experimental-option typing and explicit review lifecycle, context headroom, deadline and cancellation guarantees."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "fcf1e2fb9ae9e9b6bb1b81bdeedb7e7ea10995386b4c8eec4928a9c90e7868f3",
+          "size_bytes": 29342,
+          "reseal_note": "Owned-child failed-spawn/exit-race and genuine-cleanup-failure regressions; acceptance thresholds and model policy unchanged."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb",
+          "size_bytes": 33035,
+          "reseal_note": "Cover single-pass defaults, strict experimental-option typing and explicit review lifecycle, context headroom, deadline and cancellation guarantees."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",
           "size_bytes": 25229,
           "reseal_note": "Previous Windows instruction-backend regression seal."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "30667d76e58c8b88c45c536f34120e7b61c2ba63f63420174f4063cc0eb9cd1c",
+          "size_bytes": 31676,
+          "reseal_note": "Exercise real child review requests, unchanged task/evidence, retained generated texts, final validation, shared deadlines, cancellation and no draft fallback."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "59e6d3c9c1053f013e8a104e36a02b14e30e61f4ac0f92cfed66938850bc24ca",
+          "size_bytes": 26724,
+          "note": "Runtime contracts before bounded model review."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "943abbb5247f009d887e7cbbf875ca3a836a4d4362e734cd0417818e3b295a8b",
+          "size_bytes": 25908,
+          "note": "Runtime contracts before generic JSON-object decoding."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "4c7d82132d6c969fa591519caeb484e15d4245ce786590d23ac4d88c5c1cd70d",
+          "size_bytes": 25385,
+          "note": "Governed runtime contracts before the shared policy correction."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",
+          "size_bytes": 25229,
+          "note": "Previously registered governed instruction-runtime contracts."
         }
       ]
     },

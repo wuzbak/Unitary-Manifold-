@@ -1,5 +1,12 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
+> **Current ledger: v38.5 Sprint DA (2026-11-05).** P1133's dilute-gas
+> reference calculation and P1134's evidence-classification/comparison tools
+> are adjacent research, not a derivation of UM superfluid connections or
+> rare-decay predictions. Their registration in `STATUS.md` changes no
+> hardgate closure, unresolved scientific obligation or observational falsifier.
+> Earlier Sprint CZ and prior-version records below remain historical.
+
 > **Planar consistency correction (2026-11-03):** P1132's off-shell scalar
 > acceleration term does not establish nonconstant constrained propagation
 > with fixed transverse spectators. That interpretation is withdrawn.

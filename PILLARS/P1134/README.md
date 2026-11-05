@@ -5,7 +5,7 @@
 **Status:** Adjacent research track; no Unitary Manifold (UM) prediction is
 implemented or tested here.
 **Date:** 2026-11-05
-**Source module:** `src/core/pillar_1132_1134/pillar1134_rare_decay_probes.py`
+**Source module:** `src/core/pillar_1129_1168/pillar1134_rare_decay_probes.py`
 
 The public import remains `src.core.pillar1134_rare_decay_probes`.
 The source is sharded for directory hygiene; no implementation is duplicated.
@@ -37,7 +37,7 @@ scales that rare decays can indirectly probe.
 
 ## What this pillar implements
 
-`src/core/pillar_1132_1134/pillar1134_rare_decay_probes.py` provides:
+`src/core/pillar_1129_1168/pillar1134_rare_decay_probes.py` provides:
 
 - a small classifier that distinguishes below-threshold results, conventional
   3σ-level evidence, and conventional 5σ-level observation;
