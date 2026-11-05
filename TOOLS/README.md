@@ -22,6 +22,7 @@ Some stable entrypoints intentionally remain at the repository root for compatib
 | Large-directory guard | [`checks/check_large_directories.py`](checks/check_large_directories.py) | Enforces per-directory tracked-entry limits to prevent GitHub 1,000-entry UI truncation risk from growing. |
 | Number updater | [`../9-INFRASTRUCTURE/update_numbers.sh`](../9-INFRASTRUCTURE/update_numbers.sh) | Version/count update utility. |
 | Archive creator | [`../9-INFRASTRUCTURE/scripts/create_archive.py`](../9-INFRASTRUCTURE/scripts/create_archive.py) | Archive helper script. |
+| AZ ML capability program | [`../9-INFRASTRUCTURE/az-ml-program/README.md`](../9-INFRASTRUCTURE/az-ml-program/README.md) | All 21 ML workstreams, validated dependency inventory, execution-spine planning receipts and temporal replay foundation; not deployment promotion. |
 
 ## Calculators and pillar tools
 

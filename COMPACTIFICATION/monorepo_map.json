@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8491,
+  "file_count": 8499,
   "lanes": {
     "az_ip": 2636,
     "compactification": 9,
-    "other": 5396,
+    "other": 5404,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -31,7 +31,7 @@
     "6-MONOGRAPH": 20,
     "7-OUTREACH": 923,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 193,
+    "9-INFRASTRUCTURE": 199,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -109,7 +109,7 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1637,
+    "src": 1639,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
     "tests": 1564,
@@ -29668,6 +29668,42 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/EXECUTION_BOARD.md",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/MASTER_PLAN.md",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/README.md",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/capabilities.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_program.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_temporal_data.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/bot/README.md",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
@@ -46475,6 +46511,18 @@
     },
     {
       "path": "src/infrastructure/execution_spine.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/ml_program.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/temporal_data.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
