@@ -35,6 +35,13 @@ server uses a fresh loopback port and API key, bounded CPU/context/output budget
 and explicit cancellation/shutdown. Retrieved text is reference data, not tool
 authority; model output never runs tools, commands or file writes.
 
+Failed-spawn and already-exited child handles are not signalled; cleanup still
+waits for their close event within its deadline. Genuine signal errors remain
+visible alongside the original operation failure, and incomplete shutdown
+retains ownership and blocks another inference until explicit cleanup succeeds.
+These lifecycle regressions do not qualify the actual model or Windows installer;
+the exact candidate head still requires native Windows acceptance.
+
 Answers remain UNVERIFIED. Citation IDs map to the supplied catalog or original
 file/line/hash excerpts; valid IDs do not prove that the answer follows from
 them. Missing evidence is not silently replaced by cloud requests. **Export answer

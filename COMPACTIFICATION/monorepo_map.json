@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8527,
+  "file_count": 8528,
   "lanes": {
-    "az_ip": 2640,
+    "az_ip": 2641,
     "compactification": 9,
     "other": 5464,
     "psicat_articles": 356,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2640,
+    "12-AZ-IP": 2641,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2746,7 +2746,8 @@
       "12-AZ-IP/44-axiomzero-weave/tests/test_weave_http.py",
       "12-AZ-IP/44-axiomzero-weave/tests/test_weave_memory.py",
       "12-AZ-IP/44-axiomzero-weave/tests/test_weave_runtime.py",
-      "12-AZ-IP/44-axiomzero-weave/tests/test_weave_scheduler.py"
+      "12-AZ-IP/44-axiomzero-weave/tests/test_weave_scheduler.py",
+      "12-AZ-IP/44-axiomzero-weave/tests/weave_process_worker.py"
     ],
     "45-axiomzero-pc-suite": [
       "12-AZ-IP/45-axiomzero-pc-suite/.gitignore",
@@ -21713,6 +21714,13 @@
     },
     {
       "path": "12-AZ-IP/44-axiomzero-weave/tests/test_weave_scheduler.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "44-axiomzero-weave"
+    },
+    {
+      "path": "12-AZ-IP/44-axiomzero-weave/tests/weave_process_worker.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",

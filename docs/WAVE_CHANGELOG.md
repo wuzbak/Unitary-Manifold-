@@ -12,8 +12,11 @@ readiness, persistence, view-refresh and broadcast behavior is retained.
 
 Closed Product 44/RAG review follow-through for historical evidence exclusion,
 live executor reconciliation, CLI configuration, preflight-before-claim,
-cross-instance import serialization and once-per-file hashing. Corrected the
-planar null-constraint normalization, regenerated its source-bound acceptance
+cross-instance import serialization and once-per-file hashing. The live
+effect lock on Windows uses native `msvcrt` byte-range locking while
+POSIX uses lazy-loaded `flock`; neither module is required for read-only
+API/geometry imports. Actual native Windows execution remains a separate gate.
+Corrected the planar null-constraint normalization, regenerated its source-bound acceptance
 receipt, added lapse-coefficient rejection coverage, guarded optional SymPy
 tests, rejected overflowing rare-decay uncertainty and preserved signed
 zero-uncertainty discrepancies. Tiny-energy assertions now use zero absolute
@@ -21,7 +24,12 @@ tolerance. Already narrowed off-shell/fixed-transverse claims remain narrowed.
 
 Product 45 provisioning now retries despite abandoned `.pending` stages and
 checks copied/reused file digests; Windows smoke quotes a deliberately
-space-containing user-data path and checks that Electron created it. This is
+space-containing user-data path and checks that Electron created it. Native CI
+then exposed a failed-spawn cleanup `kill EINVAL` that masked the primary
+startup error. Cleanup now waits for failed-spawn/already-exited handles,
+suppresses only confirmed exit races and preserves genuine cleanup failures
+alongside the original error. Model policy and acceptance thresholds are unchanged.
+This is
 not production-readiness certification. The independent, still-active AZ IP
 Master Plan work on PR #1173 was neither changed nor adopted prematurely.
 
@@ -38,9 +46,15 @@ support or symlink privileges.
 The slow-inclusive Product 01/Product 20 follow-through run reports 1,169 passed
 and 4 skipped on Linux. A separate Windows recovered-product job now gates PC
 Suite packaging; its native results are not inferred from that Linux run.
-Product 45's local suite reports 217 npm tests and 10 Python tests passed;
-Product 44 plus associated RAG consumers reports 342 passed. The focused physics
-run reports 170 passed, and the planar acceptance packet passes 12/12 gates.
+Product 45's final local suite reports 223 npm tests and 10 Python tests passed;
+Product 44 plus associated RAG consumers reports 342 passed. The subsequent
+Windows-lock follow-through reports 337 passed for Product 44, Product 20 Weave
+consumers and RAG. The focused physics run reports 170 passed, and the planar
+acceptance packet passes 12/12 gates.
+The exact Weave CI invocation now passes 214 tests after making its spawned
+worker independently importable; the real live/crashed process checks remain.
+The standalone no-Git fixture intrinsically prevents ancestor-repository
+discovery rather than relying on an inherited environment workaround.
 Ragbot and PsiCat were consulted using local retrieval with external inference
 and web search disabled; those consultations are context, not independent
 expert or release certification.
@@ -50,6 +64,16 @@ silently resolves the six-versus-seven dimensional source inconsistency.
 Dated errata preserve immutable preassembly sources. Assembly checks now retain
 external citation destinations, with a mutation regression. Affected registered
 assets are resealed with prior registry entries retained.
+
+The first broader core run was interrupted after 26,513 passes and 12 failures
+caused by incomplete existing Sprint DA ledger/public-status synchronization.
+The version, slot and continuity metadata now match STATUS.md across the
+canonical ledgers, generated live status and public snapshots; 60 directly
+affected tests pass. No new sprint or pillar is registered here and historical
+Sprint CU regression totals are not presented as this branch's execution.
+The final slow-inclusive aggregate remains pending at this checkpoint.
+Initial native CI passed the browser lifecycle and UEFI check, but its original
+instruction-backend job failed in unit cleanup before model evaluation.
 
 Still unearned: native Windows combined installer/model acceptance, hardware
 qualification, and full portfolio production readiness. The retained recovery
@@ -356,9 +380,9 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v38.4 (2026-11-02)**
+**Current version: v38.5 (2026-11-05)**
 **Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record; latest verified full regression in branch history)
-**Next pillar slot:** 1133
+**Next pillar slot:** 1135
 
 
 

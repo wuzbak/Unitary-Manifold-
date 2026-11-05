@@ -1,5 +1,16 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
+## Recorded adjacent-track registration (2026-11-05)
+
+Historical continuity: v38.5 Sprint DA (Pillars 1133–1134; next slot 1135).
+
+This synchronizes the registration already recorded in STATUS.md: a
+Bogoliubov reference calculation and a generic rare-decay comparison tool.
+Neither establishes a derived UM connection, hardgate claim, new-physics
+discovery or closure of the open physical-time/relaxation obligations.
+Historical regression totals remain historical, not a receipt for these
+recovery changes.
+
 ## Approved planar dynamics implementation (2026-11-03)
 
 The focused implementation follows the action-to-solution chain in

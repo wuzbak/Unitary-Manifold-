@@ -452,6 +452,7 @@ function createInstructionModel(options) {
   }
   async function stopOwned(owned) {
     if (!owned || owned.closed) return;
+    const exited = () => owned.closed || owned.child.exitCode != null || owned.child.signalCode != null;
     const wait = async () => {
       let timer;
       try {
@@ -459,7 +460,18 @@ function createInstructionModel(options) {
           new Promise((resolve) => { timer = setTimeout(() => resolve(false), stopTimeoutMs); })]);
       } finally { clearTimeout(timer); }
     };
-    owned.child.kill("SIGTERM");
+    const signal = (name) => {
+      if (exited()) return;
+      try { owned.child.kill(name); }
+      catch (error) {
+        if (!exited() || !["EINVAL", "ESRCH"].includes(error.code)) throw error;
+      }
+    };
+    if (!Number.isSafeInteger(owned.child.pid) || owned.child.pid < 1 || exited()) {
+      if (!await wait()) throw failure("Owned instruction engine did not finish closing.");
+      return;
+    }
+    signal("SIGTERM");
     if (await wait()) return;
     if (process.platform === "win32") {
       const root = process.env.SystemRoot || process.env.SYSTEMROOT;
@@ -467,14 +479,14 @@ function createInstructionModel(options) {
         localAbsolute(root, "SystemRoot");
         const taskkill = path.join(root, "System32", "taskkill.exe");
         await nonsymlink(taskkill);
-        if (!owned.closed) await execute(taskkill, ["/PID", String(owned.child.pid), "/T", "/F"],
+        if (!exited()) await execute(taskkill, ["/PID", String(owned.child.pid), "/T", "/F"],
           { shell: false, windowsHide: true, timeout: 10000, maxBuffer: 65536, encoding: "utf8", env: environment(root) });
       } catch {
-        if (!owned.closed) owned.child.kill("SIGKILL");
+        signal("SIGKILL");
         if (!await wait()) throw failure("Owned instruction engine did not exit after forced shutdown.");
         throw failure("Windows owned-process shutdown fallback failed.");
       }
-    } else if (!owned.closed) owned.child.kill("SIGKILL");
+    } else signal("SIGKILL");
     if (!await wait()) throw failure("Owned instruction engine did not exit after forced shutdown.");
   }
   function prepare(question, evidence) {
@@ -520,6 +532,7 @@ function createInstructionModel(options) {
     signal?.addEventListener("abort", abort, { once: true });
     if (signal?.aborted) abort();
     let reservation;
+    let primaryFailure;
     try {
       const artifacts = await verify(controller.signal);
       await checkArtifacts(artifacts.artifacts);
@@ -596,16 +609,19 @@ function createInstructionModel(options) {
         epistemicLabel: "UNVERIFIED", productionAssistantVerified: false, boundary: BOUNDARY };
     } catch (error) {
       lastError = controller.signal.aborted ? "Instruction operation cancelled." : error.message;
-      if (controller.signal.aborted) throw failure(lastError, "CANCELLED");
-      throw error;
+      primaryFailure = controller.signal.aborted ? failure(lastError, "CANCELLED") : error;
+      throw primaryFailure;
     } finally {
       signal?.removeEventListener("abort", abort);
       try {
         if (reservation) await reservation.close();
         await stopOwned(operation.owned);
       } catch (error) {
-        lastError = error.message;
-        throw error;
+        const reported = primaryFailure
+          ? new AggregateError([primaryFailure, error], `${primaryFailure.message} Cleanup failed: ${error.message}`)
+          : error;
+        lastError = reported.message;
+        throw reported;
       } finally {
         active = null;
         finish();

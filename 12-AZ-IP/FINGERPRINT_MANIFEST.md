@@ -822,16 +822,30 @@ is implied.
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/02-az-kernel/README.md` | `529a5caa7f3f048c85f5b2067658283f6a88b9eac0a00e5e907e777b9d41462e` | 3099 |
-| `12-AZ-IP/04-um-sos/README.md` | `d27dbb41131b39a081d7931a0060306e72f2d98097b67f2d61aa81718eafd119` | 4207 |
+| `12-AZ-IP/04-um-sos/README.md` | `d24961de87892b8f92d4f77a37309998db01a2a6da25054ad7baccd0d074d918` | 4289 |
 | `12-AZ-IP/24-psicat-web-browser/README.md` | `2a5f6fb2c75e5c4f7cc04d6cc1dca687e041c3a58013e3572bd3fb5fdb589980` | 25571 |
 | `12-AZ-IP/24-psicat-web-browser/desktop/runtime.js` | `8969484ad05d0e8d1f85b155c3e9e34cfe2b533a8ffd5d49e7d5bab887310c40` | 31426 |
-| `12-AZ-IP/38-az-formal-verification-library/README.md` | `be252790719688b31c5190f198a21d2a16bbd18c6dd1d418a914af9e7225dd1b` | 3880 |
+| `12-AZ-IP/38-az-formal-verification-library/README.md` | `341b7c8078d68d83f2343f239694839fb2aa38dd461492f93963ac3c0d80fa5b` | 3857 |
 | `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `0cb1943c7ae7522130e8c470b62c8c43fd23b9a4f47548a67d7fb945f18dcbd1` | 23388 |
-| `12-AZ-IP/44-axiomzero-weave/README.md` | `beafa70a987fa9cf8f582f86fb5650061a7ba1d13e28169f21b2c343824845ed` | 14168 |
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `81fc9ad6b5b7718ad0d80be3f6d230426d81c6e51df82d10e0f281bf49a8b97d` | 14609 |
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `a4375b87ce42bd140bc560220587f803d98707644fcc14e7780cdfefff5cf8a7` | 24787 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs` | `e61d6538f6be4e6359b2fea9409ec921a975d0a2168955f86a7ec75fcb5856f1` | 3327 |
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1` | `4184952192f49794193aec1c5156cdd1ab1915c2294e26f1bd205a533511ada8` | 4056 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs` | `d344de8a4480e580826df3af04818c94001e84de919148fadd0a3fd7c86fe6a7` | 5290 |
+
+### Native CI cleanup follow-through reseal - 2026-11-05
+
+The initial native instruction-backend job failed in owned-child unit cleanup,
+before model evaluation. These changes wait for failed-spawn/exited handles,
+retain genuine cleanup failures alongside the primary error and add regressions.
+The local suite passes 223 tests; native rerun remains required.
+Model policy, verifier and acceptance thresholds are unchanged.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `8a411975d343346d6594283395713bef020b70afb582e0aed2b53156f9ab3c23` | 25248 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `39e2204c3eb94b97a3e44ddf59f325e334d1a92a686b27ed4386eb2e82272e87` | 33488 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `fcf1e2fb9ae9e9b6bb1b81bdeedb7e7ea10995386b4c8eec4928a9c90e7868f3` | 29342 |
 
 ## Verification Protocol
 

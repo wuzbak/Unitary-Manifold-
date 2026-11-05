@@ -140,7 +140,10 @@ def test_default_grounding_ranks_product_content_over_inventory(tmp_path):
         assert hit["excerpt"] == "\n".join(lines[hit["start_line"] - 1:hit["end_line"]])
 
 
-def test_unsafe_ignored_missing_and_oversized_sources(tmp_path):
+def test_unsafe_ignored_missing_and_oversized_sources(tmp_path, monkeypatch):
+    # A caller may place pytest scratch within the checkout; this fixture must
+    # still model a standalone directory, not discover the ancestor repository.
+    monkeypatch.setenv("GIT_CEILING_DIRECTORIES", str(tmp_path.parent))
     (tmp_path / ".gitignore").write_text("runtime/\n*.sqlite\n")
     (tmp_path / "runtime").mkdir()
     (tmp_path / "runtime" / "note.md").write_text("secret")

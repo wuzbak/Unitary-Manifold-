@@ -323,10 +323,16 @@
       "category": "os",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "d27dbb41131b39a081d7931a0060306e72f2d98097b67f2d61aa81718eafd119",
-      "size_bytes": 4207,
+      "sha256": "d24961de87892b8f92d4f77a37309998db01a2a6da25054ad7baccd0d074d918",
+      "size_bytes": 4289,
       "reseal_note": "Documented actual Docker build context and separate container/host bindings. Previous registry seal may predate preceding mainline edits.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "d27dbb41131b39a081d7931a0060306e72f2d98097b67f2d61aa81718eafd119",
+          "size_bytes": 4207,
+          "reseal_note": "Initial recovery documentation before clarifying caller-relative make invocation."
+        },
         {
           "updated": "2026-08-18",
           "sha256": "4455314d54e4ce3d7519ce32f482e3d4547f3505cb0c13840932f57987b25465",
@@ -901,10 +907,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "be252790719688b31c5190f198a21d2a16bbd18c6dd1d418a914af9e7225dd1b",
-      "size_bytes": 3880,
+      "sha256": "341b7c8078d68d83f2343f239694839fb2aa38dd461492f93963ac3c0d80fa5b",
+      "size_bytes": 3857,
       "reseal_note": "Documented existing bounded declarative JSON workflow and reconstructed real HTTP tests, not byte-for-byte recovery. Previous recorded seal retained.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "be252790719688b31c5190f198a21d2a16bbd18c6dd1d418a914af9e7225dd1b",
+          "size_bytes": 3880,
+          "reseal_note": "Initial reconstructed HTTP coverage documentation before synchronizing the existing catalog's Product 38 version."
+        },
         {
           "updated": "2026-10-10",
           "sha256": "b5ddd72e4b2d4b9e936f67c3a5c53318d058a6b3828a3734a181e5ccb16376b9",
@@ -972,10 +984,16 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "beafa70a987fa9cf8f582f86fb5650061a7ba1d13e28169f21b2c343824845ed",
-      "size_bytes": 14168,
-      "reseal_note": "Closed review follow-through for current evidence, live effect leases, configured discovery, preflight and import concurrency; no capability promotion.",
+      "sha256": "81fc9ad6b5b7718ad0d80be3f6d230426d81c6e51df82d10e0f281bf49a8b97d",
+      "size_bytes": 14609,
+      "reseal_note": "Closed current-evidence, live-lease, discovery, preflight and import-concurrency reviews; preserve Windows effect locking with msvcrt and POSIX flock. Native Windows qualification remains separate.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "beafa70a987fa9cf8f582f86fb5650061a7ba1d13e28169f21b2c343824845ed",
+          "size_bytes": 14168,
+          "reseal_note": "Intermediate recorded recovery seal before portable-lock documentation; not a final-checkpoint byte-match claim."
+        },
         {
           "updated": "2026-11-03",
           "sha256": "31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63",
@@ -997,10 +1015,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "a4375b87ce42bd140bc560220587f803d98707644fcc14e7780cdfefff5cf8a7",
-      "size_bytes": 24787,
-      "reseal_note": "Interrupted provisioning retry, copied/reused file verification and quoted Windows user-data smoke path; native release/model qualification remains open.",
+      "sha256": "8a411975d343346d6594283395713bef020b70afb582e0aed2b53156f9ab3c23",
+      "size_bytes": 25248,
+      "reseal_note": "Retry-safe verified provisioning, quoted Windows smoke path and narrowly repaired owned-child cleanup races; native release/model qualification remains open.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "a4375b87ce42bd140bc560220587f803d98707644fcc14e7780cdfefff5cf8a7",
+          "size_bytes": 24787,
+          "reseal_note": "Initial recovery documentation before native CI exposed the owned-child kill race."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
@@ -2558,10 +2582,18 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4",
-      "size_bytes": 32811,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "updated": "2026-11-05",
+      "sha256": "39e2204c3eb94b97a3e44ddf59f325e334d1a92a686b27ed4386eb2e82272e87",
+      "size_bytes": 33488,
+      "reseal_note": "Narrow owned-child cleanup repair: await failed-spawn/exited close, suppress only confirmed exit races, preserve primary and genuine cleanup failures. Model/policy/verifier unchanged.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4",
+          "size_bytes": 32811,
+          "reseal_note": "Previous Windows instruction-backend runtime seal."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs": {
       "description": "Product 45 Windows runtime integration and contracts: platform-targets.cjs",
@@ -2594,10 +2626,18 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",
-      "size_bytes": 25229,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "updated": "2026-11-05",
+      "sha256": "fcf1e2fb9ae9e9b6bb1b81bdeedb7e7ea10995386b4c8eec4928a9c90e7868f3",
+      "size_bytes": 29342,
+      "reseal_note": "Owned-child failed-spawn/exit-race and genuine-cleanup-failure regressions; acceptance thresholds and model policy unchanged.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",
+          "size_bytes": 25229,
+          "reseal_note": "Previous Windows instruction-backend regression seal."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs": {
       "description": "Product 45 Windows runtime integration and contracts: platform-targets.test.cjs",

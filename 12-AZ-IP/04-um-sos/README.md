@@ -51,8 +51,9 @@ The local API binds to `127.0.0.1:8000` by default. Override `UM_SOS_HOST` and
 controls. Docker Compose keeps the host port loopback-bound and stores local
 preregistrations in a persistent named volume.
 
-From any working directory, `make -C 12-AZ-IP/04-um-sos docker` uses the
-repository root as the build context. `make -C 12-AZ-IP/04-um-sos docker-run`
+From the repository root, `make -C 12-AZ-IP/04-um-sos docker` uses that root
+as the build context. The Makefile resolves paths relative to its own location,
+not the caller's working directory. `make -C 12-AZ-IP/04-um-sos docker-run`
 publishes the API only on host loopback (`127.0.0.1:8000`). Inside the container
 the API binds to all container interfaces so Docker port forwarding works;
 this does not change the local Python launcher's loopback default.

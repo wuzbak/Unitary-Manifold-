@@ -1,9 +1,9 @@
 # AZ Formal Verification Library — Product 38
 
 **Folder:** `12-AZ-IP/38-az-formal-verification-library/`
-**Version:** 1.1.0
+**Version:** 1.2.0
 **TRL:** TRL-4 (generic library, now a runnable HTTP endpoint; worked example reproduces canonical results exactly)
-**Status:** Active — Phases 1-2 of article-354's "Z3 checker -> formal-verification-as-a-service" roadmap
+**Status:** Active — trusted library examples and bounded declarative JSON service
 
 ## What this is
 

@@ -10,7 +10,7 @@ const path = require("node:path");
 const crypto = require("node:crypto");
 const http = require("node:http");
 const { spawn, execFile } = require("node:child_process");
-const { once } = require("node:events");
+const { once, EventEmitter } = require("node:events");
 const { createInstructionModel, LIMITS } = require("../lib/instruction-model.cjs");
 
 // Real child sockets exercise transport, authentication, process ownership and
@@ -463,6 +463,112 @@ test("startup timeout, process spawn errors and premature exit are explicit", as
     return spawn(path.join(f.directory, "missing-native.exe"), [], { stdio: "ignore", shell: false });
   } });
   await assert.rejects(missing.runtime.answer({ question: "x", evidence }), /exited|start/);
+});
+
+test("never-spawned and already-exited handles wait for close without signalling", async (t) => {
+  for (const pid of [undefined, 4567]) {
+    await t.test(pid === undefined ? "spawn failed" : "exit precedes close", async (t) => {
+      let closed = false;
+      const f = await fixture(t, { spawn() {
+        const child = new EventEmitter();
+        child.pid = pid;
+        child.exitCode = pid === undefined ? null : 7;
+        child.signalCode = null;
+        child.kill = () => { assert.fail("A failed or exited child must not be signalled."); };
+        queueMicrotask(() => child.emit("error", new Error("Native startup failed.")));
+        setImmediate(() => { closed = true; child.emit("close", 7); });
+        return child;
+      } });
+      await assert.rejects(f.runtime.answer({ question: "x", evidence }), /exited|start/);
+      assert.equal(closed, true, "failed answers await close and release ownership");
+      assert.equal(f.runtime.isActive(), false);
+    });
+  }
+});
+
+test("a signal error is harmless only when the child is confirmed exited, and close is still awaited", async (t) => {
+  const primary = new Error("Primary startup failure.");
+  let closed = false;
+  const f = await fixture(t, {
+    runtime: { request: async () => { throw primary; } },
+    spawn() {
+      const child = new EventEmitter();
+      child.pid = 4567;
+      child.exitCode = null;
+      child.signalCode = null;
+      child.kill = () => {
+        child.exitCode = 7;
+        setImmediate(() => { closed = true; child.emit("close", 7); });
+        throw Object.assign(new Error("kill EINVAL"), { code: "EINVAL" });
+      };
+      return child;
+    }
+  });
+  await assert.rejects(f.runtime.answer({ question: "x", evidence }), (error) => error === primary);
+  assert.equal(closed, true);
+  assert.equal(f.runtime.isActive(), false);
+});
+
+test("a failed spawn without close remains owned and reports both startup and cleanup failures", async (t) => {
+  let child;
+  const f = await fixture(t, {
+    runtime: { stopTimeoutMs: 10 },
+    spawn() {
+      child = new EventEmitter();
+      child.kill = () => { assert.fail("A child without a PID must not be signalled."); };
+      return child;
+    }
+  });
+  try {
+    await assert.rejects(f.runtime.answer({ question: "x", evidence }), (error) => {
+      assert.ok(error instanceof AggregateError);
+      assert.match(error.errors[0].message, /exited|start/);
+      assert.match(error.errors[1].message, /did not finish closing/);
+      return true;
+    });
+    assert.equal(f.runtime.isActive(), true);
+  } finally {
+    child.emit("close", -1);
+    await f.runtime.stopAll();
+  }
+  assert.equal(f.runtime.isActive(), false);
+});
+
+test("genuine signal failures preserve the primary failure and retain ownership until explicit cleanup", async (t) => {
+  const primary = new Error("Primary startup failure.");
+  const cleanup = Object.assign(new Error("kill EINVAL"), { code: "EINVAL" });
+  let child;
+  const f = await fixture(t, {
+    runtime: { request: async () => { throw primary; } },
+    spawn() {
+      child = new EventEmitter();
+      child.pid = 4567;
+      child.exitCode = null;
+      child.signalCode = null;
+      child.kill = () => { throw cleanup; };
+      return child;
+    }
+  });
+  try {
+    await assert.rejects(f.runtime.answer({ question: "x", evidence }), (error) => {
+      assert.ok(error instanceof AggregateError);
+      assert.deepEqual(error.errors, [primary, cleanup]);
+      assert.match(error.message, /Primary startup failure.*Cleanup failed: kill EINVAL/);
+      return true;
+    });
+    assert.equal(f.runtime.isActive(), true);
+    const status = await f.runtime.status();
+    assert.equal(status.status, "failed");
+    assert.match(status.error, /Primary startup failure.*kill EINVAL/);
+    await assert.rejects(f.runtime.answer({ question: "x", evidence }), /busy/);
+  } finally {
+    child.kill = () => {
+      setImmediate(() => { child.signalCode = "SIGTERM"; child.emit("close", null, "SIGTERM"); });
+      return true;
+    };
+    await f.runtime.stopAll();
+  }
+  assert.equal(f.runtime.isActive(), false);
 });
 
 test("input/context budgets, invalid locations and pre-cancelled work never start a child", async (t) => {
