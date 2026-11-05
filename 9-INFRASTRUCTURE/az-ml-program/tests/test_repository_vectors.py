@@ -91,3 +91,30 @@ def test_order_independent_generation_and_chunk_limit(tmp_path):
             rag, repo_root=tmp_path, owner_scope="project",
             allowed_sources=("runtime.md",), max_chunks=0,
         )
+
+
+def test_program_documents_flow_from_real_rag_to_verified_vector_generation(tmp_path):
+    source = "9-INFRASTRUCTURE/az-ml-program/README.md"
+    path = tmp_path / source
+    path.parent.mkdir(parents=True)
+    path.write_text(
+        "Checkpoint Adam PCG64 restoration remains local; distributed qualification is open.",
+        encoding="utf-8",
+    )
+    rag = RAGIndex.build(repo_root=tmp_path)
+    adapter = build_repository_vectors(
+        rag, repo_root=tmp_path, owner_scope="ml-program", allowed_sources=(source,),
+    )
+    hits = adapter.search("checkpoint PCG64", owner_scope="ml-program")
+    assert hits
+    assert hits[0].document.evidence_path == source
+    assert hits[0].document.source_hash == hashlib.sha256(path.read_bytes()).hexdigest()
+    path.write_text("Corrected checkpoint evidence; no qualification.", encoding="utf-8")
+    with pytest.raises(StaleCorpusError, match="rebuild"):
+        adapter.search("checkpoint", owner_scope="ml-program")
+    rebuilt = build_repository_vectors(
+        RAGIndex.build(repo_root=tmp_path), repo_root=tmp_path, owner_scope="ml-program",
+        allowed_sources=(source,),
+    )
+    assert rebuilt.index.generation_ref != adapter.index.generation_ref
+    assert rebuilt.search("checkpoint", owner_scope="ml-program")

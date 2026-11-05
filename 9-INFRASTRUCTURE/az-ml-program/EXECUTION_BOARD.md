@@ -6,6 +6,62 @@ This board is a durable work handoff under the existing execution spine, not a
 deployment status authority. No capability is production-qualified by this
 launch. See [the master plan](MASTER_PLAN.md) and [the register](capabilities.json).
 
+## Post-merge continuation: existing-tool integration
+
+The fixed source `36b7a82` completed the local canonical-plus-affected run with
+66,438 passed, 69 skipped, 110 subtests passed and no failures in 914.30 seconds.
+Source and installed distributions remained unchanged throughout. This is not
+every isolated product suite or model qualification. The merge did not turn the
+repeated real 3/4 model failure into acceptance.
+
+Two bounded expert workstreams separately assessed candidate eligibility and
+the next reusable integration slice. Actual existing-tool consultation exposed
+a practical coverage gap: the RAG query
+`ML program self healing retrieval vector generation source provenance`
+returned engine/Axiom OS/Holon Zero guides, not this program's implementation
+or evidence. Weave returned grounded excerpts but no model reasoning. PsiCat's
+deterministic local provider explicitly returned no grounded answer, rather than
+independent expert advice. These are tool observations, not an inference council.
+
+Both existing RAG builders now ingest the program README, master plan and
+execution board explicitly; no unrestricted directory crawl or editorial opt-in
+change was introduced. The same query now retrieves this board and the master
+plan. The canonical PsiCat-facing context scaffold preserves source provenance
+and its non-certification boundary. An integration test also passes these real
+RAG chunks through the existing allowlisted vector adapter, rejects changed
+source bytes and builds a distinct replacement generation. This closes a real
+tool-coverage gap, not the learned-retrieval or self-healing-RAG qualification
+gate. All 21 capabilities remain open.
+
+Weave now consumes the existing temporal snapshot/replay primitive through an
+optional in-process query context. Owner and content hash are pinned; entity,
+features, decision time and freshness policy are explicit. Future availability
+and late corrections cannot leak backward. Real-only origins remain the
+default; missing, null, stale and disallowed-origin results retain reasons.
+Temporal output stays separate from evidence and memory, affects the semantic
+receipt hash and does not persist, infer an answer or authorize effects.
+Legacy queries retain their existing fields. The combined Weave, temporal and
+discovery scope passed 197 tests and 42 subtests; the actual PsiCat consumer
+suite passed 985 tests with 3 skips and 1 deselection.
+
+Metadata-only discovery ran on a hosted runner without compiling an engine or
+downloading model weights. Run `42110100173` initially reported incomplete
+discovery because Hugging Face's fuzzy search also returns six legitimate
+official SmolLM-360M repositories. Its exact failed report is preserved as
+[`f03b398815f9d65579180cecfe0467d0d6ea89562e51e8cd19d658ca15745236.json`](evidence/f03b398815f9d65579180cecfe0467d0d6ea89562e51e8cd19d658ca15745236.json).
+Those valid but out-of-family hits are now explicit exclusions; malformed,
+nonofficial and duplicate identities still fail closed.
+
+Corrected run `42110578993` on `6a8bf84` completed successfully, but found
+**zero eligible GGUF artifacts**. Its five in-family official repositories
+established no GGUF inventory; six fuzzy matches were excluded without fetching
+their canonical metadata. The exact negative result is
+[`7a1e22a3a45bfa3ec49fcb92e206130b59a1f18d2ab32a45bd847e588dd5ab42.json`](evidence/7a1e22a3a45bfa3ec49fcb92e206130b59a1f18d2ab32a45bd847e588dd5ab42.json).
+This rules out a directly published eligible GGUF in this bounded discovery;
+it does not rule out a separately reviewed conversion of official source
+weights. No candidate was replaced, no model acceptance rubric changed, and
+green metadata research is not model qualification.
+
 ## Launch tranche (historical)
 
 | Package | Owner role | State | Deliverable / limitation |

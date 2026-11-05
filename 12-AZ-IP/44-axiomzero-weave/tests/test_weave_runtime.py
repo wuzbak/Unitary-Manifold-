@@ -3,12 +3,14 @@
 """Real integration: grounding, computation, governed effects and continuity."""
 
 import hashlib
+from datetime import datetime, timedelta, timezone
 import pytest
 
 from az_weave import OBLIGATIONS, OPERATIONS
-from az_weave.api import Weave, run_readonly, repository_root, compute_readonly
+from az_weave.api import TemporalQueryContext, Weave, run_readonly, repository_root, compute_readonly
 from az_weave.evidence import SourceIndex
 from az_weave.memory import ReadOnlyFederation
+from src.infrastructure.temporal_data import TemporalFeatureRecord, TemporalSnapshot
 
 PASS = {key: "PASS" for key in OBLIGATIONS}
 ROOT = repository_root()
@@ -94,6 +96,171 @@ def test_federated_historical_approval_is_inert(weave):
     assert not weave.query("toroidal experiment", "bob")["stages"][2]["value"]
     with pytest.raises(ValueError, match="approval"):
         weave.invoke("experiment", {"steps": 1}, "alice")
+
+
+def test_query_temporal_context_is_point_in_time_scoped_and_separate(weave):
+    utc = timezone.utc
+    start = datetime(2026, 1, 1, tzinfo=utc)
+    owner = "alice"
+    records = (
+        TemporalFeatureRecord(owner, "entity-1", "balance", 10, start, start),
+        TemporalFeatureRecord(
+            owner, "entity-1", "balance", 20, start, start + timedelta(hours=2),
+            revision_at=start + timedelta(hours=2),
+        ),
+        TemporalFeatureRecord(
+            owner, "entity-1", "balance", 30, start + timedelta(hours=1),
+            start + timedelta(hours=3), revision_at=start + timedelta(hours=3),
+        ),
+        TemporalFeatureRecord(owner, "entity-1", "stale", 4, start, start),
+        TemporalFeatureRecord(
+            owner, "entity-1", "explicitly_missing", None, start, start,
+            missing_reason="source_value_missing",
+        ),
+        TemporalFeatureRecord(
+            owner, "entity-1", "synthetic", 9, start, start, origin="synthetic",
+        ),
+    )
+    snapshot = TemporalSnapshot(owner, start + timedelta(hours=4), records)
+    weave.memory.put(owner, "geometric tori transformer memory note")
+
+    def context(at, *, features=("balance",), ttl=None, origins=("real",)):
+        return TemporalQueryContext(
+            snapshot=snapshot,
+            owner_scope=owner,
+            snapshot_hash=snapshot.content_hash,
+            entity_id="entity-1",
+            feature_names=features,
+            decision_time=at,
+            freshness_ttl_seconds=ttl,
+            allow_origins=origins,
+        )
+
+    before_correction = weave.query(
+        "geometric tori transformer", owner,
+        temporal=context(start + timedelta(hours=1)),
+    )["temporal_context"]
+    after_correction = weave.query(
+        "geometric tori transformer", owner,
+        temporal=context(start + timedelta(hours=2, minutes=30)),
+    )["temporal_context"]
+    after_future_record = weave.query(
+        "geometric tori transformer", owner,
+        temporal=context(start + timedelta(hours=3, minutes=30)),
+    )["temporal_context"]
+    assert [item["value"] for item in (
+        before_correction["features"][0],
+        after_correction["features"][0],
+        after_future_record["features"][0],
+    )] == [10, 20, 30]
+    assert before_correction["snapshot_hash"] == snapshot.content_hash
+    assert before_correction["owner_scope"] == owner
+    assert before_correction["decision_time"] == "2026-01-01T01:00:00.000000Z"
+    assert before_correction["allow_origins"] == ["real"]
+    assert before_correction["features"][0]["available_at"] == "2026-01-01T00:00:00.000000Z"
+    assert after_correction["features"][0]["revision_at"] == "2026-01-01T02:00:00.000000Z"
+
+    bounded = weave.query(
+        "geometric tori transformer", owner,
+        temporal=context(
+            start + timedelta(hours=4),
+            features=("stale", "explicitly_missing", "absent", "synthetic"),
+            ttl=2,
+        ),
+    )["temporal_context"]["features"]
+    assert [(item["value"], item["missing_reason"]) for item in bounded] == [
+        (None, "stale"),
+        (None, "source_value_missing"),
+        (None, "no_point_in_time_data"),
+        (None, "origin_not_allowed"),
+    ]
+    assert bounded[3]["origin"] is None
+
+    opted_in_synthetic = weave.query(
+        "geometric tori transformer", owner,
+        temporal=context(
+            start + timedelta(hours=1), features=("synthetic",),
+            origins=("real", "synthetic"),
+        ),
+    )["temporal_context"]["features"][0]
+    assert opted_in_synthetic["value"] == 9
+    assert opted_in_synthetic["origin"] == "synthetic"
+
+    with pytest.raises(ValueError, match="snapshot_hash"):
+        TemporalQueryContext(
+            snapshot=snapshot, owner_scope=owner, snapshot_hash="0" * 64,
+            entity_id="entity-1", feature_names=("balance",),
+            decision_time=start, freshness_ttl_seconds=None,
+        )
+    with pytest.raises(ValueError, match="owner_scope"):
+        TemporalQueryContext(
+            snapshot=snapshot, owner_scope="bob", snapshot_hash=snapshot.content_hash,
+            entity_id="entity-1", feature_names=("balance",),
+            decision_time=start, freshness_ttl_seconds=None,
+        )
+    with pytest.raises(ValueError, match="already loaded"):
+        TemporalQueryContext(
+            snapshot=weave.state_dir / "snapshot.json", owner_scope=owner,
+            snapshot_hash="0" * 64, entity_id="entity-1",
+            feature_names=("balance",), decision_time=start,
+            freshness_ttl_seconds=None,
+        )
+    with pytest.raises(ValueError, match="query principal"):
+        weave.query("geometric tori transformer", "bob", temporal=context(start))
+
+    before_memory = weave.memory.db_path.read_bytes()
+    before_journal = weave.journal.path.read_bytes()
+    legacy = weave.query("geometric tori transformer", owner)
+    with_temporal = weave.query(
+        "geometric tori transformer", owner, temporal=context(start),
+    )
+    assert with_temporal["evidence"] == legacy["evidence"]
+    assert with_temporal["stages"] == legacy["stages"]
+    assert with_temporal["status"] == legacy["status"]
+    assert with_temporal["stages"][2]["value"][0]["text"] == "geometric tori transformer memory note"
+    assert weave.memory.db_path.read_bytes() == before_memory
+    assert weave.journal.path.read_bytes() == before_journal
+    assert "temporal_context" not in legacy
+    assert with_temporal["semantic_sha256"] != legacy["semantic_sha256"]
+    repeated = weave.query("geometric tori transformer", owner, temporal=context(start))
+    changed = weave.query(
+        "geometric tori transformer", owner,
+        temporal=context(start + timedelta(hours=1)),
+    )
+    assert repeated["semantic_sha256"] == with_temporal["semantic_sha256"]
+    assert changed["semantic_sha256"] != with_temporal["semantic_sha256"]
+
+
+@pytest.mark.parametrize(("changes", "message"), [
+    ({"entity_id": ""}, "entity_id"),
+    ({"feature_names": ()}, "feature_names"),
+    ({"feature_names": ["balance"]}, "feature_names"),
+    ({"feature_names": ("balance", "balance")}, "feature_names"),
+    ({"feature_names": ("",)}, "feature_names"),
+    ({"decision_time": datetime(2026, 1, 1)}, "timezone-aware"),
+    ({"freshness_ttl_seconds": True}, "freshness_ttl_seconds"),
+    ({"freshness_ttl_seconds": -1}, "freshness_ttl_seconds"),
+    ({"freshness_ttl_seconds": float("inf")}, "freshness_ttl_seconds"),
+    ({"freshness_ttl_seconds": float("nan")}, "freshness_ttl_seconds"),
+    ({"allow_origins": ("unrecognized",)}, "allow_origins"),
+    ({"allow_origins": ("real", "real")}, "allow_origins"),
+    ({"allow_origins": ["real"]}, "allow_origins"),
+])
+def test_temporal_query_context_rejects_invalid_policy(changes, message):
+    start = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    snapshot = TemporalSnapshot("alice", start, ())
+    arguments = {
+        "snapshot": snapshot,
+        "owner_scope": "alice",
+        "snapshot_hash": snapshot.content_hash,
+        "entity_id": "entity-1",
+        "feature_names": ("balance",),
+        "decision_time": start,
+        "freshness_ttl_seconds": None,
+    }
+    arguments.update(changes)
+    with pytest.raises(ValueError, match=message):
+        TemporalQueryContext(**arguments)
 
 
 def test_stale_source_cannot_authorize_effect(weave, tmp_path):

@@ -970,9 +970,18 @@
       "description": "Product 44 AxiomZero Weave operating contracts, actual integrations and explicit boundaries",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-03",
-      "sha256": "31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63",
-      "size_bytes": 13004
+      "updated": "2026-11-05",
+      "sha256": "bbad263a5a9b13181ab00db408379a2d5a181e1c22f3df34f9b3a8224d9fe52a",
+      "size_bytes": 14603,
+      "reseal_note": "Refreshed 2026-11-05 after documenting optional owner-scoped point-in-time query context. No feature-service or production qualification. Previous recorded seal retained in reseal_history.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63",
+          "size_bytes": 13004,
+          "reseal_note": "Previous recorded seal before optional point-in-time query context documentation."
+        }
+      ]
     },
     "12-AZ-IP/44-axiomzero-weave/pyproject.toml": {
       "description": "Product 44 package and local operator CLI entrypoint",

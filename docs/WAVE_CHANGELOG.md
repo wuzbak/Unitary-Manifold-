@@ -1,5 +1,22 @@
 # Wave Changelog
 
+## AZ ML program retrieval integration (2026-11-05)
+
+Actual RAG/PsiCat/Weave consultation exposed missing program source coverage:
+the repository bot retrieved generic product guides instead of the ML program's
+implementation inventory and evidence. Both RAG builders now include three
+explicit program documents. The existing PsiCat-facing context scaffold and
+source-verified vector adapter preserve their provenance, allowlists, freshness
+checks and non-certification boundaries. This is not learned retrieval,
+independent model advice, automatic repair authorization or capability closure.
+
+Weave also consumes existing owner/hash-pinned temporal snapshots through an
+optional, read-only query context, preserving availability, freshness and origin
+policy without merging features into memory or citations. Hosted metadata-only
+research completed with zero eligible official SmolLM3 GGUF artifacts; both the
+initial fuzzy-search classification failure and corrected negative receipt are
+preserved. Packaging acceptance, model scores and all 21 open states are unchanged.
+
 ## Measured review non-improvement and integrated regression repair (2026-11-05)
 
 Actual hosted two-pass evaluation at `62a3170` still passed only 3/4, with

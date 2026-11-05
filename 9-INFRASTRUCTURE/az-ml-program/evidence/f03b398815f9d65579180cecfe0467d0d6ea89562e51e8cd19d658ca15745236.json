@@ -1,0 +1,110 @@
+{
+  "boundary": "Metadata eligibility only; not artifact-byte verification, candidate selection, model quality, or installation qualification. No model weights are downloaded.",
+  "complete": false,
+  "eligibleArtifacts": [],
+  "errors": [
+    "Invalid, duplicate, or nonofficial query repository",
+    "Invalid, duplicate, or nonofficial query repository",
+    "Invalid, duplicate, or nonofficial query repository",
+    "Invalid, duplicate, or nonofficial query repository",
+    "Invalid, duplicate, or nonofficial query repository",
+    "Invalid, duplicate, or nonofficial query repository"
+  ],
+  "formatVersion": 1,
+  "query": "https://huggingface.co/api/models?author=HuggingFaceTB&search=SmolLM3&limit=100&full=true&blobs=true",
+  "repositories": [
+    {
+      "artifacts": [],
+      "reasons": [
+        "No GGUF artifacts established by inventory"
+      ],
+      "repository": "HuggingFaceTB/SmolLM3-3B-Base",
+      "source": "https://huggingface.co/api/models/HuggingFaceTB/SmolLM3-3B-Base?blobs=true",
+      "status": "ineligible"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "No GGUF artifacts established by inventory"
+      ],
+      "repository": "HuggingFaceTB/SmolLM3-3B",
+      "source": "https://huggingface.co/api/models/HuggingFaceTB/SmolLM3-3B?blobs=true",
+      "status": "ineligible"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "No GGUF artifacts established by inventory"
+      ],
+      "repository": "HuggingFaceTB/SmolLM3-3B-ONNX",
+      "source": "https://huggingface.co/api/models/HuggingFaceTB/SmolLM3-3B-ONNX?blobs=true",
+      "status": "ineligible"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "Query repository identity failed fixed publisher/search scope"
+      ],
+      "repository": "HuggingFaceTB/SmolLM-360M",
+      "status": "unknown"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "Query repository identity failed fixed publisher/search scope"
+      ],
+      "repository": "HuggingFaceTB/SmolLM-360M-Instruct",
+      "status": "unknown"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "Query repository identity failed fixed publisher/search scope"
+      ],
+      "repository": "HuggingFaceTB/smollm-360M-instruct-add-basics",
+      "status": "unknown"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "Query repository identity failed fixed publisher/search scope"
+      ],
+      "repository": "HuggingFaceTB/smollm-360M-instruct-v0.2-Q8_0-GGUF",
+      "status": "unknown"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "Query repository identity failed fixed publisher/search scope"
+      ],
+      "repository": "HuggingFaceTB/smollm-360M-instruct-add-basics-q0f16-MLC",
+      "status": "unknown"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "Query repository identity failed fixed publisher/search scope"
+      ],
+      "repository": "HuggingFaceTB/SmolLM-360M-Instruct-ONNX-fp16",
+      "status": "unknown"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "No GGUF artifacts established by inventory"
+      ],
+      "repository": "HuggingFaceTB/SmolLM3-3B-checkpoints",
+      "source": "https://huggingface.co/api/models/HuggingFaceTB/SmolLM3-3B-checkpoints?blobs=true",
+      "status": "ineligible"
+    },
+    {
+      "artifacts": [],
+      "reasons": [
+        "No GGUF artifacts established by inventory"
+      ],
+      "repository": "HuggingFaceTB/SmolLM3-3B-GSM8K-SFT",
+      "source": "https://huggingface.co/api/models/HuggingFaceTB/SmolLM3-3B-GSM8K-SFT?blobs=true",
+      "status": "ineligible"
+    }
+  ]
+}
