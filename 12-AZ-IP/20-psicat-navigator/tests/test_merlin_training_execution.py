@@ -209,7 +209,9 @@ def test_source_clock_ahead_of_process_clock_is_not_stale(tmp_path, monkeypatch)
     assert receipt["gate_verdict"] == "pass"
     assert training_execution._resolve_queue_status(item, receipt, session=session) == "completed"
 
-    os.utime(source, ns=(ahead_ns + 1, ahead_ns + 1))
+    changed_ns = source.stat().st_mtime_ns + 1_000_000_000
+    os.utime(source, ns=(changed_ns, changed_ns))
+    assert source.stat().st_mtime_ns > ahead_ns
     assert training_execution._resolve_queue_status(item, receipt, session=session) == "stale_retrain_required"
 
 
