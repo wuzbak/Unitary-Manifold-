@@ -23,6 +23,13 @@
 
 ## The Complete Manuscript
 
+**Editorial errata (2026-11-05):** D6 now flags the dimensional-count mismatch
+in the lane named “six-dimensional”: four extended dimensions plus a circle
+and a two-torus total seven, not six. This is an unresolved source-description
+inconsistency, not a new compactification claim. The preassembly source remains
+unchanged in
+`../Archive/2026-11-05-books-53-58/book-58-part-02-proof-predictions-and-adjacent-science.md`.
+
 This is the complete, canonical single-volume manuscript, including all six
 sections below. Read sequentially for the full argument, or use the internal
 contents links and subject crosswalk to begin with a particular concern.
@@ -514,7 +521,7 @@ So what does Lean genuinely buy this project? Precision about statement shape; v
 
 The repository contains research programs that ascend from five dimensions to six, seven, eight, nine, ten and eleven. These tracks are not one uniform proof ladder. Some modules are formalized calculations, some are scaffolds, some are benchmark calculations, and some are explicitly architecture work. Their value depends on which one we are reading.
 
-The six-dimensional track adds a \(T^2/\mathbb{Z}_3\) compact space alongside the \(S^1/\mathbb{Z}_2\) direction. The code discusses an equilateral torus, its complex structure, three \(\mathbb{Z}_3\) fixed points, and Kaluza–Klein mass towers. Those are recognizable geometric structures. But the module’s own status calls the metric and spectrum a framework scaffold and describes standard KK ingredients connected to the repository’s \(K_{\rm CS}=74\) and braid data. The existence of three fixed points does not, alone, prove that three observed fermion generations arise from them. One also needs a field content and zero-mode localization argument, consistency conditions, and a derivation that the proposed geometry is physically selected.
+The lane named “six-dimensional” describes a \(T^2/\mathbb{Z}_3\) compact space alongside the \(S^1/\mathbb{Z}_2\) direction, but four extended dimensions plus that circle and two-torus total seven dimensions, not six. This is an unresolved inconsistency in the source description, not a dimensionally consistent six-dimensional construction established here. The code discusses an equilateral torus, its complex structure, three \(\mathbb{Z}_3\) fixed points, and Kaluza–Klein mass towers. Those are recognizable geometric structures. But the module’s own status calls the metric and spectrum a framework scaffold and describes standard KK ingredients connected to the repository’s \(K_{\rm CS}=74\) and braid data. The existence of three fixed points does not, alone, prove that three observed fermion generations arise from them. One also needs a field content and zero-mode localization argument, consistency conditions, and a derivation that the proposed geometry is physically selected.
 
 The seven-dimensional lane discusses discrete torsion and CP phase. Its source computes a \(Z_3\) holonomy phase and compares a geometric angle with an observed CKM phase. Yet the module itself notes that the raw holonomy is not directly the physical unitarity-triangle angle; it adopts a particular geometric interpretation and applies a declared “kill-switch tolerance.” That can make a hypothesis quantitative and therefore easier to criticize. It does not turn a tolerance check into a derivation of the CKM matrix. A gate that says “within 40%” is a model-screening rule, not a symmetry theorem.
 

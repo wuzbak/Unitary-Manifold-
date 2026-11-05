@@ -34,6 +34,37 @@ jobs:
   platform-artifacts:
     uses: ./.github/workflows/pc-suite-platforms.yml
 
+  recovered-python-products:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install recovered product test dependencies
+        run: >-
+          python -m pip install
+          -r 12-AZ-IP/20-psicat-navigator/requirements.txt
+          "pytest>=8.0,<9.1" pytest-asyncio fastapi python-multipart
+          pyyaml z3-solver
+      - name: Execute slow-inclusive recovered product suites on Windows
+        run: >-
+          python -m pytest
+          12-AZ-IP/01-axiom-os/tests/
+          12-AZ-IP/20-psicat-navigator/tests/
+          12-AZ-IP/35-az-uos-kernel-bridge/tests/
+          12-AZ-IP/38-az-formal-verification-library/tests/
+          12-AZ-IP/39-az-research-debt-tracker/tests/
+          -q -m "slow or not slow" --junitxml=recovered-python-products.xml
+      - name: Upload native recovered-product results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovered-python-products-windows
+          path: recovered-python-products.xml
+          if-no-files-found: warn
+
   browser-desktop-runtime:
     runs-on: windows-latest
     defaults:
@@ -75,7 +106,7 @@ jobs:
           if-no-files-found: error
 
   test-and-package:
-    needs: [browser-desktop-runtime, instruction-backend, platform-artifacts]
+    needs: [browser-desktop-runtime, instruction-backend, platform-artifacts, recovered-python-products]
     runs-on: windows-latest
     defaults:
       run:

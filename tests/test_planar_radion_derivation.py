@@ -1,7 +1,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
-import sympy as sp
+import pytest
+
+sp = pytest.importorskip("sympy")
 
 from src.physics.planar_radion.derivation import (
     areal_sigma_integrability_residuals,

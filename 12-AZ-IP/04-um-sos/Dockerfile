@@ -12,6 +12,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 
 EXPOSE 8000
 ENV PYTHONPATH=/app
+ENV UM_SOS_HOST=0.0.0.0
 ENV UM_SOS_PREREGISTRATION_DB=/data/preregistrations.sqlite3
 VOLUME ["/data"]
 CMD ["python", "run.py"]

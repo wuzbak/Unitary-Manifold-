@@ -9,7 +9,7 @@ from pathlib import Path
 import uvicorn
 
 PRODUCT_ROOT = Path(__file__).resolve().parent
-REPO_ROOT = PRODUCT_ROOT.parents[2]
+REPO_ROOT = PRODUCT_ROOT.parents[1]
 sys.path[:0] = [str(REPO_ROOT), str(PRODUCT_ROOT)]
 
 from backend.app import app

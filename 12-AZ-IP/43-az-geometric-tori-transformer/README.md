@@ -111,7 +111,9 @@ task**: the target at position `i` is the input token at position
 `(i + shift) mod seq_len` — a relation that wraps around the end of the
 sequence, which is exactly the invariant the toroidal encoding is built to
 carry. The model is bidirectional (non-causal) here; this is a fixed-offset
-lookup task, not autoregressive generation.
+lookup task, not autoregressive generation. Its sequence length is not
+matched to the first rotary pair's 74-position orbit; a loss difference
+does not establish finite periodicity as its cause.
 
 ```bash
 python 12-AZ-IP/43-az-geometric-tori-transformer/run.py demo --steps 200
@@ -130,7 +132,10 @@ with **no** learned relative-distance bias. The legacy
 `GeometricToriTransformerConfig(positional_mode="rope")` swaps it in for
 the toroidal attention block. This legacy arm has fewer parameters than the
 default toroidal model; therefore its historical comparison is not
-parameter-matched and cannot isolate the rotary schedule.
+parameter-matched and cannot isolate the rotary schedule. With vocabulary
+size 8, dimension 16, four heads and two layers, the legacy RoPE model has
+6,760 parameters versus 7,064 for toroidal attention (304 extra learned
+relative-bias parameters); this difference is checked directly by tests.
 
 The table below records a descriptive synthetic cyclic-copy run
 (`shift=7 > seq_len/2`). It is historical smoke-test evidence only:

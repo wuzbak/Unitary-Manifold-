@@ -7,6 +7,8 @@ from copy import deepcopy
 import numpy as np
 import pytest
 
+pytest.importorskip("sympy")
+
 from TOOLS.checks.run_planar_radion_acceptance import (
     acceptance_gates,
     bessel_state,

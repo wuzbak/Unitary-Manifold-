@@ -182,6 +182,11 @@ large files, test/build/dependency folders and symlinks; external datasets,
 credentials, Android/UEFI artifacts and all runtime-specific data are not
 implied to be bundled. Byte-identical Windows case aliases are deduplicated
 and recorded explicitly; conflicting alias contents abort source staging.
+Each materialization uses a fresh sibling staging directory and verifies both
+the copied files and any reused worktree against the receipt. An interrupted
+copy cannot block a retry or be mistaken for a complete checkout; abrupt
+process termination can leave an unused `.p45-*` staging directory in suite
+user data, which is not reused or automatically reclaimed.
 Worktree names use the full receipt SHA-256 without redundantly appending HEAD,
 reducing Windows path lengths while retaining the complete content identity.
 Early browser failures include bounded, PID-scoped bootstrap records when
@@ -238,6 +243,9 @@ and query policy. Other online capabilities belong to their individual products.
 The Windows workflow requires a native browser readiness/cleanup check before
 building either the per-user NSIS installer or the portable executable. This
 fail-fast check runs the real Electron desktop on Windows, not a mocked child.
+The installed and portable smoke launches quote and verify their isolated
+user-data paths, including when the Windows temporary directory contains
+spaces.
 An early desktop exit reports its exit code and signal rather than an empty
 startup error. From a Windows checkout with Node.js 22, Python 3.12 and internet
 access for dependency/bootstrap downloads:
@@ -313,8 +321,11 @@ npm run catalog:check
 These checks cover catalog integrity, repository-path containment, settings,
 ZIP safety, local indexing, evidence citations, index persistence, harness
 approvals/state recovery/budgets/cancellation/audit seals, worker execution
-and the local reasoning transport. The Windows workflow verifies per-user
-installation/UI/uninstall and portable launch. Installer upgrades and a
+and the local reasoning transport, plus source-worktree receipt/retry behavior
+and the Windows smoke argument contract. The latter is a source-level check on
+non-Windows hosts; it does not replace running the installed/portable smoke on
+Windows. The Windows workflow verifies per-user installation/UI/uninstall and
+portable launch. Installer upgrades and a
 publisher code-signing certificate remain release work; a successful packaging job is not a claim
 that every portfolio product is installed or Windows-compatible.
 

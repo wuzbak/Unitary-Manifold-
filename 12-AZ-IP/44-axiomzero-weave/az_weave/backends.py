@@ -22,6 +22,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import threading
 from uuid import uuid4
 
 
@@ -41,6 +42,7 @@ _ACTIONS = {
     "experiment": (True, "Bounded four-arm rotary-schedule × learned-bias synthetic experiment."),
     "train": (True, "Bounded Product 43 character training on explicit approved text."),
 }
+_IMPORT_LOCK = threading.RLock()
 
 
 def _integer(name, value, low, high):
@@ -114,6 +116,10 @@ class Backends:
             self.checkpoints[key] = path.resolve()
 
     def _import(self, module):
+        with _IMPORT_LOCK:
+            return self._import_locked(module)
+
+    def _import_locked(self, module):
         package = module.split(".", 1)[0]
         root = self.repo_root / "12-AZ-IP" / _PRODUCTS[package]
         expected = (root / package / "__init__.py").resolve()
@@ -130,6 +136,10 @@ class Backends:
             sys.path[:] = original
 
     def _available(self, package):
+        with _IMPORT_LOCK:
+            return self._available_locked(package)
+
+    def _available_locked(self, package):
         root = self.repo_root / "12-AZ-IP" / _PRODUCTS[package] / package
         cached = sys.modules.get(package)
         if cached is not None and Path(getattr(cached, "__file__", "") or "").resolve() != (root / "__init__.py").resolve():
@@ -153,7 +163,8 @@ class Backends:
             result[action] = {"effect": effect, "description": description, "available": available}
         return result
 
-    def execute(self, action: str, arguments: dict) -> dict:
+    @staticmethod
+    def _validate_input(action: str, arguments: dict) -> None:
         if type(action) is not str or action not in _ACTIONS:
             raise ValueError(f"unknown backend action: {action!r}")
         if type(arguments) is not dict:
@@ -165,6 +176,25 @@ class Backends:
             raise ValueError("arguments must be finite UTF-8 JSON") from exc
         if size > 131072:
             raise ValueError("arguments exceed the 128 KiB JSON limit")
+
+    def preflight(self, action: str, arguments: dict) -> None:
+        """Validate effect inputs and providers without claiming or writing."""
+        self._validate_input(action, arguments)
+        if action == "train":
+            self._training_input(arguments)
+            modules = ("text_workflow", "checkpoint")
+        elif action == "experiment":
+            self._experiment_settings(arguments)
+            modules = ("model", "tensor", "optim")
+        else:
+            raise ValueError("preflight requires an effectful backend action")
+        if not self._available("az_tori_transformer"):
+            raise RuntimeError("local numerical provider is unavailable")
+        for module in modules:
+            self._import(f"az_tori_transformer.{module}")
+
+    def execute(self, action: str, arguments: dict) -> dict:
+        self._validate_input(action, arguments)
         result = getattr(self, f"_{action}")(arguments)
         result["metadata"] = {
             "provider": "Product16.SynthesisOrchestrator" if action == "oracle" else "Product43.az_tori_transformer",
@@ -316,6 +346,8 @@ class Backends:
         if writing:
             if path.suffix != ".npz" or not path.resolve().is_relative_to(self.state_dir):
                 raise ValueError("training checkpoint must be an .npz destination inside state_dir")
+            if path.exists() and not path.is_file():
+                raise ValueError("training checkpoint destination must not be a directory")
         elif not path.is_file():
             raise RuntimeError("configured checkpoint is unavailable; train it or configure a real checkpoint")
         return key, path
@@ -420,7 +452,7 @@ class Backends:
                 digest.update(chunk)
         return digest.hexdigest()
 
-    def _train(self, args):
+    def _training_input(self, args):
         _keys(args, {"checkpoint_id", "corpus", "steps", "batch_size", "dim", "context_length",
                      "num_heads", "num_layers", "seed", "learning_rate", "validation_fraction",
                      "resume", "expected_checkpoint_sha256"},
@@ -478,6 +510,10 @@ class Backends:
                 raise ValueError("resume learning_rate must match the checkpoint optimizer")
             if self._sha(path) != expected:
                 raise ValueError("checkpoint changed during resume validation")
+        return key, path, resume, expected, settings, fraction, raw
+
+    def _train(self, args):
+        key, path, resume, expected, settings, fraction, raw = self._training_input(args)
         workflow = self._import("az_tori_transformer.text_workflow")
         checkpoint = self._import("az_tori_transformer.checkpoint")
         self._private_dir(path.parent)
@@ -497,7 +533,7 @@ class Backends:
             "corpus_provenance": "Explicit caller-supplied text; caller is responsible for approval. No repository archives read.",
         }
 
-    def _experiment(self, args):
+    def _experiment_settings(self, args):
         _keys(args, {"steps", "batch_size", "dim", "context_length", "num_heads",
                      "num_layers", "seed", "learning_rate", "alias_probe"})
         alias_probe = args.get("alias_probe", False)
@@ -506,6 +542,10 @@ class Backends:
         settings = self._settings(args, experiment=True)
         if alias_probe and settings["context_length"] < 75:
             raise ValueError("alias_probe requires context_length >= 75 to distinguish offsets 0 and 74")
+        return settings, alias_probe
+
+    def _experiment(self, args):
+        settings, alias_probe = self._experiment_settings(args)
         import numpy as np
 
         model_module = self._import("az_tori_transformer.model")

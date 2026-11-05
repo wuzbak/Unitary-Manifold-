@@ -1,20 +1,17 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
-"""Benchmark: toroidal attention vs. a standard RoPE control arm.
+"""Descriptive synthetic training and parameter-matched rotary comparisons.
 
-Proves two separate claims, honestly and without overclaiming:
+Checks two separate properties without claiming real-corpus superiority:
 
 1. The toroidal mechanism is not merely a theoretical model structure — it
    actually trains and converges on a concrete task (shared with the
    standard-RoPE control arm defined in ``baseline_attention.py``), using
    the project's own from-scratch autograd engine end to end.
-2. On the *cyclic* ("wraps past the end of the sequence") copy task this
-   architecture is named for, the toroidal mechanism's built-in finite
-   wraparound is a real structural advantage over continuous RoPE, which
-   has no periodicity over the task's actual sequence length. This is a
-   narrow, task-specific comparison — not a general claim that toroidal
-   attention outperforms RoPE on language modelling or any other domain;
-   see the product README's epistemic status section.
+2. The newer matched-bias ablation has matching active parameter counts
+   and reports observed results. A 12-position task does not match the
+   first rotary pair's 74-position orbit. The historical unmatched RoPE
+   comparison cannot establish periodicity as the cause of a loss difference.
 """
 
 from __future__ import annotations
@@ -24,12 +21,11 @@ from pathlib import Path
 
 import numpy as np
 
-import numpy as np
-
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from az_tori_transformer.train_demo import run_toroidal_copy_demo
 from az_tori_transformer.positional_ablation import run_positional_ablation
+from az_tori_transformer.model import GeometricToriTransformer, GeometricToriTransformerConfig
 
 
 def test_both_positional_modes_train_and_converge() -> None:
@@ -49,3 +45,15 @@ def test_matched_parameter_ablation_is_auditable_and_descriptive() -> None:
     assert toroidal["active_parameter_count"] == rope["active_parameter_count"]
     assert report["comparison"].endswith("same learned circular-bank bias")
     assert all(np.isfinite(arm[key]) for arm in (toroidal, rope) for key in ("initial_loss", "final_loss", "eval_accuracy"))
+
+
+def test_legacy_rope_comparison_has_304_fewer_parameters() -> None:
+    counts = {
+        mode: GeometricToriTransformer(GeometricToriTransformerConfig(
+            vocab_size=8, dim=16, num_heads=4, num_layers=2,
+            causal=False, seed=0, positional_mode=mode,
+        )).num_parameters()
+        for mode in ("toroidal", "rope", "rope_matched")
+    }
+    assert counts["toroidal"] == counts["rope_matched"] == 7064
+    assert counts["rope"] == 6760

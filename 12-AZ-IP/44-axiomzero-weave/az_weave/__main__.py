@@ -47,17 +47,20 @@ def main(argv: list[str] | None = None) -> int:
             decision.add_argument("resolution", choices=["CONFIRMED_EFFECT", "CONFIRMED_NO_EFFECT"])
     args = parser.parse_args(argv)
     try:
+        checkpoints = {}
+        for entry in args.checkpoint:
+            identifier, value = entry.split("=", 1)
+            if not identifier or not value:
+                raise ValueError("checkpoint must be a nonempty ID=PATH")
+            if identifier in checkpoints:
+                raise ValueError("duplicate checkpoint identifier")
+            checkpoints[identifier] = Path(value)
         if args.command == "query":
             result = run_readonly(args.query, args.limit, repo_root=args.repo_root)
         elif args.command == "capabilities":
-            result = capabilities(repo_root=args.repo_root)
+            result = capabilities(repo_root=args.repo_root, state_dir=args.state_dir,
+                                  checkpoints=checkpoints)
         else:
-            checkpoints = {}
-            for entry in args.checkpoint:
-                identifier, value = entry.split("=", 1)
-                if identifier in checkpoints:
-                    raise ValueError("duplicate checkpoint identifier")
-                checkpoints[identifier] = Path(value)
             weave = Weave(args.state_dir, repo_root=args.repo_root, checkpoints=checkpoints)
             principal = "local-operator"
             if args.command == "serve":

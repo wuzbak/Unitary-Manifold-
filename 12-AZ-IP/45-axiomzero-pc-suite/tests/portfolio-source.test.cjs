@@ -44,6 +44,30 @@ test("bundled source is checksum-verified and copied into a stable content-scope
   assert.equal(materializePortfolioSource(source, destination), result);
   assert.equal(fs.readFileSync(path.join(source, "12-AZ-IP/README.md"), "utf8"), "Portfolio");
 });
+test("retries use a fresh staging directory when a prior fixed-name stage was abandoned", (t) => {
+  const { source, destination } = fixture(t);
+  const identity = crypto.createHash("sha256").update(fs.readFileSync(path.join(source, "SOURCE_RECEIPT.json"))).digest("hex");
+  const abandoned = path.join(destination, `${identity}.pending`);
+  fs.mkdirSync(abandoned, { recursive: true });
+  fs.writeFileSync(path.join(abandoned, "interrupted-copy"), "preserve");
+  const abandonedUnique = path.join(destination, ".p45-abandoned");
+  fs.mkdirSync(abandonedUnique);
+  fs.writeFileSync(path.join(abandonedUnique, "interrupted-copy"), "preserve");
+
+  const result = materializePortfolioSource(source, destination);
+
+  assert.equal(fs.readFileSync(path.join(result, "12-AZ-IP/README.md"), "utf8"), "Portfolio");
+  assert.equal(fs.readFileSync(path.join(abandoned, "interrupted-copy"), "utf8"), "preserve");
+  assert.equal(fs.readFileSync(path.join(abandonedUnique, "interrupted-copy"), "utf8"), "preserve");
+  assert.deepEqual(fs.readdirSync(destination).filter((name) => name.startsWith(".p45-")),
+    [".p45-abandoned"]);
+});
+test("reused source worktrees fail closed when a receipted file was modified", (t) => {
+  const { source, destination } = fixture(t);
+  const result = materializePortfolioSource(source, destination);
+  fs.writeFileSync(path.join(result, "12-AZ-IP/README.md"), "changed");
+  assert.throws(() => materializePortfolioSource(source, destination), /checksum failed/);
+});
 test("source receipts fail closed on modified bytes, duplicate files and escaping paths", (t) => {
   const { source, destination, receipt, save } = fixture(t);
   fs.writeFileSync(path.join(source, "12-AZ-IP/README.md"), "modified");

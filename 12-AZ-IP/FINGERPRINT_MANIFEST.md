@@ -808,6 +808,31 @@ Native Windows validation is separate; no all-target operational certification i
 |-------|---------|------:|
 | `12-AZ-IP/15-pentacorder/feature/labs/src/main/java/com/gibbernode/feature/labs/SensorStatusScreen.kt` | `179aa04b0b381c82d64c79e326db47a749c232b0308c226458baebf1fc540270` | 5398 |
 
+### Recovery reconciliation and readiness follow-through reseal - 2026-11-05
+
+Reconciled the stranded allocator/browser follow-up against current mainline,
+closed reviewed runtime/evidence defects, documented bounded declarative checks,
+and repaired Product 45 provisioning retries and Windows smoke arguments.
+The older Product 02 seal was already stale; preserved history records prior
+registry entries, not an assertion that every prior entry matched pre-edit bytes.
+Native Windows, hardware and model qualification remain separate gates. No
+scientific, portfolio-wide production or complete lost-session recovery claim
+is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/02-az-kernel/README.md` | `529a5caa7f3f048c85f5b2067658283f6a88b9eac0a00e5e907e777b9d41462e` | 3099 |
+| `12-AZ-IP/04-um-sos/README.md` | `d27dbb41131b39a081d7931a0060306e72f2d98097b67f2d61aa81718eafd119` | 4207 |
+| `12-AZ-IP/24-psicat-web-browser/README.md` | `2a5f6fb2c75e5c4f7cc04d6cc1dca687e041c3a58013e3572bd3fb5fdb589980` | 25571 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/runtime.js` | `8969484ad05d0e8d1f85b155c3e9e34cfe2b533a8ffd5d49e7d5bab887310c40` | 31426 |
+| `12-AZ-IP/38-az-formal-verification-library/README.md` | `be252790719688b31c5190f198a21d2a16bbd18c6dd1d418a914af9e7225dd1b` | 3880 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `0cb1943c7ae7522130e8c470b62c8c43fd23b9a4f47548a67d7fb945f18dcbd1` | 23388 |
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `beafa70a987fa9cf8f582f86fb5650061a7ba1d13e28169f21b2c343824845ed` | 14168 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `a4375b87ce42bd140bc560220587f803d98707644fcc14e7780cdfefff5cf8a7` | 24787 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs` | `e61d6538f6be4e6359b2fea9409ec921a975d0a2168955f86a7ec75fcb5856f1` | 3327 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1` | `4184952192f49794193aec1c5156cdd1ab1915c2294e26f1bd205a533511ada8` | 4056 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs` | `d344de8a4480e580826df3af04818c94001e84de919148fadd0a3fd7c86fe6a7` | 5290 |
+
 ## Verification Protocol
 
 To verify any registered asset:

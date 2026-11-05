@@ -2,12 +2,12 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8513,
+  "file_count": 8527,
   "lanes": {
-    "az_ip": 2636,
+    "az_ip": 2640,
     "compactification": 9,
-    "other": 5456,
-    "psicat_articles": 354,
+    "other": 5464,
+    "psicat_articles": 356,
     "psicat_books": 58
   },
   "top_levels": {
@@ -23,13 +23,13 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2636,
+    "12-AZ-IP": 2640,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 945,
+    "7-OUTREACH": 949,
     "8-SAFETY": 8,
     "9-INFRASTRUCTURE": 193,
     "AGENTS.md": 1,
@@ -62,7 +62,7 @@
     "NOTICE": 1,
     "PEER_REVIEW_RESPONSE_v933.md": 1,
     "PENTAD_PRODUCT_NOTICE.md": 1,
-    "PILLARS": 529,
+    "PILLARS": 531,
     "PROVENANCE.md": 1,
     "README.md": 1,
     "RECOVERY": 2,
@@ -109,10 +109,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1637,
+    "src": 1639,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1564,
+    "tests": 1566,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -2349,6 +2349,7 @@
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/startup-diagnostics.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/suite-lifecycle.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/sync-policy.js",
+      "12-AZ-IP/24-psicat-web-browser/desktop/lib/sync-transport.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/main.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/preload.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/runtime.js",
@@ -2371,6 +2372,7 @@
       "12-AZ-IP/24-psicat-web-browser/tests/e2e/desktop-ui.spec.js",
       "12-AZ-IP/24-psicat-web-browser/tests/e2e/network-sandbox.spec.js",
       "12-AZ-IP/24-psicat-web-browser/tests/electron-ipc-probe.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/network-transports.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/page-context.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/psicat-client.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/run-ipc-probe.js",
@@ -2609,6 +2611,7 @@
       "12-AZ-IP/38-az-formal-verification-library/run.py",
       "12-AZ-IP/38-az-formal-verification-library/tests/test_api.py",
       "12-AZ-IP/38-az-formal-verification-library/tests/test_formal_verification_library.py",
+      "12-AZ-IP/38-az-formal-verification-library/tests/test_server.py",
       "12-AZ-IP/38-az-formal-verification-library/ui/index.html"
     ],
     "39-az-research-debt-tracker": [
@@ -2805,7 +2808,8 @@
       "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py",
-      "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py"
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/windows-smoke.test.cjs"
     ]
   },
   "psicat_literature": {
@@ -3223,7 +3227,9 @@
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-351-post-327-s04e030-ai-extinction-risk-governance-and-the-honest-monorepo.md",
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-352-post-329-repository-tracker-refresh-sep-2026.md",
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-353-the-state-of-the-manifold-october-2026.md",
-      "7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md"
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md",
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-355-p1133-superfluid-connections-without-overclaiming.md",
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-356-post-1134-the-zeptoverse-and-rare-b-decays.md"
     ]
   },
   "files": [
@@ -19207,6 +19213,13 @@
       "product": "24-psicat-web-browser"
     },
     {
+      "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/sync-transport.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
       "path": "12-AZ-IP/24-psicat-web-browser/desktop/main.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -19355,6 +19368,13 @@
     },
     {
       "path": "12-AZ-IP/24-psicat-web-browser/tests/electron-ipc-probe.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/network-transports.test.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -20831,6 +20851,13 @@
       "product": "38-az-formal-verification-library"
     },
     {
+      "path": "12-AZ-IP/38-az-formal-verification-library/tests/test_server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
       "path": "12-AZ-IP/38-az-formal-verification-library/ui/index.html",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22106,6 +22133,13 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/windows-smoke.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -26480,6 +26514,18 @@
       "lane": "psicat_articles"
     },
     {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Articles/article-355-p1133-superfluid-connections-without-overclaiming.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_articles"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Articles/article-356-post-1134-the-zeptoverse-and-rare-b-decays.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_articles"
+    },
+    {
       "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-01-psicat-new-first-announcement.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -29414,6 +29460,18 @@
       "lane": "other"
     },
     {
+      "path": "7-OUTREACH/substack/research/p1133-superfluid-research-brief.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "7-OUTREACH/substack/research/p1134-rare-decay-research-brief.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "7-OUTREACH/substack/visuals/README.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -31743,6 +31801,18 @@
     },
     {
       "path": "PILLARS/P1108/README.md",
+      "top_level": "PILLARS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "PILLARS/P1133/README.md",
+      "top_level": "PILLARS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "PILLARS/P1134/README.md",
       "top_level": "PILLARS",
       "kind": "file",
       "lane": "other"
@@ -40803,6 +40873,18 @@
     },
     {
       "path": "src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar1133_superfluid_effective_theory.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar1134_rare_decay_probes.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -51597,6 +51679,18 @@
     },
     {
       "path": "tests/test_pillar1132_adm_homogeneous_hyperbolic_evolution.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar1133_superfluid_effective_theory.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar1134_rare_decay_probes.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

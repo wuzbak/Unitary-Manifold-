@@ -750,6 +750,28 @@ def test_current_truth_filter_accepts_new_dated_corrections_not_dated_history():
     assert rag_index_module._current_document_text("other.md", text) == text
 
 
+def test_current_truth_filter_excludes_nested_history_and_whitelist_reactivation():
+    text = (
+        "## Retrieval correction (2026-11-04)\nCurrent scoped correction.\n"
+        "### Historical archive\nExcluded nested claim.\n"
+        "#### Archived details\nExcluded deep claim.\n"
+        "#### Correction (2026-11-05)\nStill historical.\n"
+        "### Validation boundary\nCurrent sibling resumes.\n"
+        "## Historical archive\n"
+        "### Mathematical findings and assumptions\nWhitelisted but historical.\n"
+        "## Synthesis repair (2026-10-05)\nCurrent whitelisted sibling.\n"
+    )
+    selected = rag_index_module.current_document_lines("docs/TRUTH_LAYER.md", text)
+    original = text.splitlines(keepends=True)
+    assert all(original[number - 1] == line for number, line in selected)
+    assert [number for number, _ in selected] == [1, 2, 9, 10, 14, 15]
+    current = "".join(line for _, line in selected)
+    assert "Current sibling resumes." in current
+    assert "Current whitelisted sibling." in current
+    for excluded in ("Excluded", "Still historical", "Whitelisted but historical"):
+        assert excluded not in current
+
+
 def test_science_answers_do_not_import_expensive_certificates(built_science_index, monkeypatch):
     import builtins
 

@@ -1,5 +1,63 @@
 # Wave Changelog
 
+## Recovery reconciliation and readiness follow-through (2026-11-05)
+
+Selectively reconciled the two post-merge commits on
+`feat/az-kernel-heap-allocator`, rather than replacing newer mainline files:
+allocator split alignment and fragment reclamation, actual browser query/sync
+HTTP regressions and redirect rejection, absolute-only gradient checks, and
+honest legacy versus parameter-matched Product 43 benchmark descriptions.
+The current browser implementation lives in `desktop/runtime.js`; its newer
+readiness, persistence, view-refresh and broadcast behavior is retained.
+
+Closed Product 44/RAG review follow-through for historical evidence exclusion,
+live executor reconciliation, CLI configuration, preflight-before-claim,
+cross-instance import serialization and once-per-file hashing. Corrected the
+planar null-constraint normalization, regenerated its source-bound acceptance
+receipt, added lapse-coefficient rejection coverage, guarded optional SymPy
+tests, rejected overflowing rare-decay uncertainty and preserved signed
+zero-uncertainty discrepancies. Tiny-energy assertions now use zero absolute
+tolerance. Already narrowed off-shell/fixed-transverse claims remain narrowed.
+
+Product 45 provisioning now retries despite abandoned `.pending` stages and
+checks copied/reused file digests; Windows smoke quotes a deliberately
+space-containing user-data path and checks that Electron created it. This is
+not production-readiness certification. The independent, still-active AZ IP
+Master Plan work on PR #1173 was neither changed nor adopted prematurely.
+
+Product 04 now builds with the repository context, binds within its container
+while publishing only host loopback, and imports repository sources from an
+unrelated working directory. Its actual Docker image built and returned HTTP
+200 through port forwarding. Product 35 HTTP uses the strict message decoder.
+Reconstructed Product 38 real HTTP tests cover declared properties, malformed
+and oversized input, unsupported routes and unavailable solver behavior.
+Product 39's real Git tests use temporary repositories and Git-index blobs,
+including exotic names and symlink modes without requiring Windows filesystem
+support or symlink privileges.
+
+The slow-inclusive Product 01/Product 20 follow-through run reports 1,169 passed
+and 4 skipped on Linux. A separate Windows recovered-product job now gates PC
+Suite packaging; its native results are not inferred from that Linux run.
+Product 45's local suite reports 217 npm tests and 10 Python tests passed;
+Product 44 plus associated RAG consumers reports 342 passed. The focused physics
+run reports 170 passed, and the planar acceptance packet passes 12/12 gates.
+Ragbot and PsiCat were consulted using local retrieval with external inference
+and web search disabled; those consultations are context, not independent
+expert or release certification.
+
+Book 57 corrects confirmed nonlocal coach data flow; Book 58 flags rather than
+silently resolves the six-versus-seven dimensional source inconsistency.
+Dated errata preserve immutable preassembly sources. Assembly checks now retain
+external citation destinations, with a mutation regression. Affected registered
+assets are resealed with prior registry entries retained.
+
+Still unearned: native Windows combined installer/model acceptance, hardware
+qualification, and full portfolio production readiness. The retained recovery
+archive has only two JSONL evidence files; reconstructing missing HTTP tests
+does not recover or certify the original approximately 8% missing change set.
+No pillar/version promotion, scientific closure, TOE-score increase or weakened
+falsification condition is made.
+
 ## PsiCat Books 57 and 58 - Original AxiomZero commission (2026-11-05)
 
 Added two original, book-length Markdown manuscripts in the PsiCat Literature:

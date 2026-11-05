@@ -11,6 +11,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 from az_uos_kernel_bridge.api import dispatch_api_request
+from az_uos_kernel_bridge.ipc_message import decode_kernel_message_json
 
 UI_DIR = Path(__file__).resolve().parents[2] / "ui"
 
@@ -61,7 +62,10 @@ class BridgeRequestHandler(SimpleHTTPRequestHandler):
             self._send_json(413, {"error": "request body exceeds 4096 bytes"})
             return
         try:
-            body = json.loads(self.rfile.read(length))
+            raw = self.rfile.read(length)
+            if len(raw) != length:
+                raise ValueError("request body ended before Content-Length")
+            body = decode_kernel_message_json(raw).to_dict()
             payload = dispatch_api_request(
                 parsed.path,
                 parse_qs(parsed.query, keep_blank_values=True),

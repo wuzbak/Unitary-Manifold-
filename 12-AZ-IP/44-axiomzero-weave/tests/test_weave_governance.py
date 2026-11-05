@@ -3,6 +3,7 @@
 """Before-effect invariants and recovery, without real external effects."""
 
 from concurrent.futures import ThreadPoolExecutor
+import multiprocessing
 import time
 
 import pytest
@@ -117,3 +118,75 @@ def test_audit_corruption_detected(journal):
     with journal.connect() as db:
         db.execute("UPDATE events SET state='TAMPERED'")
     assert not journal.verify_audit()
+
+
+def _process_effect(path, identifier, started, finish):
+    journal = Journal(path)
+
+    def handler():
+        started.set()
+        if not finish.wait(15):
+            raise RuntimeError("test handler timeout")
+        return {"actual": 1}
+
+    journal.execute(identifier, "operator", "effect", {"target": "one"}, handler, lambda _: True)
+
+
+@pytest.mark.parametrize("crash", [False, True])
+def test_cross_process_live_executor_blocks_reconciliation_and_other_effects(journal, crash):
+    identifier = approve(journal)
+    other = approve(journal)
+    context = multiprocessing.get_context("spawn")
+    started, finish = context.Event(), context.Event()
+    process = context.Process(target=_process_effect,
+                              args=(journal.path, identifier, started, finish))
+    process.start()
+    try:
+        assert started.wait(10)
+        observer = Journal(journal.path)
+        with pytest.raises(AuthorizationError, match="still running"):
+            observer.reconcile(identifier, "operator", resolution="CONFIRMED_NO_EFFECT")
+        with pytest.raises(AuthorizationError, match="still running"):
+            observer.execute(other, "operator", "effect", {"target": "one"},
+                             lambda: pytest.fail("concurrent effect"), lambda _: True)
+        assert observer.get(identifier, "operator")["state"] == "RUNNING"
+        if crash:
+            process.terminate()
+        else:
+            finish.set()
+        process.join(10)
+        assert not process.is_alive()
+        if crash:
+            assert observer.get(identifier, "operator")["state"] == "RUNNING"
+            observer.reconcile(identifier, "operator", resolution="CONFIRMED_EFFECT")
+            assert observer.get(identifier, "operator")["state"] == "CONFIRMED_EFFECT"
+        else:
+            assert process.exitcode == 0
+            assert observer.get(identifier, "operator")["state"] == "SUCCEEDED"
+            with pytest.raises(AuthorizationError, match="no ambiguous"):
+                observer.reconcile(identifier, "operator", resolution="CONFIRMED_NO_EFFECT")
+        assert observer.execute(other, "operator", "effect", {"target": "one"},
+                                lambda: {"second": True}, lambda _: True)["state"] == "SUCCEEDED"
+        assert observer.verify_audit()
+    finally:
+        if process.is_alive():
+            process.terminate()
+        process.join(10)
+
+
+@pytest.mark.parametrize("failure", [False, True])
+def test_completion_cannot_overwrite_changed_resolution(journal, failure):
+    identifier = approve(journal)
+
+    def handler():
+        with journal.connect() as db:
+            db.execute("UPDATE decisions SET state='CONFIRMED_EFFECT' WHERE id=?", (identifier,))
+        if failure:
+            raise OSError("failure after concurrent state change")
+        return {"done": True}
+
+    with pytest.raises(AuthorizationError, match="state changed"):
+        journal.execute(identifier, "operator", "effect", {"target": "one"}, handler, lambda _: True)
+    assert journal.get(identifier, "operator")["state"] == "CONFIRMED_EFFECT"
+    with journal.connect() as db:
+        assert db.execute("SELECT decision_id FROM active_effect").fetchone()[0] == identifier

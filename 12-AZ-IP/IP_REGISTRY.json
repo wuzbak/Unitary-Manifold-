@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -297,9 +297,18 @@
       "description": "Canonical merged AZ-KERNEL README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "e0b802846f751dd6fc1f16e8a502f2dab85bc7b4ca4037ceefe537b86997f242",
-      "size_bytes": 1233
+      "updated": "2026-11-05",
+      "sha256": "529a5caa7f3f048c85f5b2067658283f6a88b9eac0a00e5e907e777b9d41462e",
+      "size_bytes": 3099,
+      "reseal_note": "Reconciled stranded allocator alignment/reclamation fixes and test claims. Previous registry seal was already stale; no pre-edit byte-match claim.",
+      "reseal_history": [
+        {
+          "updated": "2026-08-18",
+          "sha256": "e0b802846f751dd6fc1f16e8a502f2dab85bc7b4ca4037ceefe537b86997f242",
+          "size_bytes": 1233,
+          "reseal_note": "Previously recorded seal, not a verified pre-edit file hash."
+        }
+      ]
     },
     "12-AZ-IP/03-eige/README.md": {
       "description": "Canonical EIGE product README",
@@ -313,9 +322,18 @@
       "description": "Canonical UM-SOS product README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "4455314d54e4ce3d7519ce32f482e3d4547f3505cb0c13840932f57987b25465",
-      "size_bytes": 3008
+      "updated": "2026-11-05",
+      "sha256": "d27dbb41131b39a081d7931a0060306e72f2d98097b67f2d61aa81718eafd119",
+      "size_bytes": 4207,
+      "reseal_note": "Documented actual Docker build context and separate container/host bindings. Previous registry seal may predate preceding mainline edits.",
+      "reseal_history": [
+        {
+          "updated": "2026-08-18",
+          "sha256": "4455314d54e4ce3d7519ce32f482e3d4547f3505cb0c13840932f57987b25465",
+          "size_bytes": 3008,
+          "reseal_note": "Previously recorded seal, not a verified pre-edit file hash."
+        }
+      ]
     },
     "12-AZ-IP/05-uos-kernel/README.md": {
       "description": "Canonical UOS kernel README",
@@ -540,11 +558,17 @@
       "description": "Product 24 documentation — desktop, Android, extension, workspace, and sync scaffold",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "8743b9b7b4b2cc214260424fe463da5d59d80194417204e34fc781d42ea48f92",
-      "size_bytes": 25264,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "2a5f6fb2c75e5c4f7cc04d6cc1dca687e041c3a58013e3572bd3fb5fdb589980",
+      "size_bytes": 25571,
+      "reseal_note": "Reconciled real query/sync transports, redirect rejection and network regressions; no platform or intelligence qualification promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "8743b9b7b4b2cc214260424fe463da5d59d80194417204e34fc781d42ea48f92",
+          "size_bytes": 25264,
+          "reseal_note": "Previous Windows desktop and instruction-backend documentation seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "c9ae91627e60ad3ca3fa1892dc04755908f63978b442a31c02d888c8151bfe38",
@@ -876,9 +900,18 @@
       "description": "Product 38 AZ Formal Verification Library README with epistemic-status section",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "b5ddd72e4b2d4b9e936f67c3a5c53318d058a6b3828a3734a181e5ccb16376b9",
-      "size_bytes": 2075
+      "updated": "2026-11-05",
+      "sha256": "be252790719688b31c5190f198a21d2a16bbd18c6dd1d418a914af9e7225dd1b",
+      "size_bytes": 3880,
+      "reseal_note": "Documented existing bounded declarative JSON workflow and reconstructed real HTTP tests, not byte-for-byte recovery. Previous recorded seal retained.",
+      "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "b5ddd72e4b2d4b9e936f67c3a5c53318d058a6b3828a3734a181e5ccb16376b9",
+          "size_bytes": 2075,
+          "reseal_note": "Previously recorded seal, not a verified pre-edit file hash."
+        }
+      ]
     },
     "12-AZ-IP/39-az-research-debt-tracker/README.md": {
       "description": "Product 39 AZ Research-Debt Tracker README with epistemic-status section; resealed after Phase 2 web-product layer (api.py + app/server.py + ui/)",
@@ -938,9 +971,18 @@
       "description": "Product 44 AxiomZero Weave operating contracts, actual integrations and explicit boundaries",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-03",
-      "sha256": "31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63",
-      "size_bytes": 13004
+      "updated": "2026-11-05",
+      "sha256": "beafa70a987fa9cf8f582f86fb5650061a7ba1d13e28169f21b2c343824845ed",
+      "size_bytes": 14168,
+      "reseal_note": "Closed review follow-through for current evidence, live effect leases, configured discovery, preflight and import concurrency; no capability promotion.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-03",
+          "sha256": "31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63",
+          "size_bytes": 13004,
+          "reseal_note": "Previous operating-contract documentation seal."
+        }
+      ]
     },
     "12-AZ-IP/44-axiomzero-weave/pyproject.toml": {
       "description": "Product 44 package and local operator CLI entrypoint",
@@ -954,11 +996,17 @@
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
-      "size_bytes": 24058,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "a4375b87ce42bd140bc560220587f803d98707644fcc14e7780cdfefff5cf8a7",
+      "size_bytes": 24787,
+      "reseal_note": "Interrupted provisioning retry, copied/reused file verification and quoted Windows user-data smoke path; native release/model qualification remains open.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
+          "size_bytes": 24058,
+          "reseal_note": "Previous Windows runtime and instruction-backend documentation seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "bc7c6a2a5d17d0f1f4b04cb6f56d8062a00f1acca0f668ca981fb5a9cc4fb406",
@@ -1495,10 +1543,16 @@
       "description": "Product 45 Windows installer, uninstall and portable executable smoke harness",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "16372ce44a47c9c41be76306002109d8311ff642a94f647c26020153a34b6d83",
-      "size_bytes": 3862,
+      "updated": "2026-11-05",
+      "sha256": "4184952192f49794193aec1c5156cdd1ab1915c2294e26f1bd205a533511ada8",
+      "size_bytes": 4056,
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "16372ce44a47c9c41be76306002109d8311ff642a94f647c26020153a34b6d83",
+          "size_bytes": 3862,
+          "reseal_note": "Previous Windows installer and portable smoke harness seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "60217f4a8da8588b3c434ff9514540f6cfbdb75adbbc2066d55e7b31717709b8",
@@ -1511,7 +1565,7 @@
           "size_bytes": 2991
         }
       ],
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "reseal_note": "Quoted space-containing user-data argument and verify Electron created the requested directory; native Windows execution remains separately required."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs": {
       "description": "Product 45 catalog, repository path, settings and operation-lock regression tests",
@@ -1727,11 +1781,17 @@
       "description": "Product 45 native model/runtime packaging and contracts: portfolio-source.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "afcb1446693a98217d0977373b769a25bded2ed446255aaae0eb7bc5245bdb1d",
-      "size_bytes": 2633,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "e61d6538f6be4e6359b2fea9409ec921a975d0a2168955f86a7ec75fcb5856f1",
+      "size_bytes": 3327,
+      "reseal_note": "Unique retry-safe staging, copied/reused digest verification and concurrent-copy handling; no release readiness claim.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "afcb1446693a98217d0977373b769a25bded2ed446255aaae0eb7bc5245bdb1d",
+          "size_bytes": 2633,
+          "reseal_note": "Previous portfolio source provisioning seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "dac30fbb0a8580c7d40cf45b77f7a474a125fd8b4036e1f94cb1e1ed604d0e86",
@@ -1929,11 +1989,17 @@
       "description": "Product 45 native model/runtime packaging and contracts: portfolio-source.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "1a63a4b9bcb3d39e2a3874e19cb0dc333c9c9660705ae5181ad42faa91bf8f6c",
-      "size_bytes": 3801,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "d344de8a4480e580826df3af04818c94001e84de919148fadd0a3fd7c86fe6a7",
+      "size_bytes": 5290,
+      "reseal_note": "Regressions cover abandoned pending stages, copied files and reused worktree tampering; no native execution substitution.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "1a63a4b9bcb3d39e2a3874e19cb0dc333c9c9660705ae5181ad42faa91bf8f6c",
+          "size_bytes": 3801,
+          "reseal_note": "Previous portfolio source test seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "34cfdc6a1353a4e6fd6cfd5eb7ff5ed377c628c8be619acf3f6854a84813de73",
@@ -2298,11 +2364,17 @@
       "description": "Product 24 Windows runtime integration and contracts: runtime.js",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "a5eeb785e9cd4252720a156184567de080831282d98a74b6ae02cca72bb8d9ac",
-      "size_bytes": 32924,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "8969484ad05d0e8d1f85b155c3e9e34cfe2b533a8ffd5d49e7d5bab887310c40",
+      "size_bytes": 31426,
+      "reseal_note": "Wire tested shared sync transports while preserving runtime readiness, persistence, view refresh and broadcasts.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a5eeb785e9cd4252720a156184567de080831282d98a74b6ae02cca72bb8d9ac",
+          "size_bytes": 32924,
+          "reseal_note": "Previous Windows runtime and instruction-backend integration seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a7ad4ae1d5a798d66d9dd4244c0fea92c5a51eba7c83790557f350bf4daaef65",
@@ -2342,11 +2414,17 @@
       "description": "Product 43 Windows runtime integration and contracts: README.md",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
-      "size_bytes": 23001,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "0cb1943c7ae7522130e8c470b62c8c43fd23b9a4f47548a67d7fb945f18dcbd1",
+      "size_bytes": 23388,
+      "reseal_note": "State measured legacy parameter delta and unmatched task/orbit periods; preserve newer matched-bias ablation and unearned real-model limits.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
+          "size_bytes": 23001,
+          "reseal_note": "Previous Windows runtime and instruction-backend documentation seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "f59fd606e504d7fcb5c7be9d57d4222077bf2c6a17c89ea1b322a5a2ae28616c",

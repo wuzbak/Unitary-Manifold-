@@ -3,6 +3,8 @@
 
 import pytest
 
+sp = pytest.importorskip("sympy")
+
 import src.core.pillar1132_adm_homogeneous_hyperbolic_evolution as p1132
 
 from src.core.pillar1132_adm_homogeneous_hyperbolic_evolution import (
@@ -124,6 +126,30 @@ def test_certificate_fails_closed_when_cross_check_fails(monkeypatch) -> None:
     monkeypatch.setattr(p1132, '_adm_static_reduction_cross_check', failing_cross_check)
     result = p1132.adm_homogeneous_hyperbolic_evolution_certificate()
     assert result['verified'] is False
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("equation", ["N", "Nx"])
+@pytest.mark.parametrize("field", ["h", "p", "N", "Nx"])
+def test_constraint_flags_reject_any_second_time_coefficient(monkeypatch, equation, field):
+    original = p1132._coeff_of_second_time_derivative
+    calls = 0
+    target_call = 3 + 4 * ["N", "Nx"].index(equation) + ["h", "p", "N", "Nx"].index(field)
+
+    def inject_acceleration(sympy, expression, derivative):
+        nonlocal calls
+        call = calls
+        calls += 1
+        return sp.Integer(1) if call == target_call else original(sympy, expression, derivative)
+
+    monkeypatch.setattr(p1132, "_coeff_of_second_time_derivative", inject_acceleration)
+    evidence = p1132._adm_hyperbolicity_evidence.__wrapped__()
+    assert evidence["constraint_acceleration_coefficients"][equation][field] == 1
+    assert evidence[f"{equation}_equation_is_constraint"] is False
+    if equation == "N":
+        assert evidence["N_equation_has_no_real_second_time_derivative"] is False
+    monkeypatch.setattr(p1132, "_adm_hyperbolicity_evidence", lambda: evidence)
+    assert p1132.adm_homogeneous_hyperbolic_evolution_certificate()["verified"] is False
 
 
 @pytest.mark.slow

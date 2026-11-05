@@ -18,15 +18,18 @@ foreach ($artifact in @($installer, $portable)) {
 
 function Test-ProductWindow([string]$Executable, [string]$Label) {
     $port = Get-Random -Minimum 30000 -Maximum 50000
-    $userData = Join-Path $env:TEMP "p45-smoke-$PID-$port"
+    $userData = Join-Path $env:TEMP "p45 smoke-$PID-$port"
     $env:P45_SMOKE_PORT = "$port"
     $appProcess = $null
     try {
-        $arguments = @("--remote-debugging-port=$port", "--user-data-dir=$userData")
+        $arguments = @("--remote-debugging-port=$port", ('--user-data-dir="{0}"' -f $userData))
         $appProcess = Start-Process -FilePath $Executable -ArgumentList $arguments -PassThru
         & node $smokeScript
         if ($LASTEXITCODE -ne 0) {
             throw "$Label UI smoke test failed with exit code $LASTEXITCODE."
+        }
+        if (-not (Test-Path -LiteralPath $userData -PathType Container)) {
+            throw "$Label application did not create its isolated user-data directory: $userData"
         }
         Write-Host "$Label application launch and UI smoke passed."
     } finally {

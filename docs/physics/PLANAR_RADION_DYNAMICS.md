@@ -366,13 +366,18 @@ These are engineering acceptance limits, not observational error bars.
 
 | Family | Finest six-field RMS error | Maximum null constraint | Maximum 5D Ricci frame norm |
 |---|---:|---:|---:|
-| Bessel amplitude 0.04 | \(1.54\,10^{-7}\) | \(1.06\,10^{-7}\) | \(2.29\,10^{-6}\) |
-| Bessel amplitude 0.12 | \(4.93\,10^{-7}\) | \(9.50\,10^{-7}\) | \(8.58\,10^{-6}\) |
-| Two Bessel modes (0.04, 0.025) | \(2.36\,10^{-7}\) | \(5.72\,10^{-7}\) | \(4.30\,10^{-6}\) |
-| Exact conformal coordinate pullback | \(3.09\,10^{-7}\) | \(2.04\,10^{-6}\) | \(4.87\,10^{-6}\) |
-| Independent mixed-mode initial data | No analytic reference | \(1.38\,10^{-6}\) | \(2.75\,10^{-5}\) |
+| Bessel amplitude 0.04 | \(1.54\,10^{-7}\) | \(5.28\,10^{-8}\) | \(2.29\,10^{-6}\) |
+| Bessel amplitude 0.12 | \(4.93\,10^{-7}\) | \(4.75\,10^{-7}\) | \(8.58\,10^{-6}\) |
+| Two Bessel modes (0.04, 0.025) | \(2.36\,10^{-7}\) | \(2.86\,10^{-7}\) | \(4.30\,10^{-6}\) |
+| Exact conformal coordinate pullback | \(3.09\,10^{-7}\) | \(1.02\,10^{-6}\) | \(4.87\,10^{-6}\) |
+| Independent mixed-mode initial data | No analytic reference | \(6.92\,10^{-7}\) | \(2.75\,10^{-5}\) |
 
-Constraints are maximized across the saved trajectory. The Ricci oracle
+Constraints use the canonical definitions above with
+\(\partial_u=(\partial_t-\partial_x)/2\) and
+\(\partial_v=(\partial_t+\partial_x)/2\), and are maximized across the saved
+trajectory. These corrected diagnostics are half the previously reported
+values; no evolution equation, convergence gate or scientific scope changed.
+The source-bound packet was regenerated, not merely rehashed. The Ricci oracle
 audits nine midpoint snapshots, retaining five interior times; this is
 explicitly not a full-trajectory curvature bound. Errors include all three
 fields and velocities in dimensionless normalization. For independent

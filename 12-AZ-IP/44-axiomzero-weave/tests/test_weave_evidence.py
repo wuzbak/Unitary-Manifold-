@@ -79,7 +79,8 @@ def test_default_corpus_is_tracked_and_excludes_private_files(tmp_path):
 
     subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
     (tmp_path / "docs").mkdir()
-    (tmp_path / "docs" / "TRUTH_LAYER.md").write_text("truth layer current\n")
+    (tmp_path / "docs" / "TRUTH_LAYER.md").write_text(
+        "## Retrieval correction (2026-11-04)\ntruth layer current\n")
     (tmp_path / "private").mkdir()
     (tmp_path / "private" / "secret.md").write_text("truth layer secret\n")
     subprocess.run(
@@ -118,7 +119,7 @@ def test_default_grounding_ranks_product_content_over_inventory(tmp_path):
             "# OmegaOracle\n" + "metadata\n" * 35
             + "OmegaOracle synthesizes five bodies with epistemic status and phi_trust.\n",
         "docs/inventory.md": "Product43 Product43 Product43 OmegaOracle OmegaOracle",
-        "docs/TRUTH_LAYER.md": "# Fresh section\nA new constrained planar radion correction.",
+        "docs/TRUTH_LAYER.md": "## Retrieval correction (2026-11-04)\nA new constrained planar radion correction.",
         "proof/TIER_1_FORMAL.md": "Formal gate",
         "FALLIBILITY.md": "Open obligations",
     }
@@ -169,3 +170,51 @@ def test_unsafe_ignored_missing_and_oversized_sources(tmp_path):
     source.unlink()
     source.write_bytes(b"fresh" * 120_000)
     assert index.search("fresh") == []
+
+
+def test_truth_search_and_verify_exclude_historical_spans_and_keep_source_offsets(tmp_path):
+    source = tmp_path / "docs" / "TRUTH_LAYER.md"
+    source.parent.mkdir()
+    text = (
+        "# Truth layer\nUnselected preamble.\n"
+        "## Retrieval correction (2026-11-04)\nCurrent radion boundary.\n"
+        "### Historical archive\nRadion historical-only-obligation.\n"
+        "#### Correction (2026-11-05)\nRadion excluded descendant.\n"
+        "### Validation boundary\nCurrent radion test scope.\n"
+        "## Historical archive\n"
+        "### Mathematical findings and assumptions\nRadion excluded whitelist.\n"
+    )
+    source.write_text(text)
+    index = SourceIndex(tmp_path, ["docs/TRUTH_LAYER.md"])
+    hits = index.search("radion")
+    assert [(hit["start_line"], hit["end_line"]) for hit in hits] == [(3, 4), (9, 10)]
+    assert index.search("historical-only-obligation") == []
+    assert index.verify(hits)
+    lines = text.splitlines()
+    for hit in hits:
+        assert hit["excerpt"] == "\n".join(lines[hit["start_line"] - 1:hit["end_line"]])
+    for start, end in [(5, 6), (3, 10), (12, 13)]:
+        forged = {**hits[0], "start_line": start, "end_line": end,
+                  "excerpt": "\n".join(lines[start - 1:end])}
+        assert not index.verify([forged])
+    source.write_text("## Unreviewed section\nradion unknown freshness\n")
+    assert index.search("radion") == []
+
+
+def test_search_hashes_each_matching_file_once_before_candidate_ranking(tmp_path, monkeypatch):
+    import az_weave.evidence as evidence
+
+    for name in ("one.md", "two.md"):
+        (tmp_path / name).write_text("radion boundary\n" * 100)
+    index = SourceIndex(tmp_path, ["one.md", "two.md"])
+    original = evidence._digest
+    calls = []
+
+    def counted(data):
+        calls.append(data)
+        return original(data)
+
+    monkeypatch.setattr(evidence, "_digest", counted)
+    hits = index.search("radion", limit=1)
+    assert len(hits) == 1
+    assert len(calls) == 2

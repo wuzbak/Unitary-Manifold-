@@ -116,3 +116,29 @@ def test_live_post_endpoint_returns_field_compatible_json_record():
         server.shutdown()
         thread.join()
         server.server_close()
+
+
+@pytest.mark.parametrize("body", [
+    b'{"from_ring":0,"to_ring":1,"payload":1,"seq":0,"seq":1}',
+    b'{"from_ring":0,"to_ring":1,"payload":NaN,"seq":0}',
+    b'{"from_ring":0,"to_ring":1,"payload":1,"seq":0,"extra":2}',
+    b'{"from_ring":0,"to_ring":1,"payload":1,"seq":0}\xff',
+])
+def test_http_adapter_enforces_the_strict_json_contract(body):
+    server = build_server(port=0)
+    thread = threading.Thread(target=server.serve_forever)
+    thread.start()
+    try:
+        host, port = server.server_address
+        request = urllib.request.Request(
+            f"http://{host}:{port}/api/ipc-message", data=body,
+            headers={"Content-Type": "application/json"}, method="POST",
+        )
+        with pytest.raises(urllib.error.HTTPError) as error:
+            urllib.request.urlopen(request, timeout=5)
+        assert error.value.code == 400
+        assert json.load(error.value)["error"]
+    finally:
+        server.shutdown()
+        thread.join()
+        server.server_close()

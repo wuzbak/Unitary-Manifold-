@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import re
 import subprocess
 from pathlib import Path, PurePosixPath
@@ -31,6 +32,22 @@ _CORE_FILES = {
     "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tools.py",
     "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_rag.py",
 }
+
+
+def _current_lines(relative: str, text: str, repo_root: Path) -> set[int]:
+    if relative != "docs/TRUTH_LAYER.md":
+        return set(range(1, len(text.splitlines()) + 1))
+    # Load the checkout's canonical selector without mutating process sys.path.
+    # Installed Product 44 wheels still require the supplied source checkout.
+    path = repo_root / "bot" / "rag_index.py"
+    if not path.is_file():
+        path = Path(__file__).resolve().parents[3] / "bot" / "rag_index.py"
+    spec = importlib.util.spec_from_file_location("_weave_rag_selection", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("canonical current-source selector unavailable")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return {number for number, _ in module.current_document_lines(relative, text)}
 
 
 def _tokens(text: str) -> list[str]:
@@ -208,9 +225,17 @@ class SourceIndex:
         return data
 
     @staticmethod
-    def _windows(lines: list[str], matched: set[int], radius: int = 8) -> list[tuple[int, int]]:
-        return sorted({(max(1, line - radius), min(len(lines), line + radius))
-                       for line in matched})
+    def _windows(lines: list[str], matched: set[int], current: set[int],
+                 radius: int = 8) -> list[tuple[int, int]]:
+        windows = set()
+        for line in matched:
+            start = end = line
+            while start > max(1, line - radius) and start - 1 in current:
+                start -= 1
+            while end < min(len(lines), line + radius) and end + 1 in current:
+                end += 1
+            windows.add((start, end))
+        return sorted(windows)
 
     def search(self, query: str, limit: int = 5) -> list[dict]:
         """Return ranked fresh excerpts with one-based, inclusive line citations."""
@@ -230,12 +255,16 @@ class SourceIndex:
                 continue
             text = data.decode("utf-8", "replace")
             lines = text.splitlines()
+            current = _current_lines(relative, text, self.repo_root)
             matched = {
                 index
                 for index, line in enumerate(lines, start=1)
-                if unique.intersection(_tokens(line))
+                if index in current and unique.intersection(_tokens(line))
             }
-            for start, end in self._windows(lines, matched):
+            if not matched:
+                continue
+            sha256 = _digest(data)
+            for start, end in self._windows(lines, matched, current):
                 excerpt = "\n".join(lines[start - 1 : end])
                 tokens = _tokens(excerpt)
                 coverage = len(unique.intersection(tokens)) / len(unique)
@@ -250,7 +279,7 @@ class SourceIndex:
                         "start_line": start,
                         "end_line": end,
                         "excerpt": excerpt,
-                        "sha256": _digest(data),
+                        "sha256": sha256,
                         "evidence_kind": "source_content",
                         "score": round(score, 6),
                         "current": True,
@@ -282,7 +311,8 @@ class SourceIndex:
             if data is None or _digest(data) != expected:
                 return False
             start, end = record.get("start_line"), record.get("end_line")
-            lines = data.decode("utf-8", "replace").splitlines()
+            text = data.decode("utf-8", "replace")
+            lines = text.splitlines()
             if (
                 type(start) is not int or type(end) is not int
                 or not 1 <= start <= end <= len(lines)
@@ -290,5 +320,7 @@ class SourceIndex:
                 or record.get("current") is not True
                 or record.get("excerpt") != "\n".join(lines[start - 1:end])
             ):
+                return False
+            if not set(range(start, end + 1)) <= _current_lines(source, text, self.repo_root):
                 return False
         return True

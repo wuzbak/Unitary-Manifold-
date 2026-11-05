@@ -25,6 +25,10 @@ _TOKEN = re.compile(r"[A-Za-z0-9]+")
 def _bounded_string(value: Any, name: str, maximum: int, *, empty: bool = False) -> str:
     if not isinstance(value, str) or len(value) > maximum or (not empty and not value.strip()):
         raise ValueError(f"{name} must be a non-empty string of at most {maximum} characters")
+    try:
+        value.encode("utf-8")
+    except UnicodeEncodeError as exc:
+        raise ValueError(f"{name} must be valid UTF-8 text") from exc
     return value
 
 
@@ -101,15 +105,14 @@ class ScopedMemory:
             "sources": json.loads(row["sources"]),
         }
 
-    def put(
-        self,
+    @staticmethod
+    def _put_values(
         owner: str,
         text: str,
         *,
         scope: str = "private",
         sources: list[dict] | None = None,
-    ) -> dict:
-        """Create a candidate record; the host must authorize the mutation."""
+    ) -> tuple[str, str, str, str]:
         owner = _bounded_string(owner, "owner", MAX_OWNER_CHARS)
         text = _bounded_string(text, "text", MAX_TEXT_CHARS)
         if not isinstance(scope, str) or scope not in {"private", "public"}:
@@ -126,6 +129,34 @@ class ScopedMemory:
             raise ValueError("sources must contain JSON-compatible data") from exc
         if len(source_json.encode("utf-8")) > MAX_SOURCE_BYTES:
             raise ValueError("source snapshots exceed the size limit")
+        return owner, text, scope, source_json
+
+    def preflight(self, action: str, owner: str, arguments: dict) -> None:
+        """Reject invalid requests before the host's durable effect claim."""
+        if action == "memory.put":
+            self._put_values(owner, **arguments)
+            return
+        if action not in {"memory.promote", "memory.delete"} or set(arguments) != {"record_id"}:
+            raise ValueError("known memory action and record_id required")
+        owner = _bounded_string(owner, "owner", MAX_OWNER_CHARS)
+        record_id = _bounded_string(arguments["record_id"], "record_id", 64)
+        if action == "memory.promote":
+            with self._lock, self._connect() as db:
+                exists = db.execute("SELECT 1 FROM memories WHERE id=? AND owner=?",
+                                    (record_id, owner)).fetchone()
+            if exists is None:
+                raise KeyError("memory record not found")
+
+    def put(
+        self,
+        owner: str,
+        text: str,
+        *,
+        scope: str = "private",
+        sources: list[dict] | None = None,
+    ) -> dict:
+        """Create a candidate record; the host must authorize the mutation."""
+        owner, text, scope, source_json = self._put_values(owner, text, scope=scope, sources=sources)
         record_id = uuid.uuid4().hex
         with self._lock, self._connect() as db:
             db.execute(

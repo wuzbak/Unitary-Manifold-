@@ -23,6 +23,13 @@
 
 ## The Complete Manuscript
 
+**Editorial errata (2026-11-05):** B6's Product 25 coaching data-flow statement
+is corrected against `12-AZ-IP/25-psicat-braided-brain/ui/app.js`, `askCoach`.
+Nonlocal coaching requires confirmation and can send gameplay context.
+The preassembly source remains unchanged in
+`../Archive/2026-11-05-books-53-58/book-57-part-03-psicat-and-public-instruments.md`;
+this correction is not a claim that the archived manuscript originally said so.
+
 This is the complete, canonical single-volume manuscript. Read the introduction
 and then the six sections below in order, or use the internal contents links.
 All detailed product accounts, explanations, integrations, limitations, and the
@@ -782,7 +789,7 @@ Product 25 is a responsive, installable browser game. The player moves PsiCat th
 
 The teaching value is in the game loop: face a concrete constraint, try a route, observe the result, and connect the puzzle mechanic to an explicitly labeled science card. The atlas distinguishes established findings, bounded empirical summaries, educational analogies and product behavior, while exposing scope and unvalidated correspondences. The game’s toroidal topology can help someone reason about wraparound movement; it does not demonstrate that a biological brain literally has the game’s topology or that the repository’s geometric correspondences have been proven. The game’s neuroscience inspiration includes public connectome references and repository material, but the authors explicitly disclaim proof of a consciousness theory.
 
-The optional Product 20 coach can answer a player’s question; a local fallback prompt remains when the coaching endpoint is unavailable. That optional branch matters: playing the core puzzle does not require the remote coaching path. The local browser-storage model and explicit export mean data does not leave the device unless the player chooses to export it or deliberately points the coach at a local Product 20 endpoint. A downloaded training packet is a record, not a training run. It does not update model weights, establish competence beyond the recorded task, or prove that later answers improve.
+The optional Product 20 coach can answer a player’s question; a local fallback prompt remains when the coaching endpoint is unavailable. That optional branch matters: playing the core puzzle does not require the remote coaching path. Progress is local by default, but an explicitly confirmed nonlocal coaching request can send the question, current briefing and gameplay-derived training packet to the selected endpoint; export is not the only off-device path. A downloaded training packet is a record, not a training run. It does not update model weights, establish competence beyond the recorded task, or prove that later answers improve.
 
 For teaching, ask a learner to finish a mission and explain why a selected science-atlas card is labeled “analogy” rather than “established result.” Then export a packet and inspect the fields. Have the learner decide whether any field reveals more personal information than necessary. Finally, compare the actual gameplay trace with the player’s written explanation. This exercise examines the pedagogical tool and its evidence. It does not validate the physiology behind the analogy.
 

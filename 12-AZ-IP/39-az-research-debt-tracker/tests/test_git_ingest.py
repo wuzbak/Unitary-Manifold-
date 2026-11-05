@@ -5,10 +5,8 @@
 import hashlib
 import json
 from pathlib import Path
-import shutil
 import subprocess
 import sys
-import uuid
 
 import pytest
 
@@ -19,31 +17,29 @@ from az_research_debt_tracker import ingest_git_debt
 from az_research_debt_tracker import git_ingest
 
 
-def git(repo, *args):
+def git(repo, *args, input=None):
     return subprocess.run(
         ["git", "-C", str(repo), *args], check=True, capture_output=True,
+        input=input,
     ).stdout.decode().strip()
 
 
 @pytest.fixture
-def repo():
-    path = PRODUCT_ROOT / (".git-ingest-test-" + uuid.uuid4().hex)
+def repo(tmp_path):
+    path = tmp_path / "source-repository"
     path.mkdir()
-    try:
-        git(path, "init", "-q")
-        git(path, "config", "user.name", "Regression Test")
-        git(path, "config", "user.email", "test@example.invalid")
-        git(path, "config", "commit.gpgsign", "false")
-        (path / "logic.py").write_text(
-            "# TODO: verify uncertainty budget\n"
-            "# FIXME: preserve missing measurements\n"
-            "message = 'TODO not a comment'\n",
-        )
-        git(path, "add", ".")
-        git(path, "commit", "-qm", "record real source debt")
-        yield path
-    finally:
-        shutil.rmtree(path)
+    git(path, "init", "-q")
+    git(path, "config", "user.name", "Regression Test")
+    git(path, "config", "user.email", "test@example.invalid")
+    git(path, "config", "commit.gpgsign", "false")
+    (path / "logic.py").write_text(
+        "# TODO: verify uncertainty budget\n"
+        "# FIXME: preserve missing measurements\n"
+        "message = 'TODO not a comment'\n",
+    )
+    git(path, "add", ".")
+    git(path, "commit", "-qm", "record real source debt")
+    return path
 
 
 def test_real_commit_provenance_and_actionable_items(repo):
@@ -84,12 +80,19 @@ def test_revision_is_pinned_and_removal_is_not_claimed_closure(repo):
 
 def test_special_paths_binary_symlinks_and_unsupported_files(repo):
     name = "source:odd\nname.ts"
-    (repo / name).write_text(" // TODO: triage owner\n /* FIXME: data loss */\n")
+    # This Git-only tree is never checked out to a Windows filesystem.
+    git(repo, "config", "core.protectNTFS", "false")
+    source_blob = git(
+        repo, "hash-object", "-w", "--stdin",
+        input=b" // TODO: triage owner\n /* FIXME: data loss */\n",
+    )
     (repo / "binary.py").write_bytes(b"# TODO hidden\0\n")
     (repo / "latin.py").write_bytes(b"# TODO: \xff\n")
     (repo / "notes.md").write_text("# TODO: not source\n")
-    (repo / "link.py").symlink_to("logic.py")
+    link_blob = git(repo, "hash-object", "-w", "--stdin", input=b"logic.py")
     git(repo, "add", ".")
+    git(repo, "update-index", "--add", "--cacheinfo", "100644", source_blob, name)
+    git(repo, "update-index", "--add", "--cacheinfo", "120000", link_blob, "link.py")
     git(repo, "commit", "-qm", "add edge cases")
     report = ingest_git_debt(repo)
     assert report["coverage"] == {
@@ -109,9 +112,9 @@ def test_invalid_revision_is_error_not_empty_health(repo, revision):
         ingest_git_debt(repo, revision)
 
 
-def test_non_repository_rejected():
+def test_non_repository_rejected(tmp_path):
     with pytest.raises(ValueError, match="Git failed"):
-        ingest_git_debt("/dev/null")
+        ingest_git_debt(tmp_path)
 
 
 @pytest.mark.parametrize("error, message", [

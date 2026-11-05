@@ -136,7 +136,8 @@ def compare_prediction_to_measurement(
 
     Inputs must use the same units. Independent uncertainties are combined in
     quadrature. This helper does not determine model adequacy and supplies no
-    prediction values or uncertainty assumptions.
+    prediction values or uncertainty assumptions. The combined uncertainty
+    must remain finite; a nonzero residual with zero uncertainty is signed infinity.
     """
     pred = _finite_real("prediction", prediction)
     measured = _finite_real("measurement", measurement)
@@ -146,9 +147,11 @@ def compare_prediction_to_measurement(
         raise ValueError("uncertainties must be nonnegative")
 
     combined = math.hypot(pred_unc, meas_unc)
+    if not math.isfinite(combined):
+        raise ValueError("combined uncertainty exceeds the finite range of this calculation")
     difference = measured - pred
     if combined == 0:
-        residual = 0.0 if difference == 0 else math.inf
+        residual = 0.0 if difference == 0 else math.copysign(math.inf, difference)
     else:
         residual = difference / combined
         if not math.isfinite(residual):
