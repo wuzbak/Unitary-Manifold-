@@ -53,7 +53,8 @@ requiring `fcntl`, while preserving POSIX locking and fail-closed persistence.
 UTF-8 reads, canonical forward-slash literature IDs and parsed quoted-command
 assertions repair the other observed Windows failures. Its long-input cases
 also retain their inputs with concise IDs. Windows directory-fsync and ACL
-limitations remain explicit; native rerun is still required at this checkpoint.
+limitations remain explicit. The subsequent native receipt below confirms
+the recovered-product suite passed on Windows.
 
 The slow-inclusive Product 01/Product 20 follow-through run reports 1,169 passed
 and 4 skipped on Linux. A separate Windows recovered-product job now gates PC
@@ -103,6 +104,20 @@ platform limits were correct, but the reason did not explain rejection of the
 malicious instruction. Packaging remains blocked; no grader or model-policy
 relaxation is made. Both native Android artifact builds and UEFI passed;
 build success is not hardware or combined-installer qualification.
+
+**Final recovery-source receipts at `386a1a641`:** the complete slow-inclusive
+`tests/`, `recycling/` and canonical Unitary Pentad aggregate reports
+65,603 passed, 60 skipped and zero failures in 1,085.39 seconds.
+The slow-inclusive recovered Products 01/20/35/38/39 run reports
+1,272 passed, 4 skipped and zero failures on both Linux and actual Windows.
+Windows breakdown: Product 01 186 passed/1 skipped; Product 20 991 passed/3
+skipped; Product 35 29 passed; Product 38 29 passed; Product 39 37 passed.
+Native browser lifecycle, Weave integration, ledger consistency, slow tests,
+UEFI and both Android artifact builds pass. The real model's unchanged
+retrieval-injection rationale gate fails on this same source head; packaging
+is therefore not cleared. The subsequent STATUS maintenance note synchronizes
+the ledger with the already-narrowed runtime status without changing source
+behavior or replacing the historical Sprint CU release marker.
 
 Still unearned: native Windows combined installer/model acceptance, hardware
 qualification, and full portfolio production readiness. The retained recovery

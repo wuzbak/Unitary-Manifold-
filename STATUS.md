@@ -10,6 +10,16 @@
 > pillar derives a UM connection or prediction. Focused test details are
 > recorded in the v38.5 Sprint DA entry below; no full regression is claimed.
 
+> **Recovery follow-through (2026-11-05; maintenance, not promotion):**
+> Planar null-constraint diagnostics have the corrected normalization.
+> P1132 retains `ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED`, not a
+> constraint-compatible nonconstant scalar propagation claim. Implementations
+> 1132–1134 now reside in `src/core/pillar_1132_1134/`; their existing public
+> imports remain available lazily. Historical CZ qualification is distinguished
+> from current DA metadata. No pillar, version, hardgate, score or falsifier
+> changes. Source-bound recovery execution receipts and the still-blocked
+> Product 45 model qualification are recorded in `docs/WAVE_CHANGELOG.md`.
+
 > **Planar dynamics reassessment (2026-11-03; no version/pillar promotion):**
 > P1132's scalar acceleration coefficient is an off-shell identity, not proof
 > of nonconstant constraint-compatible propagation. Fixed flat transverse
