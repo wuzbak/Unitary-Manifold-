@@ -118,3 +118,17 @@ def test_literature_corpus_included_when_flag_or_kwarg_set(monkeypatch: pytest.M
     monkeypatch.setenv(PSICAT_EDITORIAL_CORPUS_FLAG, "1")
     index_via_env = RAGIndex.build()
     assert any(chunk.governance_label == GOVERNANCE_LABEL for chunk in index_via_env.chunks)
+
+
+def test_commissioned_books_are_retrievable_by_title_as_editorial_sources() -> None:
+    index = RAGIndex.build(include_psicat_literature=True)
+    for number, title in (
+        ("57", "AxiomZero Applied Sciences and Intellectual Properties"),
+        ("58", "The State of the Manifold The AxiomZero Monorepo"),
+    ):
+        matches = [
+            chunk for _, chunk in index.search(title, top_k=8)
+            if f"/book-{number}-" in chunk.source
+        ]
+        assert matches, f"Book {number} is not discoverable by its commissioned title"
+        assert all(chunk.governance_label == GOVERNANCE_LABEL for chunk in matches)
