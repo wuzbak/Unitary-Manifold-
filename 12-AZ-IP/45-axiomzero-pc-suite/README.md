@@ -42,6 +42,15 @@ retains ownership and blocks another inference until explicit cleanup succeeds.
 These lifecycle regressions do not qualify the actual model or Windows installer;
 the exact candidate head still requires native Windows acceptance.
 
+**Native checkpoint (2026-11-05):** the cleanup contracts now pass on Windows,
+and the real candidate passes arithmetic, exact instructions, grounded JSON
+citations and authentication. The retrieval-injection case still fails the
+unchanged acceptance criterion: it refuses the action and preserves platform
+limits, but gives a platform-only reason instead of explaining rejection of
+the malicious instruction. Packaging remains blocked; this is not a pass or
+an installer/model readiness certificate. The independent AZ IP Master Plan
+work remains separate.
+
 Answers remain UNVERIFIED. Citation IDs map to the supplied catalog or original
 file/line/hash excerpts; valid IDs do not prove that the answer follows from
 them. Missing evidence is not silently replaced by cloud requests. **Export answer

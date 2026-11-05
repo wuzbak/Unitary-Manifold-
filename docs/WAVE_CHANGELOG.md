@@ -42,6 +42,18 @@ and oversized input, unsupported routes and unavailable solver behavior.
 Product 39's real Git tests use temporary repositories and Git-index blobs,
 including exotic names and symlink modes without requiring Windows filesystem
 support or symlink privileges.
+The first native recovered-product receipt confirms Product 39's 37 tests and
+Product 35's 29 tests passed on Windows. Product 01's SQLite journal now closes
+each connection deterministically after commit/rollback or setup failure,
+with regressions independent of garbage collection. Its IP-header checks
+explicitly read UTF-8. Oversized Product 38 HTTP input remains unchanged while
+its test ID is bounded to avoid Windows' environment-variable limit.
+Product 20's audit store now uses a real Windows byte-range lock instead of
+requiring `fcntl`, while preserving POSIX locking and fail-closed persistence.
+UTF-8 reads, canonical forward-slash literature IDs and parsed quoted-command
+assertions repair the other observed Windows failures. Its long-input cases
+also retain their inputs with concise IDs. Windows directory-fsync and ACL
+limitations remain explicit; native rerun is still required at this checkpoint.
 
 The slow-inclusive Product 01/Product 20 follow-through run reports 1,169 passed
 and 4 skipped on Linux. A separate Windows recovered-product job now gates PC
@@ -71,9 +83,26 @@ The version, slot and continuity metadata now match STATUS.md across the
 canonical ledgers, generated live status and public snapshots; 60 directly
 affected tests pass. No new sprint or pillar is registered here and historical
 Sprint CU regression totals are not presented as this branch's execution.
-The final slow-inclusive aggregate remains pending at this checkpoint.
+The completed intermediate aggregate at `b99a07f3a` subsequently reported
+65,580 passed, 60 skipped and 14 failures: the directory-entry cap, historical
+CZ qualification checks and omitted canonical test selections. The three
+implementations now live in a shard with lazy legacy-import compatibility;
+the unchanged 1,368-entry limit passes. Historical CZ checks no longer require
+superseded metadata to masquerade as current, and canonical execution
+selections include the reconstructed HTTP and existing adjacent-track tests.
+The directly affected suites pass 153 tests; integrated parent-owned product,
+inventory and editorial suites pass 357 with one skip.
+These are frozen-checkpoint receipts, not a final full-regression certificate;
+the latest execution and native receipts are recorded in draft PR #1177.
 Initial native CI passed the browser lifecycle and UEFI check, but its original
 instruction-backend job failed in unit cleanup before model evaluation.
+After that repair, native cleanup contracts passed and the actual candidate
+passed arithmetic, exact instructions, grounded JSON and authentication.
+The unchanged retrieval-injection gate still failed: action refusal and
+platform limits were correct, but the reason did not explain rejection of the
+malicious instruction. Packaging remains blocked; no grader or model-policy
+relaxation is made. Both native Android artifact builds and UEFI passed;
+build success is not hardware or combined-installer qualification.
 
 Still unearned: native Windows combined installer/model acceptance, hardware
 qualification, and full portfolio production readiness. The retained recovery
@@ -389,8 +418,19 @@ This file is the required wave-level changelog ledger.
 
 ## v38.4 (2026-11-02 — Sprint CZ: Pillar 1132)
 
+**Historical qualification:** The retained status is
+`ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED`, not a constrained nonconstant scalar evolution certificate.
+The fixed transverse spectators force the positive-kinetic scalar stress to
+vanish on constrained solutions. The original hyperbolic-propagation
+interpretation in the historical entry below is withdrawn; only off-shell
+acceleration identities and the exact static cross-check remain certified.
+This section's next-slot marker records the historical CZ registration, not
+the current v38.5 / Sprint DA / next-slot-1135 metadata above.
+The physical source now resides in `src/core/pillar_1132_1134/`; the public
+import `src.core.pillar1132_adm_homogeneous_hyperbolic_evolution` is unchanged.
+
 **What changed:**
-Pillar 1132 adds a new, independently-scoped capability alongside — not closing — Pillar 1130's two remaining residual obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`), both of which remain open and untouched. `src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py` performs a genuine ADM (3+1) canonical decomposition of the circle-reduced Einstein-frame action restricted to a declared homogeneous perimeter (x^2,x^3 flat/spectator, gauge field B_mu excluded this sprint), with lapse, shift, spatial-metric and scalar fields depending on real coordinate time t = x^0 and one spatial coordinate x = x^1 — the first derivation in the repository to vary the action with genuine second time derivatives. `adm_homogeneous_hyperbolic_evolution_certificate()` certifies the lapse/shift equations are non-dynamical constraints, the spatial-metric equation has an exactly-zero d^2h/dt^2 coefficient (no propagating graviton in 1 spatial dimension), the scalar equation has a nonzero d^2p/dt^2 coefficient (genuine hyperbolic evolution), and the static (t-independent, zero-shift) reduction reproduces the repository's own already-certified static system as an exact symbolic identity (not a sample-point check), built directly from `action_derived_flow.py`'s own helper functions.
+Pillar 1132 adds a new, independently-scoped capability alongside — not closing — Pillar 1130's two remaining residual obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`), both of which remain open and untouched. `src/core/pillar_1132_1134/pillar1132_adm_homogeneous_hyperbolic_evolution.py` performs a genuine ADM (3+1) canonical decomposition of the circle-reduced Einstein-frame action restricted to a declared homogeneous perimeter (x^2,x^3 flat/spectator, gauge field B_mu excluded this sprint), with lapse, shift, spatial-metric and scalar fields depending on real coordinate time t = x^0 and one spatial coordinate x = x^1 — the first derivation in the repository to vary the action with genuine second time derivatives. `adm_homogeneous_hyperbolic_evolution_certificate()` certifies the lapse/shift equations are non-dynamical constraints, the spatial-metric equation has an exactly-zero d^2h/dt^2 coefficient (no propagating graviton in 1 spatial dimension), the scalar equation has a nonzero d^2p/dt^2 coefficient (genuine hyperbolic evolution), and the static (t-independent, zero-shift) reduction reproduces the repository's own already-certified static system as an exact symbolic identity (not a sample-point check), built directly from `action_derived_flow.py`'s own helper functions.
 
 **Why:**
 The existing action-derived flow's "t" is a fictitious relaxation parameter, not coordinate time, and its field equations are static (elliptic). Deriving a genuine, narrowly-scoped hyperbolic (real coordinate-time) evolution system — cross-checked exactly against the existing certified static sector — closes a concretely scoped new gap without overclaiming resolution of the full action-to-evolution problem.

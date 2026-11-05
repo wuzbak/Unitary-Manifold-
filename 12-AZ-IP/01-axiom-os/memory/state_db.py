@@ -23,6 +23,8 @@ import json
 import logging
 import sqlite3
 import time
+from collections.abc import Iterator
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -82,14 +84,19 @@ class StateDB:
         with self._conn() as conn:
             conn.executescript(self.SCHEMA)
 
-    def _conn(self) -> sqlite3.Connection:
+    @contextmanager
+    def _conn(self) -> Iterator[sqlite3.Connection]:
         conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
-        conn.row_factory = sqlite3.Row
-        # Enable WAL mode for reliable concurrent access (write-ahead logging)
-        conn.execute("PRAGMA journal_mode=WAL")
-        conn.execute("PRAGMA synchronous=NORMAL")
-        conn.execute("PRAGMA wal_autocheckpoint=1000")
-        return conn
+        try:
+            conn.row_factory = sqlite3.Row
+            # Enable WAL mode for reliable concurrent access (write-ahead logging)
+            conn.execute("PRAGMA journal_mode=WAL")
+            conn.execute("PRAGMA synchronous=NORMAL")
+            conn.execute("PRAGMA wal_autocheckpoint=1000")
+            with conn:
+                yield conn
+        finally:
+            conn.close()
 
     # ------------------------------------------------------------------
     # Checkpointing

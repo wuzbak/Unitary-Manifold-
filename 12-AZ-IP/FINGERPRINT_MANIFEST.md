@@ -847,6 +847,19 @@ Model policy, verifier and acceptance thresholds are unchanged.
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `39e2204c3eb94b97a3e44ddf59f325e334d1a92a686b27ed4386eb2e82272e87` | 33488 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `fcf1e2fb9ae9e9b6bb1b81bdeedb7e7ea10995386b4c8eec4928a9c90e7868f3` | 29342 |
 
+### Native recovery and measured qualification follow-through reseal - 2026-11-05
+
+Product 01 closes each SQLite connection deterministically without changing
+transaction or restart semantics. Product 45 records native cleanup success
+and the real candidate's failed malicious-instruction rationale criterion.
+The unchanged acceptance gate still blocks packaging; this is not production
+or hardware certification.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/01-axiom-os/README.md` | `05ed1c24584a6fbe87a4b842b9fa1b8add1fc5491ad281709377e8487ba66cc9` | 9983 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `f6c464c311730e3d967d28073af8252bfe7bfcc3581dce3341cf332ea5b5a4ee` | 25807 |
+
 ## Verification Protocol
 
 To verify any registered asset:

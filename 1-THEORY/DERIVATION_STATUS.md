@@ -41,6 +41,8 @@
 *Last updated: 2026-11-05 (v38.5 — Sprint DA: adjacent reference/comparison tools in Pillars 1133–1134, already registered in STATUS.md; next slot 1135. No derived UM superfluid or rare-decay prediction, hardgate promotion or new physics closure is claimed. The planar correction above remains authoritative; the relaxation law and general physical-time certification remain open.)*
 *Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record, tests/ + recycling/ + Pentad; Sprints CV and CW recorded none; Sprint CZ focused verification is reported in docs/TRUTH_LAYER.md).*
 
+*Historical Sprint CZ registration (v38.4, 2026-11-02): Pillar 1132; next slot 1133. The retained certificate verifies restricted off-shell acceleration and static identities only, not nonconstant constrained scalar propagation. This historical registration is not current version metadata.*
+
 *Historical continuity note: The Unitary Manifold v38.3 retained the marker `Last updated: 2026-10-09 (v38.3 — Sprint CY: Pillar 1131; next slot 1132.)` for closing one of the three residual obligations left by Pillar 1130 — the non-diagonal KK reduction identity verified as an exact symbolic identity, not only at sample points.*
 
 *Historical continuity note: The Unitary Manifold v38.2 retained the marker `Last updated: 2026-10-01 (v38.2 — Sprint CX: Pillar 1130; next slot 1131.)` for the steward promotion of the Lane 1 Euler-Lagrange deliverable within its declared perimeter and canonical status resynchronization after the v38.0/v38.1 drift.*

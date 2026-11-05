@@ -117,7 +117,7 @@ DOES_NOT_ESTABLISH: List[str] = [
     'Validation is executable Python/SymPy evidence, not a Lean proof.',
 ]
 
-_ROOT = Path(__file__).resolve().parents[2]
+_ROOT = Path(__file__).resolve().parents[3]
 
 
 def _coeff_of_second_time_derivative(sp, expr, deriv) -> Any:
@@ -289,14 +289,15 @@ def adm_homogeneous_hyperbolic_evolution_certificate() -> Dict[str, Any]:
 def _truth_surface_sync_status() -> Dict[str, Any]:
     from src.core.pillar1109_sprint_cr_master_charter import build_truth_surface_sync_status
 
-    return build_truth_surface_sync_status({
+    sync = build_truth_surface_sync_status({
         (_ROOT / 'STATUS.md').resolve().as_posix(): [
             f'{VERSION} Sprint {SPRINT}', 'Pillar 1132', 'next slot 1133',
         ],
         (_ROOT / '1-THEORY' / 'DERIVATION_STATUS.md').resolve().as_posix(): [
-            f'The Unitary Manifold {VERSION}',
-            f'Last updated: {SPRINT_DATE} ({VERSION} — Sprint {SPRINT}: Pillar {PILLAR_NUMBER};',
-            'next slot 1133.)',
+            f'Historical Sprint {SPRINT} registration ({VERSION}, {SPRINT_DATE}): '
+            f'Pillar {PILLAR_NUMBER}; next slot 1133.',
+            "P1132's off-shell scalar",
+            'That interpretation is withdrawn.',
         ],
         (_ROOT / 'docs' / 'mas_tracker.yml').resolve().as_posix(): [
             'v38_4_sprint_cz:', '  pillars: 1132-1132', '  next_pillar_slot: 1133',
@@ -313,10 +314,6 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
         (_ROOT / 'docs' / 'TRUTH_LAYER.md').resolve().as_posix(): [
             '### Sprint CZ ADM homogeneous hyperbolic evolution', 'exact symbolic identity',
         ],
-        (_ROOT / 'docs' / 'WAVE_CHANGELOG.md').resolve().as_posix(): [
-            f'## {VERSION} ({SPRINT_DATE} — Sprint {SPRINT}: Pillar {PILLAR_NUMBER})',
-            '**Next pillar slot:** 1133',
-        ],
         (_ROOT / 'docs' / 'SPRINT_PLAN.md').resolve().as_posix(): [
             f'CURRENT AUDITABLE STATE ({VERSION} — Sprint {SPRINT})',
             'Historical continuity: v38.4 Sprint CZ',
@@ -325,6 +322,31 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
             '"version": "38.4"', '"sprint": "CZ"', '"next_slot": 1133',
         ],
     })
+    path = _ROOT / 'docs' / 'WAVE_CHANGELOG.md'
+    heading = f'## {VERSION} ({SPRINT_DATE} — Sprint {SPRINT}: Pillar {PILLAR_NUMBER})'
+    fragments = [
+        '**Next pillar slot:** 1133',
+        'ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED',
+        'not a constrained nonconstant scalar evolution certificate',
+    ]
+    exists = path.is_file()
+    read_ok = True
+    try:
+        content = path.read_text(encoding='utf-8') if exists else ''
+    except (OSError, UnicodeDecodeError):
+        content, read_ok = '', False
+    _, found, remainder = content.partition(heading + '\n')
+    section = remainder.split('\n## ', 1)[0] if found else ''
+    sync['files'].append({
+        'path': path.resolve().as_posix(),
+        'exists': exists,
+        'read_ok': read_ok,
+        'scope': 'historical Sprint CZ section, not current metadata',
+        'required_fragments': [heading, *fragments],
+        'pass': exists and read_ok and bool(found) and all(fragment in section for fragment in fragments),
+    })
+    sync['all_pass'] = all(item['pass'] for item in sync['files'])
+    return sync
 
 
 def pillar1132_adm_homogeneous_hyperbolic_evolution() -> Dict[str, Any]:

@@ -5,15 +5,20 @@
 
 from __future__ import annotations
 
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from datetime import datetime
+import errno
 import hashlib
 import json
 import math
 import os
 from pathlib import Path
+import time
 from typing import Any
 import uuid
+
+_WINDOWS_LOCK_RETRY_SECONDS = 0.01
+_WINDOWS_CONTENTION_ERRNOS = frozenset({errno.EACCES, errno.EAGAIN, errno.EDEADLK})
 
 
 class ToolAuditStoreError(RuntimeError):
@@ -67,8 +72,40 @@ def _validate_record(record: Any) -> None:
         raise ValueError("Invalid provenance")
 
 
+def _acquire_lock(descriptor: int, platform: str) -> None:
+    """Block until this process exclusively owns the store's adjacent lock file."""
+    if platform == "posix":
+        import fcntl
+
+        fcntl.flock(descriptor, fcntl.LOCK_EX)
+        return
+    if platform == "nt":
+        import msvcrt
+
+        while True:
+            # msvcrt locks from the current position; byte 0 may lie beyond EOF.
+            os.lseek(descriptor, 0, os.SEEK_SET)
+            try:
+                msvcrt.locking(descriptor, msvcrt.LK_NBLCK, 1)
+                return
+            except OSError as exc:
+                if exc.errno not in _WINDOWS_CONTENTION_ERRNOS:
+                    raise
+            time.sleep(_WINDOWS_LOCK_RETRY_SECONDS)
+    raise ToolAuditStoreError(f"Tool audit locking is unsupported on platform {platform!r}")
+
+
+def _release_lock(descriptor: int, platform: str) -> None:
+    if platform == "nt":
+        import msvcrt
+
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+    # POSIX flock ownership is released when the caller closes the descriptor.
+
+
 class MerlinToolAuditStore:
-    """Atomic JSON receipt storage on a local POSIX filesystem."""
+    """Atomic JSON receipt storage on a local POSIX or Windows filesystem."""
 
     def __init__(self, path: str | Path) -> None:
         self.path = Path(path).expanduser()
@@ -83,13 +120,21 @@ class MerlinToolAuditStore:
     @contextmanager
     def _locked(self):
         try:
-            import fcntl
-
             self.path.parent.mkdir(parents=True, exist_ok=True)
             fd = os.open(str(self.path) + ".lock", os.O_CREAT | os.O_RDWR, 0o600)
-            with os.fdopen(fd, "a") as handle:
-                fcntl.flock(handle, fcntl.LOCK_EX)
-                yield
+            try:
+                platform = os.name
+                _acquire_lock(fd, platform)
+                try:
+                    yield
+                except BaseException:
+                    # Preserve the primary error; closing the descriptor still releases ownership.
+                    with suppress(OSError):
+                        _release_lock(fd, platform)
+                    raise
+                _release_lock(fd, platform)
+            finally:
+                os.close(fd)
         except ToolAuditStoreError:
             raise
         except (ImportError, OSError, ValueError, TypeError, KeyError, AttributeError, OverflowError) as exc:
@@ -141,10 +186,12 @@ class MerlinToolAuditStore:
                     handle.flush()
                     os.fsync(handle.fileno())
                 os.replace(staging, self.path)
-                directory_fd = os.open(self.path.parent, os.O_RDONLY | os.O_DIRECTORY)
-                try:
-                    os.fsync(directory_fd)
-                finally:
-                    os.close(directory_fd)
+                if os.name == "posix":
+                    # Windows exposes no directory handle fsync through os; see README.
+                    directory_fd = os.open(self.path.parent, os.O_RDONLY | os.O_DIRECTORY)
+                    try:
+                        os.fsync(directory_fd)
+                    finally:
+                        os.close(directory_fd)
             finally:
                 staging.unlink(missing_ok=True)

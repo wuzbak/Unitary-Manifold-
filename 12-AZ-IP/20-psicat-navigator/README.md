@@ -286,7 +286,7 @@ documented in `4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md`.
 ### Opt-in tool audit recovery
 
 Set `MERLIN_TOOL_AUDIT_STORE_PATH` in the **Navigator server process environment**
-to an absolute JSON file path on a durable local POSIX volume. For example, from
+to an absolute JSON file path on a durable local POSIX or Windows (NTFS) volume. For example, from
 the product directory:
 
 ```bash
@@ -308,13 +308,19 @@ omit arguments, argument names, results, errors, prompts, session/user identifie
 provider credentials, and replay payloads. No identity, consent, or policy gate
 is changed; a receipt grants no authority and cannot replay a tool.
 
-New files are owner-only (0600). Writes use a locked read/validate/append,
-same-directory staging file, file fsync, atomic replacement, and directory fsync.
+On POSIX, new files are owner-only (0600). Windows ignores POSIX mode bits, so
+privacy there depends on the containing directory's ACL (for example, a directory
+under the operator's user profile). Writes use a locked read/validate/append,
+same-directory staging file, file fsync, and atomic replacement; POSIX also fsyncs
+the directory, which Python cannot do on Windows, so rename durability across power
+loss there rests on NTFS metadata journaling.
 Schema/version/unique-ID checks and a SHA-256 checksum reject corrupt history;
 the checksum detects accidental damage, not malicious rewriting by a file owner.
 Keep the directory private and outside version control. The adjacent `.lock`
-file must stay on the same volume; POSIX advisory locks coordinate cooperating
-processes, not external editors or distributed/network filesystems.
+file must stay on the same volume; POSIX `flock` or Windows `msvcrt` byte-range
+locks (waiting while contended) coordinate cooperating processes, not external
+editors or distributed/network filesystems. Other platforms fail closed with
+`ToolAuditStoreError`.
 
 For operator-only read recovery (no new HTTP endpoint), run from the product
 directory with the same environment:

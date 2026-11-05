@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8528,
+  "file_count": 8529,
   "lanes": {
     "az_ip": 2641,
     "compactification": 9,
-    "other": 5464,
+    "other": 5465,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -109,7 +109,7 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1639,
+    "src": 1640,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
     "tests": 1566,
@@ -40880,24 +40880,6 @@
       "lane": "other"
     },
     {
-      "path": "src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "src/core/pillar1133_superfluid_effective_theory.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "src/core/pillar1134_rare_decay_probes.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
       "path": "src/core/pillar183_cl_spectrum_subleading.py",
       "top_level": "src",
       "kind": "file",
@@ -45579,6 +45561,30 @@
     },
     {
       "path": "src/core/pillar_0879_0918/pillar883_lean4_architecture_limits_registry.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1132_1134/__init__.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1132_1134/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1132_1134/pillar1133_superfluid_effective_theory.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1132_1134/pillar1134_rare_decay_probes.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"

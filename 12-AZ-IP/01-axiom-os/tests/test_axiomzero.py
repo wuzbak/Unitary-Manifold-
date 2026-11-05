@@ -708,6 +708,65 @@ class TestBrowserServer:
 # ===========================================================================
 
 class TestStateDB:
+    def test_connections_close_after_initialization_reads_and_writes(self, tmp_path, monkeypatch):
+        import sqlite3
+        from AxiomZero.memory.state_db import StateDB
+
+        connect = sqlite3.connect
+        connections = []
+
+        def tracked_connect(*args, **kwargs):
+            connection = connect(*args, **kwargs)
+            connections.append(connection)
+            return connection
+
+        monkeypatch.setattr(sqlite3, "connect", tracked_connect)
+        db = StateDB(tmp_path / "state.db")
+        db.checkpoint("t1", "M4_Test", "running")
+        assert db.get_last_checkpoint("t1")["status"] == "running"
+        assert len(connections) == 3
+        for connection in connections:
+            with pytest.raises(sqlite3.ProgrammingError, match="closed"):
+                connection.execute("SELECT 1")
+
+    def test_failed_transaction_rolls_back_and_closes(self, tmp_path):
+        import sqlite3
+        from AxiomZero.memory.state_db import StateDB
+
+        db = StateDB(tmp_path / "state.db")
+        with pytest.raises(RuntimeError, match="transaction failed"):
+            with db._conn() as connection:
+                connection.execute(
+                    "INSERT INTO agent_log (timestamp, level, manager, message) VALUES (0, 'INFO', 'M4', 'lost')"
+                )
+                raise RuntimeError("transaction failed")
+        with pytest.raises(sqlite3.ProgrammingError, match="closed"):
+            connection.execute("SELECT 1")
+        assert db.get_recent_logs() == []
+
+    def test_failed_connection_setup_closes(self, tmp_path, monkeypatch):
+        import sqlite3
+        from AxiomZero.memory.state_db import StateDB
+
+        connect = sqlite3.connect
+        connections = []
+
+        class FailingConnection(sqlite3.Connection):
+            def execute(self, *args, **kwargs):
+                raise sqlite3.OperationalError("configuration failed")
+
+        def failing_connect(*args, **kwargs):
+            connection = connect(*args, **kwargs, factory=FailingConnection)
+            connections.append(connection)
+            return connection
+
+        monkeypatch.setattr(sqlite3, "connect", failing_connect)
+        with pytest.raises(sqlite3.OperationalError, match="configuration failed"):
+            StateDB(tmp_path / "state.db")
+        assert len(connections) == 1
+        with pytest.raises(sqlite3.ProgrammingError, match="closed"):
+            connections[0].cursor()
+
     def test_importable(self):
         from AxiomZero.memory.state_db import StateDB
         assert StateDB is not None
@@ -1040,7 +1099,7 @@ class TestIPIdentity:
         for py in sorted(az_root.rglob("*.py")):
             if "__pycache__" in str(py):
                 continue
-            content = py.read_text(errors="replace")
+            content = py.read_text(encoding="utf-8")
             for phrase in required_phrases:
                 if phrase not in content:
                     missing.append(f"{py.relative_to(REPO_ROOT)}: missing '{phrase}'")

@@ -82,7 +82,7 @@ def test_http_runs_declared_property_without_hiding_solver_failure(http_request,
     ("/api/property-check", b"{bad", {"Content-Type": "application/json"}),
     ("/api/property-check", b"\xff", {"Content-Type": "application/json"}),
     ("/api/property-check", b"{}", {"Content-Type": "application/json"}),
-])
+], ids=["query-string", "wrong-content-type", "empty", "oversized", "invalid-json", "invalid-utf8", "missing-property"])
 def test_http_rejects_malformed_or_unbounded_properties(http_request, path, body, headers):
     status, _, raw = http_request("POST", path, body, headers)
     assert status == 400

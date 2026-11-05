@@ -158,6 +158,9 @@ The startup recovery contract assumes one service process; there is no
 cross-process task lease, so do not run multiple API workers against this queue.
 Task inputs and results are stored as plaintext JSON in the configured SQLite
 database (default `~/.axiomzero/state.db`); protect the database and its backups.
+Each journal operation commits or rolls back its transaction and deterministically
+closes its SQLite connection, including setup failures. No persistent connection
+handle or garbage-collection delay is required to release the database on Windows.
 
 **HILS Invariant:** ThomasCory Walker-Pearson retains exclusive control over:
 1. Pillar numbering and canonicalization

@@ -1,3 +1,8 @@
+from os.path import join as _join
+
+# Preserve legacy pillar imports while keeping one physical implementation.
+__path__.append(_join(__path__[0], "pillar_1132_1134"))
+del _join
 
 __provenance__ = {
     "author": "ThomasCory Walker-Pearson",
