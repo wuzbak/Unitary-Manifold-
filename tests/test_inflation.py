@@ -67,6 +67,9 @@ from src.core.inflation import (
     BIREFRINGENCE_SIGMA_DEG,
     PLANCK_NS_CENTRAL,
     PLANCK_NS_SIGMA,
+    kk_amplitude_sum,
+    dynamical_radion_sweep,
+    ftum_radion_stability_scan,
 )
 from src.core.transfer import (
     primordial_power_spectrum,
@@ -3261,4 +3264,203 @@ class TestKillRemainingMutants:
         # The string contains the correct sigma
         assert f"{correct_sigma_div:.1f}" in why
 
+
+class TestKKAmplitudeSum:
+    def test_amplitude_and_active_modes_match_analytic_values(self):
+        result = kk_amplitude_sum(
+            phi0_eff=3.0, lam=3.0, phi_star=2.0, R_c=0.2001, N_max=4
+        )
+        potential = 3.0 * (2.0**2 - 3.0**2) ** 2
+        derivative = 4.0 * 3.0 * 2.0 * (2.0**2 - 3.0**2)
+        expected_zero = potential**3 / (12.0 * np.pi**2 * derivative**2)
+        expected_hubble = np.sqrt(potential / 3.0)
+
+        assert result["As_zero"] == pytest.approx(expected_zero, rel=1e-14)
+        assert result["H_star"] == pytest.approx(expected_hubble, rel=1e-14)
+        assert result["m_KK_1"] == pytest.approx(1.0 / 0.2001, rel=1e-14)
+        assert result["N_active"] == 2
+        assert result["enhancement"] == 2.0
+        assert result["As_total"] == pytest.approx(2.0 * expected_zero, rel=1e-14)
+        assert result["R_c"] == 0.2001
+        assert result["phi_star"] == 2.0
+
+    def test_active_mode_cutoff_is_strict_and_respects_n_max(self):
+        # Here H*=5 and m_1=1/R_c=5 exactly, so level 1 is not active.
+        at_threshold = kk_amplitude_sum(
+            phi0_eff=3.0, lam=3.0, phi_star=2.0, R_c=0.2, N_max=4
+        )
+        just_below_threshold = kk_amplitude_sum(
+            phi0_eff=3.0, lam=3.0, phi_star=2.0, R_c=0.2001, N_max=0
+        )
+        assert at_threshold["H_star"] == pytest.approx(5.0, abs=1e-14)
+        assert at_threshold["N_active"] == 1
+        assert just_below_threshold["N_active"] == 1
+        assert just_below_threshold["As_total"] == just_below_threshold["As_zero"]
+
+    @pytest.mark.parametrize(
+        "kwargs",
+        [
+            {"phi0_eff": 0.0},
+            {"phi0_eff": 3.0, "phi_star": 3.0},
+            {"phi0_eff": 3.0, "phi_star": 0.0},
+        ],
+    )
+    def test_rejects_nonpositive_or_degenerate_inputs(self, kwargs):
+        with pytest.raises(ValueError):
+            kk_amplitude_sum(**kwargs)
+
+
+class TestDynamicalRadionSweep:
+    def test_grid_observables_and_safety_mask_follow_definitions(self):
+        result = dynamical_radion_sweep(
+            r_c_min=4.0, r_c_max=14.0, n_points=3, beta_safe_lo=0.3,
+            beta_safe_hi=0.5,
+        )
+        radii = np.array([4.0, 9.0, 14.0])
+        jacobian = np.sqrt((1.0 - np.exp(-2.0 * np.pi * radii)) / 2.0)
+        displacement = jacobian * 18.0 * (1.0 - 1.0 / np.sqrt(3.0))
+        coupling = 74.0 / (137.036 * 2.0 * np.pi**2 * radii)
+        beta_deg = np.degrees(0.5 * coupling * np.abs(displacement))
+        expected_safe = (beta_deg >= 0.3) & (beta_deg <= 0.5)
+
+        np.testing.assert_array_equal(result["r_c_values"], radii)
+        np.testing.assert_allclose(result["J_RS"], jacobian, rtol=1e-14)
+        np.testing.assert_allclose(result["delta_phi"], displacement, rtol=1e-14)
+        np.testing.assert_allclose(result["beta_deg"], beta_deg, rtol=1e-14)
+        np.testing.assert_array_equal(result["safe_mask"], expected_safe)
+        assert result["n_safe"] == int(expected_safe.sum())
+        assert result["saturation_r_c_floor"] == 9.0
+        assert result["beta_at_canonical"] == pytest.approx(beta_deg[2], rel=1e-14)
+        assert result["canonical_is_safe"] is bool(expected_safe[2])
+
+    def test_empty_safe_window_and_unsaturated_grid_are_reported(self):
+        result = dynamical_radion_sweep(
+            r_c_min=1.0, r_c_max=2.0, n_points=2,
+            beta_safe_lo=10.0, beta_safe_hi=11.0,
+        )
+        assert result["n_safe"] == 0
+        assert np.isnan(result["safe_r_c_lo"])
+        assert np.isnan(result["safe_r_c_hi"])
+        assert result["saturation_r_c_floor"] == 2.0
+
+    @pytest.mark.parametrize(
+        "kwargs", [{"r_c_min": 0.0}, {"n_points": 1}]
+    )
+    def test_rejects_invalid_scan_grid(self, kwargs):
+        with pytest.raises(ValueError):
+            dynamical_radion_sweep(**kwargs)
+
+
+class TestFTUMRadionStabilityScan:
+    def test_auto_step_converges_at_fixed_point_and_reports_eigenvalues(self):
+        result = ftum_radion_stability_scan(
+            phi0_init=2.0, r_c_init=12.0,
+            phi_star_target=2.0, r_c_star_target=12.0,
+            lam_gw=2.0, kappa_phi=0.1, safety_factor=0.25, max_iter=3,
+        )
+        expected_dt = 0.25 / (2.0 * (2.0 * 1.01) ** 2)
+
+        assert result["converged"] is True
+        assert result["n_iter"] == 1
+        assert result["residual"] == [0.0]
+        assert result["phi_history"] == [2.0, 2.0]
+        assert result["r_c_history"] == [12.0, 12.0]
+        assert result["dt_rc_used"] == pytest.approx(expected_dt, rel=1e-14)
+        assert result["step_is_safe"] is True
+        assert result["jacobian_eig"] == pytest.approx(
+            (0.9, 1.0 - expected_dt * 2.0 * 2.0 * 2.0**2), rel=1e-14
+        )
+        assert result["saturation_ok"] is True
+        assert result["fp_is_safe"] is True
+
+    def test_explicit_step_and_hubble_friction_update_match_one_step_equation(self):
+        result = ftum_radion_stability_scan(
+            phi0_init=2.0, r_c_init=10.0,
+            phi_star_target=2.0, r_c_star_target=12.0,
+            lam_gw=1.0, kappa_phi=0.5, hubble_fric=0.5,
+            dt_rc=0.01, max_iter=1,
+        )
+        expected_rc = 10.0 - 0.01 * (2.0 * 2.0**2 * (10.0 - 12.0)) \
+            - 0.5 * (10.0 - 12.0) / 2.0**2
+        assert result["phi_star"] == 2.0
+        assert result["r_c_star"] == pytest.approx(expected_rc, rel=1e-14)
+        assert result["r_c_history"] == pytest.approx([10.0, expected_rc])
+        assert result["n_iter"] == 1
+        assert result["converged"] is False
+        assert result["step_is_safe"] is True
+
+    def test_unsafe_explicit_step_is_audited_and_can_disable_audit(self):
+        args = dict(
+            phi0_init=2.0, r_c_init=12.0,
+            phi_star_target=2.0, r_c_star_target=12.0,
+            lam_gw=2.0, dt_rc=1.0, safety_factor=0.25, max_iter=0,
+        )
+        audited = ftum_radion_stability_scan(**args)
+        unaudited = ftum_radion_stability_scan(**args, enable_audit_log=False)
+
+        assert audited["step_is_safe"] is False
+        assert audited["audit_log"][0]["type"] == "step_size_unsafe"
+        assert audited["audit_log"][0]["dt_rc_used"] == 1.0
+        assert audited["n_guardrail_events"] == 1
+        assert audited["guardrails_active"] is True
+        assert unaudited["audit_log"] == []
+        assert unaudited["n_guardrail_events"] == 0
+        assert unaudited["guardrails_active"] is False
+        assert unaudited["bounds_applied"] == {
+            "phi_min": None, "phi_max": None, "r_c_min": None,
+        }
+
+    def test_phi_and_radius_bounds_clip_with_audit_events(self):
+        phi_lower = ftum_radion_stability_scan(
+            phi0_init=2.0, phi_star_target=1.0, kappa_phi=1.0,
+            r_c_init=12.0, r_c_star_target=12.0, dt_rc=0.0, max_iter=1,
+            phi_min_allowed=1.5,
+        )
+        phi_upper = ftum_radion_stability_scan(
+            phi0_init=1.0, phi_star_target=2.0, kappa_phi=1.0,
+            r_c_init=12.0, r_c_star_target=12.0, dt_rc=0.0, max_iter=1,
+            phi_max_allowed=1.5,
+        )
+        radius_lower = ftum_radion_stability_scan(
+            phi0_init=1.0, phi_star_target=1.0, kappa_phi=1.0,
+            r_c_init=13.0, r_c_star_target=12.0, dt_rc=10.0, max_iter=1,
+            r_c_min_allowed=0.5,
+        )
+
+        assert phi_lower["phi_star"] == 1.5
+        assert phi_lower["audit_log"][0]["type"] == "phi_lower_bound_violated"
+        assert phi_upper["phi_star"] == 1.5
+        assert phi_upper["audit_log"][0]["type"] == "phi_upper_bound_violated"
+        assert radius_lower["r_c_star"] == 0.5
+        assert radius_lower["audit_log"][0]["type"] == "step_size_unsafe"
+        assert any(
+            event["type"] == "r_c_lower_bound_violated"
+            for event in radius_lower["audit_log"]
+        )
+        assert radius_lower["bounds_applied"]["r_c_min"] == 0.5
+
+    def test_numerical_guardrails_record_large_steps_and_clip_hard_limit(self):
+        result = ftum_radion_stability_scan(
+            phi0_init=1.0, phi_star_target=2.0e12, kappa_phi=1.0,
+            r_c_init=12.0, r_c_star_target=12.0, dt_rc=0.0, max_iter=1,
+        )
+        event_types = [event["type"] for event in result["audit_log"]]
+        assert result["phi_star"] == 1.0e12
+        assert "large_step_magnitude" in event_types
+        assert "phi_hard_limit_clipped" in event_types
+        assert result["n_guardrail_events"] == len(result["audit_log"])
+
+    @pytest.mark.parametrize(
+        "kwargs",
+        [
+            {"kappa_phi": 0.0},
+            {"kappa_phi": 1.1},
+            {"lam_gw": 0.0},
+            {"safety_factor": 0.0},
+            {"safety_factor": 1.0},
+        ],
+    )
+    def test_rejects_invalid_contraction_parameters(self, kwargs):
+        with pytest.raises(ValueError):
+            ftum_radion_stability_scan(**kwargs)
 

@@ -80,6 +80,13 @@ and evaluation evidence as artifact 13462828324. Packaging stopped before
 installer compilation because an unawaited nested preload test was cancelled
 by its completed parent; that independent test is now top-level, retaining
 all fixed-channel and IPC exposure assertions.
+The existing inflation mutation gate independently measured 826/1,454 killed
+(56.81%) against its unchanged 80% minimum. Added analytic amplitude,
+mode-cutoff, radion-sweep, fixed-point, step-bound and guardrail regressions
+in the existing focused test file; the exact focused pytest selector passes
+636 tests. Production inflation code and mutation settings are unchanged.
+Line coverage increasing from 72% to 96% is not a mutation qualification:
+the full actual mutation run must still meet the original threshold.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 
