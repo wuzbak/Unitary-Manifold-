@@ -223,7 +223,6 @@ def discover(transport=fetch_metadata):
             repository = item.get("id") if isinstance(item, dict) else None
             if (not isinstance(repository, str)
                     or not REPOSITORY_PATTERN.fullmatch(repository)
-                    or "smollm3" not in repository.split("/", 1)[1].lower()
                     or repository in seen):
                 report["errors"].append("Invalid, duplicate, or nonofficial query repository")
                 if isinstance(repository, str) and repository in seen:
@@ -240,6 +239,13 @@ def discover(transport=fetch_metadata):
                 })
                 continue
             seen.add(repository)
+            if "smollm3" not in repository.split("/", 1)[1].lower():
+                report["repositories"].append({
+                    "repository": repository, "source": QUERY_URL,
+                    "status": "ineligible", "artifacts": [],
+                    "reasons": ["Outside fixed SmolLM3 family scope"],
+                })
+                continue
             source = QUERY_URL
             try:
                 metadata = item

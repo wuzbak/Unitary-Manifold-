@@ -26,6 +26,28 @@ def encoded(value):
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_metadata_workflow_cannot_bypass_reusable_packaging_gate(self):
+        import yaml
+
+        root = Path(__file__).resolve().parents[3]
+        workflow = yaml.safe_load(
+            (root / ".github/workflows/pc-suite-embedded-model.yml").read_text(
+                encoding="utf-8"))
+        triggers = workflow.get("on", workflow.get(True))
+        metadata_input = triggers["workflow_dispatch"]["inputs"]["metadata_only"]
+        self.assertEqual(metadata_input["type"], "boolean")
+        self.assertIs(metadata_input["default"], False)
+        self.assertNotIn("metadata_only", triggers["workflow_call"].get("inputs", {}))
+        jobs = workflow["jobs"]
+        self.assertEqual(
+            jobs["discover-candidate-metadata"]["if"],
+            "github.event_name == 'workflow_dispatch' && inputs.metadata_only")
+        self.assertEqual(
+            jobs["evaluate-cpu-backend"]["if"],
+            "github.event_name != 'workflow_dispatch' || !inputs.metadata_only")
+        self.assertNotIn("discover-candidate-metadata",
+                         jobs["evaluate-cpu-backend"].get("needs", []))
+
     def run_metadata(self, metadata):
         return discovery.discover(lambda url: encoded([metadata]))
 
@@ -133,7 +155,7 @@ class DiscoveryTests(unittest.TestCase):
 
     def test_untrusted_or_duplicate_repository_never_qualifies(self):
         for repository in ("unsloth/SmolLM3-fixture", "HuggingFaceTB/../SmolLM3",
-                           "huggingfacetb/SmolLM3-fixture", "HuggingFaceTB/Other"):
+                           "huggingfacetb/SmolLM3-fixture"):
             with self.subTest(repository=repository):
                 metadata = fixture()
                 metadata["id"] = repository
@@ -146,6 +168,53 @@ class DiscoveryTests(unittest.TestCase):
         metadata = fixture()
         report = discovery.discover(lambda url: encoded([metadata, metadata]))
         self.assertEqual(report["eligibleArtifacts"], [])
+        self.assertFalse(report["complete"])
+
+    def test_official_out_of_family_fuzzy_results_are_explicit_exclusions(self):
+        repositories = (
+            "HuggingFaceTB/Other",
+            "HuggingFaceTB/SmolLM-360M",
+            "HuggingFaceTB/SmolLM-360M-Instruct",
+            "HuggingFaceTB/smollm-360M-instruct-add-basics",
+            "HuggingFaceTB/smollm-360M-instruct-v0.2-Q8_0-GGUF",
+            "HuggingFaceTB/smollm-360M-instruct-add-basics-q0f16-MLC",
+            "HuggingFaceTB/SmolLM-360M-Instruct-ONNX-fp16",
+        )
+        transport = MagicMock(return_value=encoded([{"id": repo} for repo in repositories]))
+        report = discovery.discover(transport)
+        transport.assert_called_once_with(discovery.QUERY_URL)
+        self.assertTrue(report["complete"])
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(report["eligibleArtifacts"], [])
+        self.assertEqual(len(report["repositories"]), len(repositories))
+        for entry in report["repositories"]:
+            self.assertEqual(entry["status"], "ineligible")
+            self.assertEqual(entry["reasons"], ["Outside fixed SmolLM3 family scope"])
+            self.assertEqual(entry["artifacts"], [])
+        duplicate = {"id": repositories[1]}
+        report = discovery.discover(lambda url: encoded([duplicate, duplicate]))
+        self.assertFalse(report["complete"])
+        self.assertTrue(report["errors"])
+        self.assertTrue(all(entry["status"] == "unknown"
+                            for entry in report["repositories"]))
+
+    def test_fuzzy_exclusions_and_canonical_no_gguf_are_complete_negative(self):
+        metadata = fixture()
+        metadata["siblings"] = [{"rfilename": "model.safetensors"}]
+        listing = [{"id": "HuggingFaceTB/SmolLM-360M"},
+                   {"id": metadata["id"]},
+                   {"id": "HuggingFaceTB/smollm-360M-instruct-v0.2-Q8_0-GGUF"}]
+        canonical = f"https://huggingface.co/api/models/{metadata['id']}?blobs=true"
+        transport = MagicMock(side_effect=lambda url: encoded(
+            listing if url == discovery.QUERY_URL else metadata))
+        report = discovery.discover(transport)
+        self.assertEqual([call.args[0] for call in transport.call_args_list],
+                         [discovery.QUERY_URL, canonical])
+        self.assertTrue(report["complete"])
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(report["eligibleArtifacts"], [])
+        self.assertTrue(all(entry["status"] == "ineligible"
+                            for entry in report["repositories"]))
 
     def test_canonical_identity_mismatch_is_unknown(self):
         metadata = fixture()
