@@ -226,18 +226,24 @@ class ManifestTests(ArtifactFixture):
         source.write_bytes(b"GGUF\x03\x00\x00\x00pinned-q8-fixture")
         manifest = copy.deepcopy(self.manifest)
         manifest["model"].update({
+            "repository": gate.SOURCE_Q8_REPOSITORY,
+            "revision": gate.SOURCE_Q8_REVISION,
             "file": gate.SOURCE_Q8_FILE,
             "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
             "sizeBytes": source.stat().st_size,
         })
-        with self.assertRaisesRegex(gate.VerificationError, "Unexpected model file"):
+        with self.assertRaisesRegex(gate.VerificationError, "Unexpected model"):
             gate.validate_manifest(manifest)
         self.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
         self.args.model = str(source)
-        with self.assertRaisesRegex(gate.VerificationError, "Unexpected model file"):
+        with self.assertRaisesRegex(gate.VerificationError, "Unexpected model"):
             gate.run_gate(self.args, self.report())
         self.assertEqual(
             gate.validate_manifest(manifest, source_q8_diagnostic=True), manifest)
+        wrong_revision = copy.deepcopy(manifest)
+        wrong_revision["model"]["revision"] = "b" * 40
+        with self.assertRaisesRegex(gate.VerificationError, "pinned source revision"):
+            gate.validate_manifest(wrong_revision, source_q8_diagnostic=True)
         verified, stamps = gate.verify_artifacts(self.engine, source, manifest)
         self.assertEqual(verified["model"]["sha256"], manifest["model"]["sha256"])
         self.assertEqual(len(stamps), 2)
@@ -704,6 +710,8 @@ class LifecycleTests(ArtifactFixture):
         source.write_bytes(b"GGUF\x03\x00\x00\x00pinned-q8-fixture")
         manifest = copy.deepcopy(self.manifest)
         manifest["model"].update({
+            "repository": gate.SOURCE_Q8_REPOSITORY,
+            "revision": gate.SOURCE_Q8_REVISION,
             "file": gate.SOURCE_Q8_FILE,
             "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
             "sizeBytes": source.stat().st_size,

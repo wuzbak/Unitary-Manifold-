@@ -848,6 +848,36 @@ history; no live-data success is implied.
 |-------|---------|-----:|
 | `12-AZ-IP/40-az-live-data-harness/README.md` | `4781f1b0cedb2f418d5616b27e6a5251f7c40a9b6c1ef7be22362a6d98833424` | 7638 |
 
+### Products 43 and 45 instruction-candidate selection reseal - 2026-11-05
+
+The registered READMEs now distinguish the selected direct official
+Qwen2.5-1.5B-Instruct Q4_K_M candidate from the preceding Qwen3 Q8/Q4 experiment.
+Both preceding artifacts failed acceptance; choosing another candidate does
+not qualify it. Actual hosted checks, the model budget, provenance checks and
+packaging acceptance remain required. Prior documentation identities are
+retained in registry history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `555dc31b1d4edc14e2987fa3bac4f0c06cc6181286d300dc6b9ca2567518879b` | 23292 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `4f283b0d700658e211eda7f1a904847b8e48ffb6257ca2a6f5b1c347a1945d2f` | 24275 |
+
+### Products 43 and 45 candidate/runtime contract reseal - 2026-11-05
+
+The verifier, its contracts, the governed Node client and matching tests now
+select the direct instruction-tuned candidate consistently. The historical
+Q8 profile remains diagnostic-only. Previous registered identities and the
+actual preceding committed diagnostic/runtime identities are retained in the
+registry. This also closes the seal gap introduced by earlier diagnostic and
+owned-process-cleanup edits; it is not a quality certificate.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `5dc8e332bb902aa64f6d8f4cc6d7efdb7fbb6e6cc8d411193588d2d12ebe4a97` | 31754 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `26a7de6db36ae7d0cbb86b43a25c3d178e97bfe76a97ba164c11bb628b6d15b8` | 50156 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `13d7646a4aa30bd836e81f5f13a4ee9c0dc96eabab14fb5398b29a5b0979fed2` | 32911 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `4c7d82132d6c969fa591519caeb484e15d4245ce786590d23ac4d88c5c1cd70d` | 25385 |
+
 ## Verification Protocol
 
 To verify any registered asset:

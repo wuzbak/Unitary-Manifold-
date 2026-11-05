@@ -7,12 +7,13 @@ model={repository, revision, file, sha256, sizeBytes, license};
 engine={repository, revision, sha256, license}. Model revision is the exact
 40-character Hugging Face commit, both digests are lowercase SHA-256, and
 sizeBytes is the authoritative model file byte count. Fixed candidate:
-Qwen/Qwen3-1.7B-GGUF, Qwen3-1.7B-Q4_K_M.gguf, Apache-2.0; engine:
+Qwen/Qwen2.5-1.5B-Instruct-GGUF,
+qwen2.5-1.5b-instruct-q4_k_m.gguf, Apache-2.0; engine:
 ggml-org/llama.cpp, 52e53a76df0298d2c316ae7e704eeec03b0bf478, MIT.
 Supply authoritative public metadata and trusted compiled artifacts yourself.
-The optional --source-q8-diagnostic mode accepts only the matching repository's
-Qwen3-1.7B-Q8_0.gguf source and marks its report diagnostic-only; it can never
-qualify an installation or production assistant.
+The optional --source-q8-diagnostic mode accepts only the pinned historical
+Qwen/Qwen3-1.7B-GGUF Qwen3-1.7B-Q8_0.gguf source and marks its report
+diagnostic-only; it can never qualify an installation or production assistant.
 
 Exit codes: 0=all real sanity cases passed and server stopped; 1=gate failed
 (JSON evidence persisted); 2=invalid invocation/output path or report write
@@ -39,8 +40,10 @@ import time
 
 
 ENGINE_REVISION = "52e53a76df0298d2c316ae7e704eeec03b0bf478"
-MODEL_REPOSITORY = "Qwen/Qwen3-1.7B-GGUF"
-MODEL_FILE = "Qwen3-1.7B-Q4_K_M.gguf"
+MODEL_REPOSITORY = "Qwen/Qwen2.5-1.5B-Instruct-GGUF"
+MODEL_FILE = "qwen2.5-1.5b-instruct-q4_k_m.gguf"
+SOURCE_Q8_REPOSITORY = "Qwen/Qwen3-1.7B-GGUF"
+SOURCE_Q8_REVISION = "90862c4b9d2787eaed51d12237eafdfe7c5f6077"
 SOURCE_Q8_FILE = "Qwen3-1.7B-Q8_0.gguf"
 HOST = "127.0.0.1"
 IS_WINDOWS = os.name == "nt"
@@ -141,8 +144,9 @@ def validate_manifest(value, source_q8_diagnostic=False):
     exact_keys(model, ("repository", "revision", "file", "sha256",
                        "sizeBytes", "license"), "model")
     exact_keys(engine, ("repository", "revision", "sha256", "license"), "engine")
+    expected_repository = SOURCE_Q8_REPOSITORY if source_q8_diagnostic else MODEL_REPOSITORY
     for item, expected, label in (
-        (model["repository"], MODEL_REPOSITORY, "model repository"),
+        (model["repository"], expected_repository, "model repository"),
         (model["license"], "Apache-2.0", "model license"),
         (engine["repository"], "ggml-org/llama.cpp", "engine repository"),
         (engine["revision"], ENGINE_REVISION, "engine revision"),
@@ -158,6 +162,9 @@ def validate_manifest(value, source_q8_diagnostic=False):
     if not filename_matches:
         raise VerificationError(f"Unexpected model file; required {expected_file}")
     hexadecimal(model["revision"], 40, "model revision")
+    if source_q8_diagnostic and model["revision"] != SOURCE_Q8_REVISION:
+        raise VerificationError(
+            f"Q8 diagnostic requires pinned source revision {SOURCE_Q8_REVISION}")
     hexadecimal(model["sha256"], 64, "model sha256")
     hexadecimal(engine["sha256"], 64, "engine sha256")
     if type(model["sizeBytes"]) is not int or model["sizeBytes"] < 8:

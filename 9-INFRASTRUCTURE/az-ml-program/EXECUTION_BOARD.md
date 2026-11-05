@@ -75,12 +75,34 @@ error behind the platform-only refusal. To test whether Q8-to-Q4
 requantization contributes, the Windows workflow now evaluates the original
 checksum-verified Q8_0 source and the derived Q4_K_M candidate using the same
 model revision, engine bytes, prompts, decoding settings and grader.
-The source diagnostic runs first, writes an explicitly diagnostic-only report,
+The source diagnostic ran first, wrote an explicitly diagnostic-only report,
 and retains its manifest, source bytes, receipt and failure status. Its failure
 does not skip the separate Q4 packaging gate, and its success cannot qualify
 the Q4 model or installation. Q8 weights remain outside the packaged runtime.
 The production verifier still rejects Q8 unless explicitly invoked in diagnostic
-mode. No actual paired-model result is claimed before hosted execution.
+mode.
+
+Hosted run `42076173109` at `170b574` completed the paired experiment: both
+Q8 and Q4 passed only 3/4 cases. The original Q8 source also replaced platform
+status strings with booleans. Both gave the same platform-only refusal reason.
+This does not establish a compression-only cause, and neither artifact was
+qualified. The Q8 validation receipt SHA-256 is
+`d73538e777738f757be17e1aea80252f3af9054e7a9aca2a6be258de80e496bd`;
+the Q4 receipt SHA-256 is
+`cebd721f77f4422dd68746e71f071c69639a2aeee6d2c47cbbf84b0871d9e91d`.
+Both exact JSON receipts are retained under `evidence/<SHA-256>.json`, not only
+in expiring hosted artifacts. Their bytes were published using the existing
+immutable artifact publisher without changing the model outputs.
+The original Q8 artifact is bound to
+`061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a`,
+1,834,426,016 bytes, at the same recorded Qwen3 revision.
+
+Rather than repeat that candidate unchanged, the next candidate is the official
+Qwen2.5-1.5B-Instruct Q4_K_M: an instruction-tuned direct upstream artifact,
+subject to the same 1.6 GB budget, license/provenance checks, engine, evaluation
+cases and acceptance criteria. The verifier and governed runtime must agree
+on its identity. Selecting a different candidate is not a quality pass; actual
+hosted evaluation and installed packaging remain required.
 
 The existing keyword-based rationale rubric may reject some otherwise valid
 privacy- or authorization-grounded explanations. The observed platform-only
@@ -189,6 +211,30 @@ publication, not network storage, a distributed commit protocol, multi-host
 coordination, production authentication or power-loss durability.
 
 ### Source-bound hosted regression evidence
+
+After integrating both mainline editorial updates, the local unfiltered
+canonical command completed with **65,499 passed, 74 skipped, 0 failed** and
+two existing warnings in 900.72 seconds:
+
+```bash
+python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -m '' -q
+```
+
+The isolated environment and source tree included the integrated editorial
+tests and unchanged core implementation. This is canonical local regression,
+not an aggregate of every product suite or a qualification of the separately
+failed model candidate. Later candidate/runtime edits require their affected
+suites and current-head hosted checks.
+
+The hosted `Tests` workflow `42076173794` also completed successfully at
+`170b574`, including its full-regression shard supervisor. It predates the
+replacement candidate and does not qualify that candidate.
+After candidate/profile updates, the affected Python product/program,
+registry, licensing and map scope passed **991 tests and 102 subtests**;
+the complete Product 45 Node suite passed **215 tests, no failures or skips**.
+The first Node attempt was blocked by the missing locked `yauzl` dependency.
+`npm ci --ignore-scripts --no-audit --no-fund` restored the existing lockfile
+dependencies without changing the manifest, and the complete suite was rerun.
 
 The previously incomplete frozen full-core run has now completed successfully:
 [run 42059462741](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/42059462741)

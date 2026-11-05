@@ -18,6 +18,14 @@ Product 40 destination tests also cover regular files and require explicit
 errors without success-shaped output before acquisition.
 No physics claim, score, pillar, falsifier or program completion flag changes.
 
+The paired hosted experiment subsequently passed only 3/4 in both Q8 and Q4, so
+compression alone is not established as the cause. The next selected candidate
+is the official Qwen2.5-1.5B-Instruct Q4_K_M direct artifact, with the same
+license, size, provenance and acceptance obligations; selection is not a pass.
+The integrated slow-inclusive local canonical regression completed with
+65,499 passed, 74 skipped and zero failures in 900.72 seconds. This count does
+not include every isolated product suite or establish model quality.
+
 ## AZ ML infrastructure continuation (2026-11-05; adjacent software only)
 
 Added independent P43 NumPy forward/reverse/Adam parity checks, including every

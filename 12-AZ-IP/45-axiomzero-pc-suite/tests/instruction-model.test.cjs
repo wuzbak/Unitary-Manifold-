@@ -67,7 +67,8 @@ const CHILD = String.raw`
     server.listen(config.port, "127.0.0.1");
   }
 `;
-const MODEL_FILE = "Qwen3-1.7B-Q4_K_M.gguf";
+const MODEL_REPOSITORY = "Qwen/Qwen2.5-1.5B-Instruct-GGUF";
+const MODEL_FILE = "qwen2.5-1.5b-instruct-q4_k_m.gguf";
 const hash = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const evidence = [{ id: "C1", text: "Product 45 is a Windows suite.",
   file: "portfolio/product45.md", lineStart: 4, lineEnd: 5 }];
@@ -84,7 +85,7 @@ async function fixture(t, options = {}) {
   const model = Buffer.alloc(64);
   model.write("GGUF"); model.writeUInt32LE(3, 4);
   const manifest = { formatVersion: 1,
-    model: { repository: "Qwen/Qwen3-1.7B-GGUF", revision: "a".repeat(40),
+    model: { repository: MODEL_REPOSITORY, revision: "a".repeat(40),
       file: MODEL_FILE, sha256: hash(model), sizeBytes: model.length, license: "Apache-2.0" },
     engine: { repository: "ggml-org/llama.cpp", revision: "52e53a76df0298d2c316ae7e704eeec03b0bf478",
       sha256: hash(engine), license: "MIT" } };
@@ -169,9 +170,9 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
   assert.ok(challengeRequests.every((message) => message.body.max_tokens === 64));
 });
 
-test("quantized bundled basename may vary in case but local manifest spelling is exact", async (t) => {
+test("official bundled basename may vary in case but local manifest spelling is exact", async (t) => {
   const f = await fixture(t);
-  const actual = MODEL_FILE.toLowerCase();
+  const actual = MODEL_FILE.toUpperCase();
   await fs.rename(path.join(f.resourcesDirectory, MODEL_FILE), path.join(f.resourcesDirectory, actual));
   f.manifest.model.file = actual;
   await f.saveManifest();
@@ -215,6 +216,7 @@ test("strict manifest rejects changed pins, traversal, extra/duplicate keys, siz
   for (const [label, change] of [
     ["engine pin", (m) => { m.engine.revision = "b".repeat(40); }],
     ["model repo", (m) => { m.model.repository = "other/model"; }],
+    ["previous Qwen3 model repo", (m) => { m.model.repository = "Qwen/Qwen3-1.7B-GGUF"; }],
     ["traversal", (m) => { m.model.file = "../" + MODEL_FILE; }],
     ["license", (m) => { m.model.license = "unknown"; }],
     ["size", (m) => { m.model.sizeBytes = LIMITS.modelBytes + 1; }],

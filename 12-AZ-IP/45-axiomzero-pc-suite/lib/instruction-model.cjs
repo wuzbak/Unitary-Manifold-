@@ -12,7 +12,8 @@ const childProcess = require("node:child_process");
 const { TextDecoder } = require("node:util");
 
 const ENGINE_REVISION = "52e53a76df0298d2c316ae7e704eeec03b0bf478";
-const MODEL_FILE = "Qwen3-1.7B-Q4_K_M.gguf";
+const MODEL_REPOSITORY = "Qwen/Qwen2.5-1.5B-Instruct-GGUF";
+const MODEL_FILE = "qwen2.5-1.5b-instruct-q4_k_m.gguf";
 const HOST = "127.0.0.1";
 const ALIAS = "merlin-candidate";
 const LIMITS = Object.freeze({
@@ -21,7 +22,7 @@ const LIMITS = Object.freeze({
   answerBytes: 2048, modelBytes: 1600000000, manifestBytes: 16384
 });
 const BOUNDARY = "UNVERIFIED local language output, not an expert certificate or a physics claim. " +
-  "Bundled Q4_K_M weights are locally quantized from official Qwen weights, not downloaded official Q4 weights. " +
+  "Bundled Q4_K_M weights are direct official Qwen2.5-1.5B-Instruct-GGUF weights. " +
   "Bundled manifest provenance is an operator attestation, not independent upstream authentication. " +
   "Retrieved material is untrusted. No output is executed; offline flags are not an OS sandbox.";
 const SYSTEM = "You are a local portfolio assistant. Use only supplied evidence as facts. " +
@@ -113,7 +114,7 @@ function validateManifest(manifest) {
   exactKeys(manifest.model, ["repository", "revision", "file", "sha256", "sizeBytes", "license"], "model");
   exactKeys(manifest.engine, ["repository", "revision", "sha256", "license"], "engine");
   const { model, engine } = manifest;
-  if (manifest.formatVersion !== 1 || model.repository !== "Qwen/Qwen3-1.7B-GGUF" ||
+  if (manifest.formatVersion !== 1 || model.repository !== MODEL_REPOSITORY ||
       typeof model.file !== "string" || model.file.toLowerCase() !== MODEL_FILE.toLowerCase() ||
       model.license !== "Apache-2.0" || engine.repository !== "ggml-org/llama.cpp" ||
       engine.revision !== ENGINE_REVISION || engine.license !== "MIT" ||

@@ -986,11 +986,17 @@
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
-      "size_bytes": 24058,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "4f283b0d700658e211eda7f1a904847b8e48ffb6257ca2a6f5b1c347a1945d2f",
+      "size_bytes": 24275,
+      "reseal_note": "Document direct official instruction-tuned Q4 candidate, preserved paired failures and unchanged packaging acceptance. No shipped-runtime or production-quality claim.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
+          "size_bytes": 24058,
+          "note": "Suite assistant documentation before direct instruction-tuned candidate selection."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "bc7c6a2a5d17d0f1f4b04cb6f56d8062a00f1acca0f668ca981fb5a9cc4fb406",
@@ -2374,11 +2380,17 @@
       "description": "Product 43 Windows runtime integration and contracts: README.md",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
-      "size_bytes": 23001,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "555dc31b1d4edc14e2987fa3bac4f0c06cc6181286d300dc6b9ca2567518879b",
+      "size_bytes": 23292,
+      "reseal_note": "Selected direct official instruction-tuned Q4 candidate after paired Qwen3 Q8/Q4 failures; actual acceptance remains required. No model-quality or physics promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
+          "size_bytes": 23001,
+          "note": "Instruction-backend documentation before direct instruction-tuned candidate selection."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "f59fd606e504d7fcb5c7be9d57d4222077bf2c6a17c89ea1b322a5a2ae28616c",
@@ -2391,11 +2403,23 @@
       "description": "Product 43 Windows runtime integration and contracts: test_candidate_engine.py",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "32e285819a2ddf62db70b4a6285e85bbd1541301ae8b45b84c4c2b93dd594d53",
-      "size_bytes": 44773,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "26a7de6db36ae7d0cbb86b43a25c3d178e97bfe76a97ba164c11bb628b6d15b8",
+      "size_bytes": 50156,
+      "reseal_note": "Direct instruction-tuned candidate identity and isolated historical Q8 diagnostic contracts; acceptance cases and grader unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "89f3619383267497aa4f6e91a034fdd530151a49efd3ae0ff7cddd41cb6b9d13",
+          "size_bytes": 49693,
+          "note": "Actual committed paired-source diagnostic tests before candidate replacement."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "32e285819a2ddf62db70b4a6285e85bbd1541301ae8b45b84c4c2b93dd594d53",
+          "size_bytes": 44773,
+          "note": "Previously registered instruction-candidate contracts."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "5f422967441093a4a94dda48dbcd138ac53babb44a03050bdea5c63ab1c42b7e",
@@ -2420,11 +2444,23 @@
       "description": "Product 43 Windows runtime integration and contracts: verify_embedded_engine.py",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "02425ce1bce0b35a0e98bd0bf51e7907c0f011497e0c58f5cba56150515e47f6",
-      "size_bytes": 29281,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "5dc8e332bb902aa64f6d8f4cc6d7efdb7fbb6e6cc8d411193588d2d12ebe4a97",
+      "size_bytes": 31754,
+      "reseal_note": "Direct instruction-tuned candidate identity and explicit pinned historical Q8 diagnostic; prompts, decoding and grading unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "c2a441fc788b70b092f307ae17ebb24728368dbda58a772713771917f27341fd",
+          "size_bytes": 31298,
+          "note": "Actual committed paired-source verifier before candidate replacement."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "02425ce1bce0b35a0e98bd0bf51e7907c0f011497e0c58f5cba56150515e47f6",
+          "size_bytes": 29281,
+          "note": "Previously registered verifier identity."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a983c5dae8d4b4a063759ce1326b156ed42e5bd81247a7bf6749868324a42d6f",
@@ -2512,10 +2548,24 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4",
-      "size_bytes": 32811,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "updated": "2026-11-05",
+      "sha256": "13d7646a4aa30bd836e81f5f13a4ee9c0dc96eabab14fb5398b29a5b0979fed2",
+      "size_bytes": 32911,
+      "reseal_note": "Bind governed runtime to the direct official instruction-tuned candidate; retain bounded execution and unchanged safety policy.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "c41159e018fc54be4fb05a98f60f036226952441f9110ba6f4b88bfb7a99b3dc",
+          "size_bytes": 32876,
+          "note": "Actual committed runtime before instruction-candidate replacement, including owned-process cleanup correction."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4",
+          "size_bytes": 32811,
+          "note": "Previously registered runtime identity."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs": {
       "description": "Product 45 Windows runtime integration and contracts: platform-targets.cjs",
@@ -2548,10 +2598,18 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",
-      "size_bytes": 25229,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "updated": "2026-11-05",
+      "sha256": "4c7d82132d6c969fa591519caeb484e15d4245ce786590d23ac4d88c5c1cd70d",
+      "size_bytes": 25385,
+      "reseal_note": "Runtime candidate fixtures and rejection of obsolete candidate identity; safety and lifecycle contracts retained.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",
+          "size_bytes": 25229,
+          "note": "Previously registered governed instruction-runtime contracts."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs": {
       "description": "Product 45 Windows runtime integration and contracts: platform-targets.test.cjs",

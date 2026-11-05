@@ -22,8 +22,10 @@ local command execution.
 
 ## Embedded instruction assistant
 
-**Ask PsiCat** uses packaged Qwen3-1.7B Q4_K_M weights and a statically compiled,
-revision-pinned CPU llama.cpp server. No separate Python, Ollama or cloud model
+The selected **Ask PsiCat** candidate uses official Qwen2.5-1.5B-Instruct
+Q4_K_M weights and a statically compiled, revision-pinned CPU llama.cpp server.
+Actual backend acceptance remains a packaging prerequisite, not a claim that
+the candidate has already shipped. No separate Python, Ollama or cloud model
 service is needed for this path. This is a third-party pretrained language
 substrate under the suite's evidence/governance controls, **not** our from-scratch
 toroidal model and not proof of physical 5D information flow.
@@ -51,11 +53,12 @@ approval and is not recorded as completed. Named external Ollama models retain
 their separate explicit disclosure.
 
 Windows packaging depends on actual instruction/citation/refusal acceptance.
-The workflow verifies the official Qwen Q8_0 source weights against their LFS
-hash and revision, then locally requantizes to Q4_K_M with the same pinned
-llama.cpp quantizer. There is no official Q4_K_M file in this upstream model
-repository. Requantization can reduce quality; provenance records both hashes,
-the quantizer hash and that limitation. A failed gate blocks
+The workflow verifies the official instruction-tuned Q4_K_M weights against
+their LFS hash and exact repository revision, with the existing 1.6 GB model
+budget and Apache-2.0 metadata checks. This candidate is downloaded directly,
+not requantized from another quantization. The previous Qwen3-1.7B candidate
+failed the retrieval case in both Q4 and original-Q8 paired evaluation; those
+negative results remain recorded. A failed gate blocks
 the installer. Source builds require the validated runtime artifact in
 `build/instruction/`, including `manifest.json`, the declared GGUF,
 `llama-server.exe`, model card, Apache license, provenance and pinned engine
