@@ -111,6 +111,10 @@ content-addressed archive. The archive includes scope, origin, original
 observation time, raw-response and snapshot hashes, and transform-source hashes.
 Transport reads are bounded to 8 MiB; oversized feeds fail rather than truncate.
 The base64-framed JSON archive has a separate bounded read limit.
+Requested snapshot and archive directories are checked as existing real
+directories before a live request, avoiding acquisition when the requested
+retention target is missing or a symlink. This is path preflight only; later
+filesystem errors can still cause explicit publication failure.
 
 Replay is an explicit, network-free operation, never a fallback for a failed
 live request:

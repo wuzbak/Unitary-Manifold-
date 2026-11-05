@@ -893,9 +893,9 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "7bbe986e3ac04df2136b8cbba8563cabbbfee22eef4d73cac0eb364331fe813e",
-      "size_bytes": 7350,
-      "reseal_note": "Refreshed for bounded exact raw-response archives and explicit network-free replay at original observation time. Previous temporal-adapter seal retained; no live-feed or production qualification asserted.",
+      "sha256": "4781f1b0cedb2f418d5616b27e6a5251f7c40a9b6c1ef7be22362a6d98833424",
+      "size_bytes": 7638,
+      "reseal_note": "Refreshed for bounded exact raw-response replay and preflight validation of snapshot/archive output directories before live acquisition. Prior temporal and archive seals retained; no live-feed or production qualification asserted.",
       "reseal_history": [
         {
           "updated": "2026-10-10",
@@ -913,6 +913,18 @@
           "sha256": "237a323a32a12aac208fa98e378ff69e6ac57629ac064803765cbf0ea27a68ae",
           "size_bytes": 5431,
           "note": "Temporal snapshot CLI/API documentation before raw-response archive and replay support."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "7bbe986e3ac04df2136b8cbba8563cabbbfee22eef4d73cac0eb364331fe813e",
+          "size_bytes": 7350,
+          "note": "Exact raw-response archive/replay documentation before output-directory preflight."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "bb035d2e5bfc9c8d91aff1a299f2992baa85b675e0d5ce2189ac82a7124ffb03",
+          "size_bytes": 7539,
+          "note": "Output-directory preflight documentation before filesystem-error clarification."
         }
       ]
     },

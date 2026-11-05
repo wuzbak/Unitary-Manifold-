@@ -24,6 +24,15 @@ MAX_ARCHIVE_BYTES = 4 * ((MAX_FEED_BYTES + 2) // 3) + 65536
 _DIGEST = re.compile(r"[0-9a-f]{64}")
 
 
+def validate_capture_directory(directory: str | Path) -> None:
+    """Fail before acquisition unless a requested output target is a real directory."""
+    path = Path(directory)
+    info = path.lstat()
+    reparse_point = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0)
+    if not stat.S_ISDIR(info.st_mode) or getattr(info, "st_file_attributes", 0) & reparse_point:
+        raise NotADirectoryError(f"Capture output must be a real directory: {path}")
+
+
 def _unique_keys(pairs):
     result = {}
     for key, value in pairs:

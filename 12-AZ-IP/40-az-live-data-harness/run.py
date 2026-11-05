@@ -51,8 +51,13 @@ def main(argv=None) -> int:
             from az_live_data_harness.temporal_adapter import fetch_earthquake_snapshot
             from src.infrastructure.temporal_data import save_snapshot
             from src.infrastructure.data_lineage import save_graph
-            from az_live_data_harness.capture_archive import load_capture_archive, save_capture_archive
+            from az_live_data_harness.capture_archive import (
+                load_capture_archive, save_capture_archive, validate_capture_directory,
+            )
 
+            for output_dir in (args.archive_dir, args.snapshot_dir):
+                if output_dir:
+                    validate_capture_directory(output_dir)
             if args.replay_archive:
                 capture = load_capture_archive(
                     args.archive_dir, args.replay_archive, owner_scope=args.owner_scope,

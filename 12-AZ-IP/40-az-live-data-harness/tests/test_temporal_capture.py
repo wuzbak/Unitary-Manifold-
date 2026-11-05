@@ -436,3 +436,24 @@ def test_cli_archive_replay_is_explicit_and_never_fetches(monkeypatch, tmp_path,
     with pytest.raises(SystemExit) as error:
         module.main(args + ["--replay-archive", ""])
     assert error.value.code == 2
+
+
+@pytest.mark.parametrize("option", ["--archive-dir", "--snapshot-dir"])
+@pytest.mark.parametrize("target", ["missing", "symlink"])
+def test_cli_validates_output_destination_before_live_fetch(monkeypatch, tmp_path, option, target):
+    spec = importlib.util.spec_from_file_location("p40_archive_preflight_run", PRODUCT_ROOT / "run.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    path = tmp_path / "archive"
+    if target == "symlink":
+        path.symlink_to(tmp_path, target_is_directory=True)
+
+    def forbidden_fetch(**_kwargs):
+        raise AssertionError("Invalid archive destination must fail before network access")
+
+    monkeypatch.setattr(
+        "az_live_data_harness.temporal_adapter.fetch_earthquake_snapshot", forbidden_fetch,
+    )
+    assert module.main([
+        "--temporal", "--owner-scope", "test-project", option, str(path),
+    ]) == 1

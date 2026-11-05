@@ -836,6 +836,18 @@ history and in the preceding dated subsection.
 |-------|---------|-----:|
 | `12-AZ-IP/40-az-live-data-harness/README.md` | `7bbe986e3ac04df2136b8cbba8563cabbbfee22eef4d73cac0eb364331fe813e` | 7350 |
 
+### Product 40 capture-destination preflight reseal - 2026-11-05
+
+The Product 40 README now states that requested snapshot and raw-archive
+directories are checked before a network acquisition begins. This avoids
+requesting a live payload when its explicit retention destination is missing
+or a symlink. The prior exact-replay documentation seal remains in registry
+history; no live-data success is implied.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/40-az-live-data-harness/README.md` | `4781f1b0cedb2f418d5616b27e6a5251f7c40a9b6c1ef7be22362a6d98833424` | 7638 |
+
 ## Verification Protocol
 
 To verify any registered asset:

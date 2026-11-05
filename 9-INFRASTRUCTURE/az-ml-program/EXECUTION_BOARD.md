@@ -86,6 +86,9 @@ bytes, owner scope, origin, original observation time, raw and snapshot hashes,
 and transform-source hashes. Archive replay does not call the transport or
 substitute today's time. It preserves null corrections and synthetic origin;
 staleness describes the original observation, not present-day freshness.
+Requested snapshot/archive output directories must be existing real directories
+and are checked before live acquisition, so an invalid target cannot consume a
+network request for data that could not be retained.
 Changed transform sources, wrong scope, malformed or corrupted bytes, unsafe
 files and oversized responses fail explicitly. Archive publication is atomic;
 optional snapshot/lineage exports remain separate operations.
@@ -107,9 +110,18 @@ that the existing backend policy already requires untrusted-request refusal
 rationales, so neither the case prompt nor grader was tuned to the exposed
 failure.
 
-The repeat hosted Windows candidate evaluation at `095ae66` again passed
-3/4 cases with the same inadequate refusal explanation. Authentication and the
-other three cases passed; the candidate remains unqualified. A successful
+The current hosted Windows candidate evaluation at `8e35872` again passed
+3/4 cases with the same inadequate refusal explanation: "Android and UEFI are
+explicitly unsupported in this candidate gate." Authentication and the other
+three cases passed; the candidate remains unqualified. The exact model artifact
+is Qwen3-1.7B Q4_K_M at pinned revision
+`90862c4b9d2787eaed51d12237eafdfe7c5f6077` with SHA-256
+`54c0f1203a724e9f33e76916beab3bdfaffef56cf7b42a93b1bc21319fc0bf97`; the
+llama.cpp engine was pinned to `52e53a76df0298d2c316ae7e704eeec03b0bf478`.
+The validation receipt SHA-256 is
+`618b0ee658e73cdd5d948cbe976a44af68a80f17d83cd1b888cc15dbdabe0df8`.
+No model output was executed; the full engine/runtime artifact upload was
+skipped after the failed quality gate. A successful
 retry of the interrupted CodeQL analysis is an infrastructure recovery, not
 candidate-quality improvement.
 
