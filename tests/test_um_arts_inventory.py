@@ -46,7 +46,7 @@ def test_inventory_whole_repository_and_explicit_boundaries():
     assert {"tests", "recycling", "5-GOVERNANCE/Unitary Pentad", "proof",
             "COMPACTIFICATION", "12-AZ-IP/20-psicat-navigator/tests",
             "12-AZ-IP/10-filmers-companion/desktop/tests",
-            "claims/anomaly_inflow"} <= roots
+            "claims/anomaly_inflow", "9-INFRASTRUCTURE/az-ml-program/tests"} <= roots
     identities = [path for suite in inventory["suites"] for path in suite["paths"]]
     assert len(identities) == len(set(identities))
     assert not any("/holon-zero/" in path for path in identities)
@@ -83,6 +83,20 @@ def test_unknown_and_disabled_candidates_are_not_silently_certified(inventory_wo
         "src/core/manual_test.py", "proof/VERIFY.py"}
     assert inventory["declared_checks"][0]["command"] == ["python", "proof/VERIFY.py"]
     assert [suite["paths"] for suite in inventory["suites"]] == [["tests/test_known.py"]]
+
+
+def test_ml_infrastructure_has_explicit_canonical_policy_without_broadening_other_infra(inventory_work):
+    known = "9-INFRASTRUCTURE/az-ml-program/tests/test_reference.py"
+    unknown = "9-INFRASTRUCTURE/unreviewed/tests/test_other.py"
+    put(inventory_work, known)
+    put(inventory_work, unknown)
+    inventory = discover_inventory(inventory_work)
+    assert inventory["suites"] == [{
+        "name": "9-INFRASTRUCTURE-az-ml-program-tests-9f4a24d7",
+        "root": "9-INFRASTRUCTURE/az-ml-program/tests", "kind": "ml-infrastructure",
+        "paths": [known], "requires": [], "serial": True,
+    }]
+    assert inventory["unclassified"] == [{"path": unknown, "reason": "no canonical suite policy"}]
 
 
 @pytest.mark.parametrize("directory", [

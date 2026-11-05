@@ -808,6 +808,21 @@ Native Windows validation is separate; no all-target operational certification i
 |-------|---------|------:|
 | `12-AZ-IP/15-pentacorder/feature/labs/src/main/java/com/gibbernode/feature/labs/SensorStatusScreen.kt` | `179aa04b0b381c82d64c79e326db47a749c232b0308c226458baebf1fc540270` | 5398 |
 
+### Product 40 temporal capture documentation reseal - 2026-11-05
+
+The Product 40 README now documents its source-bound temporal CLI/API adapter,
+local observation-time availability, explicit missing magnitudes and remaining
+feature-store/drift boundaries. Tests use labeled constructed responses; a real
+live CLI attempt in this environment failed at DNS resolution, without fallback.
+
+The previous registry-recorded seal did not match the pre-change Git asset.
+`IP_REGISTRY.json` preserves both the historical registry identity and the actual
+pre-edit identity; this reseal does not certify that the older seal was valid.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/40-az-live-data-harness/README.md` | `237a323a32a12aac208fa98e378ff69e6ac57629ac064803765cbf0ea27a68ae` | 5431 |
+
 ## Verification Protocol
 
 To verify any registered asset:

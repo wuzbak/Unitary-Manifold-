@@ -208,24 +208,24 @@ def test_snapshot_publication_fsyncs_directory_after_link_and_cleanup(
 ) -> None:
     directory = _storage_dir()
     events: list[str] = []
-    real_fsync, real_link, real_unlink = os.fsync, os.link, Path.unlink
+    real_fsync, real_link, real_unlink = os.fsync, os.link, os.unlink
     try:
         def tracked_fsync(fd: int) -> None:
             events.append("directory_fsync" if stat.S_ISDIR(os.fstat(fd).st_mode) else "file_fsync")
             real_fsync(fd)
 
-        def tracked_link(source: str | Path, target: str | Path) -> None:
+        def tracked_link(source: str | Path, target: str | Path, **kwargs: object) -> None:
             events.append("link")
-            real_link(source, target)
+            real_link(source, target, **kwargs)
 
-        def tracked_unlink(path: Path, *args: object, **kwargs: object) -> None:
-            if path.suffix == ".tmp":
+        def tracked_unlink(path: str | Path, *args: object, **kwargs: object) -> None:
+            if Path(path).suffix == ".tmp":
                 events.append("temporary_unlink")
             real_unlink(path, *args, **kwargs)
 
         monkeypatch.setattr(os, "fsync", tracked_fsync)
         monkeypatch.setattr(os, "link", tracked_link)
-        monkeypatch.setattr(Path, "unlink", tracked_unlink)
+        monkeypatch.setattr(os, "unlink", tracked_unlink)
 
         original = snapshot(record())
         save_snapshot(original, directory, owner_scope="tenant-a")

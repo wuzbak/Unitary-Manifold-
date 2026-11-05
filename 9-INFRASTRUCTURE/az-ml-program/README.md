@@ -34,15 +34,57 @@ The commands use only the standard library. `next` identifies dependency-ready
 planning candidates, not approved execution. A planning receipt is wrapped in
 the existing `ExecutionSpineRecord`; it is not benchmark evidence.
 
+## Original CPU reference libraries
+
+These are working algorithm/reference packages, not finished model services:
+
+| Module under `src/infrastructure/` | Supported, testable behavior | Explicit boundary |
+|---|---|---|
+| `lowbit_quantization.py` | Symmetric/asymmetric groupwise 2/3/4-bit packing, checksummed artifacts, error and complete serialized-size metrics | Flat numeric vectors; quantization is lossy; no transformer/CUDA speed claim. |
+| `vector_index.py` | Exact cosine/L2 search, pinned manifests, deterministic ties, immutable generations, retrieval evaluation | No ANN or learned encoder; old saved generations need explicit purge. |
+| `repository_vectors.py` | Existing RAG chunks converted to a source-verified word-count baseline; changed sources block retrieval | Lexical, not semantic; source/chunk identity is not entailment. |
+| `drift_monitor.py` | Tied empirical KS statistic, conservative single-comparison DKW bound, temporal sampling and constructed replay | IID assumptions; no repeated-monitoring or prediction-performance guarantee. |
+| `data_lineage.py` | Content-addressed closed lineage DAGs, owner/origin checks, parent-kind validation and advisory deletion closures | Not execution proof, certified rights, DVC integration, artifact deletion or model unlearning. |
+| `performance_profile.py` | Warmed repeated wall/process-CPU samples, nearest-rank p50/p95 and Python allocation peaks with hardware observations | Includes profiler/process overhead; not native/GPU memory or serving-latency measurement. |
+| `artifact_io.py` | Atomic no-overwrite publication, identical-content retries, file and directory synchronization | Caller-established POSIX directory; no distributed durability claim. |
+
+Run the measured acceptance fixtures, rather than inferring performance from a
+test count:
+
+```bash
+python -m src.infrastructure.ml_reference_benchmarks
+```
+
+For an immutable JSON receipt, supply `--output-dir` with an **existing durable
+directory**. The report pins source identities, records actual CPU timings and
+checks declared numerical/retrieval/replay thresholds. Its low-bit experiment
+includes metadata and checksum in the effective bits/weight calculation.
+Three orthogonal synthetic vectors are an exact-search oracle, not a practical
+retrieval-quality benchmark. The RAG integration additionally exercises two
+declared queries over actual source-verified repository documents and a
+no-overlap query. None authorizes capability/deployment promotion.
+The low-bit workload is also profiled for five measured repetitions after one
+warmup; those timings are observations, not an isolated-host speedup claim.
+
+Product 40 now exposes an actual transport-to-temporal adapter via its CLI and
+HTTP API; see its
+[guide](../../12-AZ-IP/40-az-live-data-harness/README.md#temporal-capture-and-historical-replay).
+Injected HTTP tests are labeled constructed data. Network reachability is
+assessed separately and must never be replaced with a fixture called live.
+
 Focused validation uses the repository's existing pytest runner:
 
 ```bash
 python -m pytest 9-INFRASTRUCTURE/az-ml-program/tests/ -q
 ```
 
-The first data implementation is `src/infrastructure/temporal_data.py`.
-It provides a local snapshot/replay foundation, **not** a connected live feed,
-distributed store, statistical drift detector, or serverless service. Consult
+The underlying data implementation is `src/infrastructure/temporal_data.py`.
+It provides a local snapshot/replay foundation. The separate Product 40 adapter
+connects its existing USGS transport and preserves local observation times.
+Each capture also links the exact response hash to the temporal snapshot through
+a code/config-pinned lineage graph. The original raw response is not retained
+by this adapter, so its hash alone is not a replay archive.
+The primitive itself is **not** a distributed store or serverless service. Consult
 its public types and focused tests before constructing snapshots. Caller-supplied
 owner scope is a consistency boundary, not authenticated multi-user access
 control.

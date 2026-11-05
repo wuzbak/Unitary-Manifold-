@@ -889,12 +889,26 @@
       "size_bytes": 2823
     },
     "12-AZ-IP/40-az-live-data-harness/README.md": {
-      "description": "Product 40 AZ Live-Data Harness README with epistemic-status section; resealed after Phase 2 web-product layer (api.py + app/server.py + ui/)",
+      "description": "Product 40 USGS live summary and source-bound temporal capture documentation; scoped CLI/API integration, observation-time replay and explicit nonclaims",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "d01d560c6ead556f17ad2d8a1a540f511a2b8d074c23c0e43643afb56e6f1886",
-      "size_bytes": 3377
+      "updated": "2026-11-05",
+      "sha256": "237a323a32a12aac208fa98e378ff69e6ac57629ac064803765cbf0ea27a68ae",
+      "size_bytes": 5431,
+      "reseal_note": "Refreshed for the temporal snapshot CLI/API adapter. The previous registry seal differed from the pre-change working asset; both identities are preserved without claiming a prior match.",
+      "reseal_history": [
+        {
+          "updated": "2026-10-10",
+          "sha256": "d01d560c6ead556f17ad2d8a1a540f511a2b8d074c23c0e43643afb56e6f1886",
+          "size_bytes": 3377
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "4f90917097db78993fb785a453ebb8c37d750f5b64b83174fbdb5e7efd24fa69",
+          "size_bytes": 2731,
+          "note": "Actual Git HEAD asset before this authorized edit; not the previous registry-recorded seal."
+        }
+      ]
     },
     "12-AZ-IP/41-az-media-suite/README.md": {
       "description": "Product 41 AZ Media & Feature-Inspection Suite README with epistemic-status section and REA-adaptation note",

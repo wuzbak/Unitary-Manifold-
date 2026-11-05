@@ -18,7 +18,7 @@ from az_live_data_harness.usgs_adapter import LiveDataError, USGS_FEED_URL
 
 
 def test_api_endpoints_listed():
-    assert API_ENDPOINTS == ("/api/status", "/api/fetch-result")
+    assert API_ENDPOINTS == ("/api/status", "/api/fetch-result", "/api/temporal-result")
 
 
 def test_status_endpoint():

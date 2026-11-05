@@ -9,13 +9,12 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import math
-import os
 from pathlib import Path
 import re
 from typing import Iterable, Sequence
-import uuid
 
 from .execution_spine import ExecutionSpineRecord, build_fail_closed_governance
+from .artifact_io import publish_immutable
 
 TEMPORAL_DATA_SCHEMA_VERSION = "um_temporal_data_v1"
 _ORIGINS = frozenset({"real", "synthetic", "fallback"})
@@ -251,40 +250,8 @@ def save_snapshot(
         raise ValueError("snapshot must be a TemporalSnapshot.")
     if owner_scope != snapshot.owner_scope:
         raise ValueError("Requested owner_scope does not match the snapshot.")
-    target_dir = Path(directory)
-    directory_fd = os.open(target_dir, os.O_RDONLY | os.O_DIRECTORY)
-    try:
-        target = target_dir / f"{snapshot.content_hash}.json"
-        if target.is_symlink():
-            raise ValueError("Content-addressed snapshot target cannot be a symbolic link.")
-        content = (_canonical_json(_snapshot_document(snapshot)) + "\n").encode("utf-8")
-        temporary = target_dir / f".{snapshot.content_hash}.{uuid.uuid4().hex}.tmp"
-        fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-        try:
-            with os.fdopen(fd, "wb") as stream:
-                stream.write(content)
-                stream.flush()
-                os.fsync(stream.fileno())
-            try:
-                os.link(temporary, target)
-            except FileExistsError:
-                if target.is_symlink():
-                    raise ValueError("Content-addressed snapshot target cannot be a symbolic link.")
-                existing_fd = os.open(target, os.O_RDONLY | os.O_NOFOLLOW)
-                with os.fdopen(existing_fd, "rb") as stream:
-                    if stream.read() != content:
-                        raise ValueError("Existing content-addressed snapshot does not match its hash.")
-                    os.fsync(stream.fileno())
-                load_snapshot(target_dir, snapshot.content_hash, owner_scope=owner_scope)
-        finally:
-            try:
-                temporary.unlink()
-            except FileNotFoundError:
-                pass
-            os.fsync(directory_fd)
-        return target
-    finally:
-        os.close(directory_fd)
+    content = (_canonical_json(_snapshot_document(snapshot)) + "\n").encode("utf-8")
+    return publish_immutable(directory, snapshot.content_hash, content)
 
 
 def _reject_duplicate_json_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
@@ -378,7 +345,7 @@ def build_execution_spine_receipt(snapshot: TemporalSnapshot) -> ExecutionSpineR
             epistemic_label="data_foundation_only",
             promotion_rule="Snapshot availability does not establish live-data or model readiness.",
             residual_blockers=[
-                "No live source adapters are connected or validated.",
+                "This primitive receipt does not attest live source adapters or source provenance.",
                 "Snapshot availability does not certify production data quality.",
             ],
         ),

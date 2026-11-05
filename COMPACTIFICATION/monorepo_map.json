@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8499,
+  "file_count": 8518,
   "lanes": {
-    "az_ip": 2636,
+    "az_ip": 2638,
     "compactification": 9,
-    "other": 5404,
+    "other": 5421,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2636,
+    "12-AZ-IP": 2638,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -31,7 +31,7 @@
     "6-MONOGRAPH": 20,
     "7-OUTREACH": 923,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 199,
+    "9-INFRASTRUCTURE": 208,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -109,7 +109,7 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1639,
+    "src": 1647,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
     "tests": 1564,
@@ -2635,10 +2635,12 @@
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/__init__.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/server.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/harness.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/temporal_adapter.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/usgs_adapter.py",
       "12-AZ-IP/40-az-live-data-harness/run.py",
       "12-AZ-IP/40-az-live-data-harness/tests/test_api.py",
       "12-AZ-IP/40-az-live-data-harness/tests/test_live_data_harness.py",
+      "12-AZ-IP/40-az-live-data-harness/tests/test_temporal_capture.py",
       "12-AZ-IP/40-az-live-data-harness/ui/index.html"
     ],
     "41-az-media-suite": [
@@ -21023,6 +21025,13 @@
       "product": "40-az-live-data-harness"
     },
     {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/temporal_adapter.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
       "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/usgs_adapter.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21045,6 +21054,13 @@
     },
     {
       "path": "12-AZ-IP/40-az-live-data-harness/tests/test_live_data_harness.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/tests/test_temporal_capture.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -29692,13 +29708,67 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/a335542da4f1a7c17bf6a9f058652f06c23772d263e912084c3a2ced1630be02.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_artifact_io.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_data_lineage.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_drift_monitor.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_lowbit_quantization.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_performance_profile.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_program.py",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_reference_benchmarks.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_repository_vectors.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_temporal_data.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_vector_index.py",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -46510,7 +46580,31 @@
       "lane": "other"
     },
     {
+      "path": "src/infrastructure/artifact_io.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/data_lineage.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/drift_monitor.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/infrastructure/execution_spine.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/lowbit_quantization.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -46522,7 +46616,31 @@
       "lane": "other"
     },
     {
+      "path": "src/infrastructure/ml_reference_benchmarks.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/performance_profile.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/repository_vectors.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/infrastructure/temporal_data.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/vector_index.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"

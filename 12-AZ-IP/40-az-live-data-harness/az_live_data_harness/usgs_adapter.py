@@ -5,6 +5,8 @@
 from __future__ import annotations
 
 import json
+import hashlib
+import math
 from datetime import datetime, timezone
 from typing import Any, Callable, Mapping
 from urllib import request
@@ -36,7 +38,7 @@ def _event_summary(feature: Any) -> dict[str, Any]:
         raise ValueError("feed contains a malformed event")
     properties = feature["properties"]
     event_time = properties.get("time")
-    if not isinstance(event_time, (int, float)):
+    if isinstance(event_time, bool) or not isinstance(event_time, (int, float)) or not math.isfinite(event_time):
         raise ValueError("event time must be milliseconds since Unix epoch")
     return {
         "id": feature.get("id"),
@@ -55,7 +57,11 @@ def _normalize(payload: Any, fetched_at: datetime) -> dict[str, Any]:
     if not isinstance(metadata, dict) or not isinstance(features, list):
         raise ValueError("feed is missing metadata or features")
     generated_ms = metadata.get("generated")
-    if not isinstance(generated_ms, (int, float)):
+    if (
+        isinstance(generated_ms, bool)
+        or not isinstance(generated_ms, (int, float))
+        or not math.isfinite(generated_ms)
+    ):
         raise ValueError("feed metadata is missing its generated timestamp")
 
     generated_at = datetime.fromtimestamp(generated_ms / 1000, timezone.utc)
@@ -78,19 +84,30 @@ def _normalize(payload: Any, fetched_at: datetime) -> dict[str, Any]:
     }
 
 
+def _fetch_validated_feed(
+    opener: Callable[..., Any] | None = None,
+    now: datetime | None = None,
+) -> tuple[dict[str, Any], dict[str, Any], str]:
+    """Share one validated transport response between summary and temporal adapters."""
+    open_url = opener or request.urlopen
+    try:
+        req = request.Request(USGS_FEED_URL, headers={"User-Agent": "AZ-Live-Data-Harness/1.2"})
+        with open_url(req, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+            raw = response.read()
+            payload = json.loads(raw.decode("utf-8"))
+        fetched_at = now or datetime.now(timezone.utc)
+        if fetched_at.tzinfo is None:
+            raise ValueError("fetch time must include a timezone")
+        summary = _normalize(payload, fetched_at.astimezone(timezone.utc))
+        return payload, summary, hashlib.sha256(raw).hexdigest()
+    except Exception as exc:
+        raise LiveDataError(f"USGS live feed unavailable or invalid: {exc}") from exc
+
+
 def fetch_earthquake_summary(
     opener: Callable[..., Any] | None = None,
     now: datetime | None = None,
 ) -> dict[str, Any]:
     """Fetch the public USGS past-day feed; errors are explicit, never fallback data."""
-    open_url = opener or request.urlopen
-    try:
-        req = request.Request(USGS_FEED_URL, headers={"User-Agent": "AZ-Live-Data-Harness/1.2"})
-        with open_url(req, timeout=REQUEST_TIMEOUT_SECONDS) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-        fetched_at = now or datetime.now(timezone.utc)
-        if fetched_at.tzinfo is None:
-            raise ValueError("fetch time must include a timezone")
-        return _normalize(payload, fetched_at.astimezone(timezone.utc))
-    except Exception as exc:
-        raise LiveDataError(f"USGS live feed unavailable or invalid: {exc}") from exc
+    _, summary, _ = _fetch_validated_feed(opener=opener, now=now)
+    return summary

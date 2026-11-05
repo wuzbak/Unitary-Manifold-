@@ -248,6 +248,39 @@ limitations. Keep runtime/private artifacts outside Git. Checkpoint source,
 tests, register and documentation together; regenerate staged-path inventories.
 Never replace missing inference with a deterministic responder labeled reasoning.
 
+## 8. Earned continuation milestones and remaining integrations
+
+The second tranche implements original CPU references rather than only adding
+plans. Capability identities and their full acceptance gates remain unchanged:
+
+| Capabilities | Implemented, bounded milestone | Still required for the full ambition |
+|---|---|---|
+| 1 | Original 2/3/4-bit groupwise packing, calibrated reconstruction and checksummed serialization; measured 3-bit fixture includes all serialized overhead | Supported model adapter, untouched quality holdout, matched conventional baselines, real memory/runtime and accelerator evaluation |
+| 7/8 | Exact pinned vector generations plus a source-hash-verified adapter around actual bot RAG chunks; stale-source and no-overlap rejection | Learned encoders and labeled retrieval evaluation, ANN comparison, authorized repair execution and rollback |
+| 11/14 | Actual P40 transport -> availability-aware snapshot -> source-linked DAG through CLI/API; immutable local publication with explicit errors | Network-enabled live run, retained raw-payload replay, predictive consumer, feature/run/model/index consumers, DVC interchange and serverless qualification |
+| 13 | Exact tied empirical KS plus conservative two-sample union-DKW bounds and seeded stationary/shift replay | Real predictions and outcomes, delayed-label performance drift, repeated-monitoring error policy and operational response |
+| 18 | Actual warmed wall/process CPU samples, nearest-rank percentiles and Python allocation peaks, integrated with the quantizer workload | Native-memory/hardware-counter adapters, representative pinned serving workloads, synchronized GPU evidence and validated bottleneck attribution |
+
+`src/infrastructure/ml_reference_benchmarks.py` measures declared numerical,
+retrieval, lineage and drift fixtures and records source identities inside the
+existing spine. Synthetic weights, three-axis retrieval and Gaussian replay are
+explicitly constructed fixtures; the repository RAG queries use actual checked
+sources but are not a semantic-quality benchmark.
+
+The local public-feed attempt failed DNS with an explicit error. No fixture was
+substituted and no live ingestion success is claimed. A manifest records claimed
+ancestry and content identities; it does not establish truth, rights, execution
+or actual deletion. POSIX publication is not a distributed checkpoint system.
+
+The execution board retains the interrupted first regression, the subsequent
+single-failure regression and its tightly coupled inventory fix. Canonical
+UM-ARTS selection now includes the ML reference suite and all P40 tests;
+unknown infrastructure tests remain unclassified. CI adds these focused checks
+without weakening the core release gate.
+The replacement unfiltered core run completed with **62,077 passed, 71 skipped,
+zero failed and zero deselected**. That clears the prior incomplete-core blocker
+for this checkpoint, not the remaining capability/deployment gates.
+
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

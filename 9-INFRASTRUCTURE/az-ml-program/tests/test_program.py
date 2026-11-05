@@ -38,9 +38,13 @@ def test_inventory_exact_identity_scope_and_reuse(payload):
     assert [c.id for c in program.capabilities] == list(range(1, 22))
     assert tuple(c.name for c in program.capabilities) == CAPABILITY_NAMES
     assert len({c.domain for c in program.capabilities}) == 5
+    expected_stages = {
+        1: "original", 7: "baseline", 8: "baseline", 11: "baseline",
+        13: "baseline", 14: "original", 18: "baseline",
+    }
     for capability in program.capabilities:
-        assert capability.status == ("in_progress" if capability.id in (11, 14) else "planned")
-        assert capability.stage == ("baseline" if capability.id in (11, 14) else "inventory")
+        assert capability.status == ("in_progress" if capability.id in expected_stages else "planned")
+        assert capability.stage == expected_stages.get(capability.id, "inventory")
         assert not capability.completion_evidence
         assert capability.external_prerequisites
         assert capability.original_algorithm_goal
@@ -59,9 +63,9 @@ def test_temporal_foundations_are_partial_and_have_concrete_next_steps(payload):
         assert "9-INFRASTRUCTURE/az-ml-program/tests/test_temporal_data.py" in capability.source_references
         assert "partial baseline foundation only" in capability.nonclaim
         assert not capability.completion_evidence
-    assert "P21" in program.capabilities[10].next_action
-    assert "P40" in program.capabilities[10].next_action
-    assert "parent-linked lineage manifests" in program.capabilities[13].next_action
+    assert "Product 40" in program.capabilities[10].next_action
+    assert "predictive consumer" in program.capabilities[10].next_action
+    assert "DVC interchange" in program.capabilities[13].next_action
 
 
 def test_integration_dag_preserves_program_dependencies(payload):
@@ -246,8 +250,8 @@ def test_completed_cannot_bypass_unfinished_dependencies(payload):
 
 def test_status_is_inventory_not_test_count_readiness():
     status = load_manifest().status()
-    assert status["status_counts"] == {"in_progress": 2, "planned": 19}
-    assert status["stage_counts"] == {"baseline": 2, "inventory": 19}
+    assert status["status_counts"] == {"in_progress": 7, "planned": 14}
+    assert status["stage_counts"] == {"baseline": 5, "inventory": 14, "original": 2}
     assert "ready" not in status
     assert "test_count" not in status
 

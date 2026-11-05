@@ -56,6 +56,53 @@ The UI shows the live/stale/error state and displays the full JSON response.
 Fetching is on demand; opening the dashboard alone does not assert that a
 successful request occurred.
 
+## Temporal capture and historical replay
+
+The existing USGS transport now also supports availability-aware magnitude
+snapshots through the shared AZ ML temporal foundation:
+
+```bash
+python 12-AZ-IP/40-az-live-data-harness/run.py --temporal --owner-scope my-project
+```
+
+`GET /api/temporal-result?owner_scope=my-project` exposes the same read-only
+capture. Missing or repeated scope parameters return HTTP 400; feed failures
+remain HTTP 502. A caller-supplied scope is not authenticated multi-user access
+control. The existing summary endpoint and default CLI remain compatible.
+
+The capture carries the exact response SHA-256, feed publication and observation
+times, snapshot identity, explicit missing-magnitude IDs, origin and a
+promotion-ineligible execution-spine receipt. Magnitudes are USGS-reported
+values; magnitude types may differ, so this is not a homogeneous calibrated
+prediction dataset. Duplicate event IDs, future events, non-finite numbers and
+malformed records fail explicitly. Unknown magnitudes are reported, not filled
+with zero.
+
+Availability is **local observation time**, never the earthquake's historical
+event time. A later observed correction cannot leak into an earlier replay.
+The API always fetches; it does not silently substitute cached or generated
+data. Python callers injecting constructed responses must pass
+`origin="synthetic"`; such records are excluded by default temporal queries.
+
+Optionally add `--snapshot-dir /existing/durable/directory` to persist both the
+content-addressed temporal snapshot and its parent-linked lineage manifest.
+The source-payload node links to the temporal transform node with explicit
+origin, observation time, code/config identities and caller-asserted use policy.
+Deletion impact is an advisory descendant plan, not automatic deletion or model
+unlearning. The directory must already exist and have
+durably established ancestors. File/directory fsync and hard links require a
+supporting POSIX filesystem. Preserve the printed receipt alongside it to retain
+source provenance; the snapshot hash alone does not preserve the raw response
+or prove source authenticity. No raw feed archive is written automatically.
+Each file is published atomically, but the pair is not one transaction. If the
+second publication fails, the CLI reports failure and a verified snapshot may
+remain; retrying identical artifacts is safe.
+
+This completes a scoped transport-to-temporal adapter, **not** a serverless
+feature store, statistical prediction-drift detector or deployment qualification.
+The broader program and remaining gates are tracked in
+[`../../9-INFRASTRUCTURE/az-ml-program/README.md`](../../9-INFRASTRUCTURE/az-ml-program/README.md).
+
 ## Tests
 
 ```bash

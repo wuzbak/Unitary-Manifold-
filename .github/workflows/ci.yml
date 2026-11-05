@@ -35,6 +35,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt pytest pytest-xdist
           pip install pytest-cov sympy mpmath
+      - name: Validate AZ ML references and temporal product integration
+        run: |
+          python -S -m src.infrastructure.ml_program check
+          python -m pytest \
+            9-INFRASTRUCTURE/az-ml-program/tests/ \
+            12-AZ-IP/40-az-live-data-harness/tests/ \
+            -q --tb=short
       - name: Run smoke tests and compactified preflight
         run: |
           python TOOLS/checks/check_licensing_policy.py
