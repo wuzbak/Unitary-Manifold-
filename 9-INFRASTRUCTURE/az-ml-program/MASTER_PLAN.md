@@ -319,6 +319,23 @@ or declaring a symbolic solver a learned language model. Diagnose the existing
 split and training objective, freeze a new experiment before seeing its test
 outcomes, and report any failure to meet 30/30 unchanged.
 
+The first answer-only attempt is now measured, not just planned: **0/30 fresh
+answers**, despite 4,480/4,480 training and 70/70 validation. Validation reused
+training's underlying unit-pair computations in new two-digit strings, so it
+could not select for unseen-computation generalization. The original split also
+has answer-label shift and reversed-pair overlap. These are evaluation-design
+limitations, not evidence that the actual negative outcomes can be discarded.
+Exact audit, preregistration, predictions and selected checkpoint are retained
+in the [execution board](EXECUTION_BOARD.md).
+
+Next learned alternatives must separate underlying computations in validation
+as well as test; token/string disjointness alone is insufficient. New task
+families must be labeled as different benchmarks, not silently substituted for
+repairing the original model. Preserve each exposed failure before proceeding,
+choose models without test outcomes, and reassess quantization only after a
+useful native model exists. Even 30/30 on synthetic arithmetic does not establish
+useful application-model quality.
+
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

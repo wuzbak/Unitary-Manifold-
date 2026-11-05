@@ -258,11 +258,75 @@ checkpoint or threshold was selected using the new or original test outcomes.
 The next alternative must validate on **unseen computations**, not just new
 spellings of memorized pairs, before a fresh test is opened.
 
+### Second learned alternative: separate modulo-11 task
+
+The [second preregistration](evidence/b39d88258767398b9e49a6baa97e094ec9ffe962ba9abaf632e3abba03d97bb3.json)
+defines a **different synthetic arithmetic task**, not a repair of the original
+modulo-10 benchmark. Inputs use A--K as the declared symbols for 0--10.
+Underlying unordered computation/reversal classes are disjoint across training,
+validation and test: 81/10/30 ordered examples. Raw prompt tokens alone enter
+P43; no arithmetic features, answer table or solver enters inference.
+
+One preregistered seed trained a one-layer, dimension-32 P43 model with
+answer-only loss, full training batches, Adam learning rate 0.001 and explicit
+decoupled weight decay 0.1. The declared checkpoints were steps 1,000, 3,000,
+10,000 and 30,000. Minimum validation answer cross-entropy selected step 1,000;
+later checkpoints worsened. The test was evaluated once after selection.
+
+The [actual result](evidence/631fb1c4b621f1e6112a60bfa6be5a70cf3b3bf34be7677d629c7075a2b993dc.json)
+**also failed: 81/81 training, 0/10 validation, 0/30 fresh test**. The trajectory
+completed 30,000 steps in 143.26 seconds within its 300-second CPU budget.
+Unlike the first attempt, validation exposed the generalization failure before
+test evaluation. No test-selected retry or threshold change followed. The
+77,651-byte selected model, protocol, start receipt and predictions are retained.
+All 14 frozen source hashes were verified against the run's source version.
+The first attempt's original source and evidence remain preserved in Git
+checkpoint `8d5d7ff`; the second attempt does not rewrite that historical binding.
+
+A separate reviewer checked the new target mapping, gradients, decay, partition
+and evaluation path and found no significant defect explaining away the
+negative result. The single-run marker prevents repeat execution only within
+the same output directory, not across arbitrary directories or machines.
+Cross-modulus scoring of the original exposed test is explicitly unsupported.
+
+An additional [sampled finite-difference diagnostic](evidence/9dca9bef3247d4903819d691c8c3dd3f119f2eeeb317500f71d4a340f28e3cab.json)
+used only the 81 training rows, at initialization and the selected checkpoint:
+57 entries/model spanning all 19 parameter groups, with step scales 1e-5 and
+1e-6 (228 comparisons). All passed the declared
+`abs_error <= 1e-7 + 1e-4 * max(abs(analytic), abs(numeric))` rule; maximum
+absolute errors were 2.59e-8 and 2.18e-8 respectively. The exact diagnostic
+[UTF-8 Python source archive](evidence/b9e7a8c65b12cdf871e542489e884580ce7b5bf62c253fe0cd511ffd83318705.bin)
+is retained as bytes, not installed as a runtime module. These local samples
+reduce the gradient-bug hypothesis; they are not exhaustive derivative,
+optimizer, architecture or scientific validation.
+
+**The requested 30/30 remains unearned.** Neither experiment repairs the
+original 3-bit quality failure or qualifies a useful application model.
+The next quality package must diagnose representation/optimization against an
+independently implemented training reference, using unseen-computation
+validation before allocating another untouched test. More perfect training
+scores, different task names or additional format converters cannot clear this
+gate.
+
+### Interchange and quality validation
+
+| Command | Actual outcome / scope |
+|---|---|
+| `python -m pytest 9-INFRASTRUCTURE/az-ml-program/tests/test_tokenizer_interchange.py 9-INFRASTRUCTURE/az-ml-program/tests/test_model_interchange.py -m "" -q` | **50 passed**, including both independently found conversion defects and actual round trips. |
+| `python -m pytest 9-INFRASTRUCTURE/az-ml-program/tests/ 12-AZ-IP/43-az-geometric-tori-transformer/tests/ 12-AZ-IP/40-az-live-data-harness/tests/ tests/test_execution_spine.py tests/test_um_arts_inventory.py COMPACTIFICATION/test_maps.py recycling/ "5-GOVERNANCE/Unitary Pentad/" -m "" -q` | Final integrated run after both arithmetic attempts: **4,108 passed, 3 skipped, 102 subtests passed**, 33.52 seconds, no deselections. Includes the real training/publication contract tests; the two failed research quality gates remain failed. |
+| `python -m pytest tests/ -m "" -q` | Final unfiltered core after both reviewed arithmetic attempts: **62,077 passed, 71 skipped, 0 failed, 0 deselected**, 894.61 seconds. The same two existing warnings remain. This is a new completed run, not reuse of an earlier checkpoint. The full-core execution gate is clear; model quality remains blocked. |
+| `python -S -m src.infrastructure.ml_program check` | Passed: 21 valid entries, promotion ineligible. |
+| `python COMPACTIFICATION/build_maps.py --check` | Passed after staging the new source/test/artifact paths and regenerating the inventory. |
+| `python TOOLS/audit/check_internal_links.py` | Passed: 2,053 Markdown files, all internal file links resolved. |
+| `python TOOLS/checks/check_licensing_policy.py` | Passed existing structural evidence checks; not legal certification. |
+
 ## Next bounded packages
 
 1. Investigate the model's task-generalization failure using training/validation
-   only. Preregister a fresh untouched task-family holdout before another quality
-   experiment; never tune against the now-exposed 30 test questions.
+   only, including an independently implemented training reference. Preregister
+   a fresh untouched holdout before another quality experiment; all original,
+   first-attempt and second-attempt test outcomes are now exposed and must not
+   become model-selection targets.
 2. Improve quantization/calibration on training/validation, retain the failed
    3-bit result, and compare an independent quantizer and licensed application
    model. Extend the working research KV/batch backend through existing PsiCat

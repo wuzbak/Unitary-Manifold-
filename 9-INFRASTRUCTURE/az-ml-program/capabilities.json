@@ -20,11 +20,11 @@
     {
       "id": 1, "name": "Sub-4-bit quantization", "domain": "inference",
       "stage": "original", "status": "in_progress",
-      "source_references": ["src/infrastructure/lowbit_quantization.py", "src/infrastructure/research_quantization.py", "src/infrastructure/research_serving_benchmarks.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_research_quantization.py", "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/checkpoint.py"],
+      "source_references": ["src/infrastructure/lowbit_quantization.py", "src/infrastructure/research_quantization.py", "src/infrastructure/research_quality_audit.py", "src/infrastructure/arithmetic_generalization.py", "src/infrastructure/research_serving_benchmarks.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_research_quantization.py", "12-AZ-IP/43-az-geometric-tori-transformer/az_tori_transformer/checkpoint.py"],
       "dependencies": [10, 18, 20],
       "external_prerequisites": ["Licensed calibration models and held-out evaluation data", "Explicit quantization backend/version selection and installation", "Authorized CUDA benchmark host"],
       "acceptance_gates": ["Demonstrate actual packed weights below 4 bits per weight including metadata accounting", "Report held-out quality loss and throughput versus matched FP16 and 4-bit baselines", "Validate original AZ quantizer against baseline adapter with reproducible seeds and receipts"],
-      "next_action": "Address the recorded research-baseline task-generalization failure and 3-bit relative-quality failure using training/validation only, with a preregistered new untouched holdout; compare licensed application models and independent quantizers before deployment claims.",
+      "next_action": "Address the recorded task-generalization failures using validation on unseen computations and a fresh preregistered 30/30 gate, without reusing exposed tests for selection. Then reassess 3-bit quality on a useful model, compare independent quantizers and licensed application models, and obtain accelerator evidence.",
       "owner_role": "Quantization researcher with numerical-validation reviewer",
       "hardware_requirements": ["CPU for packing reference tests", "CUDA GPU with sufficient VRAM for measured kernels"],
       "baseline_adapters": ["Planned pinned bitsandbytes or GPTQ comparison adapter; not integrated"],

@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8548,
+  "file_count": 8554,
   "lanes": {
     "az_ip": 2638,
     "compactification": 9,
-    "other": 5451,
+    "other": 5457,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -31,7 +31,7 @@
     "6-MONOGRAPH": 20,
     "7-OUTREACH": 923,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 231,
+    "9-INFRASTRUCTURE": 237,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -29726,6 +29726,12 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/631fb1c4b621f1e6112a60bfa6be5a70cf3b3bf34be7677d629c7075a2b993dc.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/7562cbde626ad82a001125b1282c3c2157ecf8086f76c75c6a2968b588e7fcdf.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
@@ -29733,6 +29739,12 @@
     },
     {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/979847638ed7ec97277a0f5023515192779fc369050963048a12e0300fd8ede3.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/9dca9bef3247d4903819d691c8c3dd3f119f2eeeb317500f71d4a340f28e3cab.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -29750,6 +29762,12 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/a01eda39d6c3edb942c619ea9f709fc46b46f5664b9c1c64abdffa0884ac5cdc.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/a335542da4f1a7c17bf6a9f058652f06c23772d263e912084c3a2ced1630be02.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
@@ -29757,6 +29775,24 @@
     },
     {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/abff87f2999f404fbdf2c40aa8dea8cc52bbd972e489dcabb0d360660918f3c4.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/b39d88258767398b9e49a6baa97e094ec9ffe962ba9abaf632e3abba03d97bb3.bin",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/b39d88258767398b9e49a6baa97e094ec9ffe962ba9abaf632e3abba03d97bb3.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/b9e7a8c65b12cdf871e542489e884580ce7b5bf62c253fe0cd511ffd83318705.bin",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"

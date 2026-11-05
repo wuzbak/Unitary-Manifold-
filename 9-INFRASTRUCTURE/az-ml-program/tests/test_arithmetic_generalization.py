@@ -121,3 +121,77 @@ def test_answer_only_loss_has_no_gradient_at_prompt_prediction_positions():
     loss.backward()
     assert np.all(logits.grad[:, :-1, :] == 0)
     assert np.any(logits.grad[:, -1, :] != 0)
+
+
+def test_v2_computational_classes_and_reversals_are_disjoint():
+    splits = experiment._v2_partition()
+    assert {name: len(pairs) for name, pairs in splits.items()} == {
+        "train": 81, "validation": 10, "test": 30,
+    }
+    all_pairs = set()
+    for name, pairs in splits.items():
+        pair_set = set(pairs)
+        assert pair_set == {(b, a) for a, b in pairs}
+        assert not all_pairs & pair_set
+        all_pairs |= pair_set
+        assert len({tuple(sorted(pair)) for pair in pairs}) == {
+            "train": 46, "validation": 5, "test": 15,
+        }[name]
+    assert all_pairs == {(a, b) for a in range(11) for b in range(11)}
+    assert {(a, a) for a in range(11)} <= set(splits["train"])
+
+
+def test_v2_registration_never_materializes_test_rows(output_directory, monkeypatch):
+    original = experiment._v2_rows
+
+    def guarded(split):
+        assert split != "test"
+        return original(split)
+
+    monkeypatch.setattr(experiment, "_v2_rows", guarded)
+    path = experiment.preregister_mod11_experiment(output_directory)
+    protocol = json.loads(path.read_bytes())
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == path.stem
+    assert protocol["test_generated_or_evaluated"] is False
+    assert protocol["training"]["weight_decay"] == 0.1
+    assert protocol["training"]["batch_size"] == 81
+    assert protocol["training"]["checkpoint_steps"] == [1000, 3000, 10000, 30000]
+    assert protocol["success_criterion"] == {"correct": 30, "total": 30, "threshold_may_change": False}
+    assert protocol["architecture"]["dim"] == 32
+    assert protocol["architecture"]["num_layers"] == 1
+    assert protocol["partition"]["pair_identities"]["test"]["examples"] == 30
+
+
+def test_v2_inference_receives_raw_prompt_only():
+    vocabulary = sorted("\n+=ABCDEFGHIJK")
+    seen = []
+
+    class Logits:
+        def __init__(self, values):
+            self.data = values
+
+    class Model:
+        def __call__(self, inputs):
+            seen.append(inputs.copy())
+            output = np.zeros((len(inputs), 4, len(vocabulary)))
+            output[:, -1, vocabulary.index("A")] = 2
+            return Logits(output), None
+
+    metrics = experiment._v2_metrics(Model(), ["A+A=A\n", "K+K=J\n"], vocabulary)
+    assert metrics["answer_correct"] == 1
+    assert seen[0].shape == (2, 4)
+    assert "".join(vocabulary[int(x)] for x in seen[0][1]) == "K+K="
+    assert metrics["uniform_answer_chance_accuracy"] == 1 / 11
+    assert metrics["uniform_vocabulary_chance_accuracy"] == 1 / 14
+
+
+def test_v2_drift_and_duplicate_receipt_rejected(output_directory):
+    path = experiment.preregister_mod11_experiment(output_directory)
+    content = json.loads(path.read_bytes())
+    content["success_criterion"]["correct"] = 1
+    changed = experiment._publish(output_directory, content)
+    with pytest.raises(ValueError, match="current v2 protocol mismatch"):
+        experiment.run_mod11_generalization(changed, output_directory)
+    (output_directory / (path.stem + ".started.bin")).write_bytes(b"already started")
+    with pytest.raises(FileExistsError):
+        experiment.run_mod11_generalization(path, output_directory)

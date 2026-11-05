@@ -1,0 +1,106 @@
+"""Read-only parameter perturbations on training rows; no optimizer or test."""
+import hashlib
+import json
+import time
+from pathlib import Path
+import sys
+
+import numpy as np
+
+ROOT = Path("/workspaces/Unitary-Manifold-/wuzbak/Unitary-Manifold-")
+sys.path.insert(0, str(ROOT))
+from src.infrastructure.arithmetic_generalization import (
+    _v2_encode, _v2_rows, _v2_protocol, p43,
+)
+from src.infrastructure.artifact_io import publish_immutable
+
+started = time.monotonic()
+OUT = Path(__file__).parent
+checkpoint = OUT / "a01eda39d6c3edb942c619ea9f709fc46b46f5664b9c1c64abdffa0884ac5cdc.npz"
+assert hashlib.sha256(checkpoint.read_bytes()).hexdigest() == checkpoint.stem
+_, Model, Config, cross_entropy = p43._p43_api()
+from az_tori_transformer.checkpoint import load_checkpoint
+
+rows = _v2_rows("train")
+vocabulary = sorted("\n+=ABCDEFGHIJK")
+inputs, targets = _v2_encode(rows, vocabulary)
+RTOL, ATOL = 1e-4, 1e-7
+models = [
+    ("seed43118", Model(Config(**_v2_protocol()["architecture"]))),
+    ("selected_step1000", load_checkpoint(checkpoint).model),
+]
+result = {
+    "kind": "training_only_central_finite_difference_diagnostic",
+    "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    "checkpoint_sha256": checkpoint.stem,
+    "training_rows": len(rows),
+    "training_rows_sha256": hashlib.sha256("".join(rows).encode("ascii")).hexdigest(),
+    "step_rule": "h=epsilon*max(1,abs(parameter)); epsilon in [1e-5,1e-6]",
+    "pass_rule": "abs(analytic-numeric)<=1e-7+1e-4*max(abs(analytic),abs(numeric))",
+    "relative_error_rule": "abs_difference/max(1e-12,abs(analytic),abs(numeric))",
+    "selection_rule": "Up to3 largest-magnitude finite nonzero analytic entries per named parameter; indices reused for both step sizes, training rows only.",
+    "scope": "Sampled local gradients through actual P43 model, not exhaustive gradient/optimizer/scientific correctness audit; labels enter loss only.",
+    "models": [],
+}
+
+
+def independent_loss(model):
+    logits, _ = model(inputs)
+    values = logits.data[:, -1, :]
+    shifted = values - values.max(axis=-1, keepdims=True)
+    return float(np.mean(
+        np.log(np.exp(shifted).sum(axis=-1)) - shifted[np.arange(len(rows)), targets]
+    ))
+
+
+for label, model in models:
+    logits, _ = model(inputs)
+    loss = cross_entropy(logits[:, -1, :], targets)
+    loss.backward()
+    reference_loss = independent_loss(model)
+    entries = []
+    groups = []
+    for name, parameter in model.named_parameters().items():
+        gradient = parameter.grad.copy()
+        candidates = np.flatnonzero(np.isfinite(gradient.reshape(-1)) & (np.abs(gradient.reshape(-1)) > 1e-12))
+        order = candidates[np.argsort(-np.abs(gradient.reshape(-1)[candidates]), kind="stable")[:3]]
+        groups.append({"name": name, "nonzero_analytic_entries": len(candidates), "sampled_entries": len(order)})
+        for flat_index in order:
+            if time.monotonic() - started > 55:
+                raise RuntimeError("55-second diagnostic budget reached; no complete report")
+            index = np.unravel_index(int(flat_index), parameter.data.shape)
+            original = float(parameter.data[index])
+            analytic = float(gradient[index])
+            for epsilon in (1e-5, 1e-6):
+                h = epsilon * max(1.0, abs(original))
+                try:
+                    parameter.data[index] = original + h
+                    plus = independent_loss(model)
+                    parameter.data[index] = original - h
+                    minus = independent_loss(model)
+                finally:
+                    parameter.data[index] = original
+                numeric = (plus - minus) / (2 * h)
+                absolute = abs(analytic - numeric)
+                relative = absolute / max(1e-12, abs(analytic), abs(numeric))
+                entries.append({
+                    "parameter": name, "index": [int(x) for x in index],
+                    "epsilon": epsilon, "h": h, "analytic": analytic, "numeric": numeric,
+                    "absolute_error": absolute, "relative_error": relative,
+                    "passed": absolute <= ATOL + RTOL * max(abs(analytic), abs(numeric)),
+                })
+    result["models"].append({
+        "label": label, "autograd_loss": float(loss.data), "independent_numpy_loss": reference_loss,
+        "loss_absolute_difference": abs(float(loss.data) - reference_loss),
+        "parameter_groups": groups, "samples": entries,
+        "unique_parameter_entries": len(entries) // 2, "numerical_comparisons": len(entries),
+        "max_absolute_error": max(x["absolute_error"] for x in entries),
+        "max_relative_error": max(x["relative_error"] for x in entries),
+        "failed_comparisons": sum(not x["passed"] for x in entries),
+    })
+result["elapsed_seconds"] = time.monotonic() - started
+content = (json.dumps(result, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode("ascii")
+path = publish_immutable(OUT, hashlib.sha256(content).hexdigest(), content)
+print(path)
+for model in result["models"]:
+    print(json.dumps({key: value for key, value in model.items() if key not in ("samples", "parameter_groups")}))

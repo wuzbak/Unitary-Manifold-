@@ -255,12 +255,243 @@ def run_arithmetic_generalization(preregistration: str | Path, output_dir: str |
     return report
 
 
+_V2_SCHEMA = "az_preregistered_mod11_generalization_v2"
+_V2_STEPS = (1000, 3000, 10000, 30000)
+_V2_SEED = 43118
+_V2_LR = 0.001
+_V2_DECAY = 0.1
+_V2_SALT = "az-mod11-unordered-v2"
+_V2_SYMBOLS = "ABCDEFGHIJK"
+
+
+def _v2_partition() -> dict[str, list[tuple[int, int]]]:
+    pairs = [(a, b) for a in range(11) for b in range(a + 1, 11)]
+    pairs.sort(key=lambda pair: hashlib.sha256(
+        f"{_V2_SALT}:{pair[0]}:{pair[1]}".encode("ascii"),
+    ).digest())
+    test = {ordered for a, b in pairs[:15] for ordered in ((a, b), (b, a))}
+    validation = {ordered for a, b in pairs[15:20] for ordered in ((a, b), (b, a))}
+    return {
+        "train": [(a, b) for a in range(11) for b in range(11) if (a, b) not in test | validation],
+        "validation": sorted(validation),
+        "test": sorted(test),
+    }
+
+
+def _v2_rows(split: str) -> list[str]:
+    if split not in ("train", "validation", "test"):
+        raise ValueError("unknown v2 split")
+    return [
+        f"{_V2_SYMBOLS[a]}+{_V2_SYMBOLS[b]}={_V2_SYMBOLS[(a + b) % 11]}\n"
+        for a, b in _v2_partition()[split]
+    ]
+
+
+def _v2_protocol() -> dict[str, Any]:
+    partition = _v2_partition()
+    return {
+        "schema_version": _V2_SCHEMA,
+        "kind": "preregistration",
+        "task": "Addition modulo11 with one-symbol operands/answer A..K representing0..10.",
+        "vocabulary": sorted("\n+=ABCDEFGHIJK"),
+        "architecture": {
+            "dim": 32, "num_heads": 4, "num_layers": 1, "ff_hidden_dim": 64,
+            "causal": True, "positional_mode": "toroidal", "seed": _V2_SEED,
+            "vocab_size": 14,
+        },
+        "partition": {
+            "hash_salt": _V2_SALT,
+            "rule": "Hash-sort55 unordered distinct pairs; first15 and reversals test30, next5 and reversals validation10, remaining35 and reversals plus11 diagonals train81.",
+            "pair_identities": {
+                split: {
+                    "examples": len(pairs),
+                    "sha256": hashlib.sha256(_json({"ordered_pairs": [list(pair) for pair in pairs]})).hexdigest(),
+                }
+                for split, pairs in partition.items()
+            },
+            "train_rows": _identity(_v2_rows("train")),
+            "validation_rows": _identity(_v2_rows("validation")),
+            "test_rows_materialized": False,
+            "commutative_classes": {"train": 46, "validation": 5, "test": 15},
+            "historical_scope": "A different modulus, symbol representation and learned weights; low operand sums may numerically coincide with old modulo10 labels. Not a claim that every mathematical fact is historically unseen.",
+        },
+        "training": {
+            "seed": _V2_SEED, "learning_rate": _V2_LR, "weight_decay": _V2_DECAY,
+            "batch_size": 81, "batch_policy": "entire training split every step",
+            "optimizer": "P43 Adam followed by decoupled multiplicative decay on every named parameter",
+            "decay_equation": "parameter.data *= 1 - learning_rate * weight_decay after Adam step",
+            "checkpoint_steps": list(_V2_STEPS),
+            "loss": "Answer-only cross-entropy, final prompt position3 of four-character prompt a+b=.",
+            "selection": "Minimum validation answer cross-entropy; strict improvement, ties earlier step; one trajectory, no test-selected retries.",
+            "training_validation_soft_deadline_seconds": 280,
+            "cpu_runtime_budget_seconds": 300,
+        },
+        "inference": "Raw character token IDs only; no arithmetic features, answer lookup, constraints, or solver.",
+        "success_criterion": {"correct": 30, "total": 30, "threshold_may_change": False},
+        "test_evaluation_policy": "Generate labeled test rows and evaluate once only after restoring the validation-selected snapshot.",
+        "old_mod10_diagnostic": "Unsupported cross-modulus vocabulary/task; do not map old answers or compare accuracy.",
+        "failure_policy": "Persist every completed validation checkpoint, selected weights, negatives and stopping reason; stop after this one v2 attempt.",
+        "source_sha256": {
+            "src/infrastructure/arithmetic_generalization.py": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            **p43._source_identities(),
+        },
+        "test_generated_or_evaluated": False,
+    }
+
+
+def preregister_mod11_experiment(output_dir: str | Path) -> Path:
+    """Publish v2's disjoint-computation train/validation/test protocol."""
+    directory = Path(output_dir)
+    if not directory.is_dir():
+        raise ValueError("output_dir must be an existing directory")
+    return _publish(directory, _v2_protocol())
+
+
+def _v2_encode(rows: list[str], vocabulary: list[str]) -> tuple[np.ndarray, np.ndarray]:
+    mapping = {character: index for index, character in enumerate(vocabulary)}
+    return (
+        np.asarray([[mapping[c] for c in row[:4]] for row in rows], dtype=np.int64),
+        np.asarray([mapping[row[4]] for row in rows], dtype=np.int64),
+    )
+
+
+def _v2_metrics(model, rows: list[str], vocabulary: list[str]) -> dict[str, Any]:
+    inputs, targets = _v2_encode(rows, vocabulary)
+    logits, _ = model(inputs)
+    values = logits.data[:, -1, :]
+    if not np.all(np.isfinite(values)):
+        raise FloatingPointError("nonfinite mod11 evaluation logits")
+    shifted = values - values.max(axis=-1, keepdims=True)
+    predicted = np.argmax(values, axis=-1)
+    loss = np.log(np.exp(shifted).sum(axis=-1)) - shifted[np.arange(len(rows)), targets]
+    histogram = {symbol: sum(row[4] == symbol for row in rows) for symbol in _V2_SYMBOLS}
+    return {
+        "examples": len(rows),
+        "answer_correct": int(np.sum(predicted == targets)),
+        "answer_accuracy": float(np.mean(predicted == targets)),
+        "answer_cross_entropy_nats": float(np.mean(loss)),
+        "predicted_characters": [vocabulary[int(index)] for index in predicted],
+        "answer_histogram": histogram,
+        "uniform_answer_chance_accuracy": 1 / 11,
+        "uniform_vocabulary_chance_accuracy": 1 / 14,
+        "identity": _identity(rows),
+    }
+
+
+def run_mod11_generalization(preregistration: str | Path, output_dir: str | Path) -> dict[str, Any]:
+    """Run v2 once: full-batch learned updates, unseen-computation validation."""
+    directory = Path(output_dir)
+    if not directory.is_dir():
+        raise ValueError("output_dir must be an existing directory")
+    path = Path(preregistration)
+    with path.open("rb") as stream:
+        content = stream.read(_MAX_JSON_BYTES + 1)
+    if len(content) > _MAX_JSON_BYTES:
+        raise ValueError("preregistration exceeds size bound")
+    digest = hashlib.sha256(content).hexdigest()
+    if path.name != digest + ".json" or json.loads(content) != _v2_protocol():
+        raise ValueError("preregistration identity or current v2 protocol mismatch")
+    fd = os.open(directory / (digest + ".started.bin"), os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, "wb") as stream:
+        stream.write(content)
+        stream.flush()
+        os.fsync(stream.fileno())
+    started = time.monotonic()
+    Adam, Model, Config, cross_entropy = p43._p43_api()
+    config = json.loads(content)["architecture"]
+    model = Model(Config(**config))
+    optimizer = Adam(model.parameters(), lr=_V2_LR)
+    vocabulary = sorted("\n+=ABCDEFGHIJK")
+    train, validation = _v2_rows("train"), _v2_rows("validation")
+    inputs, targets = _v2_encode(train, vocabulary)
+    history = []
+    selected = None
+    selected_loss = math.inf
+    selected_step = None
+    completed = 0
+    stopped = "fixed_step_budget_completed"
+    for step in range(1, max(_V2_STEPS) + 1):
+        if time.monotonic() - started > 280:
+            stopped = "predeclared_wall_budget"
+            break
+        logits, _ = model(inputs)
+        loss = cross_entropy(logits[:, -1, :], targets)
+        if not math.isfinite(float(loss.data)):
+            stopped = "nonfinite_training_loss"
+            break
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        for parameter in model.parameters():
+            parameter.data *= 1 - _V2_LR * _V2_DECAY
+        completed = step
+        if step in _V2_STEPS:
+            metrics = _v2_metrics(model, validation, vocabulary)
+            history.append({"step": step, "validation": metrics})
+            if metrics["answer_cross_entropy_nats"] < selected_loss:
+                selected_loss = metrics["answer_cross_entropy_nats"]
+                selected_step = step
+                selected = [parameter.data.copy() for parameter in model.parameters()]
+    report: dict[str, Any] = {
+        "schema_version": _V2_SCHEMA, "kind": "experiment_result",
+        "preregistration_sha256": digest, "preregistration_filename": path.name,
+        "protocol": json.loads(content),
+        "steps_completed": completed, "stopping_reason": stopped,
+        "validation_checkpoints": history, "selected_step": selected_step,
+        "selection_used_test": False,
+        "success_criterion": "30/30 on fresh preregistered modulo11 holdout, unchanged",
+        "success": False,
+        "old_mod10_diagnostic": {"status": "unsupported_different_vocabulary_and_modulus", "evaluated": False},
+        "scope": "Task-specific learned finite-group research, not useful application LLM or production evidence.",
+    }
+    if selected is not None:
+        for parameter, weights in zip(model.parameters(), selected):
+            parameter.data = weights
+        test = _v2_rows("test")
+        report["fresh_holdout"] = _v2_metrics(model, test, vocabulary)
+        report["fresh_holdout"]["rows"] = test
+        report["fresh_holdout_evaluation_calls"] = 1
+        report["train"] = _v2_metrics(model, train, vocabulary)
+        report["success"] = report["fresh_holdout"]["answer_correct"] == 30
+        report["trained_checkpoint"] = p43._publish_trained_checkpoint(
+            model, directory,
+            {"preregistration_sha256": digest, "selected_step": selected_step,
+             "vocabulary": vocabulary, "task": "mod11_answer_only_weight_decay_v2"},
+        )
+    else:
+        report["failure"] = "No predeclared validation checkpoint completed; holdout not evaluated."
+    report["elapsed_seconds"] = time.monotonic() - started
+    report["execution_spine"] = ExecutionSpineRecord(
+        surface_id=f"mod11-generalization-v2:{digest[:16]}",
+        surface_kind="preregistered_learned_arithmetic_experiment",
+        lane="non-hardgate-ml-infrastructure", status="research_measured",
+        summary="One modulo11 learned trajectory; validation and test computational classes disjoint from training.",
+        canonical_paths=["src/infrastructure/arithmetic_generalization.py"],
+        sources=["src/infrastructure/arithmetic_generalization.py"],
+        compatibility={"preregistration_sha256": digest},
+        governance=build_fail_closed_governance(
+            epistemic_label="bounded finite arithmetic research",
+            promotion_rule="No broad model or production promotion from this diagnostic.",
+            residual_blockers=["Only15 commutative test classes.", "No broad language evaluation."],
+        ),
+        promotion={"eligible": False, "model_claim": False, "physics_claim": False, "backend_claim": False},
+    ).to_dict()
+    published = _publish(directory, report)
+    print(json.dumps({"result_filename": published.name, "success": report["success"], "selected_step": selected_step}))
+    return report
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--preregistration", type=Path)
+    parser.add_argument("--protocol", choices=("v1", "v2"), default="v1")
     args = parser.parse_args(argv)
-    if args.preregistration is None:
+    if args.protocol == "v2" and args.preregistration is None:
+        print(preregister_mod11_experiment(args.output_dir))
+    elif args.protocol == "v2":
+        run_mod11_generalization(args.preregistration, args.output_dir)
+    elif args.preregistration is None:
         print(preregister_arithmetic_experiment(args.output_dir))
     else:
         run_arithmetic_generalization(args.preregistration, args.output_dir)
