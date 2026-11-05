@@ -22,6 +22,7 @@ sys.path.insert(0, str(PRODUCT_ROOT))
 from az_live_data_harness.api import dispatch_api_request
 from az_live_data_harness.app.server import build_server
 from az_live_data_harness.temporal_adapter import fetch_earthquake_snapshot
+from az_live_data_harness.capture_archive import load_capture_archive, save_capture_archive
 from az_live_data_harness.usgs_adapter import LiveDataError, USGS_FEED_URL
 from src.infrastructure.temporal_data import load_snapshot, point_in_time_features
 from src.infrastructure.data_lineage import LineageGraph, load_graph
@@ -53,8 +54,8 @@ class Response:
     def __exit__(self, *_args):
         return False
 
-    def read(self):
-        return self.raw
+    def read(self, size=-1):
+        return self.raw if size < 0 else self.raw[:size]
 
 
 def capture(payload=None, *, now=NOW):
@@ -308,3 +309,130 @@ def test_cli_saves_verifiable_snapshot_and_requires_explicit_scope(monkeypatch, 
         "--temporal", "--owner-scope", "test-project", "--snapshot-dir", str(tmp_path / "absent"),
     ]) == 1
     assert "error" in json.loads(capsys.readouterr().err)
+
+
+def test_raw_archive_preserves_exact_bytes_and_original_availability(monkeypatch, tmp_path):
+    response = Response(feed(None))
+    response.raw = json.dumps(feed(None), indent=3).encode() + b"\n\n"
+    original = fetch_earthquake_snapshot(
+        owner_scope="test-project", origin="synthetic",
+        opener=lambda *_args, **_kwargs: response, now=NOW,
+    )
+    saved = save_capture_archive(original, tmp_path)
+    assert saved == save_capture_archive(original, tmp_path)
+    assert saved.stem == hashlib.sha256(saved.read_bytes()).hexdigest()
+
+    def no_network(*_args, **_kwargs):
+        raise AssertionError("Archive replay must not contact a transport")
+
+    monkeypatch.setattr("urllib.request.urlopen", no_network)
+    restored = load_capture_archive(tmp_path, saved.stem, owner_scope="test-project")
+    assert restored == original
+    assert restored.raw_payload == response.raw
+    assert restored.snapshot.captured_at == NOW
+    assert restored.snapshot.records[0].origin == "synthetic"
+    assert restored.snapshot.records[0].missing_reason == "source_value_missing"
+    before = point_in_time_features(
+        restored.snapshot, owner_scope="test-project", entity_id="earthquake-a",
+        feature_names=("earthquake_magnitude",), allow_origins=("synthetic",),
+        decision_time=NOW - timedelta(seconds=1),
+    )[0]
+    assert before.missing_reason == "no_point_in_time_data"
+
+
+@pytest.mark.parametrize("field,value", [
+    ("raw_payload_sha256", "0" * 64),
+    ("snapshot_sha256", "0" * 64),
+    ("code_bundle_sha256", {}),
+    ("origin", "invented"),
+    ("observed_at", "2026-11-05T12:00:00"),
+    ("raw_payload_base64", "***not-base64***"),
+    ("schema_version", "future"),
+    ("source_url", "https://example.invalid/"),
+])
+def test_archive_replay_rejects_resealed_invalid_bindings(tmp_path, field, value):
+    saved = save_capture_archive(capture(), tmp_path)
+    document = json.loads(saved.read_bytes())
+    document[field] = value
+    raw = json.dumps(document).encode()
+    altered_id = hashlib.sha256(raw).hexdigest()
+    (tmp_path / (altered_id + ".json")).write_bytes(raw)
+    with pytest.raises(ValueError):
+        load_capture_archive(tmp_path, altered_id, owner_scope="test-project")
+
+
+def test_archive_rejects_corruption_scope_escape_and_symlinks(tmp_path):
+    saved = save_capture_archive(capture(), tmp_path)
+    with pytest.raises(ValueError, match="owner_scope"):
+        load_capture_archive(tmp_path, saved.stem, owner_scope="different-project")
+    with pytest.raises(ValueError, match="identifier"):
+        load_capture_archive(tmp_path, "../escape", owner_scope="test-project")
+    saved.write_bytes(saved.read_bytes() + b" ")
+    with pytest.raises(ValueError, match="hash"):
+        load_capture_archive(tmp_path, saved.stem, owner_scope="test-project")
+    saved.unlink()
+    outside = tmp_path / "outside.json"
+    outside.write_bytes(b"{}")
+    saved.symlink_to(outside)
+    with pytest.raises(OSError):
+        load_capture_archive(tmp_path, saved.stem, owner_scope="test-project")
+
+
+def test_archive_rejects_oversized_and_nonregular_objects(tmp_path):
+    from az_live_data_harness.capture_archive import MAX_ARCHIVE_BYTES
+    import os
+
+    archive_id = "0" * 64
+    target = tmp_path / (archive_id + ".json")
+    with target.open("wb") as stream:
+        stream.truncate(MAX_ARCHIVE_BYTES + 1)
+    with pytest.raises(ValueError, match="bounded"):
+        load_capture_archive(tmp_path, archive_id, owner_scope="test-project")
+    target.unlink()
+    os.mkfifo(target)
+    with pytest.raises(ValueError, match="regular"):
+        load_capture_archive(tmp_path, archive_id, owner_scope="test-project")
+
+
+def test_archive_publication_failure_is_explicit_and_never_reports_success(monkeypatch, tmp_path):
+    def fail(*_args, **_kwargs):
+        raise OSError("archive fsync failed")
+
+    monkeypatch.setattr("az_live_data_harness.capture_archive.publish_immutable", fail)
+    with pytest.raises(OSError, match="fsync"):
+        save_capture_archive(capture(), tmp_path)
+    assert not list(tmp_path.iterdir())
+
+
+def test_cli_archive_replay_is_explicit_and_never_fetches(monkeypatch, tmp_path, capsys):
+    spec = importlib.util.spec_from_file_location("p40_archive_run", PRODUCT_ROOT / "run.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    original = capture()
+    monkeypatch.setattr(
+        "az_live_data_harness.temporal_adapter.fetch_earthquake_snapshot",
+        lambda **_kwargs: original,
+    )
+    args = ["--temporal", "--owner-scope", "test-project", "--archive-dir", str(tmp_path)]
+    assert module.main(args) == 0
+    output = json.loads(capsys.readouterr().out)
+    archive_id = Path(output["archive_path"]).stem
+    assert output["mode"] == "live_capture"
+
+    def no_fetch(**_kwargs):
+        raise AssertionError("Explicit replay must not fetch")
+
+    monkeypatch.setattr("az_live_data_harness.temporal_adapter.fetch_earthquake_snapshot", no_fetch)
+    assert module.main(args + ["--replay-archive", archive_id]) == 0
+    replay = json.loads(capsys.readouterr().out)
+    assert replay["mode"] == "archive_replay"
+    assert replay["snapshot"] == output["snapshot"]
+    assert replay["receipt"]["promotion"]["eligible"] is False
+    assert module.main(args + ["--replay-archive", "0" * 64]) == 1
+    assert "error" in json.loads(capsys.readouterr().err)
+    with pytest.raises(SystemExit) as error:
+        module.main(["--temporal", "--owner-scope", "test-project", "--replay-archive", archive_id])
+    assert error.value.code == 2
+    with pytest.raises(SystemExit) as error:
+        module.main(args + ["--replay-archive", ""])
+    assert error.value.code == 2

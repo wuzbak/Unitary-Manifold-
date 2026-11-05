@@ -823,6 +823,19 @@ pre-edit identity; this reseal does not certify that the older seal was valid.
 |-------|---------|-----:|
 | `12-AZ-IP/40-az-live-data-harness/README.md` | `237a323a32a12aac208fa98e378ff69e6ac57629ac064803765cbf0ea27a68ae` | 5431 |
 
+### Product 40 exact raw-response replay documentation reseal - 2026-11-05
+
+The Product 40 README now documents bounded raw-response archival and explicit
+offline replay preserving original observation time, origin, source and snapshot
+bindings. Temporal null corrections and backward-time revisions remain explicit.
+Constructed-response tests are not live-feed validation; the current live
+attempt still fails DNS without fallback. The prior seal remains in registry
+history and in the preceding dated subsection.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/40-az-live-data-harness/README.md` | `7bbe986e3ac04df2136b8cbba8563cabbbfee22eef4d73cac0eb364331fe813e` | 7350 |
+
 ## Verification Protocol
 
 To verify any registered asset:

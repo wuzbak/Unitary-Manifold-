@@ -28,6 +28,31 @@ No GPU, production serving, live-feed or distributed-storage claim follows.
 All 21 capabilities remain scope; none is declared complete. No physics claim,
 pillar, score, threshold, equation or falsifier changed.
 
+### Exact raw-response replay continuation
+
+Product 40 now optionally archives exact bounded USGS response bytes with their
+original observation time, origin, snapshot and transform-source bindings.
+Explicit offline replay verifies the immutable archive and never silently
+fetches or substitutes a current clock. Missing values and synthetic labels
+remain intact. Corruption, incompatible source versions, wrong scope, unsafe
+files and oversized payloads fail explicitly. Independent review caught and
+fixed an empty replay-ID path that could have fetched live data.
+This is tested local replay, not live-feed, serverless or production validation.
+The registered Product 40 README was resealed with its previous identity retained.
+Synchronized independent checkpoint writers now exercise identical and distinct
+bundles in one local POSIX directory, with fresh-reader verification, immutable
+idempotent retries and no temporary-file residue. This does not qualify network
+storage or distributed durability. The repeat hosted candidate remains 3/4;
+its rationale failure and the original 0/30 quality failures remain visible.
+The earlier frozen hosted run completed at its exact PR merge checkout with
+66,086 passed, 41 skipped and all 66,127 selected identities reconciled, plus
+45 passing isolated product-suite jobs. Later edits still require their own
+regression evidence; this is not an all-capability completion claim.
+The final local canonical-plus-affected combined run passed 66,345 tests with
+74 skips and 102 passing subtests, zero failures. A preceding register-wording
+failure was fixed by restoring its explicit partial-foundation nonclaim, not by
+weakening the assertion. The actual-model candidate gate remains failed.
+
 ## Product 45 - Verified platform artifacts and explicit deployment consent (2026-11-04)
 
 Added digest-bound bundled APK/UEFI import, selected authorized-device Android

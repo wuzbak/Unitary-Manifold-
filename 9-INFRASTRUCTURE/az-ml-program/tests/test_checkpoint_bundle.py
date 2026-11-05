@@ -4,6 +4,10 @@
 
 import hashlib
 import json
+from pathlib import Path
+import select
+import subprocess
+import sys
 
 import pytest
 
@@ -49,6 +53,119 @@ def test_opaque_role_shards_round_trip_and_manifest_are_deterministic(tmp_path):
     assert set(manifest) == {"schema_version", "checkpoint_id", "owner_scope", "shards"}
     assert all(set(shard) == {"name", "role", "sha256", "byte_length"}
                for shard in manifest["shards"])
+
+
+def test_concurrent_local_processes_publish_identical_and_distinct_bundles(tmp_path):
+    """Qualify one local POSIX store, not network or multi-host durability."""
+    worker = """
+import json
+import sys
+from src.infrastructure.checkpoint_bundle import (
+    CheckpointShard, commit_checkpoint, load_checkpoint,
+)
+
+mode, directory, encoded = sys.argv[1:]
+if mode == "write":
+    shards = tuple(CheckpointShard(name, role, bytes.fromhex(payload))
+                   for name, role, payload in json.loads(encoded))
+    print("ready", flush=True)
+    if sys.stdin.readline() != "publish\\n":
+        raise RuntimeError("publication barrier was not released")
+    manifest_id = commit_checkpoint(directory, checkpoint_id="step-17",
+                                    owner_scope="tenant:research", shards=shards)
+    repeated_id = commit_checkpoint(directory, checkpoint_id="step-17",
+                                    owner_scope="tenant:research", shards=shards)
+    print(json.dumps([manifest_id, repeated_id]), flush=True)
+else:
+    result = {}
+    for manifest_id in json.loads(encoded):
+        loaded = load_checkpoint(directory, manifest_id, owner_scope="tenant:research")
+        assert loaded.manifest_id == manifest_id
+        assert loaded.checkpoint_id == "step-17"
+        assert loaded.owner_scope == "tenant:research"
+        result[manifest_id] = [[s.name, s.role, s.payload.hex()] for s in loaded.shards]
+    print(json.dumps(result), flush=True)
+"""
+    variants = [shards()] + [
+        tuple(CheckpointShard(s.name, s.role, s.payload + bytes([index]))
+              for s in shards())
+        for index in (1, 2)
+    ]
+    manifest_ids = [
+        bundle.checkpoint_manifest_id(
+            checkpoint_id="step-17", owner_scope="tenant:research", shards=items)
+        for items in variants
+    ]
+    assert len(set(manifest_ids)) == 3
+    encoded_shards = [
+        [[s.name, s.role, s.payload.hex()] for s in items] for items in variants
+    ]
+    repo_root = Path(bundle.__file__).resolve().parents[2]
+
+    def snapshot():
+        return {
+            path.name: (path.read_bytes(), path.stat().st_ino, path.stat().st_mtime_ns)
+            for path in tmp_path.iterdir()
+        }
+
+    def publish_together(indices):
+        before = snapshot()
+        processes = []
+        try:
+            for index in indices:
+                processes.append(subprocess.Popen(
+                    [sys.executable, "-c", worker, "write", str(tmp_path),
+                     json.dumps(encoded_shards[index])],
+                    cwd=repo_root, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE, text=True,
+                ))
+            assert len({process.pid for process in processes}) == len(indices)
+            for process in processes:
+                ready, _, _ = select.select([process.stdout], [], [], 30)
+                assert ready, f"writer {process.pid} did not reach publication barrier"
+                assert process.stdout.readline() == "ready\n"
+                assert process.poll() is None
+            # Every independent interpreter is waiting before any is allowed to write.
+            assert snapshot() == before
+            for process in processes:
+                process.stdin.write("publish\n")
+                process.stdin.flush()
+            for index, process in zip(indices, processes):
+                stdout, stderr = process.communicate(timeout=30)
+                assert process.returncode == 0, (stdout, stderr)
+                assert json.loads(stdout) == [manifest_ids[index]] * 2
+        finally:
+            for process in processes:
+                if process.poll() is None:
+                    process.kill()
+                process.communicate(timeout=10)
+
+    def validate_with_fresh_reader(indices):
+        expected = {manifest_ids[index]: encoded_shards[index] for index in indices}
+        reader = subprocess.run(
+            [sys.executable, "-c", worker, "read", str(tmp_path), json.dumps(list(expected))],
+            cwd=repo_root, capture_output=True, text=True, timeout=30,
+        )
+        assert reader.returncode == 0, (reader.stdout, reader.stderr)
+        assert json.loads(reader.stdout) == expected
+        expected_names = {
+            f"{hashlib.sha256(s.payload).hexdigest()}.bin"
+            for index in indices for s in variants[index]
+        } | {f"{manifest_id}.json" for manifest_id in expected}
+        assert {path.name for path in tmp_path.iterdir()} == expected_names
+        for path in tmp_path.iterdir():
+            assert hashlib.sha256(path.read_bytes()).hexdigest() == path.stem
+
+    publish_together([0, 0, 0])
+    validate_with_fresh_reader([0])
+    identical = snapshot()
+    publish_together([0, 1, 2])
+    validate_with_fresh_reader([0, 1, 2])
+    distinct = snapshot()
+    assert {name: distinct[name] for name in identical} == identical
+    publish_together([0, 1, 2])
+    validate_with_fresh_reader([0, 1, 2])
+    assert snapshot() == distinct
 
 
 def test_partial_worker_failure_is_retryable_and_manifest_is_commit_point(tmp_path, monkeypatch):

@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8578,
+  "file_count": 8579,
   "lanes": {
-    "az_ip": 2638,
+    "az_ip": 2639,
     "compactification": 9,
     "other": 5481,
     "psicat_articles": 354,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2638,
+    "12-AZ-IP": 2639,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2634,6 +2634,7 @@
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/api.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/__init__.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/server.py",
+      "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/capture_archive.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/harness.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/temporal_adapter.py",
       "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/usgs_adapter.py",
@@ -21012,6 +21013,13 @@
     },
     {
       "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/app/server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "40-az-live-data-harness"
+    },
+    {
+      "path": "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/capture_archive.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",

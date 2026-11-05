@@ -48,7 +48,7 @@ These are working algorithm/reference packages, not finished model services:
 | `arithmetic_generalization.py` | Source-bound preregistration, actual answer-only P43 training and validation-selected inference checkpoint with immutable predictions | Both bounded attempts failed 0/30; the separate modulo-11 task also failed unseen-computation validation. No useful-model or 30/30 claim. |
 | `p43_training_reference.py` | Independently written NumPy forward/reverse equations and stateful Adam comparison against every P43 parameter gradient and update, including positional wraparound | Constructed CPU float64 parity and failed-checkpoint training data only; no new holdout, external-framework parity or generalization pass. |
 | `quantization_calibration.py` | Fixed six-group-size, validation-only calibration of the retained native model with complete sub-4-bit size accounting and unchanged relative-fidelity limits | The original test is exposed and diagnostic only; no native-weight training, fresh quality qualification or repaired 30/30 gate. |
-| `checkpoint_bundle.py` | Bounded content-addressed opaque shards, manifest-as-commit publication and local interrupted-write recovery | No semantic tensor/optimizer/RNG serializer, distributed transport, storage-service qualification or production durability. |
+| `checkpoint_bundle.py` | Bounded content-addressed opaque shards, manifest-as-commit publication, interrupted-write recovery and synchronized multi-process same/distinct bundle tests | One local POSIX directory; no semantic tensor/optimizer/RNG serializer, distributed transport, storage-service qualification or production durability. |
 | `p43_checkpoint_bundle.py` | Actual bounded P43 NPZ split into exactly one model/Adam/PCG64 shard each; validated non-pickle reconstruction, exact next-step continuation, and local fresh-process restoration after writer termination immediately after commit | Constructed CPU float64 fixture and one local filesystem restart path; no arithmetic training quality, large training checkpoints, authenticated store, distributed workers, network storage, mid-commit interruption or power-loss durability. |
 | `vector_index.py` | Exact cosine/L2 search, pinned manifests, deterministic ties, immutable generations, retrieval evaluation | No ANN or learned encoder; old saved generations need explicit purge. |
 | `repository_vectors.py` | Existing RAG chunks converted to a source-verified word-count baseline; changed sources block retrieval | Lexical, not semantic; source/chunk identity is not entailment. |
@@ -64,6 +64,13 @@ test count:
 ```bash
 python -m src.infrastructure.ml_reference_benchmarks
 ```
+
+Product 40 additionally supports exact raw-response archival and explicit
+network-free replay through its existing temporal CLI. Replay verifies source,
+snapshot and byte bindings while retaining original observation time and origin;
+constructed replay is not live-feed validation. See the
+[capture and replay contract](../../12-AZ-IP/40-az-live-data-harness/README.md#exact-raw-response-archives).
+All 21 capabilities remain open, and the 30/30 model-quality target is unchanged.
 
 For the independent training implementation check (including every gradient,
 Adam moment and updated weight), run:

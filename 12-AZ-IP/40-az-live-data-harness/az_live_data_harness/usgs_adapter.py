@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import json
-import hashlib
 import math
 from datetime import datetime, timezone
 from typing import Any, Callable, Mapping
@@ -14,6 +13,7 @@ from urllib import request
 USGS_FEED_URL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson"
 STALE_AFTER_SECONDS = 2 * 60 * 60
 REQUEST_TIMEOUT_SECONDS = 10
+MAX_FEED_BYTES = 8 * 1024 * 1024
 
 
 class LiveDataError(RuntimeError):
@@ -84,22 +84,30 @@ def _normalize(payload: Any, fetched_at: datetime) -> dict[str, Any]:
     }
 
 
+def _decode_validated_feed(
+    raw: bytes, fetched_at: datetime,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    if not isinstance(raw, bytes) or len(raw) > MAX_FEED_BYTES:
+        raise ValueError("feed exceeds the supported byte bound or is not bytes")
+    if fetched_at.tzinfo is None:
+        raise ValueError("fetch time must include a timezone")
+    payload = json.loads(raw.decode("utf-8"))
+    return payload, _normalize(payload, fetched_at.astimezone(timezone.utc))
+
+
 def _fetch_validated_feed(
     opener: Callable[..., Any] | None = None,
     now: datetime | None = None,
-) -> tuple[dict[str, Any], dict[str, Any], str]:
+) -> tuple[dict[str, Any], dict[str, Any], bytes]:
     """Share one validated transport response between summary and temporal adapters."""
     open_url = opener or request.urlopen
     try:
         req = request.Request(USGS_FEED_URL, headers={"User-Agent": "AZ-Live-Data-Harness/1.2"})
         with open_url(req, timeout=REQUEST_TIMEOUT_SECONDS) as response:
-            raw = response.read()
-            payload = json.loads(raw.decode("utf-8"))
+            raw = response.read(MAX_FEED_BYTES + 1)
         fetched_at = now or datetime.now(timezone.utc)
-        if fetched_at.tzinfo is None:
-            raise ValueError("fetch time must include a timezone")
-        summary = _normalize(payload, fetched_at.astimezone(timezone.utc))
-        return payload, summary, hashlib.sha256(raw).hexdigest()
+        payload, summary = _decode_validated_feed(raw, fetched_at)
+        return payload, summary, raw
     except Exception as exc:
         raise LiveDataError(f"USGS live feed unavailable or invalid: {exc}") from exc
 

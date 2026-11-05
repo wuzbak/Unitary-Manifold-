@@ -170,11 +170,11 @@
     {
       "id": 11, "name": "Serverless real-time feature store", "domain": "data",
       "stage": "baseline", "status": "in_progress",
-      "source_references": ["src/infrastructure/execution_spine.py", "src/infrastructure/temporal_data.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_temporal_data.py", "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/temporal_adapter.py", "12-AZ-IP/40-az-live-data-harness/tests/test_temporal_capture.py"],
+      "source_references": ["src/infrastructure/execution_spine.py", "src/infrastructure/temporal_data.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_temporal_data.py", "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/temporal_adapter.py", "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/capture_archive.py", "12-AZ-IP/40-az-live-data-harness/tests/test_temporal_capture.py"],
       "dependencies": [14],
       "external_prerequisites": ["Authorized serverless host and event/online storage backend", "Data-owner consent and bounded latency/freshness objectives"],
       "acceptance_gates": ["Verify event-time point-in-time joins, TTL, late arrivals and idempotent ingestion", "Demonstrate offline/online consistency under duplicate and out-of-order events", "Measure original AZ materialization policy freshness, p95 latency and cost on authorized serverless host"],
-      "next_action": "Exercise the completed Product 40 temporal CLI/API on a network-enabled host, then define one predictive consumer and online/offline materialization parity before serverless qualification.",
+      "next_action": "Exercise Product 40 capture with its exact raw-response archive on a network-enabled host and independently replay it; then define one predictive consumer and online/offline materialization parity before serverless qualification.",
       "owner_role": "Streaming feature-platform engineer",
       "hardware_requirements": ["CPU for local temporal reference", "Authorized serverless runtime and durable event/online store"],
       "baseline_adapters": ["Planned Feast-compatible feature adapter; serverless deployment not integrated"],
@@ -215,16 +215,16 @@
     {
       "id": 14, "name": "Data versioning and lineage", "domain": "data",
       "stage": "original", "status": "in_progress",
-      "source_references": ["src/infrastructure/data_lineage.py", "src/infrastructure/artifact_io.py", "src/infrastructure/temporal_data.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_data_lineage.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_temporal_data.py", "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/temporal_adapter.py"],
+      "source_references": ["src/infrastructure/data_lineage.py", "src/infrastructure/artifact_io.py", "src/infrastructure/temporal_data.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_data_lineage.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_temporal_data.py", "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/temporal_adapter.py", "12-AZ-IP/40-az-live-data-harness/az_live_data_harness/capture_archive.py"],
       "dependencies": [],
       "external_prerequisites": ["Approved datasets and retention/access policy", "Selected durable artifact storage and baseline versioning backend"],
       "acceptance_gates": ["Content-address snapshots and transformations with deterministic hashes", "Reject missing parents, lineage cycles and changed source content", "Replay original AZ lineage manifests to reproduce a temporal snapshot without future-data leakage"],
-      "next_action": "Extend the tested source-to-temporal lineage into actual feature/run/model/index consumers, add a selected DVC interchange adapter and independently verify retained payload replay and deletion propagation.",
+      "next_action": "Qualify the tested raw-response archive/replay on actual authorized feed captures, extend source-to-temporal lineage into feature/run/model/index consumers, add a selected DVC interchange adapter and verify deletion propagation.",
       "owner_role": "Data provenance and reproducibility engineer",
       "hardware_requirements": ["CPU and durable local disk for reference snapshots", "Authorized object storage for later scale tests"],
       "baseline_adapters": ["Planned DVC or lakeFS interchange adapter; not integrated"],
       "original_algorithm_goal": "Build AZ compact replayable lineage with temporal availability and tamper detection.",
-      "nonclaim": "The original DAG and Product 40 parent-linked capture are a partial baseline foundation only; manifests do not prove execution, rights, model unlearning, full DVC integration or production-scale versioning.",
+      "nonclaim": "The original DAG, Product 40 capture and source-bound raw replay are a partial baseline foundation only; constructed response replay is not live validation, and manifests do not prove rights, model unlearning, full DVC integration or production-scale versioning.",
       "completion_evidence": []
     },
     {

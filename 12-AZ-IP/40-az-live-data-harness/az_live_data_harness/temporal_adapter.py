@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 import math
 import hashlib
@@ -29,6 +29,7 @@ class EarthquakeCapture:
     stale: bool
     origin: str
     code_bundle_sha256: tuple[tuple[str, str], ...]
+    raw_payload: bytes = field(repr=False)
 
     def lineage(self) -> LineageGraph:
         policy = "USGS source terms require caller review; no training-rights certification"
@@ -145,7 +146,18 @@ def fetch_earthquake_snapshot(
         raise ValueError("owner_scope must be nonempty text")
     if origin not in ("real", "synthetic", "fallback"):
         raise ValueError("origin must be real, synthetic or fallback")
-    payload, summary, raw_hash = _fetch_validated_feed(opener=opener, now=now)
+    payload, summary, raw = _fetch_validated_feed(opener=opener, now=now)
+    return _capture_validated_feed(payload, summary, raw, owner_scope=owner_scope, origin=origin)
+
+
+def _capture_validated_feed(
+    payload: dict[str, Any],
+    summary: dict[str, Any],
+    raw: bytes,
+    *,
+    owner_scope: str,
+    origin: str,
+) -> EarthquakeCapture:
     observed_at = _parse_utc(summary["fetched_at"])
     records: list[TemporalFeatureRecord] = []
     missing: list[str] = []
@@ -203,11 +215,12 @@ def fetch_earthquake_snapshot(
     ))
     return EarthquakeCapture(
         snapshot=TemporalSnapshot(owner_scope, observed_at, tuple(records)),
-        raw_payload_sha256=raw_hash,
+        raw_payload_sha256=hashlib.sha256(raw).hexdigest(),
         feed_generated_at=_parse_utc(summary["generated_at"]),
         event_count=summary["event_count"],
         missing_magnitude_ids=tuple(sorted(missing)),
         stale=summary["stale"],
         origin=origin,
         code_bundle_sha256=code_bundle,
+        raw_payload=raw,
     )

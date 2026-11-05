@@ -77,6 +77,10 @@ values; magnitude types may differ, so this is not a homogeneous calibrated
 prediction dataset. Duplicate event IDs, future events, non-finite numbers and
 malformed records fail explicitly. Unknown magnitudes are reported, not filled
 with zero.
+Missing-value corrections are retained as null records, not dropped. New
+snapshots use schema v2 with local revision times; earlier v1 snapshots remain
+readable. Later source revisions supersede earlier values only once observed,
+even when a corrected event timestamp moves backward.
 
 Availability is **local observation time**, never the earthquake's historical
 event time. A later observed correction cannot leak into an earlier replay.
@@ -93,10 +97,41 @@ unlearning. The directory must already exist and have
 durably established ancestors. File/directory fsync and hard links require a
 supporting POSIX filesystem. Preserve the printed receipt alongside it to retain
 source provenance; the snapshot hash alone does not preserve the raw response
-or prove source authenticity. No raw feed archive is written automatically.
+or prove source authenticity. No raw feed archive is written without an explicit
+archive option.
 Each file is published atomically, but the pair is not one transaction. If the
 second publication fails, the CLI reports failure and a verified snapshot may
 remain; retrying identical artifacts is safe.
+
+### Exact raw-response archives
+
+Use `--archive-dir /existing/durable/directory` alongside `--temporal` and
+`--owner-scope` to preserve the exact response bytes in a single immutable,
+content-addressed archive. The archive includes scope, origin, original
+observation time, raw-response and snapshot hashes, and transform-source hashes.
+Transport reads are bounded to 8 MiB; oversized feeds fail rather than truncate.
+The base64-framed JSON archive has a separate bounded read limit.
+
+Replay is an explicit, network-free operation, never a fallback for a failed
+live request:
+
+```bash
+python 12-AZ-IP/40-az-live-data-harness/run.py --temporal \
+  --owner-scope my-project --archive-dir /existing/durable/directory \
+  --replay-archive ARCHIVE_SHA256
+```
+
+Replace `ARCHIVE_SHA256` with the printed archive filename's SHA-256 stem.
+The result reports `mode="archive_replay"`. Replay verifies the archive, exact
+raw bytes, snapshot and current transform-source bindings. It preserves the
+original observation time, origin, missingness and historical stale flag; it
+does not attest present-day freshness or fetch today's feed. A changed transform
+requires the archived source version, not a silently substituted implementation.
+Synthetic archives remain synthetic. Wrong scope, missing/corrupt archives,
+unsupported schemas and unsafe files fail explicitly. Archive publication is
+atomic; an optional snapshot/lineage export is still a separate operation.
+An archive hash proves local byte identity, not upstream authenticity, training
+rights, authenticated ownership, power-loss recovery or live-feed qualification.
 
 This completes a scoped transport-to-temporal adapter, **not** a serverless
 feature store, statistical prediction-drift detector or deployment qualification.

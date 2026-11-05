@@ -78,6 +78,88 @@ failed with DNS `Errno -5` before receiving response bytes; no archive was
 created and no synthetic fallback was substituted. Production serving, useful
 model quality, live-feed validation and distributed durability remain open.
 
+### Exact feed replay continuation
+
+Product 40 now retains the exact bounded response bytes in an explicitly
+requested immutable archive. One content-addressed JSON object binds base64 raw
+bytes, owner scope, origin, original observation time, raw and snapshot hashes,
+and transform-source hashes. Archive replay does not call the transport or
+substitute today's time. It preserves null corrections and synthetic origin;
+staleness describes the original observation, not present-day freshness.
+Changed transform sources, wrong scope, malformed or corrupted bytes, unsafe
+files and oversized responses fail explicitly. Archive publication is atomic;
+optional snapshot/lineage exports remain separate operations.
+
+Independent review found an empty `--replay-archive ""` could select live mode.
+It is now rejected before any fetch, with a regression assertion that the
+network must not be called. The archive is not an authenticated source receipt,
+feature service, serverless runtime or distributed durability result. A new
+real CLI attempt again failed DNS (`Errno -5`); no response or fallback was
+fabricated.
+
+The existing Weave query returned grounded Product 40/changelog excerpts with
+`model_inference=false`, `effects_authorized=false` and `persisted=false`.
+The bot RAG indexed 1,901 chunks and retrieved Product 40 and P45 context.
+PsiCat's actual local retrieval/provider returned unrelated physics context
+and no ML knowledge-base match; its deterministic response was **not** used as
+independent ML advice or quality evidence. A separate candidate helper confirmed
+that the existing backend policy already requires untrusted-request refusal
+rationales, so neither the case prompt nor grader was tuned to the exposed
+failure.
+
+The repeat hosted Windows candidate evaluation at `095ae66` again passed
+3/4 cases with the same inadequate refusal explanation. Authentication and the
+other three cases passed; the candidate remains unqualified. A successful
+retry of the interrupted CodeQL analysis is an infrastructure recovery, not
+candidate-quality improvement.
+
+### Concurrent local checkpoint publication
+
+A synchronized subprocess test now starts three independent writer interpreters
+against the same POSIX directory. Identical bundles converge on one manifest;
+different bundles using the same descriptive checkpoint ID produce separate
+manifests. Fresh interpreter readers verify exact role bytes, and concurrent
+idempotent retries preserve earlier artifact bytes, inodes and modification
+times with no leftover temporary files. This adds tested local multi-process
+publication, not network storage, a distributed commit protocol, multi-host
+coordination, production authentication or power-loss durability.
+
+### Source-bound hosted regression evidence
+
+The previously incomplete frozen full-core run has now completed successfully:
+[run 42059462741](https://github.com/wuzbak/Unitary-Manifold-/actions/runs/42059462741)
+selected and reconciled **66,127/66,127 identities**, with **66,086 passed,
+41 skipped, 0 deselected and 0 failed** across `tests/`, `recycling/` and the
+Unitary Pentad. All **45 isolated product-suite jobs** in that same run passed.
+This tests PR head `75c3c26` merged with base `d9efc89`, exact checkout
+`883578c9d8e9f5b551997db84838b5d2144d83c0`, not every later change.
+The retained `verified_result.json` SHA-256 is
+`b82a63501f3845d6ee471a455ee3f17f05cca23a57d14ba5ea0d522d33c981e1`.
+Newer-head hosted validation is still required; an older green run does not
+certify the raw-archive or concurrent-checkpoint additions.
+
+The current scoped archive/temporal checks passed **75 tests**; the combined
+archive/product and concurrent-checkpoint checks passed **77 tests**. These
+overlapping counts are not added together or promoted to model-quality evidence.
+
+The final local combined unfiltered run passed **66,345 tests, 74 skipped,
+102 subtests passed, 0 failed** with two existing warnings in 904.71 seconds:
+
+```bash
+python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" \
+  9-INFRASTRUCTURE/az-ml-program/tests/ \
+  12-AZ-IP/43-az-geometric-tori-transformer/tests/ \
+  12-AZ-IP/40-az-live-data-harness/tests/ COMPACTIFICATION/test_maps.py -m '' -q
+```
+
+This used the isolated validation Python. The preceding attempt had one
+register-wording assertion failure and 66,344 passes: the expanded capability
+14 nonclaim omitted the required explicit phrase "partial baseline foundation
+only". That boundary phrase was restored without changing the assertion, all
+109 program-inventory tests passed, and the complete combined run above was
+repeated successfully. The local scope is not every product's test directory,
+and does not turn the separate hosted actual-model gate into a pass.
+
 ## Launch validation receipts (historical)
 
 Commands below use the isolated validation environment's `python` where pytest
