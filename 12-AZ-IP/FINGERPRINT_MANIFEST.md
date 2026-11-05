@@ -914,6 +914,26 @@ is preserved. Previous source identities remain in registry history.
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `39083f6d476d4d9abf1b30a00f8153e86f927a2b064407ed3585c9ccb16ba2f0` | 33214 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `59e6d3c9c1053f013e8a104e36a02b14e30e61f4ac0f92cfed66938850bc24ca` | 26724 |
 
+### Products 43 and 45 bounded model-review reseal - 2026-11-05
+
+Every JSON task now receives a draft and one generic same-model revision,
+without grader feedback or expected-answer content. Both generated texts remain
+distinguishable; a failed review never falls back to the draft. Plain-text
+challenges remain single-pass. The default CPU context is 4,096 tokens, while
+initial client input limits remain unchanged and client draft/review share the
+existing inference deadline (the verifier retains a per-HTTP timeout). This adds latency, not independent verification
+or an earned model-quality pass. Case prompts and grading remain unchanged;
+earlier negative receipts and previous source seals remain preserved.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `15cfbe885999a6ae298db911e0f98d2749aad03b7a64ee8b8627be3f0cbd6c0f` | 24197 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `bb238ec0639d632a32aae09512e6fbb15d22230eaa48ea562a2c7cdcda87d8e6` | 35730 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `b1e9c52e7a842dc318ed9932d7f3fa1c5159e72d509dff284931bd0c7f0e191e` | 61968 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `65c817a47a982248e21b2da290408b753bcc698f0cd08a9906bbf3ed03aa6e52` | 25217 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `3ae077b1ef9316a7d5c6b947a62bd6580e1dfb32ced282be1b65c53f18b4ccbb` | 34998 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `30667d76e58c8b88c45c536f34120e7b61c2ba63f63420174f4063cc0eb9cd1c` | 31676 |
+
 ## Verification Protocol
 
 To verify any registered asset:

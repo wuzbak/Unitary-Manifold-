@@ -182,6 +182,32 @@ mandatory ledger synchronization for a genuinely new PR pillar. No scientific
 ledger edits or acceptance exemptions were invented to silence the false
 attribution.
 
+The next implementation adds one generic same-model review to every JSON
+answer in both the actual client and verifier. Neither grader results nor
+expected answers are reviewer inputs. The original task, evidence and raw
+draft are retained; only the unmodified final generation is graded/validated.
+Draft/review HTTP, protocol and deadline errors fail explicitly without
+returning a draft as success. The verifier records planned and attempted
+passes separately, both raw generations and their timing. The actual client
+retains both texts, shares its existing 300-second inference deadline across
+the generations and preserves cancellation. Its original input admission
+limits remain unchanged; bounded review headroom uses a 4,096-token context.
+The verifier defaults to that context with its existing per-HTTP timeout.
+Self-review is not independent verification and remains an unqualified
+quality hypothesis until actual hosted acceptance.
+
+Integrated mainline `cf286ca` was preserved in local merge `015712b`, and the
+combined inventory was regenerated. Its Sprint DA registration had genuinely
+advanced STATUS/tracker to v38.5 while leaving public/core ledgers at v38.4.
+The first integrated focused run exposed that failure; the public/core ledger
+notices now reflect the already approved adjacent registration without
+changing physics claims, limitations, falsifiers or the historical regression
+marker. The unchanged ledger consistency check then passed with the complete
+104-test integration scope. The combined affected software scope passed
+1,042 tests and 110 subtests; the complete Node suite passed 225 tests with
+no failures or skips. Fresh final-head full and actual-model results remain
+required.
+
 The existing keyword-based rationale rubric may reject some otherwise valid
 privacy- or authorization-grounded explanations. The earlier Qwen3
 platform-only answer does not explain refusal of the private-file/upload

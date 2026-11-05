@@ -36,6 +36,14 @@ governed Product 45 runtime. Plain-text challenges do not. This constrains
 syntax only, not answers, field values, citations or refusal reasoning.
 Strict semantic checks remain unchanged; unsupported decoding fails without
 an unconstrained retry or output repair.
+Each JSON case also uses exactly two bounded model completions: a draft and one
+generic self-review/revision pass that receives only the original request,
+supplied evidence and draft, never grader feedback. This is not an independent
+reviewer or a quality guarantee; it adds CPU inference latency, and either call
+failing fails the case without falling back to the draft. Plain-text cases
+remain single-pass. The verifier defaults to a 4,096-token context to reserve
+headroom for review; `--context 2048` remains available when the engine can fit
+both prompts.
 
 The Windows `pc-suite-embedded-model.yml` workflow builds a pinned static engine,
 obtains official model revision/LFS hashes and licensing, and downloads the

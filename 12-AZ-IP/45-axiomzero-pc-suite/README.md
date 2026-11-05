@@ -40,6 +40,15 @@ The client requests generic JSON-object constrained decoding for answers,
 but not the ownership challenge. This does not supply answer values or prove
 grounding. Unsupported decoding fails explicitly; no output repair or
 unconstrained retry replaces the strict response checks.
+Every answer now uses a draft and exactly one model review against the same
+task and evidence, without grader feedback or expected answers. Only the final
+unmodified model output is validated and returned; review errors never fall
+back to the draft. Both generated texts remain in the returned `modelReview`
+record. This is the same model reviewing itself, not independent verification,
+and does not establish semantic correctness. The two generations share the
+existing five-minute inference deadline and remain cancellable. The bounded
+CPU context is now 4,096 tokens to reserve review headroom; original question
+and evidence admission limits remain unchanged.
 
 Answers remain UNVERIFIED. Citation IDs map to the supplied catalog or original
 file/line/hash excerpts; valid IDs do not prove that the answer follows from

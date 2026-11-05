@@ -987,10 +987,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "6db8927c6722ca1747703fb3d257f68e97bcba18c2017e34ec6cc5eb6f28d087",
-      "size_bytes": 24553,
-      "reseal_note": "Document generic JSON-object decoding, strict semantic checks and explicit unsupported-engine failure; no quality promotion.",
+      "sha256": "65c817a47a982248e21b2da290408b753bcc698f0cd08a9906bbf3ed03aa6e52",
+      "size_bytes": 25217,
+      "reseal_note": "Disclose bounded same-model draft review, retained generations, shared inference deadline and 4096-token review headroom without quality promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "6db8927c6722ca1747703fb3d257f68e97bcba18c2017e34ec6cc5eb6f28d087",
+          "size_bytes": 24553,
+          "note": "Instruction-suite documentation before bounded model review."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "4f283b0d700658e211eda7f1a904847b8e48ffb6257ca2a6f5b1c347a1945d2f",
@@ -2387,10 +2393,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "114f7894c86268926e2a78cf43de3174770372f96c510cf8fa6368d0545833f9",
-      "size_bytes": 23636,
-      "reseal_note": "Explain syntax-only JSON constraints shared with the actual client, unchanged semantic grading and explicit failures.",
+      "sha256": "15cfbe885999a6ae298db911e0f98d2749aad03b7a64ee8b8627be3f0cbd6c0f",
+      "size_bytes": 24197,
+      "reseal_note": "Disclose exactly one generic model revision for JSON tasks, preserved drafts, unchanged grading and additional CPU/context costs.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "114f7894c86268926e2a78cf43de3174770372f96c510cf8fa6368d0545833f9",
+          "size_bytes": 23636,
+          "note": "Verifier documentation before bounded model review."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "555dc31b1d4edc14e2987fa3bac4f0c06cc6181286d300dc6b9ca2567518879b",
@@ -2416,10 +2428,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "61a1bdaa2b89610f7754f7b73b4819db13a7e2695d259b93eda12a8ae9b83f8e",
-      "size_bytes": 52313,
-      "reseal_note": "Verify syntax-only JSON decoding, unchanged text challenges and failure without unconstrained fallback.",
+      "sha256": "b1e9c52e7a842dc318ed9932d7f3fa1c5159e72d509dff284931bd0c7f0e191e",
+      "size_bytes": 61968,
+      "reseal_note": "Verify unconditional bounded JSON review, final-only grading, preserved draft evidence, actual attempt counts and failure without draft fallback.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "61a1bdaa2b89610f7754f7b73b4819db13a7e2695d259b93eda12a8ae9b83f8e",
+          "size_bytes": 52313,
+          "note": "Candidate tests before bounded model review."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "67a6e01fd70e1c75d0007ad0159eee019767c5a1aeaf04e9a8f97317f8f44f46",
@@ -2469,10 +2487,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "bf528717baf276a14308092f35f21bdb6ab9d1b1ab748878f308d097c00589d4",
-      "size_bytes": 32331,
-      "reseal_note": "Request generic JSON-object decoding for JSON cases without answer-bearing schemas; case prompts, grader and deterministic sampling unchanged.",
+      "sha256": "bb238ec0639d632a32aae09512e6fbb15d22230eaa48ea562a2c7cdcda87d8e6",
+      "size_bytes": 35730,
+      "reseal_note": "Exactly one same-model revision for every JSON case without grader feedback; preserve draft/final evidence, actual attempts and unchanged case prompts and grading.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "bf528717baf276a14308092f35f21bdb6ab9d1b1ab748878f308d097c00589d4",
+          "size_bytes": 32331,
+          "note": "Syntax-constrained verifier before bounded model review."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "a97a8517a54c1a09011f4eddbc0b887fe0b904942e15c8ef202c2bd0007757dc",
@@ -2585,10 +2609,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "39083f6d476d4d9abf1b30a00f8153e86f927a2b064407ed3585c9ccb16ba2f0",
-      "size_bytes": 33214,
-      "reseal_note": "Constrain actual answers to generic JSON objects while leaving ownership challenges plain text and retaining strict validation.",
+      "sha256": "3ae077b1ef9316a7d5c6b947a62bd6580e1dfb32ced282be1b65c53f18b4ccbb",
+      "size_bytes": 34998,
+      "reseal_note": "Bounded draft plus generic revision with retained texts, unchanged initial admission limits, shared deadline, explicit failures and final-only response validation.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "39083f6d476d4d9abf1b30a00f8153e86f927a2b064407ed3585c9ccb16ba2f0",
+          "size_bytes": 33214,
+          "note": "Syntax-constrained runtime before bounded model review."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "836a7d27cc0c17f01d9c95e4101879fcaaf2298ddc542bf6aa2e7047c3592768",
@@ -2647,10 +2677,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "59e6d3c9c1053f013e8a104e36a02b14e30e61f4ac0f92cfed66938850bc24ca",
-      "size_bytes": 26724,
-      "reseal_note": "Validate actual request syntax constraint, unconstrained ownership challenge and no fallback when the engine rejects JSON decoding.",
+      "sha256": "30667d76e58c8b88c45c536f34120e7b61c2ba63f63420174f4063cc0eb9cd1c",
+      "size_bytes": 31676,
+      "reseal_note": "Exercise real child review requests, unchanged task/evidence, retained generated texts, final validation, shared deadlines, cancellation and no draft fallback.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "59e6d3c9c1053f013e8a104e36a02b14e30e61f4ac0f92cfed66938850bc24ca",
+          "size_bytes": 26724,
+          "note": "Runtime contracts before bounded model review."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "943abbb5247f009d887e7cbbf875ca3a836a4d4362e734cd0417818e3b295a8b",

@@ -1,5 +1,23 @@
 # Wave Changelog
 
+## Mainline v38.5 ledger synchronization and bounded model review (2026-11-05)
+
+The approved mainline Sprint DA registration had advanced STATUS and the tracker
+without synchronizing the public/core ledger versions. Integrated-mainline
+testing exposed the genuine version-consistency failure. README, FALLIBILITY
+and DERIVATION_STATUS now explicitly reflect that existing adjacent registration,
+preserving all scientific limitations, falsifiers and the historical regression
+marker. This is not a new physics promotion. The combined Git-index inventory
+was also regenerated after integration rather than bypassing its stale-map gate.
+
+The instruction client and verifier now perform one generic model revision for
+every JSON answer, without grader feedback or expected-answer content. Draft
+and final generations remain distinguishable; review errors never fall back to
+the draft. Plain-text challenges remain single-pass. The bounded context is
+4,096 tokens, while original client question/evidence admission limits remain
+unchanged. Self-review adds CPU latency and is not independent verification;
+actual-model acceptance remains required.
+
 ## PR diff attribution correction (2026-11-05)
 
 The ledger gate now compares the actual event PR head to its merge base with
