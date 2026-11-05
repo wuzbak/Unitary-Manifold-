@@ -71,26 +71,36 @@ jobs:
           }
           cmake --build native-engine/build --config Release --target llama-server llama-quantize --parallel 2
           if ($LASTEXITCODE -ne 0) { throw "CPU engine compilation failed." }
-      - name: Fetch direct official Qwen2.5 Q4 candidate and authoritative metadata
+      - name: Fetch Unsloth Qwen3 instruction-only conversion and verify provenance
         run: |
-          $repository = "Qwen/Qwen2.5-1.5B-Instruct-GGUF"
-          $expectedFile = "qwen2.5-1.5b-instruct-q4_k_m.gguf"
+          $repository = "unsloth/Qwen3-4B-Instruct-2507-GGUF"
+          $baseRepository = "Qwen/Qwen3-4B-Instruct-2507"
+          $expectedFile = "Qwen3-4B-Instruct-2507-Q4_K_M.gguf"
           $metadata = Invoke-RestMethod -Uri "https://huggingface.co/api/models/${repository}?blobs=true" -TimeoutSec 60 -MaximumRedirection 0
           if ($metadata.private -or $metadata.gated -or $metadata.cardData.license -cne "apache-2.0") {
-            throw "Candidate must be public, ungated and declared Apache-2.0 by its official model card."
+            throw "Conversion must be public, ungated and declared Apache-2.0 by its repository metadata."
           }
           New-Item -ItemType Directory -Force candidate | Out-Null
           $metadata | ConvertTo-Json -Depth 8 | Set-Content candidate/model-metadata.json -Encoding utf8NoBOM
-          if ($metadata.sha -cnotmatch "^[a-f0-9]{40}$") { throw "Official model revision is invalid." }
+          if ($metadata.sha -cnotmatch "^[a-f0-9]{40}$") { throw "Conversion repository revision is invalid." }
+          $declaredBases = @($metadata.cardData.base_model | Where-Object { $null -ne $_ })
+          if ($declaredBases.Count -gt 0 -and ($declaredBases.Count -ne 1 -or $declaredBases[0] -cne $baseRepository)) {
+            throw "Conversion metadata does not identify the expected official instruction-only base model."
+          }
+          $baseMetadata = Invoke-RestMethod -Uri "https://huggingface.co/api/models/${baseRepository}?blobs=true" -TimeoutSec 60 -MaximumRedirection 0
+          if ($baseMetadata.private -or $baseMetadata.gated -or $baseMetadata.cardData.license -cne "apache-2.0" -or $baseMetadata.sha -cnotmatch "^[a-f0-9]{40}$") {
+            throw "Official instruction-only base must be public, ungated, revision-identified and Apache-2.0."
+          }
+          $baseMetadata | ConvertTo-Json -Depth 8 | Set-Content candidate/base-model-metadata.json -Encoding utf8NoBOM
           $assets = @($metadata.siblings | Where-Object { $_.rfilename -ieq $expectedFile })
           if ($assets.Count -ne 1 -or $assets[0].rfilename -cnotmatch ("(?i)^" + [regex]::Escape($expectedFile) + "$")) {
             $metadata.siblings.rfilename | Write-Output
-            throw "Official repository must contain exactly the expected direct Q4_K_M filename."
+            throw "Conversion repository must contain exactly the expected Q4_K_M filename."
           }
           $asset = $assets[0]
           $file = $asset.rfilename
-          if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 1600000000) {
-            throw "Authoritative LFS digest/size is missing or exceeds the 1.6 GB installation budget."
+          if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 3000000000) {
+            throw "Authoritative conversion LFS digest/size is missing or exceeds the approved 3 GB installation budget."
           }
           function Receive-PublicAsset([string]$url, [string]$destination, [long]$maximum, [long]$expected = -1) {
             $handler = [System.Net.Http.HttpClientHandler]::new()
@@ -140,17 +150,17 @@ jobs:
           $modelPath = [System.IO.Path]::GetFullPath("candidate/$expectedFile")
           Receive-PublicAsset $url $modelPath $asset.lfs.size $asset.lfs.size
           $modelSha = (Get-FileHash $modelPath -Algorithm SHA256).Hash.ToLowerInvariant()
-          if ($modelSha -cne $asset.lfs.sha256) { throw "Downloaded official model does not match authoritative LFS SHA-256." }
+          if ($modelSha -cne $asset.lfs.sha256) { throw "Downloaded conversion does not match its repository LFS SHA-256." }
           if ([System.IO.Path]::GetFileName($modelPath) -cnotmatch ("(?i)^" + [regex]::Escape($expectedFile) + "$")) {
-            throw "Downloaded official model filename does not match the candidate profile."
+            throw "Downloaded conversion filename does not match the candidate profile."
           }
           Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/README.md" ([System.IO.Path]::GetFullPath("candidate/MODEL_CARD.md")) 262144
           $repositoryLicenses = @($metadata.siblings | Where-Object { $_.rfilename -imatch "^LICENSE(?:\.txt|\.md)?$" })
-          if ($repositoryLicenses.Count -gt 1) { throw "Official model metadata has ambiguous LICENSE assets." }
+          if ($repositoryLicenses.Count -gt 1) { throw "Conversion metadata has ambiguous LICENSE assets." }
           if ($repositoryLicenses.Count -eq 1) {
             $licenseFile = $repositoryLicenses[0].rfilename
             if ([System.IO.Path]::GetFileName($licenseFile) -cne $licenseFile) {
-              throw "Official model LICENSE metadata contains an unsafe path."
+              throw "Conversion LICENSE metadata contains an unsafe path."
             }
             $licenseSource = "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$([uri]::EscapeDataString($licenseFile))"
             Receive-PublicAsset $licenseSource ([System.IO.Path]::GetFullPath("candidate/MODEL_LICENSE")) 65536
@@ -164,7 +174,7 @@ jobs:
           $licenseSha = (Get-FileHash candidate/MODEL_LICENSE -Algorithm SHA256).Hash.ToLowerInvariant()
           $licenseFallbackFact = $null
           if (-not $repositoryLicenseFilePresent) {
-            $licenseFallbackFact = "No LICENSE, LICENSE.txt or LICENSE.md file was listed in authoritative repository metadata; canonical Apache-2.0 text was retrieved from apache.org after official model-card metadata declared apache-2.0."
+            $licenseFallbackFact = "No LICENSE, LICENSE.txt or LICENSE.md file was listed in conversion repository metadata; canonical Apache-2.0 text was retrieved from apache.org after conversion and official base metadata declared apache-2.0."
           }
           [ordered]@{
             formatVersion = 1
@@ -196,7 +206,11 @@ jobs:
           $manifest | ConvertTo-Json -Depth 6 | Set-Content candidate/manifest.json -Encoding utf8NoBOM
           [ordered]@{
             formatVersion = 1
-            source = "official_direct_q4"
+            source = "unsloth_community_gguf_conversion"
+            baseRepository = $baseRepository
+            observedBaseRevision = $baseMetadata.sha
+            declaredBaseModels = $declaredBases
+            limitation = "Conversion bytes are matched to Unsloth repository LFS metadata; the observed official base revision is not proof of which base revision Unsloth converted. This project did not independently reproduce the conversion."
             url = $url
             repository = $repository
             sourceFile = $file
@@ -358,7 +372,8 @@ jobs:
             --engine "$([System.IO.Path]::GetFullPath('native-engine/build/bin/Release/llama-server.exe'))" `
             --model "$([System.IO.Path]::GetFullPath("candidate/$($manifest.model.file)"))" `
             --manifest "$([System.IO.Path]::GetFullPath('candidate/manifest.json'))" `
-            --report "$([System.IO.Path]::GetFullPath('candidate/validation.json'))"
+            --report "$([System.IO.Path]::GetFullPath('candidate/validation.json'))" `
+            --request-timeout 300
           if ($LASTEXITCODE -ne 0) { throw "Actual instruction backend acceptance failed." }
       - name: Preserve source licenses for the evaluated engine
         run: |
@@ -376,10 +391,11 @@ jobs:
           retention-days: 7
           compression-level: 0
           path: |
-            candidate/qwen2.5-1.5b-instruct-q4_k_m.gguf
+            candidate/Qwen3-4B-Instruct-2507-Q4_K_M.gguf
             candidate/manifest.json
             candidate/source-provenance.json
             candidate/model-metadata.json
+            candidate/base-model-metadata.json
             candidate/license-provenance.json
             candidate/MODEL_CARD.md
             candidate/MODEL_LICENSE
@@ -398,6 +414,7 @@ jobs:
             candidate/manifest.json
             candidate/source-provenance.json
             candidate/model-metadata.json
+            candidate/base-model-metadata.json
             candidate/license-provenance.json
             candidate/source-q8-receipt.json
             candidate/source-q8-manifest.json

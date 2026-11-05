@@ -232,13 +232,35 @@ class ManifestTests(ArtifactFixture):
                     with self.assertRaises(gate.VerificationError):
                         gate.validate_manifest(bad)
 
-    def test_official_filename_capitalization_does_not_change_quantization(self):
+    def test_candidate_filename_capitalization_does_not_change_quantization(self):
         manifest = copy.deepcopy(self.manifest)
         manifest["model"]["file"] = gate.MODEL_FILE.lower()
         self.assertEqual(gate.validate_manifest(manifest)["model"]["file"], gate.MODEL_FILE.lower())
         manifest["model"]["file"] = f"../{gate.MODEL_FILE.lower()}"
         with self.assertRaises(gate.VerificationError):
             gate.validate_manifest(manifest)
+
+    def test_candidate_budget_and_profile_match_production_without_large_allocations(self):
+        manifest = copy.deepcopy(self.manifest)
+        for size in (1_600_000_001, 2_500_000_000, gate.MAX_MODEL_BYTES):
+            manifest["model"]["sizeBytes"] = size
+            self.assertEqual(gate.validate_manifest(manifest), manifest)
+        manifest["model"]["sizeBytes"] = gate.MAX_MODEL_BYTES + 1
+        with self.assertRaisesRegex(gate.VerificationError, "3 GB"):
+            gate.validate_manifest(manifest)
+        runtime = (Path(__file__).resolve().parents[2] /
+                   "45-axiomzero-pc-suite/lib/instruction-model.cjs").read_text(encoding="utf-8")
+        self.assertIn(f'const MODEL_REPOSITORY = "{gate.MODEL_REPOSITORY}";', runtime)
+        self.assertIn(f'const MODEL_FILE = "{gate.MODEL_FILE}";', runtime)
+        self.assertIn(f"modelBytes: {gate.MAX_MODEL_BYTES}", runtime)
+        workflow = (Path(__file__).resolve().parents[3] /
+                    ".github/workflows/pc-suite-embedded-model.yml").read_text(encoding="utf-8")
+        self.assertIn(f'$repository = "{gate.MODEL_REPOSITORY}"', workflow)
+        self.assertIn(f'$expectedFile = "{gate.MODEL_FILE}"', workflow)
+        self.assertIn(f"$asset.lfs.size -gt {gate.MAX_MODEL_BYTES}", workflow)
+        self.assertIn(f"candidate/{gate.MODEL_FILE}", workflow)
+        self.assertIn("unsloth_community_gguf_conversion", workflow)
+        self.assertIn('$baseMetadata.cardData.license -cne "apache-2.0"', workflow)
 
     def test_q8_source_requires_explicit_diagnostic_mode_and_exact_filename(self):
         source = self.root / gate.SOURCE_Q8_FILE

@@ -1039,3 +1039,16 @@ Reconciled merged mainline candidate policy with recovery-owned process cleanup 
 | `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `999fcb761373bc88ba27b83eab819ea4bb6c1f92511b6d306a994948643cf8d2` | 36396 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d6b738b1ced2debf3e722d52cf629f557c61847621b4950c0b6969668babbc6e` | 36158 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `6d34f8a2bafe44afc95607873699cb74d7a6d042c05b9382a55c09eed071639b` | 37393 |
+
+### Approved stronger instruction-model reseal — 2026-11-05
+
+Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `870684a4d8764c6eefb8eb377d712594420464958cd1388c76fa29f3736e635d` | 28366 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `17bff86e0c95434d66103afca8bdb3372e742420d7440a11e31e6264e9eddc6d` | 25352 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `42e2e34c7604ffe254f9c551b45ebad2c73cb35acbb9af23b22b9a4af5c6d538` | 65967 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `87a17bc612d154b1c862e9f97587c2562b175812ea1c5fe25017be0dcba83530` | 36607 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `b14ab56fca7d37c0748bb89e1bf98f6e0acf6ff3087ea26e2db5a6c4da7e1de8` | 36192 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `21f9bcdfcbcc3443d037547086324b4c63e773e76a8f2b50ae1bc0bbbb357688` | 37608 |

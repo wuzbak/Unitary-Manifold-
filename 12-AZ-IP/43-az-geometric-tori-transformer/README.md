@@ -25,7 +25,7 @@ bias) is implemented and differentiated here (`tensor.py`), in NumPy only.
 ## Separate instruction-backend verification
 
 `verify_embedded_engine.py` validates an absolute-path, checksum-pinned local
-llama.cpp server and the selected Qwen2.5-1.5B-Instruct Q4_K_M GGUF before any
+llama.cpp server and the selected Unsloth Qwen3-4B-Instruct-2507 Q4_K_M GGUF before any
 frontend integration. It checks real
 instructions, supplied citation IDs, unsupported portfolio-platform limits and
 refusal of malicious retrieved instructions. The server runs CPU-only on an
@@ -46,10 +46,20 @@ without falling back to drafts. For this option, `--context 4096` is available
 when the engine needs additional prompt headroom.
 
 The Windows `pc-suite-embedded-model.yml` workflow builds a pinned static engine,
-obtains official model revision/LFS hashes and licensing, and downloads the
-official instruction-tuned Q4_K_M weights directly with byte/time limits and
-the existing 1.6 GB installation budget. No local requantization is used for
-this candidate. Its actual hosted acceptance must pass before packaging.
+obtains conversion-repository revision/LFS hashes and licensing, and downloads
+the Unsloth community conversion with byte/time limits and the approved
+3,000,000,000-byte model cap. These are not official Qwen GGUF weights.
+Public/ungated Apache-2.0 metadata is required for both the conversion and the
+official `Qwen/Qwen3-4B-Instruct-2507` instruction-only base; a declared base
+must match. Provenance retains both snapshots, while explicitly not claiming
+the observed base revision was used for the conversion. The project has not
+reproduced the conversion and performs no local requantization.
+Actual hosted acceptance must pass before packaging; this candidate is not yet
+qualified. Hosted acceptance uses `--request-timeout 300`, matching the
+production runtime's existing request deadline; the standalone CLI default
+remains 120 seconds. Threads, contexts, grading and default-off review are
+unchanged. The file cap is not a RAM or hardware qualification.
+The Qwen2.5-1.5B Q4 replacement also failed the retrieval criterion.
 The preceding Qwen3-1.7B Q4 candidate and its original Q8 source both failed
 the same retrieval challenge; the preserved paired evidence does not support
 attributing that failure solely to compression. An explicit source-Q8

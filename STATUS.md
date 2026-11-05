@@ -14,8 +14,9 @@
 > Planar null-constraint diagnostics have the corrected normalization.
 > P1132 retains `ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED`, not a
 > constraint-compatible nonconstant scalar propagation claim. Implementations
-> 1132–1134 now reside in `src/core/pillar_1132_1134/`; their existing public
-> imports remain available lazily. Historical CZ qualification is distinguished
+> 1132 resides in `src/core/pillar_1132_1134/`; mainline implementations
+> 1133–1134 reside in `src/core/pillar_1129_1168/`. Existing public imports
+> remain available lazily. Historical CZ qualification is distinguished
 > from current DA metadata. No pillar, version, hardgate, score or falsifier
 > changes. Source-bound recovery execution receipts and the still-blocked
 > Product 45 model qualification are recorded in `docs/WAVE_CHANGELOG.md`.

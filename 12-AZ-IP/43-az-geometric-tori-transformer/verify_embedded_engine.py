@@ -7,8 +7,8 @@ model={repository, revision, file, sha256, sizeBytes, license};
 engine={repository, revision, sha256, license}. Model revision is the exact
 40-character Hugging Face commit, both digests are lowercase SHA-256, and
 sizeBytes is the authoritative model file byte count. Fixed candidate:
-Qwen/Qwen2.5-1.5B-Instruct-GGUF,
-qwen2.5-1.5b-instruct-q4_k_m.gguf, Apache-2.0; engine:
+unsloth/Qwen3-4B-Instruct-2507-GGUF,
+Qwen3-4B-Instruct-2507-Q4_K_M.gguf, Apache-2.0; engine:
 ggml-org/llama.cpp, 52e53a76df0298d2c316ae7e704eeec03b0bf478, MIT.
 Supply authoritative public metadata and trusted compiled artifacts yourself.
 The optional --source-q8-diagnostic mode accepts only the pinned historical
@@ -40,8 +40,9 @@ import time
 
 
 ENGINE_REVISION = "52e53a76df0298d2c316ae7e704eeec03b0bf478"
-MODEL_REPOSITORY = "Qwen/Qwen2.5-1.5B-Instruct-GGUF"
-MODEL_FILE = "qwen2.5-1.5b-instruct-q4_k_m.gguf"
+MODEL_REPOSITORY = "unsloth/Qwen3-4B-Instruct-2507-GGUF"
+MODEL_FILE = "Qwen3-4B-Instruct-2507-Q4_K_M.gguf"
+MAX_MODEL_BYTES = 3_000_000_000
 SOURCE_Q8_REPOSITORY = "Qwen/Qwen3-1.7B-GGUF"
 SOURCE_Q8_REVISION = "90862c4b9d2787eaed51d12237eafdfe7c5f6077"
 SOURCE_Q8_FILE = "Qwen3-1.7B-Q8_0.gguf"
@@ -184,6 +185,8 @@ def validate_manifest(value, source_q8_diagnostic=False):
     hexadecimal(engine["sha256"], 64, "engine sha256")
     if type(model["sizeBytes"]) is not int or model["sizeBytes"] < 8:
         raise VerificationError("model sizeBytes must be an integer >= 8")
+    if not source_q8_diagnostic and model["sizeBytes"] > MAX_MODEL_BYTES:
+        raise VerificationError("model sizeBytes exceeds the approved 3 GB candidate budget")
     return value
 
 
@@ -703,7 +706,7 @@ def bounded_timeout(value):
 def parser():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("--engine", required=True, help="Absolute compiled llama-server path")
-    cli.add_argument("--model", required=True, help="Absolute local official GGUF path")
+    cli.add_argument("--model", required=True, help="Absolute local candidate GGUF path")
     cli.add_argument("--manifest", required=True, help="Absolute authoritative metadata JSON path")
     cli.add_argument("--report", required=True, help="Local JSON output path; parent must exist")
     cli.add_argument(

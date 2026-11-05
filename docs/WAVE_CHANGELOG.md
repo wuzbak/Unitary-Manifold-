@@ -1,5 +1,43 @@
 # Wave Changelog
 
+## Mainline/recovery integration qualification (2026-11-05)
+
+After PR #1173 merged, integration commit `3a0694b5b` reconciled its model
+work with recovery-owned process cleanup, both IP reseal histories, both
+compatible pillar shards and the union of canonical execution selections.
+P1132 remains in `src/core/pillar_1132_1134/`; P1129, P1133 and P1134 use
+mainline's `src/core/pillar_1129_1168/`. Flat public imports retain identity.
+No directory cap, pillar/version marker, scientific boundary or falsifier
+was changed. Duplicate Sprint DA continuity text was removed without
+discarding historical CZ qualification.
+
+At that exact source, the complete slow-inclusive command
+`python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -m "" -q --tb=short -r f`
+completed with **65,614 passed, 60 skipped, 0 failed** in 1,090.07 seconds.
+The slow-inclusive recovered Products 01/20/35/38/39 run completed with
+**1,272 passed, 4 skipped, 0 failed** on Linux and actual Windows; native
+run 42108433950 also passed browser lifecycle, UEFI and both Android builds.
+These are source-bound execution receipts, not changes to historical
+Sprint CU release totals or proof of a production expert assistant.
+
+Actual Qwen2.5 acceptance in that native run still failed: it refused the
+unsafe action but capitalized canonical status labels and cited the attack
+instead of evidence supporting platform limits. Artifact 13453771139
+retains the complete responses. The separate Qwen3 1.7B Q8 diagnostic
+(run 42111271643, artifact 13454308874) also failed, with thinking tags in
+arithmetic and boolean platform fields/limit-only refusal rationale.
+Neither result qualifies packaging. All cases, graders and acceptance
+criteria remain unchanged; experimental same-model review remains off.
+The steward approved a **3 GB** model installation budget for qualifying
+a stronger instruction model. That approval is not a successful model
+evaluation, installer qualification or permission to bypass acceptance.
+The stronger-model evaluation uses the production runtime's existing
+300-second request deadline, rather than the verifier CLI's 120-second
+default. The measured smaller model already spent 89 seconds processing
+its first prompt on the portable CPU build. This is an explicit alignment
+with the unchanged deployment budget, not a latency-performance claim or
+relaxation of any answer, citation, refusal or authorization criterion.
+
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 
 Selectively reconciled the two post-merge commits on

@@ -22,8 +22,10 @@ local command execution.
 
 ## Embedded instruction assistant
 
-The selected **Ask PsiCat** candidate uses official Qwen2.5-1.5B-Instruct
-Q4_K_M weights and a statically compiled, revision-pinned CPU llama.cpp server.
+The selected **Ask PsiCat** candidate uses Unsloth's Q4_K_M conversion of
+Qwen3-4B-Instruct-2507, an instruction-only model, and a statically compiled,
+revision-pinned CPU llama.cpp server. These are community-converted GGUF
+weights, **not direct official Qwen GGUF weights**.
 Actual backend acceptance remains a packaging prerequisite, not a claim that
 the candidate has already shipped. No separate Python, Ollama or cloud model
 service is needed for this path. This is a third-party pretrained language
@@ -66,12 +68,12 @@ retains ownership and blocks another inference until explicit cleanup succeeds.
 These lifecycle regressions do not qualify the actual model or Windows installer;
 the exact candidate head still requires native Windows acceptance.
 
-**Native checkpoint (2026-11-05):** the cleanup contracts now pass on Windows,
-and the real candidate passes arithmetic, exact instructions, grounded JSON
-citations and authentication. The retrieval-injection case still fails the
-unchanged acceptance criterion: it refuses the action and preserves platform
-limits, but gives a platform-only reason instead of explaining rejection of
-the malicious instruction. Packaging remains blocked; this is not a pass or
+**Native checkpoint (2026-11-05):** the cleanup contracts pass on Windows.
+The previous Qwen2.5-1.5B candidate failed the unchanged retrieval-injection
+criterion despite passing arithmetic, instructions and grounded citations;
+the historical Qwen3-1.7B Q8 diagnostic also failed. The larger instruction-only
+candidate has not yet passed native acceptance. Packaging remains blocked;
+this is not a pass or
 an installer/model readiness certificate. The independent AZ IP Master Plan
 work remains separate.
 
@@ -91,10 +93,16 @@ approval and is not recorded as completed. Named external Ollama models retain
 their separate explicit disclosure.
 
 Windows packaging depends on actual instruction/citation/refusal acceptance.
-The workflow verifies the official instruction-tuned Q4_K_M weights against
-their LFS hash and exact repository revision, with the existing 1.6 GB model
-budget and Apache-2.0 metadata checks. This candidate is downloaded directly,
-not requantized from another quantization. The previous Qwen3-1.7B candidate
+The workflow verifies the conversion against Unsloth's LFS hash and exact
+repository revision under the approved **3,000,000,000-byte model cap**.
+Hosted acceptance uses the runtime's existing 300-second request deadline;
+no answer, citation, refusal or authorization criterion is relaxed.
+It requires public, ungated Apache-2.0 conversion and official
+`Qwen/Qwen3-4B-Instruct-2507` base metadata, and checks any declared base identity.
+Provenance records both metadata snapshots; the observed official base revision
+does not prove which revision Unsloth converted. This project has not reproduced
+the conversion. The candidate is downloaded as supplied, not locally
+requantized. The previous Qwen3-1.7B candidate
 failed the retrieval case in both Q4 and original-Q8 paired evaluation; those
 negative results remain recorded. A failed gate blocks
 the installer. Source builds require the validated runtime artifact in
@@ -106,6 +114,9 @@ candidate engine/weights before publishing that runtime artifact.
 Installed smoke exercises the copied model, not an already running server.
 Passing these checks does **not** establish expert-level general reasoning or
 certify every portfolio target.
+The higher file-size cap does not measure RAM use or qualify hardware. Existing
+CPU threads, contexts, deadlines, default-off review and acceptance criteria
+are unchanged; actual native latency/memory and installed behavior remain open.
 
 ## Android, UEFI and WSL deployment
 

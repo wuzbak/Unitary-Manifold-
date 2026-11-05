@@ -1053,10 +1053,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "d1a057e797f00d633c1e24345843c110fcb0ad210faafa46238805c88422607a",
-      "size_bytes": 27654,
-      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
+      "sha256": "870684a4d8764c6eefb8eb377d712594420464958cd1388c76fa29f3736e635d",
+      "size_bytes": 28366,
+      "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "d1a057e797f00d633c1e24345843c110fcb0ad210faafa46238805c88422607a",
+          "size_bytes": 27654,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "e1e07d1ed6920b1ee3949a2d87ae851a091e4f7a1595ad642d3d0719021aa57e",
@@ -2525,10 +2531,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "3aef20a9f0d646deabaac0a69dbbdb998a0f7c32995a51b7f3b68325d2d4ba5b",
-      "size_bytes": 24615,
-      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
+      "sha256": "17bff86e0c95434d66103afca8bdb3372e742420d7440a11e31e6264e9eddc6d",
+      "size_bytes": 25352,
+      "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "3aef20a9f0d646deabaac0a69dbbdb998a0f7c32995a51b7f3b68325d2d4ba5b",
+          "size_bytes": 24615,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "b2b0c9d63dbe1a0f7ed9d220b8fc58108861147079aa7adb89316ae87e00231d",
@@ -2590,10 +2602,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "00e5a156adf21fa97510f7c5c4a705e9cecc04c6b86ce688c4925a607926a545",
-      "size_bytes": 64462,
-      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
+      "sha256": "42e2e34c7604ffe254f9c551b45ebad2c73cb35acbb9af23b22b9a4af5c6d538",
+      "size_bytes": 65967,
+      "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "00e5a156adf21fa97510f7c5c4a705e9cecc04c6b86ce688c4925a607926a545",
+          "size_bytes": 64462,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "f0dbc8a4d46db8ebcb8fa60839959018c8f1efadb6110ee3ef821871f00364ea",
@@ -2661,10 +2679,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "999fcb761373bc88ba27b83eab819ea4bb6c1f92511b6d306a994948643cf8d2",
-      "size_bytes": 36396,
-      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
+      "sha256": "87a17bc612d154b1c862e9f97587c2562b175812ea1c5fe25017be0dcba83530",
+      "size_bytes": 36607,
+      "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "999fcb761373bc88ba27b83eab819ea4bb6c1f92511b6d306a994948643cf8d2",
+          "size_bytes": 36396,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "2f9074ed5ac9344798ac00f6de49f9978eb3d96001301015e0baa3ca213e92fe",
@@ -2795,10 +2819,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "d6b738b1ced2debf3e722d52cf629f557c61847621b4950c0b6969668babbc6e",
-      "size_bytes": 36158,
-      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
+      "sha256": "b14ab56fca7d37c0748bb89e1bf98f6e0acf6ff3087ea26e2db5a6c4da7e1de8",
+      "size_bytes": 36192,
+      "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "d6b738b1ced2debf3e722d52cf629f557c61847621b4950c0b6969668babbc6e",
+          "size_bytes": 36158,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72",
@@ -2893,10 +2923,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "6d34f8a2bafe44afc95607873699cb74d7a6d042c05b9382a55c09eed071639b",
-      "size_bytes": 37393,
-      "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated.",
+      "sha256": "21f9bcdfcbcc3443d037547086324b4c63e773e76a8f2b50ae1bc0bbbb357688",
+      "size_bytes": 37608,
+      "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "6d34f8a2bafe44afc95607873699cb74d7a6d042c05b9382a55c09eed071639b",
+          "size_bytes": 37393,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb",

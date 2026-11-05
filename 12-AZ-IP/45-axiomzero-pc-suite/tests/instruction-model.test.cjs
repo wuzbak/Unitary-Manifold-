@@ -80,8 +80,8 @@ const CHILD = String.raw`
     server.listen(config.port, "127.0.0.1");
   }
 `;
-const MODEL_REPOSITORY = "Qwen/Qwen2.5-1.5B-Instruct-GGUF";
-const MODEL_FILE = "qwen2.5-1.5b-instruct-q4_k_m.gguf";
+const MODEL_REPOSITORY = "unsloth/Qwen3-4B-Instruct-2507-GGUF";
+const MODEL_FILE = "Qwen3-4B-Instruct-2507-Q4_K_M.gguf";
 const hash = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const evidence = [{ id: "C1", text: "Product 45 is a Windows suite.",
   file: "portfolio/product45.md", lineStart: 4, lineEnd: 5 }];
@@ -153,6 +153,8 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
   assert.equal(status.status, "ready");
   assert.equal(status.verified, true);
   assert.equal(status.productionAssistantVerified, false);
+  assert.equal(LIMITS.modelBytes, 3000000000);
+  assert.match(status.boundary, /Unsloth conversion/);
   assert.equal(f.children.length, 0, "status never launches inference");
   const result = await f.runtime.answer({ question: "What is Product 45?", evidence });
   assert.deepEqual(result.citations, ["C1"]);
@@ -189,7 +191,7 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
   assert.ok(challengeRequests.every((message) => message.body.response_format === undefined));
 });
 
-test("official bundled basename may vary in case but local manifest spelling is exact", async (t) => {
+test("candidate bundled basename may vary in case but local manifest spelling is exact", async (t) => {
   const f = await fixture(t);
   const actual = MODEL_FILE.toUpperCase();
   await fs.rename(path.join(f.resourcesDirectory, MODEL_FILE), path.join(f.resourcesDirectory, actual));
@@ -202,14 +204,14 @@ test("official bundled basename may vary in case but local manifest spelling is 
   assert.match((await f.runtime.status()).error, /basename/);
 });
 
-test("hashes an actual 1 GB GGUF asynchronously without blocking event-loop progress", async (t) => {
+test("hashes an actual 2.5 GB GGUF asynchronously without blocking event-loop progress", async (t) => {
   const f = await fixture(t);
   const modelPath = path.join(f.resourcesDirectory, MODEL_FILE);
-  await fs.truncate(modelPath, 1000000000);
+  await fs.truncate(modelPath, 2500000000);
   const digest = crypto.createHash("sha256");
   for await (const chunk of createReadStream(modelPath, { highWaterMark: 1024 * 1024 })) digest.update(chunk);
   f.manifest.model.sha256 = digest.digest("hex");
-  f.manifest.model.sizeBytes = 1000000000;
+  f.manifest.model.sizeBytes = 2500000000;
   await f.saveManifest();
   let ticks = 0;
   const timer = setInterval(() => ticks++, 2);
@@ -236,6 +238,7 @@ test("strict manifest rejects changed pins, traversal, extra/duplicate keys, siz
     ["engine pin", (m) => { m.engine.revision = "b".repeat(40); }],
     ["model repo", (m) => { m.model.repository = "other/model"; }],
     ["previous Qwen3 model repo", (m) => { m.model.repository = "Qwen/Qwen3-1.7B-GGUF"; }],
+    ["previous Qwen2.5 model repo", (m) => { m.model.repository = "Qwen/Qwen2.5-1.5B-Instruct-GGUF"; }],
     ["traversal", (m) => { m.model.file = "../" + MODEL_FILE; }],
     ["license", (m) => { m.model.license = "unknown"; }],
     ["size", (m) => { m.model.sizeBytes = LIMITS.modelBytes + 1; }],
