@@ -952,6 +952,17 @@ are retained above and in registry reseal history.
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72` | 35436 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb` | 33035 |
 
+### Product 44 point-in-time query context reseal - 2026-11-05
+
+The Weave README now documents optional, already-loaded temporal snapshots in
+read-only queries. Owner/hash binding, availability-aware selection, explicit
+freshness and origin policy do not constitute feature-service qualification.
+The previous exact-byte seal is retained in the registry's reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `bbad263a5a9b13181ab00db408379a2d5a181e1c22f3df34f9b3a8224d9fe52a` | 14603 |
+
 ## Verification Protocol
 
 To verify any registered asset:

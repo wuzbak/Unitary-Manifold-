@@ -33,6 +33,35 @@ source bytes and builds a distinct replacement generation. This closes a real
 tool-coverage gap, not the learned-retrieval or self-healing-RAG qualification
 gate. All 21 capabilities remain open.
 
+Weave now consumes the existing temporal snapshot/replay primitive through an
+optional in-process query context. Owner and content hash are pinned; entity,
+features, decision time and freshness policy are explicit. Future availability
+and late corrections cannot leak backward. Real-only origins remain the
+default; missing, null, stale and disallowed-origin results retain reasons.
+Temporal output stays separate from evidence and memory, affects the semantic
+receipt hash and does not persist, infer an answer or authorize effects.
+Legacy queries retain their existing fields. The combined Weave, temporal and
+discovery scope passed 197 tests and 42 subtests; the actual PsiCat consumer
+suite passed 985 tests with 3 skips and 1 deselection.
+
+Metadata-only discovery ran on a hosted runner without compiling an engine or
+downloading model weights. Run `42110100173` initially reported incomplete
+discovery because Hugging Face's fuzzy search also returns six legitimate
+official SmolLM-360M repositories. Its exact failed report is preserved as
+[`f03b398815f9d65579180cecfe0467d0d6ea89562e51e8cd19d658ca15745236.json`](evidence/f03b398815f9d65579180cecfe0467d0d6ea89562e51e8cd19d658ca15745236.json).
+Those valid but out-of-family hits are now explicit exclusions; malformed,
+nonofficial and duplicate identities still fail closed.
+
+Corrected run `42110578993` on `6a8bf84` completed successfully, but found
+**zero eligible GGUF artifacts**. Its five in-family official repositories
+established no GGUF inventory; six fuzzy matches were excluded without fetching
+their canonical metadata. The exact negative result is
+[`7a1e22a3a45bfa3ec49fcb92e206130b59a1f18d2ab32a45bd847e588dd5ab42.json`](evidence/7a1e22a3a45bfa3ec49fcb92e206130b59a1f18d2ab32a45bd847e588dd5ab42.json).
+This rules out a directly published eligible GGUF in this bounded discovery;
+it does not rule out a separately reviewed conversion of official source
+weights. No candidate was replaced, no model acceptance rubric changed, and
+green metadata research is not model qualification.
+
 ## Launch tranche (historical)
 
 | Package | Owner role | State | Deliverable / limitation |
