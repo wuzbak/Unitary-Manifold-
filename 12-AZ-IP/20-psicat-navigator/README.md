@@ -219,6 +219,7 @@ documented in `4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md`.
 - `GET /api/psicat/performance-lane` exposes the dedicated throughput-optimization lane with hard speed gates, profiler-first workflow, ROI execution order, and local-first sovereignty constraints.
 - `POST /api/psicat/performance-gate-evaluate` evaluates baseline vs candidate training receipts and returns pass/hold against Lane E throughput and regression gates.
 - `GET /api/psicat/training-execution-queue` exposes the live retained-training queue state across applications/tools, books/articles, adversarial self-correction, the formal proof-foundry lane, and the performance lane.
+- Retained receipts use their source-snapshot digest for freshness, including tracked nanosecond modification times and sizes, rather than comparing filesystem timestamps with the process clock. Legacy digest-less receipts retain fail-closed timestamp checks.
 - `GET /api/psicat/training-execution-bundle` exposes the retained training execution bundle directly, including lane progress, challenge pack, execution-cycle snapshot, and Lane E runtime profile evidence payload.
 - `GET /api/psicat/training-execution-bundle` accepts optional `refresh_lane_e_profiles=true` to force fresh Lane E runtime profile recapture in that bundle.
 - `GET /api/psicat/lane-e-runtime-profiles` exposes Lane E runtime profile artifact metadata/payload directly, with optional `refresh` recapture mode (`true/false`).

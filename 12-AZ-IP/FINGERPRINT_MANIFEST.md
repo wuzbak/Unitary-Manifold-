@@ -1071,3 +1071,14 @@ Reconcile mainline temporal/retrieval follow-through with standalone read-only W
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/44-axiomzero-weave/README.md` | `faab0463ca3a6abb67fddc77a8a5b795d6de81babe3ededb7d1217d9c61c73e6` | 16363 |
+
+### Approved claim-detector and native-freshness correction — 2026-11-05
+
+Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `399650bd971583b3733e877deae8d9dace5643f1e1a086e28e09b2a834955d5e` | 28517 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `252ddfb733f84660df35c4576283f08a65b3440b26fe9f5d650aa50801ef3d81` | 25653 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `1fbb97bcf90c4557e87df7070d54724f86d88fe244b52c2b1ce3a55b460bab20` | 68696 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6` | 37632 |

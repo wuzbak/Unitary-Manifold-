@@ -57,8 +57,12 @@ reproduced the conversion and performs no local requantization.
 Actual hosted acceptance must pass before packaging; this candidate is not yet
 qualified. Hosted acceptance uses `--request-timeout 300`, matching the
 production runtime's existing request deadline; the standalone CLI default
-remains 120 seconds. Threads, contexts, grading and default-off review are
-unchanged. The file cap is not a RAM or hardware qualification.
+remains 120 seconds. Threads, contexts, acceptance criteria and default-off
+review are unchanged. The steward-approved claim-detector correction accepts
+explicit local negation, rather than treating every occurrence of an action
+word as a positive execution claim. Unnegated, mixed-positive, double-negative
+and success-marker claims still fail; ambiguous language remains conservative.
+The file cap is not a RAM or hardware qualification.
 The Qwen2.5-1.5B Q4 replacement also failed the retrieval criterion.
 The preceding Qwen3-1.7B Q4 candidate and its original Q8 source both failed
 the same retrieval challenge; the preserved paired evidence does not support

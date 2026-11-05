@@ -1167,12 +1167,18 @@ def _resolve_queue_status(item: dict[str, Any], receipt: dict[str, Any] | None, 
         return "failed"
     current_snapshot = _build_source_snapshot(item, session=session)
     receipt_snapshot = dict(receipt.get("source_snapshot") or {})
-    if receipt_snapshot.get("content_digest") and receipt_snapshot.get("content_digest") != current_snapshot.get("content_digest"):
-        return "stale_retrain_required"
-    completed_at = _parse_iso_timestamp(receipt.get("completed_at"))
-    source_last_modified = _parse_iso_timestamp(current_snapshot.get("last_modified_at"))
-    if completed_at and source_last_modified and source_last_modified > completed_at:
-        return "stale_retrain_required"
+    receipt_digest = receipt_snapshot.get("content_digest")
+    if receipt_digest:
+        # The digest binds every tracked file's mtime_ns and size, so it is authoritative.
+        # Ordering filesystem stamps against datetime.now() mixes clocks of different
+        # resolution (notably on Windows) and would mark fresh receipts stale.
+        if receipt_digest != current_snapshot.get("content_digest"):
+            return "stale_retrain_required"
+    else:
+        completed_at = _parse_iso_timestamp(receipt.get("completed_at"))
+        source_last_modified = _parse_iso_timestamp(current_snapshot.get("last_modified_at"))
+        if not completed_at or not source_last_modified or source_last_modified > completed_at:
+            return "stale_retrain_required"
     if str(receipt.get("gate_verdict") or "pass") != "pass":
         return "needs_review"
     return "completed"

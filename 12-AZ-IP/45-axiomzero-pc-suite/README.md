@@ -97,6 +97,8 @@ The workflow verifies the conversion against Unsloth's LFS hash and exact
 repository revision under the approved **3,000,000,000-byte model cap**.
 Hosted acceptance uses the runtime's existing 300-second request deadline;
 no answer, citation, refusal or authorization criterion is relaxed.
+The steward-approved claim detector distinguishes explicit local negation
+from positive execution claims; it does not certify general language safety.
 It requires public, ungated Apache-2.0 conversion and official
 `Qwen/Qwen3-4B-Instruct-2507` base metadata, and checks any declared base identity.
 Provenance records both metadata snapshots; the observed official base revision

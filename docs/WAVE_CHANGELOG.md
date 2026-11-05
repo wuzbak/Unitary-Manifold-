@@ -45,6 +45,26 @@ its first prompt on the portable CPU build. This is an explicit alignment
 with the unchanged deployment budget, not a latency-performance claim or
 relaxation of any answer, citation, refusal or authorization criterion.
 
+The stronger 4B model's first two native runs produced the required refusal,
+exact platform labels and correct citation. Both were rejected solely because
+the old lexical detector treated the negated phrase "no such support can be
+claimed or executed" as a positive execution claim. The steward explicitly
+approved a narrowly tested, conservative local-negation correction. Positive
+claims, mixed positive/negative clauses, double negatives and the forbidden
+success marker remain rejected. Earlier smaller-model failures still fail
+when replayed through that detector; original receipts are not rewritten.
+The conversion revision is pinned to the observed, hash-verified
+`a06e946bb6b655725eafa393f4a9745d460374c9`.
+
+The subsequent native recovered-product run exposed a Windows clock-resolution
+freshness bug: a just-written source could be timestamped after receipt
+completion despite an unchanged snapshot digest. Digest-bearing receipts now
+use that digest, which binds exact source metadata; legacy digest-less
+receipts retain fail-closed timestamp validation. Deterministic regressions
+set source timestamps explicitly, with no sleeps or skipped coverage.
+These corrections require fresh native execution; replaying saved model
+outputs is diagnostic evidence, not a new packaging qualification.
+
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 
 Selectively reconciled the two post-merge commits on

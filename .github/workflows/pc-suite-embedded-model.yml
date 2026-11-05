@@ -102,15 +102,16 @@ jobs:
       - name: Fetch Unsloth Qwen3 instruction-only conversion and verify provenance
         run: |
           $repository = "unsloth/Qwen3-4B-Instruct-2507-GGUF"
+          $revision = "a06e946bb6b655725eafa393f4a9745d460374c9"
           $baseRepository = "Qwen/Qwen3-4B-Instruct-2507"
           $expectedFile = "Qwen3-4B-Instruct-2507-Q4_K_M.gguf"
-          $metadata = Invoke-RestMethod -Uri "https://huggingface.co/api/models/${repository}?blobs=true" -TimeoutSec 60 -MaximumRedirection 0
+          $metadata = Invoke-RestMethod -Uri "https://huggingface.co/api/models/${repository}/revision/${revision}?blobs=true" -TimeoutSec 60 -MaximumRedirection 0
           if ($metadata.private -or $metadata.gated -or $metadata.cardData.license -cne "apache-2.0") {
             throw "Conversion must be public, ungated and declared Apache-2.0 by its repository metadata."
           }
           New-Item -ItemType Directory -Force candidate | Out-Null
           $metadata | ConvertTo-Json -Depth 8 | Set-Content candidate/model-metadata.json -Encoding utf8NoBOM
-          if ($metadata.sha -cnotmatch "^[a-f0-9]{40}$") { throw "Conversion repository revision is invalid." }
+          if ($metadata.sha -cne $revision) { throw "Conversion repository revision does not match the pinned candidate." }
           $declaredBases = @($metadata.cardData.base_model | Where-Object { $null -ne $_ })
           if ($declaredBases.Count -gt 0 -and ($declaredBases.Count -ne 1 -or $declaredBases[0] -cne $baseRepository)) {
             throw "Conversion metadata does not identify the expected official instruction-only base model."

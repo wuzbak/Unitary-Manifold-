@@ -4,7 +4,9 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
+import time
 from pathlib import Path
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
@@ -180,6 +182,59 @@ def test_training_bundle_retains_review_blockers_until_source_changes(tmp_path, 
     latest = session.training_execution_receipts[-1]
     assert latest["gate_verdict"] == "pass"
     assert latest["source_snapshot"]["content_digest"] != receipt["source_snapshot"]["content_digest"]
+
+
+
+def _editorial_item(tmp_path, monkeypatch, text: str) -> tuple[Path, dict]:
+    source = tmp_path / "editorial.md"
+    source.write_text(text, encoding="utf-8")
+    item = {
+        "queue_id": "lane_b_editorial",
+        "lane_id": "lane_b_books_articles_mastery",
+        "reference_path": str(source),
+        "expected_artifact": "editorial_mastery_brief",
+    }
+    monkeypatch.setattr(training_execution, "_queue_blueprint", lambda: [item])
+    return source, item
+
+
+def test_source_clock_ahead_of_process_clock_is_not_stale(tmp_path, monkeypatch) -> None:
+    # Windows stamps files with a finer clock than datetime.now(); the receipt digest
+    # (per-file mtime_ns + size) is authoritative, not cross-clock ordering.
+    source, item = _editorial_item(tmp_path, monkeypatch, "# Editorial\n\n" + "evidence " * 900)
+    ahead_ns = time.time_ns() + 5_000_000_000
+    os.utime(source, ns=(ahead_ns, ahead_ns))
+    session = MerlinSession()
+    receipt = training_execution._execute_queue_item(item, session=session)
+    assert receipt["gate_verdict"] == "pass"
+    assert training_execution._resolve_queue_status(item, receipt, session=session) == "completed"
+
+    os.utime(source, ns=(ahead_ns + 1, ahead_ns + 1))
+    assert training_execution._resolve_queue_status(item, receipt, session=session) == "stale_retrain_required"
+
+
+def test_source_change_with_identical_size_is_stale(tmp_path, monkeypatch) -> None:
+    source, item = _editorial_item(tmp_path, monkeypatch, "# Editorial\n\n" + "evidence " * 900)
+    session = MerlinSession()
+    receipt = training_execution._execute_queue_item(item, session=session)
+    stamp = source.stat().st_mtime_ns
+    source.write_text("# Editorial\n\n" + "evidenze " * 900, encoding="utf-8")
+    os.utime(source, ns=(stamp + 1_000, stamp + 1_000))
+    assert training_execution._resolve_queue_status(item, receipt, session=session) == "stale_retrain_required"
+
+
+def test_legacy_receipt_without_digest_keeps_timestamp_staleness(tmp_path, monkeypatch) -> None:
+    source, item = _editorial_item(tmp_path, monkeypatch, "# Editorial\n\n" + "evidence " * 900)
+    session = MerlinSession()
+    receipt = dict(training_execution._execute_queue_item(item, session=session))
+    receipt["source_snapshot"] = {k: v for k, v in receipt["source_snapshot"].items() if k != "content_digest"}
+    assert training_execution._resolve_queue_status(item, receipt, session=session) == "completed"
+    ahead_ns = time.time_ns() + 5_000_000_000
+    os.utime(source, ns=(ahead_ns, ahead_ns))
+    assert training_execution._resolve_queue_status(item, receipt, session=session) == "stale_retrain_required"
+    os.utime(source, ns=(ahead_ns - 10_000_000_000, ahead_ns - 10_000_000_000))
+    receipt["completed_at"] = "not-a-timestamp"
+    assert training_execution._resolve_queue_status(item, receipt, session=session) == "stale_retrain_required"
 
 
 def test_merlin_training_queue_includes_proof_foundry_lane() -> None:
