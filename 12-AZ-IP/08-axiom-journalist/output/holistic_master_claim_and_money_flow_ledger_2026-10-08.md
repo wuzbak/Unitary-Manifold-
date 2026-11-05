@@ -39,9 +39,9 @@ No source attachment or primary document came with most of those submissions. Th
 - `/7-OUTREACH/substack/books/book-architecture-of-global-impunity-dossier-v2.md`
 - `/7-OUTREACH/substack/books/book-project-meridian-influence-map.md`
 - `/7-OUTREACH/A Z PsiCat Literature/Books/book-54-axiomzero-surveillance-exposure.md`
-- `/7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-01-the-cloud-record.md`
-- `/7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-02-the-algorithm-bridge.md`
-- `/7-OUTREACH/A Z PsiCat Literature/Books/book-54-part-03-the-accountability-test.md`
+- `/7-OUTREACH/A Z PsiCat Literature/Archive/2026-11-05-books-53-58/book-54-part-01-the-cloud-record.md` (original source preserved during individual Book 54 assembly, 2026-11-05)
+- `/7-OUTREACH/A Z PsiCat Literature/Archive/2026-11-05-books-53-58/book-54-part-02-the-algorithm-bridge.md`
+- `/7-OUTREACH/A Z PsiCat Literature/Archive/2026-11-05-books-53-58/book-54-part-03-the-accountability-test.md`
 - `/12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_investigation.json`
 - `/12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_volume_1.md`
 - `/12-AZ-IP/08-axiom-journalist/output/unit8200_surveillance_dossier_volume_2.md`
