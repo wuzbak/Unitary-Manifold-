@@ -31,18 +31,28 @@ Each piece is:
 
 ## Original works lane
 
-Books 51, 52 and 53 are original commissioned works, not rewrites. They were authored by PsiCat (Merlin) on Base44 in collaboration with the steward, ThomasCory Walker-Pearson, as field tests of PsiCat outside this repository, and were committed here by the steward. Because no substack source exists for them, they follow a separate contract instead of the rewrite contract above. Each file carries:
+Books 51, 52 and 53 are original commissioned works, not rewrites. They were authored by PsiCat (Merlin) on Base44 in collaboration with the steward, ThomasCory Walker-Pearson, as field tests of PsiCat outside this repository, and were committed here by the steward. Later original works identify their own production provenance; the Base44 origin of Books 51–53 must not be inferred for other commissions. Because no substack source exists for original commissions, they follow a separate contract instead of the rewrite contract above. Each file carries:
 - the marker `PsiCat Original Work v1 · Series/Season One`
 - the AxiomZero commissioned-work credit (investigated and written by PsiCat Ai)
 - an explicit `Original-work provenance:` line stating that the piece is not a rewrite
 
 No grounded rewrite source is assigned to these works, because none exists. Book 51 names the substack source it builds on as a grounding source, not as a rewrite source.
 
+Books 57 and 58 are original commissions in PsiCat's editorial voice, researched
+and produced in this repository session by GitHub Copilot and six specialist AI
+agents, with actual local RAG/PsiCat retrieval consultations. They do not claim
+external PsiCat inference or Base44 authorship. Each consists of a reading index
+and six manuscript parts, with chapter-level citations, explicit mainline versus
+unmerged master-plan branch provenance, and three editorial gates. These are
+publication checks, not scientific or deployment certifications. The existing
+opt-in editorial corpus discovers all their Markdown files automatically; its
+default-off behavior and non-hardgate status are unchanged.
+
 ## Current coverage in this pass
 
 Coverage so far: **50 / 50 books**, **354 / 354 articles**.
 
-Original works (not rewrites): **8** — Books 51, 52, 53, 54, 55, 56; Articles 353, 354.
+Original works (not rewrites): **10** — Books 51, 52, 53, 54, 55, 56, 57, 58; Articles 353, 354.
 
 ### Books
 
@@ -107,6 +117,8 @@ Original works (not rewrites): **8** — Books 51, 52, 53, 54, 55, 56; Articles 
 6. `article-353-the-state-of-the-manifold-october-2026.md` — *The State of the Manifold: A Full Inspection, October 2026* (first original-work article; full-repository audit, not grounded in any substack source)
 7. `article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md` — *The Untouched Manifold: What This Monorepo Could Still Become* (second original-work article; expanded commissioned technology-transfer essay with phased roadmaps for 8 adjacent-track directions plus 5 additional directions — differentiable JAX backend, holographic dual-CFT dictionary, Z3 formal verification, the MAS Wave Engine gap-tracker, and the live-public-data ingestion pattern — researched via `bot/rag_index.py`; not grounded in any substack source)
 8. `book-56-the-complete-pillar-guide.md` — *The Complete Pillar Guide* (reading index; 10 part-files `book-56-part-*.md`; 47 chapters across 10 Parts covering every hardgate pillar 1–208 by domain, the adjacent-track economy 218+ by theme, and a corrected epistemic ledger; researched directly against `docs/mas_tracker.yml`, `STATUS.md`, `docs/TRUTH_LAYER.md`, `FALLIBILITY.md`, `PILLARS/README.md`, and `bot/rag_index.py`, with the frozen v18.5 `7-OUTREACH/pillar-guide/` descriptions adapted and corrected against current status; not grounded in any substack source)
+9. [`book-57-axiomzero-applied-sciences-and-intellectual-properties.md`](Books/book-57-axiomzero-applied-sciences-and-intellectual-properties.md) — *AxiomZero Applied Sciences and Intellectual Properties* (original commissioned manuscript in six parts; all 45 canonical products, their integration boundaries, applied-science aims, and the separately pinned AZ ML master-plan development branch).
+10. [`book-58-the-state-of-the-manifold.md`](Books/book-58-the-state-of-the-manifold.md) — *The State of the Manifold: The AxiomZero Monorepo* (original commissioned manuscript in six parts; scientific foundations, formal and observational evidence, independent governance, applied domains, publication, engineering, holistic strengths, weaknesses, and next decisions).
 
 ### Articles
 
