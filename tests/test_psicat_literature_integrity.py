@@ -15,7 +15,7 @@ README_PATH = PSICAT_ROOT / "README.md"
 EXPECTED_BOOK_COUNT = 50
 EXPECTED_ARTICLE_COUNT = 354
 EXPECTED_REWRITE_ARTICLE_COUNT = 352
-EXPECTED_ORIGINAL_WORKS = {"51", "52", "53", "54", "55", "56"}
+EXPECTED_ORIGINAL_WORKS = {"51", "52", "53", "54", "55", "56", "57", "58"}
 EXPECTED_ORIGINAL_ARTICLES = {"353", "354"}
 
 ORIGINAL_WORK_MARKERS = (
@@ -155,3 +155,50 @@ def test_psicat_readme_coverage_matches_actual_corpus() -> None:
     assert expected_articles == current_articles
     assert expected_books == EXPECTED_BOOK_COUNT
     assert expected_articles == EXPECTED_ARTICLE_COUNT
+
+
+def test_commissioned_books_have_complete_book_length_manuscripts() -> None:
+    for number in ("57", "58"):
+        parts = sorted(BOOKS_DIR.glob(f"book-{number}-part-*.md"))
+        assert len(parts) == 6, f"Book {number} requires its six manuscript parts"
+        assert [p.name.split("-")[3] for p in parts] == [
+            "01", "02", "03", "04", "05", "06"
+        ]
+        primary = next(
+            p for p in _original_book_files()
+            if p.name.startswith(f"book-{number}-") and "-part-" not in p.name
+        )
+        index = primary.read_text(encoding="utf-8")
+        for part in parts:
+            assert f"]({part.name})" in index, f"Book {number} does not link {part.name}"
+        chapter_ids = [
+            chapter
+            for part in parts
+            for chapter in re.findall(
+                r"^#{2,3} ([A-F]\d+) ", part.read_text(encoding="utf-8"), re.MULTILINE
+            )
+        ]
+        assert len(chapter_ids) >= 24, f"Book {number} is missing its detailed chapters"
+        assert len(chapter_ids) == len(set(chapter_ids)), (
+            f"Book {number} repeats chapter identifiers"
+        )
+        words = sum(len(p.read_text(encoding="utf-8").split()) for p in [primary, *parts])
+        assert 30_000 <= words <= 50_000, (
+            f"Book {number} has {words:,} words; commission requires 30,000–50,000"
+        )
+        assert "GitHub Copilot" in index
+        assert "d9efc894947c8b45e584e74ed59ff809d407fb52" in index
+        assert "095ae666b4ad3052c038d6a082bf535df07aa0be" in index
+
+
+def test_applied_sciences_book_traces_all_commissioned_products() -> None:
+    manuscript = "\n".join(
+        p.read_text(encoding="utf-8")
+        for p in sorted(BOOKS_DIR.glob("book-57-part-*.md"))
+    )
+    for number in range(1, 46):
+        products = list((REPO_ROOT / "12-AZ-IP").glob(f"{number:02d}-*"))
+        assert len(products) == 1, f"Canonical Product {number:02d} is ambiguous or missing"
+        assert f"12-AZ-IP/{products[0].name}" in manuscript, (
+            f"Book 57 must cite canonical Product {number:02d}: {products[0].name}"
+        )

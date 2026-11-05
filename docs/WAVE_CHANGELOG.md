@@ -53,6 +53,31 @@ The final local canonical-plus-affected combined run passed 66,345 tests with
 failure was fixed by restoring its explicit partial-foundation nonclaim, not by
 weakening the assertion. The actual-model candidate gate remains failed.
 
+## PsiCat Books 57 and 58 - Original AxiomZero commission (2026-11-05)
+
+Added two original, book-length Markdown manuscripts in the PsiCat Literature:
+*AxiomZero Applied Sciences and Intellectual Properties* and *The State of the
+Manifold: The AxiomZero Monorepo*. Each has a reading index and six manuscript
+parts. The commission covers the 45 canonical products and their integration,
+and the wider scientific, governance, publication, and engineering program,
+including strengths, weaknesses, and unearned qualification gates.
+
+Research distinguishes mainline baseline
+`d9efc894947c8b45e584e74ed59ff809d407fb52` from the separately inspected, unmerged
+AZ ML program branch at `095ae666b4ad3052c038d6a082bf535df07aa0be`.
+Chapter citations and explicit production provenance accompany the requested
+PsiCat editorial voice: Copilot and six specialist AI agents performed the
+research and manuscript production, with local existing RAG/PsiCat retrieval
+consultations, not an external inference council or Base44-origin authorship.
+
+Registered the two originals without changing historical rewrite counts,
+retained default-off editorial retrieval, and extended the existing integrity
+and retrieval contracts to check commissioned lengths, six-part navigation,
+unique chapter identifiers, all 45 product-source references, and title-based
+discovery with editorial source labels.
+No scientific claim, hardgate label, pillar, version, TOE score, or falsifier
+changes. Editorial checks do not certify scientific validity or deployment.
+
 ## Product 45 - Verified platform artifacts and explicit deployment consent (2026-11-04)
 
 Added digest-bound bundled APK/UEFI import, selected authorized-device Android

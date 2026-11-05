@@ -2,13 +2,13 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8579,
+  "file_count": 8593,
   "lanes": {
     "az_ip": 2639,
     "compactification": 9,
     "other": 5481,
     "psicat_articles": 354,
-    "psicat_books": 96
+    "psicat_books": 110
   },
   "top_levels": {
     ".bazelrc": 1,
@@ -29,7 +29,7 @@
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 923,
+    "7-OUTREACH": 937,
     "8-SAFETY": 8,
     "9-INFRASTRUCTURE": 256,
     "AGENTS.md": 1,
@@ -2908,7 +2908,21 @@
       "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-08e-catalog-946-1131.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-09-epistemics-and-falsification.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-56-part-10-appendix-master-tables.md",
-      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-the-complete-pillar-guide.md"
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-56-the-complete-pillar-guide.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-57-axiomzero-applied-sciences-and-intellectual-properties.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-01-foundational-products.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-02-science-and-domain-products.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-03-psicat-and-public-instruments.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-04-evidence-and-applied-laboratories.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-05-advanced-products-and-weave.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-06-master-plan-and-integrated-results.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-01-scientific-foundations.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-02-proof-predictions-and-adjacent-science.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-03-governance-and-human-domains.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-04-knowledge-publication-and-institution.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-05-runtime-evidence-and-engineering.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-06-master-plan-risks-and-next-decisions.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-58-the-state-of-the-manifold.md"
     ],
     "articles": [
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-01-v22-9-honest-accounting.md",
@@ -26753,6 +26767,90 @@
     },
     {
       "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-56-the-complete-pillar-guide.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-axiomzero-applied-sciences-and-intellectual-properties.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-01-foundational-products.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-02-science-and-domain-products.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-03-psicat-and-public-instruments.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-04-evidence-and-applied-laboratories.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-05-advanced-products-and-weave.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-57-part-06-master-plan-and-integrated-results.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-01-scientific-foundations.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-02-proof-predictions-and-adjacent-science.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-03-governance-and-human-domains.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-04-knowledge-publication-and-institution.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-05-runtime-evidence-and-engineering.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-part-06-master-plan-risks-and-next-decisions.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-58-the-state-of-the-manifold.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
       "lane": "psicat_books"
