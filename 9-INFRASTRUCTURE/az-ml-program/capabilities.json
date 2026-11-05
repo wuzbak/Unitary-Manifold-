@@ -3,7 +3,7 @@
   "scope": "User-authorized ALL 21 AZ ML ambitions: durable planning inventory, not an execution authority or delivery claim.",
   "dependency_semantics": "Capability dependencies are integration/validation gates, not prerequisites for exploratory inventory or CPU stage work. Stage work may start through the execution board before full dependency completion. Declared completion is not production certification.",
   "nonclaims": [
-    "Capabilities 1, 2, 3, 7, 8, 11, 13, 14 and 18 have tested reference or integration milestones in progress; no full ambition is declared completed.",
+    "Capabilities 1, 2, 3, 7, 8, 10, 11, 13, 14, 18 and 20 have tested reference or integration milestones in progress; no full ambition is declared completed.",
     "Baseline adapters are planned comparison interfaces enabling original AZ algorithms; wrappers alone do not satisfy completion.",
     "External prerequisites are unverified requirements, not installed or delivered optional backends.",
     "No universal lossless tokenizer conversion across incompatible segmentation, normalization, vocabulary, and special-token semantics is possible.",
@@ -154,17 +154,17 @@
     },
     {
       "id": 10, "name": "Lossless tokenizer converter", "domain": "training_interop",
-      "stage": "inventory", "status": "planned",
-      "source_references": ["12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_local_inference.py"],
+      "stage": "baseline", "status": "in_progress",
+      "source_references": ["src/infrastructure/tokenizer_interchange.py", "src/infrastructure/model_interchange.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_tokenizer_interchange.py"],
       "dependencies": [],
       "external_prerequisites": ["Licensed source/target tokenizer artifacts", "Pinned tokenizer libraries for bounded supported pairs"],
       "acceptance_gates": ["Publish exact supported algorithm/normalization/vocabulary/special-token compatibility matrix", "Prove artifact and encode/decode equivalence on supported fixtures including Unicode and added tokens", "Fail explicitly on incompatible conversions; never claim universal losslessness"],
-      "next_action": "Define one same-semantics tokenizer pair and a strict unsupported-conversion error contract.",
+      "next_action": "Extend the tested canonical Unicode-scalar/P43 metadata conversion to one licensed external tokenizer pair only after pinning segmentation, normalization, added/special tokens, unknown behavior and exact ID mapping.",
       "owner_role": "Tokenizer and serialization engineer",
       "hardware_requirements": ["CPU and disk for artifact round trips"],
       "baseline_adapters": ["Planned Hugging Face tokenizers/SentencePiece readers; bounded support only, not integrated"],
       "original_algorithm_goal": "Build an AZ canonical tokenizer intermediate representation with semantic compatibility proofs for supported pairs.",
-      "nonclaim": "Universal lossless conversion is impossible across incompatible segmentation, normalization, vocabulary and special-token semantics.",
+      "nonclaim": "Exact supported character-tokenizer interchange is tested. Universal lossless conversion is impossible across incompatible segmentation, normalization, vocabulary and special-token semantics; no BPE/SentencePiece reader is qualified.",
       "completion_evidence": []
     },
     {
@@ -304,17 +304,17 @@
     },
     {
       "id": 20, "name": "Model format translation", "domain": "training_interop",
-      "stage": "inventory", "status": "planned",
-      "source_references": ["12-AZ-IP/20-psicat-navigator/tools/export_merlin_training_artifacts.py"],
+      "stage": "baseline", "status": "in_progress",
+      "source_references": ["src/infrastructure/model_interchange.py", "src/infrastructure/tokenizer_interchange.py", "src/infrastructure/research_quantization.py", "9-INFRASTRUCTURE/az-ml-program/tests/test_model_interchange.py"],
       "dependencies": [10],
       "external_prerequisites": ["Licensed model artifacts and pinned source/target runtimes", "Explicit supported operator/dtype/shape conversion matrix"],
       "acceptance_gates": ["Reject unsupported operators, shapes and unsafe artifact loading", "Compare source/target outputs and metadata on held-out supported fixtures within published tolerances", "Verify original AZ conversion graph preserves named tensors and reports lossy transformations explicitly"],
-      "next_action": "Define one safe tensor-container translation and unsupported-operator failure contract.",
+      "next_action": "Use the actual bounded P43 NPZ/AZMQ translator and exact reverse reconstruction as the first supported pair; add a pinned external architecture/operator matrix and independent runtime output comparison before optimization or universal claims.",
       "owner_role": "Model interchange and compiler engineer",
       "hardware_requirements": ["CPU and disk for tensor/artifact round trips", "Optional GPU for backend parity benchmarks"],
       "baseline_adapters": ["Planned ONNX/safetensors reader and runtime comparison adapters; not integrated"],
       "original_algorithm_goal": "Build an AZ typed intermediate graph and compatibility-aware transformation passes.",
-      "nonclaim": "No universal cross-runtime equivalence or arbitrary model conversion is claimed.",
+      "nonclaim": "Supported P43 inference NPZ/AZMQ conversion is implemented with explicit lossy opt-in, tokenizer mapping and training-state rejection. No ONNX/GGUF, universal cross-runtime equivalence, runtime optimization or arbitrary model conversion is claimed.",
       "completion_evidence": []
     },
     {

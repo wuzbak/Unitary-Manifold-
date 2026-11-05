@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8530,
+  "file_count": 8548,
   "lanes": {
     "az_ip": 2638,
     "compactification": 9,
-    "other": 5433,
+    "other": 5451,
     "psicat_articles": 354,
     "psicat_books": 96
   },
@@ -31,7 +31,7 @@
     "6-MONOGRAPH": 20,
     "7-OUTREACH": 923,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 217,
+    "9-INFRASTRUCTURE": 231,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -109,7 +109,7 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1650,
+    "src": 1654,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
     "tests": 1564,
@@ -29708,7 +29708,19 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/1bf146f1bc92815b7320b92a8576877e73c6d88a046e859ccea7bcd713ee216f.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/58aff2c9dc295c8f912ba7a76e95ac7285d44e5ad52bed73d64edc6856af5727.azmq",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/60ccd380f965c56e815e0417d3ee80baf962e791c6264dfb52cdd24a1f74a0b2.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -29721,6 +29733,18 @@
     },
     {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/979847638ed7ec97277a0f5023515192779fc369050963048a12e0300fd8ede3.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/9ec2723b7b6a5056a4e706509b36b74721d856a2933708502982532ef75a2255.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/9fe90aba130e3da8a4a3ef6f2ef2d37d0281bd79a81969b6717f061f9ad306b1.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -29744,7 +29768,49 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/ce3e94ef90a31c2b0f42ee51e74ac016fdf02a242944a378baca69b43e3a1aa8.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/d0495292f34ef0e427c2371066cc2c5f0de93dd2371341431e26d0ff3c5656f5.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/d314e7736e08dbe23b54635d4f0ce52f925d8c5b2264ee21db24d0b14765addc.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/e0b5dfc76540f8a5f817a5da45cec08b5d6ad75a3d3bb1bab7847eeb5b623394.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/f10058920421e05a3ec5c2f4e031684e5562ca8b5b5fbfad353169412644c3aa.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/fbabaca6b18782ddf5b7b035b2742059600cc415473e6460826f4d72cd081401.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/fd0f39c4f1023695f39a9d2edf0daa28e555f1c828c4645ca7f69ec2d7887814.npz",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_arithmetic_generalization.py",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -29774,6 +29840,12 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_model_interchange.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_performance_profile.py",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
@@ -29798,6 +29870,12 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_research_quality_audit.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_research_quantization.py",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
@@ -29817,6 +29895,12 @@
     },
     {
       "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_temporal_data.py",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "9-INFRASTRUCTURE/az-ml-program/tests/test_tokenizer_interchange.py",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
       "lane": "other"
@@ -46634,6 +46718,12 @@
       "lane": "other"
     },
     {
+      "path": "src/infrastructure/arithmetic_generalization.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/infrastructure/artifact_io.py",
       "top_level": "src",
       "kind": "file",
@@ -46676,6 +46766,12 @@
       "lane": "other"
     },
     {
+      "path": "src/infrastructure/model_interchange.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/infrastructure/performance_profile.py",
       "top_level": "src",
       "kind": "file",
@@ -46683,6 +46779,12 @@
     },
     {
       "path": "src/infrastructure/repository_vectors.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/research_quality_audit.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -46707,6 +46809,12 @@
     },
     {
       "path": "src/infrastructure/temporal_data.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/infrastructure/tokenizer_interchange.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"

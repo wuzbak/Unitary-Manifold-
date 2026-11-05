@@ -257,6 +257,7 @@ plans. Capability identities and their full acceptance gates remain unchanged:
 |---|---|---|
 | 1 | Original packing plus complete P43 model format, trained synthetic baseline and fixed held-out native/FP16-roundtrip/3-bit/4-bit comparison; exact artifacts retained | Native answer accuracy 0/30 and 3-bit relative-quality gate failed; establish useful model generalization, new untouched holdout, independent quantizer baseline and accelerator evidence |
 | 2/3 | Actual persistent P43 CPU decoder with incremental per-layer KV, true heterogeneous-length vectorized batches and bounded round-robin scheduling; full-prefix parity and owner/cancel/expiry checks | Pinned application backend through existing approvals, authenticated concurrency, representative arrivals, native/GPU peak memory, paged policy and production serving |
+| 10/20 | Exact supported Unicode-scalar tokenizer interchange and actual bounded P43 NPZ/AZMQ inference conversion, with explicit lossy opt-in and exact reverse reconstruction | Pinned external segmentation/operator matrix, independent runtime comparison, licensed application models and measured optimizations; no universal conversion claim |
 | 7/8 | Exact pinned vector generations plus a source-hash-verified adapter around actual bot RAG chunks; stale-source and no-overlap rejection | Learned encoders and labeled retrieval evaluation, ANN comparison, authorized repair execution and rollback |
 | 11/14 | Actual P40 transport -> availability-aware snapshot -> source-linked DAG through CLI/API; immutable local publication with explicit errors | Network-enabled live run, retained raw-payload replay, predictive consumer, feature/run/model/index consumers, DVC interchange and serverless qualification |
 | 13 | Exact tied empirical KS plus conservative two-sample union-DKW bounds and seeded stationary/shift replay | Real predictions and outcomes, delayed-label performance drift, repeated-monitoring error policy and operational response |
@@ -301,6 +302,22 @@ model and runs real incremental KV decoding and heterogeneous vectorized
 batches. Full-prefix reference outputs are preserved. This establishes
 research-backend parity and measurable scoped CPU work, not production serving,
 semantic quality, authenticated control-plane integration or low-bit kernels.
+
+The next tokenizer/model tranche preserves semantic boundaries instead of
+silently converting incompatible assets. It retains token-ID order, distinguishes
+normalization and special-token semantics, rejects unsupported formats, and
+refuses optimizer/RNG loss. NPZ NPY headers are inspected before NumPy allocation,
+not merely after ZIP size checks. Reverse quantized-model conversion restores
+only the already reconstructed weights; no format translator can recover
+information discarded by quantization. Receipt source/model/tokenizer hashes
+bind this supported pair without asserting quality or runtime optimization.
+
+The steward has now set an explicit target: **30/30 on a fresh preregistered
+holdout**, with the original 30 kept as a diagnostic only. This does not authorize
+test-set training, answer lookup presented as model inference, threshold changes,
+or declaring a symbolic solver a learned language model. Diagnose the existing
+split and training objective, freeze a new experiment before seeing its test
+outcomes, and report any failure to meet 30/30 unchanged.
 
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 

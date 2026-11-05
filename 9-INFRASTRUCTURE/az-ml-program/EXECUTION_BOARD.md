@@ -189,6 +189,75 @@ reporting and implementation behavior; they do not turn a failed experiment
 into a qualified model. GPU execution, pretrained application-model quality,
 authenticated production serving and live-feed validation remain outstanding.
 
+## Tokenizer/model interchange and the 30/30 quality target
+
+The steward explicitly selected **30/30 on a fresh preregistered holdout**, with
+the original exposed 30 retained only as a diagnostic. Success on memorized
+answers, renamed duplicate examples, a symbolic answer path presented as neural
+inference, or a relaxed threshold does not meet that target.
+
+Capabilities 10/20 now have actual bounded conversion implementations:
+
+| Delivered surface | Exact supported behavior | Explicit nonclaim |
+|---|---|---|
+| Character tokenizer | Canonical Unicode-scalar IR and actual P43 metadata layouts, preserving vocabulary/token-ID order, identity normalization and unknown-character errors | No BPE/SentencePiece, added/special tokens, normalization changes or universal conversion. |
+| P43 inference NPZ -> AZMQ | Loads bounded actual source bytes, extracts the source tokenizer, explicitly opts into lossy quantization and records complete weight errors | No quality improvement, optimizer/RNG transfer or runtime speed claim. |
+| AZMQ -> inference NPZ | Explicit caller-supplied tokenizer, exact already-reconstructed weights, canonical tokenizer binding | Original prequantization weights and original task metadata are not recovered. |
+
+A separate reviewer found two real issues, both fixed with regression tests:
+NPY headers could request allocations beyond ZIP byte limits, and P43 added
+special-token metadata could be discarded. Headers are now bounded and matched
+to actual member sizes **before** NumPy array loading, and tokenizer semantic
+overrides fail explicitly.
+
+Actual retained-model conversions were executed and persisted:
+
+| Receipt | Actual outcome |
+|---|---|
+| [Forward model translation](evidence/ce3e94ef90a31c2b0f42ee51e74ac016fdf02a242944a378baca69b43e3a1aa8.json) | Native trained NPZ -> the exact existing 3-bit AZMQ artifact; explicit loss, maximum weight error 0.18685535, complete 3.39663553 bits/parameter. The earlier failed model-quality gate is unchanged. |
+| [Reverse model translation](evidence/e0b5dfc76540f8a5f817a5da45cec08b5d6ad75a3d3bb1bab7847eeb5b623394.json) | Packed model -> NPZ, zero additional weight error; source/tokenizer/implementation hashes recorded. |
+| [Tokenizer conversion](evidence/d314e7736e08dbe23b54635d4f0ce52f925d8c5b2264ee21db24d0b14765addc.json) | Actual canonical research-model tokenizer -> P43 character metadata, exact mapping preserved. |
+
+These are supported conversion milestones, not completion of either full
+capability. Individual files are atomically published; multi-file publication
+is not transactional. Caller-supplied AZMQ tokenizer binding remains an assertion.
+
+### Arithmetic diagnosis and first preregistered improvement attempt
+
+The [source-verified audit](evidence/9ec2723b7b6a5056a4e706509b36b74721d856a2933708502982532ef75a2255.json)
+enumerates the original split. Training has six occurrences of every answer
+digit; validation excludes all odd answers; test has two examples per even digit
+and four per odd digit (label total variation from training is 1/6). Every one
+of the 40 validation/test operand pairs has its reversal in training. This
+establishes split confounding and weak evaluation independence, not proof that
+the split alone caused the model's failure.
+
+The [first new preregistration](evidence/9fe90aba130e3da8a4a3ef6f2ef2d37d0281bd79a81969b6717f061f9ad306b1.json)
+was durably published before training/test evaluation. It changes the objective
+to **answer-only** cross-entropy, uses actual P43 neural inference, fixes one
+seed/trajectory and validation-only checkpoint selection, and withholds 30 unit
+pairs including their reversals from the new training set. Full input strings
+are new two-digit operands, sum modulo 10; all unit computations remain
+historically exposed by the original fixture, so this is not independent new
+arithmetic knowledge.
+
+The [measured result](evidence/d0495292f34ef0e427c2371066cc2c5f0de93dd2371341431e26d0ff3c5656f5.json)
+**failed the unchanged 30/30 gate: 0/30 fresh answers**. At step 10,000, it
+memorized 4,480/4,480 training examples and got 70/70 validation examples correct,
+but validation reused training's 70 underlying unit-pair computations in new
+strings. That validation success did not measure unseen-computation
+generalization. The original exposed 30 scored 2/30 as a diagnostic only.
+Answer-only loss removed the punctuation proxy without producing arithmetic
+generalization. A distinct implementation review found no scoring-position,
+split-leakage or neural/oracle substitution bug explaining away this failure.
+
+The selected 308,253-byte inference checkpoint and every recorded validation
+observation are preserved; intermediate binary checkpoints are not retained.
+The run completed in 86.03 seconds within its declared CPU budget. No seed,
+checkpoint or threshold was selected using the new or original test outcomes.
+The next alternative must validate on **unseen computations**, not just new
+spellings of memorized pairs, before a fresh test is opened.
+
 ## Next bounded packages
 
 1. Investigate the model's task-generalization failure using training/validation
@@ -208,8 +277,8 @@ authenticated production serving and live-feed validation remain outstanding.
    distributed checkpoints, assurance, interoperability, synthetic data,
    fairness, GPU kernels/XAI, RL and multimodal indexing remain committed scope.
 
-The current register records **12 planned and nine in-progress** capabilities
-(1, 2, 3, 7, 8, 11, 13, 14, 18); **zero full capabilities completed**. Original
+The current register records **10 planned and eleven in-progress** capabilities
+(1, 2, 3, 7, 8, 10, 11, 13, 14, 18, 20); **zero full capabilities completed**. Original
 algorithm milestones do not bypass their integration dependencies.
 Hardware/network/dependency blockers remain visible, not scope deletions.
 

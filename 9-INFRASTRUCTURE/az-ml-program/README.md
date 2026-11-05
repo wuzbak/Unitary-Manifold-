@@ -42,6 +42,8 @@ These are working algorithm/reference packages, not finished model services:
 |---|---|---|
 | `lowbit_quantization.py` | Symmetric/asymmetric groupwise 2/3/4-bit packing, checksummed artifacts, error and complete serialized-size metrics | Flat numeric vectors; quantization is lossy; no transformer/CUDA speed claim. |
 | `research_quantization.py` | Actual trained P43 model -> complete packed artifact -> fresh-model load -> fixed held-out comparison, with explicitly requested immutable model/evidence publication | Local constructed arithmetic only; baseline task generalization and 3-bit quality tolerance failed. |
+| `tokenizer_interchange.py` | Canonical Unicode-scalar character tokenizer and actual P43 metadata layouts, preserving token-ID order and identity normalization | No BPE/SentencePiece, normalizer changes, added/special tokens, unknown replacement or universal losslessness. |
+| `model_interchange.py` | Bounded inference NPZ -> original AZMQ with explicit lossy opt-in; reverse NPZ preserves reconstructed weights exactly and binds a tokenizer manifest | Not training-state interchange, model-quality qualification, runtime optimization or universal ONNX/GGUF translation. |
 | `vector_index.py` | Exact cosine/L2 search, pinned manifests, deterministic ties, immutable generations, retrieval evaluation | No ANN or learned encoder; old saved generations need explicit purge. |
 | `repository_vectors.py` | Existing RAG chunks converted to a source-verified word-count baseline; changed sources block retrieval | Lexical, not semantic; source/chunk identity is not entailment. |
 | `drift_monitor.py` | Tied empirical KS statistic, conservative single-comparison DKW bound, temporal sampling and constructed replay | IID assumptions; no repeated-monitoring or prediction-performance guarantee. |
@@ -146,6 +148,46 @@ and true continuous batches. It checks every prefill logit and generated token,
 reports actual CPU observations across warmed repetitions and counts evaluated
 token rows/backend calls. Any slower case remains in the receipt. Token parity
 is not semantic model quality, a production load test or a universal speedup.
+
+## Supported interchange, not universal conversion
+
+The character-tokenizer IR supports exactly one Unicode scalar per token,
+identity normalization, no added/special tokens and explicit unknown-character
+errors. Vocabulary order is token-ID order; it is never silently sorted.
+Composed and decomposed Unicode remain distinct. The P43 text-workflow and
+research-checkpoint metadata dialects are supported. Standalone conversion
+accepts canonical `az_character` or `p43_metadata` JSON; learned segmentation
+and semantic overrides fail explicitly. Losslessness means the mapping and
+supported encode/decode behavior, not identical JSON whitespace or unrelated
+metadata.
+
+```bash
+python -m src.infrastructure.tokenizer_interchange \
+  --source /path/to/character-tokenizer.json \
+  --source-format p43_metadata --target-format az_character \
+  --output-dir /existing/durable/evidence
+
+python -m src.infrastructure.model_interchange \
+  --source /path/to/inference-model.npz \
+  --source-format p43_npz --target-format azmq --allow-lossy \
+  --output-dir /existing/durable/evidence
+```
+
+The model translator reads the tokenizer from the actual source checkpoint
+and publishes the model, canonical tokenizer and binding/weight-error manifest.
+Without `--allow-lossy`, quantization is refused. Training optimizer/RNG state
+is also refused, not silently discarded. NPZ member/expanded-size limits and
+the existing model-parameter budget are checked before model construction.
+
+For the reverse direction, use `--source-format azmq --target-format p43_npz`
+and explicitly supply `--tokenizer /path/to/canonical-tokenizer.json`, without
+`--allow-lossy`. AZMQ has no embedded tokenizer; supplying one asserts its
+semantic binding, not authenticated provenance. Reverse conversion preserves
+the **already reconstructed** weights, not the original prequantization values.
+Original task metadata and training resume are not preserved. Files are
+individually atomic, not one publication transaction; errors propagate even
+when earlier verified files remain. No implicit training/download or runtime
+optimization occurs.
 
 Product 40 now exposes an actual transport-to-temporal adapter via its CLI and
 HTTP API; see its
