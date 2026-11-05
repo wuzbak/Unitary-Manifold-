@@ -196,6 +196,20 @@ The verifier defaults to that context with its existing per-HTTP timeout.
 Self-review is not independent verification and remains an unqualified
 quality hypothesis until actual hosted acceptance.
 
+Hosted run `42091109622` on `62a3170` tested that hypothesis and still passed
+only 3/4. Both JSON drafts and revisions were identical; the retrieval response
+still replaced literal platform labels with sentences and incorrectly treated
+platform limits as refusal authority. The exact negative receipt is
+`evidence/bc8d11064b804f9b5d34370a47d7330fade286b67ab2044d68ab62d25e6acf4f.json`.
+No semantic improvement was earned. Normal verifier and client inference
+therefore return to one generation and a 2,048-token context; same-model review
+is preserved as explicit experimental opt-in, not mandatory additional latency.
+The verifier uses `--review-json`; trusted Node callers use
+`enableModelReview: true`. Hosted `run_self_review_diagnostic` is default-off,
+writes its own report, and cannot replace the unchanged packaging acceptance
+step. Draft/review failure handling and final-only validation remain intact.
+The full Node suite then passed 227 tests with no failures or skips.
+
 Integrated mainline `cf286ca` was preserved in local merge `015712b`, and the
 combined inventory was regenerated. Its Sprint DA registration had genuinely
 advanced STATUS/tracker to v38.5 while leaving public/core ledgers at v38.4.
@@ -207,6 +221,28 @@ marker. The unchanged ledger consistency check then passed with the complete
 1,042 tests and 110 subtests; the complete Node suite passed 225 tests with
 no failures or skips. Fresh final-head full and actual-model results remain
 required.
+
+The subsequent complete combined run on `62a3170` exposed **20 failures**,
+with 66,399 passed, 74 skipped and 110 subtests passed. These were real
+integrated-mainline regressions, not hidden model failures. Nine failures
+were repaired by regenerating canonical live status and synchronizing both
+public status projections. One inventory failure came from omitting the two
+new canonical P1133/P1134 test files from the reviewed UM-ARTS execution plan;
+both paths were restored without changing its assertions or execution settings.
+The remaining ten cascaded from the unchanged immediate `src/core` directory
+budget: two new modules exceeded 1,368 entries. Three adjacent modules
+(P1129/P1133/P1134) were moved byte-for-byte into `pillar_1129_1168/`, with a
+standard package search-path extension preserving existing flat imports,
+module/class identity, introspection, pickle and discovery. Actual tracked
+entries are now 1,368; no cap or dependent assertion changed. The helper's
+focused repair scope passed 259 tests. A replacement full run is required
+before claiming that integration is clean.
+The combined affected replacement scope then passed **1,208 tests and 110
+subtests, no failures**, including all original failing files, affected product
+suites, shard compatibility, reviewed inventory, registry and ledger checks.
+All 2,080 Markdown files passed the internal-link audit; licensing structure,
+historical onboarding consistency and staged-map freshness also passed.
+This does not replace the required complete canonical-plus-affected run.
 
 The existing keyword-based rationale rubric may reject some otherwise valid
 privacy- or authorization-grounded explanations. The earlier Qwen3

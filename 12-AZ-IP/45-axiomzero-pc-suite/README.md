@@ -40,15 +40,19 @@ The client requests generic JSON-object constrained decoding for answers,
 but not the ownership challenge. This does not supply answer values or prove
 grounding. Unsupported decoding fails explicitly; no output repair or
 unconstrained retry replaces the strict response checks.
-Every answer now uses a draft and exactly one model review against the same
-task and evidence, without grader feedback or expected answers. Only the final
-unmodified model output is validated and returned; review errors never fall
-back to the draft. Both generated texts remain in the returned `modelReview`
-record. This is the same model reviewing itself, not independent verification,
-and does not establish semantic correctness. The two generations share the
-existing five-minute inference deadline and remain cancellable. The bounded
-CPU context is now 4,096 tokens to reserve review headroom; original question
-and evidence admission limits remain unchanged.
+Answers use one generation and a 2,048-token CPU context by default. Hosted
+run `42091109622` found no improvement from same-model review: the candidate
+still passed only 3/4 cases, with identical incorrect retrieval draft and
+revision. That unqualified extra cost is not enabled for normal inference.
+Trusted main-process callers may explicitly set `enableModelReview: true`
+for the experimental two-generation protocol, with a 4,096-token context.
+It reviews the same task and evidence without grader feedback or expected
+answers; only the unmodified final generation is validated, and review errors
+never fall back to the draft. The returned `modelReview` record discloses
+whether review was enabled, generation count and raw outputs. This is not
+independent verification or demonstrated quality improvement. Opt-in generations
+share the existing five-minute inference deadline and remain cancellable;
+original question and evidence admission limits remain unchanged.
 
 Answers remain UNVERIFIED. Citation IDs map to the supplied catalog or original
 file/line/hash excerpts; valid IDs do not prove that the answer follows from

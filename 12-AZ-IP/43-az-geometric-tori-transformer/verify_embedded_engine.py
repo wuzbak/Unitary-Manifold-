@@ -553,9 +553,11 @@ def run_gate(args, report):
     artifacts, stamps = verify_artifacts(engine, model, manifest)
     report.update({"manifest": manifest, "verifiedArtifacts": artifacts})
     report["contextTokens"] = args.context
+    review_json = bool(getattr(args, "review_json", False))
     report["completionPolicy"] = {
         "plainText": 1,
-        "jsonDraftAndReview": 2,
+        "jsonDraftAndReview": 2 if review_json else 0,
+        "jsonSinglePass": not review_json,
         "reviewerIsIndependent": False,
     }
     for path, stamp in stamps:
@@ -594,12 +596,13 @@ def run_gate(args, report):
             json_object = name in ("grounded_portfolio", "retrieval_injection")
             body = completion_body(prompt, json_object=json_object)
             entry["requestedOutputFormat"] = body.get("response_format", {"type": "text"})["type"]
-            entry["plannedCompletionPasses"] = 2 if json_object else 1
+            entry["plannedCompletionPasses"] = (
+                2 if json_object and review_json else 1)
             entry["completionPasses"] = 0
             report["cases"].append(entry)
             started = time.monotonic()
             try:
-                if json_object:
+                if json_object and review_json:
                     draft_entry = {
                         "httpStatus": None, "rawResponse": None,
                         "output": None, "latencyMs": None,
@@ -703,7 +706,10 @@ def parser():
         "--source-q8-diagnostic", action="store_true",
         help="Evaluate only the matching pinned Q8_0 source; diagnostic-only, never qualification")
     cli.add_argument("--threads", type=bounded_int(1, 8), default=4)
-    cli.add_argument("--context", type=bounded_int(1024, 4096), default=4096)
+    cli.add_argument("--context", type=bounded_int(1024, 4096), default=2048)
+    cli.add_argument(
+        "--review-json", action="store_true",
+        help="Experimental: add one generic self-review pass after each JSON draft")
     cli.add_argument("--startup-timeout", type=bounded_timeout, default=180.0)
     cli.add_argument("--request-timeout", type=bounded_timeout, default=120.0)
     return cli
@@ -738,7 +744,8 @@ def main(argv=None):
               "contextTokens": args.context,
               "completionPolicy": {
                   "plainText": 1,
-                  "jsonDraftAndReview": 2,
+                  "jsonDraftAndReview": 2 if args.review_json else 0,
+                  "jsonSinglePass": not args.review_json,
                   "reviewerIsIndependent": False,
               }}
     if source_q8_diagnostic:

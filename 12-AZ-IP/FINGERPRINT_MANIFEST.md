@@ -934,6 +934,24 @@ earlier negative receipts and previous source seals remain preserved.
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `3ae077b1ef9316a7d5c6b947a62bd6580e1dfb32ced282be1b65c53f18b4ccbb` | 34998 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `30667d76e58c8b88c45c536f34120e7b61c2ba63f63420174f4063cc0eb9cd1c` | 31676 |
 
+### Products 43 and 45 experimental review opt-in reseal - 2026-11-05
+
+Actual hosted two-pass evaluation still passed only 3/4 with identical JSON
+drafts and revisions. The unqualified extra generation is now explicit
+experimental opt-in; normal inference retains one generation and a 2,048-token
+context. No evaluation case, grader or threshold changed. Both review outputs
+and explicit failures remain available when opted in. Previous exact identities
+are retained above and in registry reseal history.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `b2b0c9d63dbe1a0f7ed9d220b8fc58108861147079aa7adb89316ae87e00231d` | 24228 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `2f9074ed5ac9344798ac00f6de49f9978eb3d96001301015e0baa3ca213e92fe` | 36144 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `f0dbc8a4d46db8ebcb8fa60839959018c8f1efadb6110ee3ef821871f00364ea` | 63548 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `e1e07d1ed6920b1ee3949a2d87ae851a091e4f7a1595ad642d3d0719021aa57e` | 25524 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72` | 35436 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb` | 33035 |
+
 ## Verification Protocol
 
 To verify any registered asset:

@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-11-04",
+  "updated": "2026-11-05",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -987,10 +987,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "65c817a47a982248e21b2da290408b753bcc698f0cd08a9906bbf3ed03aa6e52",
-      "size_bytes": 25217,
-      "reseal_note": "Disclose bounded same-model draft review, retained generations, shared inference deadline and 4096-token review headroom without quality promotion.",
+      "sha256": "e1e07d1ed6920b1ee3949a2d87ae851a091e4f7a1595ad642d3d0719021aa57e",
+      "size_bytes": 25524,
+      "reseal_note": "Disclose actual 3/4 review non-improvement and experimental opt-in; restore single-generation 2048-token defaults without changing acceptance.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "65c817a47a982248e21b2da290408b753bcc698f0cd08a9906bbf3ed03aa6e52",
+          "size_bytes": 25217,
+          "reseal_note": "Disclose bounded same-model draft review, retained generations, shared inference deadline and 4096-token review headroom without quality promotion."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "6db8927c6722ca1747703fb3d257f68e97bcba18c2017e34ec6cc5eb6f28d087",
@@ -2393,10 +2399,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "15cfbe885999a6ae298db911e0f98d2749aad03b7a64ee8b8627be3f0cbd6c0f",
-      "size_bytes": 24197,
-      "reseal_note": "Disclose exactly one generic model revision for JSON tasks, preserved drafts, unchanged grading and additional CPU/context costs.",
+      "sha256": "b2b0c9d63dbe1a0f7ed9d220b8fc58108861147079aa7adb89316ae87e00231d",
+      "size_bytes": 24228,
+      "reseal_note": "Document default single-pass evaluation and explicit experimental --review-json after actual non-improvement, without acceptance promotion.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "15cfbe885999a6ae298db911e0f98d2749aad03b7a64ee8b8627be3f0cbd6c0f",
+          "size_bytes": 24197,
+          "reseal_note": "Disclose exactly one generic model revision for JSON tasks, preserved drafts, unchanged grading and additional CPU/context costs."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "114f7894c86268926e2a78cf43de3174770372f96c510cf8fa6368d0545833f9",
@@ -2428,10 +2440,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "b1e9c52e7a842dc318ed9932d7f3fa1c5159e72d509dff284931bd0c7f0e191e",
-      "size_bytes": 61968,
-      "reseal_note": "Verify unconditional bounded JSON review, final-only grading, preserved draft evidence, actual attempt counts and failure without draft fallback.",
+      "sha256": "f0dbc8a4d46db8ebcb8fa60839959018c8f1efadb6110ee3ef821871f00364ea",
+      "size_bytes": 63548,
+      "reseal_note": "Verify single-pass defaults, explicit experimental review, truthful generation accounting and retained strict final-only grading.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "b1e9c52e7a842dc318ed9932d7f3fa1c5159e72d509dff284931bd0c7f0e191e",
+          "size_bytes": 61968,
+          "reseal_note": "Verify unconditional bounded JSON review, final-only grading, preserved draft evidence, actual attempt counts and failure without draft fallback."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "61a1bdaa2b89610f7754f7b73b4819db13a7e2695d259b93eda12a8ae9b83f8e",
@@ -2487,10 +2505,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "bb238ec0639d632a32aae09512e6fbb15d22230eaa48ea562a2c7cdcda87d8e6",
-      "size_bytes": 35730,
-      "reseal_note": "Exactly one same-model revision for every JSON case without grader feedback; preserve draft/final evidence, actual attempts and unchanged case prompts and grading.",
+      "sha256": "2f9074ed5ac9344798ac00f6de49f9978eb3d96001301015e0baa3ca213e92fe",
+      "size_bytes": 36144,
+      "reseal_note": "Make same-model review explicit experimental opt-in; restore single-pass 2048-token defaults and report actual protocol without changing cases or grading.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "bb238ec0639d632a32aae09512e6fbb15d22230eaa48ea562a2c7cdcda87d8e6",
+          "size_bytes": 35730,
+          "reseal_note": "Exactly one same-model revision for every JSON case without grader feedback; preserve draft/final evidence, actual attempts and unchanged case prompts and grading."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "bf528717baf276a14308092f35f21bdb6ab9d1b1ab748878f308d097c00589d4",
@@ -2609,10 +2633,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "3ae077b1ef9316a7d5c6b947a62bd6580e1dfb32ced282be1b65c53f18b4ccbb",
-      "size_bytes": 34998,
-      "reseal_note": "Bounded draft plus generic revision with retained texts, unchanged initial admission limits, shared deadline, explicit failures and final-only response validation.",
+      "sha256": "d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72",
+      "size_bytes": 35436,
+      "reseal_note": "Keep unqualified same-model review behind a typed trusted-caller opt-in, preserve shared deadlines and restore one-pass 2048-token production defaults.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "3ae077b1ef9316a7d5c6b947a62bd6580e1dfb32ced282be1b65c53f18b4ccbb",
+          "size_bytes": 34998,
+          "reseal_note": "Bounded draft plus generic revision with retained texts, unchanged initial admission limits, shared deadline, explicit failures and final-only response validation."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "39083f6d476d4d9abf1b30a00f8153e86f927a2b064407ed3585c9ccb16ba2f0",
@@ -2677,10 +2707,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "30667d76e58c8b88c45c536f34120e7b61c2ba63f63420174f4063cc0eb9cd1c",
-      "size_bytes": 31676,
-      "reseal_note": "Exercise real child review requests, unchanged task/evidence, retained generated texts, final validation, shared deadlines, cancellation and no draft fallback.",
+      "sha256": "1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb",
+      "size_bytes": 33035,
+      "reseal_note": "Cover single-pass defaults, strict experimental-option typing and explicit review lifecycle, context headroom, deadline and cancellation guarantees.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "30667d76e58c8b88c45c536f34120e7b61c2ba63f63420174f4063cc0eb9cd1c",
+          "size_bytes": 31676,
+          "reseal_note": "Exercise real child review requests, unchanged task/evidence, retained generated texts, final validation, shared deadlines, cancellation and no draft fallback."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "59e6d3c9c1053f013e8a104e36a02b14e30e61f4ac0f92cfed66938850bc24ca",

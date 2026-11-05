@@ -220,11 +220,11 @@ function environment(dataDirectory) {
   return { ...result, HOME: dataDirectory, USERPROFILE: dataDirectory,
     HF_HUB_OFFLINE: "1", HF_DATASETS_OFFLINE: "1" };
 }
-function engineArguments(model, port, key, threads, timeout) {
+function engineArguments(model, port, key, threads, timeout, enableModelReview) {
   return ["--model", model, "--host", HOST, "--port", String(port), "--api-key", key,
     "--alias", ALIAS, "--offline", "--device", "none", "--gpu-layers", "0",
     "--no-kv-offload", "--no-op-offload", "--fit", "off", "--threads", String(threads),
-    "--threads-batch", String(threads), "--threads-http", "1", "--ctx-size", "4096",
+    "--threads-batch", String(threads), "--threads-http", "1", "--ctx-size", enableModelReview ? "4096" : "2048",
     "--parallel", "1", "--n-predict", "256", "--batch-size", "256", "--ubatch-size", "128",
     "--cache-ram", "0", "--jinja", "--chat-template-kwargs", '{"enable_thinking":false}',
     "--reasoning", "off", "--no-agent", "--no-webui-mcp-proxy", "--no-webui", "--no-slots",
@@ -375,6 +375,8 @@ function createInstructionModel(options) {
   const requestTimeoutMs = boundedNumber(options.requestTimeoutMs, 300000, 300000);
   const stopTimeoutMs = boundedNumber(options.stopTimeoutMs, 5000, 10000);
   const threads = boundedNumber(options.threads, 4, 4);
+  const enableModelReview = options.enableModelReview === undefined ? false : options.enableModelReview;
+  if (typeof enableModelReview !== "boolean") throw failure("Invalid model-review option.");
   let active = null;
   const ownedProcesses = new Set();
   let verified = null;
@@ -546,7 +548,7 @@ function createInstructionModel(options) {
       const key = crypto.randomBytes(32).toString("base64url");
       await reservation.close(); reservation = null;
       checkAbort(controller.signal);
-      const child = spawn(artifacts.engine, engineArguments(artifacts.model, port, key, threads, requestTimeoutMs),
+      const child = spawn(artifacts.engine, engineArguments(artifacts.model, port, key, threads, requestTimeoutMs, enableModelReview),
         { shell: false, windowsHide: true, stdio: "ignore", cwd: resourcesDirectory, env: environment(dataDirectory) });
       const owned = { child, closed: false, error: null };
       ownedProcesses.add(owned);
@@ -594,16 +596,19 @@ function createInstructionModel(options) {
       await ownListener(owned, port);
       if (response.status !== 200) throw failure(`Instruction inference failed: HTTP ${response.status}.`);
       const draft = completionText(response.body);
-      const reviewBody = completionBody(prepared.body.messages[1].content, false, draft);
-      await checkArtifacts(artifacts.artifacts);
-      const remaining = inferenceDeadline - Date.now();
-      if (remaining <= 0) throw failure("Instruction review deadline exceeded.", "TIMEOUT");
-      const revision = await send(owned, port, "POST", "/v1/chat/completions", key,
-        reviewBody, controller.signal, remaining);
-      await ownListener(owned, port);
-      if (Date.now() > inferenceDeadline) throw failure("Instruction review deadline exceeded.", "TIMEOUT");
-      if (revision.status !== 200) throw failure(`Instruction review failed: HTTP ${revision.status}.`);
-      const finalOutput = completionText(revision.body);
+      let finalOutput = draft;
+      if (enableModelReview) {
+        const reviewBody = completionBody(prepared.body.messages[1].content, false, draft);
+        await checkArtifacts(artifacts.artifacts);
+        const remaining = inferenceDeadline - Date.now();
+        if (remaining <= 0) throw failure("Instruction review deadline exceeded.", "TIMEOUT");
+        const revision = await send(owned, port, "POST", "/v1/chat/completions", key,
+          reviewBody, controller.signal, remaining);
+        await ownListener(owned, port);
+        if (Date.now() > inferenceDeadline) throw failure("Instruction review deadline exceeded.", "TIMEOUT");
+        if (revision.status !== 200) throw failure(`Instruction review failed: HTTP ${revision.status}.`);
+        finalOutput = completionText(revision.body);
+      }
       const result = strictJSON(finalOutput);
       exactKeys(result, ["status", "answer", "citations"], "instruction answer");
       if (!["UNVERIFIED", "UNSUPPORTED"].includes(result.status) || typeof result.answer !== "string" ||
@@ -623,7 +628,8 @@ function createInstructionModel(options) {
         sources: prepared.sources.filter((source) => result.citations.includes(source.id))
           .map(({ text, ...source }) => source),
         epistemicLabel: "UNVERIFIED", productionAssistantVerified: false, boundary: BOUNDARY,
-        modelReview: { generationPasses: 2, independent: false, draftOutput: draft, finalOutput } };
+        modelReview: { enabled: enableModelReview, generationPasses: enableModelReview ? 2 : 1,
+          independent: false, draftOutput: enableModelReview ? draft : null, finalOutput } };
     } catch (error) {
       lastError = controller.signal.aborted ? "Instruction operation cancelled." : error.message;
       if (controller.signal.aborted) throw failure(lastError, "CANCELLED");

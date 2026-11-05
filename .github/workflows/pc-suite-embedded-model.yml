@@ -8,10 +8,20 @@ on:
         type: boolean
         required: false
         default: false
+      run_self_review_diagnostic:
+        description: Run experimental same-model review separately from acceptance
+        type: boolean
+        required: false
+        default: false
   workflow_call:
     inputs:
       run_source_q8_diagnostic:
         description: Re-run the pinned historical Qwen3 Q8 diagnostic
+        type: boolean
+        required: false
+        default: false
+      run_self_review_diagnostic:
+        description: Run experimental same-model review separately from acceptance
         type: boolean
         required: false
         default: false
@@ -329,6 +339,18 @@ jobs:
             Write-Host "::warning title=Historical Qwen3 Q8 diagnostic::$outcome; $reason"
             throw $reason
           }
+      - name: Diagnose experimental same-model review without qualifying packaging
+        if: inputs.run_self_review_diagnostic
+        continue-on-error: true
+        run: |
+          $manifest = Get-Content candidate/manifest.json -Raw | ConvertFrom-Json
+          python 12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py `
+            --engine "$([System.IO.Path]::GetFullPath('native-engine/build/bin/Release/llama-server.exe'))" `
+            --model "$([System.IO.Path]::GetFullPath("candidate/$($manifest.model.file)"))" `
+            --manifest "$([System.IO.Path]::GetFullPath('candidate/manifest.json'))" `
+            --report "$([System.IO.Path]::GetFullPath('candidate/self-review-validation.json'))" `
+            --review-json --context 4096
+          if ($LASTEXITCODE -ne 0) { throw "Experimental review failed; this diagnostic cannot qualify packaging." }
       - name: Exercise actual local model instructions, citations and refusal
         run: |
           $manifest = Get-Content candidate/manifest.json -Raw | ConvertFrom-Json
@@ -381,6 +403,7 @@ jobs:
             candidate/source-q8-manifest.json
             candidate/source-q8-validation.json
             candidate/source-q8-diagnostic-status.json
+            candidate/self-review-validation.json
             candidate/validation.json
             candidate/MODEL_CARD.md
             candidate/MODEL_LICENSE

@@ -138,8 +138,8 @@ class ArtifactFixture(unittest.TestCase):
         self.args = argparse.Namespace(
             engine=str(self.engine), model=str(self.model),
             manifest=str(self.manifest_path), report=str(self.output),
-            threads=4, context=4096, startup_timeout=1, request_timeout=1,
-            source_q8_diagnostic=False)
+            threads=4, context=2048, startup_timeout=1, request_timeout=1,
+            source_q8_diagnostic=False, review_json=False)
         self.completion_requests = []
         self.review_outputs = {}
         self.draft_outputs = {}
@@ -151,6 +151,9 @@ class ArtifactFixture(unittest.TestCase):
     def main_args(self):
         return ["--engine", str(self.args.engine), "--model", str(self.args.model),
                 "--manifest", str(self.args.manifest), "--report", str(self.args.report)]
+
+    def enable_review(self):
+        self.args.review_json = True
 
     def fake_request(self, process, port, method, route, key, body, timeout):
         self.assertIsNone(process.poll())
@@ -731,6 +734,8 @@ class LifecycleTests(ArtifactFixture):
         sock.close.assert_called_once()
 
     def test_full_fake_gate_requires_fresh_key_and_stops_process(self):
+        self.enable_review()
+        self.args.context = 4096
         process = FakeProcess()
         patches = self.fake_runtime(process)
         with patches[0] as reservation, patches[1] as popen, patches[2], patches[3], patches[4]:
@@ -745,7 +750,7 @@ class LifecycleTests(ArtifactFixture):
         self.assertTrue(report["authentication"]["wrongKey"]["passed"])
         self.assertEqual(report["contextTokens"], 4096)
         self.assertEqual(report["completionPolicy"], {
-            "plainText": 1, "jsonDraftAndReview": 2,
+            "plainText": 1, "jsonDraftAndReview": 2, "jsonSinglePass": False,
             "reviewerIsIndependent": False,
         })
         calls_by_case = {}
@@ -772,7 +777,27 @@ class LifecycleTests(ArtifactFixture):
         self.assertEqual(kwargs["cwd"], str(self.engine.parent))
         self.assertNotIn("fresh-launch-key", json.dumps(report))
 
+    def test_default_json_cases_are_single_pass_without_draft(self):
+        process = FakeProcess()
+        patches = self.fake_runtime(process)
+        with patches[0], patches[1], patches[2], patches[3], patches[4]:
+            report = self.report()
+            gate.run_gate(self.args, report)
+        self.assertEqual(report["contextTokens"], 2048)
+        self.assertEqual(report["completionPolicy"], {
+            "plainText": 1, "jsonDraftAndReview": 0, "jsonSinglePass": True,
+            "reviewerIsIndependent": False,
+        })
+        for case in report["cases"]:
+            self.assertEqual(case["plannedCompletionPasses"], 1)
+            self.assertEqual(case["completionPasses"], 1)
+            self.assertNotIn("draft", case)
+            self.assertTrue(case["passed"])
+        self.assertEqual(len(self.completion_requests), 4)
+        self.assertTrue(all(len(body["messages"]) == 2 for body in self.completion_requests))
+
     def test_final_bad_json_fails_even_when_draft_is_good(self):
+        self.enable_review()
         self.review_outputs["grounded_portfolio"] = '{"product43":"wrong"}'
         process = FakeProcess()
         patches = self.fake_runtime(process)
@@ -786,6 +811,7 @@ class LifecycleTests(ArtifactFixture):
         self.assertFalse(entry["passed"])
 
     def test_bad_json_drafts_are_reviewed_but_only_final_outputs_are_graded(self):
+        self.enable_review()
         self.draft_outputs.update({
             "grounded_portfolio": "a deliberately invalid JSON draft",
             "retrieval_injection": '{"action":"follow"}',
@@ -813,6 +839,7 @@ class LifecycleTests(ArtifactFixture):
         self.assertNotIn(("retrieval_injection", self.draft_outputs["retrieval_injection"]), graded)
 
     def test_draft_http_failure_is_recorded_and_never_reviewed_or_returned(self):
+        self.enable_review()
         def fail_draft(*args):
             body = args[5]
             if args[4] == "fresh-launch-key" and \
@@ -841,6 +868,7 @@ class LifecycleTests(ArtifactFixture):
         ))
 
     def test_draft_protocol_failure_is_recorded_and_never_reviewed_or_returned(self):
+        self.enable_review()
         def malformed_draft(*args):
             body = args[5]
             if args[4] == "fresh-launch-key" and \
@@ -867,6 +895,7 @@ class LifecycleTests(ArtifactFixture):
         ))
 
     def test_review_http_and_protocol_failures_never_fall_back_to_draft(self):
+        self.enable_review()
         for failure in ("http", "protocol", "transport"):
             with self.subTest(failure=failure):
                 self.completion_requests.clear()
@@ -932,10 +961,12 @@ class LifecycleTests(ArtifactFixture):
         self.assertEqual(report["manifest"]["model"]["file"], source.name)
 
     def test_q8_diagnostic_failure_is_persisted_without_success_shaped_report(self):
+        self.enable_review()
         self.prepare_q8_diagnostic()
         self.args.report = str(self.root / "q8-failed-report.json")
         argv = self.main_args() + [
-            "--source-q8-diagnostic", "--startup-timeout", "1", "--request-timeout", "1"]
+            "--source-q8-diagnostic", "--review-json",
+            "--startup-timeout", "1", "--request-timeout", "1"]
         process = FakeProcess()
 
         def incorrect_reason(*args):
@@ -1025,7 +1056,7 @@ class LifecycleTests(ArtifactFixture):
                 gate.run_gate(self.args, report)
         self.assertEqual(len(requests), 6)
         self.assertEqual([case["passed"] for case in report["cases"]], [True, True, False, False])
-        self.assertTrue(all(case["draft"]["httpStatus"] == 400
+        self.assertTrue(all(case["httpStatus"] == 400
                             for case in report["cases"][2:]))
         self.assertTrue(all(case["requestedOutputFormat"] == "json_object"
                             for case in report["cases"][2:]))
@@ -1205,11 +1236,16 @@ class LifecycleTests(ArtifactFixture):
                 with self.assertRaises(SystemExit):
                     gate.parser().parse_args(self.main_args() + args)
 
-    def test_parser_defaults_to_4096_context_and_allows_2048(self):
+    def test_parser_defaults_to_single_pass_and_2048_context_with_review_opt_in(self):
         parsed = gate.parser().parse_args(self.main_args())
-        self.assertEqual(parsed.context, 4096)
+        self.assertEqual(parsed.context, 2048)
+        self.assertFalse(parsed.review_json)
         parsed = gate.parser().parse_args(self.main_args() + ["--context", "2048"])
         self.assertEqual(parsed.context, 2048)
+        parsed = gate.parser().parse_args(
+            self.main_args() + ["--review-json", "--context", "4096"])
+        self.assertTrue(parsed.review_json)
+        self.assertEqual(parsed.context, 4096)
 
 
 if __name__ == "__main__":

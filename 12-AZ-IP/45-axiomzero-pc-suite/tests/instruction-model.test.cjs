@@ -166,7 +166,7 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
   const launch = f.launches[0];
   for (const flag of ["--offline", "--no-agent", "--no-webui", "--no-mmproj", "--no-models-autoload",
     "--no-kv-offload", "--no-op-offload", "--log-disable"]) assert.ok(launch.args.includes(flag));
-  assert.equal(launch.args[launch.args.indexOf("--ctx-size") + 1], "4096");
+  assert.equal(launch.args[launch.args.indexOf("--ctx-size") + 1], "2048");
   assert.equal(launch.args[launch.args.indexOf("--threads") + 1], "4");
   assert.equal(launch.args[launch.args.indexOf("--device") + 1], "none");
   assert.equal(launch.args[launch.args.indexOf("--gpu-layers") + 1], "0");
@@ -344,8 +344,27 @@ test("unsupported JSON decoding fails without an unconstrained retry", async (t)
   assert.notEqual(f.children[0].signalCode, null);
 });
 
-test("every answer receives one generic model review without grader feedback", async (t) => {
+test("default answers use one generation without unqualified model-review overhead", async (t) => {
   const f = await fixture(t);
+  const result = await f.runtime.answer({ question: "What is Product 45?", evidence });
+  const generations = f.messages.filter((message) => message.type === "inference");
+  assert.equal(generations.length, 1);
+  assert.deepEqual(generations[0].body.response_format, { type: "json_object" });
+  assert.equal(result.modelReview.enabled, false);
+  assert.equal(result.modelReview.generationPasses, 1);
+  assert.equal(result.modelReview.draftOutput, null);
+  assert.equal(JSON.parse(result.modelReview.finalOutput).answer, result.answer);
+});
+
+test("model-review configuration requires an explicit boolean", () => {
+  for (const enableModelReview of [null, 1, "true", {}]) {
+    assert.throws(() => createInstructionModel({ resourcesDirectory: path.resolve("."),
+      dataDirectory: path.resolve("."), enableModelReview }), /Invalid model-review option/);
+  }
+});
+
+test("opt-in review always uses one generic revision without grader feedback", async (t) => {
+  const f = await fixture(t, { runtime: { enableModelReview: true } });
   const result = await f.runtime.answer({ question: "What is Product 45?", evidence });
   const generations = f.messages.filter((message) => message.type === "inference");
   assert.equal(generations.length, 2);
@@ -363,14 +382,16 @@ test("every answer receives one generic model review without grader feedback", a
   assert.equal(review.temperature, 0);
   assert.equal(review.seed, 0);
   assert.equal(result.modelReview.generationPasses, 2);
+  assert.equal(result.modelReview.enabled, true);
   assert.equal(result.modelReview.independent, false);
   assert.deepEqual(JSON.parse(result.modelReview.finalOutput).answer, result.answer);
+  assert.equal(f.launches[0].args[f.launches[0].args.indexOf("--ctx-size") + 1], "4096");
 });
 
 test("only the unmodified model revision can replace a semantically invalid draft", async (t) => {
   const draft = { status: "VERIFIED", answer: "Unsupported draft", citations: ["wrong"] };
   const revision = { status: "UNVERIFIED", answer: "Windows suite [C1].", citations: ["C1"] };
-  const f = await fixture(t, { result: draft, reviewResult: revision });
+  const f = await fixture(t, { result: draft, reviewResult: revision, runtime: { enableModelReview: true } });
   const result = await f.runtime.answer({ question: "x", evidence });
   assert.deepEqual(JSON.parse(result.modelReview.draftOutput), draft);
   assert.deepEqual(JSON.parse(result.modelReview.finalOutput), revision);
@@ -378,7 +399,7 @@ test("only the unmodified model revision can replace a semantically invalid draf
 });
 
 test("a draft content-format error is retained and only the model can revise it", async (t) => {
-  const f = await fixture(t, { mode: "draft-invalid-content" });
+  const f = await fixture(t, { mode: "draft-invalid-content", runtime: { enableModelReview: true } });
   const result = await f.runtime.answer({ question: "x", evidence });
   assert.equal(result.modelReview.draftOutput, "not valid JSON");
   assert.equal(JSON.parse(result.modelReview.finalOutput).answer, result.answer);
@@ -392,7 +413,7 @@ test("failed, malformed or invalid revisions never fall back to a valid draft", 
     { reviewResult: { status: "VERIFIED", answer: "Not qualified", citations: ["C1"] } }
   ]) {
     await t.test(JSON.stringify(options), async (t) => {
-      const f = await fixture(t, options);
+      const f = await fixture(t, { ...options, runtime: { enableModelReview: true } });
       await assert.rejects(f.runtime.answer({ question: "x", evidence }), /review failed|JSON|invalid/);
       assert.equal(f.messages.filter((message) => message.type === "inference").length, 2);
       assert.notEqual(f.children[0].signalCode, null);
@@ -401,14 +422,14 @@ test("failed, malformed or invalid revisions never fall back to a valid draft", 
 });
 
 test("draft and review share the original inference deadline", async (t) => {
-  const f = await fixture(t, { mode: "slow-review", runtime: { requestTimeoutMs: 150 } });
+  const f = await fixture(t, { mode: "slow-review", runtime: { requestTimeoutMs: 150, enableModelReview: true } });
   await assert.rejects(f.runtime.answer({ question: "x", evidence }), /deadline/);
   assert.equal(f.messages.filter((message) => message.type === "inference").length, 2);
   assert.notEqual(f.children[0].signalCode, null);
 });
 
 test("review remains cancellable and never returns the draft", async (t) => {
-  const f = await fixture(t, { mode: "review-hang" });
+  const f = await fixture(t, { mode: "review-hang", runtime: { enableModelReview: true } });
   const work = f.runtime.answer({ question: "x", evidence });
   const rejection = assert.rejects(work, /cancelled/);
   await f.reviewInference;

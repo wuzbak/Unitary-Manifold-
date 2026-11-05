@@ -1,5 +1,27 @@
 # Wave Changelog
 
+## Measured review non-improvement and integrated regression repair (2026-11-05)
+
+Actual hosted two-pass evaluation at `62a3170` still passed only 3/4, with
+identical JSON drafts and revisions. The exact receipt is retained under
+SHA-256 `bc8d11064b804f9b5d34370a47d7330fade286b67ab2044d68ab62d25e6acf4f`.
+Same-model review remains available only through explicit experimental opt-in;
+normal inference returns to one generation and a 2,048-token context rather
+than imposing unearned latency and memory costs. An optional hosted diagnostic
+has its own report and never substitutes for packaging acceptance. Prompts,
+facts, grader and acceptance thresholds were not weakened.
+
+The complete integrated local run exposed 20 software failures, including stale
+status projections, omitted P1133/P1134 test membership and the existing
+`src/core` directory budget. P1129/P1133/P1134 are sharded byte-for-byte with
+standard package-path compatibility for their existing flat imports; the
+unchanged limit now passes at 1,368 tracked entries. Corrections preserve
+scientific claims and historical regression counts; replacement complete
+regression evidence remains required. The full adjusted Node suite passed
+227 tests without failures or skips. The combined affected Python replacement
+passed 1,208 tests and 110 subtests, including every originally failing file;
+all 2,080 Markdown files passed the link audit. All 21 capabilities remain open.
+
 ## Mainline v38.5 ledger synchronization and bounded model review (2026-11-05)
 
 The approved mainline Sprint DA registration had advanced STATUS and the tracker

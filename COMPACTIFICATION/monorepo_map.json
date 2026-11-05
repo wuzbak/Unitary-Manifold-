@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8618,
+  "file_count": 8621,
   "lanes": {
     "az_ip": 2639,
     "compactification": 9,
-    "other": 5556,
+    "other": 5559,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -31,7 +31,7 @@
     "6-MONOGRAPH": 20,
     "7-OUTREACH": 949,
     "8-SAFETY": 8,
-    "9-INFRASTRUCTURE": 263,
+    "9-INFRASTRUCTURE": 264,
     "AGENTS.md": 1,
     "ALGEBRA_PROOF.py": 1,
     "ARCHIVE": 26,
@@ -109,10 +109,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1660,
+    "src": 1661,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1567,
+    "tests": 1568,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -30004,6 +30004,12 @@
       "lane": "other"
     },
     {
+      "path": "9-INFRASTRUCTURE/az-ml-program/evidence/bc8d11064b804f9b5d34370a47d7330fade286b67ab2044d68ab62d25e6acf4f.json",
+      "top_level": "9-INFRASTRUCTURE",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "9-INFRASTRUCTURE/az-ml-program/evidence/c0253c584b24209767747074fc925b2bfc8821affe87372bc68fb47a47c2b3d2.json",
       "top_level": "9-INFRASTRUCTURE",
       "kind": "file",
@@ -41266,12 +41272,6 @@
       "lane": "other"
     },
     {
-      "path": "src/core/pillar1129_malecns_connectome_empirical_bridge.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
       "path": "src/core/pillar1130_action_derived_flow_steward_promotion.py",
       "top_level": "src",
       "kind": "file",
@@ -41285,18 +41285,6 @@
     },
     {
       "path": "src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "src/core/pillar1133_superfluid_effective_theory.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
-      "path": "src/core/pillar1134_rare_decay_probes.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"
@@ -45988,6 +45976,30 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar_1129_1168/__init__.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1129_1168/pillar1129_malecns_connectome_empirical_bridge.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1129_1168/pillar1133_superfluid_effective_theory.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1129_1168/pillar1134_rare_decay_probes.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pillar_bh_compactification_de_seed.py",
       "top_level": "src",
       "kind": "file",
@@ -49763,6 +49775,12 @@
     },
     {
       "path": "tests/test_core_pillar102_brane_gw.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_core_pillar_shard_imports.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
