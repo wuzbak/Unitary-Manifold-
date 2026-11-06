@@ -186,6 +186,13 @@ Content-Length before reading, so the test now sends only the oversized
 declaration, avoiding an unread-body TCP reset. It also checks exactly 65,536
 bytes reach JSON parsing and 65,537 declared bytes are rejected before reading;
 the production server and request-size bound are unchanged.
+Run 42265037965 passed recovered Windows products, independent model
+acceptance, all three governed inference trials and actual installed inference,
+training, JAX, workbench and native browser/sidecars. Its UI smoke observed
+45 catalog cards before the asynchronous runtime list had rendered. The
+readiness poll now requires both sets of 45 cards within a bounded sixty
+seconds; a simulated delayed-runtime CDP regression executes the whole smoke
+and proves catalog-only readiness cannot end the poll. All UI assertions remain.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 
