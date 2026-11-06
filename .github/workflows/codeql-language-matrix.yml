@@ -50,7 +50,7 @@ jobs:
           if-no-files-found: warn
 
   plan-matrix:
-    name: Plan changed-surface matrix
+    name: Plan complete-surface matrix
     runs-on: ubuntu-latest
     outputs:
       has_work: ${{ steps.plan.outputs.has_work }}
@@ -63,21 +63,10 @@ jobs:
         run: python3 TOOLS/checks/codeql_slices.py check
       - name: Build language/slice matrix
         id: plan
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          BASE_REF: ${{ github.base_ref }}
-          BEFORE_SHA: ${{ github.event.before }}
         run: |
           set -euo pipefail
-          : > changed_files.txt
-          if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$BASE_REF" ]; then
-            git fetch origin "$BASE_REF" --depth=1 || true
-            git diff --name-only "origin/$BASE_REF...HEAD" > changed_files.txt || : > changed_files.txt
-          elif [ "$EVENT_NAME" = "push" ] && [ -n "$BEFORE_SHA" ] && [ "${BEFORE_SHA//0/}" != "" ]; then
-            git diff --name-only "$BEFORE_SHA" HEAD > changed_files.txt || : > changed_files.txt
-          fi
-          # An empty change list (schedule, manual run, unknown base) analyses every slice.
-          python3 TOOLS/checks/codeql_slices.py plan --changed-from changed_files.txt \
+          # Upload the same categories on PRs and main so alert comparison is complete.
+          python3 TOOLS/checks/codeql_slices.py plan \
             --github-output "$GITHUB_OUTPUT" --manifest-out codeql_pr_scope_manifest.json
       - name: Upload PR scope manifest
         uses: actions/upload-artifact@v4

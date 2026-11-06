@@ -25,7 +25,7 @@ bias) is implemented and differentiated here (`tensor.py`), in NumPy only.
 ## Separate instruction-backend verification
 
 `verify_embedded_engine.py` validates an absolute-path, checksum-pinned local
-llama.cpp server and the selected Qwen2.5-1.5B-Instruct Q4_K_M GGUF before any
+llama.cpp server and the selected Unsloth Qwen3-4B-Instruct-2507 Q4_K_M GGUF before any
 frontend integration. It checks real
 instructions, supplied citation IDs, unsupported portfolio-platform limits and
 refusal of malicious retrieved instructions. The server runs CPU-only on an
@@ -46,10 +46,24 @@ without falling back to drafts. For this option, `--context 4096` is available
 when the engine needs additional prompt headroom.
 
 The Windows `pc-suite-embedded-model.yml` workflow builds a pinned static engine,
-obtains official model revision/LFS hashes and licensing, and downloads the
-official instruction-tuned Q4_K_M weights directly with byte/time limits and
-the existing 1.6 GB installation budget. No local requantization is used for
-this candidate. Its actual hosted acceptance must pass before packaging.
+obtains conversion-repository revision/LFS hashes and licensing, and downloads
+the Unsloth community conversion with byte/time limits and the approved
+3,000,000,000-byte model cap. These are not official Qwen GGUF weights.
+Public/ungated Apache-2.0 metadata is required for both the conversion and the
+official `Qwen/Qwen3-4B-Instruct-2507` instruction-only base; a declared base
+must match. Provenance retains both snapshots, while explicitly not claiming
+the observed base revision was used for the conversion. The project has not
+reproduced the conversion and performs no local requantization.
+Actual hosted acceptance must pass before packaging; this candidate is not yet
+qualified. Hosted acceptance uses the steward-approved `--request-timeout 600`
+for the larger portable-CPU model; the standalone CLI default
+remains 120 seconds. Threads, contexts, acceptance criteria and default-off
+review are unchanged. The steward-approved claim-detector correction accepts
+explicit local negation, rather than treating every occurrence of an action
+word as a positive execution claim. Unnegated, mixed-positive, double-negative
+and success-marker claims still fail; ambiguous language remains conservative.
+The file cap is not a RAM or hardware qualification.
+The Qwen2.5-1.5B Q4 replacement also failed the retrieval criterion.
 The preceding Qwen3-1.7B Q4 candidate and its original Q8 source both failed
 the same retrieval challenge; the preserved paired evidence does not support
 attributing that failure solely to compression. An explicit source-Q8
@@ -128,7 +142,9 @@ task**: the target at position `i` is the input token at position
 `(i + shift) mod seq_len` — a relation that wraps around the end of the
 sequence, which is exactly the invariant the toroidal encoding is built to
 carry. The model is bidirectional (non-causal) here; this is a fixed-offset
-lookup task, not autoregressive generation.
+lookup task, not autoregressive generation. Its sequence length is not
+matched to the first rotary pair's 74-position orbit; a loss difference
+does not establish finite periodicity as its cause.
 
 ```bash
 python 12-AZ-IP/43-az-geometric-tori-transformer/run.py demo --steps 200
@@ -147,7 +163,10 @@ with **no** learned relative-distance bias. The legacy
 `GeometricToriTransformerConfig(positional_mode="rope")` swaps it in for
 the toroidal attention block. This legacy arm has fewer parameters than the
 default toroidal model; therefore its historical comparison is not
-parameter-matched and cannot isolate the rotary schedule.
+parameter-matched and cannot isolate the rotary schedule. With vocabulary
+size 8, dimension 16, four heads and two layers, the legacy RoPE model has
+6,760 parameters versus 7,064 for toroidal attention (304 extra learned
+relative-bias parameters); this difference is checked directly by tests.
 
 The table below records a descriptive synthetic cyclic-copy run
 (`shift=7 > seq_len/2`). It is historical smoke-test evidence only:

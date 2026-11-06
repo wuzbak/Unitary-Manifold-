@@ -1,5 +1,365 @@
 # Wave Changelog
 
+## Complete CodeQL comparison coverage (2026-11-06)
+
+PR #1177's CodeQL jobs passed, but the aggregate remained neutral because
+changed-file planning omitted five current categories and the main baseline
+retained three obsolete categories (`python-core`, `python-product20`,
+`python-psicat-runtime`). CI now analyses every manifest slice on every event,
+without changing security queries or suppressing alerts. An executable workflow
+regression checks that the complete category set is emitted. Local changed-file
+planning remains available outside CI.
+
+The steward approved retiring only those three obsolete baseline configurations
+after preserving their metadata/SARIF and verifying successful replacement
+coverage. That cleanup is separate from source changes and remains contingent
+on evidence preservation; no current configuration or alert may be dismissed to
+manufacture a green check. Fresh current-head checks are required.
+
+## Supported macOS smoke runner (2026-11-06)
+
+PR #1177's final software/model/installer, regression and mutation gates passed
+at `f314fb021`, but its advisory macOS job was cancelled before assignment:
+GitHub reported `macos-14-arm64-us-default` is unsupported. The compatibility
+leg now requests the documented supported `macos-15` arm64 image. Its tests,
+timeout and advisory status are unchanged; a workflow regression requires the
+same smoke commands as Ubuntu. This is a runner migration, not an executed
+macOS pass. Fresh current-head CI, including actual macOS execution, is required
+before a fully green handoff; earlier Windows receipts remain source-bound.
+
+## Mainline/recovery integration qualification (2026-11-05)
+
+The subsequent mainline merge of PR #1178 is also reconciled, retaining its
+scoped temporal-query and program-retrieval features. Its new temporal
+dependency is loaded only when requested, preserving standalone read-only
+Weave imports without platform lock modules. The combined temporal,
+retrieval, metadata-discovery, governance, inventory and map selector passes
+1,051 tests and 42 subtests; complete final-source execution remains separate.
+
+After PR #1173 merged, integration commit `3a0694b5b` reconciled its model
+work with recovery-owned process cleanup, both IP reseal histories, both
+compatible pillar shards and the union of canonical execution selections.
+P1132 remains in `src/core/pillar_1132_1134/`; P1129, P1133 and P1134 use
+mainline's `src/core/pillar_1129_1168/`. Flat public imports retain identity.
+No directory cap, pillar/version marker, scientific boundary or falsifier
+was changed. Duplicate Sprint DA continuity text was removed without
+discarding historical CZ qualification.
+
+At that exact source, the complete slow-inclusive command
+`python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -m "" -q --tb=short -r f`
+completed with **65,614 passed, 60 skipped, 0 failed** in 1,090.07 seconds.
+The slow-inclusive recovered Products 01/20/35/38/39 run completed with
+**1,272 passed, 4 skipped, 0 failed** on Linux and actual Windows; native
+run 42108433950 also passed browser lifecycle, UEFI and both Android builds.
+These are source-bound execution receipts, not changes to historical
+Sprint CU release totals or proof of a production expert assistant.
+
+Actual Qwen2.5 acceptance in that native run still failed: it refused the
+unsafe action but capitalized canonical status labels and cited the attack
+instead of evidence supporting platform limits. Artifact 13453771139
+retains the complete responses. The separate Qwen3 1.7B Q8 diagnostic
+(run 42111271643, artifact 13454308874) also failed, with thinking tags in
+arithmetic and boolean platform fields/limit-only refusal rationale.
+Neither result qualifies packaging. All cases, graders and acceptance
+criteria remain unchanged; experimental same-model review remains off.
+The steward approved a **3 GB** model installation budget for qualifying
+a stronger instruction model. That approval is not a successful model
+evaluation, installer qualification or permission to bypass acceptance.
+The stronger-model evaluation uses the production runtime's existing
+300-second request deadline, rather than the verifier CLI's 120-second
+default. The measured smaller model already spent 89 seconds processing
+its first prompt on the portable CPU build. This is an explicit alignment
+with the unchanged deployment budget, not a latency-performance claim or
+relaxation of any answer, citation, refusal or authorization criterion.
+
+The stronger 4B model's first two native runs produced the required refusal,
+exact platform labels and correct citation. Both were rejected solely because
+the old lexical detector treated the negated phrase "no such support can be
+claimed or executed" as a positive execution claim. The steward explicitly
+approved a narrowly tested, conservative local-negation correction. Positive
+claims, mixed positive/negative clauses, double negatives and the forbidden
+success marker remain rejected. Earlier smaller-model failures still fail
+when replayed through that detector; original receipts are not rewritten.
+The conversion revision is pinned to the observed, hash-verified
+`a06e946bb6b655725eafa393f4a9745d460374c9`.
+
+The subsequent native recovered-product run exposed a Windows clock-resolution
+freshness bug: a just-written source could be timestamped after receipt
+completion despite an unchanged snapshot digest. Digest-bearing receipts now
+use that digest, which binds exact source metadata; legacy digest-less
+receipts retain fail-closed timestamp validation. Deterministic regressions
+set source timestamps explicitly, with no sleeps or skipped coverage.
+These corrections require fresh native execution; replaying saved model
+outputs is diagnostic evidence, not a new packaging qualification.
+The corrected native backend gate subsequently passed, but the governed
+Node smoke exceeded its existing request deadline while prefilling the
+longer production policy from scratch. Ownership checks now share that
+policy prefix so the same owned engine can reuse its prompt cache, without
+increasing deadlines, weakening fresh-token authentication or changing
+ordinary answer schemas. Fresh governed smoke and installer evidence is
+still required. The Windows timestamp regression also uses a representable
+one-second metadata change rather than assuming one-nanosecond filesystem
+resolution; it asserts that the observed timestamp advances.
+Native run 42127782342 then passed the actual backend cases, governed Node
+smoke, recovered-product suite, browser lifecycle, UEFI and both Android
+builds. It retained the complete validated runtime as artifact 13462179905
+and evaluation evidence as artifact 13462828324. Packaging stopped before
+installer compilation because an unawaited nested preload test was cancelled
+by its completed parent; that independent test is now top-level, retaining
+all fixed-channel and IPC exposure assertions.
+The existing inflation mutation gate independently measured 826/1,454 killed
+(56.81%) against its unchanged 80% minimum. Added analytic amplitude,
+mode-cutoff, radion-sweep, fixed-point, step-bound and guardrail regressions
+in the existing focused test file; the exact focused pytest selector passes
+636 tests. Production inflation code and mutation settings are unchanged.
+Line coverage increasing from 72% to 96% is not a mutation qualification:
+the full actual mutation run must still meet the original threshold.
+The later mainline PR #1179's history is reconciled as well. This recovery
+retains the original injection prompt rather than inserting the exact
+expected status/citation answers from its clarification: the stronger model
+has already passed that original challenge, and the approved gate correction
+was restricted to negation-aware claim detection, not an easier prompt.
+Later native ownership challenges exposed conflicting output instructions:
+production policy required JSON while the challenge requested a raw token.
+Both now use the same JSON envelope and identical system policy, retaining
+the fresh 128-bit token, exact status/citation checks and listener ownership
+verification. Runtime regressions reject incorrect tokens, statuses and
+citations; this is not a fallback or relaxation of authentication.
+The steward approved distributing the full model as verified offline
+companion parts beside a smaller installer after NSIS could not memory-map
+the embedded multi-gigabyte archive. Each part is at most 1 GiB, avoiding
+GitHub's per-asset ceiling. Installer-bound manifests, part hashes and the
+complete runtime-model hash are checked before installation; reconstruction
+uses a temporary file and atomic move, with no network fallback.
+Windows qualification now installs from those actual local parts, rejects
+missing/tampered payloads and exercises installed inference before uninstall.
+The portable self-extracting target is removed rather than advertised as
+working above its archive limit. Actual native qualification remains required.
+
+The first added inflation tests measured 1,061/1,454 killed (72.97%), not the
+required 80%. Additional analytic and boundary regressions bring the focused
+suite to 690 passing tests and kill representative known survivors. Neither
+that test count nor representative kills substitute for a fresh full mutation
+score; the unchanged threshold remains a release gate.
+The larger portable-CPU model subsequently exceeded the five-minute request
+budget. The steward explicitly approved ten minutes, with slow performance
+disclosed and no correctness or safety relaxation. Runtime ownership,
+answering and optional review share that single ten-minute inference budget,
+rather than each receiving ten minutes. Embedded research discloses a
+thirteen-minute step budget to include startup; other tools retain their
+one-minute deadline. All paths remain cancellable and fail closed on timeout.
+Native run 42152042004 built the smaller installer, rejected missing and
+tampered companion parts, installed and verified the complete model, and
+passed installed inference, native training, JAX, workbench and browser
+lifecycle checks. Its UI diagnostic then hit a five-second DevTools deadline
+while awaiting resource-backed status checks. Awaited diagnostic promises
+now receive a bounded sixty seconds; synchronous DOM checks retain five
+seconds. Assertions, renderer exception checks and actual installation
+coverage are unchanged; this is not an inference acceptance substitution.
+Run 42157006933 subsequently passed the actual installed UI and full packaging
+job. A separate installed run failed its exact ownership challenge despite
+passing backend evaluation: the challenge still supplied an ad-hoc plaintext
+input rather than the normal question/evidence JSON. It now uses the same
+input structure and evidence-ID mechanism as ordinary answers, retaining the
+fresh 128-bit nonce, exact status/citation checks, authentication, process
+ownership, fail-closed behavior and shared inference deadline. Mismatch errors
+identify only the failed fields, never credentials or generated content.
+Run 42162669852 passed actual candidate acceptance but rejected the ownership
+completion under the text-only bounded protocol. Ownership now has the same
+128-token output allocation as ordinary answers rather than a separate
+64-token cap. Truncated completions still fail closed and now identify token
+exhaustion explicitly; exact nonce/schema/status/citation and non-thinking
+checks, answer limits and the shared ten-minute deadline are unchanged.
+Run 42165044639 passed actual candidate acceptance but the governed ownership
+reply had incorrect JSON keys. Runtime completions now request the pinned
+engine's JSON-schema decoding for the existing three-field response shape.
+The shared schema contains only key/type requirements, no nonce or other
+answer values. Exact output validation, source grounding, authentication and
+the unchanged independent candidate acceptance cases remain mandatory;
+unsupported schema decoding fails without an unconstrained retry.
+Run 42248756416 passed independent candidate acceptance and produced the exact
+ownership token/citation, but an invalid status label. The shared schema now
+allows exactly the two pre-existing protocol labels, UNVERIFIED or UNSUPPORTED,
+without selecting between them. Ownership still rejects UNSUPPORTED and all
+incorrect token/citation values; ordinary answers retain both status choices.
+No evidence answer, nonce or citation value is constrained into the output.
+Run 42253378416 passed independent candidate acceptance but failed exact
+ownership answer/citation validation. Expert review identified ambiguity
+between normal cited Q&A and literal-token copying. Ownership evidence is
+now an unpunctuated key/value; its question explicitly forbids answer suffixes
+and puts citation IDs only in the citations array. Annotated token replies
+remain rejected. Native qualification requires three consecutive fresh-process
+governed passes and stops on any failure, followed by separate installed
+inference; this is not retry-until-green. The job allows sixty minutes for the
+additional trials, without changing any individual operation deadline.
+Run 42257334120 passed independent candidate acceptance and all three
+consecutive fresh-process governed inference trials. Packaging was correctly
+blocked by a recovered-product test: its legacy digest-less receipt fixture
+still assumed filesystem and process clock ordering. The test now places
+source mtimes explicitly before/after its parsed receipt timestamp, retaining
+fresh, stale and invalid-timestamp assertions. Production freshness behavior
+is unchanged, including fail-closed legacy timestamp checks.
+Final PR review follow-through fixes two unresolved findings: Product 24 now
+applies completed sync responses to the latest local state rather than a
+pre-request snapshot, with real delayed-HTTP tests preserving concurrent
+edits; Product 44 no longer imports Python from an inspected evidence root.
+Its bundled current-section policy has canonical parity and malicious
+file/symlink retrieval regressions, retaining historical exclusions and
+standalone read-only imports.
+
+Run 42262682061 passed the corrected clock regression but exposed a Windows
+socket reset in Product 38's oversized-body test. The server rejects oversized
+Content-Length before reading, so the test now sends only the oversized
+declaration, avoiding an unread-body TCP reset. It also checks exactly 65,536
+bytes reach JSON parsing and 65,537 declared bytes are rejected before reading;
+the production server and request-size bound are unchanged.
+Run 42265037965 passed recovered Windows products, independent model
+acceptance, all three governed inference trials and actual installed inference,
+training, JAX, workbench and native browser/sidecars. Its UI smoke observed
+45 catalog cards before the asynchronous runtime list had rendered. The
+readiness poll now requires both sets of 45 cards within a bounded sixty
+seconds; a simulated delayed-runtime CDP regression executes the whole smoke
+and proves catalog-only readiness cannot end the poll. All UI assertions remain.
+Merged mainline PR #1180's grant-documentation history without changing its
+content or any runtime/physics implementation. Rebuilt the combined Git-index
+inventory after resolving its generated-map conflict; map checks and all six
+map regressions pass. Complete qualification is bound to the reconciled head.
+Run 42274742401 passed all prerequisite native gates and three governed
+inference trials, but installed inference exceeded the shared ten-minute
+deadline on its slower Windows runner. The steward explicitly approved a
+shared fifteen-minute ownership/answer/optional-review budget with disclosed
+slower CPU performance. It remains one operation-wide budget, not fifteen
+minutes per pass; cancellation, exact validation and fail-on-error gates are
+unchanged. Embedded research discloses an eighteen-minute step including
+startup; other tools retain one minute. Independent candidate acceptance
+retains its 600-second request deadline and original cases. The native job
+allows seventy-five minutes for three consecutive governed trials plus setup.
+
+## Recovery reconciliation and readiness follow-through (2026-11-05)
+
+Selectively reconciled the two post-merge commits on
+`feat/az-kernel-heap-allocator`, rather than replacing newer mainline files:
+allocator split alignment and fragment reclamation, actual browser query/sync
+HTTP regressions and redirect rejection, absolute-only gradient checks, and
+honest legacy versus parameter-matched Product 43 benchmark descriptions.
+The current browser implementation lives in `desktop/runtime.js`; its newer
+readiness, persistence, view-refresh and broadcast behavior is retained.
+
+Closed Product 44/RAG review follow-through for historical evidence exclusion,
+live executor reconciliation, CLI configuration, preflight-before-claim,
+cross-instance import serialization and once-per-file hashing. The live
+effect lock on Windows uses native `msvcrt` byte-range locking while
+POSIX uses lazy-loaded `flock`; neither module is required for read-only
+API/geometry imports. Actual native Windows execution remains a separate gate.
+Corrected the planar null-constraint normalization, regenerated its source-bound acceptance
+receipt, added lapse-coefficient rejection coverage, guarded optional SymPy
+tests, rejected overflowing rare-decay uncertainty and preserved signed
+zero-uncertainty discrepancies. Tiny-energy assertions now use zero absolute
+tolerance. Already narrowed off-shell/fixed-transverse claims remain narrowed.
+
+Product 45 provisioning now retries despite abandoned `.pending` stages and
+checks copied/reused file digests; Windows smoke quotes a deliberately
+space-containing user-data path and checks that Electron created it. Native CI
+then exposed a failed-spawn cleanup `kill EINVAL` that masked the primary
+startup error. Cleanup now waits for failed-spawn/already-exited handles,
+suppresses only confirmed exit races and preserves genuine cleanup failures
+alongside the original error. Model policy and acceptance thresholds are unchanged.
+This is
+not production-readiness certification. The independent, still-active AZ IP
+Master Plan work on PR #1173 was neither changed nor adopted prematurely.
+
+Product 04 now builds with the repository context, binds within its container
+while publishing only host loopback, and imports repository sources from an
+unrelated working directory. Its actual Docker image built and returned HTTP
+200 through port forwarding. Product 35 HTTP uses the strict message decoder.
+Reconstructed Product 38 real HTTP tests cover declared properties, malformed
+and oversized input, unsupported routes and unavailable solver behavior.
+Product 39's real Git tests use temporary repositories and Git-index blobs,
+including exotic names and symlink modes without requiring Windows filesystem
+support or symlink privileges.
+The first native recovered-product receipt confirms Product 39's 37 tests and
+Product 35's 29 tests passed on Windows. Product 01's SQLite journal now closes
+each connection deterministically after commit/rollback or setup failure,
+with regressions independent of garbage collection. Its IP-header checks
+explicitly read UTF-8. Oversized Product 38 HTTP input remains unchanged while
+its test ID is bounded to avoid Windows' environment-variable limit.
+Product 20's audit store now uses a real Windows byte-range lock instead of
+requiring `fcntl`, while preserving POSIX locking and fail-closed persistence.
+UTF-8 reads, canonical forward-slash literature IDs and parsed quoted-command
+assertions repair the other observed Windows failures. Its long-input cases
+also retain their inputs with concise IDs. Windows directory-fsync and ACL
+limitations remain explicit. The subsequent native receipt below confirms
+the recovered-product suite passed on Windows.
+
+The slow-inclusive Product 01/Product 20 follow-through run reports 1,169 passed
+and 4 skipped on Linux. A separate Windows recovered-product job now gates PC
+Suite packaging; its native results are not inferred from that Linux run.
+Product 45's final local suite reports 223 npm tests and 10 Python tests passed;
+Product 44 plus associated RAG consumers reports 342 passed. The subsequent
+Windows-lock follow-through reports 337 passed for Product 44, Product 20 Weave
+consumers and RAG. The focused physics run reports 170 passed, and the planar
+acceptance packet passes 12/12 gates.
+The exact Weave CI invocation now passes 214 tests after making its spawned
+worker independently importable; the real live/crashed process checks remain.
+The standalone no-Git fixture intrinsically prevents ancestor-repository
+discovery rather than relying on an inherited environment workaround.
+Ragbot and PsiCat were consulted using local retrieval with external inference
+and web search disabled; those consultations are context, not independent
+expert or release certification.
+
+Book 57 corrects confirmed nonlocal coach data flow; Book 58 flags rather than
+silently resolves the six-versus-seven dimensional source inconsistency.
+Dated errata preserve immutable preassembly sources. Assembly checks now retain
+external citation destinations, with a mutation regression. Affected registered
+assets are resealed with prior registry entries retained.
+
+The first broader core run was interrupted after 26,513 passes and 12 failures
+caused by incomplete existing Sprint DA ledger/public-status synchronization.
+The version, slot and continuity metadata now match STATUS.md across the
+canonical ledgers, generated live status and public snapshots; 60 directly
+affected tests pass. No new sprint or pillar is registered here and historical
+Sprint CU regression totals are not presented as this branch's execution.
+The completed intermediate aggregate at `b99a07f3a` subsequently reported
+65,580 passed, 60 skipped and 14 failures: the directory-entry cap, historical
+CZ qualification checks and omitted canonical test selections. The three
+implementations now live in a shard with lazy legacy-import compatibility;
+the unchanged 1,368-entry limit passes. Historical CZ checks no longer require
+superseded metadata to masquerade as current, and canonical execution
+selections include the reconstructed HTTP and existing adjacent-track tests.
+The directly affected suites pass 153 tests; integrated parent-owned product,
+inventory and editorial suites pass 357 with one skip.
+These are frozen-checkpoint receipts, not a final full-regression certificate;
+the latest execution and native receipts are recorded in draft PR #1177.
+Initial native CI passed the browser lifecycle and UEFI check, but its original
+instruction-backend job failed in unit cleanup before model evaluation.
+After that repair, native cleanup contracts passed and the actual candidate
+passed arithmetic, exact instructions, grounded JSON and authentication.
+The unchanged retrieval-injection gate still failed: action refusal and
+platform limits were correct, but the reason did not explain rejection of the
+malicious instruction. Packaging remains blocked; no grader or model-policy
+relaxation is made. Both native Android artifact builds and UEFI passed;
+build success is not hardware or combined-installer qualification.
+
+**Final recovery-source receipts at `386a1a641`:** the complete slow-inclusive
+`tests/`, `recycling/` and canonical Unitary Pentad aggregate reports
+65,603 passed, 60 skipped and zero failures in 1,085.39 seconds.
+The slow-inclusive recovered Products 01/20/35/38/39 run reports
+1,272 passed, 4 skipped and zero failures on both Linux and actual Windows.
+Windows breakdown: Product 01 186 passed/1 skipped; Product 20 991 passed/3
+skipped; Product 35 29 passed; Product 38 29 passed; Product 39 37 passed.
+Native browser lifecycle, Weave integration, ledger consistency, slow tests,
+UEFI and both Android artifact builds pass. The real model's unchanged
+retrieval-injection rationale gate fails on this same source head; packaging
+is therefore not cleared. The subsequent STATUS maintenance note synchronizes
+the ledger with the already-narrowed runtime status without changing source
+behavior or replacing the historical Sprint CU release marker.
+
+Still unearned: native Windows combined installer/model acceptance, hardware
+qualification, and full portfolio production readiness. The retained recovery
+archive has only two JSONL evidence files; reconstructing missing HTTP tests
+does not recover or certify the original approximately 8% missing change set.
+No pillar/version promotion, scientific closure, TOE-score increase or weakened
+falsification condition is made.
 ## AZ ML program retrieval integration (2026-11-05)
 
 Actual RAG/PsiCat/Weave consultation exposed missing program source coverage:
@@ -477,17 +837,28 @@ controls are recorded in TRUTH_LAYER. This is not a derived UM transfer spectrum
 or empirical closure.
 
 This file is the required wave-level changelog ledger.
-**Current version: v38.4 (2026-11-02)**
+**Current version: v38.5 (2026-11-05)**
 **Regression:** 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record; latest verified full regression in branch history)
-**Next pillar slot:** 1133
+**Next pillar slot:** 1135
 
 
 
 
 ## v38.4 (2026-11-02 — Sprint CZ: Pillar 1132)
 
+**Historical qualification:** The retained status is
+`ADM_RESTRICTED_ACCELERATION_IDENTITIES_VERIFIED`, not a constrained nonconstant scalar evolution certificate.
+The fixed transverse spectators force the positive-kinetic scalar stress to
+vanish on constrained solutions. The original hyperbolic-propagation
+interpretation in the historical entry below is withdrawn; only off-shell
+acceleration identities and the exact static cross-check remain certified.
+This section's next-slot marker records the historical CZ registration, not
+the current v38.5 / Sprint DA / next-slot-1135 metadata above.
+The physical source now resides in `src/core/pillar_1132_1134/`; the public
+import `src.core.pillar1132_adm_homogeneous_hyperbolic_evolution` is unchanged.
+
 **What changed:**
-Pillar 1132 adds a new, independently-scoped capability alongside — not closing — Pillar 1130's two remaining residual obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`), both of which remain open and untouched. `src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py` performs a genuine ADM (3+1) canonical decomposition of the circle-reduced Einstein-frame action restricted to a declared homogeneous perimeter (x^2,x^3 flat/spectator, gauge field B_mu excluded this sprint), with lapse, shift, spatial-metric and scalar fields depending on real coordinate time t = x^0 and one spatial coordinate x = x^1 — the first derivation in the repository to vary the action with genuine second time derivatives. `adm_homogeneous_hyperbolic_evolution_certificate()` certifies the lapse/shift equations are non-dynamical constraints, the spatial-metric equation has an exactly-zero d^2h/dt^2 coefficient (no propagating graviton in 1 spatial dimension), the scalar equation has a nonzero d^2p/dt^2 coefficient (genuine hyperbolic evolution), and the static (t-independent, zero-shift) reduction reproduces the repository's own already-certified static system as an exact symbolic identity (not a sample-point check), built directly from `action_derived_flow.py`'s own helper functions.
+Pillar 1132 adds a new, independently-scoped capability alongside — not closing — Pillar 1130's two remaining residual obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`), both of which remain open and untouched. `src/core/pillar_1132_1134/pillar1132_adm_homogeneous_hyperbolic_evolution.py` performs a genuine ADM (3+1) canonical decomposition of the circle-reduced Einstein-frame action restricted to a declared homogeneous perimeter (x^2,x^3 flat/spectator, gauge field B_mu excluded this sprint), with lapse, shift, spatial-metric and scalar fields depending on real coordinate time t = x^0 and one spatial coordinate x = x^1 — the first derivation in the repository to vary the action with genuine second time derivatives. `adm_homogeneous_hyperbolic_evolution_certificate()` certifies the lapse/shift equations are non-dynamical constraints, the spatial-metric equation has an exactly-zero d^2h/dt^2 coefficient (no propagating graviton in 1 spatial dimension), the scalar equation has a nonzero d^2p/dt^2 coefficient (genuine hyperbolic evolution), and the static (t-independent, zero-shift) reduction reproduces the repository's own already-certified static system as an exact symbolic identity (not a sample-point check), built directly from `action_derived_flow.py`'s own helper functions.
 
 **Why:**
 The existing action-derived flow's "t" is a fictitious relaxation parameter, not coordinate time, and its field equations are static (elliptic). Deriving a genuine, narrowly-scoped hyperbolic (real coordinate-time) evolution system — cross-checked exactly against the existing certified static sector — closes a concretely scoped new gap without overclaiming resolution of the full action-to-evolution problem.

@@ -12,7 +12,7 @@ import json
 import math
 import os
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
 import time
 from uuid import uuid4
 
@@ -23,7 +23,8 @@ from .memory import ScopedMemory, ReadOnlyFederation
 from .backends import Backends
 from .scheduler import Node, run_dag
 from .receipts import execution_record
-from src.infrastructure.temporal_data import TemporalSnapshot, point_in_time_features
+if TYPE_CHECKING:
+    from src.infrastructure.temporal_data import TemporalSnapshot
 
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 _TEMPORAL_ORIGINS = frozenset({"real", "synthetic", "fallback"})
@@ -43,6 +44,8 @@ class TemporalQueryContext:
     allow_origins: tuple[str, ...] = ("real",)
 
     def __post_init__(self) -> None:
+        from src.infrastructure.temporal_data import TemporalSnapshot
+
         if not isinstance(self.snapshot, TemporalSnapshot):
             raise ValueError("snapshot must be an already loaded TemporalSnapshot.")
         if not isinstance(self.owner_scope, str) or not self.owner_scope.strip():
@@ -95,6 +98,8 @@ class TemporalQueryContext:
 
 
 def _temporal_context_result(context: TemporalQueryContext) -> dict[str, Any]:
+    from src.infrastructure.temporal_data import point_in_time_features
+
     decision_time = context.decision_time.astimezone(timezone.utc)
     results = point_in_time_features(
         context.snapshot,
@@ -154,7 +159,8 @@ def _configured_checkpoints() -> dict[str, Path]:
     return {key: Path(value) for key, value in values.items()}
 
 
-def capabilities(repo_root: Path | None = None) -> dict:
+def capabilities(repo_root: Path | None = None, *, state_dir: Path | None = None,
+                 checkpoints: dict[str, Path] | None = None) -> dict:
     root = repo_root or repository_root()
     return {
         "product": 44, "name": "AxiomZero Weave", "version": VERSION,
@@ -164,8 +170,9 @@ def capabilities(repo_root: Path | None = None) -> dict:
         "governed_effects": ["experiment", "train", "memory.put", "memory.promote", "memory.delete"],
         "boundary": "Adjacent software integration; scores do not authorize actions or certify physics.",
         "checkpoint_inference": "Unavailable until explicitly configured; no model weights bundled.",
-        "backends": Backends(root, Path(".axiomzero-weave/models"),
-                             checkpoints=_configured_checkpoints()).capabilities(),
+        "backends": Backends(root, (state_dir or Path(".axiomzero-weave")) / "models",
+                             checkpoints=_configured_checkpoints() if checkpoints is None
+                             else checkpoints).capabilities(),
     }
 
 
@@ -373,10 +380,19 @@ class Weave:
             raise ValueError("unknown capability")
         return bool(entries[action]["effect"])
 
+    def _preflight(self, action: str, arguments: dict, principal: str) -> None:
+        if not isinstance(arguments, dict):
+            raise ValueError("arguments must be an object")
+        if action.startswith("memory."):
+            self.memory.preflight(action, principal, arguments)
+        else:
+            self.backends.preflight(action, arguments)
+
     def approve(self, action: str, arguments: dict, principal: str, *,
                 obligations: dict, sources: list[dict] | None = None, ttl: int = 300) -> str:
         if not self._is_effect(action):
             raise ValueError("read-only capability requires no effect approval")
+        self._preflight(action, arguments, principal)
         sources = sources or []
         if not self.index.verify(sources):
             raise ValueError("source evidence is stale")
@@ -392,6 +408,10 @@ class Weave:
             return {"state": "READ_ONLY", "result": self.backends.execute(action, arguments)}
         if decision_id is None:
             raise ValueError("explicit bound approval required before effects")
+        # A recorded success is replayed even if its output changed provider
+        # availability or the checkpoint digest expected by a resume request.
+        if self.journal.get(decision_id, principal)["state"] != "SUCCEEDED":
+            self._preflight(action, arguments, principal)
         return self.journal.execute(
             decision_id, principal, action, self._bound_arguments(action, arguments),
             lambda: self._effect(action, arguments, principal), self.index.verify)

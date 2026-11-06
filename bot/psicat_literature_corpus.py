@@ -52,7 +52,7 @@ from __future__ import annotations
 
 import gzip
 import json
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Any, Dict, List, Tuple
 
 GOVERNANCE_LABEL = "PSICAT_EDITORIAL_CORPUS"
@@ -84,6 +84,11 @@ PDF_EXPORT_TITLES: Dict[str, str] = {
 
 def _repo_root(repo_root: "Path | None" = None) -> Path:
     return Path(repo_root) if repo_root is not None else Path(__file__).resolve().parent.parent
+
+
+def _repo_source_id(path: PurePath, root: PurePath) -> str:
+    """Platform-independent repository-relative source ID (always ``/``-separated)."""
+    return path.relative_to(root).as_posix()
 
 
 def _markdown_sources(repo_root: Path) -> List[Tuple[Path, str]]:
@@ -137,7 +142,7 @@ def iter_literature_sources(repo_root: "Path | None" = None) -> List[Dict[str, s
     sources: List[Dict[str, str]] = [
         {
             "kind": "markdown",
-            "path": str(path.relative_to(root)),
+            "path": _repo_source_id(path, root),
             "title": title,
         }
         for path, title in _markdown_sources(root)
@@ -172,7 +177,7 @@ def build_literature_chunks(
             text = path.read_text(encoding="utf-8", errors="replace")
         except OSError:
             continue
-        rel = str(path.relative_to(root))
+        rel = _repo_source_id(path, root)
         for i in range(0, len(text), max_chunk_chars):
             chunks.append(
                 DocumentChunk(

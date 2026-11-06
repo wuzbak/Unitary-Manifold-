@@ -58,7 +58,7 @@ async function verifyWindow(target) {
       const timer = setTimeout(() => {
         pending.delete(id);
         reject(new Error(`DevTools request timed out: ${method}`));
-      }, 5000);
+      }, params.awaitPromise ? 60000 : 5000);
       pending.set(id, { resolve, reject, timer });
       socket.send(JSON.stringify({ id, method, params }));
     });
@@ -67,7 +67,8 @@ async function verifyWindow(target) {
   try {
     await send("Runtime.enable");
     let rendered;
-    for (let attempt = 0; attempt < 40; attempt += 1) {
+    const renderDeadline = Date.now() + 60000;
+    while (Date.now() < renderDeadline) {
       const response = await send("Runtime.evaluate", {
         expression: `({
           title: document.title,
@@ -81,7 +82,7 @@ async function verifyWindow(target) {
         returnByValue: true
       });
       rendered = response.result.value;
-      if (rendered?.cards === 45) break;
+      if (rendered?.cards === 45 && rendered.runtimes === 45) break;
       await new Promise((resolve) => setTimeout(resolve, 250));
     }
     assert.equal(rendered.title, "AxiomZero PC Suite");

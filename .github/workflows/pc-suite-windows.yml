@@ -34,6 +34,56 @@ jobs:
   platform-artifacts:
     uses: ./.github/workflows/pc-suite-platforms.yml
 
+  recovered-python-products:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install recovered product test dependencies
+        run: |
+          $installArgs = @(
+            "-m"
+            "pip"
+            "install"
+            "--retries"
+            "5"
+            "--timeout"
+            "60"
+            "-r"
+            "12-AZ-IP/20-psicat-navigator/requirements.txt"
+            "pytest>=8.0,<9.1"
+            "pytest-asyncio"
+            "fastapi"
+            "python-multipart"
+            "pyyaml"
+            "z3-solver"
+          )
+          for ($attempt = 1; $attempt -le 3; $attempt++) {
+            python @installArgs
+            if ($LASTEXITCODE -eq 0) { exit 0 }
+            if ($attempt -lt 3) { Start-Sleep -Seconds (5 * $attempt) }
+          }
+          exit $LASTEXITCODE
+      - name: Execute slow-inclusive recovered product suites on Windows
+        run: >-
+          python -m pytest
+          12-AZ-IP/01-axiom-os/tests/
+          12-AZ-IP/20-psicat-navigator/tests/
+          12-AZ-IP/35-az-uos-kernel-bridge/tests/
+          12-AZ-IP/38-az-formal-verification-library/tests/
+          12-AZ-IP/39-az-research-debt-tracker/tests/
+          -q -m "slow or not slow" --junitxml=recovered-python-products.xml
+      - name: Upload native recovered-product results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovered-python-products-windows
+          path: recovered-python-products.xml
+          if-no-files-found: warn
+
   browser-desktop-runtime:
     runs-on: windows-latest
     defaults:
@@ -75,7 +125,7 @@ jobs:
           if-no-files-found: error
 
   test-and-package:
-    needs: [browser-desktop-runtime, instruction-backend, platform-artifacts]
+    needs: [browser-desktop-runtime, instruction-backend, platform-artifacts, recovered-python-products]
     runs-on: windows-latest
     defaults:
       run:
@@ -104,20 +154,18 @@ jobs:
       - run: npm run catalog:check
       - run: npm run dist:win
       - run: npm run smoke:win
-      - name: Write artifact checksums
-        shell: pwsh
-        run: |
-          Get-ChildItem dist -File -Filter *.exe |
-            Get-FileHash -Algorithm SHA256 |
-            ForEach-Object { "$($_.Hash.ToLower())  $([System.IO.Path]::GetFileName($_.Path))" } |
-            Set-Content -Encoding ascii dist/SHA256SUMS.txt
+      - name: Reverify all offline payload parts and write full release checksums
+        run: npm run payload:verify
       - uses: actions/upload-artifact@v4
         with:
           name: axiomzero-pc-suite-windows
           path: |
             12-AZ-IP/45-axiomzero-pc-suite/dist/*.exe
+            12-AZ-IP/45-axiomzero-pc-suite/dist/*-offline.json
+            12-AZ-IP/45-axiomzero-pc-suite/dist/*-model.part*
             12-AZ-IP/45-axiomzero-pc-suite/dist/SHA256SUMS.txt
           if-no-files-found: error
+          compression-level: 0
 
   release:
     if: startsWith(github.ref, 'refs/tags/pc-suite-v')
@@ -142,9 +190,22 @@ jobs:
             throw "Release tag must match package version pc-suite-v$packageVersion."
           }
           $artifacts = Get-ChildItem -Path $distPath -File |
-            Where-Object { $_.Extension -eq ".exe" -or $_.Name -eq "SHA256SUMS.txt" } |
+            Where-Object { $_.Extension -eq ".exe" -or $_.Name -like "*-offline.json" -or $_.Name -match "-model\.part[0-9]{3}$" -or $_.Name -eq "SHA256SUMS.txt" } |
             ForEach-Object { $_.FullName }
           if (-not $artifacts) {
             throw "No Windows release artifacts were produced."
           }
+          $checksums = Get-Content -LiteralPath "$distPath/SHA256SUMS.txt"
+          foreach ($line in $checksums) {
+            if ($line -cnotmatch '^([a-f0-9]{64})  (AxiomZero-PC-Suite-[a-zA-Z0-9.-]+)$') {
+              throw "Invalid release checksum entry."
+            }
+            $expectedHash = $Matches[1]
+            $asset = Get-Item -LiteralPath (Join-Path $distPath $Matches[2])
+            if ($asset.Length -ge 2GB -or (Get-FileHash -LiteralPath $asset.FullName -Algorithm SHA256).Hash.ToLowerInvariant() -cne $expectedHash) {
+              throw "Release asset exceeded 2 GiB or failed checksum verification."
+            }
+          }
+          if ($checksums.Count -ne ($artifacts.Count - 1)) { throw "Release checksums do not cover every asset." }
           gh release create "$env:GITHUB_REF_NAME" $artifacts --title "AxiomZero PC Suite $env:GITHUB_REF_NAME" --notes-file "12-AZ-IP/45-axiomzero-pc-suite/README.md"
+          if ($LASTEXITCODE -ne 0) { throw "GitHub release publication failed." }

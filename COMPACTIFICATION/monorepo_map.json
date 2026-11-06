@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8641,
+  "file_count": 8651,
   "lanes": {
-    "az_ip": 2639,
+    "az_ip": 2648,
     "compactification": 9,
-    "other": 5579,
+    "other": 5580,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2639,
+    "12-AZ-IP": 2648,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -110,7 +110,7 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1662,
+    "src": 1663,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
     "tests": 1568,
@@ -2350,6 +2350,7 @@
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/startup-diagnostics.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/suite-lifecycle.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/lib/sync-policy.js",
+      "12-AZ-IP/24-psicat-web-browser/desktop/lib/sync-transport.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/main.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/preload.js",
       "12-AZ-IP/24-psicat-web-browser/desktop/runtime.js",
@@ -2372,6 +2373,7 @@
       "12-AZ-IP/24-psicat-web-browser/tests/e2e/desktop-ui.spec.js",
       "12-AZ-IP/24-psicat-web-browser/tests/e2e/network-sandbox.spec.js",
       "12-AZ-IP/24-psicat-web-browser/tests/electron-ipc-probe.js",
+      "12-AZ-IP/24-psicat-web-browser/tests/network-transports.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/page-context.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/psicat-client.test.js",
       "12-AZ-IP/24-psicat-web-browser/tests/run-ipc-probe.js",
@@ -2610,6 +2612,7 @@
       "12-AZ-IP/38-az-formal-verification-library/run.py",
       "12-AZ-IP/38-az-formal-verification-library/tests/test_api.py",
       "12-AZ-IP/38-az-formal-verification-library/tests/test_formal_verification_library.py",
+      "12-AZ-IP/38-az-formal-verification-library/tests/test_server.py",
       "12-AZ-IP/38-az-formal-verification-library/ui/index.html"
     ],
     "39-az-research-debt-tracker": [
@@ -2747,7 +2750,8 @@
       "12-AZ-IP/44-axiomzero-weave/tests/test_weave_http.py",
       "12-AZ-IP/44-axiomzero-weave/tests/test_weave_memory.py",
       "12-AZ-IP/44-axiomzero-weave/tests/test_weave_runtime.py",
-      "12-AZ-IP/44-axiomzero-weave/tests/test_weave_scheduler.py"
+      "12-AZ-IP/44-axiomzero-weave/tests/test_weave_scheduler.py",
+      "12-AZ-IP/44-axiomzero-weave/tests/weave_process_worker.py"
     ],
     "45-axiomzero-pc-suite": [
       "12-AZ-IP/45-axiomzero-pc-suite/.gitignore",
@@ -2784,8 +2788,11 @@
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_native.py",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/extract-node.ps1",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/install-offline-payload.ps1",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/instruction_smoke.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/native_smoke.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/offline-installer.nsh",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/offline-payload.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/platform_smoke.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/psicat_core.py",
@@ -2803,13 +2810,15 @@
       "12-AZ-IP/45-axiomzero-pc-suite/tests/native-model.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/node-bootstrap.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/node-toolchain.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/offline-payload.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py",
-      "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py"
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/windows-smoke.test.cjs"
     ]
   },
   "psicat_literature": {
@@ -19213,6 +19222,13 @@
       "product": "24-psicat-web-browser"
     },
     {
+      "path": "12-AZ-IP/24-psicat-web-browser/desktop/lib/sync-transport.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
       "path": "12-AZ-IP/24-psicat-web-browser/desktop/main.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -19361,6 +19377,13 @@
     },
     {
       "path": "12-AZ-IP/24-psicat-web-browser/tests/electron-ipc-probe.js",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "24-psicat-web-browser"
+    },
+    {
+      "path": "12-AZ-IP/24-psicat-web-browser/tests/network-transports.test.js",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -20837,6 +20860,13 @@
       "product": "38-az-formal-verification-library"
     },
     {
+      "path": "12-AZ-IP/38-az-formal-verification-library/tests/test_server.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "38-az-formal-verification-library"
+    },
+    {
       "path": "12-AZ-IP/38-az-formal-verification-library/ui/index.html",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21719,6 +21749,13 @@
       "product": "44-axiomzero-weave"
     },
     {
+      "path": "12-AZ-IP/44-axiomzero-weave/tests/weave_process_worker.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "44-axiomzero-weave"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/.gitignore",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21957,6 +21994,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/install-offline-payload.ps1",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/instruction_smoke.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21965,6 +22009,20 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/native_smoke.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/offline-installer.nsh",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/offline-payload.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -22090,6 +22148,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/offline-payload.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22133,6 +22198,13 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/windows-smoke.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -41399,12 +41471,6 @@
       "lane": "other"
     },
     {
-      "path": "src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
-      "top_level": "src",
-      "kind": "file",
-      "lane": "other"
-    },
-    {
       "path": "src/core/pillar183_cl_spectrum_subleading.py",
       "top_level": "src",
       "kind": "file",
@@ -46110,6 +46176,18 @@
     },
     {
       "path": "src/core/pillar_1129_1168/pillar1134_rare_decay_probes.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1132_1134/__init__.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "src/core/pillar_1132_1134/pillar1132_adm_homogeneous_hyperbolic_evolution.py",
       "top_level": "src",
       "kind": "file",
       "lane": "other"

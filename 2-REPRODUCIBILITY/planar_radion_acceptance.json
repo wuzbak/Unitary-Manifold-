@@ -30,10 +30,10 @@
     "scipy": "1.18.1",
     "sympy": "1.14.0"
   },
-  "baseline_head": "56c9f8bc885c395e98391f94ac07fc73e7fa4ed5",
+  "baseline_head": "cf286cad9541cd58fecc7e162617a9d878493006",
   "source_sha256": {
     "TOOLS/checks/run_planar_radion_acceptance.py": "35299ef36c03559555024cbff3050a8c564131aacce0f18b6c309610ccd1ab43",
-    "src/physics/planar_radion/evolution.py": "4d02879a594c7c2295de2f989a85931d3929999e3d56c16b8b40d78a881b2b97",
+    "src/physics/planar_radion/evolution.py": "86cb012c6a9137cd21077ce5cfabf7228f8d53f448838748850ccaaac3ccf93c",
     "src/physics/planar_radion/geometry.py": "f74f33aaf997be70167069f29fd3e31b2c16097090727344ddcf1f664359d6e6",
     "src/physics/planar_radion/derivation.py": "9e8b6fe408cadcec24803d972d4a672890e052d7cd20a350f35a4aae287d943b"
   },
@@ -128,28 +128,28 @@
         {
           "n": 32,
           "steps": 26,
-          "maximum_null_constraint_over_trajectory": 6.668807729286462e-06,
+          "maximum_null_constraint_over_trajectory": 3.334403864643231e-06,
           "maximum_orthonormal_5d_ricci_in_interior_window": 0.00014650622667198657,
           "six_field_rms_error": 9.83282968267008e-06
         },
         {
           "n": 64,
           "steps": 51,
-          "maximum_null_constraint_over_trajectory": 1.684356956979904e-06,
+          "maximum_null_constraint_over_trajectory": 8.42178478489952e-07,
           "maximum_orthonormal_5d_ricci_in_interior_window": 3.661202152640904e-05,
           "six_field_rms_error": 2.460402709497888e-06
         },
         {
           "n": 128,
           "steps": 102,
-          "maximum_null_constraint_over_trajectory": 4.2206693486203503e-07,
+          "maximum_null_constraint_over_trajectory": 2.1103346743101751e-07,
           "maximum_orthonormal_5d_ricci_in_interior_window": 9.151439255446909e-06,
           "six_field_rms_error": 6.152379483604973e-07
         },
         {
           "n": 256,
           "steps": 204,
-          "maximum_null_constraint_over_trajectory": 1.0558771247623304e-07,
+          "maximum_null_constraint_over_trajectory": 5.279385623811652e-08,
           "maximum_orthonormal_5d_ricci_in_interior_window": 2.2852521292058267e-06,
           "six_field_rms_error": 1.5381806743153498e-07
         }
@@ -178,28 +178,28 @@
         {
           "n": 32,
           "steps": 26,
-          "maximum_null_constraint_over_trajectory": 6.001926956357797e-05,
+          "maximum_null_constraint_over_trajectory": 3.0009634781788985e-05,
           "maximum_orthonormal_5d_ricci_in_interior_window": 0.0005483141670548444,
           "six_field_rms_error": 3.14807817444175e-05
         },
         {
           "n": 64,
           "steps": 51,
-          "maximum_null_constraint_over_trajectory": 1.5159212612819543e-05,
+          "maximum_null_constraint_over_trajectory": 7.579606306409772e-06,
           "maximum_orthonormal_5d_ricci_in_interior_window": 0.00013732569550039612,
           "six_field_rms_error": 7.879156461965319e-06
         },
         {
           "n": 128,
           "steps": 102,
-          "maximum_null_constraint_over_trajectory": 3.7986024137594537e-06,
+          "maximum_null_constraint_over_trajectory": 1.8993012068797268e-06,
           "maximum_orthonormal_5d_ricci_in_interior_window": 3.434470388638105e-05,
           "six_field_rms_error": 1.9703495343682424e-06
         },
         {
           "n": 256,
           "steps": 204,
-          "maximum_null_constraint_over_trajectory": 9.502894123415272e-07,
+          "maximum_null_constraint_over_trajectory": 4.751447061707636e-07,
           "maximum_orthonormal_5d_ricci_in_interior_window": 8.583599075612616e-06,
           "six_field_rms_error": 4.926224149467564e-07
         }
@@ -229,28 +229,28 @@
         {
           "n": 32,
           "steps": 26,
-          "maximum_null_constraint_over_trajectory": 3.5362687758790394e-05,
+          "maximum_null_constraint_over_trajectory": 1.7681343879395197e-05,
           "maximum_orthonormal_5d_ricci_in_interior_window": 0.0003429949301910656,
           "six_field_rms_error": 1.5052562801390448e-05
         },
         {
           "n": 64,
           "steps": 51,
-          "maximum_null_constraint_over_trajectory": 9.047387379247911e-06,
+          "maximum_null_constraint_over_trajectory": 4.523693689623956e-06,
           "maximum_orthonormal_5d_ricci_in_interior_window": 7.812014320771252e-05,
           "six_field_rms_error": 3.7763040281812786e-06
         },
         {
           "n": 128,
           "steps": 102,
-          "maximum_null_constraint_over_trajectory": 2.2870782578161483e-06,
+          "maximum_null_constraint_over_trajectory": 1.1435391289080742e-06,
           "maximum_orthonormal_5d_ricci_in_interior_window": 1.7808064083002325e-05,
           "six_field_rms_error": 9.449049619211948e-07
         },
         {
           "n": 256,
           "steps": 204,
-          "maximum_null_constraint_over_trajectory": 5.723555814784401e-07,
+          "maximum_null_constraint_over_trajectory": 2.8617779073922007e-07,
           "maximum_orthonormal_5d_ricci_in_interior_window": 4.3044240769134305e-06,
           "six_field_rms_error": 2.3627814898591107e-07
         }
@@ -278,28 +278,28 @@
       {
         "n": 32,
         "steps": 26,
-        "maximum_null_constraint_over_trajectory": 0.00012983727017045355,
+        "maximum_null_constraint_over_trajectory": 6.491863508522678e-05,
         "maximum_orthonormal_5d_ricci_in_interior_window": 0.0003110150803445087,
         "six_field_rms_error": 1.9729961054390936e-05
       },
       {
         "n": 64,
         "steps": 51,
-        "maximum_null_constraint_over_trajectory": 3.252169093137113e-05,
+        "maximum_null_constraint_over_trajectory": 1.6260845465685563e-05,
         "maximum_orthonormal_5d_ricci_in_interior_window": 7.79866710674531e-05,
         "six_field_rms_error": 4.938506406617192e-06
       },
       {
         "n": 128,
         "steps": 102,
-        "maximum_null_constraint_over_trajectory": 8.15127930274464e-06,
+        "maximum_null_constraint_over_trajectory": 4.07563965137232e-06,
         "maximum_orthonormal_5d_ricci_in_interior_window": 1.9510107479791985e-05,
         "six_field_rms_error": 1.235002658462271e-06
       },
       {
         "n": 256,
         "steps": 204,
-        "maximum_null_constraint_over_trajectory": 2.0380792410557708e-06,
+        "maximum_null_constraint_over_trajectory": 1.0190396205278854e-06,
         "maximum_orthonormal_5d_ricci_in_interior_window": 4.873847914221378e-06,
         "six_field_rms_error": 3.087741687899474e-07
       }
@@ -327,25 +327,25 @@
       {
         "n": 32,
         "steps": 26,
-        "maximum_null_constraint_over_trajectory": 8.428262960657193e-05,
+        "maximum_null_constraint_over_trajectory": 4.2141314803285966e-05,
         "maximum_orthonormal_5d_ricci_in_interior_window": 0.0017260759911010123
       },
       {
         "n": 64,
         "steps": 51,
-        "maximum_null_constraint_over_trajectory": 2.1918233585508685e-05,
+        "maximum_null_constraint_over_trajectory": 1.0959116792754343e-05,
         "maximum_orthonormal_5d_ricci_in_interior_window": 0.00043788506056975873
       },
       {
         "n": 128,
         "steps": 102,
-        "maximum_null_constraint_over_trajectory": 5.526393677084259e-06,
+        "maximum_null_constraint_over_trajectory": 2.7631968385421297e-06,
         "maximum_orthonormal_5d_ricci_in_interior_window": 0.00010986157992616395
       },
       {
         "n": 256,
         "steps": 204,
-        "maximum_null_constraint_over_trajectory": 1.3849273476677307e-06,
+        "maximum_null_constraint_over_trajectory": 6.924636738338654e-07,
         "maximum_orthonormal_5d_ricci_in_interior_window": 2.7454791059978985e-05
       }
     ],

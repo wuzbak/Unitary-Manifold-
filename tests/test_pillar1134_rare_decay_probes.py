@@ -78,8 +78,24 @@ def test_prediction_comparison_uses_combined_uncertainty_and_signed_residual():
 def test_prediction_comparison_handles_zero_uncertainties():
     exact = compare_prediction_to_measurement(1, 1, 0, 0)
     discrepant = compare_prediction_to_measurement(1, 2, 0, 0)
+    negative = compare_prediction_to_measurement(2, 1, 0, 0)
     assert exact.normalized_residual == 0
     assert discrepant.normalized_residual == math.inf
+    assert negative.normalized_residual == -math.inf
+
+
+@pytest.mark.parametrize("prediction,measurement", [(0.0, 0.0), (1.0, -1.0)])
+def test_prediction_comparison_rejects_overflowing_combined_finite_uncertainties(
+    prediction, measurement,
+):
+    with pytest.raises(ValueError, match="combined uncertainty.*finite range"):
+        compare_prediction_to_measurement(prediction, measurement, 1.7e308, 1.7e308)
+
+
+def test_prediction_comparison_keeps_large_representable_uncertainties():
+    result = compare_prediction_to_measurement(0.0, -1e308, 1e308, 1e308)
+    assert math.isfinite(result.combined_uncertainty)
+    assert result.normalized_residual == pytest.approx(-1 / math.sqrt(2))
 
 
 @pytest.mark.parametrize(

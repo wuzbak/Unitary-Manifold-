@@ -54,7 +54,7 @@ def test_loader_sees_every_markdown_file_in_every_subdirectory() -> None:
         if not directory.is_dir():
             continue
         for path in directory.glob("*.md"):
-            rel = str(path.relative_to(REPO_ROOT))
+            rel = path.relative_to(REPO_ROOT).as_posix()
             assert rel in seen_paths, f"loader did not see {rel}"
 
 
@@ -140,3 +140,13 @@ def test_commissioned_books_are_retrievable_by_title_as_editorial_sources() -> N
         ]
         assert matches, f"Book {number} is not discoverable by its commissioned title"
         assert all(chunk.governance_label == GOVERNANCE_LABEL for chunk in matches)
+
+
+def test_source_ids_are_posix_relative_on_windows_paths() -> None:
+    from pathlib import PureWindowsPath
+
+    from bot.psicat_literature_corpus import _repo_source_id
+
+    root = PureWindowsPath(r"D:\a\repo")
+    path = root / "7-OUTREACH" / "A Z PsiCat Literature" / "Books" / "book-52-the-unit.md"
+    assert _repo_source_id(path, root) == "7-OUTREACH/A Z PsiCat Literature/Books/book-52-the-unit.md"

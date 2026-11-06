@@ -970,7 +970,7 @@ Sprint CX also resynchronizes the canonical status surfaces. `1-THEORY/DERIVATIO
 
 ### Sprint CZ ADM homogeneous hyperbolic evolution
 
-Pillar 1132 (`src/core/pillar1132_adm_homogeneous_hyperbolic_evolution.py`) adds a new, independently-scoped capability. It does not close either of Pillar 1130's two remaining residual obligations — `T_RELAXATION_LAW_DECLARED_NOT_DERIVED` and `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` — both of which remain open and untouched.
+Pillar 1132 (`src/core/pillar_1132_1134/pillar1132_adm_homogeneous_hyperbolic_evolution.py`) adds a new, independently-scoped capability. It does not close either of Pillar 1130's two remaining residual obligations — `T_RELAXATION_LAW_DECLARED_NOT_DERIVED` and `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` — both of which remain open and untouched.
 
 Every field-equation derivation in `src/core/action_derived_flow.py`, before this pillar, varied the reduced action with a single spatial coordinate `x` and no dependence on time at all: the existing default flow's "t" (`src/core/evolution.py`) is a fictitious relaxation parameter, not coordinate time, and the field equations it relaxes are the *static* Euler-Lagrange equations of the reduced action (an elliptic, not hyperbolic, system). This pillar performs a genuine ADM (3+1) canonical decomposition of the same circle-reduced Einstein-frame action, restricted to a declared homogeneous perimeter: `x^2, x^3` flat/spectator (matching the existing static ansatz's restriction), gauge field `B_mu` explicitly excluded this sprint, with lapse `N(t,x)`, shift `N_x(t,x)`, spatial metric `h(t,x)` and scalar `p(t,x)` all genuine functions of real coordinate time `t = x^0` and one spatial coordinate `x = x^1`.
 

@@ -1,7 +1,14 @@
 # SPDX-License-Identifier: LicenseRef-Defensive-Public-Commons-1.0
 # Copyright (C) 2026  ThomasCory Walker-Pearson
 
+import importlib
+from pathlib import Path
+import subprocess
+import sys
+
 import pytest
+
+sp = pytest.importorskip("sympy")
 
 import src.core.pillar1132_adm_homogeneous_hyperbolic_evolution as p1132
 
@@ -39,6 +46,62 @@ def test_identity() -> None:
     assert NEW_CERTIFIED_SUBCASE == (
         'ADM_OFF_SHELL_ACCELERATION_AND_STATIC_IDENTITIES_ONLY'
     )
+
+
+@pytest.mark.parametrize("module_name", [
+    "pillar1132_adm_homogeneous_hyperbolic_evolution",
+    "pillar1133_superfluid_effective_theory",
+    "pillar1134_rare_decay_probes",
+])
+def test_legacy_import_uses_single_sharded_source(module_name):
+    module = importlib.import_module(f"src.core.{module_name}")
+    expected_shard = ("pillar_1132_1134" if module_name.startswith("pillar1132_")
+                      else "pillar_1129_1168")
+    assert Path(module.__file__).parent.name == expected_shard
+    assert module.__name__ == f"src.core.{module_name}"
+    assert not (p1132._ROOT / "src/core" / f"{module_name}.py").exists()
+    assert p1132._ROOT == Path(__file__).resolve().parents[1]
+
+
+def test_shard_package_does_not_eagerly_import_physics_or_optional_dependencies():
+    subprocess.run([
+        sys.executable, "-c",
+        "import sys; import src.core; import src.core.pillar_1132_1134; "
+        "assert 'sympy' not in sys.modules; "
+        "assert not any(name.startswith('src.core.pillar113') for name in sys.modules)",
+    ], check=True, cwd=p1132._ROOT)
+
+
+def test_historical_sync_does_not_require_current_cz_metadata():
+    sync = p1132._truth_surface_sync_status()
+    assert sync["all_pass"] is True
+    wave = next(row for row in sync["files"] if row["path"].endswith("WAVE_CHANGELOG.md"))
+    assert wave["scope"] == "historical Sprint CZ section, not current metadata"
+    derivation = (p1132._ROOT / "1-THEORY/DERIVATION_STATUS.md").read_text()
+    assert "**The Unitary Manifold v38.5" in derivation
+    assert "*Last updated: 2026-11-05 (v38.5 — Sprint DA:" in derivation
+
+
+@pytest.mark.parametrize("mutation", ["registration", "historical_slot", "qualification"])
+def test_historical_sync_rejects_missing_or_misplaced_evidence(monkeypatch, mutation):
+    original = Path.read_text
+
+    def altered_text(path, *args, **kwargs):
+        text = original(path, *args, **kwargs)
+        if mutation == "registration":
+            return (text.replace("Historical Sprint CZ registration", "Removed registration")
+                    if path.name == "DERIVATION_STATUS.md" else text)
+        if path.name == "WAVE_CHANGELOG.md":
+            heading = "## v38.4 (2026-11-02 — Sprint CZ: Pillar 1132)"
+            before, marker, after = text.partition(heading)
+            section, next_heading, rest = after.partition("\n## ")
+            target = ("**Next pillar slot:** 1133" if mutation == "historical_slot"
+                      else "not a constrained nonconstant scalar evolution certificate")
+            return before + target + "\n" + marker + section.replace(target, "") + next_heading + rest
+        return text
+
+    monkeypatch.setattr(Path, "read_text", altered_text)
+    assert p1132._truth_surface_sync_status()["all_pass"] is False
 
 
 def test_remaining_obligations_are_untouched() -> None:
@@ -124,6 +187,30 @@ def test_certificate_fails_closed_when_cross_check_fails(monkeypatch) -> None:
     monkeypatch.setattr(p1132, '_adm_static_reduction_cross_check', failing_cross_check)
     result = p1132.adm_homogeneous_hyperbolic_evolution_certificate()
     assert result['verified'] is False
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("equation", ["N", "Nx"])
+@pytest.mark.parametrize("field", ["h", "p", "N", "Nx"])
+def test_constraint_flags_reject_any_second_time_coefficient(monkeypatch, equation, field):
+    original = p1132._coeff_of_second_time_derivative
+    calls = 0
+    target_call = 3 + 4 * ["N", "Nx"].index(equation) + ["h", "p", "N", "Nx"].index(field)
+
+    def inject_acceleration(sympy, expression, derivative):
+        nonlocal calls
+        call = calls
+        calls += 1
+        return sp.Integer(1) if call == target_call else original(sympy, expression, derivative)
+
+    monkeypatch.setattr(p1132, "_coeff_of_second_time_derivative", inject_acceleration)
+    evidence = p1132._adm_hyperbolicity_evidence.__wrapped__()
+    assert evidence["constraint_acceleration_coefficients"][equation][field] == 1
+    assert evidence[f"{equation}_equation_is_constraint"] is False
+    if equation == "N":
+        assert evidence["N_equation_has_no_real_second_time_derivative"] is False
+    monkeypatch.setattr(p1132, "_adm_hyperbolicity_evidence", lambda: evidence)
+    assert p1132.adm_homogeneous_hyperbolic_evolution_certificate()["verified"] is False
 
 
 @pytest.mark.slow

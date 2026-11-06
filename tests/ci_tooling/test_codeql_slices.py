@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
+import shlex
 import shutil
 import subprocess
 from pathlib import Path
@@ -136,6 +138,28 @@ def test_workflow_uses_the_manifest_and_enforces_coverage():
     init = next(s for s in wf["jobs"]["analyze"]["steps"] if "codeql-action/init" in s.get("uses", ""))
     assert init["with"]["config"] == "${{ matrix.config }}"
     assert init["with"]["queries"] == "security-extended"
+
+
+def test_workflow_plans_every_category_for_complete_baseline_comparison(tmp_path):
+    wf = yaml.safe_load((REPO_ROOT / cs.WORKFLOW).read_text(encoding="utf-8"))
+    step = next(s for s in wf["jobs"]["plan-matrix"]["steps"] if s.get("id") == "plan")
+    assert "--changed-from" not in step["run"]
+    output = tmp_path / "github-output"
+    script = step["run"].replace(
+        "TOOLS/checks/codeql_slices.py",
+        shlex.quote(str(REPO_ROOT / "TOOLS/checks/codeql_slices.py")),
+    )
+    completed = subprocess.run(
+        ["bash", "-c", script], cwd=tmp_path,
+        env={**os.environ, "GITHUB_OUTPUT": str(output)},
+        capture_output=True, text=True,
+    )
+    assert completed.returncode == 0, completed.stdout + completed.stderr
+    values = dict(line.split("=", 1) for line in output.read_text().splitlines())
+    actual = json.loads(values["matrix"])["include"]
+    expected = cs.load_manifest()["slices"]
+    assert [s["slice_id"] for s in actual] == [s["slice_id"] for s in expected]
+    assert values["has_work"] == "true"
 
 
 @needs_git

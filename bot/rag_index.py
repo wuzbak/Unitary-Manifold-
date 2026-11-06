@@ -32,8 +32,6 @@ import math
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-from bot.session_bootstrap import current_intent_snapshot
-
 __all__ = [
     "RAGIndex",
     "DocumentChunk",
@@ -44,6 +42,7 @@ __all__ = [
     "detect_query_lane",
     "render_context_scaffold",
     "retrieve_intent",
+    "current_document_lines",
     "REPOSITORY_CORE_LABEL",
     "PSICAT_EDITORIAL_CORPUS_FLAG",
     "psicat_editorial_corpus_enabled",
@@ -691,13 +690,18 @@ def _query_tokens(text: str) -> Set[str]:
 
 def _current_document_text(source: str, text: str) -> str:
     """Exclude superseded sprint narratives from the current truth-layer index."""
+    return "".join(line for _, line in current_document_lines(source, text))
+
+
+def current_document_lines(source: str, text: str) -> List[Tuple[int, str]]:
+    """Select current content with original one-based line numbers and endings."""
     if source != "docs/TRUTH_LAYER.md":
-        return text
+        return list(enumerate(text.splitlines(keepends=True), start=1))
     selected = []
     active_level = None
     historical_level = None
     fence = None
-    for line in text.splitlines(keepends=True):
+    for number, line in enumerate(text.splitlines(keepends=True), start=1):
         fence_match = re.match(r"^[ \t]*(`{3,}|~{3,})", line)
         if fence_match:
             marker = fence_match.group(1)
@@ -717,7 +721,7 @@ def _current_document_text(source: str, text: str) -> str:
                 historical = re.search(
                     r"\b(historical|archive|archived|superseded)\b", heading, re.IGNORECASE,
                 )
-                if historical:
+                if historical and historical_level is None:
                     historical_level = level
                 date = re.search(r"\b\d{4}-\d{2}-\d{2}\b", heading)
                 current_correction = (
@@ -727,11 +731,15 @@ def _current_document_text(source: str, text: str) -> str:
                     and historical_level is None
                     and not re.search(r"\b(sprint|lane)\b", heading, re.IGNORECASE)
                 )
-                if (level, heading) in _CURRENT_TRUTH_SECTIONS or current_correction:
+                if (
+                    active_level is None
+                    and historical_level is None
+                    and ((level, heading) in _CURRENT_TRUTH_SECTIONS or current_correction)
+                ):
                     active_level = level
-        if active_level is not None:
-            selected.append(line)
-    return "".join(selected)
+        if active_level is not None and historical_level is None:
+            selected.append((number, line))
+    return selected
 
 
 def _monorepo_index_chunks(repo_root: Path, max_chunk_chars: int) -> List["DocumentChunk"]:
@@ -1639,6 +1647,8 @@ def retrieve_intent(
             "answer": f"Unknown mode '{mode}'. Choose from: {list(_QUERIES)}.",
             "sources": [],
         }
+
+    from bot.session_bootstrap import current_intent_snapshot
 
     snapshot = current_intent_snapshot()
     if mode == "latest_intent":

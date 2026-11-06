@@ -25,6 +25,14 @@ PsiCat Web Browser is the canonical **Product 24** browser surface for AxiomZero
 
 ## Desktop quick start
 
+The desktop PsiCat handshake/query and sync push/pull transports reject HTTP
+redirects, including redirects from loopback services. Real HTTP regression
+tests exercise the runtime's shared transports after hostile settings and
+sync-packet imports; they use ephemeral local ports, not shared service ports.
+Pending backend responses apply push metadata to the latest local state and
+merge pull packets into that latest state, preserving edits made during HTTP
+requests. Delayed-response tests cover both directions.
+
 ```bash
 cd 12-AZ-IP/24-psicat-web-browser
 npm ci

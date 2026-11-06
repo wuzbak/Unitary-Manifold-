@@ -80,7 +80,7 @@ def test_softmax_gradient() -> None:
     x_t = Tensor(x_data, requires_grad=True)
     probs = softmax(x_t, axis=-1)
     (probs * weights).sum().backward()
-    assert np.allclose(x_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE)
+    assert np.allclose(x_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE, rtol=0)
 
 
 def test_layer_norm_gradient() -> None:
@@ -98,7 +98,7 @@ def test_layer_norm_gradient() -> None:
     x_t = Tensor(x_data, requires_grad=True)
     out = layer_norm(x_t, Tensor(gamma_data), Tensor(beta_data))
     out.sum().backward()
-    assert np.allclose(x_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE)
+    assert np.allclose(x_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE, rtol=0)
 
 
 def test_gelu_gradient() -> None:
@@ -111,7 +111,7 @@ def test_gelu_gradient() -> None:
     numeric = _numerical_grad(f, x_data.copy())
     x_t = Tensor(x_data, requires_grad=True)
     gelu(x_t).sum().backward()
-    assert np.allclose(x_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE)
+    assert np.allclose(x_t.grad, numeric, atol=GRAD_CHECK_TOLERANCE, rtol=0)
 
 
 def test_embedding_getitem_gradient() -> None:

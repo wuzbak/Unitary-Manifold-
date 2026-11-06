@@ -43,7 +43,7 @@ def test_bogoliubov_dispersion_matches_declared_si_formula() -> None:
 
     assert bogoliubov_energy_joule(
         wave_number, MASS_KG, DENSITY_M3, SCATTERING_LENGTH_M
-    ) == pytest.approx(expected, rel=1e-14)
+    ) == pytest.approx(expected, rel=1e-14, abs=0.0)
 
 
 @pytest.mark.parametrize(
@@ -57,7 +57,7 @@ def test_zero_interaction_limit_is_free_particle(
     free_particle_energy = HBAR_J_S**2 * wave_number**2 / (2.0 * MASS_KG)
     assert bogoliubov_energy_joule(
         wave_number, MASS_KG, density, scattering_length
-    ) == pytest.approx(free_particle_energy, rel=1e-14)
+    ) == pytest.approx(free_particle_energy, rel=1e-14, abs=0.0)
     assert bogoliubov_sound_speed_m_s(
         MASS_KG, density, scattering_length
     ) == 0.0
@@ -88,7 +88,7 @@ def test_angular_frequency_obeys_planck_relation() -> None:
     angular_frequency = bogoliubov_angular_frequency_rad_s(
         wave_number, MASS_KG, DENSITY_M3, SCATTERING_LENGTH_M
     )
-    assert HBAR_J_S * angular_frequency == pytest.approx(energy, rel=1e-15)
+    assert HBAR_J_S * angular_frequency == pytest.approx(energy, rel=1e-15, abs=0.0)
 
 
 def test_angular_frequency_rejects_overflow() -> None:

@@ -21,7 +21,9 @@
     "start": "npm run catalog && electron .",
     "test": "node --test",
     "smoke:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-smoke.ps1",
-    "dist:win": "npm run catalog && npm run native:build && npm run portfolio:stage && electron-builder --win nsis portable"
+    "payload:stage": "node scripts/offline-payload.cjs stage",
+    "payload:verify": "node scripts/offline-payload.cjs verify",
+    "dist:win": "npm run catalog && npm run native:build && npm run portfolio:stage && npm run payload:stage && electron-builder --win nsis --x64 && node scripts/offline-payload.cjs finalize"
   },
   "devDependencies": {
     "electron": "^44.3.0",
@@ -38,7 +40,8 @@
       },
       {
         "from": "build/instruction",
-        "to": "psicat-instruction"
+        "to": "psicat-instruction",
+        "filter": ["**/*", "!*.gguf"]
       },
       {
         "from": "scripts/extract-node.ps1",
@@ -96,8 +99,7 @@
     ],
     "win": {
       "target": [
-        "nsis",
-        "portable"
+        "nsis"
       ],
       "artifactName": "AxiomZero-PC-Suite-${version}-${arch}.${ext}"
     },
@@ -107,10 +109,9 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "AxiomZero PC Suite"
-    },
-    "portable": {
-      "artifactName": "AxiomZero-PC-Suite-${version}-portable-${arch}.${ext}"
+      "shortcutName": "AxiomZero PC Suite",
+      "include": "scripts/offline-installer.nsh",
+      "runAfterFinish": false
     }
   }
 }

@@ -5,28 +5,58 @@ $distributionDirectory = Join-Path $suiteDirectory "dist"
 $smokeScript = Join-Path $PSScriptRoot "electron-ui-smoke.cjs"
 $package = Get-Content -LiteralPath (Join-Path $suiteDirectory "package.json") -Raw | ConvertFrom-Json
 $installer = Join-Path $distributionDirectory "AxiomZero-PC-Suite-$($package.version)-x64.exe"
-$portable = Join-Path $distributionDirectory "AxiomZero-PC-Suite-$($package.version)-portable-x64.exe"
 $installDirectory = Join-Path $env:LOCALAPPDATA "Programs\AxiomZero PC Suite"
 $installedApp = Join-Path $installDirectory "AxiomZero PC Suite.exe"
 $uninstaller = Join-Path $installDirectory "Uninstall AxiomZero PC Suite.exe"
 
-foreach ($artifact in @($installer, $portable)) {
+foreach ($artifact in @($installer, (Join-Path $distributionDirectory "AxiomZero-PC-Suite-$($package.version)-offline.json"))) {
     if (-not (Test-Path -LiteralPath $artifact -PathType Leaf)) {
         throw "Required Windows artifact is missing: $artifact"
     }
 }
 
+& node (Join-Path $PSScriptRoot "offline-payload.cjs") verify
+if ($LASTEXITCODE -ne 0) { throw "Companion release payload verification failed." }
+if (Test-Path -LiteralPath $installDirectory) {
+    throw "Installer smoke requires a clean install destination; refusing to modify an existing installation."
+}
+$firstPart = Join-Path $distributionDirectory "AxiomZero-PC-Suite-$($package.version)-model.part001"
+$withheld = "$firstPart.withheld"
+if (Test-Path -LiteralPath $withheld) { throw "Stale withheld payload part exists." }
+function Assert-InstallerRejected([string]$Label) {
+    $process = Start-Process -FilePath $installer -ArgumentList @("/S") -Wait -PassThru
+    if ($process.ExitCode -eq 0) { throw "$Label payload was incorrectly accepted by the actual NSIS installer." }
+    if (Test-Path -LiteralPath $installedApp) { throw "$Label payload caused a partial application installation." }
+    Write-Host "Actual NSIS installer rejected $Label payload with exit code $($process.ExitCode)."
+}
+Move-Item -LiteralPath $firstPart -Destination $withheld
+try { Assert-InstallerRejected "missing" } finally { Move-Item -LiteralPath $withheld -Destination $firstPart }
+$partStream = [IO.File]::Open($firstPart, [IO.FileMode]::Open, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
+try {
+    $originalByte = $partStream.ReadByte()
+    $partStream.Position = 0
+    $partStream.WriteByte([byte]($originalByte -bxor 1))
+    $partStream.Flush($true)
+} finally { $partStream.Dispose() }
+try { Assert-InstallerRejected "tampered" } finally {
+    $partStream = [IO.File]::Open($firstPart, [IO.FileMode]::Open, [IO.FileAccess]::Write, [IO.FileShare]::None)
+    try { $partStream.WriteByte([byte]$originalByte); $partStream.Flush($true) } finally { $partStream.Dispose() }
+}
+
 function Test-ProductWindow([string]$Executable, [string]$Label) {
     $port = Get-Random -Minimum 30000 -Maximum 50000
-    $userData = Join-Path $env:TEMP "p45-smoke-$PID-$port"
+    $userData = Join-Path $suiteDirectory "build\p45 smoke-$PID-$port"
     $env:P45_SMOKE_PORT = "$port"
     $appProcess = $null
     try {
-        $arguments = @("--remote-debugging-port=$port", "--user-data-dir=$userData")
+        $arguments = @("--remote-debugging-port=$port", ('--user-data-dir="{0}"' -f $userData))
         $appProcess = Start-Process -FilePath $Executable -ArgumentList $arguments -PassThru
         & node $smokeScript
         if ($LASTEXITCODE -ne 0) {
             throw "$Label UI smoke test failed with exit code $LASTEXITCODE."
+        }
+        if (-not (Test-Path -LiteralPath $userData -PathType Container)) {
+            throw "$Label application did not create its isolated user-data directory: $userData"
         }
         Write-Host "$Label application launch and UI smoke passed."
     } finally {
@@ -81,5 +111,3 @@ try {
 if (Test-Path -LiteralPath $installDirectory) {
     throw "The NSIS uninstaller left the application directory behind."
 }
-
-Test-ProductWindow $portable "Portable"

@@ -1,12 +1,11 @@
 # Fallibility, Limitations, and Failure Modes
 
-> **Current ledger: v38.5 Sprint DA (2026-11-05).** This synchronizes the
-> already registered adjacent P1133/P1134 research entries in `STATUS.md`.
-> A Bogoliubov reference calculation and rare-decay comparison tools do not
-> derive a UM connection, spectrum, coupling or observable prediction.
-> No hardgate closure, empirical confirmation or falsification condition changes.
-> The existing scientific limitations and historical regression marker remain;
-> the Sprint CZ narrative below is retained as historical context.
+*Unitary Manifold v38.5 — Sprint DA ledger synchronization (2026-11-05):
+Pillars 1133–1134 are adjacent reference/comparison tools, not derived UM
+predictions or hardgate claims; next slot 1135. This records the registration
+already present in STATUS.md, not a new version or scientific promotion.
+The planar consistency correction and all open scientific obligations below
+remain in force. The Sprint CU full-regression marker remains historical.*
 
 > **Planar consistency correction (2026-11-03):** P1132's fixed-transverse
 > product metric cannot support the nonconstant real scalar evolution inferred
@@ -45,9 +44,11 @@
 > Resumed combined software regression: 63,952 passed, 33 skipped,
 > 18 deselected, 0 failed. This does not remove the scientific limitations.
 
+## Historical Sprint CZ registration (interpretation corrected above)
+
 *Unitary Manifold v38.4 — ThomasCory Walker-Pearson, 2026 (status tracked in `docs/mas_tracker.yml`; **Sprint CZ** (2026-11-02; Pillar 1132) adds a new, independently-scoped capability and does not close either of Pillar 1130's two remaining residual obligations: `T_RELAXATION_LAW_DECLARED_NOT_DERIVED` and `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` both remain open. Every prior field-equation derivation in `src/core/action_derived_flow.py` varied the reduced action with one spatial coordinate and no time dependence (the existing default flow's "t" is a fictitious relaxation parameter, not coordinate time). This pillar performs a genuine ADM (3+1) canonical decomposition of the same circle-reduced action restricted to a declared homogeneous perimeter (x^2, x^3 flat/spectator, gauge field B_mu excluded) with real coordinate time t = x^0. `adm_homogeneous_hyperbolic_evolution_certificate()` shows the lapse/shift equations are genuine constraints (zero coefficient on any second time derivative), the spatial-metric equation likewise has a zero d^2h/dt^2 coefficient (no propagating graviton in 1 spatial dimension), and the scalar equation has a nonzero d^2p/dt^2 coefficient — genuine hyperbolic evolution. The static (t-independent, zero-shift) reduction reproduces the repository's own already-certified static system as an exact symbolic identity via the repo's own helpers, not a reimplementation. This does not cover the gauge field, the inhomogeneous sector, or the Z2 orbifold, and framework-level closure is not earned; the action-to-evolution contract still reports `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1133. Latest verified full regression in branch history remains the Sprint CU record, 64,150 passed · 22 skipped · 18 deselected · 0 failed.)*
 
-*Historical continuity note: v38.4 Sprint CZ (Pillar 1132; next slot 1133) is the canonical ADM homogeneous hyperbolic evolution layer directly above Sprint CY.*
+*Historical continuity note: v38.4 Sprint CZ (Pillar 1132; next slot 1133) is the archived ADM layer directly above Sprint CY; its scalar-propagation interpretation is narrowed by the planar consistency correction above.*
 
 *Historical continuity note: Unitary Manifold v38.3 record (status tracked in `docs/mas_tracker.yml`; **Sprint CY** (2026-10-09; Pillar 1131) closed one of Pillar 1130's three residual obligations, `EXACT_REDUCTION_IDENTITY_BEYOND_REDUCED_DIAGONAL_ANSATZ`, as an exact symbolic identity rather than a sample-point check. Next pillar slot 1132.) is the canonical offdiagonal exact reduction identity closure layer directly above Sprint CX.*
 *Historical continuity note: Unitary Manifold v38.2 record (status tracked in `docs/mas_tracker.yml`; **Sprint CX** (2026-10-01; Pillar 1130) records the steward promotion of the Lane 1 Euler-Lagrange deliverable within its declared perimeter. After Sprint CW, the default flow in `src/core/evolution.py` relaxes the field equations derived from the circle-reduced 5D Einstein-Hilbert action; P1130 re-checks that evidence fail-closed before the promotion takes effect. What this does not change: the t-relaxation law is declared rather than derived, t is not coordinate time, physical-time evolution is not certified, the legacy phenomenological flow law (alpha coupling, KK backreaction) is unchanged, and framework-level closure is not earned — the action-to-evolution contract reports `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`. Open-lane labels remain explicit and unchanged: `CMB_AMP_CONFIRMED_IRREDUCIBLE`, `ALPHA_S_TYPE_B_FLOOR`, `HIGGS_MASS_ARCHITECTURE_LIMIT_WINDOW`, `CKM_SHADOW_ARCHITECTURE_LIMIT_CERTIFIED`, `FERMION_MAGNITUDE_RADII_ARCHITECTURE_LIMIT_CERTIFIED`, `JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED`, `DESI_DR3_MONITORING`, `LITEBIRD_BIREFRINGENCE`, `NON_PERTURBATIVE_QG_IRREDUCIBLE_LIMIT`. Next pillar slot 1131. Latest verified full regression in branch history remains the Sprint CU record, 64,150 passed · 22 skipped · 18 deselected · 0 failed.)*

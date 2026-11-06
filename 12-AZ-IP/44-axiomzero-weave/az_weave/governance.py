@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import hashlib
+import errno
 from contextlib import contextmanager
 import json
 import os
@@ -29,6 +30,28 @@ def digest(value: Any) -> str:
 
 class AuthorizationError(ValueError):
     """A requested transition is not authorized."""
+
+
+def _acquire_executor_lock(descriptor: int, platform: str) -> None:
+    """Nonblocking kernel ownership; closing the descriptor releases the lock."""
+    try:
+        if platform == "nt":
+            import msvcrt
+
+            os.lseek(descriptor, 0, os.SEEK_SET)
+            # Windows permits locking beyond EOF; no initialization write can
+            # race with a live executor's locked byte in an initially empty file.
+            msvcrt.locking(descriptor, msvcrt.LK_NBLCK, 1)
+        elif platform == "posix":
+            import fcntl
+
+            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        else:
+            raise RuntimeError(f"effect executor locking is unsupported on platform {platform!r}")
+    except OSError as exc:
+        if exc.errno not in {errno.EACCES, errno.EAGAIN, errno.EDEADLK}:
+            raise
+        raise AuthorizationError("executor is still running; cannot claim or reconcile") from exc
 
 
 class Journal:
@@ -122,8 +145,28 @@ class Journal:
                 raise AuthorizationError("only an unclaimed approval can be revoked")
             self._event(db, identifier, "REVOKED")
 
+    @contextmanager
+    def _executor_lock(self) -> Iterator[None]:
+        # Kernel ownership survives separate Journal instances, but not a dead
+        # executor. Never unlink the inode: a replacement would split ownership.
+        path = self.path.with_name(self.path.name + ".executor.lock")
+        if path.is_symlink():
+            raise ValueError("executor lock must not be a symlink")
+        flags = os.O_CREAT | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0)
+        descriptor = os.open(path, flags, 0o600)
+        try:
+            _acquire_executor_lock(descriptor, os.name)
+            yield
+        finally:
+            os.close(descriptor)
+
     def execute(self, identifier: str, principal: str, action: str, arguments: dict,
                 handler: Callable[[], dict], verify: Callable[[list[dict]], bool]) -> dict:
+        with self._executor_lock():
+            return self._execute(identifier, principal, action, arguments, handler, verify)
+
+    def _execute(self, identifier: str, principal: str, action: str, arguments: dict,
+                 handler: Callable[[], dict], verify: Callable[[list[dict]], bool]) -> dict:
         with self.connect() as db:
             db.execute("BEGIN IMMEDIATE")
             row = db.execute("SELECT * FROM decisions WHERE id=? AND principal=?",
@@ -154,14 +197,20 @@ class Journal:
             # A handler may have already caused an effect before raising.
             with self.connect() as db:
                 db.execute("BEGIN IMMEDIATE")
-                db.execute("UPDATE decisions SET state='AMBIGUOUS',error=? WHERE id=?",
-                           (type(exc).__name__, identifier))
+                changed = db.execute(
+                    "UPDATE decisions SET state='AMBIGUOUS',error=? WHERE id=? AND state='RUNNING'",
+                    (type(exc).__name__, identifier)).rowcount
+                if not changed:
+                    raise AuthorizationError("effect state changed before completion") from exc
                 self._event(db, identifier, "AMBIGUOUS")
             raise
         with self.connect() as db:
             db.execute("BEGIN IMMEDIATE")
-            db.execute("UPDATE decisions SET state='SUCCEEDED',result=? WHERE id=?",
-                       (serialized, identifier))
+            changed = db.execute(
+                "UPDATE decisions SET state='SUCCEEDED',result=? WHERE id=? AND state='RUNNING'",
+                (serialized, identifier)).rowcount
+            if not changed:
+                raise AuthorizationError("effect state changed before completion")
             db.execute("DELETE FROM active_effect WHERE decision_id=?", (identifier,))
             self._event(db, identifier, "SUCCEEDED")
         return {"decision_id": identifier, "state": "SUCCEEDED", "replayed": False, "result": output}
@@ -169,7 +218,7 @@ class Journal:
     def reconcile(self, identifier: str, principal: str, *, resolution: str) -> None:
         if resolution not in {"CONFIRMED_EFFECT", "CONFIRMED_NO_EFFECT"}:
             raise AuthorizationError("explicit observed resolution required")
-        with self.connect() as db:
+        with self._executor_lock(), self.connect() as db:
             db.execute("BEGIN IMMEDIATE")
             changed = db.execute(
                 "UPDATE decisions SET state=? WHERE id=? AND principal=? AND state IN ('RUNNING','AMBIGUOUS')",

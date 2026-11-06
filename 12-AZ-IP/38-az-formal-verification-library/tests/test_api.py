@@ -15,6 +15,14 @@ import pytest
 
 from az_formal_verification_library.api import API_ENDPOINTS, dispatch_api_request
 from az_formal_verification_library.checker import Z3_AVAILABLE
+from az_formal_verification_library import __version__
+
+
+def test_recovered_declarative_release_matches_documented_catalog_version():
+    assert __version__ == "1.2.0"
+    assert f"**Version:** {__version__}" in (PRODUCT_ROOT / "README.md").read_text(
+        encoding="utf-8",
+    )
 
 
 def test_api_endpoints_listed():

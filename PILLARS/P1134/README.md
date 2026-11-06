@@ -6,6 +6,9 @@
 implemented or tested here.
 **Date:** 2026-11-05
 **Source module:** `src/core/pillar_1129_1168/pillar1134_rare_decay_probes.py`
+
+The public import remains `src.core.pillar1134_rare_decay_probes`.
+The source is sharded for directory hygiene; no implementation is duplicated.
 **Tests:** `tests/test_pillar1134_rare_decay_probes.py`
 **Article:** `7-OUTREACH/A Z PsiCat Literature/Articles/article-356-post-1134-the-zeptoverse-and-rare-b-decays.md`
 **Tracker:** `docs/mas_tracker.yml`

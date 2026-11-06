@@ -365,6 +365,25 @@ def test_fast_supervisor_remains_fail_closed_after_failed_or_missing_receipts() 
     assert "test-fast-supervisor" in jobs["full-regression-gate"]["needs"]
 
 
+def test_macos_smoke_uses_supported_runner_without_reducing_coverage() -> None:
+    jobs = _load("ci.yml")["jobs"]
+    macos = jobs["platform-smoke-macos"]
+    assert macos["runs-on"] == "macos-15"
+    assert macos["name"] == "Platform smoke (macos-15) [advisory]"
+    assert macos["timeout-minutes"] == 30
+    assert macos["continue-on-error"] is True
+    assert "if" not in macos
+    macos_smoke = next(
+        step["run"] for step in macos["steps"]
+        if step.get("name") == "Run smoke tests and compactified preflight"
+    )
+    ubuntu_smoke = next(
+        step["run"] for step in jobs["platform-smoke"]["steps"]
+        if step.get("name") == "Run smoke tests and compactified preflight"
+    )
+    assert macos_smoke == ubuntu_smoke
+
+
 def test_main_regression_uses_frozen_cost_plan_and_serial_integration_slice() -> None:
     jobs = _load("ci.yml")["jobs"]
     batch = jobs["push-full-regression-batched"]

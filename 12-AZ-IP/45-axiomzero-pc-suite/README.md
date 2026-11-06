@@ -22,8 +22,10 @@ local command execution.
 
 ## Embedded instruction assistant
 
-The selected **Ask PsiCat** candidate uses official Qwen2.5-1.5B-Instruct
-Q4_K_M weights and a statically compiled, revision-pinned CPU llama.cpp server.
+The selected **Ask PsiCat** candidate uses Unsloth's Q4_K_M conversion of
+Qwen3-4B-Instruct-2507, an instruction-only model, and a statically compiled,
+revision-pinned CPU llama.cpp server. These are community-converted GGUF
+weights, **not direct official Qwen GGUF weights**.
 Actual backend acceptance remains a packaging prerequisite, not a claim that
 the candidate has already shipped. No separate Python, Ollama or cloud model
 service is needed for this path. This is a third-party pretrained language
@@ -36,10 +38,17 @@ choose an executable, endpoint, API key or arbitrary filesystem path. The owned
 server uses a fresh loopback port and API key, bounded CPU/context/output budgets
 and explicit cancellation/shutdown. Retrieved text is reference data, not tool
 authority; model output never runs tools, commands or file writes.
-The client requests generic JSON-object constrained decoding for answers,
-but not the ownership challenge. This does not supply answer values or prove
-grounding. Unsupported decoding fails explicitly; no output repair or
-unconstrained retry replaces the strict response checks.
+The client requests JSON-schema constrained decoding for ownership, answers
+and optional review. The schema enforces the existing three keys, their
+string/array types and the two permitted status labels, `UNVERIFIED` and
+`UNSUPPORTED`. It does not choose between those labels or supply nonce,
+answer or citation values, and does not prove grounding. Unsupported decoding fails explicitly;
+no output repair or unconstrained retry replaces the strict response checks.
+The shared candidate/runtime policy requires categorical labels without
+explanatory prose and keeps refusal explanations about instruction authority
+or unsafe actions separate from capability limits. Contract tests check that
+both paths carry the same general rules; they do not establish that the real
+candidate follows them. Native acceptance must be rerun after policy changes.
 Answers use one generation and a 2,048-token CPU context by default. Hosted
 run `42091109622` found no improvement from same-model review: the candidate
 still passed only 3/4 cases, with identical incorrect retrieval draft and
@@ -54,6 +63,22 @@ independent verification or demonstrated quality improvement. Opt-in generations
 share the existing five-minute inference deadline and remain cancellable;
 original question and evidence admission limits remain unchanged.
 
+Failed-spawn and already-exited child handles are not signalled; cleanup still
+waits for their close event within its deadline. Genuine signal errors remain
+visible alongside the original operation failure, and incomplete shutdown
+retains ownership and blocks another inference until explicit cleanup succeeds.
+These lifecycle regressions do not qualify the actual model or Windows installer;
+the exact candidate head still requires native Windows acceptance.
+
+**Native checkpoint (2026-11-05):** the cleanup contracts pass on Windows.
+The previous Qwen2.5-1.5B candidate failed the unchanged retrieval-injection
+criterion despite passing arithmetic, instructions and grounded citations;
+the historical Qwen3-1.7B Q8 diagnostic also failed. The larger instruction-only
+candidate has not yet passed native acceptance. Packaging remains blocked;
+this is not a pass or
+an installer/model readiness certificate. The independent AZ IP Master Plan
+work remains separate.
+
 Answers remain UNVERIFIED. Citation IDs map to the supplied catalog or original
 file/line/hash excerpts; valid IDs do not prove that the answer follows from
 them. Missing evidence is not silently replaced by cloud requests. **Export answer
@@ -61,7 +86,8 @@ and evidence** saves only after native destination selection; exported reports
 contain potentially private source excerpts and are not encrypted.
 
 The research control plane accepts `psicat:embedded` for the same backend with
-separate step approvals and a disclosed six-minute CPU step budget. Other
+separate step approvals and a disclosed eighteen-minute CPU step budget,
+including startup and a shared fifteen-minute inference budget. Other
 steps retain their 60-second deadline. Excerpts are bounded to 1,200 UTF-8 bytes
 for embedded research, or 600 bytes each for catalog/imported Ask PsiCat
 references; this deliberately small context budget reflects measured baseline
@@ -70,10 +96,28 @@ approval and is not recorded as completed. Named external Ollama models retain
 their separate explicit disclosure.
 
 Windows packaging depends on actual instruction/citation/refusal acceptance.
-The workflow verifies the official instruction-tuned Q4_K_M weights against
-their LFS hash and exact repository revision, with the existing 1.6 GB model
-budget and Apache-2.0 metadata checks. This candidate is downloaded directly,
-not requantized from another quantization. The previous Qwen3-1.7B candidate
+The workflow verifies the conversion against Unsloth's LFS hash and exact
+repository revision under the approved **3,000,000,000-byte model cap**.
+Independent hosted acceptance retains its 600-second request deadline;
+no answer, citation, refusal or authorization criterion is relaxed.
+The ownership challenge and answer use the same system policy and JSON
+envelope, allowing the owned engine to reuse prefilling work. The exact fresh
+128-bit token, status and citation remain mandatory. Ownership, answering and
+optional review share one steward-approved bounded fifteen-minute inference
+budget; slower CPU performance is disclosed rather than presented as
+interactive latency.
+The literal-copy ownership question forbids inline citation markers in its
+answer field; its citation belongs only in the citations array. Native
+qualification requires three consecutive fresh-process governed passes,
+stopping at the first failure, before the separate installed-runtime pass.
+The steward-approved claim detector distinguishes explicit local negation
+from positive execution claims; it does not certify general language safety.
+It requires public, ungated Apache-2.0 conversion and official
+`Qwen/Qwen3-4B-Instruct-2507` base metadata, and checks any declared base identity.
+Provenance records both metadata snapshots; the observed official base revision
+does not prove which revision Unsloth converted. This project has not reproduced
+the conversion. The candidate is downloaded as supplied, not locally
+requantized. The previous Qwen3-1.7B candidate
 failed the retrieval case in both Q4 and original-Q8 paired evaluation; those
 negative results remain recorded. A failed gate blocks
 the installer. Source builds require the validated runtime artifact in
@@ -85,6 +129,9 @@ candidate engine/weights before publishing that runtime artifact.
 Installed smoke exercises the copied model, not an already running server.
 Passing these checks does **not** establish expert-level general reasoning or
 certify every portfolio target.
+The higher file-size cap does not measure RAM use or qualify hardware. Existing
+CPU threads, contexts, deadlines, default-off review and acceptance criteria
+are unchanged; actual native latency/memory and installed behavior remain open.
 
 ## Android, UEFI and WSL deployment
 
@@ -202,6 +249,11 @@ large files, test/build/dependency folders and symlinks; external datasets,
 credentials, Android/UEFI artifacts and all runtime-specific data are not
 implied to be bundled. Byte-identical Windows case aliases are deduplicated
 and recorded explicitly; conflicting alias contents abort source staging.
+Each materialization uses a fresh sibling staging directory and verifies both
+the copied files and any reused worktree against the receipt. An interrupted
+copy cannot block a retry or be mistaken for a complete checkout; abrupt
+process termination can leave an unused `.p45-*` staging directory in suite
+user data, which is not reused or automatically reclaimed.
 Worktree names use the full receipt SHA-256 without redundantly appending HEAD,
 reducing Windows path lengths while retaining the complete content identity.
 Early browser failures include bounded, PID-scoped bootstrap records when
@@ -256,8 +308,10 @@ and query policy. Other online capabilities belong to their individual products.
 ## Windows installable build
 
 The Windows workflow requires a native browser readiness/cleanup check before
-building either the per-user NSIS installer or the portable executable. This
+building the per-user NSIS installer and its separate verified offline payload. This
 fail-fast check runs the real Electron desktop on Windows, not a mocked child.
+The installed smoke launch quotes and verifies its isolated user-data path,
+including spaces; scratch data stays under the checkout's `build/` directory.
 An early desktop exit reports its exit code and signal rather than an empty
 startup error. From a Windows checkout with Node.js 22, Python 3.12 and internet
 access for dependency/bootstrap downloads:
@@ -272,9 +326,11 @@ npm run dist:win
 npm run smoke:win
 ```
 
-Artifacts are written to `dist/`. `npm run smoke:win` silently installs and
-uninstalls the per-user NSIS build, launches both installed and portable
-applications, and verifies that the window renders all 45 products and the
+Artifacts are written to `dist/`. `npm run smoke:win` first requires a clean
+installation destination and proves that the **actual installer** rejects
+missing and tampered companion parts with a nonzero exit, before silently
+installing and uninstalling the per-user NSIS build. It launches the installed
+application and verifies that the window renders all 45 products and the
 local evidence/runtime/native-model controls, creates a research plan and cancels
 it through the preload bridge without renderer exceptions. It also runs
 standalone installed native inference and training, verifies the bundled source
@@ -287,15 +343,60 @@ build, checks actual CPU JAX values/gradients, and requires Product 24's window,
 sync/Navigator readiness and graceful process exit. A failed or skipped native
 check does not certify those capabilities or permit publishing an installer.
 `.github/workflows/pc-suite-windows.yml` builds and uploads them as a workflow
-artifact on pull requests and manual dispatch. Each executable is accompanied
-by a SHA-256 checksum. A `pc-suite-v*` tag additionally publishes the installer
-and portable executable as a GitHub Release. Builds are currently
+artifact on pull requests and manual dispatch. `SHA256SUMS.txt` covers the
+installer, companion manifest, and every model part. A `pc-suite-v*` tag
+additionally publishes all these files as a GitHub Release. Builds are currently
 **unsigned**; Windows SmartScreen may show a publisher warning. No automatic
 update service is included. The configured artifacts target Windows x64;
 ARM64 builds and installer upgrades remain unverified. Per-user x64 install,
-rendered UI, uninstall and portable launch are exercised by the Windows workflow.
-The portable executable self-extracts its bundled resources on launch; use
-the installed NSIS application for regular work to avoid repeated extraction.
+rendered UI, full installed model inference, and uninstall are required by the
+Windows workflow; local source/packaging tests alone do not qualify a Windows
+installer.
+
+### Verified offline companion payload
+
+The approved **full** Qwen3-4B-Instruct-2507 Q4_K_M GGUF is not reduced or
+replaced. Its approximately 2.497 GB file exceeded NSIS's embedded archive mmap
+limit. The installer now bundles everything else (including the engine,
+runtime manifest, native seed and portfolio), while the model ships as
+contiguous **at most 1 GiB** parts. No release asset may reach 2 GiB, respecting
+GitHub's per-asset limit as well as NSIS's embedded archive limit.
+
+For version `0.1.0`, place these files together in the **same local folder**:
+
+- `AxiomZero-PC-Suite-0.1.0-x64.exe`
+- `AxiomZero-PC-Suite-0.1.0-offline.json`
+- `AxiomZero-PC-Suite-0.1.0-model.part001`, `.part002`, and `.part003`
+- `SHA256SUMS.txt` (for independent distribution-integrity checking)
+
+Use the installer from that folder, including for silent `/S` installation.
+Do not put parts in the installation directory or rename them. Transfer all
+assets via an offline medium if desired; **installation requires no network
+or model download**. Allow disk space for both the companion parts and the
+assembled approximately 2.497 GB model in the installation, plus other bundled
+resources. The portable target is deliberately removed: a self-extracting
+portable executable would embed the same oversized model again.
+
+Supported electron-builder `customInit` and `customInstall` NSIS hooks invoke
+a bundled static PowerShell script as the per-user installer user. It checks
+the installer-bound manifest digest, its exact canonical part names and sizes,
+every part's SHA-256, and the assembled model's SHA-256 against the bundled
+runtime manifest. The first pass happens **before** old-install removal; the
+second pass writes to an exclusive new partial file and atomically renames
+only after all hashes match. Reparse points, network paths, and overwriting an
+existing model are rejected. Failure stops the installer with a nonzero exit;
+there is no successful fallback, automatic launch, or external downloader.
+If an error occurs after application extraction, that incomplete installation
+is not qualified; correct the local payload and rerun the installer.
+
+electron-builder's installed NSIS-web template can discover sibling archives,
+but a missing or incorrect archive falls back to a network download. This
+package intentionally uses regular NSIS and the fail-closed local hook instead.
+`npm run payload:stage` generates the parts and compile-time manifest seal;
+`npm run payload:verify` checks the whole release set and writes checksums.
+`dist:win` restores the full model in `dist/win-unpacked` **after** installer
+archive creation for real unpacked diagnostics. Release smoke instead verifies
+and runs the full model installed by the actual local-payload installer.
 
 To run from source:
 
@@ -333,8 +434,11 @@ npm run catalog:check
 These checks cover catalog integrity, repository-path containment, settings,
 ZIP safety, local indexing, evidence citations, index persistence, harness
 approvals/state recovery/budgets/cancellation/audit seals, worker execution
-and the local reasoning transport. The Windows workflow verifies per-user
-installation/UI/uninstall and portable launch. Installer upgrades and a
+and the local reasoning transport, plus source-worktree receipt/retry behavior
+and the Windows smoke argument contract. The latter is a source-level check on
+non-Windows hosts; it does not replace running the installed smoke on
+Windows. The Windows workflow requires fail-closed companion payload tests and
+per-user installation/UI/uninstall. Installer upgrades and a
 publisher code-signing certificate remain release work; a successful packaging job is not a claim
 that every portfolio product is installed or Windows-compatible.
 
@@ -390,7 +494,8 @@ A restart marks in-flight execution interrupted and requires new approval.
 Failed steps show their error and can be explicitly retried within the
 **six-attempt total budget**; there are no hidden retries or unconstrained
 loops. Ordinary execution has a **60-second deadline**; explicitly approved
-embedded CPU reasoning has a **six-minute deadline**. Evidence search runs
+embedded CPU reasoning has an **eighteen-minute deadline**, including startup
+and a shared fifteen-minute inference budget. Evidence search runs
 outside the main UI thread, outputs are capped at **24,000 characters**, and
 context at **12,000 characters**. Context truncation is disclosed; full
 results remain in step checkpoints. The optional local model response is

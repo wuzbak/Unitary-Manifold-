@@ -31,6 +31,66 @@ _CORE_FILES = {
     "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tools.py",
     "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_rag.py",
 }
+_CURRENT_TRUTH_SECTIONS = (
+    (2, "Synthesis repair (2026-10-05)"),
+    (3, "Mathematical findings and assumptions"),
+    (3, "Sprint CX action-derived flow steward promotion"),
+    (3, "Lane 1 action-derived flow replacement (Sprint CW; promoted within perimeter in Sprint CX)"),
+)
+_CURRENT_TRUTH_SINCE = "2026-10-05"
+
+
+def _current_lines(relative: str, text: str) -> set[int]:
+    """Apply the packaged selection policy; corpus files are data, never code.
+
+    Mirror bot.rag_index.current_document_lines without importing the bot from
+    either the inspected corpus or a source checkout (standalone wheels work).
+    """
+    if relative != "docs/TRUTH_LAYER.md":
+        return set(range(1, len(text.splitlines()) + 1))
+    selected: set[int] = set()
+    active_level = None
+    historical_level = None
+    fence = None
+    for number, line in enumerate(text.splitlines(keepends=True), start=1):
+        fence_match = re.match(r"^[ \t]*(`{3,}|~{3,})", line)
+        if fence_match:
+            marker = fence_match.group(1)
+            if fence is None:
+                fence = (marker[0], len(marker))
+            elif marker[0] == fence[0] and len(marker) >= fence[1]:
+                fence = None
+        elif fence is None:
+            heading_match = re.match(r"^(#{1,6})[ \t]+(.+?)\s*$", line)
+            if heading_match:
+                level = len(heading_match.group(1))
+                heading = heading_match.group(2)
+                if active_level is not None and level <= active_level:
+                    active_level = None
+                if historical_level is not None and level <= historical_level:
+                    historical_level = None
+                historical = re.search(
+                    r"\b(historical|archive|archived|superseded)\b", heading, re.IGNORECASE,
+                )
+                if historical and historical_level is None:
+                    historical_level = level
+                date = re.search(r"\b\d{4}-\d{2}-\d{2}\b", heading)
+                current_correction = (
+                    level <= 3
+                    and date is not None
+                    and date.group() >= _CURRENT_TRUTH_SINCE
+                    and historical_level is None
+                    and not re.search(r"\b(sprint|lane)\b", heading, re.IGNORECASE)
+                )
+                if (
+                    active_level is None
+                    and historical_level is None
+                    and ((level, heading) in _CURRENT_TRUTH_SECTIONS or current_correction)
+                ):
+                    active_level = level
+        if active_level is not None and historical_level is None:
+            selected.add(number)
+    return selected
 
 
 def _tokens(text: str) -> list[str]:
@@ -208,9 +268,17 @@ class SourceIndex:
         return data
 
     @staticmethod
-    def _windows(lines: list[str], matched: set[int], radius: int = 8) -> list[tuple[int, int]]:
-        return sorted({(max(1, line - radius), min(len(lines), line + radius))
-                       for line in matched})
+    def _windows(lines: list[str], matched: set[int], current: set[int],
+                 radius: int = 8) -> list[tuple[int, int]]:
+        windows = set()
+        for line in matched:
+            start = end = line
+            while start > max(1, line - radius) and start - 1 in current:
+                start -= 1
+            while end < min(len(lines), line + radius) and end + 1 in current:
+                end += 1
+            windows.add((start, end))
+        return sorted(windows)
 
     def search(self, query: str, limit: int = 5) -> list[dict]:
         """Return ranked fresh excerpts with one-based, inclusive line citations."""
@@ -230,12 +298,16 @@ class SourceIndex:
                 continue
             text = data.decode("utf-8", "replace")
             lines = text.splitlines()
+            current = _current_lines(relative, text)
             matched = {
                 index
                 for index, line in enumerate(lines, start=1)
-                if unique.intersection(_tokens(line))
+                if index in current and unique.intersection(_tokens(line))
             }
-            for start, end in self._windows(lines, matched):
+            if not matched:
+                continue
+            sha256 = _digest(data)
+            for start, end in self._windows(lines, matched, current):
                 excerpt = "\n".join(lines[start - 1 : end])
                 tokens = _tokens(excerpt)
                 coverage = len(unique.intersection(tokens)) / len(unique)
@@ -250,7 +322,7 @@ class SourceIndex:
                         "start_line": start,
                         "end_line": end,
                         "excerpt": excerpt,
-                        "sha256": _digest(data),
+                        "sha256": sha256,
                         "evidence_kind": "source_content",
                         "score": round(score, 6),
                         "current": True,
@@ -282,7 +354,8 @@ class SourceIndex:
             if data is None or _digest(data) != expected:
                 return False
             start, end = record.get("start_line"), record.get("end_line")
-            lines = data.decode("utf-8", "replace").splitlines()
+            text = data.decode("utf-8", "replace")
+            lines = text.splitlines()
             if (
                 type(start) is not int or type(end) is not int
                 or not 1 <= start <= end <= len(lines)
@@ -290,5 +363,7 @@ class SourceIndex:
                 or record.get("current") is not True
                 or record.get("excerpt") != "\n".join(lines[start - 1:end])
             ):
+                return False
+            if not set(range(start, end + 1)) <= _current_lines(source, text):
                 return False
         return True

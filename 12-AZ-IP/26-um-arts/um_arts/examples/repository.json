@@ -2,8 +2,15 @@
   "adapter": "um",
   "workers": 1,
   "timeout_seconds": 900,
-  "pytest_args": ["-m", ""],
-  "lean": {"project": "lean4", "scope": "full", "targets": []},
+  "pytest_args": [
+    "-m",
+    ""
+  ],
+  "lean": {
+    "project": "lean4",
+    "scope": "full",
+    "targets": []
+  },
   "suites": [
     {"name": "12-AZ-IP-01-axiom-os-tests-b29417ad", "paths": ["12-AZ-IP/01-axiom-os/tests/test_axiomzero.py", "12-AZ-IP/01-axiom-os/tests/test_durable_tasks.py", "12-AZ-IP/01-axiom-os/tests/test_layout.py", "12-AZ-IP/01-axiom-os/tests/test_sprint_ba_status.py"], "requires": [], "serial": true},
     {"name": "12-AZ-IP-02-az-kernel-tests-52c77ff4", "paths": ["12-AZ-IP/02-az-kernel/tests/test_layout.py", "12-AZ-IP/02-az-kernel/tests/test_sprint_ba_constants.py"], "requires": [], "serial": true},
@@ -41,9 +48,9 @@
     {"name": "12-AZ-IP-35-az-uos-kernel-bridge-tests-342ef5cf", "paths": ["12-AZ-IP/35-az-uos-kernel-bridge/tests/test_api.py", "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_ipc_message.py", "12-AZ-IP/35-az-uos-kernel-bridge/tests/test_uos_kernel_bridge.py"], "requires": [], "serial": true},
     {"name": "12-AZ-IP-36-az-cosmology-slider-tests-63241fdd", "paths": ["12-AZ-IP/36-az-cosmology-slider/tests/test_api.py", "12-AZ-IP/36-az-cosmology-slider/tests/test_cosmology_slider.py", "12-AZ-IP/36-az-cosmology-slider/tests/test_server.py"], "requires": [], "serial": true},
     {"name": "12-AZ-IP-37-az-holographic-condensed-matter-comparator-tests-4c97ebee", "paths": ["12-AZ-IP/37-az-holographic-condensed-matter-comparator/tests/test_api.py", "12-AZ-IP/37-az-holographic-condensed-matter-comparator/tests/test_holographic_condensed_matter_comparator.py"], "requires": [], "serial": true},
-    {"name": "12-AZ-IP-38-az-formal-verification-library-tests-4da52dcc", "paths": ["12-AZ-IP/38-az-formal-verification-library/tests/test_api.py", "12-AZ-IP/38-az-formal-verification-library/tests/test_formal_verification_library.py"], "requires": [], "serial": true},
+    {"name": "12-AZ-IP-38-az-formal-verification-library-tests-4da52dcc", "paths": ["12-AZ-IP/38-az-formal-verification-library/tests/test_api.py", "12-AZ-IP/38-az-formal-verification-library/tests/test_formal_verification_library.py", "12-AZ-IP/38-az-formal-verification-library/tests/test_server.py"], "requires": [], "serial": true},
     {"name": "12-AZ-IP-39-az-research-debt-tracker-tests-df942c00", "paths": ["12-AZ-IP/39-az-research-debt-tracker/tests/test_api.py", "12-AZ-IP/39-az-research-debt-tracker/tests/test_git_ingest.py", "12-AZ-IP/39-az-research-debt-tracker/tests/test_research_debt_tracker.py"], "requires": [], "serial": true},
-    {"name": "12-AZ-IP-40-az-live-data-harness-tests-11ac3e43", "paths": ["12-AZ-IP/40-az-live-data-harness/tests"], "requires": [], "serial": true},
+    {"name": "12-AZ-IP-40-az-live-data-harness-tests-11ac3e43", "paths": ["12-AZ-IP/40-az-live-data-harness/tests", "12-AZ-IP/40-az-live-data-harness/tests/test_api.py", "12-AZ-IP/40-az-live-data-harness/tests/test_live_data_harness.py"], "requires": [], "serial": true},
     {"name": "12-AZ-IP-41-az-media-suite-tests-3edf6f88", "paths": ["12-AZ-IP/41-az-media-suite/tests/test_api.py", "12-AZ-IP/41-az-media-suite/tests/test_audio.py", "12-AZ-IP/41-az-media-suite/tests/test_cli.py", "12-AZ-IP/41-az-media-suite/tests/test_comic.py", "12-AZ-IP/41-az-media-suite/tests/test_feature_inspection.py", "12-AZ-IP/41-az-media-suite/tests/test_video.py"], "requires": [], "serial": true},
     {"name": "12-AZ-IP-42-az-awareness-creation-toolkit-tests-0d24e1a3", "paths": ["12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_api.py", "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_cards.py", "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_charts.py", "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_citations.py", "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_dashboard.py", "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_documents.py", "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_registry.py", "12-AZ-IP/42-az-awareness-creation-toolkit/tests/test_server.py"], "requires": [], "serial": true},
     {"name": "12-AZ-IP-43-az-geometric-tori-transformer-tests-081df1c4", "paths": ["12-AZ-IP/43-az-geometric-tori-transformer/tests"], "requires": [], "serial": true},

@@ -3,6 +3,7 @@
 """Real integration: grounding, computation, governed effects and continuity."""
 
 import hashlib
+import json
 from datetime import datetime, timedelta, timezone
 import pytest
 
@@ -347,3 +348,114 @@ def test_cli_readonly_does_not_create_state_and_errors_are_nonzero(tmp_path, cap
     assert "GROUNDED_RETRIEVAL" in capsys.readouterr().out
     assert main(["query", ""]) == 2
     assert "ValueError" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("action,arguments", [
+    ("memory.put", {}),
+    ("memory.put", {"text": "candidate", "unknown": True}),
+    ("memory.put", {"text": "candidate", "scope": "global"}),
+    ("memory.put", {"text": "candidate", "sources": [1]}),
+    ("memory.put", {"text": "\ud800"}),
+    ("memory.promote", {"record_id": "missing"}),
+    ("memory.delete", {"record_id": True}),
+    ("train", {}),
+    ("experiment", {"steps": False}),
+    ("experiment", {"alias_probe": True}),
+])
+def test_malformed_legacy_approval_does_not_claim_or_block_future_actions(weave, action, arguments):
+    identifier = weave.journal.approve(
+        "alice", action, weave._bound_arguments(action, arguments), obligations=PASS, sources=[])
+    with pytest.raises((ValueError, KeyError, TypeError)):
+        weave.invoke(action, arguments, "alice", identifier)
+    assert weave.journal.get(identifier, "alice")["state"] == "APPROVED"
+    with weave.journal.connect() as db:
+        assert db.execute("SELECT COUNT(*) FROM active_effect").fetchone()[0] == 0
+    valid = {"text": "next candidate"}
+    decision = weave.approve("memory.put", valid, "alice", obligations=PASS)
+    assert weave.invoke("memory.put", valid, "alice", decision)["state"] == "SUCCEEDED"
+    assert weave.journal.verify_audit()
+
+
+def test_malformed_new_approval_rejected_before_intent_persistence(weave):
+    with pytest.raises((TypeError, ValueError)):
+        weave.approve("memory.put", {}, "alice", obligations=PASS)
+    with weave.journal.connect() as db:
+        assert db.execute("SELECT COUNT(*) FROM decisions").fetchone()[0] == 0
+
+
+def test_training_directory_target_is_rejected_before_claim(tmp_path):
+    state = tmp_path / "training"
+    checkpoint = state / "models" / "directory.npz"
+    checkpoint.mkdir(parents=True)
+    instance = Weave(state, repo_root=ROOT, checkpoints={"tiny": checkpoint})
+    args = {"checkpoint_id": "tiny", "corpus": "abc abca cab\n" * 24}
+    with pytest.raises(ValueError, match="directory"):
+        instance.approve("train", args, "alice", obligations=PASS)
+    with instance.journal.connect() as db:
+        assert db.execute("SELECT COUNT(*) FROM active_effect").fetchone()[0] == 0
+
+
+def test_provider_unavailable_at_invocation_leaves_approval_unclaimed(weave, monkeypatch):
+    arguments = {"steps": 1, "dim": 4, "num_heads": 1}
+    decision = weave.approve("experiment", arguments, "alice", obligations=PASS)
+    with monkeypatch.context() as patch:
+        patch.setattr(weave.backends, "_available", lambda _: False)
+        with pytest.raises(RuntimeError, match="unavailable"):
+            weave.invoke("experiment", arguments, "alice", decision)
+    assert weave.journal.get(decision, "alice")["state"] == "APPROVED"
+    assert weave.invoke("experiment", arguments, "alice", decision)["state"] == "SUCCEEDED"
+
+
+def test_failure_once_effects_possible_remains_ambiguous_and_blocks_reentry(weave, monkeypatch):
+    args = {"text": "actual candidate"}
+    decision = weave.approve("memory.put", args, "alice", obligations=PASS)
+    handler = weave._effect
+
+    def interrupted(*values):
+        handler(*values)
+        raise OSError("outcome interrupted after write")
+
+    with monkeypatch.context() as patch:
+        patch.setattr(weave, "_effect", interrupted)
+        with pytest.raises(OSError):
+            weave.invoke("memory.put", args, "alice", decision)
+    assert weave.journal.get(decision, "alice")["state"] == "AMBIGUOUS"
+    assert len(weave.memory.search("alice", "actual candidate")) == 1
+    other = weave.approve("memory.put", args, "alice", obligations=PASS)
+    with pytest.raises(ValueError, match="unresolved"):
+        weave.invoke("memory.put", args, "alice", other)
+    weave.journal.reconcile(decision, "alice", resolution="CONFIRMED_EFFECT")
+    assert weave.invoke("memory.put", args, "alice", other)["state"] == "SUCCEEDED"
+
+
+def test_success_replays_after_preflight_target_disappears(weave):
+    args = {"text": "deletable candidate"}
+    created = weave.approve("memory.put", args, "alice", obligations=PASS)
+    record = weave.invoke("memory.put", args, "alice", created)["result"]
+    args = {"record_id": record["id"]}
+    promotion = weave.approve("memory.promote", args, "alice", obligations=PASS)
+    weave.invoke("memory.promote", args, "alice", promotion)
+    deletion = weave.approve("memory.delete", args, "alice", obligations=PASS)
+    weave.invoke("memory.delete", args, "alice", deletion)
+    assert weave.invoke("memory.promote", args, "alice", promotion)["replayed"]
+
+
+def test_cli_capabilities_uses_cli_checkpoint_and_state_configuration_without_writes(tmp_path, capsys, monkeypatch):
+    from az_weave.__main__ import main
+    from az_weave.api import capabilities
+
+    state = tmp_path / "not-created"
+    checkpoint = state / "models" / "tiny.npz"
+    config = ["--repo-root", str(ROOT), "--state-dir", str(state),
+              "--checkpoint", f"tiny={checkpoint}"]
+    monkeypatch.setenv("AZ_WEAVE_CHECKPOINTS_JSON", "not valid JSON")
+    assert main([*config, "capabilities"]) == 0
+    discovered = json.loads(capsys.readouterr().out)["backends"]
+    assert discovered["train"]["available"] and not discovered["generate"]["available"]
+    assert not state.exists()
+    assert discovered == Weave(state, repo_root=ROOT, checkpoints={"tiny": checkpoint}).backends.capabilities()
+    with pytest.raises(ValueError):
+        capabilities(ROOT)
+    for entry in ("tiny=", "=invalid", "invalid-format"):
+        assert main(["--checkpoint", entry, "capabilities"]) == 2
+        assert capsys.readouterr().err

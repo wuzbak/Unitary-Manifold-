@@ -219,6 +219,7 @@ documented in `4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md`.
 - `GET /api/psicat/performance-lane` exposes the dedicated throughput-optimization lane with hard speed gates, profiler-first workflow, ROI execution order, and local-first sovereignty constraints.
 - `POST /api/psicat/performance-gate-evaluate` evaluates baseline vs candidate training receipts and returns pass/hold against Lane E throughput and regression gates.
 - `GET /api/psicat/training-execution-queue` exposes the live retained-training queue state across applications/tools, books/articles, adversarial self-correction, the formal proof-foundry lane, and the performance lane.
+- Retained receipts use their source-snapshot digest for freshness, including tracked nanosecond modification times and sizes, rather than comparing filesystem timestamps with the process clock. Legacy digest-less receipts retain fail-closed timestamp checks.
 - `GET /api/psicat/training-execution-bundle` exposes the retained training execution bundle directly, including lane progress, challenge pack, execution-cycle snapshot, and Lane E runtime profile evidence payload.
 - `GET /api/psicat/training-execution-bundle` accepts optional `refresh_lane_e_profiles=true` to force fresh Lane E runtime profile recapture in that bundle.
 - `GET /api/psicat/lane-e-runtime-profiles` exposes Lane E runtime profile artifact metadata/payload directly, with optional `refresh` recapture mode (`true/false`).
@@ -286,7 +287,7 @@ documented in `4-IMPLICATIONS/brain/MALECNS_CONNECTOME_BRIDGE.md`.
 ### Opt-in tool audit recovery
 
 Set `MERLIN_TOOL_AUDIT_STORE_PATH` in the **Navigator server process environment**
-to an absolute JSON file path on a durable local POSIX volume. For example, from
+to an absolute JSON file path on a durable local POSIX or Windows (NTFS) volume. For example, from
 the product directory:
 
 ```bash
@@ -308,13 +309,19 @@ omit arguments, argument names, results, errors, prompts, session/user identifie
 provider credentials, and replay payloads. No identity, consent, or policy gate
 is changed; a receipt grants no authority and cannot replay a tool.
 
-New files are owner-only (0600). Writes use a locked read/validate/append,
-same-directory staging file, file fsync, atomic replacement, and directory fsync.
+On POSIX, new files are owner-only (0600). Windows ignores POSIX mode bits, so
+privacy there depends on the containing directory's ACL (for example, a directory
+under the operator's user profile). Writes use a locked read/validate/append,
+same-directory staging file, file fsync, and atomic replacement; POSIX also fsyncs
+the directory, which Python cannot do on Windows, so rename durability across power
+loss there rests on NTFS metadata journaling.
 Schema/version/unique-ID checks and a SHA-256 checksum reject corrupt history;
 the checksum detects accidental damage, not malicious rewriting by a file owner.
 Keep the directory private and outside version control. The adjacent `.lock`
-file must stay on the same volume; POSIX advisory locks coordinate cooperating
-processes, not external editors or distributed/network filesystems.
+file must stay on the same volume; POSIX `flock` or Windows `msvcrt` byte-range
+locks (waiting while contended) coordinate cooperating processes, not external
+editors or distributed/network filesystems. Other platforms fail closed with
+`ToolAuditStoreError`.
 
 For operator-only read recovery (no new HTTP endpoint), run from the product
 directory with the same environment:

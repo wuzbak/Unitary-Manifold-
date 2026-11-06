@@ -230,6 +230,7 @@ def planar_constraint_diagnostic(state: PlanarRadionState) -> dict[str, FloatArr
 
     The Hamiltonian-like sum substitutes the evolution equation for ``r_tt``,
     so it depends only on one-time slice data and centered spatial derivatives.
+    With ``u=t-x, v=t+x``, each null derivative carries a factor of one half.
     The returned pointwise arrays obey ``Cu+Cv=sum`` and ``Cv-Cu=difference``.
     """
     dx = state.dx
@@ -239,13 +240,13 @@ def planar_constraint_diagnostic(state: PlanarRadionState) -> dict[str, FloatArr
     psix = _periodic_d1(state.psi, dx)
     rtx = _periodic_d1(state.r_t, dx)
     # r_tt = r_xx - (r_t^2-r_x^2)/r eliminates the second time derivative.
-    constraint_sum = (
+    constraint_sum = 0.5 * (
         2.0 * rxx
         - (state.r_t * state.r_t - rx * rx) / state.r
         - 2.0 * (state.sigma_t * state.r_t + sigmax * rx)
         + 0.75 * state.r * (state.psi_t * state.psi_t + psix * psix)
     )
-    constraint_difference = (
+    constraint_difference = 0.5 * (
         2.0 * rtx
         - 2.0 * (state.sigma_t * rx + sigmax * state.r_t)
         + 1.5 * state.r * state.psi_t * psix

@@ -58,9 +58,10 @@ allocation via the UEFI `AllocatePool`/`FreePool` boot services — services
 that become invalid the instant `boot::exit_boot_services` runs, while the
 kernel kept calling `alloc::format!` afterwards. `mm::heap` owns its memory
 for the kernel's entire lifetime instead, so allocation never depends on a
-firmware (or host) shortcut. Covered by 7 unit tests (round-trip, no
-overlapping allocations, alignment-padding recovery, coalescing back to full
-capacity, first-fit reuse, and graceful out-of-memory behaviour).
+firmware (or host) shortcut. Covered by 10 unit tests, including alignment
+rounding, recovery of representable fragments, coalescing, and out-of-memory
+behaviour. Requests leaving an unrepresentable trailing fragment are rejected
+without consuming the free block.
 
 Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.
 Code architecture, kernel engineering, and consolidation: **GitHub Copilot** (AI).

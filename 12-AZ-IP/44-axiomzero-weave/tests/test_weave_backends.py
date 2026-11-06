@@ -9,6 +9,8 @@ import math
 from pathlib import Path
 import sys
 import types
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
@@ -75,6 +77,69 @@ def test_missing_numerical_dependency_is_unavailable(backend, monkeypatch):
     caps = backend.capabilities()
     assert caps["oracle"]["available"]
     assert all(not caps[key]["available"] for key in ("geometry", "experiment", "generate", "train"))
+
+
+@pytest.mark.parametrize("fail_first", [False, True])
+def test_provider_import_lock_covers_snapshot_import_restore_across_instances(backend, monkeypatch, fail_first):
+    import az_weave.backends as adapters
+
+    original = list(sys.path)
+    first_entered, release, second_requested, second_entered = (
+        threading.Event() for _ in range(4))
+    sibling = Backends(ROOT, backend.state_dir)
+
+    def importing(module):
+        if module.startswith("az_tori_transformer"):
+            assert sys.path[0] == str(ROOT / "12-AZ-IP/43-az-geometric-tori-transformer")
+            first_entered.set()
+            assert release.wait(5)
+            if fail_first:
+                raise ImportError("controlled provider failure")
+        else:
+            second_entered.set()
+            assert sys.path[0] == str(ROOT / "12-AZ-IP/16-oracle")
+        return types.SimpleNamespace(name=module)
+
+    def second():
+        second_requested.set()
+        return sibling._import("oracle.engine.synthesis")
+
+    monkeypatch.setattr(adapters.importlib, "import_module", importing)
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        first = pool.submit(backend._import, "az_tori_transformer.toroidal_geometry")
+        try:
+            assert first_entered.wait(5)
+            other = pool.submit(second)
+            assert second_requested.wait(5)
+            assert not second_entered.wait(0.1)
+        finally:
+            release.set()
+        if fail_first:
+            with pytest.raises(ImportError, match="controlled"):
+                first.result(timeout=5)
+        else:
+            assert first.result(timeout=5).name.startswith("az_tori_transformer")
+        assert other.result(timeout=5).name == "oracle.engine.synthesis"
+    assert sys.path == original
+
+
+def test_effect_preflight_is_readonly_and_uses_same_input_validation(backend):
+    backend.preflight("train", train_input())
+    backend.preflight("experiment", {"steps": 1})
+    assert not backend.state_dir.exists()
+    for action, args in [
+        ("train", {}),
+        ("train", {**train_input(), "validation_fraction": False}),
+        ("train", {**train_input(), "corpus": "short"}),
+        ("experiment", {"steps": 0}),
+        ("experiment", {"alias_probe": True}),
+        ("experiment", {"extra": "unknown"}),
+    ]:
+        with pytest.raises(ValueError):
+            backend.preflight(action, args)
+        with pytest.raises(ValueError):
+            backend.execute(action, args)
+    assert not backend.state_dir.exists()
 
 
 def test_missing_provider_explicit_error(workspace):

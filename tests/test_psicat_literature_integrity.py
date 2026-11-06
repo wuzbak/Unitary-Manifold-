@@ -184,7 +184,20 @@ def test_preassembly_sources_are_preserved_byte_for_byte() -> None:
         )
 
 
-def _assembly_text(text: str) -> str:
+# Only these dated factual errata may differ from the immutable archived parts.
+ASSEMBLY_ERRATA = {
+    57: (
+        "The local browser-storage model and explicit export mean data does not leave the device unless the player chooses to export it or deliberately points the coach at a local Product 20 endpoint.",
+        "Progress is local by default, but an explicitly confirmed nonlocal coaching request can send the question, current briefing and gameplay-derived training packet to the selected endpoint; export is not the only off-device path.",
+    ),
+    58: (
+        r"The six-dimensional track adds a \(T^2/\mathbb{Z}_3\) compact space alongside the \(S^1/\mathbb{Z}_2\) direction.",
+        r"The lane named “six-dimensional” describes a \(T^2/\mathbb{Z}_3\) compact space alongside the \(S^1/\mathbb{Z}_2\) direction, but four extended dimensions plus that circle and two-torus total seven dimensions, not six. This is an unresolved inconsistency in the source description, not a dimensionally consistent six-dimensional construction established here.",
+    ),
+}
+
+
+def _assembly_text(text: str, *, book_number: int | None = None) -> str:
     """Ignore navigation markup and heading nesting, not manuscript content."""
     text = re.sub(
         r"^\*Part file of Book [^\n]*(?:\n[^\n]+)*\n", "", text, flags=re.MULTILINE
@@ -198,7 +211,13 @@ def _assembly_text(text: str) -> str:
         "The five catalog sections below carry Chapters 40 through 44",
     )
     text = re.sub(r"^#{1,6} ", "", text, flags=re.MULTILINE)
-    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
+    if book_number in ASSEMBLY_ERRATA:
+        original, correction = ASSEMBLY_ERRATA[book_number]
+        text = text.replace(original, correction)
+    text = re.sub(
+        r"\[([^\]]+)\]\((?:book-\d+-part-[^()\s]+\.md|#book-\d+-part-[^()\s]+)\)",
+        r"\1", text,
+    )
     return " ".join(text.replace("`", "").split())
 
 
@@ -222,9 +241,33 @@ def test_individual_assemblies_include_every_source_in_order(
         if index + 1 < len(parts):
             section = section.split(f'<a id="{parts[index + 1].stem}"></a>', 1)[0]
             section = section.rsplit("---", 1)[0]
-        assert _assembly_text(section) == _assembly_text(part.read_text(encoding="utf-8"))
+        assert _assembly_text(section) == _assembly_text(
+            part.read_text(encoding="utf-8"), book_number=number,
+        )
     assert not re.search(r"\]\(book-\d+-part-", manuscript)
     assert len(re.findall(r"^# ", manuscript, re.MULTILINE)) == 1
+
+
+@pytest.mark.parametrize("number", [57, 58])
+def test_assembly_factual_errata_are_explicit_without_rewriting_archives(number):
+    primary, = BOOKS_DIR.glob(f"book-{number}-*.md")
+    manuscript = primary.read_text(encoding="utf-8")
+    original, correction = ASSEMBLY_ERRATA[number]
+    assert "**Editorial errata (2026-11-05):**" in manuscript
+    assert original not in manuscript
+    assert correction in manuscript
+    assert sum(original in p.read_text(encoding="utf-8")
+               for p in ARCHIVE_DIR.glob(f"book-{number}-part-*.md")) == 1
+
+
+def test_assembly_comparison_preserves_external_citation_destinations():
+    original = "[primary source](https://example.org/original)"
+    mutated = "[primary source](https://example.org/replaced)"
+    assert _assembly_text(original) != _assembly_text(mutated)
+    assert _assembly_text(original) != _assembly_text("primary source")
+    assert _assembly_text("[Part](book-54-part-01-the-cloud-record.md)") == _assembly_text(
+        "[Part](#book-54-part-01-the-cloud-record)"
+    )
 
 
 @pytest.mark.parametrize(("number", "chapters"), [(53, 46), (55, 27), (56, 52)])

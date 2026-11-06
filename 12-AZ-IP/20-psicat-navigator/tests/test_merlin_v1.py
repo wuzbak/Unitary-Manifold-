@@ -7,6 +7,7 @@ import asyncio
 import hashlib
 import importlib.util
 import json
+import shlex
 import shutil
 import socket
 import sys
@@ -340,6 +341,13 @@ def test_email_sanitization_preserves_redaction_without_suffix_retries():
     ("a@b.c!" * 25_000, None),
     ("a@b." + "c" * 100_000 + "!", "[REDACTED_EMAIL]!"),
     ("a@" + "b." * 50_000 + "cc" + "9" * 100_000 + "!", "[REDACTED_EMAIL]" + "9" * 100_000 + "!"),
+], ids=[
+    "50k-single-label-domain",
+    "50k-alnum-label-domain-digit-tld",
+    "50k-repeated-at-delimiters",
+    "25k-repeated-short-addresses",
+    "100k-char-tld",
+    "50k-labels-then-100k-digit-suffix",
 ])
 def test_email_guard_handles_long_domain_and_delimiter_witnesses(sample, expected):
     from ox_navigator.engine.merlin_runtime import _EMAIL_RE
@@ -459,7 +467,7 @@ def test_export_stage_a_artifacts_script(tmp_path, monkeypatch):
     output_path = tmp_path / 'stage_a_artifacts.json'
     monkeypatch.setattr(sys, 'argv', ['export_merlin_stage_a_artifacts.py', '--limit', '1', '--output', str(output_path)])
     assert module.main() == 0
-    payload = json.loads(output_path.read_text())
+    payload = json.loads(output_path.read_text(encoding='utf-8'))
     assert payload['ok'] is True
     assert payload['artifact_bundle']['receipts']['summary']['total'] == 1
 
@@ -487,7 +495,7 @@ def test_export_training_artifacts_script(tmp_path, monkeypatch):
         ],
     )
     assert module.main() == 0
-    payload = json.loads(output_path.read_text())
+    payload = json.loads(output_path.read_text(encoding='utf-8'))
     assert payload['ok'] is True
     assert payload['artifact_bundle']['training_architecture']['seed_statistics']['total_examples'] == 4
     assert payload['artifact_bundle']['training_execution_bundle_preview']['ok'] is True
@@ -517,13 +525,13 @@ def test_export_training_jsonl_script(tmp_path, monkeypatch):
         assert (output_dir / "kernels" / kernel_id / "train.jsonl").exists()
         assert (output_dir / "kernels" / kernel_id / "dev.jsonl").exists()
         assert (output_dir / "kernels" / kernel_id / "test.jsonl").exists()
-    manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
+    manifest = json.loads((output_dir / 'dataset_manifest.json').read_text(encoding='utf-8'))
     assert manifest['dataset']['counts']['total_benchmark_records'] >= 18
     assert all(
         row.get('response_target') == '[REDACTED_FOR_EVAL]'
         for row in manifest['dataset']['splits']['test']
     )
-    test_rows = [json.loads(line) for line in (output_dir / 'test.jsonl').read_text().splitlines() if line.strip()]
+    test_rows = [json.loads(line) for line in (output_dir / 'test.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
     assert all(row.get('response_target') == '[REDACTED_FOR_EVAL]' for row in test_rows)
     stage = "stage_b_sovereign_takeover"
     kernel_file = output_dir / "benchmarks" / "kernels" / stage / "kernel_s.jsonl"
@@ -554,7 +562,7 @@ def test_export_training_jsonl_script_with_ast_context(tmp_path, monkeypatch):
         ],
     )
     assert module.main() == 0
-    manifest = json.loads((output_dir / 'dataset_manifest.json').read_text())
+    manifest = json.loads((output_dir / 'dataset_manifest.json').read_text(encoding='utf-8'))
     assert manifest['dataset']['ast_context_density']['enabled'] is True
     assert manifest['dataset']['counts']['ast_context_records'] > 0
 
@@ -572,7 +580,7 @@ def test_export_mlflow_manifests_script(tmp_path, monkeypatch):
         ['export_merlin_mlflow_manifests.py', '--limit', '4', '--output-dir', str(output_dir), '--refresh-lane-e-profiles'],
     )
     assert module.main() == 0
-    payload = json.loads((output_dir / 'mlflow_manifests.json').read_text())
+    payload = json.loads((output_dir / 'mlflow_manifests.json').read_text(encoding='utf-8'))
     assert len(payload['manifests']) >= 4
     assert any(
         '--refresh-lane-e-profiles' in cmd
@@ -604,7 +612,7 @@ def test_export_training_execution_script(tmp_path, monkeypatch):
         ],
     )
     assert module.main() == 0
-    payload = json.loads(output_path.read_text())
+    payload = json.loads(output_path.read_text(encoding='utf-8'))
     assert payload['ok'] is True
     assert payload['execution_cycle']['processed_count'] == 3
     assert payload['lane_progress_ledgers']['overall']['completed_count'] == 3
@@ -626,7 +634,7 @@ def test_export_lane_e_runtime_profiles_script(tmp_path, monkeypatch):
         ['export_merlin_lane_e_runtime_profiles.py', '--output', str(output_path)],
     )
     assert module.main() == 0
-    payload = json.loads(output_path.read_text())
+    payload = json.loads(output_path.read_text(encoding='utf-8'))
     assert payload['ok'] is True
     assert payload['artifact_path'].endswith('lane_e_runtime_profiles.json')
     assert 'runtime_profiles' in payload
@@ -645,7 +653,7 @@ def test_export_psicat_spc_phase1_baseline_script(tmp_path, monkeypatch):
         ['export_psicat_spc_phase1_baseline.py', '--limit', '5', '--training-limit', '3', '--output', str(output_path)],
     )
     assert module.main() == 0
-    payload = json.loads(output_path.read_text())
+    payload = json.loads(output_path.read_text(encoding='utf-8'))
     assert payload['ok'] is True
     assert payload['mode'] == 'spc_phase1_baseline_execution'
     assert len(payload['lane_receipts']) == 3
@@ -770,7 +778,7 @@ def test_diff_psicat_spc_phase1_receipts_script(tmp_path, monkeypatch):
         ],
     )
     assert module.main() == 0
-    payload = json.loads(output_path.read_text())
+    payload = json.loads(output_path.read_text(encoding='utf-8'))
     assert payload['ok'] is True
     assert payload['previous_phase_verdict'] == 'PHASE1_HOLD_REMEDIATE'
     assert payload['current_phase_verdict'] == 'PHASE1_CLEAR_ADVANCE_TO_PHASE2'
@@ -798,7 +806,7 @@ def test_run_mlflow_experiment_script(tmp_path, monkeypatch):
         ],
     )
     assert module.main() == 0
-    payload = json.loads(output_path.read_text())
+    payload = json.loads(output_path.read_text(encoding='utf-8'))
     assert payload['ok'] is True
     assert payload['experiment_name'] == 'merlin_stage_b_shadow_eval'
     assert payload['summary']['total'] == 1
@@ -1527,7 +1535,7 @@ def test_route_tool_training_architecture_and_artifacts():
     mlflow_with_sync_hint = route_tool('getMerlinMLflowManifests', {'limit': 2, 'sync_checks_ok': True})
     assert mlflow_with_sync_hint['ok'] is True
     assert '&&' not in mlflow['result']['data']['manifests'][1]['entry_command']
-    assert mlflow['result']['data']['manifests'][0]['entry_command'].startswith(sys.executable)
+    assert shlex.split(mlflow['result']['data']['manifests'][0]['entry_command'])[0] == sys.executable
     assert 'run_merlin_mlflow_experiment.py' in mlflow['result']['data']['manifests'][0]['entry_command']
     assert mlflow['result']['data']['manifests'][0]['working_directory'] == '12-AZ-IP/20-psicat-navigator'
     assert 'stage_c_eval_records' in mlflow['result']['data']['manifests'][1]['datasets']

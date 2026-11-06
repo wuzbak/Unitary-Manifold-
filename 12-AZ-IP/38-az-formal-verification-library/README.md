@@ -1,9 +1,9 @@
 # AZ Formal Verification Library — Product 38
 
 **Folder:** `12-AZ-IP/38-az-formal-verification-library/`
-**Version:** 1.1.0
+**Version:** 1.2.0
 **TRL:** TRL-4 (generic library, now a runnable HTTP endpoint; worked example reproduces canonical results exactly)
-**Status:** Active — Phases 1-2 of article-354's "Z3 checker -> formal-verification-as-a-service" roadmap
+**Status:** Active — trusted library examples and bounded declarative JSON service
 
 ## What this is
 
@@ -26,11 +26,15 @@ This does not replace `src/core/z3_pentad_checker.py`, which remains the
 canonical Pentad checker. This product is the generalized library plus a
 faithfulness proof (the worked example matches the canonical checker's
 results bit-for-bit), now reachable over HTTP as a minimal
-"formal-verification-as-a-service" endpoint for the Pentad worked example
-specifically (Phase 2). Defining *new* safety properties still requires
-Python code — a Z3 solver callable cannot be safely built from untrusted
-HTTP query parameters, so the live service only runs the one trusted
-example this product ships. z3-solver is an optional dependency;
+"formal-verification-as-a-service" endpoint. Custom Python solver callables
+remain a trusted library interface, not an HTTP input. New user-authored
+properties can instead use bounded declarative JSON through
+`POST /api/property-check` or `run.py --property-json FILE`. The format
+supports finite bounded integer/real variables, arithmetic expressions and
+logical constraints, not executable Python. Requests are capped at 64 KiB;
+the checker limits variables (16), constraints (32), expression nodes (128),
+depth (16), and solver time (2 seconds). Unknown solver outcomes are failures,
+not proofs. z3-solver is an optional dependency;
 `Z3_AVAILABLE`/`require_z3()` let callers detect its absence instead of
 crashing at import time; the web endpoints return HTTP 503 if z3-solver
 is unavailable at serve time.
@@ -54,6 +58,24 @@ the JSON API directly:
 - `GET /api/pentad-properties` — list the four Pentad safety properties
 - `GET /api/pentad-suite` — run all four and summarize pass/fail
 - `GET /api/pentad-check?name=` — run one named property
+- `POST /api/property-check` — check a bounded JSON property (no query parameters)
+
+A minimal custom property is:
+
+```json
+{
+  "name": "bounded-example",
+  "description": "Find a bounded value at least five.",
+  "variables": {"x": {"sort": "real", "min": 0, "max": 10}},
+  "constraints": [{"op": "ge", "left": {"var": "x"}, "right": {"const": 5}}],
+  "expected": "sat"
+}
+```
+
+`PASS` means only that the declared constraints returned the expected solver
+outcome; it does not validate their correspondence to an external system.
+Recovered HTTP coverage is reconstructed in `tests/test_server.py`, rather
+than claimed as a byte-for-byte recovery of the missing original file.
 
 ## Tests
 

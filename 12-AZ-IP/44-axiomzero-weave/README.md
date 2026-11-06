@@ -49,6 +49,9 @@ availability-aware replay primitive; it does not load caller-selected paths,
 persist query results, infer an answer, authorize effects, or qualify a feature
 service.
 
+Temporal infrastructure is imported only when this context is constructed or
+used; ordinary read-only API imports still work outside the repository root.
+
 ```python
 from datetime import datetime, timezone
 from pathlib import Path
@@ -97,7 +100,18 @@ issue a host approval.
 Approvals bind the exact action, arguments, operator, configured targets,
 implementation hashes, evidence manifest, policy version and expiry. Revocation
 works before an effect is claimed. Intent is committed before the handler runs.
-Concurrent effects are serialized across processes by a durable claim.
+Concurrent effects are serialized across processes by a durable claim and a
+kernel-held executor lock (POSIX `flock`, Windows nonblocking `msvcrt` byte-range
+locking). Read-only imports do not require either platform's locking module.
+Other operating systems reject effect execution/reconciliation explicitly.
+Reconciliation must acquire that same
+lock: it cannot release a claim while a handler or its outcome recorder is live.
+Process exit releases the lock, not the durable claim. Keep the executor-lock
+file in place; unlinking it while running defeats inode-based exclusion.
+Use local state on a filesystem that supports the host OS's locking semantics;
+network filesystems with incompatible locking are not supported. On Windows,
+configure private state-directory ACLs: POSIX mode bits do not enforce user
+isolation there.
 
 A successful decision replays its recorded outcome, not the effect. An exception
 after a possible write is AMBIGUOUS; process interruption leaves RUNNING. Both
@@ -105,6 +119,10 @@ require explicit observed reconciliation. Even confirmed non-effects need a new
 approval to retry. This is deliberately **not universal exactly-once execution**.
 Audit chains are content-integrity aids, not signatures or truth certificates.
 Anyone controlling the local OS can replace code or the database.
+Schema, memory-target and provider-availability checks run before approval and
+again before claiming an effect. Invalid requests leave no ambiguous claim;
+failures after a handler may have written remain conservatively ambiguous.
+Recorded successes replay without requiring their old target to remain present.
 
 This release also closes the existing Pentad workflow's implicit batch approval:
 missing handlers reject gates, and truthy strings/numbers are not Boolean approval.
@@ -125,6 +143,10 @@ python 12-AZ-IP/44-axiomzero-weave/run.py query \
 python 12-AZ-IP/44-axiomzero-weave/run.py invoke geometry --arguments '{}'
 python 12-AZ-IP/44-axiomzero-weave/run.py serve --port 8144
 ```
+
+`capabilities` uses the same `--checkpoint ID=PATH` and `--state-dir` settings as
+`invoke`, but never creates that state. `AZ_WEAVE_CHECKPOINTS_JSON` is native-tool
+host configuration, not a substitute for explicit CLI checkpoint settings.
 
 Open `http://127.0.0.1:8144`. Read `.axiomzero-weave/operator.token` locally and
 enter it in the page; do not commit, share or embed it in URLs. The UI keeps it
@@ -229,6 +251,13 @@ The accompanying RAG changes prioritize substantive product guides over path
 inventory for subject questions and retain current dated truth corrections
 without indexing explicitly historical sections as current. Canonical authority
 is claim-specific; it is not a guarantee of freshness or correctness.
+Product 44 search and citation verification share the RAG current-section
+selection policy, including nested historical exclusions. The read-only
+selector is bundled in Product 44 and checked against the canonical RAG policy
+by parity tests; retrieval never loads Python from the inspected evidence
+corpus, including symlinked selector files. Excerpt windows stop at
+excluded spans and retain original source line numbers and whole-file digests.
+Unselected truth-layer prose cannot be verified as current evidence.
 
 The divergent webspace supplied the five strands and seven operations. Its
 October 24 source snapshot and November 2 export clocks are not an attestation

@@ -808,6 +808,58 @@ Native Windows validation is separate; no all-target operational certification i
 |-------|---------|------:|
 | `12-AZ-IP/15-pentacorder/feature/labs/src/main/java/com/gibbernode/feature/labs/SensorStatusScreen.kt` | `179aa04b0b381c82d64c79e326db47a749c232b0308c226458baebf1fc540270` | 5398 |
 
+### Recovery reconciliation and readiness follow-through reseal - 2026-11-05
+
+Reconciled the stranded allocator/browser follow-up against current mainline,
+closed reviewed runtime/evidence defects, documented bounded declarative checks,
+and repaired Product 45 provisioning retries and Windows smoke arguments.
+The older Product 02 seal was already stale; preserved history records prior
+registry entries, not an assertion that every prior entry matched pre-edit bytes.
+Native Windows, hardware and model qualification remain separate gates. No
+scientific, portfolio-wide production or complete lost-session recovery claim
+is implied.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/02-az-kernel/README.md` | `529a5caa7f3f048c85f5b2067658283f6a88b9eac0a00e5e907e777b9d41462e` | 3099 |
+| `12-AZ-IP/04-um-sos/README.md` | `d24961de87892b8f92d4f77a37309998db01a2a6da25054ad7baccd0d074d918` | 4289 |
+| `12-AZ-IP/24-psicat-web-browser/README.md` | `2a5f6fb2c75e5c4f7cc04d6cc1dca687e041c3a58013e3572bd3fb5fdb589980` | 25571 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/runtime.js` | `8969484ad05d0e8d1f85b155c3e9e34cfe2b533a8ffd5d49e7d5bab887310c40` | 31426 |
+| `12-AZ-IP/38-az-formal-verification-library/README.md` | `341b7c8078d68d83f2343f239694839fb2aa38dd461492f93963ac3c0d80fa5b` | 3857 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `0cb1943c7ae7522130e8c470b62c8c43fd23b9a4f47548a67d7fb945f18dcbd1` | 23388 |
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `81fc9ad6b5b7718ad0d80be3f6d230426d81c6e51df82d10e0f281bf49a8b97d` | 14609 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `a4375b87ce42bd140bc560220587f803d98707644fcc14e7780cdfefff5cf8a7` | 24787 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs` | `e61d6538f6be4e6359b2fea9409ec921a975d0a2168955f86a7ec75fcb5856f1` | 3327 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1` | `4184952192f49794193aec1c5156cdd1ab1915c2294e26f1bd205a533511ada8` | 4056 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs` | `d344de8a4480e580826df3af04818c94001e84de919148fadd0a3fd7c86fe6a7` | 5290 |
+
+### Native CI cleanup follow-through reseal - 2026-11-05
+
+The initial native instruction-backend job failed in owned-child unit cleanup,
+before model evaluation. These changes wait for failed-spawn/exited handles,
+retain genuine cleanup failures alongside the primary error and add regressions.
+The local suite passes 223 tests; native rerun remains required.
+Model policy, verifier and acceptance thresholds are unchanged.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `8a411975d343346d6594283395713bef020b70afb582e0aed2b53156f9ab3c23` | 25248 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `39e2204c3eb94b97a3e44ddf59f325e334d1a92a686b27ed4386eb2e82272e87` | 33488 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `fcf1e2fb9ae9e9b6bb1b81bdeedb7e7ea10995386b4c8eec4928a9c90e7868f3` | 29342 |
+
+### Native recovery and measured qualification follow-through reseal - 2026-11-05
+
+Product 01 closes each SQLite connection deterministically without changing
+transaction or restart semantics. Product 45 records native cleanup success
+and the real candidate's failed malicious-instruction rationale criterion.
+The unchanged acceptance gate still blocks packaging; this is not production
+or hardware certification.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/01-axiom-os/README.md` | `05ed1c24584a6fbe87a4b842b9fa1b8add1fc5491ad281709377e8487ba66cc9` | 9983 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `f6c464c311730e3d967d28073af8252bfe7bfcc3581dce3341cf332ea5b5a4ee` | 25807 |
+
 ### Product 40 temporal capture documentation reseal - 2026-11-05
 
 The Product 40 README now documents its source-bound temporal CLI/API adapter,
@@ -995,3 +1047,184 @@ required values. Grader and thresholds are unchanged.
 
 *AxiomZero IP Fingerprint Manifest v1.0 — 2026-06-15*
 *Pillar 536 — AXIOMZERO_IP_REGISTRY*
+
+### Integrated mainline/recovery model-policy reseal — 2026-11-05
+
+Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `d1a057e797f00d633c1e24345843c110fcb0ad210faafa46238805c88422607a` | 27654 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `3aef20a9f0d646deabaac0a69dbbdb998a0f7c32995a51b7f3b68325d2d4ba5b` | 24615 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `00e5a156adf21fa97510f7c5c4a705e9cecc04c6b86ce688c4925a607926a545` | 64462 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `999fcb761373bc88ba27b83eab819ea4bb6c1f92511b6d306a994948643cf8d2` | 36396 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d6b738b1ced2debf3e722d52cf629f557c61847621b4950c0b6969668babbc6e` | 36158 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `6d34f8a2bafe44afc95607873699cb74d7a6d042c05b9382a55c09eed071639b` | 37393 |
+
+### Approved stronger instruction-model reseal — 2026-11-05
+
+Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `870684a4d8764c6eefb8eb377d712594420464958cd1388c76fa29f3736e635d` | 28366 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `17bff86e0c95434d66103afca8bdb3372e742420d7440a11e31e6264e9eddc6d` | 25352 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `42e2e34c7604ffe254f9c551b45ebad2c73cb35acbb9af23b22b9a4af5c6d538` | 65967 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `87a17bc612d154b1c862e9f97587c2562b175812ea1c5fe25017be0dcba83530` | 36607 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `b14ab56fca7d37c0748bb89e1bf98f6e0acf6ff3087ea26e2db5a6c4da7e1de8` | 36192 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `21f9bcdfcbcc3443d037547086324b4c63e773e76a8f2b50ae1bc0bbbb357688` | 37608 |
+
+### Mainline temporal/retrieval recovery reseal — 2026-11-05
+
+Reconcile mainline temporal/retrieval follow-through with standalone read-only Weave imports and recovery histories; preserve the approved stronger-model candidate and unchanged acceptance criteria. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `faab0463ca3a6abb67fddc77a8a5b795d6de81babe3ededb7d1217d9c61c73e6` | 16363 |
+
+### Approved claim-detector and native-freshness correction — 2026-11-05
+
+Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `399650bd971583b3733e877deae8d9dace5643f1e1a086e28e09b2a834955d5e` | 28517 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `252ddfb733f84660df35c4576283f08a65b3440b26fe9f5d650aa50801ef3d81` | 25653 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/tests/test_candidate_engine.py` | `1fbb97bcf90c4557e87df7070d54724f86d88fe244b52c2b1ce3a55b460bab20` | 68696 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6` | 37632 |
+
+### Owned-engine policy-prefix reuse — 2026-11-05
+
+Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `bcf4546dead8a561eb6cbd0b7221b35214fcdeb6bf06d2bc6b88ab25fd048da3` | 28799 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `82fa23b04b7f6977f19f5ec67c6ea9723ac28c3e52ad71d07cad4b28ce35f97e` | 36191 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `aff1fd74eae7445f1a25f002b30bcd64dfc03dc4d6277c9173c4e23d81d46d47` | 37870 |
+
+### Original-challenge mainline reconciliation — 2026-11-05
+
+Reconcile the latest mainline gate-clarification history while retaining the original, harder injection prompt already passed by the stronger model; preserve all historical seals and approved safety criteria. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6` | 37632 |
+
+### Consistent owned-engine JSON challenge — 2026-11-06
+
+Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `006d802d7a50e7b494cc2ced96f2e389ee7610a9a84b2922a436d25764ef3586` | 36678 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `37309105852402689e95107f8795d8cced68acfb62d5de2c6fb7a77e2f457b74` | 38143 |
+
+### Approved verified offline installation payload — 2026-11-06
+
+Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `e0b9082f404c22a8624861f69a1b28b61b8d487c03f5d3906d7e2d77adf0b3b6` | 31672 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6` | 3325 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1` | `2929aa56088bc001ea6d7db5e14df3a300f24b00a0c6bca7200edc8f2ad02ed9` | 5771 |
+
+### Approved shared ten-minute CPU inference budget — 2026-11-06
+
+Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `4966756302046684e158b46e5affcdb4f24392d673802b955bf2619a9d510981` | 31882 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs` | `df85c0447f9a74c1cc827d49a0ebe70387802866c35e06d1c361dfa6bc9df30b` | 17917 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs` | `de6ade6f2eb54a9fb04e512c720402d056140ac660f50094246e9674ecad4e05` | 14104 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `ebbabb245c28f24ae71ede6c92e5c7e89a42080bd13d402c008d395fed05b3d2` | 25647 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `ff47e49c8a5e39108ecabe856ac6a8dde260ceda0f48db39260dfe0e20e6599f` | 37018 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `f4363af5839808a33fabcf7ea0ceaed52c1b15d13088916daa1a37be31a6d392` | 38184 |
+
+### Installed-resource UI diagnostic timing reseal — 2026-11-06
+
+Bound asynchronous installed-resource UI diagnostics at sixty seconds while retaining five-second synchronous DOM checks and every assertion; actual offline installer and installed inference already passed. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `6c37a458f8c12d05e4bcdaf5a952ac25bd232d42d6251c668bb7e95d05a60ea5` | 9825 |
+
+### Evidence-shaped ownership input reseal — 2026-11-06
+
+Use ordinary question/evidence JSON for the authenticated ownership challenge, retaining the exact fresh nonce, status, citation, process ownership checks and shared deadline; report only mismatched field names. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `43edd7a31c766dfd865f2bff05e926d93c7c500517ae6c4f55c199710de96571` | 37197 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `7b177c477095c819da6f438253d23ba73922fb853ddb76fe22ee5a7961a20158` | 39290 |
+
+### Consistent bounded completion allocation reseal — 2026-11-06
+
+Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `65de46f9352b7ca394576453f5ce43b1de13fece3b886301b6de0c1eaa342f85` | 37303 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `4fb2b7911c07adca17f698fd8d8e8096da489b10f8a91af683231ac3ba69faa2` | 39395 |
+
+### Structure-only runtime JSON decoding reseal — 2026-11-06
+
+Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `48ac94f302ababed1c8cc547c8190a8d8cb6cf1f17e2fc31feb263bf63a3509d` | 31982 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `4dfbf6aa987573e86433511681a5525ddbad8be02724c5b3f954a82becc91384` | 37703 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `d7420f25d02f4f42afcf73ae3b1a1eab765484857462c28ed00a858008223e76` | 39909 |
+
+### Canonical runtime status-label decoding reseal — 2026-11-06
+
+Constrain runtime status spelling to both existing protocol labels, without selecting the correct status or supplying nonce/answer/citation values; retain exact ownership, grounding and authentication validation. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `6e51d48c62714158aad960da2c6636dbfc0fdff69ae8b85fc7540956534c8c0c` | 32070 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `937997fa2eb99bdec163432ee3e8bab27c1084a7b582c251005618e740776d65` | 37740 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `11bd403252e63e78bfb2f67b9556ecd5b1b2dba357ffe1077c89b43823e21247` | 39946 |
+
+### Literal ownership qualification reseal — 2026-11-06
+
+Disambiguate literal ownership copying from ordinary inline-cited Q&A; retain exact fresh-token/status/citation validation and require three consecutive fresh-process native passes without retrying failures. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `198102f34a66a5331583c5752bdaf878e6bd85eb203166f36c86bdf9946ba35f` | 32363 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `c08c1e0b1483c60d1c5bcb9f224d59f1eaf6054b72f6fb8e99d86a519c89714c` | 37924 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `cfb82dd889b96b5a22ff6c6b57de35c1fbf6d0f01f59ab36b7702d4fb58b2645` | 40211 |
+
+### Sync and trusted evidence review follow-through reseal — 2026-11-06
+
+Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/24-psicat-web-browser/README.md` | `e9c0bf3b1b5c8babbc6b9975320915d07bc039e1e68a945e384fd858755b1f76` | 25780 |
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `7d3d55853e2b47a4529640fa5783d50c6cf2568f8dcda9062f4b5f6523428c0a` | 16582 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/runtime.js` | `c0941291b94cb2a0e52dfaf2f5a8f72deb170c60e1795490799ae86db19a23cd` | 31472 |
+
+### Complete installed UI readiness reseal — 2026-11-06
+
+Wait for both catalog and asynchronous runtime cards in installed UI qualification, within a bounded sixty seconds; retain all assertions and cover delayed runtime rendering with an executable CDP regression. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `b236099a06e069e66a184c7cf8fec3ae1c03e8481ea54097657777e78ae2f7fd` | 9886 |
+
+### Approved shared fifteen-minute CPU inference budget reseal — 2026-11-06
+
+Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `f8556f7e05d3f66ceea98c1b66f5f16860b263307c03acbcd3fc764b212bc97e` | 32399 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs` | `f6510866cffbc84e7df9a6cbf4a95653fc8b04e28a1c489c36120bb20160e2e0` | 17923 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs` | `446bfcbed0aa03055566a02108751d22078bfdf12c789efaaf44dec31c5dbbc5` | 14104 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d19cdb67ab305a316fe376ca22680187d58a193fd7746a494343d4cd31f20cdf` | 37924 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `7a08c91dc598fb6b481107965b3cb4e7667b354a8b5cd47e78d7dffa233d724c` | 40380 |

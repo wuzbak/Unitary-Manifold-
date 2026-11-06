@@ -6,6 +6,9 @@
 **Date:** 2026-11-05
 **Scope:** Bogoliubov dispersion for a homogeneous, dilute, repulsive 3D Bose gas
 **Source module:** `src/core/pillar_1129_1168/pillar1133_superfluid_effective_theory.py`
+
+The public import remains `src.core.pillar1133_superfluid_effective_theory`.
+The source is sharded for directory hygiene; no implementation is duplicated.
 **Tests:** `tests/test_pillar1133_superfluid_effective_theory.py`
 **Article:** `7-OUTREACH/A Z PsiCat Literature/Articles/article-355-p1133-superfluid-connections-without-overclaiming.md`
 **Tracker:** `docs/mas_tracker.yml`

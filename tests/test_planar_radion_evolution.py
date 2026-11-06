@@ -17,6 +17,49 @@ from src.physics.planar_radion.evolution import (
 )
 
 
+def test_uniform_off_constraint_slice_has_canonical_null_normalization():
+    ones = np.ones(8)
+    zeros = np.zeros(8)
+    state = PlanarRadionState(0.0, 0.1, ones, zeros, zeros, ones, zeros, zeros)
+    result = planar_constraint_diagnostic(state)
+    np.testing.assert_array_equal(result["Cu"], -0.25 * ones)
+    np.testing.assert_array_equal(result["Cv"], -0.25 * ones)
+    np.testing.assert_array_equal(result["Cu_plus_Cv"], -0.5 * ones)
+    np.testing.assert_array_equal(result["Cv_minus_Cu"], zeros)
+
+
+def test_slice_diagnostics_match_independent_null_coordinate_definitions():
+    n = 64
+    dx = 2 * np.pi / n
+    x = dx * np.arange(n)
+    state = PlanarRadionState(
+        0.0, dx, 1.2 + 0.1 * np.cos(x), 0.2 * np.sin(2 * x),
+        0.3 * np.cos(3 * x), 0.4 + 0.05 * np.sin(x),
+        0.1 * np.cos(x), 0.2 * np.sin(2 * x),
+    )
+
+    def d_x(values):
+        return (np.roll(values, -1) - np.roll(values, 1)) / (2 * dx)
+
+    r_x = d_x(state.r)
+    r_tx = d_x(state.r_t)
+    r_xx = (np.roll(state.r, -1) - 2 * state.r + np.roll(state.r, 1)) / dx**2
+    r_tt = r_xx - (state.r_t**2 - r_x**2) / state.r
+    null_constraints = []
+    for sign in (-1, 1):
+        r_null = (state.r_t + sign * r_x) / 2
+        sigma_null = (state.sigma_t + sign * d_x(state.sigma)) / 2
+        psi_null = (state.psi_t + sign * d_x(state.psi)) / 2
+        r_null_null = (r_tt + 2 * sign * r_tx + r_xx) / 4
+        null_constraints.append(
+            r_null_null - 2 * sigma_null * r_null + 0.75 * state.r * psi_null**2
+        )
+    cu, cv = null_constraints
+    expected = {"Cu": cu, "Cv": cv, "Cu_plus_Cv": cu + cv, "Cv_minus_Cu": cv - cu}
+    for name, actual in planar_constraint_diagnostic(state).items():
+        np.testing.assert_allclose(actual, expected[name], rtol=1e-13, atol=1e-15)
+
+
 def _bessel_reference(n: int, amplitudes: tuple[float, ...], t0: float, tf: float):
     """Independent spectral-mode integration of sigma's forced oscillator."""
     length = 2.0 * np.pi

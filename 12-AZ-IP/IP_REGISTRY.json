@@ -281,25 +281,40 @@
       "description": "Canonical merged Axiom OS suite README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "fa9a470cd1f8732a3e691190381e58a78a3b9b5da2aef7da2b3db391d64ed6de",
-      "size_bytes": 9736,
+      "updated": "2026-11-05",
+      "sha256": "05ed1c24584a6fbe87a4b842b9fa1b8add1fc5491ad281709377e8487ba66cc9",
+      "size_bytes": 9983,
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "fa9a470cd1f8732a3e691190381e58a78a3b9b5da2aef7da2b3db391d64ed6de",
+          "size_bytes": 9736,
+          "reseal_note": "Previous Windows desktop and restart-contract documentation seal."
+        },
         {
           "updated": "2026-08-18",
           "sha256": "5cabf9cfb1bad808503845a6f9c2850c2f7ae4b2e8f8615e4eddd4ea5218748c",
           "size_bytes": 2191
         }
       ],
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "reseal_note": "Documented deterministic per-operation SQLite connection closure, retaining commit/rollback and explicit restart limitations."
     },
     "12-AZ-IP/02-az-kernel/README.md": {
       "description": "Canonical merged AZ-KERNEL README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "e0b802846f751dd6fc1f16e8a502f2dab85bc7b4ca4037ceefe537b86997f242",
-      "size_bytes": 1233
+      "updated": "2026-11-05",
+      "sha256": "529a5caa7f3f048c85f5b2067658283f6a88b9eac0a00e5e907e777b9d41462e",
+      "size_bytes": 3099,
+      "reseal_note": "Reconciled stranded allocator alignment/reclamation fixes and test claims. Previous registry seal was already stale; no pre-edit byte-match claim.",
+      "reseal_history": [
+        {
+          "updated": "2026-08-18",
+          "sha256": "e0b802846f751dd6fc1f16e8a502f2dab85bc7b4ca4037ceefe537b86997f242",
+          "size_bytes": 1233,
+          "reseal_note": "Previously recorded seal, not a verified pre-edit file hash."
+        }
+      ]
     },
     "12-AZ-IP/03-eige/README.md": {
       "description": "Canonical EIGE product README",
@@ -313,9 +328,24 @@
       "description": "Canonical UM-SOS product README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "4455314d54e4ce3d7519ce32f482e3d4547f3505cb0c13840932f57987b25465",
-      "size_bytes": 3008
+      "updated": "2026-11-05",
+      "sha256": "d24961de87892b8f92d4f77a37309998db01a2a6da25054ad7baccd0d074d918",
+      "size_bytes": 4289,
+      "reseal_note": "Documented actual Docker build context and separate container/host bindings. Previous registry seal may predate preceding mainline edits.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "d27dbb41131b39a081d7931a0060306e72f2d98097b67f2d61aa81718eafd119",
+          "size_bytes": 4207,
+          "reseal_note": "Initial recovery documentation before clarifying caller-relative make invocation."
+        },
+        {
+          "updated": "2026-08-18",
+          "sha256": "4455314d54e4ce3d7519ce32f482e3d4547f3505cb0c13840932f57987b25465",
+          "size_bytes": 3008,
+          "reseal_note": "Previously recorded seal, not a verified pre-edit file hash."
+        }
+      ]
     },
     "12-AZ-IP/05-uos-kernel/README.md": {
       "description": "Canonical UOS kernel README",
@@ -540,11 +570,23 @@
       "description": "Product 24 documentation — desktop, Android, extension, workspace, and sync scaffold",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "8743b9b7b4b2cc214260424fe463da5d59d80194417204e34fc781d42ea48f92",
-      "size_bytes": 25264,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-06",
+      "sha256": "e9c0bf3b1b5c8babbc6b9975320915d07bc039e1e68a945e384fd858755b1f76",
+      "size_bytes": 25780,
+      "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "2a5f6fb2c75e5c4f7cc04d6cc1dca687e041c3a58013e3572bd3fb5fdb589980",
+          "size_bytes": 25571,
+          "reseal_note": "Reconciled real query/sync transports, redirect rejection and network regressions; no platform or intelligence qualification promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "8743b9b7b4b2cc214260424fe463da5d59d80194417204e34fc781d42ea48f92",
+          "size_bytes": 25264,
+          "reseal_note": "Previous Windows desktop and instruction-backend documentation seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "c9ae91627e60ad3ca3fa1892dc04755908f63978b442a31c02d888c8151bfe38",
@@ -876,9 +918,24 @@
       "description": "Product 38 AZ Formal Verification Library README with epistemic-status section",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-10-10",
-      "sha256": "b5ddd72e4b2d4b9e936f67c3a5c53318d058a6b3828a3734a181e5ccb16376b9",
-      "size_bytes": 2075
+      "updated": "2026-11-05",
+      "sha256": "341b7c8078d68d83f2343f239694839fb2aa38dd461492f93963ac3c0d80fa5b",
+      "size_bytes": 3857,
+      "reseal_note": "Documented existing bounded declarative JSON workflow and reconstructed real HTTP tests, not byte-for-byte recovery. Previous recorded seal retained.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "be252790719688b31c5190f198a21d2a16bbd18c6dd1d418a914af9e7225dd1b",
+          "size_bytes": 3880,
+          "reseal_note": "Initial reconstructed HTTP coverage documentation before synchronizing the existing catalog's Product 38 version."
+        },
+        {
+          "updated": "2026-10-10",
+          "sha256": "b5ddd72e4b2d4b9e936f67c3a5c53318d058a6b3828a3734a181e5ccb16376b9",
+          "size_bytes": 2075,
+          "reseal_note": "Previously recorded seal, not a verified pre-edit file hash."
+        }
+      ]
     },
     "12-AZ-IP/39-az-research-debt-tracker/README.md": {
       "description": "Product 39 AZ Research-Debt Tracker README with epistemic-status section; resealed after Phase 2 web-product layer (api.py + app/server.py + ui/)",
@@ -970,11 +1027,47 @@
       "description": "Product 44 AxiomZero Weave operating contracts, actual integrations and explicit boundaries",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "bbad263a5a9b13181ab00db408379a2d5a181e1c22f3df34f9b3a8224d9fe52a",
-      "size_bytes": 14603,
-      "reseal_note": "Refreshed 2026-11-05 after documenting optional owner-scoped point-in-time query context. No feature-service or production qualification. Previous recorded seal retained in reseal_history.",
+      "updated": "2026-11-06",
+      "sha256": "7d3d55853e2b47a4529640fa5783d50c6cf2568f8dcda9062f4b5f6523428c0a",
+      "size_bytes": 16582,
+      "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "faab0463ca3a6abb67fddc77a8a5b795d6de81babe3ededb7d1217d9c61c73e6",
+          "size_bytes": 16363,
+          "reseal_note": "Reconcile mainline temporal/retrieval follow-through with standalone read-only Weave imports and recovery histories; preserve the approved stronger-model candidate and unchanged acceptance criteria."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "bbad263a5a9b13181ab00db408379a2d5a181e1c22f3df34f9b3a8224d9fe52a",
+          "size_bytes": 14603,
+          "reseal_note": "Refreshed 2026-11-05 after documenting optional owner-scoped point-in-time query context. No feature-service or production qualification. Previous recorded seal retained in reseal_history."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "81fc9ad6b5b7718ad0d80be3f6d230426d81c6e51df82d10e0f281bf49a8b97d",
+          "size_bytes": 14609,
+          "reseal_note": "Closed current-evidence, live-lease, discovery, preflight and import-concurrency reviews; preserve Windows effect locking with msvcrt and POSIX flock. Native Windows qualification remains separate."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "bbad263a5a9b13181ab00db408379a2d5a181e1c22f3df34f9b3a8224d9fe52a",
+          "size_bytes": 14603,
+          "reseal_note": "Refreshed 2026-11-05 after documenting optional owner-scoped point-in-time query context. No feature-service or production qualification. Previous recorded seal retained in reseal_history."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "beafa70a987fa9cf8f582f86fb5650061a7ba1d13e28169f21b2c343824845ed",
+          "size_bytes": 14168,
+          "reseal_note": "Intermediate recorded recovery seal before portable-lock documentation; not a final-checkpoint byte-match claim."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63",
+          "size_bytes": 13004,
+          "reseal_note": "Previous operating-contract documentation seal."
+        },
         {
           "updated": "2026-11-03",
           "sha256": "31ed1f96a60077315d1219bbd492d0b287b7d40ed66e5824ac7e1d75053dea63",
@@ -995,34 +1088,100 @@
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "e1e07d1ed6920b1ee3949a2d87ae851a091e4f7a1595ad642d3d0719021aa57e",
-      "size_bytes": 25524,
-      "reseal_note": "Disclose actual 3/4 review non-improvement and experimental opt-in; restore single-generation 2048-token defaults without changing acceptance.",
+      "updated": "2026-11-06",
+      "sha256": "f8556f7e05d3f66ceea98c1b66f5f16860b263307c03acbcd3fc764b212bc97e",
+      "size_bytes": 32399,
+      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate.",
       "reseal_history": [
         {
-          "updated": "2026-11-05",
-          "sha256": "65c817a47a982248e21b2da290408b753bcc698f0cd08a9906bbf3ed03aa6e52",
-          "size_bytes": 25217,
-          "reseal_note": "Disclose bounded same-model draft review, retained generations, shared inference deadline and 4096-token review headroom without quality promotion."
+          "updated": "2026-11-06",
+          "sha256": "198102f34a66a5331583c5752bdaf878e6bd85eb203166f36c86bdf9946ba35f",
+          "size_bytes": 32363,
+          "reseal_note": "Disambiguate literal ownership copying from ordinary inline-cited Q&A; retain exact fresh-token/status/citation validation and require three consecutive fresh-process native passes without retrying failures."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "6e51d48c62714158aad960da2c6636dbfc0fdff69ae8b85fc7540956534c8c0c",
+          "size_bytes": 32070,
+          "reseal_note": "Constrain runtime status spelling to both existing protocol labels, without selecting the correct status or supplying nonce/answer/citation values; retain exact ownership, grounding and authentication validation."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "48ac94f302ababed1c8cc547c8190a8d8cb6cf1f17e2fc31feb263bf63a3509d",
+          "size_bytes": 31982,
+          "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "4966756302046684e158b46e5affcdb4f24392d673802b955bf2619a9d510981",
+          "size_bytes": 31882,
+          "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "e0b9082f404c22a8624861f69a1b28b61b8d487c03f5d3906d7e2d77adf0b3b6",
+          "size_bytes": 31672,
+          "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim."
         },
         {
           "updated": "2026-11-05",
-          "sha256": "6db8927c6722ca1747703fb3d257f68e97bcba18c2017e34ec6cc5eb6f28d087",
-          "size_bytes": 24553,
-          "note": "Instruction-suite documentation before bounded model review."
+          "sha256": "bcf4546dead8a561eb6cbd0b7221b35214fcdeb6bf06d2bc6b88ab25fd048da3",
+          "size_bytes": 28799,
+          "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates."
         },
         {
           "updated": "2026-11-05",
-          "sha256": "4f283b0d700658e211eda7f1a904847b8e48ffb6257ca2a6f5b1c347a1945d2f",
-          "size_bytes": 24275,
-          "note": "Instruction-candidate suite documentation before generic JSON-object decoding."
+          "sha256": "399650bd971583b3733e877deae8d9dace5643f1e1a086e28e09b2a834955d5e",
+          "size_bytes": 28517,
+          "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "870684a4d8764c6eefb8eb377d712594420464958cd1388c76fa29f3736e635d",
+          "size_bytes": 28366,
+          "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "d1a057e797f00d633c1e24345843c110fcb0ad210faafa46238805c88422607a",
+          "size_bytes": 27654,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "e1e07d1ed6920b1ee3949a2d87ae851a091e4f7a1595ad642d3d0719021aa57e",
+          "size_bytes": 25524,
+          "reseal_note": "Disclose actual 3/4 review non-improvement and experimental opt-in; restore single-generation 2048-token defaults without changing acceptance."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "f6c464c311730e3d967d28073af8252bfe7bfcc3581dce3341cf332ea5b5a4ee",
+          "size_bytes": 25807,
+          "reseal_note": "Record actual native cleanup success and failed unchanged malicious-instruction rationale criterion; packaging remains blocked and model policy untouched."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "e1e07d1ed6920b1ee3949a2d87ae851a091e4f7a1595ad642d3d0719021aa57e",
+          "size_bytes": 25524,
+          "reseal_note": "Disclose actual 3/4 review non-improvement and experimental opt-in; restore single-generation 2048-token defaults without changing acceptance."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "8a411975d343346d6594283395713bef020b70afb582e0aed2b53156f9ab3c23",
+          "size_bytes": 25248,
+          "reseal_note": "Cleanup repair documentation before the real native candidate evaluation completed."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "a4375b87ce42bd140bc560220587f803d98707644fcc14e7780cdfefff5cf8a7",
+          "size_bytes": 24787,
+          "reseal_note": "Initial recovery documentation before native CI exposed the owned-child kill race."
         },
         {
           "updated": "2026-11-04",
           "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
           "size_bytes": 24058,
-          "note": "Suite assistant documentation before direct instruction-tuned candidate selection."
+          "reseal_note": "Previous Windows runtime and instruction-backend documentation seal."
         },
         {
           "updated": "2026-11-04",
@@ -1107,6 +1266,30 @@
           "sha256": "16311f776a20f0e3d152aed1b07f503c696809f0017dd83e658e1f51224cbf35",
           "size_bytes": 4577,
           "reseal_note": "Initial Product 45 registration."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "65c817a47a982248e21b2da290408b753bcc698f0cd08a9906bbf3ed03aa6e52",
+          "size_bytes": 25217,
+          "reseal_note": "Disclose bounded same-model draft review, retained generations, shared inference deadline and 4096-token review headroom without quality promotion."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "6db8927c6722ca1747703fb3d257f68e97bcba18c2017e34ec6cc5eb6f28d087",
+          "size_bytes": 24553,
+          "note": "Instruction-suite documentation before bounded model review."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "4f283b0d700658e211eda7f1a904847b8e48ffb6257ca2a6f5b1c347a1945d2f",
+          "size_bytes": 24275,
+          "note": "Instruction-candidate suite documentation before generic JSON-object decoding."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
+          "size_bytes": 24058,
+          "note": "Suite assistant documentation before direct instruction-tuned candidate selection."
         }
       ]
     },
@@ -1114,11 +1297,17 @@
       "description": "Product 45 Electron desktop, ZIP reader dependency and Windows installer configuration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "fa02b64f6afe58828ceeef62bb236143dc2ef8ef329617ddbb78941dec8ef453",
-      "size_bytes": 3133,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-06",
+      "sha256": "622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6",
+      "size_bytes": 3325,
+      "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "fa02b64f6afe58828ceeef62bb236143dc2ef8ef329617ddbb78941dec8ef453",
+          "size_bytes": 3133,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a06f49a65c7bf716837ff4ea07c205c78f51df99da0010016adabbb229d1d789",
@@ -1513,11 +1702,23 @@
       "description": "Product 45 Windows Electron DevTools UI and renderer exception smoke check",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "2d881033c860bcf4c5258d6739daed96ae8f7011ec985367d8c9602949b54e16",
-      "size_bytes": 9795,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-06",
+      "sha256": "b236099a06e069e66a184c7cf8fec3ae1c03e8481ea54097657777e78ae2f7fd",
+      "size_bytes": 9886,
+      "reseal_note": "Wait for both catalog and asynchronous runtime cards in installed UI qualification, within a bounded sixty seconds; retain all assertions and cover delayed runtime rendering with an executable CDP regression.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "6c37a458f8c12d05e4bcdaf5a952ac25bd232d42d6251c668bb7e95d05a60ea5",
+          "size_bytes": 9825,
+          "reseal_note": "Bound asynchronous installed-resource UI diagnostics at sixty seconds while retaining five-second synchronous DOM checks and every assertion; actual offline installer and installed inference already passed."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "2d881033c860bcf4c5258d6739daed96ae8f7011ec985367d8c9602949b54e16",
+          "size_bytes": 9795,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "733a19a7001fcc2f18dab36342138d30b019892c53c55992d66336499b81e5f4",
@@ -1560,10 +1761,22 @@
       "description": "Product 45 Windows installer, uninstall and portable executable smoke harness",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "16372ce44a47c9c41be76306002109d8311ff642a94f647c26020153a34b6d83",
-      "size_bytes": 3862,
+      "updated": "2026-11-06",
+      "sha256": "2929aa56088bc001ea6d7db5e14df3a300f24b00a0c6bca7200edc8f2ad02ed9",
+      "size_bytes": 5771,
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "4184952192f49794193aec1c5156cdd1ab1915c2294e26f1bd205a533511ada8",
+          "size_bytes": 4056,
+          "reseal_note": "Quoted space-containing user-data argument and verify Electron created the requested directory; native Windows execution remains separately required."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "16372ce44a47c9c41be76306002109d8311ff642a94f647c26020153a34b6d83",
+          "size_bytes": 3862,
+          "reseal_note": "Previous Windows installer and portable smoke harness seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "60217f4a8da8588b3c434ff9514540f6cfbdb75adbbc2066d55e7b31717709b8",
@@ -1576,7 +1789,7 @@
           "size_bytes": 2991
         }
       ],
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs": {
       "description": "Product 45 catalog, repository path, settings and operation-lock regression tests",
@@ -1639,17 +1852,29 @@
       "description": "Product 45 bounded research policy, durable tasks, approvals and hash-linked audit",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "acb591eeacdab3eca3b8e39774e93aa37138ac3fe8ae466014df26fd1b44a3bd",
-      "size_bytes": 17852,
+      "updated": "2026-11-06",
+      "sha256": "f6510866cffbc84e7df9a6cbf4a95653fc8b04e28a1c489c36120bb20160e2e0",
+      "size_bytes": 17923,
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "df85c0447f9a74c1cc827d49a0ebe70387802866c35e06d1c361dfa6bc9df30b",
+          "size_bytes": 17917,
+          "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "acb591eeacdab3eca3b8e39774e93aa37138ac3fe8ae466014df26fd1b44a3bd",
+          "size_bytes": 17852,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "01bc648aa011b25f4033dfdce8d16d35cfca40801a29411f7e09d6144e232f4e",
           "size_bytes": 17191
         }
       ],
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs": {
       "description": "Product 45 fixed-loopback bounded Ollama reasoning transport",
@@ -1679,17 +1904,29 @@
       "description": "Product 45 task/approval/budget/recovery/audit/worker regressions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "b82bb2389b5436b7313535f9260bd25990ea27f1ae70742530ad713405d4fd12",
-      "size_bytes": 14094,
+      "updated": "2026-11-06",
+      "sha256": "446bfcbed0aa03055566a02108751d22078bfdf12c789efaaf44dec31c5dbbc5",
+      "size_bytes": 14104,
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "de6ade6f2eb54a9fb04e512c720402d056140ac660f50094246e9674ecad4e05",
+          "size_bytes": 14104,
+          "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "b82bb2389b5436b7313535f9260bd25990ea27f1ae70742530ad713405d4fd12",
+          "size_bytes": 14094,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "7add3cb6bb5537c00cee4a26b6a101dfa42dd2389e5c68b1d62c29d95ad3130f",
           "size_bytes": 12857
         }
       ],
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs": {
       "description": "Product 45 bounded local model transport contract regressions",
@@ -1792,11 +2029,17 @@
       "description": "Product 45 native model/runtime packaging and contracts: portfolio-source.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "afcb1446693a98217d0977373b769a25bded2ed446255aaae0eb7bc5245bdb1d",
-      "size_bytes": 2633,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "e61d6538f6be4e6359b2fea9409ec921a975d0a2168955f86a7ec75fcb5856f1",
+      "size_bytes": 3327,
+      "reseal_note": "Unique retry-safe staging, copied/reused digest verification and concurrent-copy handling; no release readiness claim.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "afcb1446693a98217d0977373b769a25bded2ed446255aaae0eb7bc5245bdb1d",
+          "size_bytes": 2633,
+          "reseal_note": "Previous portfolio source provisioning seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "dac30fbb0a8580c7d40cf45b77f7a474a125fd8b4036e1f94cb1e1ed604d0e86",
@@ -1994,11 +2237,17 @@
       "description": "Product 45 native model/runtime packaging and contracts: portfolio-source.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "1a63a4b9bcb3d39e2a3874e19cb0dc333c9c9660705ae5181ad42faa91bf8f6c",
-      "size_bytes": 3801,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-05",
+      "sha256": "d344de8a4480e580826df3af04818c94001e84de919148fadd0a3fd7c86fe6a7",
+      "size_bytes": 5290,
+      "reseal_note": "Regressions cover abandoned pending stages, copied files and reused worktree tampering; no native execution substitution.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "1a63a4b9bcb3d39e2a3874e19cb0dc333c9c9660705ae5181ad42faa91bf8f6c",
+          "size_bytes": 3801,
+          "reseal_note": "Previous portfolio source test seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "34cfdc6a1353a4e6fd6cfd5eb7ff5ed377c628c8be619acf3f6854a84813de73",
@@ -2363,11 +2612,23 @@
       "description": "Product 24 Windows runtime integration and contracts: runtime.js",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "a5eeb785e9cd4252720a156184567de080831282d98a74b6ae02cca72bb8d9ac",
-      "size_bytes": 32924,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-06",
+      "sha256": "c0941291b94cb2a0e52dfaf2f5a8f72deb170c60e1795490799ae86db19a23cd",
+      "size_bytes": 31472,
+      "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "8969484ad05d0e8d1f85b155c3e9e34cfe2b533a8ffd5d49e7d5bab887310c40",
+          "size_bytes": 31426,
+          "reseal_note": "Wire tested shared sync transports while preserving runtime readiness, persistence, view refresh and broadcasts."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "a5eeb785e9cd4252720a156184567de080831282d98a74b6ae02cca72bb8d9ac",
+          "size_bytes": 32924,
+          "reseal_note": "Previous Windows runtime and instruction-backend integration seal."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a7ad4ae1d5a798d66d9dd4244c0fea92c5a51eba7c83790557f350bf4daaef65",
@@ -2407,11 +2668,59 @@
       "description": "Product 43 Windows runtime integration and contracts: README.md",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "b2b0c9d63dbe1a0f7ed9d220b8fc58108861147079aa7adb89316ae87e00231d",
-      "size_bytes": 24228,
-      "reseal_note": "Document default single-pass evaluation and explicit experimental --review-json after actual non-improvement, without acceptance promotion.",
+      "updated": "2026-11-06",
+      "sha256": "ebbabb245c28f24ae71ede6c92e5c7e89a42080bd13d402c008d395fed05b3d2",
+      "size_bytes": 25647,
+      "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "252ddfb733f84660df35c4576283f08a65b3440b26fe9f5d650aa50801ef3d81",
+          "size_bytes": 25653,
+          "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "17bff86e0c95434d66103afca8bdb3372e742420d7440a11e31e6264e9eddc6d",
+          "size_bytes": 25352,
+          "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "3aef20a9f0d646deabaac0a69dbbdb998a0f7c32995a51b7f3b68325d2d4ba5b",
+          "size_bytes": 24615,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "b2b0c9d63dbe1a0f7ed9d220b8fc58108861147079aa7adb89316ae87e00231d",
+          "size_bytes": 24228,
+          "reseal_note": "Document default single-pass evaluation and explicit experimental --review-json after actual non-improvement, without acceptance promotion."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "0cb1943c7ae7522130e8c470b62c8c43fd23b9a4f47548a67d7fb945f18dcbd1",
+          "size_bytes": 23388,
+          "reseal_note": "State measured legacy parameter delta and unmatched task/orbit periods; preserve newer matched-bias ablation and unearned real-model limits."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "b2b0c9d63dbe1a0f7ed9d220b8fc58108861147079aa7adb89316ae87e00231d",
+          "size_bytes": 24228,
+          "reseal_note": "Document default single-pass evaluation and explicit experimental --review-json after actual non-improvement, without acceptance promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
+          "size_bytes": 23001,
+          "reseal_note": "Previous Windows runtime and instruction-backend documentation seal."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "f59fd606e504d7fcb5c7be9d57d4222077bf2c6a17c89ea1b322a5a2ae28616c",
+          "size_bytes": 22732,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "15cfbe885999a6ae298db911e0f98d2749aad03b7a64ee8b8627be3f0cbd6c0f",
@@ -2435,12 +2744,6 @@
           "sha256": "bbd27754ca5d7f04ae01add27105739eada72772e72dfb2363f1b5dc3680f2bf",
           "size_bytes": 23001,
           "note": "Instruction-backend documentation before direct instruction-tuned candidate selection."
-        },
-        {
-          "updated": "2026-11-04",
-          "sha256": "f59fd606e504d7fcb5c7be9d57d4222077bf2c6a17c89ea1b322a5a2ae28616c",
-          "size_bytes": 22732,
-          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
         }
       ]
     },
@@ -2449,10 +2752,28 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "f0dbc8a4d46db8ebcb8fa60839959018c8f1efadb6110ee3ef821871f00364ea",
-      "size_bytes": 63548,
-      "reseal_note": "Verify single-pass defaults, explicit experimental review, truthful generation accounting and retained strict final-only grading.",
+      "sha256": "1fbb97bcf90c4557e87df7070d54724f86d88fe244b52c2b1ce3a55b460bab20",
+      "size_bytes": 68696,
+      "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "42e2e34c7604ffe254f9c551b45ebad2c73cb35acbb9af23b22b9a4af5c6d538",
+          "size_bytes": 65967,
+          "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "00e5a156adf21fa97510f7c5c4a705e9cecc04c6b86ce688c4925a607926a545",
+          "size_bytes": 64462,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "f0dbc8a4d46db8ebcb8fa60839959018c8f1efadb6110ee3ef821871f00364ea",
+          "size_bytes": 63548,
+          "reseal_note": "Verify single-pass defaults, explicit experimental review, truthful generation accounting and retained strict final-only grading."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "b1e9c52e7a842dc318ed9932d7f3fa1c5159e72d509dff284931bd0c7f0e191e",
@@ -2514,10 +2835,40 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-05",
-      "sha256": "2ff9c4da6a6cb61f3a8dc3f49364016bf11904f90b048b58e3a032644287b563",
-      "size_bytes": 36291,
-      "reseal_note": "Clarify the retrieval-injection sanity prompt so android/uefi must be the literal value 'unsupported'; grader and thresholds unchanged.",
+      "sha256": "6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6",
+      "size_bytes": 37632,
+      "reseal_note": "Reconcile the latest mainline gate-clarification history while retaining the original, harder injection prompt already passed by the stronger model; preserve all historical seals and approved safety criteria.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "2ff9c4da6a6cb61f3a8dc3f49364016bf11904f90b048b58e3a032644287b563",
+          "size_bytes": 36291,
+          "reseal_note": "Clarify the retrieval-injection sanity prompt so android/uefi must be the literal value 'unsupported'; grader and thresholds unchanged."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6",
+          "size_bytes": 37632,
+          "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "2ff9c4da6a6cb61f3a8dc3f49364016bf11904f90b048b58e3a032644287b563",
+          "size_bytes": 36291,
+          "reseal_note": "Clarify the retrieval-injection sanity prompt so android/uefi must be the literal value 'unsupported'; grader and thresholds unchanged."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "87a17bc612d154b1c862e9f97587c2562b175812ea1c5fe25017be0dcba83530",
+          "size_bytes": 36607,
+          "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "999fcb761373bc88ba27b83eab819ea4bb6c1f92511b6d306a994948643cf8d2",
+          "size_bytes": 36396,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "2f9074ed5ac9344798ac00f6de49f9978eb3d96001301015e0baa3ca213e92fe",
@@ -2647,11 +2998,95 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72",
-      "size_bytes": 35436,
-      "reseal_note": "Keep unqualified same-model review behind a typed trusted-caller opt-in, preserve shared deadlines and restore one-pass 2048-token production defaults.",
+      "updated": "2026-11-06",
+      "sha256": "d19cdb67ab305a316fe376ca22680187d58a193fd7746a494343d4cd31f20cdf",
+      "size_bytes": 37924,
+      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "c08c1e0b1483c60d1c5bcb9f224d59f1eaf6054b72f6fb8e99d86a519c89714c",
+          "size_bytes": 37924,
+          "reseal_note": "Disambiguate literal ownership copying from ordinary inline-cited Q&A; retain exact fresh-token/status/citation validation and require three consecutive fresh-process native passes without retrying failures."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "937997fa2eb99bdec163432ee3e8bab27c1084a7b582c251005618e740776d65",
+          "size_bytes": 37740,
+          "reseal_note": "Constrain runtime status spelling to both existing protocol labels, without selecting the correct status or supplying nonce/answer/citation values; retain exact ownership, grounding and authentication validation."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "4dfbf6aa987573e86433511681a5525ddbad8be02724c5b3f954a82becc91384",
+          "size_bytes": 37703,
+          "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "65de46f9352b7ca394576453f5ce43b1de13fece3b886301b6de0c1eaa342f85",
+          "size_bytes": 37303,
+          "reseal_note": "Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "43edd7a31c766dfd865f2bff05e926d93c7c500517ae6c4f55c199710de96571",
+          "size_bytes": 37197,
+          "reseal_note": "Use ordinary question/evidence JSON for the authenticated ownership challenge, retaining the exact fresh nonce, status, citation, process ownership checks and shared deadline; report only mismatched field names."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "ff47e49c8a5e39108ecabe856ac6a8dde260ceda0f48db39260dfe0e20e6599f",
+          "size_bytes": 37018,
+          "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "006d802d7a50e7b494cc2ced96f2e389ee7610a9a84b2922a436d25764ef3586",
+          "size_bytes": 36678,
+          "reseal_note": "Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "82fa23b04b7f6977f19f5ec67c6ea9723ac28c3e52ad71d07cad4b28ce35f97e",
+          "size_bytes": 36191,
+          "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "b14ab56fca7d37c0748bb89e1bf98f6e0acf6ff3087ea26e2db5a6c4da7e1de8",
+          "size_bytes": 36192,
+          "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "d6b738b1ced2debf3e722d52cf629f557c61847621b4950c0b6969668babbc6e",
+          "size_bytes": 36158,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72",
+          "size_bytes": 35436,
+          "reseal_note": "Keep unqualified same-model review behind a typed trusted-caller opt-in, preserve shared deadlines and restore one-pass 2048-token production defaults."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "39e2204c3eb94b97a3e44ddf59f325e334d1a92a686b27ed4386eb2e82272e87",
+          "size_bytes": 33488,
+          "reseal_note": "Narrow owned-child cleanup repair: await failed-spawn/exited close, suppress only confirmed exit races, preserve primary and genuine cleanup failures. Model/policy/verifier unchanged."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "d7723d043c4861fc85ac89c8d80ddcd4038cca23fdd8034cc6bed6f74d155f72",
+          "size_bytes": 35436,
+          "reseal_note": "Keep unqualified same-model review behind a typed trusted-caller opt-in, preserve shared deadlines and restore one-pass 2048-token production defaults."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "cf608f58e64eb1827466f7080d0ed3b660ba5918ba020a129dfeb1ee5aee83b4",
+          "size_bytes": 32811,
+          "reseal_note": "Previous Windows instruction-backend runtime seal."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "3ae077b1ef9316a7d5c6b947a62bd6580e1dfb32ced282be1b65c53f18b4ccbb",
@@ -2721,11 +3156,95 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb",
-      "size_bytes": 33035,
-      "reseal_note": "Cover single-pass defaults, strict experimental-option typing and explicit review lifecycle, context headroom, deadline and cancellation guarantees.",
+      "updated": "2026-11-06",
+      "sha256": "7a08c91dc598fb6b481107965b3cb4e7667b354a8b5cd47e78d7dffa233d724c",
+      "size_bytes": 40380,
+      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "cfb82dd889b96b5a22ff6c6b57de35c1fbf6d0f01f59ab36b7702d4fb58b2645",
+          "size_bytes": 40211,
+          "reseal_note": "Disambiguate literal ownership copying from ordinary inline-cited Q&A; retain exact fresh-token/status/citation validation and require three consecutive fresh-process native passes without retrying failures."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "11bd403252e63e78bfb2f67b9556ecd5b1b2dba357ffe1077c89b43823e21247",
+          "size_bytes": 39946,
+          "reseal_note": "Constrain runtime status spelling to both existing protocol labels, without selecting the correct status or supplying nonce/answer/citation values; retain exact ownership, grounding and authentication validation."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "d7420f25d02f4f42afcf73ae3b1a1eab765484857462c28ed00a858008223e76",
+          "size_bytes": 39909,
+          "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "4fb2b7911c07adca17f698fd8d8e8096da489b10f8a91af683231ac3ba69faa2",
+          "size_bytes": 39395,
+          "reseal_note": "Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "7b177c477095c819da6f438253d23ba73922fb853ddb76fe22ee5a7961a20158",
+          "size_bytes": 39290,
+          "reseal_note": "Use ordinary question/evidence JSON for the authenticated ownership challenge, retaining the exact fresh nonce, status, citation, process ownership checks and shared deadline; report only mismatched field names."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "f4363af5839808a33fabcf7ea0ceaed52c1b15d13088916daa1a37be31a6d392",
+          "size_bytes": 38184,
+          "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "37309105852402689e95107f8795d8cced68acfb62d5de2c6fb7a77e2f457b74",
+          "size_bytes": 38143,
+          "reseal_note": "Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "aff1fd74eae7445f1a25f002b30bcd64dfc03dc4d6277c9173c4e23d81d46d47",
+          "size_bytes": 37870,
+          "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "21f9bcdfcbcc3443d037547086324b4c63e773e76a8f2b50ae1bc0bbbb357688",
+          "size_bytes": 37608,
+          "reseal_note": "Steward-approved 3 GB model budget and stronger instruction-only Unsloth Qwen3 4B conversion, with explicit community provenance; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "6d34f8a2bafe44afc95607873699cb74d7a6d042c05b9382a55c09eed071639b",
+          "size_bytes": 37393,
+          "reseal_note": "Reconciled merged mainline candidate policy with recovery-owned process cleanup and generic status/authority rules; unchanged actual-model acceptance remains to be demonstrated."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb",
+          "size_bytes": 33035,
+          "reseal_note": "Cover single-pass defaults, strict experimental-option typing and explicit review lifecycle, context headroom, deadline and cancellation guarantees."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "fcf1e2fb9ae9e9b6bb1b81bdeedb7e7ea10995386b4c8eec4928a9c90e7868f3",
+          "size_bytes": 29342,
+          "reseal_note": "Owned-child failed-spawn/exit-race and genuine-cleanup-failure regressions; acceptance thresholds and model policy unchanged."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "1aa13373adf1e06d9905f5a73d59961ac459e6e1f3cdacbd6a9c22bd5990e2fb",
+          "size_bytes": 33035,
+          "reseal_note": "Cover single-pass defaults, strict experimental-option typing and explicit review lifecycle, context headroom, deadline and cancellation guarantees."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "e28e90ff6b1a99ac6f06d11a23714e70b0dd19c740aec438e322bc1334be9aa2",
+          "size_bytes": 25229,
+          "reseal_note": "Previous Windows instruction-backend regression seal."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "30667d76e58c8b88c45c536f34120e7b61c2ba63f63420174f4063cc0eb9cd1c",

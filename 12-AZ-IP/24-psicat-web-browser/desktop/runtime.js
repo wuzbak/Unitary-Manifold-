@@ -7,6 +7,7 @@ const core = require('./lib/browser-core');
 const pageContext = require('./lib/page-context');
 const syncPolicy = require('./lib/sync-policy');
 const psiCatClient = require('./lib/psicat-client');
+const syncTransport = require('./lib/sync-transport');
 const { Sidecar, navigatorEnvironment } = require('./lib/sidecar');
 const { isTrustedSender, isWebUrl } = require('./lib/desktop-boundary');
 const { attachSuiteLifecycle } = require('./lib/suite-lifecycle');
@@ -497,62 +498,23 @@ async function writeSyncMirror(source = 'local-mirror') {
 
 async function pushSyncToBackend() {
   if (syncBackend.status !== 'ready') throw new Error(`Sync backend unavailable: ${syncBackend.error || syncBackend.status}`);
-  if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
-  if (!state.settings.syncAccessToken) throw new Error('Sync access token is required before backend sync.');
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
-  const packet = core.createSyncPacket(state);
-  const response = await fetch(`${endpoint}/api/sync/push`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Sync-Token': state.settings.syncAccessToken,
-    },
-    body: JSON.stringify({
-      account_email: state.sync.accountEmail,
-      packet,
-    }),
-  });
-  if (!response.ok) throw new Error(`Sync push failed with status ${response.status}`);
-  const payload = await response.json();
-  state = core.normalizeState({
-    ...state,
-    sync: {
-      ...state.sync,
-      lastSyncAt: payload.updated_at || packet.exportedAt,
-      lastSyncSource: 'backend-push',
-    },
-  });
+  const result = await syncTransport.pushSyncToBackend({ state, endpoint, core, getState: () => state });
+  state = result.state;
   await persistState();
   broadcastState();
-  return payload;
+  return result.payload;
 }
 
 async function pullSyncFromBackend() {
   if (syncBackend.status !== 'ready') throw new Error(`Sync backend unavailable: ${syncBackend.error || syncBackend.status}`);
-  if (!state.sync.accountEmail) throw new Error('Sync account email is required before backend sync.');
-  if (!state.settings.syncAccessToken) throw new Error('Sync access token is required before backend sync.');
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
-  const response = await fetch(`${endpoint}/api/sync/pull?account_email=${encodeURIComponent(state.sync.accountEmail)}`, {
-    headers: {
-      'X-Sync-Token': state.settings.syncAccessToken,
-    },
-  });
-  if (response.status === 404) throw new Error('No backend sync packet found for this account.');
-  if (!response.ok) throw new Error(`Sync pull failed with status ${response.status}`);
-  const payload = await response.json();
-  state = core.mergeSyncPacket(state, payload.packet || {});
-  state = core.normalizeState({
-    ...state,
-    sync: {
-      ...state.sync,
-      lastSyncAt: payload.updated_at || new Date().toISOString(),
-      lastSyncSource: 'backend-pull',
-    },
-  });
+  const result = await syncTransport.pullSyncFromBackend({ state, endpoint, core, getState: () => state });
+  state = result.state;
   ensureWorkspaceViews();
   await persistState();
   broadcastState();
-  return payload;
+  return result.payload;
 }
 
 async function handleExportSyncPacket() {
