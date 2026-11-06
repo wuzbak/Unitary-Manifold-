@@ -1119,3 +1119,13 @@ Use the same production JSON envelope for fresh-token ownership challenges; reta
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `006d802d7a50e7b494cc2ced96f2e389ee7610a9a84b2922a436d25764ef3586` | 36678 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `37309105852402689e95107f8795d8cced68acfb62d5de2c6fb7a77e2f457b74` | 38143 |
+
+### Approved verified offline installation payload — 2026-11-06
+
+Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `e0b9082f404c22a8624861f69a1b28b61b8d487c03f5d3906d7e2d77adf0b3b6` | 31672 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6` | 3325 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1` | `2929aa56088bc001ea6d7db5e14df3a300f24b00a0c6bca7200edc8f2ad02ed9` | 5771 |

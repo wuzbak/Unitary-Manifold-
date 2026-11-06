@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8632,
+  "file_count": 8636,
   "lanes": {
-    "az_ip": 2644,
+    "az_ip": 2648,
     "compactification": 9,
     "other": 5565,
     "psicat_articles": 356,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2644,
+    "12-AZ-IP": 2648,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2787,8 +2787,11 @@
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_native.py",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/extract-node.ps1",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/install-offline-payload.ps1",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/instruction_smoke.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/native_smoke.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/offline-installer.nsh",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/offline-payload.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/platform_smoke.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/psicat_core.py",
@@ -2806,6 +2809,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/tests/native-model.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/node-bootstrap.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/node-toolchain.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/offline-payload.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs",
@@ -21989,6 +21993,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/install-offline-payload.ps1",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/instruction_smoke.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -21997,6 +22008,20 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/native_smoke.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/offline-installer.nsh",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/offline-payload.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -22116,6 +22141,13 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/node-toolchain.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/offline-payload.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",

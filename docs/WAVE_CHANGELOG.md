@@ -98,6 +98,22 @@ Both now use the same JSON envelope and identical system policy, retaining
 the fresh 128-bit token, exact status/citation checks and listener ownership
 verification. Runtime regressions reject incorrect tokens, statuses and
 citations; this is not a fallback or relaxation of authentication.
+The steward approved distributing the full model as verified offline
+companion parts beside a smaller installer after NSIS could not memory-map
+the embedded multi-gigabyte archive. Each part is at most 1 GiB, avoiding
+GitHub's per-asset ceiling. Installer-bound manifests, part hashes and the
+complete runtime-model hash are checked before installation; reconstruction
+uses a temporary file and atomic move, with no network fallback.
+Windows qualification now installs from those actual local parts, rejects
+missing/tampered payloads and exercises installed inference before uninstall.
+The portable self-extracting target is removed rather than advertised as
+working above its archive limit. Actual native qualification remains required.
+
+The first added inflation tests measured 1,061/1,454 killed (72.97%), not the
+required 80%. Additional analytic and boundary regressions bring the focused
+suite to 690 passing tests and kill representative known survivors. Neither
+that test count nor representative kills substitute for a fresh full mutation
+score; the unchanged threshold remains a release gate.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

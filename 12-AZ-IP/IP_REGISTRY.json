@@ -1076,11 +1076,17 @@
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "bcf4546dead8a561eb6cbd0b7221b35214fcdeb6bf06d2bc6b88ab25fd048da3",
-      "size_bytes": 28799,
-      "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates.",
+      "updated": "2026-11-06",
+      "sha256": "e0b9082f404c22a8624861f69a1b28b61b8d487c03f5d3906d7e2d77adf0b3b6",
+      "size_bytes": 31672,
+      "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "bcf4546dead8a561eb6cbd0b7221b35214fcdeb6bf06d2bc6b88ab25fd048da3",
+          "size_bytes": 28799,
+          "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "399650bd971583b3733e877deae8d9dace5643f1e1a086e28e09b2a834955d5e",
@@ -1249,11 +1255,17 @@
       "description": "Product 45 Electron desktop, ZIP reader dependency and Windows installer configuration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "fa02b64f6afe58828ceeef62bb236143dc2ef8ef329617ddbb78941dec8ef453",
-      "size_bytes": 3133,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-06",
+      "sha256": "622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6",
+      "size_bytes": 3325,
+      "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "fa02b64f6afe58828ceeef62bb236143dc2ef8ef329617ddbb78941dec8ef453",
+          "size_bytes": 3133,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a06f49a65c7bf716837ff4ea07c205c78f51df99da0010016adabbb229d1d789",
@@ -1695,10 +1707,16 @@
       "description": "Product 45 Windows installer, uninstall and portable executable smoke harness",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "4184952192f49794193aec1c5156cdd1ab1915c2294e26f1bd205a533511ada8",
-      "size_bytes": 4056,
+      "updated": "2026-11-06",
+      "sha256": "2929aa56088bc001ea6d7db5e14df3a300f24b00a0c6bca7200edc8f2ad02ed9",
+      "size_bytes": 5771,
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "4184952192f49794193aec1c5156cdd1ab1915c2294e26f1bd205a533511ada8",
+          "size_bytes": 4056,
+          "reseal_note": "Quoted space-containing user-data argument and verify Electron created the requested directory; native Windows execution remains separately required."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "16372ce44a47c9c41be76306002109d8311ff642a94f647c26020153a34b6d83",
@@ -1717,7 +1735,7 @@
           "size_bytes": 2991
         }
       ],
-      "reseal_note": "Quoted space-containing user-data argument and verify Electron created the requested directory; native Windows execution remains separately required."
+      "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs": {
       "description": "Product 45 catalog, repository path, settings and operation-lock regression tests",

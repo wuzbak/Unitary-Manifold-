@@ -299,11 +299,10 @@ and query policy. Other online capabilities belong to their individual products.
 ## Windows installable build
 
 The Windows workflow requires a native browser readiness/cleanup check before
-building either the per-user NSIS installer or the portable executable. This
+building the per-user NSIS installer and its separate verified offline payload. This
 fail-fast check runs the real Electron desktop on Windows, not a mocked child.
-The installed and portable smoke launches quote and verify their isolated
-user-data paths, including when the Windows temporary directory contains
-spaces.
+The installed smoke launch quotes and verifies its isolated user-data path,
+including spaces; scratch data stays under the checkout's `build/` directory.
 An early desktop exit reports its exit code and signal rather than an empty
 startup error. From a Windows checkout with Node.js 22, Python 3.12 and internet
 access for dependency/bootstrap downloads:
@@ -318,9 +317,11 @@ npm run dist:win
 npm run smoke:win
 ```
 
-Artifacts are written to `dist/`. `npm run smoke:win` silently installs and
-uninstalls the per-user NSIS build, launches both installed and portable
-applications, and verifies that the window renders all 45 products and the
+Artifacts are written to `dist/`. `npm run smoke:win` first requires a clean
+installation destination and proves that the **actual installer** rejects
+missing and tampered companion parts with a nonzero exit, before silently
+installing and uninstalling the per-user NSIS build. It launches the installed
+application and verifies that the window renders all 45 products and the
 local evidence/runtime/native-model controls, creates a research plan and cancels
 it through the preload bridge without renderer exceptions. It also runs
 standalone installed native inference and training, verifies the bundled source
@@ -333,15 +334,60 @@ build, checks actual CPU JAX values/gradients, and requires Product 24's window,
 sync/Navigator readiness and graceful process exit. A failed or skipped native
 check does not certify those capabilities or permit publishing an installer.
 `.github/workflows/pc-suite-windows.yml` builds and uploads them as a workflow
-artifact on pull requests and manual dispatch. Each executable is accompanied
-by a SHA-256 checksum. A `pc-suite-v*` tag additionally publishes the installer
-and portable executable as a GitHub Release. Builds are currently
+artifact on pull requests and manual dispatch. `SHA256SUMS.txt` covers the
+installer, companion manifest, and every model part. A `pc-suite-v*` tag
+additionally publishes all these files as a GitHub Release. Builds are currently
 **unsigned**; Windows SmartScreen may show a publisher warning. No automatic
 update service is included. The configured artifacts target Windows x64;
 ARM64 builds and installer upgrades remain unverified. Per-user x64 install,
-rendered UI, uninstall and portable launch are exercised by the Windows workflow.
-The portable executable self-extracts its bundled resources on launch; use
-the installed NSIS application for regular work to avoid repeated extraction.
+rendered UI, full installed model inference, and uninstall are required by the
+Windows workflow; local source/packaging tests alone do not qualify a Windows
+installer.
+
+### Verified offline companion payload
+
+The approved **full** Qwen3-4B-Instruct-2507 Q4_K_M GGUF is not reduced or
+replaced. Its approximately 2.497 GB file exceeded NSIS's embedded archive mmap
+limit. The installer now bundles everything else (including the engine,
+runtime manifest, native seed and portfolio), while the model ships as
+contiguous **at most 1 GiB** parts. No release asset may reach 2 GiB, respecting
+GitHub's per-asset limit as well as NSIS's embedded archive limit.
+
+For version `0.1.0`, place these files together in the **same local folder**:
+
+- `AxiomZero-PC-Suite-0.1.0-x64.exe`
+- `AxiomZero-PC-Suite-0.1.0-offline.json`
+- `AxiomZero-PC-Suite-0.1.0-model.part001`, `.part002`, and `.part003`
+- `SHA256SUMS.txt` (for independent distribution-integrity checking)
+
+Use the installer from that folder, including for silent `/S` installation.
+Do not put parts in the installation directory or rename them. Transfer all
+assets via an offline medium if desired; **installation requires no network
+or model download**. Allow disk space for both the companion parts and the
+assembled approximately 2.497 GB model in the installation, plus other bundled
+resources. The portable target is deliberately removed: a self-extracting
+portable executable would embed the same oversized model again.
+
+Supported electron-builder `customInit` and `customInstall` NSIS hooks invoke
+a bundled static PowerShell script as the per-user installer user. It checks
+the installer-bound manifest digest, its exact canonical part names and sizes,
+every part's SHA-256, and the assembled model's SHA-256 against the bundled
+runtime manifest. The first pass happens **before** old-install removal; the
+second pass writes to an exclusive new partial file and atomically renames
+only after all hashes match. Reparse points, network paths, and overwriting an
+existing model are rejected. Failure stops the installer with a nonzero exit;
+there is no successful fallback, automatic launch, or external downloader.
+If an error occurs after application extraction, that incomplete installation
+is not qualified; correct the local payload and rerun the installer.
+
+electron-builder's installed NSIS-web template can discover sibling archives,
+but a missing or incorrect archive falls back to a network download. This
+package intentionally uses regular NSIS and the fail-closed local hook instead.
+`npm run payload:stage` generates the parts and compile-time manifest seal;
+`npm run payload:verify` checks the whole release set and writes checksums.
+`dist:win` restores the full model in `dist/win-unpacked` **after** installer
+archive creation for real unpacked diagnostics. Release smoke instead verifies
+and runs the full model installed by the actual local-payload installer.
 
 To run from source:
 
@@ -381,9 +427,9 @@ ZIP safety, local indexing, evidence citations, index persistence, harness
 approvals/state recovery/budgets/cancellation/audit seals, worker execution
 and the local reasoning transport, plus source-worktree receipt/retry behavior
 and the Windows smoke argument contract. The latter is a source-level check on
-non-Windows hosts; it does not replace running the installed/portable smoke on
-Windows. The Windows workflow verifies per-user installation/UI/uninstall and
-portable launch. Installer upgrades and a
+non-Windows hosts; it does not replace running the installed smoke on
+Windows. The Windows workflow requires fail-closed companion payload tests and
+per-user installation/UI/uninstall. Installer upgrades and a
 publisher code-signing certificate remain release work; a successful packaging job is not a claim
 that every portfolio product is installed or Windows-compatible.
 
