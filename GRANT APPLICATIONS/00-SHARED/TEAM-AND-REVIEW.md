@@ -1,6 +1,6 @@
 # Working Team and Review Protocol
 
-This is the operating model for developing the 12 grant prospects. The human corporate representative has final authority. AI helpers support research and drafting but do not make certifications, commitments, eligibility decisions, or submissions.
+This is the operating model for developing the 12 grant prospects. AxiomZero is a research-and-development organization and has no customers as of 2026-11-06; the human corporate representative has final authority. AI helpers support research and drafting but do not make certifications, commitments, eligibility decisions, or submissions. Grant writing must not imply customers, pilots, or commercial validation that do not exist.
 
 ## Roles
 
@@ -12,9 +12,10 @@ This is the operating model for developing the 12 grant prospects. The human cor
 | Proposal integration | Copilot | Draft sections, map criteria to evidence, maintain opportunity folders and revisions |
 | Independent subject-matter reviewer | To recruit/confirm | Challenge technical novelty, experimental design, feasibility, safety/security, and overclaiming |
 | Finance/grants administrator | To recruit/confirm | Verify eligibility, registrations, budget rules, indirect costs, invoicing, and reporting |
-| Research institution / pilot partner | To identify if required | Provide a real subaward, scientific expertise, data/pilot setting, and written commitment |
+| Research collaborator / independent evaluator | To identify if required or useful | Provide genuine scientific expertise, independent review, data/compute access, or validation; name only after the person/institution agrees |
+| Prospective-user discovery participants | To recruit if relevant to an SBIR/STTR case | Inform a truthful use-case and commercialization rationale; participation is not a customer relationship or purchase commitment |
 
-The research and repository-context agents used in the initial discovery phase are not retained staff. No outside collaborator has been represented as committed.
+Task-scoped AI helpers have supported funding discovery, repository evidence review, official-source auditing, SDAM funding research, and independent grant-writing critique. They are not employees, retained staff, or human collaborators. No customers or outside collaborators are represented as committed.
 
 ## Required review gates
 

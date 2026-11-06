@@ -6,6 +6,8 @@
 
 Eligible work can include open-source software development, validation, security, testing/CI, documentation, and usability. The applicant's U.S. location is not an automatic prohibition, but the European-dimension test is a major hurdle. NLnet describes the ordinary route as a team including people from Horizon Europe-eligible countries receiving at least 60% of the funds; exceptional proposals from outside those areas may be considered. A European partner must be real, eligible, and responsible for substantive work—not a nominal pass-through.
 
+The official Restack call describes typical requests of **€5,000–€50,000**; the official applicant guide sets a **€150,000 maximum per proposal**. These are program limits, not an estimate of an AxiomZero award.
+
 ## Possible angle, only after partner/funder confirmation
 
 Consider a small, public, well-scoped security/provenance component that genuinely strengthens an open internet or digital-commons stack. A broad physics framework or a standalone AI assistant is not enough. The proposal must map deliverables to a specific Restack theme and identify the European public benefit.
@@ -15,7 +17,7 @@ Consider a small, public, well-scoped security/provenance component that genuine
 - Read current Restack themes, eligibility, applicant guide, and AI-generated-code policy.
 - Contact NLnet with a short eligibility question before writing the full application.
 - Secure an eligible European collaborator and a substantiated work/funding split if required.
-- Verify the exact payment instrument, grant cap, eligible costs, license, and reporting rules.
+- Verify the exact payment instrument, eligible costs, license, and reporting rules.
 - No EU collaboration or strong European dimension means **NO-GO**.
 
 **Official sources:** [Restack call](https://nlnet.nl/restack/); [eligibility](https://nlnet.nl/restack/eligibility/); [applicant guide](https://nlnet.nl/restack/guideforapplicants/).

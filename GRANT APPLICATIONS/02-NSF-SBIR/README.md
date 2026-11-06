@@ -8,13 +8,19 @@ NSF Phase I supports high-risk R&D and commercial potential, with up to **$305,0
 
 ## Proposed project angle
 
-**Working title:** *Measurable Assurance for Human-Governed AI Decision Software.*
+**Working title:** *Reproducible, Human-Reviewed Security Triage from Local Software Evidence.*
 
-Select one AxiomZero software product only after customer discovery. A plausible route is a bounded security/governance workflow in EIGE or AxiomZero SGE, with a testable technical uncertainty such as measurable failure detection, reproducible policy evaluation, or robust handling of adversarial/ambiguous inputs. Define a real user, incumbent workflow, baseline, and commercial use. Do not pitch a documentation refresh or ordinary integration as high-risk R&D.
+The best bounded candidate in the current portfolio is AZ-SGE, not a generic “AI governance” claim. The product README describes local security analysis of caller-submitted files/events and dependency data; it explicitly says host enforcement is not implemented and the system does not replace EDR, anti-malware, a firewall, or incident response. A testable research question is whether adding provenance-linked evidence and calibrated uncertainty to local triage can make prioritization more reproducible than a clearly named baseline on a defined, legally usable benchmark. This is a proposed study, not a demonstrated advantage.
+
+The consolidated product catalog advertises broader anti-malware, zero-day, IDS, and firewall capabilities than the detailed README supports. Reconcile this discrepancy before an external Project Pitch; this brief deliberately uses only the detailed README's narrower, non-enforcement scope.
+
+AxiomZero has **no customers**. That does not automatically disqualify an early SBIR applicant, but NSF expects a credible commercial potential case. Before pitching, conduct prospective-user interviews, map competing approaches, identify who could adopt/pay and why, and document evidence without calling interviewees customers or claiming commitments. If the technical novelty and customer problem cannot be supported, do not submit this concept.
+
+The comparison baseline has not been selected. Do not submit the bracketed Project Pitch text or claim an advantage until a documented literature/user-discovery review identifies an appropriate comparator and a measurable outcome; do not invent baseline performance or success thresholds.
 
 ## Draft Project Pitch summary
 
-AxiomZero Technologies & Consulting, SPC is developing [specific product] for [verified user group] who must [specific costly/important task]. Current approaches [evidence-backed gap]. We will investigate whether [technical hypothesis] can improve [measurable outcome] relative to [baseline] under [defined conditions]. Phase I will test [two or three hypotheses] using [data/participants/test fixtures], report failures, and determine technical feasibility and commercial potential. The result will be a validated prototype and a go/no-go plan for a follow-on product, not a claim that the system is already proven or production-ready.
+AxiomZero Technologies & Consulting, SPC is a Washington research-and-development company with no customers as of November 6, 2026. Its research-stage AZ-SGE software performs local analysis of submitted security-relevant inputs; it does not enforce host protections or establish that a threat is real. Phase I will test whether a provenance-linked evidence report and explicit uncertainty presentation can improve the repeatability and usefulness of human security-triage decisions compared with [baseline selected through the literature and user-discovery review]. The team will define a licensed, reproducible evaluation set, pre-specify metrics and failure criteria with an independent reviewer, implement the research prototype, and report both positive and negative results. Prospective-user research will test whether an economically viable application exists; no customer or market adoption is claimed. If the evaluation or user discovery does not support feasibility and commercial potential, the project will document a no-go result rather than overstate readiness.
 
 ## Required eligibility and application gates
 
@@ -27,11 +33,11 @@ AxiomZero Technologies & Consulting, SPC is developing [specific product] for [v
 
 ## Initial six-month work package
 
-1. Requirements and customer discovery; freeze a narrow problem statement.
-2. Define benchmark, baseline, threat/failure model, and success thresholds.
-3. Implement the research prototype and test harness.
-4. Run independent and held-out evaluations; publish reproducible results where permitted.
-5. Assess productization, customer willingness to pay, risks, and Phase II milestones.
+1. Conduct structured prospective-user and literature review; document the problem, competing solutions, and target adoption path without representing interviewees as customers.
+2. Select lawful benchmark materials; define a baseline, threat/failure model, metrics (such as task agreement, prioritization quality, and calibration), and stop criteria with an independent reviewer.
+3. Implement the bounded evidence-provenance/uncertainty research feature and reproducible test harness.
+4. Evaluate on held-out cases; report error modes and limitations; invite independent technical review.
+5. Decide whether technical merit and commercialization evidence justify Phase II; otherwise publish a transparent no-go report.
 
 No detailed budget is included: salary, effort, indirect costs, TABA/I-Corps, data, and any subcontract must be confirmed against the official solicitation and company records.
 

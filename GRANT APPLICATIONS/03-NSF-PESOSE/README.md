@@ -14,7 +14,7 @@ Start with one existing public product, likely EIGE or the scientific software i
 
 ## Track and budget gate
 
-Public program summaries report Track 1 up to $300,000 and Tracks 2/3 up to $1.5 million. Confirm the exact award limits, duration, eligible lead/subaward categories, and current deadlines in NSF 26-506. The initial strategy should be **Track 1 planning** unless the team can demonstrate an existing product and external ecosystem adequate for a build/security track. The solicitation's required letters of collaboration from unaffiliated organizations/users are a substantial readiness gate; confirm the exact number and format in the solicitation. No budget or match assumptions have been made.
+NSF 26-506 sets maximum budgets of **$300,000 for up to one year** for Track 1 and **$1.5 million for up to two years** for Tracks 2 and 3. The solicitation requires **three to five letters of collaboration** from third-party users and/or contributors of the open-source product; the letters must come from current users or contributors who are not directly related to the proposing team. The repository does not establish whether AxiomZero can obtain qualifying letters. Treat that as a go/no-go gate, not as evidence that users or contributors do or do not exist. No budget or match assumptions have been made.
 
 ## Draft concept summary
 
@@ -22,8 +22,8 @@ We propose to [plan/build/secure] an open-source ecosystem around [specific proj
 
 ## Gating evidence
 
-- Identify at least two external user organizations and prospective contributors; obtain consent to cite them.
-- Secure the solicitation-required letters of collaboration from non-affiliated organizations/users; do not treat prospective interest as a commitment.
+- Inventory verifiable current users/contributors for the selected open-source product; the solicitation-required letters must be from current third-party users or contributors, not merely prospective contacts.
+- If three to five eligible letter writers cannot be confirmed and agree to participate, do not submit; do not represent prospective interest as current use or contribution.
 - Create a baseline for external contributors, issues, releases, downloads/deployments, and current governance.
 - Establish a security threat model, vulnerability-reporting process, dependency inventory, release controls, and remediation plan.
 - Confirm that the proposed open-source license and funder terms are compatible.

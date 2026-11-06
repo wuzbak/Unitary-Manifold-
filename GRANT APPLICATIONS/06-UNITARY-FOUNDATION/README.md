@@ -2,6 +2,8 @@
 
 **Status:** funder FAQ says applicants may be from any country and need no credentials; projects should leverage or support quantum technology for human benefit. It prefers projects completable in 3–6 months. A $4,000 microgrant amount is reported by a third-party listing; verify the current official amount, application window, and terms before relying on it.
 
+The official FAQ says 50% of an awarded grant is sent when the project starts and the remainder after a midpoint check-in. It does not publish an award-processing timeline or a specific grant amount. Do not treat the reported $4,000 or the payment schedule as a promise of fast funding.
+
 ## Proposed project angle
 
 **Working title:** *Reproducible Evaluation of an Open Quantum-Ansatz Software Component.*

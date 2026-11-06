@@ -6,6 +6,8 @@
 
 Potentially useful for one public AxiomZero software project if it has a clear open-source license, credible governance, meaningful external adoption, and a specific security improvement plan. The current repository demonstrates substantial internal engineering and testing, but the evidence ledger does **not** establish external adoption or critical ecosystem dependency. That is a material weakness; do not imply otherwise.
 
+GitHub's published eligibility criteria require the applicant to be a current project maintainer, the project to have a clear open-source license and governance, and demonstrable community traction and adoption. The repository evidence ledger does not establish those project-level facts for any candidate; identify a qualifying project and verify the maintainer, adoption, and supported-region requirements before applying. Internal test counts do not satisfy these criteria.
+
 ## Proposed security scope
 
 Choose a maintained public product with a clear threat model. Potential work could include a dependency inventory, secure release process, vulnerability reporting and response, permissions review, security-focused tests, and remediation of findings. Select only controls that are not already complete. Do not promise that software will be “secure” or “vulnerability free.”
