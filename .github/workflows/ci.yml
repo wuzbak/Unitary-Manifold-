@@ -68,15 +68,11 @@ jobs:
           python3 -m pytest "5-GOVERNANCE/Unitary Pentad/test_unitary_pentad.py" -q --tb=short
 
   platform-smoke-macos:
-    name: Platform smoke (macos-14) [advisory]
-    runs-on: macos-14
+    name: Platform smoke (macos-15) [advisory]
+    runs-on: macos-15
     timeout-minutes: 30
-    # macOS hosted runners are not reliably provisioned for this account: this
-    # leg is observed to be cancelled before a runner is ever assigned
-    # (runner_id: 0). It is split out of the required `platform-smoke` job and
-    # continue-on-error'd so a macOS runner-allocation outage can't fail CI;
-    # the CI gate does not depend on this job at all. If/when macOS runner
-    # access is restored, results remain visible here for information only.
+    # Use the supported macOS 15 arm64 image instead of the unavailable
+    # macOS 14 configuration. Keep this existing compatibility leg advisory.
     continue-on-error: true
     permissions:
       contents: read

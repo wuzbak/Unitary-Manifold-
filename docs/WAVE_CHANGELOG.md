@@ -1,5 +1,16 @@
 # Wave Changelog
 
+## Supported macOS smoke runner (2026-11-06)
+
+PR #1177's final software/model/installer, regression and mutation gates passed
+at `f314fb021`, but its advisory macOS job was cancelled before assignment:
+GitHub reported `macos-14-arm64-us-default` is unsupported. The compatibility
+leg now requests the documented supported `macos-15` arm64 image. Its tests,
+timeout and advisory status are unchanged; a workflow regression requires the
+same smoke commands as Ubuntu. This is a runner migration, not an executed
+macOS pass. Fresh current-head CI, including actual macOS execution, is required
+before a fully green handoff; earlier Windows receipts remain source-bound.
+
 ## Mainline/recovery integration qualification (2026-11-05)
 
 The subsequent mainline merge of PR #1178 is also reconciled, retaining its
