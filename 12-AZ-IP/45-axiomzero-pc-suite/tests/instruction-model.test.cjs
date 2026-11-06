@@ -36,6 +36,18 @@ const CHILD = String.raw`
         }
         const prompt = body.messages[1].content;
         const nonce = prompt.match(/READY_[a-f0-9]+/);
+        if (nonce) {
+          if (config.mode === "challenge-http") {
+            response.writeHead(503); response.end("{}"); return;
+          }
+          let supplied;
+          try { supplied = JSON.parse(prompt); } catch {}
+          if (typeof supplied?.question !== "string" ||
+              supplied.evidence?.length !== 1 || supplied.evidence[0].id !== "OWNERSHIP" ||
+              !supplied.evidence[0].text.includes(nonce[0])) {
+            response.writeHead(400); response.end('{"error":"ownership requires normal evidence input"}'); return;
+          }
+        }
         const reviewing = body.messages.length === 4;
         let content;
         if (nonce) content = JSON.stringify({
@@ -200,6 +212,13 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
     message.body.messages[0].content.startsWith(input.messages[0].content)));
   assert.ok(challengeRequests.every((message) =>
     message.body.messages[0].content === input.messages[0].content));
+  for (const message of challengeRequests) {
+    const supplied = JSON.parse(message.body.messages[1].content);
+    assert.deepEqual(Object.keys(supplied).sort(), ["evidence", "question"]);
+    assert.deepEqual(supplied.evidence.map(item => item.id), ["OWNERSHIP"]);
+    assert.match(supplied.evidence[0].text, /^The locally supplied ownership token is READY_[a-f0-9]{32}\.$/);
+    assert.ok(!supplied.question.includes("READY_"), "the challenge asks a question rather than supplying a completed answer");
+  }
 });
 
 test("candidate bundled basename may vary in case but local manifest spelling is exact", async (t) => {
@@ -496,7 +515,7 @@ test("invalid or fabricated citations and promoted certificates fail determinist
 
 test("bounds bytes and rejects malformed/truncated/tool/thinking HTTP completions", async (t) => {
   for (const mode of ["huge", "huge-declared", "bad-json", "duplicate-json", "tool", "reasoning", "truncated",
-    "bad-health", "bad-challenge", "bad-challenge-status", "bad-challenge-citation", "auth-bypass"]) {
+    "bad-health", "bad-challenge", "bad-challenge-status", "bad-challenge-citation", "challenge-http", "auth-bypass"]) {
     await t.test(mode, async (t) => {
       const f = await fixture(t, { mode });
       await assert.rejects(f.runtime.answer({ question: "x", evidence }), /limit|JSON|protocol|health|challenge|unauthenticated/);

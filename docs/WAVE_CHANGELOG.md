@@ -129,6 +129,14 @@ while awaiting resource-backed status checks. Awaited diagnostic promises
 now receive a bounded sixty seconds; synchronous DOM checks retain five
 seconds. Assertions, renderer exception checks and actual installation
 coverage are unchanged; this is not an inference acceptance substitution.
+Run 42157006933 subsequently passed the actual installed UI and full packaging
+job. A separate installed run failed its exact ownership challenge despite
+passing backend evaluation: the challenge still supplied an ad-hoc plaintext
+input rather than the normal question/evidence JSON. It now uses the same
+input structure and evidence-ID mechanism as ordinary answers, retaining the
+fresh 128-bit nonce, exact status/citation checks, authentication, process
+ownership, fail-closed behavior and shared inference deadline. Mismatch errors
+identify only the failed fields, never credentials or generated content.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

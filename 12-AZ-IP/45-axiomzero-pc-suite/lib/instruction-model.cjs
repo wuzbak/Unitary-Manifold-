@@ -596,10 +596,10 @@ function createInstructionModel(options) {
         return remaining;
       };
       const nonce = `READY_${crypto.randomBytes(16).toString("hex")}`;
-      const challenge = completionBody(
-        `[OWNERSHIP] The locally supplied ownership token is ${nonce}. ` +
-        "Return the standard JSON envelope with status UNVERIFIED, answer exactly the ownership token, " +
-        "and citations containing only OWNERSHIP.", true);
+      const challenge = completionBody(JSON.stringify({
+        question: "What is the locally supplied ownership token? Copy it exactly as the answer.",
+        evidence: [{ id: "OWNERSHIP", text: `The locally supplied ownership token is ${nonce}.` }]
+      }), true);
       for (const credential of [null, crypto.randomBytes(32).toString("base64url")]) {
         await ownListener(owned, port);
         const response = await send(owned, port, "POST", "/v1/chat/completions", credential,
@@ -610,14 +610,18 @@ function createInstructionModel(options) {
       const challengeResponse = await send(owned, port, "POST", "/v1/chat/completions", key,
         challenge, controller.signal, remainingInferenceTime());
       if (challengeResponse.status !== 200) {
-        throw failure("Instruction engine ownership/instruction challenge failed.");
+        throw failure(`Instruction engine ownership/instruction challenge failed: HTTP ${challengeResponse.status}.`);
       }
       const challengeResult = strictJSON(completionText(challengeResponse.body));
       exactKeys(challengeResult, ["status", "answer", "citations"], "ownership challenge");
-      if (challengeResult.status !== "UNVERIFIED" || challengeResult.answer !== nonce ||
-          !Array.isArray(challengeResult.citations) ||
-          challengeResult.citations.length !== 1 || challengeResult.citations[0] !== "OWNERSHIP") {
-        throw failure("Instruction engine ownership/instruction challenge failed.");
+      const mismatches = [
+        challengeResult.status !== "UNVERIFIED" && "status",
+        challengeResult.answer !== nonce && "answer",
+        (!Array.isArray(challengeResult.citations) ||
+          challengeResult.citations.length !== 1 || challengeResult.citations[0] !== "OWNERSHIP") && "citations"
+      ].filter(Boolean);
+      if (mismatches.length) {
+        throw failure(`Instruction engine ownership/instruction challenge failed: ${mismatches.join(", ")} mismatch.`);
       }
       await ownListener(owned, port);
       await checkArtifacts(artifacts.artifacts);

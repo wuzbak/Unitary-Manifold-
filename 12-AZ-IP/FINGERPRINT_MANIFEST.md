@@ -1150,3 +1150,12 @@ Bound asynchronous installed-resource UI diagnostics at sixty seconds while reta
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `6c37a458f8c12d05e4bcdaf5a952ac25bd232d42d6251c668bb7e95d05a60ea5` | 9825 |
+
+### Evidence-shaped ownership input reseal — 2026-11-06
+
+Use ordinary question/evidence JSON for the authenticated ownership challenge, retaining the exact fresh nonce, status, citation, process ownership checks and shared deadline; report only mismatched field names. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `43edd7a31c766dfd865f2bff05e926d93c7c500517ae6c4f55c199710de96571` | 37197 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `7b177c477095c819da6f438253d23ba73922fb853ddb76fe22ee5a7961a20158` | 39290 |
