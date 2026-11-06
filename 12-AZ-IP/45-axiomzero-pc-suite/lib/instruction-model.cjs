@@ -371,7 +371,7 @@ function createInstructionModel(options) {
   const execute = options.execute || executeFile;
   const request = options.request || requestHTTP;
   const startupTimeoutMs = boundedNumber(options.startupTimeoutMs, 120000, 300000);
-  const requestTimeoutMs = boundedNumber(options.requestTimeoutMs, 300000, 300000);
+  const requestTimeoutMs = boundedNumber(options.requestTimeoutMs, 600000, 600000);
   const stopTimeoutMs = boundedNumber(options.stopTimeoutMs, 5000, 10000);
   const threads = boundedNumber(options.threads, 4, 4);
   const enableModelReview = options.enableModelReview === undefined ? false : options.enableModelReview;
@@ -589,6 +589,12 @@ function createInstructionModel(options) {
         await new Promise((resolve) => setTimeout(resolve, 25));
       }
       if (!ready) throw failure("Instruction engine startup deadline exceeded.", "TIMEOUT");
+      const inferenceDeadline = Date.now() + requestTimeoutMs;
+      const remainingInferenceTime = () => {
+        const remaining = inferenceDeadline - Date.now();
+        if (remaining <= 0) throw failure("Instruction operation deadline exceeded.", "TIMEOUT");
+        return remaining;
+      };
       const nonce = `READY_${crypto.randomBytes(16).toString("hex")}`;
       const challenge = completionBody(
         `[OWNERSHIP] The locally supplied ownership token is ${nonce}. ` +
@@ -596,11 +602,13 @@ function createInstructionModel(options) {
         "and citations containing only OWNERSHIP.", true);
       for (const credential of [null, crypto.randomBytes(32).toString("base64url")]) {
         await ownListener(owned, port);
-        const response = await send(owned, port, "POST", "/v1/chat/completions", credential, challenge, controller.signal);
+        const response = await send(owned, port, "POST", "/v1/chat/completions", credential,
+          challenge, controller.signal, remainingInferenceTime());
         if (response.status !== 401) throw failure("Foreign or unauthenticated instruction service refused.");
       }
       await ownListener(owned, port);
-      const challengeResponse = await send(owned, port, "POST", "/v1/chat/completions", key, challenge, controller.signal);
+      const challengeResponse = await send(owned, port, "POST", "/v1/chat/completions", key,
+        challenge, controller.signal, remainingInferenceTime());
       if (challengeResponse.status !== 200) {
         throw failure("Instruction engine ownership/instruction challenge failed.");
       }
@@ -613,8 +621,8 @@ function createInstructionModel(options) {
       }
       await ownListener(owned, port);
       await checkArtifacts(artifacts.artifacts);
-      const inferenceDeadline = Date.now() + requestTimeoutMs;
-      const response = await send(owned, port, "POST", "/v1/chat/completions", key, prepared.body, controller.signal);
+      const response = await send(owned, port, "POST", "/v1/chat/completions", key,
+        prepared.body, controller.signal, remainingInferenceTime());
       await ownListener(owned, port);
       if (response.status !== 200) throw failure(`Instruction inference failed: HTTP ${response.status}.`);
       const draft = completionText(response.body);

@@ -402,7 +402,7 @@ jobs:
             --model "$([System.IO.Path]::GetFullPath("candidate/$($manifest.model.file)"))" `
             --manifest "$([System.IO.Path]::GetFullPath('candidate/manifest.json'))" `
             --report "$([System.IO.Path]::GetFullPath('candidate/validation.json'))" `
-            --request-timeout 300
+            --request-timeout 600
           if ($LASTEXITCODE -ne 0) { throw "Actual instruction backend acceptance failed." }
       - name: Preserve source licenses for the evaluated engine
         run: |

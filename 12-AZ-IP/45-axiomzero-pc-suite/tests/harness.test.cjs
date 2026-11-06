@@ -134,7 +134,7 @@ test("timeouts abort tool signals and preserve an explicit failed checkpoint", a
   assert.equal(harness.active, null);
 });
 
-test("only explicitly selected embedded CPU reasoning gets the disclosed six-minute deadline", async (t) => {
+test("only explicitly selected embedded CPU reasoning gets the disclosed thirteen-minute deadline", async (t) => {
   t.mock.timers.enable({ apis: ["setTimeout"] });
   for (const model of ["psicat:embedded", "llama3.2:3b"]) {
     let signal;
@@ -144,7 +144,7 @@ test("only explicitly selected embedded CPU reasoning gets the disclosed six-min
     const run = harness.create({ goal: "PsiCat offline memory", model });
     for (let step = 0; step < 3; step++) await harness.execute(harness.proposal(run.id), async () => true);
     const proposal = harness.proposal(run.id);
-    if (model === "psicat:embedded") assert.match(proposal.disclosure, /six-minute deadline/);
+    if (model === "psicat:embedded") assert.match(proposal.disclosure, /thirteen-minute deadline/);
     const pending = assert.rejects(harness.execute(proposal, async () => true), /deadline/);
     await new Promise((resolve) => setImmediate(resolve));
     if (model === "psicat:embedded") {

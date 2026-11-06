@@ -114,6 +114,13 @@ required 80%. Additional analytic and boundary regressions bring the focused
 suite to 690 passing tests and kill representative known survivors. Neither
 that test count nor representative kills substitute for a fresh full mutation
 score; the unchanged threshold remains a release gate.
+The larger portable-CPU model subsequently exceeded the five-minute request
+budget. The steward explicitly approved ten minutes, with slow performance
+disclosed and no correctness or safety relaxation. Runtime ownership,
+answering and optional review share that single ten-minute inference budget,
+rather than each receiving ten minutes. Embedded research discloses a
+thirteen-minute step budget to include startup; other tools retain their
+one-minute deadline. All paths remain cancellable and fail closed on timeout.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

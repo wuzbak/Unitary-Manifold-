@@ -1077,10 +1077,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "e0b9082f404c22a8624861f69a1b28b61b8d487c03f5d3906d7e2d77adf0b3b6",
-      "size_bytes": 31672,
-      "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim.",
+      "sha256": "4966756302046684e158b46e5affcdb4f24392d673802b955bf2619a9d510981",
+      "size_bytes": 31882,
+      "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "e0b9082f404c22a8624861f69a1b28b61b8d487c03f5d3906d7e2d77adf0b3b6",
+          "size_bytes": 31672,
+          "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "bcf4546dead8a561eb6cbd0b7221b35214fcdeb6bf06d2bc6b88ab25fd048da3",
@@ -1798,17 +1804,23 @@
       "description": "Product 45 bounded research policy, durable tasks, approvals and hash-linked audit",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "acb591eeacdab3eca3b8e39774e93aa37138ac3fe8ae466014df26fd1b44a3bd",
-      "size_bytes": 17852,
+      "updated": "2026-11-06",
+      "sha256": "df85c0447f9a74c1cc827d49a0ebe70387802866c35e06d1c361dfa6bc9df30b",
+      "size_bytes": 17917,
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "acb591eeacdab3eca3b8e39774e93aa37138ac3fe8ae466014df26fd1b44a3bd",
+          "size_bytes": 17852,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "01bc648aa011b25f4033dfdce8d16d35cfca40801a29411f7e09d6144e232f4e",
           "size_bytes": 17191
         }
       ],
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs": {
       "description": "Product 45 fixed-loopback bounded Ollama reasoning transport",
@@ -1838,17 +1850,23 @@
       "description": "Product 45 task/approval/budget/recovery/audit/worker regressions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "b82bb2389b5436b7313535f9260bd25990ea27f1ae70742530ad713405d4fd12",
-      "size_bytes": 14094,
+      "updated": "2026-11-06",
+      "sha256": "de6ade6f2eb54a9fb04e512c720402d056140ac660f50094246e9674ecad4e05",
+      "size_bytes": 14104,
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "b82bb2389b5436b7313535f9260bd25990ea27f1ae70742530ad713405d4fd12",
+          "size_bytes": 14094,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "7add3cb6bb5537c00cee4a26b6a101dfa42dd2389e5c68b1d62c29d95ad3130f",
           "size_bytes": 12857
         }
       ],
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs": {
       "description": "Product 45 bounded local model transport contract regressions",
@@ -2584,11 +2602,17 @@
       "description": "Product 43 Windows runtime integration and contracts: README.md",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "252ddfb733f84660df35c4576283f08a65b3440b26fe9f5d650aa50801ef3d81",
-      "size_bytes": 25653,
-      "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates.",
+      "updated": "2026-11-06",
+      "sha256": "ebbabb245c28f24ae71ede6c92e5c7e89a42080bd13d402c008d395fed05b3d2",
+      "size_bytes": 25647,
+      "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "252ddfb733f84660df35c4576283f08a65b3440b26fe9f5d650aa50801ef3d81",
+          "size_bytes": 25653,
+          "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "17bff86e0c95434d66103afca8bdb3372e742420d7440a11e31e6264e9eddc6d",
@@ -2909,10 +2933,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "006d802d7a50e7b494cc2ced96f2e389ee7610a9a84b2922a436d25764ef3586",
-      "size_bytes": 36678,
-      "reseal_note": "Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines.",
+      "sha256": "ff47e49c8a5e39108ecabe856ac6a8dde260ceda0f48db39260dfe0e20e6599f",
+      "size_bytes": 37018,
+      "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "006d802d7a50e7b494cc2ced96f2e389ee7610a9a84b2922a436d25764ef3586",
+          "size_bytes": 36678,
+          "reseal_note": "Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "82fa23b04b7f6977f19f5ec67c6ea9723ac28c3e52ad71d07cad4b28ce35f97e",
@@ -3025,10 +3055,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "37309105852402689e95107f8795d8cced68acfb62d5de2c6fb7a77e2f457b74",
-      "size_bytes": 38143,
-      "reseal_note": "Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines.",
+      "sha256": "f4363af5839808a33fabcf7ea0ceaed52c1b15d13088916daa1a37be31a6d392",
+      "size_bytes": 38184,
+      "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "37309105852402689e95107f8795d8cced68acfb62d5de2c6fb7a77e2f457b74",
+          "size_bytes": 38143,
+          "reseal_note": "Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "aff1fd74eae7445f1a25f002b30bcd64dfc03dc4d6277c9173c4e23d81d46d47",

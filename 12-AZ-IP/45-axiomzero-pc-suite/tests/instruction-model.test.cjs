@@ -77,7 +77,9 @@ const CHILD = String.raw`
         if (!nonce && config.mode === "reasoning") message.reasoning_content = "private thoughts";
         const choice = {finish_reason: !nonce && config.mode === "truncated" ? "length" : "stop",message};
         const output = JSON.stringify({choices:[choice]});
-        if (!nonce && config.mode === "slow-review") setTimeout(() => response.end(output), 90);
+        if (!nonce && config.mode === "slow-review") {
+          setTimeout(() => response.end(output), reviewing ? 450 : 100);
+        }
         else response.end(output);
       });
     });
@@ -338,13 +340,13 @@ test("production policy preserves formats, source labels, and instruction author
   assert.ok(system.includes("status is UNVERIFIED or UNSUPPORTED."));
 });
 
-test("default inference deadline is bounded at 300 seconds and remains cancellable", async (t) => {
+test("default inference deadline is bounded at 600 seconds and remains cancellable", async (t) => {
   const f = await fixture(t, { mode: "hang", runtime: { requestTimeoutMs: undefined } });
   const work = f.runtime.answer({ question: "x", evidence });
   const rejection = assert.rejects(work, /cancelled/);
   await f.inference;
   const args = f.launches[0].args;
-  assert.equal(args[args.indexOf("--timeout") + 1], "300");
+  assert.equal(args[args.indexOf("--timeout") + 1], "600");
   await f.runtime.cancel();
   await rejection;
   assert.notEqual(f.children[0].signalCode, null);
@@ -437,7 +439,7 @@ test("failed, malformed or invalid revisions never fall back to a valid draft", 
 });
 
 test("draft and review share the original inference deadline", async (t) => {
-  const f = await fixture(t, { mode: "slow-review", runtime: { requestTimeoutMs: 150, enableModelReview: true } });
+  const f = await fixture(t, { mode: "slow-review", runtime: { requestTimeoutMs: 500, enableModelReview: true } });
   await assert.rejects(f.runtime.answer({ question: "x", evidence }), /deadline/);
   assert.equal(f.messages.filter((message) => message.type === "inference").length, 2);
   assert.notEqual(f.children[0].signalCode, null);

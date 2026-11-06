@@ -1129,3 +1129,16 @@ Steward-approved small NSIS installer with verified offline model parts, install
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `e0b9082f404c22a8624861f69a1b28b61b8d487c03f5d3906d7e2d77adf0b3b6` | 31672 |
 | `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6` | 3325 |
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/windows-smoke.ps1` | `2929aa56088bc001ea6d7db5e14df3a300f24b00a0c6bca7200edc8f2ad02ed9` | 5771 |
+
+### Approved shared ten-minute CPU inference budget — 2026-11-06
+
+Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `4966756302046684e158b46e5affcdb4f24392d673802b955bf2619a9d510981` | 31882 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs` | `df85c0447f9a74c1cc827d49a0ebe70387802866c35e06d1c361dfa6bc9df30b` | 17917 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs` | `de6ade6f2eb54a9fb04e512c720402d056140ac660f50094246e9674ecad4e05` | 14104 |
+| `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `ebbabb245c28f24ae71ede6c92e5c7e89a42080bd13d402c008d395fed05b3d2` | 25647 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `ff47e49c8a5e39108ecabe856ac6a8dde260ceda0f48db39260dfe0e20e6599f` | 37018 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `f4363af5839808a33fabcf7ea0ceaed52c1b15d13088916daa1a37be31a6d392` | 38184 |

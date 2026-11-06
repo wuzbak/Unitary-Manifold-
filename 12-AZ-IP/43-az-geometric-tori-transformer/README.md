@@ -55,8 +55,8 @@ must match. Provenance retains both snapshots, while explicitly not claiming
 the observed base revision was used for the conversion. The project has not
 reproduced the conversion and performs no local requantization.
 Actual hosted acceptance must pass before packaging; this candidate is not yet
-qualified. Hosted acceptance uses `--request-timeout 300`, matching the
-production runtime's existing request deadline; the standalone CLI default
+qualified. Hosted acceptance uses the steward-approved `--request-timeout 600`
+for the larger portable-CPU model; the standalone CLI default
 remains 120 seconds. Threads, contexts, acceptance criteria and default-off
 review are unchanged. The steward-approved claim-detector correction accepts
 explicit local negation, rather than treating every occurrence of an action
