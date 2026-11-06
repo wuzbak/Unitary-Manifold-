@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8636,
+  "file_count": 8651,
   "lanes": {
     "az_ip": 2648,
     "compactification": 9,
-    "other": 5565,
+    "other": 5580,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -50,6 +50,7 @@
     "EIGE": 1,
     "FALLIBILITY.md": 1,
     "FINAL_MANIFOLD_AUDIT.md": 1,
+    "GRANT APPLICATIONS": 15,
     "HILS_SESSION_CURRENT.md": 1,
     "HILS_SESSION_LOG.md": 1,
     "HISTORICAL-MILESTONES": 4,
@@ -31746,6 +31747,96 @@
     {
       "path": "FINAL_MANIFOLD_AUDIT.md",
       "top_level": "FINAL_MANIFOLD_AUDIT.md",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/00-SHARED/EVIDENCE-LEDGER.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/00-SHARED/TEAM-AND-REVIEW.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/01-NOAA-FY27-SBIR/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/02-NSF-SBIR/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/03-NSF-PESOSE/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/04-DOE-FY26-SBIR/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/05-GITHUB-SECURE-OSS/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/06-UNITARY-FOUNDATION/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/07-DELTakit-COMMUNITY-FUND/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/08-FORESIGHT-AI-SAFETY-NODES/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/09-NLNET-RESTACK/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/10-COEFFICIENT-PROJECT-TAILWIND/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/11-NASA-SBIR/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/12-MOZILLA-HUMAN-SCALE-AI/README.md",
+      "top_level": "GRANT APPLICATIONS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "GRANT APPLICATIONS/README.md",
+      "top_level": "GRANT APPLICATIONS",
       "kind": "file",
       "lane": "other"
     },

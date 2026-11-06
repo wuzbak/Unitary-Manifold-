@@ -193,6 +193,10 @@ training, JAX, workbench and native browser/sidecars. Its UI smoke observed
 readiness poll now requires both sets of 45 cards within a bounded sixty
 seconds; a simulated delayed-runtime CDP regression executes the whole smoke
 and proves catalog-only readiness cannot end the poll. All UI assertions remain.
+Merged mainline PR #1180's grant-documentation history without changing its
+content or any runtime/physics implementation. Rebuilt the combined Git-index
+inventory after resolving its generated-map conflict; map checks and all six
+map regressions pass. Complete qualification is bound to the reconciled head.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 
