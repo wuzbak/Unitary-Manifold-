@@ -165,6 +165,13 @@ remain rejected. Native qualification requires three consecutive fresh-process
 governed passes and stops on any failure, followed by separate installed
 inference; this is not retry-until-green. The job allows sixty minutes for the
 additional trials, without changing any individual operation deadline.
+Run 42257334120 passed independent candidate acceptance and all three
+consecutive fresh-process governed inference trials. Packaging was correctly
+blocked by a recovered-product test: its legacy digest-less receipt fixture
+still assumed filesystem and process clock ordering. The test now places
+source mtimes explicitly before/after its parsed receipt timestamp, retaining
+fresh, stale and invalid-timestamp assertions. Production freshness behavior
+is unchanged, including fail-closed legacy timestamp checks.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

@@ -7,6 +7,7 @@ import json
 import os
 import sys
 import time
+from datetime import datetime
 from pathlib import Path
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
@@ -230,11 +231,14 @@ def test_legacy_receipt_without_digest_keeps_timestamp_staleness(tmp_path, monke
     session = MerlinSession()
     receipt = dict(training_execution._execute_queue_item(item, session=session))
     receipt["source_snapshot"] = {k: v for k, v in receipt["source_snapshot"].items() if k != "content_digest"}
+    completed_ns = int(datetime.fromisoformat(receipt["completed_at"]).timestamp()) * 1_000_000_000
+    before_ns = completed_ns - 5_000_000_000
+    os.utime(source, ns=(before_ns, before_ns))
     assert training_execution._resolve_queue_status(item, receipt, session=session) == "completed"
-    ahead_ns = time.time_ns() + 5_000_000_000
+    ahead_ns = completed_ns + 5_000_000_000
     os.utime(source, ns=(ahead_ns, ahead_ns))
     assert training_execution._resolve_queue_status(item, receipt, session=session) == "stale_retrain_required"
-    os.utime(source, ns=(ahead_ns - 10_000_000_000, ahead_ns - 10_000_000_000))
+    os.utime(source, ns=(before_ns, before_ns))
     receipt["completed_at"] = "not-a-timestamp"
     assert training_execution._resolve_queue_status(item, receipt, session=session) == "stale_retrain_required"
 
