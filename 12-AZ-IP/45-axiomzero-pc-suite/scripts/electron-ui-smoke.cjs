@@ -58,7 +58,7 @@ async function verifyWindow(target) {
       const timer = setTimeout(() => {
         pending.delete(id);
         reject(new Error(`DevTools request timed out: ${method}`));
-      }, 5000);
+      }, params.awaitPromise ? 60000 : 5000);
       pending.set(id, { resolve, reject, timer });
       socket.send(JSON.stringify({ id, method, params }));
     });

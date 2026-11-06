@@ -17,3 +17,11 @@ test("Windows qualification installs the real local companion model and rejects 
   assert.match(script, /instruction_smoke\.cjs"\) \(Join-Path \$installDirectory "resources\\psicat-instruction"\)/);
   assert.doesNotMatch(script, /\$portable|win-unpacked/);
 });
+
+test("UI diagnostics retain bounded time for awaited installed-resource verification", () => {
+  const script = fs.readFileSync(path.join(__dirname, "../scripts/electron-ui-smoke.cjs"), "utf8");
+  assert.match(script, /params\.awaitPromise \? 60000 : 5000/);
+  assert.match(script, /getNativeModel\(\)/);
+  assert.match(script, /listRuntimes\(\)/);
+  assert.match(script, /assert\.deepEqual\(exceptions, \[\]/);
+});

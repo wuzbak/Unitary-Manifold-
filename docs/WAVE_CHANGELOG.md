@@ -121,6 +121,14 @@ answering and optional review share that single ten-minute inference budget,
 rather than each receiving ten minutes. Embedded research discloses a
 thirteen-minute step budget to include startup; other tools retain their
 one-minute deadline. All paths remain cancellable and fail closed on timeout.
+Native run 42152042004 built the smaller installer, rejected missing and
+tampered companion parts, installed and verified the complete model, and
+passed installed inference, native training, JAX, workbench and browser
+lifecycle checks. Its UI diagnostic then hit a five-second DevTools deadline
+while awaiting resource-backed status checks. Awaited diagnostic promises
+now receive a bounded sixty seconds; synchronous DOM checks retain five
+seconds. Assertions, renderer exception checks and actual installation
+coverage are unchanged; this is not an inference acceptance substitution.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 
