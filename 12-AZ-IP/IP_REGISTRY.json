@@ -1666,11 +1666,17 @@
       "description": "Product 45 Windows Electron DevTools UI and renderer exception smoke check",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "2d881033c860bcf4c5258d6739daed96ae8f7011ec985367d8c9602949b54e16",
-      "size_bytes": 9795,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-06",
+      "sha256": "6c37a458f8c12d05e4bcdaf5a952ac25bd232d42d6251c668bb7e95d05a60ea5",
+      "size_bytes": 9825,
+      "reseal_note": "Bound asynchronous installed-resource UI diagnostics at sixty seconds while retaining five-second synchronous DOM checks and every assertion; actual offline installer and installed inference already passed.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "2d881033c860bcf4c5258d6739daed96ae8f7011ec985367d8c9602949b54e16",
+          "size_bytes": 9795,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "733a19a7001fcc2f18dab36342138d30b019892c53c55992d66336499b81e5f4",

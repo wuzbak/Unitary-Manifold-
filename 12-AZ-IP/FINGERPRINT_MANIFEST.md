@@ -1142,3 +1142,11 @@ Steward-approved bounded ten-minute inference shared by ownership, answering and
 | `12-AZ-IP/43-az-geometric-tori-transformer/README.md` | `ebbabb245c28f24ae71ede6c92e5c7e89a42080bd13d402c008d395fed05b3d2` | 25647 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `ff47e49c8a5e39108ecabe856ac6a8dde260ceda0f48db39260dfe0e20e6599f` | 37018 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `f4363af5839808a33fabcf7ea0ceaed52c1b15d13088916daa1a37be31a6d392` | 38184 |
+
+### Installed-resource UI diagnostic timing reseal — 2026-11-06
+
+Bound asynchronous installed-resource UI diagnostics at sixty seconds while retaining five-second synchronous DOM checks and every assertion; actual offline installer and installed inference already passed. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `6c37a458f8c12d05e4bcdaf5a952ac25bd232d42d6251c668bb7e95d05a60ea5` | 9825 |
