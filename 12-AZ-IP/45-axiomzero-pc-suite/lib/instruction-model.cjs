@@ -236,7 +236,23 @@ function completionBody(prompt, draft = null) {
   const body = { model: ALIAS, stream: false, temperature: 0, seed: 0, max_tokens: 128,
     chat_template_kwargs: { enable_thinking: false },
     messages: [{ role: "system", content: system }, { role: "user", content: prompt }] };
-  body.response_format = { type: "json_object" };
+  body.response_format = {
+    type: "json_schema",
+    json_schema: {
+      name: "instruction_response",
+      strict: true,
+      schema: {
+        type: "object",
+        properties: {
+          status: { type: "string" },
+          answer: { type: "string" },
+          citations: { type: "array", items: { type: "string" } }
+        },
+        required: ["status", "answer", "citations"],
+        additionalProperties: false
+      }
+    }
+  };
   if (Buffer.byteLength(system + prompt) > LIMITS.promptBytes ||
       Buffer.byteLength(JSON.stringify(body)) > LIMITS.requestBytes) {
     throw failure("Instruction prompt exceeds the bounded input budget.", "INPUT_LIMIT");

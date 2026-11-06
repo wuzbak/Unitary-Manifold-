@@ -38,10 +38,11 @@ choose an executable, endpoint, API key or arbitrary filesystem path. The owned
 server uses a fresh loopback port and API key, bounded CPU/context/output budgets
 and explicit cancellation/shutdown. Retrieved text is reference data, not tool
 authority; model output never runs tools, commands or file writes.
-The client requests generic JSON-object constrained decoding for answers,
-but not the ownership challenge. This does not supply answer values or prove
-grounding. Unsupported decoding fails explicitly; no output repair or
-unconstrained retry replaces the strict response checks.
+The client requests JSON-schema constrained decoding for ownership, answers
+and optional review. The schema enforces only the existing three keys and
+their string/array types; it supplies no nonce, answer, status or citation
+values and does not prove grounding. Unsupported decoding fails explicitly;
+no output repair or unconstrained retry replaces the strict response checks.
 The shared candidate/runtime policy requires categorical labels without
 explanatory prose and keeps refusal explanations about instruction authority
 or unsafe actions separate from capability limits. Contract tests check that

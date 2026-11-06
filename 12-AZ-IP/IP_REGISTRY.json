@@ -1077,10 +1077,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "4966756302046684e158b46e5affcdb4f24392d673802b955bf2619a9d510981",
-      "size_bytes": 31882,
-      "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged.",
+      "sha256": "48ac94f302ababed1c8cc547c8190a8d8cb6cf1f17e2fc31feb263bf63a3509d",
+      "size_bytes": 31982,
+      "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "4966756302046684e158b46e5affcdb4f24392d673802b955bf2619a9d510981",
+          "size_bytes": 31882,
+          "reseal_note": "Steward-approved bounded ten-minute inference shared by ownership, answering and optional review, with explicit slower-CPU disclosure and research startup allowance; correctness and safety unchanged."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "e0b9082f404c22a8624861f69a1b28b61b8d487c03f5d3906d7e2d77adf0b3b6",
@@ -2939,10 +2945,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "65de46f9352b7ca394576453f5ce43b1de13fece3b886301b6de0c1eaa342f85",
-      "size_bytes": 37303,
-      "reseal_note": "Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline.",
+      "sha256": "4dfbf6aa987573e86433511681a5525ddbad8be02724c5b3f954a82becc91384",
+      "size_bytes": 37703,
+      "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "65de46f9352b7ca394576453f5ce43b1de13fece3b886301b6de0c1eaa342f85",
+          "size_bytes": 37303,
+          "reseal_note": "Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "43edd7a31c766dfd865f2bff05e926d93c7c500517ae6c4f55c199710de96571",
@@ -3073,10 +3085,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "4fb2b7911c07adca17f698fd8d8e8096da489b10f8a91af683231ac3ba69faa2",
-      "size_bytes": 39395,
-      "reseal_note": "Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline.",
+      "sha256": "d7420f25d02f4f42afcf73ae3b1a1eab765484857462c28ed00a858008223e76",
+      "size_bytes": 39909,
+      "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "4fb2b7911c07adca17f698fd8d8e8096da489b10f8a91af683231ac3ba69faa2",
+          "size_bytes": 39395,
+          "reseal_note": "Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "7b177c477095c819da6f438253d23ba73922fb853ddb76fe22ee5a7961a20158",

@@ -143,6 +143,13 @@ completion under the text-only bounded protocol. Ownership now has the same
 64-token cap. Truncated completions still fail closed and now identify token
 exhaustion explicitly; exact nonce/schema/status/citation and non-thinking
 checks, answer limits and the shared ten-minute deadline are unchanged.
+Run 42165044639 passed actual candidate acceptance but the governed ownership
+reply had incorrect JSON keys. Runtime completions now request the pinned
+engine's JSON-schema decoding for the existing three-field response shape.
+The shared schema contains only key/type requirements, no nonce or other
+answer values. Exact output validation, source grounding, authentication and
+the unchanged independent candidate acceptance cases remain mandatory;
+unsupported schema decoding fails without an unconstrained retry.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

@@ -1168,3 +1168,13 @@ Use the same bounded 128-token completion allocation for ownership and ordinary 
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `65de46f9352b7ca394576453f5ce43b1de13fece3b886301b6de0c1eaa342f85` | 37303 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `4fb2b7911c07adca17f698fd8d8e8096da489b10f8a91af683231ac3ba69faa2` | 39395 |
+
+### Structure-only runtime JSON decoding reseal — 2026-11-06
+
+Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `48ac94f302ababed1c8cc547c8190a8d8cb6cf1f17e2fc31feb263bf63a3509d` | 31982 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `4dfbf6aa987573e86433511681a5525ddbad8be02724c5b3f954a82becc91384` | 37703 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `d7420f25d02f4f42afcf73ae3b1a1eab765484857462c28ed00a858008223e76` | 39909 |

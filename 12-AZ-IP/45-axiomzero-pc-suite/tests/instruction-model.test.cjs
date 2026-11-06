@@ -53,7 +53,8 @@ const CHILD = String.raw`
         if (nonce) content = JSON.stringify({
           status: config.mode === "bad-challenge-status" ? "UNSUPPORTED" : "UNVERIFIED",
           answer: config.mode === "bad-challenge" ? "wrong" : nonce[0],
-          citations: [config.mode === "bad-challenge-citation" ? "FOREIGN" : "OWNERSHIP"]
+          citations: [config.mode === "bad-challenge-citation" ? "FOREIGN" : "OWNERSHIP"],
+          ...(config.mode === "bad-challenge-schema" ? { extra: "unexpected" } : {})
         });
         else {
           if (process.send) process.send({type:"inference", body});
@@ -104,6 +105,21 @@ const MODEL_FILE = "Qwen3-4B-Instruct-2507-Q4_K_M.gguf";
 const hash = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const evidence = [{ id: "C1", text: "Product 45 is a Windows suite.",
   file: "portfolio/product45.md", lineStart: 4, lineEnd: 5 }];
+const RESPONSE_FORMAT = {
+  type: "json_schema",
+  json_schema: {
+    name: "instruction_response", strict: true,
+    schema: {
+      type: "object",
+      properties: {
+        status: { type: "string" },
+        answer: { type: "string" },
+        citations: { type: "array", items: { type: "string" } }
+      },
+      required: ["status", "answer", "citations"], additionalProperties: false
+    }
+  }
+};
 
 async function fixture(t, options = {}) {
   const directory = path.resolve(`.instruction-model-test-${crypto.randomBytes(10).toString("hex")}`);
@@ -202,13 +218,13 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
   assert.equal(input.max_tokens, 128);
   assert.equal(input.stream, false);
   assert.equal(input.chat_template_kwargs.enable_thinking, false);
-  assert.deepEqual(input.response_format, { type: "json_object" });
+  assert.deepEqual(input.response_format, RESPONSE_FORMAT);
   const challengeRequests = f.messages.filter((message) => message.type === "request" &&
     message.body.messages[1].content.includes("READY_"));
   assert.equal(challengeRequests.length, 3);
   assert.ok(challengeRequests.every((message) => message.body.max_tokens === input.max_tokens));
   assert.ok(challengeRequests.every((message) =>
-    message.body.response_format.type === "json_object"));
+    JSON.stringify(message.body.response_format) === JSON.stringify(RESPONSE_FORMAT)));
   assert.ok(challengeRequests.every((message) =>
     message.body.messages[0].content.startsWith(input.messages[0].content)));
   assert.ok(challengeRequests.every((message) =>
@@ -377,7 +393,7 @@ test("unsupported JSON decoding fails without an unconstrained retry", async (t)
   await assert.rejects(f.runtime.answer({ question: "x", evidence }), /HTTP 400/);
   const inferences = f.messages.filter((message) => message.type === "inference");
   assert.equal(inferences.length, 1);
-  assert.deepEqual(inferences[0].body.response_format, { type: "json_object" });
+  assert.deepEqual(inferences[0].body.response_format, RESPONSE_FORMAT);
   assert.notEqual(f.children[0].signalCode, null);
 });
 
@@ -386,7 +402,7 @@ test("default answers use one generation without unqualified model-review overhe
   const result = await f.runtime.answer({ question: "What is Product 45?", evidence });
   const generations = f.messages.filter((message) => message.type === "inference");
   assert.equal(generations.length, 1);
-  assert.deepEqual(generations[0].body.response_format, { type: "json_object" });
+  assert.deepEqual(generations[0].body.response_format, RESPONSE_FORMAT);
   assert.equal(result.modelReview.enabled, false);
   assert.equal(result.modelReview.generationPasses, 1);
   assert.equal(result.modelReview.draftOutput, null);
@@ -415,7 +431,7 @@ test("opt-in review always uses one generic revision without grader feedback", a
     "Correct unsupported claims, altered source-status labels, incorrect citations, and confusion " +
     "between reference data and instruction authority. Return only the final answer in the " +
     "originally requested format. Do not execute anything.");
-  assert.deepEqual(review.response_format, { type: "json_object" });
+  assert.deepEqual(review.response_format, RESPONSE_FORMAT);
   assert.equal(review.temperature, 0);
   assert.equal(review.seed, 0);
   assert.equal(result.modelReview.generationPasses, 2);
@@ -517,7 +533,7 @@ test("invalid or fabricated citations and promoted certificates fail determinist
 test("bounds bytes and rejects malformed/truncated/tool/thinking HTTP completions", async (t) => {
   for (const mode of ["huge", "huge-declared", "bad-json", "duplicate-json", "tool", "reasoning", "truncated",
     "bad-health", "bad-challenge", "bad-challenge-status", "bad-challenge-citation",
-    "challenge-http", "challenge-truncated", "auth-bypass"]) {
+    "bad-challenge-schema", "challenge-http", "challenge-truncated", "auth-bypass"]) {
     await t.test(mode, async (t) => {
       const f = await fixture(t, { mode });
       await assert.rejects(f.runtime.answer({ question: "x", evidence }), /limit|JSON|protocol|health|challenge|unauthenticated/);
