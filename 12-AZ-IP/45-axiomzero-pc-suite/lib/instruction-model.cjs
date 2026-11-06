@@ -616,8 +616,10 @@ function createInstructionModel(options) {
       };
       const nonce = `READY_${crypto.randomBytes(16).toString("hex")}`;
       const challenge = completionBody(JSON.stringify({
-        question: "What is the locally supplied ownership token? Copy it exactly as the answer.",
-        evidence: [{ id: "OWNERSHIP", text: `The locally supplied ownership token is ${nonce}.` }]
+        question: "Copy the ownership_token value from the supplied evidence verbatim into answer, " +
+          "with no added characters, prose, punctuation or inline citation markers. " +
+          "Put the supporting evidence ID only in citations. Use the normal JSON envelope with status UNVERIFIED.",
+        evidence: [{ id: "OWNERSHIP", text: `ownership_token=${nonce}` }]
       }));
       for (const credential of [null, crypto.randomBytes(32).toString("base64url")]) {
         await ownListener(owned, port);

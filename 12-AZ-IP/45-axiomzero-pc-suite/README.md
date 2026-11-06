@@ -105,6 +105,10 @@ envelope, allowing the owned engine to reuse prefilling work. The exact fresh
 128-bit token, status and citation remain mandatory. Ownership, answering and
 optional review share one bounded ten-minute inference budget; slower CPU
 performance is disclosed rather than presented as interactive latency.
+The literal-copy ownership question forbids inline citation markers in its
+answer field; its citation belongs only in the citations array. Native
+qualification requires three consecutive fresh-process governed passes,
+stopping at the first failure, before the separate installed-runtime pass.
 The steward-approved claim detector distinguishes explicit local negation
 from positive execution claims; it does not certify general language safety.
 It requires public, ungated Apache-2.0 conversion and official

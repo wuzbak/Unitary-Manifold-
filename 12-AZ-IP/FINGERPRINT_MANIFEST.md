@@ -1188,3 +1188,13 @@ Constrain runtime status spelling to both existing protocol labels, without sele
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `6e51d48c62714158aad960da2c6636dbfc0fdff69ae8b85fc7540956534c8c0c` | 32070 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `937997fa2eb99bdec163432ee3e8bab27c1084a7b582c251005618e740776d65` | 37740 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `11bd403252e63e78bfb2f67b9556ecd5b1b2dba357ffe1077c89b43823e21247` | 39946 |
+
+### Literal ownership qualification reseal — 2026-11-06
+
+Disambiguate literal ownership copying from ordinary inline-cited Q&A; retain exact fresh-token/status/citation validation and require three consecutive fresh-process native passes without retrying failures. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `198102f34a66a5331583c5752bdaf878e6bd85eb203166f36c86bdf9946ba35f` | 32363 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `c08c1e0b1483c60d1c5bcb9f224d59f1eaf6054b72f6fb8e99d86a519c89714c` | 37924 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `cfb82dd889b96b5a22ff6c6b57de35c1fbf6d0f01f59ab36b7702d4fb58b2645` | 40211 |

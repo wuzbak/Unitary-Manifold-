@@ -156,6 +156,15 @@ allows exactly the two pre-existing protocol labels, UNVERIFIED or UNSUPPORTED,
 without selecting between them. Ownership still rejects UNSUPPORTED and all
 incorrect token/citation values; ordinary answers retain both status choices.
 No evidence answer, nonce or citation value is constrained into the output.
+Run 42253378416 passed independent candidate acceptance but failed exact
+ownership answer/citation validation. Expert review identified ambiguity
+between normal cited Q&A and literal-token copying. Ownership evidence is
+now an unpunctuated key/value; its question explicitly forbids answer suffixes
+and puts citation IDs only in the citations array. Annotated token replies
+remain rejected. Native qualification requires three consecutive fresh-process
+governed passes and stops on any failure, followed by separate installed
+inference; this is not retry-until-green. The job allows sixty minutes for the
+additional trials, without changing any individual operation deadline.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 
