@@ -390,7 +390,7 @@ function createInstructionModel(options) {
   const execute = options.execute || executeFile;
   const request = options.request || requestHTTP;
   const startupTimeoutMs = boundedNumber(options.startupTimeoutMs, 120000, 300000);
-  const requestTimeoutMs = boundedNumber(options.requestTimeoutMs, 600000, 600000);
+  const requestTimeoutMs = boundedNumber(options.requestTimeoutMs, 900000, 900000);
   const stopTimeoutMs = boundedNumber(options.stopTimeoutMs, 5000, 10000);
   const threads = boundedNumber(options.threads, 4, 4);
   const enableModelReview = options.enableModelReview === undefined ? false : options.enableModelReview;

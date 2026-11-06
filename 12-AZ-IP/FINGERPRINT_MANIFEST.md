@@ -1216,3 +1216,15 @@ Wait for both catalog and asynchronous runtime cards in installed UI qualificati
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `b236099a06e069e66a184c7cf8fec3ae1c03e8481ea54097657777e78ae2f7fd` | 9886 |
+
+### Approved shared fifteen-minute CPU inference budget reseal — 2026-11-06
+
+Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `f8556f7e05d3f66ceea98c1b66f5f16860b263307c03acbcd3fc764b212bc97e` | 32399 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs` | `f6510866cffbc84e7df9a6cbf4a95653fc8b04e28a1c489c36120bb20160e2e0` | 17923 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs` | `446bfcbed0aa03055566a02108751d22078bfdf12c789efaaf44dec31c5dbbc5` | 14104 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d19cdb67ab305a316fe376ca22680187d58a193fd7746a494343d4cd31f20cdf` | 37924 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `7a08c91dc598fb6b481107965b3cb4e7667b354a8b5cd47e78d7dffa233d724c` | 40380 |

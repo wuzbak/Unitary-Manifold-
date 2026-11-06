@@ -86,8 +86,8 @@ and evidence** saves only after native destination selection; exported reports
 contain potentially private source excerpts and are not encrypted.
 
 The research control plane accepts `psicat:embedded` for the same backend with
-separate step approvals and a disclosed thirteen-minute CPU step budget,
-including startup and a shared ten-minute inference budget. Other
+separate step approvals and a disclosed eighteen-minute CPU step budget,
+including startup and a shared fifteen-minute inference budget. Other
 steps retain their 60-second deadline. Excerpts are bounded to 1,200 UTF-8 bytes
 for embedded research, or 600 bytes each for catalog/imported Ask PsiCat
 references; this deliberately small context budget reflects measured baseline
@@ -98,13 +98,14 @@ their separate explicit disclosure.
 Windows packaging depends on actual instruction/citation/refusal acceptance.
 The workflow verifies the conversion against Unsloth's LFS hash and exact
 repository revision under the approved **3,000,000,000-byte model cap**.
-Hosted acceptance uses the approved 600-second request deadline;
+Independent hosted acceptance retains its 600-second request deadline;
 no answer, citation, refusal or authorization criterion is relaxed.
 The ownership challenge and answer use the same system policy and JSON
 envelope, allowing the owned engine to reuse prefilling work. The exact fresh
 128-bit token, status and citation remain mandatory. Ownership, answering and
-optional review share one bounded ten-minute inference budget; slower CPU
-performance is disclosed rather than presented as interactive latency.
+optional review share one steward-approved bounded fifteen-minute inference
+budget; slower CPU performance is disclosed rather than presented as
+interactive latency.
 The literal-copy ownership question forbids inline citation markers in its
 answer field; its citation belongs only in the citations array. Native
 qualification requires three consecutive fresh-process governed passes,
@@ -493,8 +494,8 @@ A restart marks in-flight execution interrupted and requires new approval.
 Failed steps show their error and can be explicitly retried within the
 **six-attempt total budget**; there are no hidden retries or unconstrained
 loops. Ordinary execution has a **60-second deadline**; explicitly approved
-embedded CPU reasoning has a **thirteen-minute deadline**, including startup
-and a shared ten-minute inference budget. Evidence search runs
+embedded CPU reasoning has an **eighteen-minute deadline**, including startup
+and a shared fifteen-minute inference budget. Evidence search runs
 outside the main UI thread, outputs are capped at **24,000 characters**, and
 context at **12,000 characters**. Context truncation is disclosed; full
 results remain in step checkpoints. The optional local model response is

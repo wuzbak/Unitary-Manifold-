@@ -11,7 +11,7 @@ const POLICY = Object.freeze({
   maxContextChars: 12000,
   maxEvents: 2000,
   stepTimeoutMs: 60000,
-  embeddedStepTimeoutMs: 780000,
+  embeddedStepTimeoutMs: 1080000,
   epistemicLabel: "UNVERIFIED"
 });
 const SCHEMA = "axiomzero-research-harness-v1";
@@ -205,7 +205,7 @@ class ResearchHarness {
       checkpointHash: digest(run),
       disclosure: step.tool === "model.reason"
         ? run.model === "psicat:embedded"
-          ? "Run the bundled CPU Qwen/llama.cpp instruction backend with the goal and up to 1,200 UTF-8 bytes of prior results as quoted evidence [E1]. This CPU step has a thirteen-minute deadline, including startup and a shared ten-minute inference budget; cancellation remains available. No cloud or external model service is contacted. The report checkpoint retains the answer. Model output is unverified; citations do not establish entailment."
+          ? "Run the bundled CPU Qwen/llama.cpp instruction backend with the goal and up to 1,200 UTF-8 bytes of prior results as quoted evidence [E1]. This CPU step has an eighteen-minute deadline, including startup and a shared fifteen-minute inference budget; cancellation remains available. No cloud or external model service is contacted. The report checkpoint retains the answer. Model output is unverified; citations do not establish entailment."
           : `Send the goal and at most 12,000 characters of prior results to Ollama at 127.0.0.1:11434 using "${run.model}". The local service controls its own retention. Model output is unverified.`
         : "Read only the bundled catalog or imported local index, or compose their evidence report. No source writes, shell commands, cloud requests, or epistemic promotion."
     };

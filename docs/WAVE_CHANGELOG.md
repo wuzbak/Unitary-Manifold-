@@ -197,6 +197,16 @@ Merged mainline PR #1180's grant-documentation history without changing its
 content or any runtime/physics implementation. Rebuilt the combined Git-index
 inventory after resolving its generated-map conflict; map checks and all six
 map regressions pass. Complete qualification is bound to the reconciled head.
+Run 42274742401 passed all prerequisite native gates and three governed
+inference trials, but installed inference exceeded the shared ten-minute
+deadline on its slower Windows runner. The steward explicitly approved a
+shared fifteen-minute ownership/answer/optional-review budget with disclosed
+slower CPU performance. It remains one operation-wide budget, not fifteen
+minutes per pass; cancellation, exact validation and fail-on-error gates are
+unchanged. Embedded research discloses an eighteen-minute step including
+startup; other tools retain one minute. Independent candidate acceptance
+retains its 600-second request deadline and original cases. The native job
+allows seventy-five minutes for three consecutive governed trials plus setup.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

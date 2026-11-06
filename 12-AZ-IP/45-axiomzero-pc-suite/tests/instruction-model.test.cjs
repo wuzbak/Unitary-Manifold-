@@ -379,16 +379,19 @@ test("production policy preserves formats, source labels, and instruction author
   assert.ok(system.includes("status is UNVERIFIED or UNSUPPORTED."));
 });
 
-test("default inference deadline is bounded at 600 seconds and remains cancellable", async (t) => {
+test("default inference deadline is bounded at 900 seconds and remains cancellable", async (t) => {
   const f = await fixture(t, { mode: "hang", runtime: { requestTimeoutMs: undefined } });
   const work = f.runtime.answer({ question: "x", evidence });
   const rejection = assert.rejects(work, /cancelled/);
   await f.inference;
   const args = f.launches[0].args;
-  assert.equal(args[args.indexOf("--timeout") + 1], "600");
+  assert.equal(args[args.indexOf("--timeout") + 1], "900");
   await f.runtime.cancel();
   await rejection;
   assert.notEqual(f.children[0].signalCode, null);
+  assert.throws(() => createInstructionModel({
+    resourcesDirectory: f.resourcesDirectory, dataDirectory: path.resolve("."), requestTimeoutMs: 900001
+  }), /budget/);
 });
 
 test("unsupported JSON decoding fails without an unconstrained retry", async (t) => {
