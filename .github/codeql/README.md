@@ -11,7 +11,7 @@ smaller database.
 | Command | Used by | What it does |
 |---|---|---|
 | `python TOOLS/checks/codeql_slices.py check` | CI (`codeql-language-matrix.yml`, first step) and `tests/ci_tooling/test_codeql_slices.py` | Fails if any tracked `.py` file is in no slice, or if a slice path matches no tracked file (CodeQL aborts on a missing path) |
-| `python TOOLS/checks/codeql_slices.py plan` | CI | Builds the job matrix: slices touching the changed files, or every slice on schedule/manual runs, or when the plan itself changes |
+| `python TOOLS/checks/codeql_slices.py plan` | CI | Builds the complete job matrix on PRs, pushes, schedules and manual runs so uploaded categories match the baseline |
 | `python TOOLS/checks/codeql_slices.py analyze SLICE...` | People and agents | Runs the same scoped analysis locally with the CodeQL CLI and writes SARIF plus a summary to `codeql-results/` |
 
 `analyze` looks for the CLI in `--codeql`, then `$CODEQL_CLI`, then `PATH`,
@@ -21,6 +21,15 @@ makes it exit 1 on any error or warning result.
 
 When adding a top-level directory or product with Python code, add it to a
 slice. `check` fails until you do.
+
+Changed-file planning remains available locally with `plan --changed-from FILE`,
+but CI must not omit unchanged categories: GitHub otherwise cannot compare all
+baseline configurations against the PR. Renaming or splitting a category also
+requires explicit baseline migration. Preserve the old analysis metadata and
+SARIF, verify successful replacement scopes cover every former path, and obtain
+steward approval before retiring obsolete baseline configurations. Do not dismiss
+alerts, delete current configurations or upload empty substitute analyses to
+silence a missing-configuration warning.
 
 ## Why this exists
 

@@ -1,5 +1,21 @@
 # Wave Changelog
 
+## Complete CodeQL comparison coverage (2026-11-06)
+
+PR #1177's CodeQL jobs passed, but the aggregate remained neutral because
+changed-file planning omitted five current categories and the main baseline
+retained three obsolete categories (`python-core`, `python-product20`,
+`python-psicat-runtime`). CI now analyses every manifest slice on every event,
+without changing security queries or suppressing alerts. An executable workflow
+regression checks that the complete category set is emitted. Local changed-file
+planning remains available outside CI.
+
+The steward approved retiring only those three obsolete baseline configurations
+after preserving their metadata/SARIF and verifying successful replacement
+coverage. That cleanup is separate from source changes and remains contingent
+on evidence preservation; no current configuration or alert may be dismissed to
+manufacture a green check. Fresh current-head checks are required.
+
 ## Supported macOS smoke runner (2026-11-06)
 
 PR #1177's final software/model/installer, regression and mutation gates passed
