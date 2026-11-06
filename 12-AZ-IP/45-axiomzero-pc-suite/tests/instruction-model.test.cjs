@@ -87,7 +87,8 @@ const CHILD = String.raw`
         if (config.mode === "empty-tools") message.tool_calls = [];
         if (!nonce && config.mode === "tool") message.tool_calls = [{function:{name:"shell",arguments:"upload"}}];
         if (!nonce && config.mode === "reasoning") message.reasoning_content = "private thoughts";
-        const choice = {finish_reason: !nonce && config.mode === "truncated" ? "length" : "stop",message};
+        const choice = {finish_reason: (!nonce && config.mode === "truncated") ||
+          (nonce && config.mode === "challenge-truncated") ? "length" : "stop",message};
         const output = JSON.stringify({choices:[choice]});
         if (!nonce && config.mode === "slow-review") {
           setTimeout(() => response.end(output), reviewing ? 450 : 100);
@@ -205,7 +206,7 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
   const challengeRequests = f.messages.filter((message) => message.type === "request" &&
     message.body.messages[1].content.includes("READY_"));
   assert.equal(challengeRequests.length, 3);
-  assert.ok(challengeRequests.every((message) => message.body.max_tokens === 64));
+  assert.ok(challengeRequests.every((message) => message.body.max_tokens === input.max_tokens));
   assert.ok(challengeRequests.every((message) =>
     message.body.response_format.type === "json_object"));
   assert.ok(challengeRequests.every((message) =>
@@ -515,7 +516,8 @@ test("invalid or fabricated citations and promoted certificates fail determinist
 
 test("bounds bytes and rejects malformed/truncated/tool/thinking HTTP completions", async (t) => {
   for (const mode of ["huge", "huge-declared", "bad-json", "duplicate-json", "tool", "reasoning", "truncated",
-    "bad-health", "bad-challenge", "bad-challenge-status", "bad-challenge-citation", "challenge-http", "auth-bypass"]) {
+    "bad-health", "bad-challenge", "bad-challenge-status", "bad-challenge-citation",
+    "challenge-http", "challenge-truncated", "auth-bypass"]) {
     await t.test(mode, async (t) => {
       const f = await fixture(t, { mode });
       await assert.rejects(f.runtime.answer({ question: "x", evidence }), /limit|JSON|protocol|health|challenge|unauthenticated/);

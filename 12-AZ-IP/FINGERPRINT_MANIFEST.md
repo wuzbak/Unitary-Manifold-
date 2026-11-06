@@ -1159,3 +1159,12 @@ Use ordinary question/evidence JSON for the authenticated ownership challenge, r
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `43edd7a31c766dfd865f2bff05e926d93c7c500517ae6c4f55c199710de96571` | 37197 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `7b177c477095c819da6f438253d23ba73922fb853ddb76fe22ee5a7961a20158` | 39290 |
+
+### Consistent bounded completion allocation reseal — 2026-11-06
+
+Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `65de46f9352b7ca394576453f5ce43b1de13fece3b886301b6de0c1eaa342f85` | 37303 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `4fb2b7911c07adca17f698fd8d8e8096da489b10f8a91af683231ac3ba69faa2` | 39395 |

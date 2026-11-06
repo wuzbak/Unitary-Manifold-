@@ -137,6 +137,12 @@ input structure and evidence-ID mechanism as ordinary answers, retaining the
 fresh 128-bit nonce, exact status/citation checks, authentication, process
 ownership, fail-closed behavior and shared inference deadline. Mismatch errors
 identify only the failed fields, never credentials or generated content.
+Run 42162669852 passed actual candidate acceptance but rejected the ownership
+completion under the text-only bounded protocol. Ownership now has the same
+128-token output allocation as ordinary answers rather than a separate
+64-token cap. Truncated completions still fail closed and now identify token
+exhaustion explicitly; exact nonce/schema/status/citation and non-thinking
+checks, answer limits and the shared ten-minute deadline are unchanged.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

@@ -231,9 +231,9 @@ function engineArguments(model, port, key, threads, timeout, enableModelReview) 
     "--reasoning", "off", "--no-agent", "--no-webui-mcp-proxy", "--no-webui", "--no-slots",
     "--no-mmproj", "--no-models-autoload", "--timeout", String(Math.ceil(timeout / 1000)), "--log-disable"];
 }
-function completionBody(prompt, challenge = false, draft = null) {
+function completionBody(prompt, draft = null) {
   const system = SYSTEM;
-  const body = { model: ALIAS, stream: false, temperature: 0, seed: 0, max_tokens: challenge ? 64 : 128,
+  const body = { model: ALIAS, stream: false, temperature: 0, seed: 0, max_tokens: 128,
     chat_template_kwargs: { enable_thinking: false },
     messages: [{ role: "system", content: system }, { role: "user", content: prompt }] };
   body.response_format = { type: "json_object" };
@@ -254,6 +254,9 @@ function completionText(raw) {
   const value = strictJSON(raw);
   const choice = value?.choices?.[0];
   const message = choice?.message;
+  if (choice?.finish_reason === "length") {
+    throw failure("Instruction completion violated the bounded protocol: output token budget exhausted.");
+  }
   if (!Array.isArray(value?.choices) || value.choices.length !== 1 ||
       choice?.finish_reason !== "stop" || message?.role !== "assistant" ||
       (Array.isArray(message.tool_calls) ? message.tool_calls.length !== 0 : Boolean(message.tool_calls)) ||
@@ -599,7 +602,7 @@ function createInstructionModel(options) {
       const challenge = completionBody(JSON.stringify({
         question: "What is the locally supplied ownership token? Copy it exactly as the answer.",
         evidence: [{ id: "OWNERSHIP", text: `The locally supplied ownership token is ${nonce}.` }]
-      }), true);
+      }));
       for (const credential of [null, crypto.randomBytes(32).toString("base64url")]) {
         await ownListener(owned, port);
         const response = await send(owned, port, "POST", "/v1/chat/completions", credential,
@@ -632,7 +635,7 @@ function createInstructionModel(options) {
       const draft = completionText(response.body);
       let finalOutput = draft;
       if (enableModelReview) {
-        const reviewBody = completionBody(prepared.body.messages[1].content, false, draft);
+        const reviewBody = completionBody(prepared.body.messages[1].content, draft);
         await checkArtifacts(artifacts.artifacts);
         const remaining = inferenceDeadline - Date.now();
         if (remaining <= 0) throw failure("Instruction review deadline exceeded.", "TIMEOUT");

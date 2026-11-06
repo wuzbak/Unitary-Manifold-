@@ -2939,10 +2939,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "43edd7a31c766dfd865f2bff05e926d93c7c500517ae6c4f55c199710de96571",
-      "size_bytes": 37197,
-      "reseal_note": "Use ordinary question/evidence JSON for the authenticated ownership challenge, retaining the exact fresh nonce, status, citation, process ownership checks and shared deadline; report only mismatched field names.",
+      "sha256": "65de46f9352b7ca394576453f5ce43b1de13fece3b886301b6de0c1eaa342f85",
+      "size_bytes": 37303,
+      "reseal_note": "Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "43edd7a31c766dfd865f2bff05e926d93c7c500517ae6c4f55c199710de96571",
+          "size_bytes": 37197,
+          "reseal_note": "Use ordinary question/evidence JSON for the authenticated ownership challenge, retaining the exact fresh nonce, status, citation, process ownership checks and shared deadline; report only mismatched field names."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "ff47e49c8a5e39108ecabe856ac6a8dde260ceda0f48db39260dfe0e20e6599f",
@@ -3067,10 +3073,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "7b177c477095c819da6f438253d23ba73922fb853ddb76fe22ee5a7961a20158",
-      "size_bytes": 39290,
-      "reseal_note": "Use ordinary question/evidence JSON for the authenticated ownership challenge, retaining the exact fresh nonce, status, citation, process ownership checks and shared deadline; report only mismatched field names.",
+      "sha256": "4fb2b7911c07adca17f698fd8d8e8096da489b10f8a91af683231ac3ba69faa2",
+      "size_bytes": 39395,
+      "reseal_note": "Use the same bounded 128-token completion allocation for ownership and ordinary answers; retain exact nonce/status/citation, strict truncation rejection and the shared ten-minute inference deadline.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "7b177c477095c819da6f438253d23ba73922fb853ddb76fe22ee5a7961a20158",
+          "size_bytes": 39290,
+          "reseal_note": "Use ordinary question/evidence JSON for the authenticated ownership challenge, retaining the exact fresh nonce, status, citation, process ownership checks and shared deadline; report only mismatched field names."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "f4363af5839808a33fabcf7ea0ceaed52c1b15d13088916daa1a37be31a6d392",
