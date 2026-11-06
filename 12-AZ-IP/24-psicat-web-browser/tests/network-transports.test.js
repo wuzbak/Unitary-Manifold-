@@ -102,6 +102,55 @@ test('real query and sync transports stay on loopback after hostile settings and
   }
 });
 
+for (const direction of ['push', 'pull']) {
+  test(`backend ${direction} preserves local edits made while its response is pending`, async () => {
+    let responsePending;
+    let releaseResponse;
+    const pending = new Promise((resolve) => { responsePending = resolve; });
+    const release = new Promise((resolve) => { releaseResponse = resolve; });
+    const server = await listen(async (request, response) => {
+      for await (const _chunk of request) {}
+      responsePending();
+      await release;
+      response.writeHead(200, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify({
+        updated_at: '2026-11-06T00:00:00.000Z',
+        packet: { bookmarks: [{ title: 'Remote bookmark', url: 'https://remote.example/' }] },
+      }));
+    });
+    try {
+      let state = core.createInitialState();
+      state.sync.accountEmail = 'test@example.invalid';
+      const requestState = state;
+      const operation = direction === 'push'
+        ? syncTransport.pushSyncToBackend : syncTransport.pullSyncFromBackend;
+      const work = operation({
+        state: requestState, endpoint: `http://127.0.0.1:${server.address().port}`,
+        core, getState: () => state,
+      });
+      await pending;
+      state = core.addBookmark(state, { title: 'Local edit', url: 'https://local.example/' });
+      state = core.normalizeState({ ...state, settings: { ...state.settings, theme: 'light' } });
+      const latest = state;
+      releaseResponse();
+      const result = await work;
+      assert.equal(requestState.bookmarks.some(item => item.url === 'https://local.example/'), false);
+      assert.ok(result.state.bookmarks.some(item => item.url === 'https://local.example/'));
+      assert.equal(result.state.settings.theme, latest.settings.theme);
+      assert.equal(result.state.sync.lastSyncAt, '2026-11-06T00:00:00.000Z');
+      assert.equal(result.state.sync.lastSyncSource, `backend-${direction}`);
+      if (direction === 'pull') {
+        assert.ok(result.state.bookmarks.some(item => item.url === 'https://remote.example/'));
+      } else {
+        assert.equal(result.state.bookmarks.some(item => item.url === 'https://remote.example/'), false);
+      }
+    } finally {
+      releaseResponse();
+      await close(server);
+    }
+  });
+}
+
 for (const redirectStatus of [true, false]) {
   test(`query and sync reject redirects without forwarding data (status redirect: ${redirectStatus})`, async () => {
     let redirectedRequests = 0;

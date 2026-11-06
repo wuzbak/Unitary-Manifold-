@@ -78,15 +78,28 @@ def test_http_runs_declared_property_without_hiding_solver_failure(http_request,
     ("/api/property-check?ignored=yes", b"{}", {"Content-Type": "application/json"}),
     ("/api/property-check", b"{}", {"Content-Type": "text/plain"}),
     ("/api/property-check", b"", {"Content-Type": "application/json"}),
-    ("/api/property-check", b" " * (64 * 1024 + 1), {"Content-Type": "application/json"}),
     ("/api/property-check", b"{bad", {"Content-Type": "application/json"}),
     ("/api/property-check", b"\xff", {"Content-Type": "application/json"}),
     ("/api/property-check", b"{}", {"Content-Type": "application/json"}),
-], ids=["query-string", "wrong-content-type", "empty", "oversized", "invalid-json", "invalid-utf8", "missing-property"])
+], ids=["query-string", "wrong-content-type", "empty", "invalid-json", "invalid-utf8", "missing-property"])
 def test_http_rejects_malformed_or_unbounded_properties(http_request, path, body, headers):
     status, _, raw = http_request("POST", path, body, headers)
     assert status == 400
     assert json.loads(raw)["error"]
+
+
+@pytest.mark.parametrize("length", [server_module.MAX_REQUEST_BYTES, server_module.MAX_REQUEST_BYTES + 1])
+def test_http_request_size_boundary_is_checked_before_reading(http_request, length):
+    oversized = length > server_module.MAX_REQUEST_BYTES
+    # Sending an unread oversized body can reset the socket before Windows delivers the rejection.
+    body = b"" if oversized else b" " * length
+    status, _, raw = http_request("POST", "/api/property-check", body, {
+        "Content-Type": "application/json", "Content-Length": str(length),
+    })
+    assert status == 400
+    error = json.loads(raw)["error"]
+    assert bool(error)
+    assert ("request body must be" in error) is oversized
 
 
 def test_http_rejects_unsupported_post_and_unknown_get(http_request):

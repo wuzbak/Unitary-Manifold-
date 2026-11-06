@@ -172,6 +172,20 @@ still assumed filesystem and process clock ordering. The test now places
 source mtimes explicitly before/after its parsed receipt timestamp, retaining
 fresh, stale and invalid-timestamp assertions. Production freshness behavior
 is unchanged, including fail-closed legacy timestamp checks.
+Final PR review follow-through fixes two unresolved findings: Product 24 now
+applies completed sync responses to the latest local state rather than a
+pre-request snapshot, with real delayed-HTTP tests preserving concurrent
+edits; Product 44 no longer imports Python from an inspected evidence root.
+Its bundled current-section policy has canonical parity and malicious
+file/symlink retrieval regressions, retaining historical exclusions and
+standalone read-only imports.
+
+Run 42262682061 passed the corrected clock regression but exposed a Windows
+socket reset in Product 38's oversized-body test. The server rejects oversized
+Content-Length before reading, so the test now sends only the oversized
+declaration, avoiding an unread-body TCP reset. It also checks exactly 65,536
+bytes reach JSON parsing and 65,537 declared bytes are rejected before reading;
+the production server and request-size bound are unchanged.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

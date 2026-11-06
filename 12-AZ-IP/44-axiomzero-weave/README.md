@@ -252,7 +252,10 @@ inventory for subject questions and retain current dated truth corrections
 without indexing explicitly historical sections as current. Canonical authority
 is claim-specific; it is not a guarantee of freshness or correctness.
 Product 44 search and citation verification share the RAG current-section
-selector, including nested historical exclusions. Excerpt windows stop at
+selection policy, including nested historical exclusions. The read-only
+selector is bundled in Product 44 and checked against the canonical RAG policy
+by parity tests; retrieval never loads Python from the inspected evidence
+corpus, including symlinked selector files. Excerpt windows stop at
 excluded spans and retain original source line numbers and whole-file digests.
 Unselected truth-layer prose cannot be verified as current evidence.
 

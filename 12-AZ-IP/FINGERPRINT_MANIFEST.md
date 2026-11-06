@@ -1198,3 +1198,13 @@ Disambiguate literal ownership copying from ordinary inline-cited Q&A; retain ex
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `198102f34a66a5331583c5752bdaf878e6bd85eb203166f36c86bdf9946ba35f` | 32363 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `c08c1e0b1483c60d1c5bcb9f224d59f1eaf6054b72f6fb8e99d86a519c89714c` | 37924 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `cfb82dd889b96b5a22ff6c6b57de35c1fbf6d0f01f59ab36b7702d4fb58b2645` | 40211 |
+
+### Sync and trusted evidence review follow-through reseal — 2026-11-06
+
+Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/24-psicat-web-browser/README.md` | `e9c0bf3b1b5c8babbc6b9975320915d07bc039e1e68a945e384fd858755b1f76` | 25780 |
+| `12-AZ-IP/44-axiomzero-weave/README.md` | `7d3d55853e2b47a4529640fa5783d50c6cf2568f8dcda9062f4b5f6523428c0a` | 16582 |
+| `12-AZ-IP/24-psicat-web-browser/desktop/runtime.js` | `c0941291b94cb2a0e52dfaf2f5a8f72deb170c60e1795490799ae86db19a23cd` | 31472 |

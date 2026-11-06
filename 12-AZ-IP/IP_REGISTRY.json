@@ -570,11 +570,17 @@
       "description": "Product 24 documentation — desktop, Android, extension, workspace, and sync scaffold",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "2a5f6fb2c75e5c4f7cc04d6cc1dca687e041c3a58013e3572bd3fb5fdb589980",
-      "size_bytes": 25571,
-      "reseal_note": "Reconciled real query/sync transports, redirect rejection and network regressions; no platform or intelligence qualification promotion.",
+      "updated": "2026-11-06",
+      "sha256": "e9c0bf3b1b5c8babbc6b9975320915d07bc039e1e68a945e384fd858755b1f76",
+      "size_bytes": 25780,
+      "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "2a5f6fb2c75e5c4f7cc04d6cc1dca687e041c3a58013e3572bd3fb5fdb589980",
+          "size_bytes": 25571,
+          "reseal_note": "Reconciled real query/sync transports, redirect rejection and network regressions; no platform or intelligence qualification promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "8743b9b7b4b2cc214260424fe463da5d59d80194417204e34fc781d42ea48f92",
@@ -1021,11 +1027,17 @@
       "description": "Product 44 AxiomZero Weave operating contracts, actual integrations and explicit boundaries",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "faab0463ca3a6abb67fddc77a8a5b795d6de81babe3ededb7d1217d9c61c73e6",
-      "size_bytes": 16363,
-      "reseal_note": "Reconcile mainline temporal/retrieval follow-through with standalone read-only Weave imports and recovery histories; preserve the approved stronger-model candidate and unchanged acceptance criteria.",
+      "updated": "2026-11-06",
+      "sha256": "7d3d55853e2b47a4529640fa5783d50c6cf2568f8dcda9062f4b5f6523428c0a",
+      "size_bytes": 16582,
+      "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "faab0463ca3a6abb67fddc77a8a5b795d6de81babe3ededb7d1217d9c61c73e6",
+          "size_bytes": 16363,
+          "reseal_note": "Reconcile mainline temporal/retrieval follow-through with standalone read-only Weave imports and recovery histories; preserve the approved stronger-model candidate and unchanged acceptance criteria."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "bbad263a5a9b13181ab00db408379a2d5a181e1c22f3df34f9b3a8224d9fe52a",
@@ -2576,11 +2588,17 @@
       "description": "Product 24 Windows runtime integration and contracts: runtime.js",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "8969484ad05d0e8d1f85b155c3e9e34cfe2b533a8ffd5d49e7d5bab887310c40",
-      "size_bytes": 31426,
-      "reseal_note": "Wire tested shared sync transports while preserving runtime readiness, persistence, view refresh and broadcasts.",
+      "updated": "2026-11-06",
+      "sha256": "c0941291b94cb2a0e52dfaf2f5a8f72deb170c60e1795490799ae86db19a23cd",
+      "size_bytes": 31472,
+      "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "8969484ad05d0e8d1f85b155c3e9e34cfe2b533a8ffd5d49e7d5bab887310c40",
+          "size_bytes": 31426,
+          "reseal_note": "Wire tested shared sync transports while preserving runtime readiness, persistence, view refresh and broadcasts."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a5eeb785e9cd4252720a156184567de080831282d98a74b6ae02cca72bb8d9ac",

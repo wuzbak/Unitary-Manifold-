@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 import hashlib
-import importlib.util
 import re
 import subprocess
 from pathlib import Path, PurePosixPath
@@ -32,22 +31,66 @@ _CORE_FILES = {
     "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_tools.py",
     "12-AZ-IP/20-psicat-navigator/ox_navigator/engine/merlin_rag.py",
 }
+_CURRENT_TRUTH_SECTIONS = (
+    (2, "Synthesis repair (2026-10-05)"),
+    (3, "Mathematical findings and assumptions"),
+    (3, "Sprint CX action-derived flow steward promotion"),
+    (3, "Lane 1 action-derived flow replacement (Sprint CW; promoted within perimeter in Sprint CX)"),
+)
+_CURRENT_TRUTH_SINCE = "2026-10-05"
 
 
-def _current_lines(relative: str, text: str, repo_root: Path) -> set[int]:
+def _current_lines(relative: str, text: str) -> set[int]:
+    """Apply the packaged selection policy; corpus files are data, never code.
+
+    Mirror bot.rag_index.current_document_lines without importing the bot from
+    either the inspected corpus or a source checkout (standalone wheels work).
+    """
     if relative != "docs/TRUTH_LAYER.md":
         return set(range(1, len(text.splitlines()) + 1))
-    # Load the checkout's canonical selector without mutating process sys.path.
-    # Installed Product 44 wheels still require the supplied source checkout.
-    path = repo_root / "bot" / "rag_index.py"
-    if not path.is_file():
-        path = Path(__file__).resolve().parents[3] / "bot" / "rag_index.py"
-    spec = importlib.util.spec_from_file_location("_weave_rag_selection", path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError("canonical current-source selector unavailable")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return {number for number, _ in module.current_document_lines(relative, text)}
+    selected: set[int] = set()
+    active_level = None
+    historical_level = None
+    fence = None
+    for number, line in enumerate(text.splitlines(keepends=True), start=1):
+        fence_match = re.match(r"^[ \t]*(`{3,}|~{3,})", line)
+        if fence_match:
+            marker = fence_match.group(1)
+            if fence is None:
+                fence = (marker[0], len(marker))
+            elif marker[0] == fence[0] and len(marker) >= fence[1]:
+                fence = None
+        elif fence is None:
+            heading_match = re.match(r"^(#{1,6})[ \t]+(.+?)\s*$", line)
+            if heading_match:
+                level = len(heading_match.group(1))
+                heading = heading_match.group(2)
+                if active_level is not None and level <= active_level:
+                    active_level = None
+                if historical_level is not None and level <= historical_level:
+                    historical_level = None
+                historical = re.search(
+                    r"\b(historical|archive|archived|superseded)\b", heading, re.IGNORECASE,
+                )
+                if historical and historical_level is None:
+                    historical_level = level
+                date = re.search(r"\b\d{4}-\d{2}-\d{2}\b", heading)
+                current_correction = (
+                    level <= 3
+                    and date is not None
+                    and date.group() >= _CURRENT_TRUTH_SINCE
+                    and historical_level is None
+                    and not re.search(r"\b(sprint|lane)\b", heading, re.IGNORECASE)
+                )
+                if (
+                    active_level is None
+                    and historical_level is None
+                    and ((level, heading) in _CURRENT_TRUTH_SECTIONS or current_correction)
+                ):
+                    active_level = level
+        if active_level is not None and historical_level is None:
+            selected.add(number)
+    return selected
 
 
 def _tokens(text: str) -> list[str]:
@@ -255,7 +298,7 @@ class SourceIndex:
                 continue
             text = data.decode("utf-8", "replace")
             lines = text.splitlines()
-            current = _current_lines(relative, text, self.repo_root)
+            current = _current_lines(relative, text)
             matched = {
                 index
                 for index, line in enumerate(lines, start=1)
@@ -321,6 +364,6 @@ class SourceIndex:
                 or record.get("excerpt") != "\n".join(lines[start - 1:end])
             ):
                 return False
-            if not set(range(start, end + 1)) <= _current_lines(source, text, self.repo_root):
+            if not set(range(start, end + 1)) <= _current_lines(source, text):
                 return False
         return True

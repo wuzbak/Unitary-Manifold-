@@ -499,7 +499,7 @@ async function writeSyncMirror(source = 'local-mirror') {
 async function pushSyncToBackend() {
   if (syncBackend.status !== 'ready') throw new Error(`Sync backend unavailable: ${syncBackend.error || syncBackend.status}`);
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
-  const result = await syncTransport.pushSyncToBackend({ state, endpoint, core });
+  const result = await syncTransport.pushSyncToBackend({ state, endpoint, core, getState: () => state });
   state = result.state;
   await persistState();
   broadcastState();
@@ -509,7 +509,7 @@ async function pushSyncToBackend() {
 async function pullSyncFromBackend() {
   if (syncBackend.status !== 'ready') throw new Error(`Sync backend unavailable: ${syncBackend.error || syncBackend.status}`);
   const endpoint = state.settings.syncBackendEndpoint || syncBackend.baseUrl;
-  const result = await syncTransport.pullSyncFromBackend({ state, endpoint, core });
+  const result = await syncTransport.pullSyncFromBackend({ state, endpoint, core, getState: () => state });
   state = result.state;
   ensureWorkspaceViews();
   await persistState();
