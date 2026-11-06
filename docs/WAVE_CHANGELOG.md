@@ -87,6 +87,11 @@ in the existing focused test file; the exact focused pytest selector passes
 636 tests. Production inflation code and mutation settings are unchanged.
 Line coverage increasing from 72% to 96% is not a mutation qualification:
 the full actual mutation run must still meet the original threshold.
+The later mainline PR #1179's history is reconciled as well. This recovery
+retains the original injection prompt rather than inserting the exact
+expected status/citation answers from its clarification: the stronger model
+has already passed that original challenge, and the approved gate correction
+was restricted to negation-aware claim detection, not an easier prompt.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

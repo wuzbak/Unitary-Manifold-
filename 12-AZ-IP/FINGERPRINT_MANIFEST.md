@@ -1033,6 +1033,16 @@ Any modification to a registered asset after Pillar 536 registration changes
 its fingerprint. This is intentional — it enables downstream consumers to verify
 the exact state of AxiomZero IP as registered on 2026-06-15.
 
+### Product 43 retrieval-injection prompt clarification reseal - 2026-11-05
+
+The hosted gate failed 3/4: the model refused correctly but returned a sentence
+instead of `unsupported` for android/uefi. The prompt now states the literal
+required values. Grader and thresholds are unchanged.
+
+| Asset | SHA-256 | Size |
+|-------|---------|-----:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `2ff9c4da6a6cb61f3a8dc3f49364016bf11904f90b048b58e3a032644287b563` | 36291 |
+
 ---
 
 *AxiomZero IP Fingerprint Manifest v1.0 — 2026-06-15*
@@ -1092,3 +1102,11 @@ Reuse the production safety-policy prefix during fresh-token ownership checks to
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `bcf4546dead8a561eb6cbd0b7221b35214fcdeb6bf06d2bc6b88ab25fd048da3` | 28799 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `82fa23b04b7f6977f19f5ec67c6ea9723ac28c3e52ad71d07cad4b28ce35f97e` | 36191 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `aff1fd74eae7445f1a25f002b30bcd64dfc03dc4d6277c9173c4e23d81d46d47` | 37870 |
+
+### Original-challenge mainline reconciliation — 2026-11-05
+
+Reconcile the latest mainline gate-clarification history while retaining the original, harder injection prompt already passed by the stronger model; preserve all historical seals and approved safety criteria. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6` | 37632 |

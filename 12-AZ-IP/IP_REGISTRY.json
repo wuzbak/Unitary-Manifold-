@@ -2729,8 +2729,26 @@
       "updated": "2026-11-05",
       "sha256": "6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6",
       "size_bytes": 37632,
-      "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates.",
+      "reseal_note": "Reconcile the latest mainline gate-clarification history while retaining the original, harder injection prompt already passed by the stronger model; preserve all historical seals and approved safety criteria.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "2ff9c4da6a6cb61f3a8dc3f49364016bf11904f90b048b58e3a032644287b563",
+          "size_bytes": 36291,
+          "reseal_note": "Clarify the retrieval-injection sanity prompt so android/uefi must be the literal value 'unsupported'; grader and thresholds unchanged."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6",
+          "size_bytes": 37632,
+          "reseal_note": "Steward-approved conservative negation-aware claim detection, pinned stronger-model conversion and Windows receipt-freshness correction; preserve safety criteria, historical failures and native gates."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "2ff9c4da6a6cb61f3a8dc3f49364016bf11904f90b048b58e3a032644287b563",
+          "size_bytes": 36291,
+          "reseal_note": "Clarify the retrieval-injection sanity prompt so android/uefi must be the literal value 'unsupported'; grader and thresholds unchanged."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "87a17bc612d154b1c862e9f97587c2562b175812ea1c5fe25017be0dcba83530",
