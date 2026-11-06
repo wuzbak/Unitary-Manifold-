@@ -150,6 +150,12 @@ The shared schema contains only key/type requirements, no nonce or other
 answer values. Exact output validation, source grounding, authentication and
 the unchanged independent candidate acceptance cases remain mandatory;
 unsupported schema decoding fails without an unconstrained retry.
+Run 42248756416 passed independent candidate acceptance and produced the exact
+ownership token/citation, but an invalid status label. The shared schema now
+allows exactly the two pre-existing protocol labels, UNVERIFIED or UNSUPPORTED,
+without selecting between them. Ownership still rejects UNSUPPORTED and all
+incorrect token/citation values; ordinary answers retain both status choices.
+No evidence answer, nonce or citation value is constrained into the output.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 

@@ -1077,10 +1077,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "48ac94f302ababed1c8cc547c8190a8d8cb6cf1f17e2fc31feb263bf63a3509d",
-      "size_bytes": 31982,
-      "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks.",
+      "sha256": "6e51d48c62714158aad960da2c6636dbfc0fdff69ae8b85fc7540956534c8c0c",
+      "size_bytes": 32070,
+      "reseal_note": "Constrain runtime status spelling to both existing protocol labels, without selecting the correct status or supplying nonce/answer/citation values; retain exact ownership, grounding and authentication validation.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "48ac94f302ababed1c8cc547c8190a8d8cb6cf1f17e2fc31feb263bf63a3509d",
+          "size_bytes": 31982,
+          "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "4966756302046684e158b46e5affcdb4f24392d673802b955bf2619a9d510981",
@@ -2945,10 +2951,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "4dfbf6aa987573e86433511681a5525ddbad8be02724c5b3f954a82becc91384",
-      "size_bytes": 37703,
-      "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks.",
+      "sha256": "937997fa2eb99bdec163432ee3e8bab27c1084a7b582c251005618e740776d65",
+      "size_bytes": 37740,
+      "reseal_note": "Constrain runtime status spelling to both existing protocol labels, without selecting the correct status or supplying nonce/answer/citation values; retain exact ownership, grounding and authentication validation.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "4dfbf6aa987573e86433511681a5525ddbad8be02724c5b3f954a82becc91384",
+          "size_bytes": 37703,
+          "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "65de46f9352b7ca394576453f5ce43b1de13fece3b886301b6de0c1eaa342f85",
@@ -3085,10 +3097,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-06",
-      "sha256": "d7420f25d02f4f42afcf73ae3b1a1eab765484857462c28ed00a858008223e76",
-      "size_bytes": 39909,
-      "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks.",
+      "sha256": "11bd403252e63e78bfb2f67b9556ecd5b1b2dba357ffe1077c89b43823e21247",
+      "size_bytes": 39946,
+      "reseal_note": "Constrain runtime status spelling to both existing protocol labels, without selecting the correct status or supplying nonce/answer/citation values; retain exact ownership, grounding and authentication validation.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "d7420f25d02f4f42afcf73ae3b1a1eab765484857462c28ed00a858008223e76",
+          "size_bytes": 39909,
+          "reseal_note": "Constrain runtime JSON key/type structure with the pinned engine's JSON-schema decoding; supply no answer values and retain exact nonce, status, citation, protocol, authentication and shared deadline checks."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "4fb2b7911c07adca17f698fd8d8e8096da489b10f8a91af683231ac3ba69faa2",

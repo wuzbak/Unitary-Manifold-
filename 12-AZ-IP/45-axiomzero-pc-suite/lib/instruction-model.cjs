@@ -244,7 +244,7 @@ function completionBody(prompt, draft = null) {
       schema: {
         type: "object",
         properties: {
-          status: { type: "string" },
+          status: { type: "string", enum: ["UNVERIFIED", "UNSUPPORTED"] },
           answer: { type: "string" },
           citations: { type: "array", items: { type: "string" } }
         },

@@ -1178,3 +1178,13 @@ Constrain runtime JSON key/type structure with the pinned engine's JSON-schema d
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `48ac94f302ababed1c8cc547c8190a8d8cb6cf1f17e2fc31feb263bf63a3509d` | 31982 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `4dfbf6aa987573e86433511681a5525ddbad8be02724c5b3f954a82becc91384` | 37703 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `d7420f25d02f4f42afcf73ae3b1a1eab765484857462c28ed00a858008223e76` | 39909 |
+
+### Canonical runtime status-label decoding reseal — 2026-11-06
+
+Constrain runtime status spelling to both existing protocol labels, without selecting the correct status or supplying nonce/answer/citation values; retain exact ownership, grounding and authentication validation. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `6e51d48c62714158aad960da2c6636dbfc0fdff69ae8b85fc7540956534c8c0c` | 32070 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `937997fa2eb99bdec163432ee3e8bab27c1084a7b582c251005618e740776d65` | 37740 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `11bd403252e63e78bfb2f67b9556ecd5b1b2dba357ffe1077c89b43823e21247` | 39946 |

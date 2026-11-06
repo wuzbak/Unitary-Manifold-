@@ -39,9 +39,10 @@ server uses a fresh loopback port and API key, bounded CPU/context/output budget
 and explicit cancellation/shutdown. Retrieved text is reference data, not tool
 authority; model output never runs tools, commands or file writes.
 The client requests JSON-schema constrained decoding for ownership, answers
-and optional review. The schema enforces only the existing three keys and
-their string/array types; it supplies no nonce, answer, status or citation
-values and does not prove grounding. Unsupported decoding fails explicitly;
+and optional review. The schema enforces the existing three keys, their
+string/array types and the two permitted status labels, `UNVERIFIED` and
+`UNSUPPORTED`. It does not choose between those labels or supply nonce,
+answer or citation values, and does not prove grounding. Unsupported decoding fails explicitly;
 no output repair or unconstrained retry replaces the strict response checks.
 The shared candidate/runtime policy requires categorical labels without
 explanatory prose and keeps refusal explanations about instruction authority
