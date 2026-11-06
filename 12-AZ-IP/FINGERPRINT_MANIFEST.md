@@ -1110,3 +1110,12 @@ Reconcile the latest mainline gate-clarification history while retaining the ori
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/43-az-geometric-tori-transformer/verify_embedded_engine.py` | `6c9b7322ff1c649b78d1ee76f21ab138dbe2e8b0e6b9ca5e4c7e5ffa523e72d6` | 37632 |
+
+### Consistent owned-engine JSON challenge — 2026-11-06
+
+Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines. Both branches' previous seals remain in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `006d802d7a50e7b494cc2ced96f2e389ee7610a9a84b2922a436d25764ef3586` | 36678 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `37309105852402689e95107f8795d8cced68acfb62d5de2c6fb7a77e2f457b74` | 38143 |

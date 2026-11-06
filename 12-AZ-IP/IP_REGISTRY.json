@@ -2890,11 +2890,17 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "82fa23b04b7f6977f19f5ec67c6ea9723ac28c3e52ad71d07cad4b28ce35f97e",
-      "size_bytes": 36191,
-      "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates.",
+      "updated": "2026-11-06",
+      "sha256": "006d802d7a50e7b494cc2ced96f2e389ee7610a9a84b2922a436d25764ef3586",
+      "size_bytes": 36678,
+      "reseal_note": "Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "82fa23b04b7f6977f19f5ec67c6ea9723ac28c3e52ad71d07cad4b28ce35f97e",
+          "size_bytes": 36191,
+          "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "b14ab56fca7d37c0748bb89e1bf98f6e0acf6ff3087ea26e2db5a6c4da7e1de8",
@@ -3000,11 +3006,17 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "aff1fd74eae7445f1a25f002b30bcd64dfc03dc4d6277c9173c4e23d81d46d47",
-      "size_bytes": 37870,
-      "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates.",
+      "updated": "2026-11-06",
+      "sha256": "37309105852402689e95107f8795d8cced68acfb62d5de2c6fb7a77e2f457b74",
+      "size_bytes": 38143,
+      "reseal_note": "Use the same production JSON envelope for fresh-token ownership challenges; retain exact nonce, status, citation and listener checks without fallback or changed deadlines.",
       "reseal_history": [
+        {
+          "updated": "2026-11-05",
+          "sha256": "aff1fd74eae7445f1a25f002b30bcd64dfc03dc4d6277c9173c4e23d81d46d47",
+          "size_bytes": 37870,
+          "reseal_note": "Reuse the production safety-policy prefix during fresh-token ownership checks to avoid redundant prefill within unchanged request deadlines; retain authentication, answer schemas and native qualification gates."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "21f9bcdfcbcc3443d037547086324b4c63e773e76a8f2b50ae1bc0bbbb357688",

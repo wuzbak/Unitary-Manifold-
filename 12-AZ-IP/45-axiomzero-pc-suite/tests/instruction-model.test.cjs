@@ -38,7 +38,11 @@ const CHILD = String.raw`
         const nonce = prompt.match(/READY_[a-f0-9]+/);
         const reviewing = body.messages.length === 4;
         let content;
-        if (nonce) content = config.mode === "bad-challenge" ? "wrong" : nonce[0];
+        if (nonce) content = JSON.stringify({
+          status: config.mode === "bad-challenge-status" ? "UNSUPPORTED" : "UNVERIFIED",
+          answer: config.mode === "bad-challenge" ? "wrong" : nonce[0],
+          citations: [config.mode === "bad-challenge-citation" ? "FOREIGN" : "OWNERSHIP"]
+        });
         else {
           if (process.send) process.send({type:"inference", body});
           if (config.mode === "unsupported-json") {
@@ -188,11 +192,12 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
     message.body.messages[1].content.includes("READY_"));
   assert.equal(challengeRequests.length, 3);
   assert.ok(challengeRequests.every((message) => message.body.max_tokens === 64));
-  assert.ok(challengeRequests.every((message) => message.body.response_format === undefined));
+  assert.ok(challengeRequests.every((message) =>
+    message.body.response_format.type === "json_object"));
   assert.ok(challengeRequests.every((message) =>
     message.body.messages[0].content.startsWith(input.messages[0].content)));
   assert.ok(challengeRequests.every((message) =>
-    message.body.messages[0].content.includes("For this ownership challenge only")));
+    message.body.messages[0].content === input.messages[0].content));
 });
 
 test("candidate bundled basename may vary in case but local manifest spelling is exact", async (t) => {
@@ -489,7 +494,7 @@ test("invalid or fabricated citations and promoted certificates fail determinist
 
 test("bounds bytes and rejects malformed/truncated/tool/thinking HTTP completions", async (t) => {
   for (const mode of ["huge", "huge-declared", "bad-json", "duplicate-json", "tool", "reasoning", "truncated",
-    "bad-health", "bad-challenge", "auth-bypass"]) {
+    "bad-health", "bad-challenge", "bad-challenge-status", "bad-challenge-citation", "auth-bypass"]) {
     await t.test(mode, async (t) => {
       const f = await fixture(t, { mode });
       await assert.rejects(f.runtime.answer({ question: "x", evidence }), /limit|JSON|protocol|health|challenge|unauthenticated/);

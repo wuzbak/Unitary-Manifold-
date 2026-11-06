@@ -232,13 +232,11 @@ function engineArguments(model, port, key, threads, timeout, enableModelReview) 
     "--no-mmproj", "--no-models-autoload", "--timeout", String(Math.ceil(timeout / 1000)), "--log-disable"];
 }
 function completionBody(prompt, challenge = false, draft = null) {
-  const system = challenge
-    ? SYSTEM + " For this ownership challenge only, return the requested token verbatim instead of the JSON envelope."
-    : SYSTEM;
+  const system = SYSTEM;
   const body = { model: ALIAS, stream: false, temperature: 0, seed: 0, max_tokens: challenge ? 64 : 128,
     chat_template_kwargs: { enable_thinking: false },
     messages: [{ role: "system", content: system }, { role: "user", content: prompt }] };
-  if (!challenge) body.response_format = { type: "json_object" };
+  body.response_format = { type: "json_object" };
   if (Buffer.byteLength(system + prompt) > LIMITS.promptBytes ||
       Buffer.byteLength(JSON.stringify(body)) > LIMITS.requestBytes) {
     throw failure("Instruction prompt exceeds the bounded input budget.", "INPUT_LIMIT");
@@ -592,7 +590,10 @@ function createInstructionModel(options) {
       }
       if (!ready) throw failure("Instruction engine startup deadline exceeded.", "TIMEOUT");
       const nonce = `READY_${crypto.randomBytes(16).toString("hex")}`;
-      const challenge = completionBody(`Reply with exactly the single token ${nonce}.`, true);
+      const challenge = completionBody(
+        `[OWNERSHIP] The locally supplied ownership token is ${nonce}. ` +
+        "Return the standard JSON envelope with status UNVERIFIED, answer exactly the ownership token, " +
+        "and citations containing only OWNERSHIP.", true);
       for (const credential of [null, crypto.randomBytes(32).toString("base64url")]) {
         await ownListener(owned, port);
         const response = await send(owned, port, "POST", "/v1/chat/completions", credential, challenge, controller.signal);
@@ -600,7 +601,14 @@ function createInstructionModel(options) {
       }
       await ownListener(owned, port);
       const challengeResponse = await send(owned, port, "POST", "/v1/chat/completions", key, challenge, controller.signal);
-      if (challengeResponse.status !== 200 || completionText(challengeResponse.body).trim() !== nonce) {
+      if (challengeResponse.status !== 200) {
+        throw failure("Instruction engine ownership/instruction challenge failed.");
+      }
+      const challengeResult = strictJSON(completionText(challengeResponse.body));
+      exactKeys(challengeResult, ["status", "answer", "citations"], "ownership challenge");
+      if (challengeResult.status !== "UNVERIFIED" || challengeResult.answer !== nonce ||
+          !Array.isArray(challengeResult.citations) ||
+          challengeResult.citations.length !== 1 || challengeResult.citations[0] !== "OWNERSHIP") {
         throw failure("Instruction engine ownership/instruction challenge failed.");
       }
       await ownListener(owned, port);

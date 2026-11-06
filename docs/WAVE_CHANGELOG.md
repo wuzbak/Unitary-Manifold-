@@ -92,6 +92,12 @@ retains the original injection prompt rather than inserting the exact
 expected status/citation answers from its clarification: the stronger model
 has already passed that original challenge, and the approved gate correction
 was restricted to negation-aware claim detection, not an easier prompt.
+Later native ownership challenges exposed conflicting output instructions:
+production policy required JSON while the challenge requested a raw token.
+Both now use the same JSON envelope and identical system policy, retaining
+the fresh 128-bit token, exact status/citation checks and listener ownership
+verification. Runtime regressions reject incorrect tokens, statuses and
+citations; this is not a fallback or relaxation of authentication.
 
 ## Recovery reconciliation and readiness follow-through (2026-11-05)
 
