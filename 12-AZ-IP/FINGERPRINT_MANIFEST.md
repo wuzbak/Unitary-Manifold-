@@ -1452,3 +1452,12 @@ execution and device checks remain independent requirements.
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `6a9b540f3231f75dc2efd8abce2d056f596b809d0fa5c6e336633018ebc8577b` | 4671 |
+
+### Product 46 app-module pin contract reseal — 2026-11-07
+
+Resolve the native source contract from the app module as well as the suite
+and repository roots. Keep the strict full-commit assertions and prior seals.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `10edd5b1ced0a4b1d24fa9e665faffd593df54d0e3ad1082ca5e06159d9a7736` | 4733 |

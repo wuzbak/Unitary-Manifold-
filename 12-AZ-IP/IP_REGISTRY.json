@@ -3951,10 +3951,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "6a9b540f3231f75dc2efd8abce2d056f596b809d0fa5c6e336633018ebc8577b",
-      "size_bytes": 4671,
-      "reseal_note": "Import the object-scoped verified stream extension explicitly for Kotlin unit compilation.",
+      "sha256": "10edd5b1ced0a4b1d24fa9e665faffd593df54d0e3ad1082ca5e06159d9a7736",
+      "size_bytes": 4733,
+      "reseal_note": "Resolve the native pin contract from Android Gradle's app-module test working directory.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "6a9b540f3231f75dc2efd8abce2d056f596b809d0fa5c6e336633018ebc8577b",
+          "size_bytes": 4671,
+          "reseal_note": "Import the object-scoped verified stream extension explicitly for Kotlin unit compilation."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "a938e4d25b69892c261d2780032967a08f9575d9142ba15ff7177b7684d55387",

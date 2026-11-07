@@ -20,6 +20,7 @@ class MobileModelTest {
 
         val projectRoot = File(System.getProperty("user.dir"))
         val candidates = listOf(
+            File(projectRoot, "src/main/cpp/CMakeLists.txt"),
             File(projectRoot, "app/src/main/cpp/CMakeLists.txt"),
             File(projectRoot, "12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/CMakeLists.txt")
         )
