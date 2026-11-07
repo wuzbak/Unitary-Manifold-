@@ -3521,10 +3521,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "3f361842b753e2412841eb789240445aa12a62625345931a222015254216a4ac",
-      "size_bytes": 17724,
-      "reseal_note": "Use shorter native navigation labels to fit narrow Android phone screens.",
+      "sha256": "fa9cc1dee5ec2e49cb2d18f04ec2553f635f82136b91cb8fbc3cebf0015a7dc4",
+      "size_bytes": 17726,
+      "reseal_note": "Use the Android TextView setter for selectable text; add actual JDK 17 Android build, tests and lint qualification.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "3f361842b753e2412841eb789240445aa12a62625345931a222015254216a4ac",
+          "size_bytes": 17724,
+          "reseal_note": "Use shorter native navigation labels to fit narrow Android phone screens."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "ec30f152bbcb8f72058f8588b74c2ba04e698ee51308c35b0e376eed6aca05e2",

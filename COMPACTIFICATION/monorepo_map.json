@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8651,
+  "file_count": 8675,
   "lanes": {
-    "az_ip": 2648,
+    "az_ip": 2672,
     "compactification": 9,
     "other": 5580,
     "psicat_articles": 356,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2648,
+    "12-AZ-IP": 2672,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2819,6 +2819,32 @@
       "12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/windows-smoke.test.cjs"
+    ],
+    "46-axiomzero-android-suite": [
+      "12-AZ-IP/46-axiomzero-android-suite/.gitignore",
+      "12-AZ-IP/46-axiomzero-android-suite/README.md",
+      "12-AZ-IP/46-axiomzero-android-suite/app/build.gradle.kts",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/AndroidManifest.xml",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalLibrary.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/PortfolioCatalog.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/ResearchNotebook.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/SafeTextArchive.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/strings.xml",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/styles.xml",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/PortfolioCatalogTest.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/SafeTextArchiveTest.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/build.gradle.kts",
+      "12-AZ-IP/46-axiomzero-android-suite/gradle.properties",
+      "12-AZ-IP/46-axiomzero-android-suite/gradle/libs.versions.toml",
+      "12-AZ-IP/46-axiomzero-android-suite/gradle/wrapper/gradle-wrapper.jar",
+      "12-AZ-IP/46-axiomzero-android-suite/gradle/wrapper/gradle-wrapper.properties",
+      "12-AZ-IP/46-axiomzero-android-suite/gradlew",
+      "12-AZ-IP/46-axiomzero-android-suite/gradlew.bat",
+      "12-AZ-IP/46-axiomzero-android-suite/scripts/build_catalog.py",
+      "12-AZ-IP/46-axiomzero-android-suite/settings.gradle.kts",
+      "12-AZ-IP/46-axiomzero-android-suite/tests/test_catalog_sync.py"
     ]
   },
   "psicat_literature": {
@@ -22209,6 +22235,174 @@
       "kind": "file",
       "lane": "az_ip",
       "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/.gitignore",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/README.md",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/build.gradle.kts",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/AndroidManifest.xml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalLibrary.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/PortfolioCatalog.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/ResearchNotebook.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/SafeTextArchive.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/strings.xml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/styles.xml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/PortfolioCatalogTest.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/SafeTextArchiveTest.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/build.gradle.kts",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/gradle.properties",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/gradle/libs.versions.toml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/gradle/wrapper/gradle-wrapper.jar",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/gradle/wrapper/gradle-wrapper.properties",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/gradlew",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/gradlew.bat",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/scripts/build_catalog.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/settings.gradle.kts",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/tests/test_catalog_sync.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
     },
     {
       "path": "12-AZ-IP/BRAND_SEPARATION_NOTICE_PSICAT.md",

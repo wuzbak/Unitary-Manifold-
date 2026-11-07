@@ -1272,3 +1272,15 @@ scoped to Products 01–45.
 | `12-AZ-IP/46-axiomzero-android-suite/scripts/build_catalog.py` | `bc6c2a59f483aa97ae9c1a65b3c1a3f33030e6941c3a2841b948bbfe3b57de29` | 1393 |
 | `12-AZ-IP/46-axiomzero-android-suite/settings.gradle.kts` | `f7084ddc2cc4df247829e84094a08429121b75881960726f4fa25276e259c05f` | 341 |
 | `12-AZ-IP/46-axiomzero-android-suite/tests/test_catalog_sync.py` | `a1d7e9259496238eb8eb11242825f0e27313c53568a24200a59cfe1a0ee6ac6e` | 734 |
+
+### Product 46 Android compilation and CI coverage reseal — 2026-11-07
+
+Use the Android TextView setter for selectable text. CI now includes an
+actual JDK 17 APK build, Android unit tests and lint. Add language-specific
+CodeQL coverage and regenerate the Git-index navigation inventory rather
+than bypassing either coverage gate. Hosted Android execution remains
+required; local Google Maven resolution is unavailable.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt` | `fa9cc1dee5ec2e49cb2d18f04ec2553f635f82136b91cb8fbc3cebf0015a7dc4` | 17726 |

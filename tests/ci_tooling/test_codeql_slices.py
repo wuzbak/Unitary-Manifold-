@@ -114,6 +114,27 @@ def test_plan_selects_changed_slices_and_everything_when_the_plan_changes():
         assert len(ids([trigger])) == len(m["slices"])
 
 
+def test_android_suite_sources_have_language_specific_analysis_slices():
+    manifest = cs.load_manifest()
+    cases = {
+        "12-AZ-IP/46-axiomzero-android-suite/scripts/build_catalog.py": (
+            "python", "python-azip-product-46"
+        ),
+        "12-AZ-IP/46-axiomzero-android-suite/tests/test_catalog_sync.py": (
+            "python", "python-azip-product-46"
+        ),
+        "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt": (
+            "java-kotlin", "java-kotlin-mobile"
+        ),
+    }
+    for path, (language, expected_slice) in cases.items():
+        selected = [
+            s["slice_id"] for s in manifest["slices"]
+            if s["language"] == language and cs.in_slice(path, s, manifest["paths_ignore"])
+        ]
+        assert selected == [expected_slice], path
+
+
 def test_plan_cli_writes_actions_outputs(tmp_path):
     changed = tmp_path / "changed.txt"
     changed.write_text("12-AZ-IP/03-eige/eige/county.py\n")

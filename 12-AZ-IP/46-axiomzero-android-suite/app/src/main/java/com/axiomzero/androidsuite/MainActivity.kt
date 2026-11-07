@@ -383,7 +383,7 @@ class MainActivity : AppCompatActivity() {
             setTextColor(android.graphics.Color.parseColor(color))
             if (bold) setTypeface(typeface, android.graphics.Typeface.BOLD)
             setPadding(0, dp(4), 0, dp(4))
-            textIsSelectable = true
+            setTextIsSelectable(true)
         }
 
     private fun button(text: String, action: () -> Unit) = Button(this).apply {

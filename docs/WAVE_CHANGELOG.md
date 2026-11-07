@@ -1,5 +1,21 @@
 # Wave Changelog
 
+## Product 46 Android suite and CI integration (2026-11-07)
+
+Register the native Android portfolio/evidence/research-note adaptation of
+Product 45, retaining explicit UNVERIFIED keyword-retrieval labels and no
+network or broad-storage permission. The 46-product catalog does not imply
+Android equivalents for Windows model training or runtime provisioning.
+Scientific claims, TOE score, hardgate labels and falsifiers are unchanged.
+
+PR checks exposed stale Git-index maps and uncovered Product 46 Python
+files. Regenerate the inventory and assign its Python and Kotlin sources to
+language-specific CodeQL slices, with regression coverage. Add an actual
+JDK 17 APK build, unit-test and lint job; source presence and catalog checks
+alone do not qualify mobile execution. Local Android validation reached
+dependency resolution but Google Maven was unavailable. Hosted execution,
+device behavior and release signing remain separately disclosed obligations.
+
 ## Complete CodeQL comparison coverage (2026-11-06)
 
 PR #1177's CodeQL jobs passed, but the aggregate remained neutral because
