@@ -1,5 +1,22 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v38.3
+# Unitary Manifold v38.6
+
+## Planar radion physical-time certification (2026-11-07)
+
+P1135 now reports `PLANAR_RADION_RESTRICTED_PHYSICAL_TIME_EVOLUTION_CERTIFIED`.
+It certifies the previously-unallocated `src/physics/planar_radion/` module by
+directly invoking its existing acceptance evidence (`TOOLS.checks.run_planar_radion_acceptance.run_acceptance()`):
+exact symbolic identities, RK4 coordinate-time evolution with second-order
+spatial/fourth-order temporal convergence against exact references, an
+independent five-dimensional Ricci oracle, and six rejected negative
+controls. This is the first certified constraint-compatible, nonconstant,
+coordinate-time propagating-scalar evolution in the repository, restricted to
+the declared massless/zero-vector/transversely-isotropic circle perimeter.
+This does not close either of Pillar 1130's residual obligations
+(`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`)
+at the framework level — both remain open for the full orbifold/gauge/inhomogeneous
+sector. No framework closure; `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` and
+`promotion_ready=False` are unchanged.
 
 ## Planar consistency reassessment (2026-11-03)
 
@@ -72,6 +89,8 @@ still-open physical obligations in the table.
 
 
 
+
+*P1135 (v38.6): PLANAR_RADION_RESTRICTED_PHYSICAL_TIME_EVOLUTION_CERTIFIED. `src/core/pillar_1129_1168/pillar1135_planar_radion_physical_time_certification.py` certifies, by directly invoking the existing, already-tested acceptance evidence in `TOOLS.checks.run_planar_radion_acceptance` (no reimplementation), the previously-unallocated `src/physics/planar_radion/` module (derivation, geometry, evolution) as a new, independently-scoped capability alongside — not closing — Pillar 1130's two remaining residual obligations (T_RELAXATION_LAW_DECLARED_NOT_DERIVED, PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED), both of which remain open. `planar_radion_physical_time_certificate()` certifies fail-closed on every declared acceptance gate: exact symbolic identities (null-gauge evolution equations, null constraints, pre-gauge metric-variation cross-check); admissible constrained initial data evolved by RK4 in real coordinate time with second-order spatial/fourth-order temporal convergence against Bessel/Kasner/gauge-wave exact references; an independently implemented five-dimensional Ricci oracle; and six correctly-rejected negative controls. This is the first certified constraint-compatible, nonconstant, coordinate-time propagating-scalar evolution anywhere in the repository, restricted to the declared massless/zero-vector/planar perimeter. The contract still reads DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN, not closure-ready. Framework closure not earned. Truth layer: [Sprint DB](TRUTH_LAYER.md#sprint-db-planar-radion-physical-time-certification).*
 
 *P1132 (v38.4): ADM_HOMOGENEOUS_GRAVITY_SCALAR_HYPERBOLIC_EVOLUTION_CERTIFIED. `src/core/pillar_1132_1134/pillar1132_adm_homogeneous_hyperbolic_evolution.py` adds a new, independently-scoped capability alongside — not closing — Pillar 1130's two remaining residual obligations (T_RELAXATION_LAW_DECLARED_NOT_DERIVED, PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED), both of which remain open. It performs a genuine ADM (3+1) canonical decomposition of the circle-reduced action on a declared homogeneous perimeter (x^2,x^3 flat/spectator, gauge field B_mu excluded) with real coordinate time; `adm_homogeneous_hyperbolic_evolution_certificate()` certifies the lapse/shift equations are non-dynamical constraints, the spatial-metric equation has a zero d^2h/dt^2 coefficient (no propagating graviton in 1 spatial dimension), the scalar equation has a nonzero d^2p/dt^2 coefficient (genuine hyperbolic evolution), and the static (t-independent, zero-shift) reduction reproduces the repository's own already-certified static system as an exact symbolic identity. The contract still reads DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN, not closure-ready. Framework closure not earned. Truth layer: [Sprint CZ](TRUTH_LAYER.md#sprint-cz-adm-homogeneous-hyperbolic-evolution).*
 

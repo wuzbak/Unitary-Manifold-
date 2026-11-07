@@ -443,5 +443,22 @@ Vector backreaction, potentials, orbifold physics, generic polarizations,
 unrestricted 5D evolution, singularity resolution, empirical confirmation
 and derivation of the old relaxation law remain outside this result.
 
+## Pillar registration update (v38.6 — Sprint DB, 2026-11-07)
+
+This module is now certified by **Pillar 1135**
+(`src/core/pillar_1129_1168/pillar1135_planar_radion_physical_time_certification.py`),
+which invokes the acceptance evidence above directly (no reimplementation)
+and exposes it as a fail-closed certificate:
+`PLANAR_RADION_RESTRICTED_PHYSICAL_TIME_EVOLUTION_CERTIFIED`, with the
+specific subcase `PLANAR_MASSLESS_ZERO_VECTOR_CONSTRAINT_COMPATIBLE_PHYSICAL_TIME_EVOLUTION_CERTIFIED`.
+This is the repository's first certified constraint-compatible, nonconstant,
+coordinate-time propagating-scalar evolution, restricted to the perimeter
+documented above. It does not close either of Pillar 1130's residual
+obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`,
+`PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`) at the framework level; the
+action-to-evolution contract still reads `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`.
+See `docs/TRUTH_LAYER.md#sprint-db-planar-radion-physical-time-certification`
+and `docs/CLAIM_MASTER_BOARD.md` for the full synchronized record.
+
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

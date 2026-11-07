@@ -1,5 +1,23 @@
 # Wave Changelog
 
+## v38.6 (2026-11-07 — Sprint DB: Pillar 1135)
+
+Certify the previously-unallocated `src/physics/planar_radion/` module by
+directly invoking its existing, already-tested acceptance evidence
+(`TOOLS.checks.run_planar_radion_acceptance.run_acceptance`), with no
+reimplementation: exact symbolic identities, RK4 coordinate-time evolution
+with second-order spatial/fourth-order temporal convergence against exact
+references, an independent five-dimensional Ricci oracle, and six rejected
+negative controls. The resulting subcase status is
+`PLANAR_MASSLESS_ZERO_VECTOR_CONSTRAINT_COMPATIBLE_PHYSICAL_TIME_EVOLUTION_CERTIFIED`,
+restricted to the declared massless/zero-vector/planar perimeter. This is the
+first certified constraint-compatible, nonconstant, coordinate-time
+propagating-scalar evolution in the repository. **Next pillar slot:** 1136.
+It does not close either residual obligation of Pillar 1130
+(`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`)
+at the framework level; the action-to-evolution contract still reads
+`DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN`. No new hardgate physics closure.
+
 ## Product 46 Android suite and CI integration (2026-11-07)
 
 Register the native Android portfolio/evidence/research-note adaptation of

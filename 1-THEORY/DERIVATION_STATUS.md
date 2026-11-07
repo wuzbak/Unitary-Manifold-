@@ -1,6 +1,20 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
-> **Current ledger: v38.5 Sprint DA (2026-11-05).** P1133's dilute-gas
+> **Current ledger: v38.6 — Sprint DB (2026-11-07).** Pillar 1135 certifies
+> the previously-unallocated `src/physics/planar_radion/` module (massless,
+> zero-vector, transversely isotropic circle sector) as a new,
+> independently-scoped capability, by directly invoking its existing
+> acceptance evidence (exact symbolic identities, RK4 coordinate-time
+> evolution with independent 5D Ricci cross-check, six rejected negative
+> controls). This is the first certified constraint-compatible, nonconstant,
+> coordinate-time propagating-scalar evolution in the repository, within its
+> declared restricted perimeter. It does NOT close `T_RELAXATION_LAW_DECLARED_NOT_DERIVED`
+> or `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` at the framework level — both
+> remain open for the full orbifold/gauge/inhomogeneous sector; next slot 1136.
+> No framework closure; `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` and
+> `promotion_ready=False` are unchanged.
+
+> **Historical: v38.5 Sprint DA (2026-11-05).** P1133's dilute-gas
 > reference calculation and P1134's evidence-classification/comparison tools
 > are adjacent research, not a derivation of UM superfluid connections or
 > rare-decay predictions. Their registration in `STATUS.md` changes no
@@ -43,10 +57,12 @@
 > Photon origin and action-to-evolution equivalence remain open. No new physics
 > closure is claimed.
 
-**The Unitary Manifold v38.5 — Unambiguous Record**
+**The Unitary Manifold v38.6 — Unambiguous Record**
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-11-05 (v38.5 — Sprint DA: adjacent reference/comparison tools in Pillars 1133–1134, already registered in STATUS.md; next slot 1135. No derived UM superfluid or rare-decay prediction, hardgate promotion or new physics closure is claimed. The planar correction above remains authoritative; the relaxation law and general physical-time certification remain open.)*
-*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record, tests/ + recycling/ + Pentad; Sprints CV and CW recorded none; Sprint CZ focused verification is reported in docs/TRUTH_LAYER.md).*
+*Last updated: 2026-11-07 (v38.6 — Sprint DB: Pillar 1135 certifies the previously-unallocated `src/physics/planar_radion/` module as a new, independently-scoped capability within the declared massless/zero-vector/planar perimeter; next slot 1136. Does not close `T_RELAXATION_LAW_DECLARED_NOT_DERIVED` or `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` at the framework level; both remain open. No framework closure.)*
+*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record, tests/ + recycling/ + Pentad; Sprints CV and CW recorded none; Sprint DB focused verification is reported in docs/TRUTH_LAYER.md).*
+
+*Historical Sprint DA registration (v38.5, 2026-11-05): Pillars 1133–1134; next slot 1135. Adjacent superfluid-reference and rare-decay-tool registration, already recorded in STATUS.md; no derived UM connection, hardgate promotion or physics closure was claimed. This historical registration is not current version metadata.*
 
 *Historical Sprint CZ registration (v38.4, 2026-11-02): Pillar 1132; next slot 1133. The retained certificate verifies restricted off-shell acceleration and static identities only, not nonconstant constrained scalar propagation. This historical registration is not current version metadata.*
 

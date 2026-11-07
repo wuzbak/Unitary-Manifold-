@@ -1,11 +1,32 @@
 # Fallibility, Limitations, and Failure Modes
 
-*Unitary Manifold v38.5 — Sprint DA ledger synchronization (2026-11-05):
-Pillars 1133–1134 are adjacent reference/comparison tools, not derived UM
-predictions or hardgate claims; next slot 1135. This records the registration
-already present in STATUS.md, not a new version or scientific promotion.
-The planar consistency correction and all open scientific obligations below
-remain in force. The Sprint CU full-regression marker remains historical.*
+*Unitary Manifold v38.6 — Sprint DB ledger synchronization (2026-11-07):
+Pillar 1135 certifies the previously-unallocated `src/physics/planar_radion/`
+module (massless, zero-vector, transversely isotropic circle sector) as a
+new, independently-scoped capability; it does not close either of Pillar
+1130's two residual obligations at the framework level. Next pillar slot 1136.
+This records the registration already present in STATUS.md, not framework
+closure. The planar consistency correction and all open scientific obligations
+below remain in force. The Sprint CU full-regression marker remains historical.*
+
+*Historical: Unitary Manifold v38.5 — Sprint DA ledger synchronization
+(2026-11-05): Pillars 1133–1134 are adjacent reference/comparison tools, not
+derived UM predictions or hardgate claims; next slot 1135. This recorded the
+registration already present in STATUS.md, not a new version or scientific
+promotion. The Sprint CU full-regression marker remained historical.*
+
+> **Planar radion physical-time certification (2026-11-07):** P1135 certifies,
+> by directly invoking the existing acceptance evidence, the separate
+> `planar_radion` implementation's exact symbolic identities, RK4
+> coordinate-time evolution against exact references, independent 5D Ricci
+> oracle, and six rejected negative controls. This is the first certified
+> constraint-compatible, nonconstant, coordinate-time propagating-scalar
+> evolution in the repository, restricted to the declared massless/zero-vector
+> planar perimeter. It does not close `T_RELAXATION_LAW_DECLARED_NOT_DERIVED`
+> or `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` at the framework level; both
+> remain open. See [the derivation and acceptance specification](docs/physics/PLANAR_RADION_DYNAMICS.md).
+> No framework closure; `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` and
+> `promotion_ready=False` are unchanged.
 
 > **Planar consistency correction (2026-11-03):** P1132's fixed-transverse
 > product metric cannot support the nonconstant real scalar evolution inferred

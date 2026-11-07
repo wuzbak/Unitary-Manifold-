@@ -1,8 +1,25 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
+## Planar radion physical-time certification (2026-11-07)
+
+Current registration: v38.6 Sprint DB (Pillar 1135; next slot 1136).
+
+P1135 certifies the previously-unallocated `src/physics/planar_radion/`
+module as a new, independently-scoped capability, by directly invoking its
+existing acceptance evidence (`TOOLS.checks.run_planar_radion_acceptance`):
+exact symbolic identities, RK4 coordinate-time evolution with second-order
+spatial/fourth-order temporal convergence against exact references, an
+independent five-dimensional Ricci oracle, and six rejected negative
+controls. This is the first certified constraint-compatible, nonconstant,
+coordinate-time propagating-scalar evolution in the repository, restricted to
+the declared massless/zero-vector/planar perimeter. It does not close either
+of Pillar 1130's residual obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`,
+`PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`) at the framework level — both remain
+open for the full orbifold/gauge/inhomogeneous sector. No framework closure.
+
 ## Recorded adjacent-track registration (2026-11-05)
 
-Current registration: v38.5 Sprint DA (Pillars 1133–1134; next slot 1135).
+Historical registration: v38.5 Sprint DA (Pillars 1133–1134; next slot 1135).
 
 This synchronizes the registration already recorded in STATUS.md: a
 Bogoliubov reference calculation and a generic rare-decay comparison tool.
@@ -131,20 +148,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v38.4 — Sprint CZ)
+## CURRENT AUDITABLE STATE (v38.6 — Sprint DB)
 
 | Field | Value |
 |-------|-------|
-| Version | **v38.4** |
-| Sprint | **Sprint CZ** |
-| Pillars | **1132-1132** |
-| Next pillar slot | **1133** |
+| Version | **v38.6** |
+| Sprint | **Sprint DB** |
+| Pillars | **1135-1135** |
+| Next pillar slot | **1136** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record)** |
-| Sprint theme | **New independently-scoped ADM (3+1) hyperbolic-evolution certificate for the homogeneous gravity+scalar sector; Pillar 1130's two residual obligations remain open and untouched** |
-| Primary target | **Derive genuine coordinate-time hyperbolic field equations for a declared homogeneous perimeter (gauge field excluded) and exact-identity cross-check against the already-certified static system, without overclaiming closure of the full action-to-evolution gap** |
-| Binary outcome | **P1132 valid, contract `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` with the same two residual obligations remaining, canonical surfaces on v38.4, no closure inflation** |
+| Sprint theme | **Certify the previously-unallocated `src/physics/planar_radion/` module as a new, independently-scoped physical-time evolution capability; Pillar 1130's two residual obligations remain open and untouched** |
+| Primary target | **Directly invoke the existing, already-tested planar radion acceptance evidence (exact symbolic identities, RK4 coordinate-time convergence, independent 5D Ricci oracle, negative controls) and certify it fail-closed, without overclaiming closure of the full action-to-evolution gap** |
+| Binary outcome | **P1135 valid, contract `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` with the same two residual obligations remaining, canonical surfaces on v38.6, no closure inflation** |
 
+Historical continuity: v38.6 Sprint DB (Pillar 1135; next slot 1136) is the canonical planar radion physical-time certification layer directly above Sprint DA.
 Historical continuity: v38.5 Sprint DA (Pillars 1133-1134; next slot 1135) records adjacent superfluid-reference and rare-decay-tool registration above Sprint CZ, not a hardgate physics closure or a new full-regression claim; the historical Sprint CU regression record remains unchanged.
 Historical continuity: v38.4 Sprint CZ (Pillar 1132; next slot 1133) is the canonical ADM homogeneous hyperbolic evolution layer directly above Sprint CY.
 Historical continuity: v38.3 Sprint CY (Pillar 1131; next slot 1132) is the canonical offdiagonal exact reduction identity closure layer directly above Sprint CX.

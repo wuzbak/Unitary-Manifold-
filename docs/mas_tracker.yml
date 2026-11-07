@@ -1,6 +1,6 @@
-version: "v38.5"
-date: "2026-11-05"
-updated: "2026-11-05"
+version: "v38.6"
+date: "2026-11-07"
+updated: "2026-11-07"
 
 health_repair_2026_10_09:
   new_pillars: 0
@@ -20,6 +20,30 @@ canonical_status_notice: >
   (sprint_id v30.0, next_pillar_slot 942) predates the compact tracker
   format   adopted at v31.0/Sprint BG and must never be read as the
   repository's current pillar count, version, or regression total.
+
+v38_6_sprint_db:
+  sprint: DB
+  version: v38.6
+  date: "2026-11-07"
+  pillars: 1135-1135
+  new_pillars: 1
+  new_tests: 18
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures: []
+  advances:
+    - PLANAR_MASSLESS_ZERO_VECTOR_CONSTRAINT_COMPATIBLE_PHYSICAL_TIME_EVOLUTION_CERTIFIED
+  residual_obligations:
+    - T_RELAXATION_LAW_DECLARED_NOT_DERIVED
+    - PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED
+  remaining_open:
+    - GAUGE_FIELD_PHYSICAL_TIME_EVOLUTION
+    - FULLY_INHOMOGENEOUS_5D_SECTOR_PHYSICAL_TIME_EVOLUTION
+    - Z2_ORBIFOLD_PHYSICAL_TIME_EVOLUTION
+  regression: "64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU historical record; no full regression run for Sprint DB)"
+  focused_regression: "tests/test_pillar1135_planar_radion_physical_time_certification.py, tests/test_planar_radion_acceptance.py, tests/test_action_to_evolution_contract.py, tests/test_pillar1132_adm_homogeneous_hyperbolic_evolution.py all passed"
+  next_pillar_slot: 1136
 
 v38_5_sprint_da:
   sprint: DA
