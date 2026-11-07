@@ -200,23 +200,62 @@ diff. The correction commit and evidence checkpoints are pushed to the draft
 PR. Only this audit record is updated after the frozen regression; no tested
 implementation is changed by recording the outcome.
 
-## Remaining scope and next audit tranche
+### Slow-inclusive frozen core regression
 
-1. Reconcile P793's supplied headline, computed spectrum, physical inputs and
-   exclusion function with the older Admission 10/P430 channel assumptions.
-   Do not change toy constants or claim physical falsification to make labels
-   agree. The live presentation is corrected; source physics remains open.
-2. Trace remaining current-facing status consumers, including static flashcards,
-   `physics-engine.js` historical datasets, HF spaces and deployment artifacts.
-   Do not convert dated snapshots into live status or silently rewrite history.
+A later, frozen run used
+`TOOLS/checks/run_supervised_pytest_batch.py --suite full-core`, with an exact
+source/environment plan bound to audit checkpoint
+`177f81116b90136c831b5d07a40ea5944a6d8699`. The plan covered 1,611 unique
+core/governance test paths in 12 chunks, plus six shared-process integration
+paths; it used two workers and marker expression `""` to include slow tests.
+The source worktree digest was empty and remained unchanged through aggregate.
+
+Exact aggregate receipt: **66,176 tests, 0 failures, 0 errors, 67 skipped**;
+status `success`, `problems: []`, Python 3.12.3, Linux x86_64. Plan digest:
+`78d148878382ab3da5f431081e762ea76377a618b19ee67741945badde85b1f7`.
+Plan, chunk JUnit/JSON receipts and logs are retained in the session artifact
+directory (`full-core-plan.json`, `full-core-results/`, `full-core-run.log`).
+This is stronger evidence for its exact full-core selection, not all products,
+claims, deploy targets, external integrations or scientific validity. It is
+not the repository's historical 64,150 count and does not replace that receipt.
+
+## Second-tranche findings — baseline `177f811`
+
+These are reviewed, high-confidence status/provenance defects, not independent
+physical verification. They are the next correction tranche:
+
+| ID | Evidence | Finding and safe boundary |
+|----|----------|---------------------------|
+| S6 | `public-site/status/index.html:205-224`; `public-site/portal/library/index.html:287-309`; `hf-spaces/space_core/live_status.py:80-103`; `bot/assistant_api.py:268-279` | Pages and the HF adapter collapse explicit unavailable/null counts into historic values or zero failures. Preserve `null` as unknown and disclose the source/date; zero is a measured count, not missing evidence. |
+| S7 | `.github/workflows/deploy-hf-spaces.yml:47-68`; `hf-spaces/axiom-apps/app.py:51-70` and other space imports | Isolated per-app deployment uploads omit the shared `space_core` package used by multiple apps, causing imports to fall through to `vunknown`/zero. Reproduce package layout before changing the deploy contract. |
+| S8 | `public-site/status/index.html:95,124,162-164`; `public-site/apps/verification-dashboard.html:124-138`; `public-site/js/physics-engine.js:284`; `hf-spaces/unitary-manifold-showcase/app.py:109`; `hf-spaces/axiomzero-portal/app.py:78` | Current-facing prose still asserts blanket internal consistency, P8 functional closure, or a universal CMB suppression floor, despite `docs/TRUTH_LAYER.md:39-55,851-856` and the qualified API contract. Keep historical catalog facts but withdraw current all-clear wording. |
+| S9 | `public-site/js/physics-engine.js:239-265,294,299`; `public-site/apps/desi-tracker.html:115-134`; `hf-spaces/az-tools/app.py:526-532,566-588`; `um_live_status.json:275-316` | DESI falsification thresholds differ by consumer; old engine/HF paths still make operative tensor/graviton/dark-matter assertions inconsistent with current canonical records. Do not invent new thresholds; keep dated observations labeled by dataset and use canonical statuses. |
+| S10 | `firebase.json:3,39-40`; `public-site/status/index.html:205-206`; `public-site/portal/library/index.html:305-308`; `DEPLOY.md:172-174` | Firebase is a static SPA with no `/api/status` rewrite, while pages call same-origin `/api/status` then silently use checked-in snapshots. Confirm the deployment contract before adding a backend rewrite; otherwise show a dated snapshot explicitly. Hosted behavior was not probed. |
+| F1 | `src/core/pillar793_graviton_mass_bound_kk.py:20-23,41-49,112-125`; P790 source; `docs/TRUTH_LAYER.md:245-247` | P793 presents 1 TeV as from P790, although P790's calculated first mode is 24.622 GeV and 1 TeV is a separate supplied benchmark; P793's own formula on 1 TeV returns ≈0.403 TeV. Source/input/arithmetic inconsistency, not a physical mass determination. |
+| F2 | `src/core/pillar793_graviton_mass_bound_kk.py:13-23,64-75,153-167`; `tests/test_pillar793_graviton_mass_bound_kk.py:198-212`; `docs/CLAIM_MASTER_BOARD.md:477,483` | P793's <4 TeV exclusion, 0.8 TeV threshold verdict helper, and explicit-input PASS tests disagree; the default computed value routes FALSIFIED. P430/Admission 10 is a separate channel-specific tension/≥5 TeV bound. No common model/coupling/channel premise is established. Do not infer physical falsification or choose a spectrum to reconcile them. |
+| F3 | `docs/TRUTH_LAYER.md:973-985`; `STATUS.md:3-16`; P1135 source | “Open and untouched” obscures P1135's certified restricted subcase while the general physical-time residual remains open. Clarify subcase versus framework-level obligation; do not broaden P1135's certificate. |
+| R4 | `bot/assistant_api.py:147-166,364-375` | `retrieve_context()` always appends static PREDICTIONS/FALLIBILITY text with DESI Y1, the older r bound, and stale Higgs labels despite the new boundary and current status feed. Local RAG queries reproduce stale text. Replace with dynamic qualified status or a pointer-only summary and assert retrieved output. |
+| I1 | `12-AZ-IP/README.md:14-16,62-76`; `12-AZ-IP/IP_REGISTRY.json:3716-4167` | Current README catalog lists Products 01–46; registry products has 44 entries representing 36 product numbers, missing 08–15, 24 and 25. Product IDs are not physics pillars; inspect registry schema/asset meanings before treating this as a sync defect. |
+| I2 | `src/core/pillar536_axiomzero_ip_registry.py:232-266`; `tests/test_pillar536_axiomzero_ip_registry.py:378-382`; registry asset entries | Verifier reports `all_verified=True` for a fixed 10-class scope (8 verified, 0 tampered), while the registry contains 194 asset entries. Clarify scoped verification versus registry-wide completion; inspect consumers and historical asset status before changing API. |
+
+Inventory expert checks passed for `COMPACTIFICATION/build_maps.py --check`,
+Product 45 catalog `--check` (46 products), and Product 46 copy `--check`.
+Fingerprint manifests were not regenerated; historical snapshot differences
+were not presumed stale.
+
+## Remaining scope
+
+1. Apply S6-S10/F1-F3/R4/I1-I2 corrections only after validating their
+   consumers and preserving historical snapshots.
+2. Audit additional frontend/HF/product status paths and establish their
+   deploy-time behavior with repository tests; no hosted deployment probe yet.
 3. Review formal theorem axiom dependencies and action-to-observable contracts
-   with specialist evidence; this tranche did not certify every derivation.
-4. Expand beyond assigned entrypoints to product/governance/editorial/archive
-   provenance and registered-asset consistency, in bounded batches.
-5. A true whole-repository, slow-inclusive certification requires its documented
-   suite inventory, complete dependencies, frozen source/environment provenance,
-   and complete supervised receipts. The combined pytest command below is not
-   that certification.
+   beyond the P1130-P1135 bounded chain.
+4. Expand product/governance/editorial/archive provenance and registered-asset
+   checks in bounded batches.
+5. The slow-inclusive supervised result above covers the specified core suite,
+   not a complete all-products, `claims/`, deployment, hosted-service, or
+   independent scientific certification.
 
 ## Resume procedure
 
