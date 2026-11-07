@@ -312,7 +312,9 @@ class MainActivity : AppCompatActivity() {
                 require(document.isFile) { "Product documentation is not a file." }
                 val text = contentResolver.openInputStream(document.uri)?.use { readTextBounded(it, 256 * 1024) }
                     ?: throw IllegalStateException("Android could not read this product's documentation.")
-                runOnUiThread { showDocument(product.name, text) }
+                runOnUiThread {
+                    if (!isFinishing && !isDestroyed) showDocument(product.name, text)
+                }
             } catch (error: Exception) {
                 runOnUiThread { toast(error.message ?: "Product documentation could not be opened.") }
             }
