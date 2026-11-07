@@ -4,7 +4,7 @@
   "pillar_status": "AXIOMZERO_IP_REGISTRY",
   "author": "ThomasCory Walker-Pearson",
   "date": "2026-06-15",
-  "updated": "2026-11-05",
+  "updated": "2026-11-07",
   "license": "LicenseRef-DefensivePublicCommons-1.0",
   "categories": {
     "apps": "12-AZ-IP/apps/README.md",
@@ -375,11 +375,17 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "9521202c8a6ada31f09667171d68f3b736bcfd43cd89705d06045a44c6addaa8",
-      "size_bytes": 21908,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "d3dc0be99cd02791b322f6c8661c7e3d8bb8e0075d352388f30cd75f4ffdaf06",
+      "size_bytes": 22597,
+      "reseal_note": "Add Product 46 to the canonical portfolio registry and link its native Android suite.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "9521202c8a6ada31f09667171d68f3b736bcfd43cd89705d06045a44c6addaa8",
+          "size_bytes": 21908,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "b78e6f34fd0432d3bc5395b571715f3ce7a6f8dcea8c703bbd5856a07dca7ae3",
@@ -507,11 +513,17 @@
       "description": "Product-level portfolio licensing schedule",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "df8b9cf75614ccb9aca655817c5833a93ed5c25d45239d6cd558d8ec71650451",
-      "size_bytes": 8459,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "f1d6ebf8c0fce690dc78e9aed1734fcfd1141f4e17fdfba634d6c7d749a46b84",
+      "size_bytes": 8640,
+      "reseal_note": "Add Product 46 to the canonical portfolio license inventory.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "df8b9cf75614ccb9aca655817c5833a93ed5c25d45239d6cd558d8ec71650451",
+          "size_bytes": 8459,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a3d9bbb6e3aa109db45aabaabc05a8eebe894d1b1a22a9d0cc91ea96ff3ac586",
@@ -1088,11 +1100,17 @@
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "f8556f7e05d3f66ceea98c1b66f5f16860b263307c03acbcd3fc764b212bc97e",
-      "size_bytes": 32399,
-      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate.",
+      "updated": "2026-11-07",
+      "sha256": "4023df39223c60278b3d2268d5c2a3884fc212b1dd278ff2cd708698a6b739b5",
+      "size_bytes": 32533,
+      "reseal_note": "Document the 46-product catalog and the Android-only Product 46 deployment boundary.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "f8556f7e05d3f66ceea98c1b66f5f16860b263307c03acbcd3fc764b212bc97e",
+          "size_bytes": 32399,
+          "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "198102f34a66a5331583c5752bdaf878e6bd85eb203166f36c86bdf9946ba35f",
@@ -1694,19 +1712,39 @@
       "description": "Product 45 canonical portfolio catalog generator and freshness check",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-03",
-      "sha256": "a0eda09dafc5c1d93d2b37dc822e0d875af36e4358f6e85dcc14352548d43000",
-      "size_bytes": 3118
+      "updated": "2026-11-07",
+      "sha256": "6f6507748d474ea62233a522467a7c32baf26ffe6967d411c104b55c5c5c18ea",
+      "size_bytes": 3118,
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "03cfd582135bc913bc074fdb53b56cb8b8d2abb56ab9981212e8573cea98a594",
+          "size_bytes": 3141,
+          "reseal_note": "Allow sequential canonical catalog generation through Product 46."
+        },
+        {
+          "updated": "2026-11-03",
+          "sha256": "a0eda09dafc5c1d93d2b37dc822e0d875af36e4358f6e85dcc14352548d43000",
+          "size_bytes": 3118
+        }
+      ],
+      "reseal_note": "Require exactly the 46 canonical products in order when generating both offline catalogs."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs": {
       "description": "Product 45 Windows Electron DevTools UI and renderer exception smoke check",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "b236099a06e069e66a184c7cf8fec3ae1c03e8481ea54097657777e78ae2f7fd",
-      "size_bytes": 9886,
-      "reseal_note": "Wait for both catalog and asynchronous runtime cards in installed UI qualification, within a bounded sixty seconds; retain all assertions and cover delayed runtime rendering with an executable CDP regression.",
+      "updated": "2026-11-07",
+      "sha256": "9202ba7151d856bc2f4b986fcddeca5a01d9a992070c1998468d95ab4634e469",
+      "size_bytes": 9893,
+      "reseal_note": "Assert the installed desktop UI renders 46 products and 45 desktop runtime contracts.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "b236099a06e069e66a184c7cf8fec3ae1c03e8481ea54097657777e78ae2f7fd",
+          "size_bytes": 9886,
+          "reseal_note": "Wait for both catalog and asynchronous runtime cards in installed UI qualification, within a bounded sixty seconds; retain all assertions and cover delayed runtime rendering with an executable CDP regression."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "6c37a458f8c12d05e4bcdaf5a952ac25bd232d42d6251c668bb7e95d05a60ea5",
@@ -1795,9 +1833,17 @@
       "description": "Product 45 catalog, repository path, settings and operation-lock regression tests",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "c8e060309450c60d5681c717628348be04b9b43016dcc544303253bd956a7c82",
-      "size_bytes": 3116
+      "updated": "2026-11-07",
+      "sha256": "15417710e6560e462c2ec04560b6b7a542de398753c2c7847111c736253221e5",
+      "size_bytes": 3116,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "c8e060309450c60d5681c717628348be04b9b43016dcc544303253bd956a7c82",
+          "size_bytes": 3116
+        }
+      ],
+      "reseal_note": "Cover the 46-product catalog and safe product folder references."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/knowledge.test.cjs": {
       "description": "Product 45 bounded ZIP indexing, search citation and local collection tests",
@@ -1808,14 +1854,20 @@
       "size_bytes": 6516
     },
     "12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json": {
-      "description": "Product 45 generated offline catalog for Products 01-45",
+      "description": "Product 45 generated offline catalog for Products 01-46",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "71e44ae481012492aca6d938378321a19cb480d7a62ed063b07bba9e58179d9b",
-      "size_bytes": 16136,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd",
+      "size_bytes": 16646,
+      "reseal_note": "Regenerate the offline catalog to include canonical Product 46.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "71e44ae481012492aca6d938378321a19cb480d7a62ed063b07bba9e58179d9b",
+          "size_bytes": 16136,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "dfa752a64563e8bad3b5db2320e6c80dc232fb9aa59491a5fad5b59806491ffb",
@@ -2307,10 +2359,18 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtime-manifest.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "df230d9f0844fab618e6f70b40d03be50e7abfb68180953e26658df0f029d20a",
-      "size_bytes": 7998,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+      "updated": "2026-11-07",
+      "sha256": "3c0979bd5f43ab8e2b28ad802dc8c007bde351135f1ab3d4f95dce8740992da7",
+      "size_bytes": 8090,
+      "reseal_note": "Keep the desktop runtime manifest scoped to Products 01-45 while the catalog contains Product 46.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "df230d9f0844fab618e6f70b40d03be50e7abfb68180953e26658df0f029d20a",
+          "size_bytes": 7998,
+          "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py": {
       "description": "Product 45 native model/runtime packaging and contracts: test_psicat_core.py",
@@ -3321,6 +3381,268 @@
       "sha256": "179aa04b0b381c82d64c79e326db47a749c232b0308c226458baebf1fc540270",
       "size_bytes": 5398,
       "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/.gitignore": {
+      "description": "Product 46 Android build output and local SDK exclusions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "098fbdf1e4703d8d0e9f1e1c32cdd1ee7d4faa8545e7c0c33e8346a4f607f60a",
+      "size_bytes": 48,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/README.md": {
+      "description": "Product 46 Android suite capabilities, privacy boundaries and build instructions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "2a79c3c32e722641d50080ec23dd581f0c508072f26ef6923df846d8ef1dfa51",
+      "size_bytes": 4005,
+      "reseal_note": "Clarify ZIP expanded-entry limits and Android feature boundaries.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "ab7a86ee090d31850da7d9027794be5cf4c3e8873d5c0c79a37900ee21afd751",
+          "size_bytes": 3990,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/settings.gradle.kts": {
+      "description": "Product 46 Android Gradle project and module settings",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "f7084ddc2cc4df247829e84094a08429121b75881960726f4fa25276e259c05f",
+      "size_bytes": 341,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/build.gradle.kts": {
+      "description": "Product 46 pinned Android application and Kotlin plugin declarations",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "f209b9adc57eda11229414b45615ba4988a7ad51f86763cee14255bb8908a05c",
+      "size_bytes": 119,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/gradle.properties": {
+      "description": "Product 46 Android Gradle project settings",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "d5f372c6d46ad7c8d33f714bfae564eb5e1d73a159c495df9bc782b33e3567c2",
+      "size_bytes": 100,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/gradle/libs.versions.toml": {
+      "description": "Product 46 pinned Android build and runtime dependency catalog",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "5ac688d04c92a64d33bd62b1142f8ea8aec20f877f7ae31eeb3f410c6fac6526",
+      "size_bytes": 896,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/gradle/wrapper/gradle-wrapper.jar": {
+      "description": "Product 46 Gradle 8.6 wrapper bootstrap",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "55243ef57851f12b070ad14f7f5bb8302daceeebc5bce5ece5fa6edb23e1145c",
+      "size_bytes": 48966,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/gradle/wrapper/gradle-wrapper.properties": {
+      "description": "Product 46 pinned Gradle 8.6 distribution configuration",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "3f132e383623486783abdfbb8550329a98873a0985878678e4a982dc052cf5bf",
+      "size_bytes": 250,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/gradlew": {
+      "description": "Product 46 Gradle wrapper launcher for Unix-like systems",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "aed171fb114f82e6eaea4970a245a200e0582a7dcc8ec0891ca41b6e4a62b754",
+      "size_bytes": 8654,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/gradlew.bat": {
+      "description": "Product 46 Gradle wrapper launcher for Windows",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "fedad02c18e266ec094995a5751b7fe1eb6e74f66bf75db64fae2e50eb22c234",
+      "size_bytes": 2896,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/build.gradle.kts": {
+      "description": "Product 46 Android application configuration and dependencies",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "eaa52069110a42432410ee1737040bd26668a5a001c24a3b26da69c03fb4b503",
+      "size_bytes": 801,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/AndroidManifest.xml": {
+      "description": "Product 46 Android app declaration with no broad storage or network permissions",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "65aaf6350d63ee1fd00a79102bd8eee51ab4f28e55a67692f8d88fae3ae863d9",
+      "size_bytes": 609,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/strings.xml": {
+      "description": "Product 46 Android application label",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "3f8a025364d3e49aa1a8f4fea515c5c9030cdf92eb2fd18ad685f187e21bb1e6",
+      "size_bytes": 86,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/styles.xml": {
+      "description": "Product 46 native Android application theme",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "8475fba0601bd454b360e9396e5336823942974d18d1bab25bc2669fd4e71f56",
+      "size_bytes": 594,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt": {
+      "description": "Product 46 native Android portfolio, SAF, evidence, and research UI",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "3f361842b753e2412841eb789240445aa12a62625345931a222015254216a4ac",
+      "size_bytes": 17724,
+      "reseal_note": "Use shorter native navigation labels to fit narrow Android phone screens.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "ec30f152bbcb8f72058f8588b74c2ba04e698ee51308c35b0e376eed6aca05e2",
+          "size_bytes": 17651,
+          "reseal_note": "Refresh Product 46 UI with persisted SAF error handling, stale-search protection and explicit local-data deletion."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "8c6469892b5e82fb8c1e3d7c06524a625468fd0a8428bed75c13628f33f7195e",
+          "size_bytes": 16789,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/PortfolioCatalog.kt": {
+      "description": "Product 46 offline product catalog loading, validation and search",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "12acff5d52295263e0c40bce6077e487228c3be79dda601427dad3a8ba515bfa",
+      "size_bytes": 2057,
+      "reseal_note": "Simplify typed all-term portfolio search matching.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "8eee8ca4519eaefc73b0ff46b9a401fde9cdfb855709f611c7aa77c9ff3a6c6a",
+          "size_bytes": 2041,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalLibrary.kt": {
+      "description": "Product 46 private local evidence index and cited keyword retrieval",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "cfbd17e77184f9e5ae4c569e3a25ec4c2235bb2376d3067ff2fdcaa94d655e66",
+      "size_bytes": 3493,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/SafeTextArchive.kt": {
+      "description": "Product 46 bounded text and ZIP import with path and size checks",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "9d24c5207eb664d97f05b0444e49f65e3fe406d69c6b7099e0f135b81c449d38",
+      "size_bytes": 3393,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/ResearchNotebook.kt": {
+      "description": "Product 46 local UNVERIFIED research notebook and Markdown export",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "2951e78c1cf6f852abe62610d7fe167b5e1b1901e0286ed89a20fbff6d3e335d",
+      "size_bytes": 2995,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json": {
+      "description": "Product 46 synchronized offline catalog for Products 01-46",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd",
+      "size_bytes": 16646,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/PortfolioCatalogTest.kt": {
+      "description": "Product 46 catalog search unit tests",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "3adde02d0e55e90574fe98aaacb62a12010608e4b02e9d2e47564571f84afbd3",
+      "size_bytes": 975,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/SafeTextArchiveTest.kt": {
+      "description": "Product 46 bounded import and archive path safety unit tests",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "d6012f0bf02728fe04ab928f9873b5aeb0da4106b11731ebcb0f04316042c7b8",
+      "size_bytes": 2006,
+      "reseal_note": "Remove unused test import from the bounded archive regression suite.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "b5dfaaba6f0ae2d47e3e358dd2871e516cfa7a83fd30436d1c162ddd0c62e35b",
+          "size_bytes": 2041,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/scripts/build_catalog.py": {
+      "description": "Product 46 Android catalog synchronization and freshness checker",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "bc6c2a59f483aa97ae9c1a65b3c1a3f33030e6941c3a2841b948bbfe3b57de29",
+      "size_bytes": 1393,
+      "reseal_note": "Add required source attribution header to the canonical-catalog synchronizer.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "ac2f426d1e30013d84c2ab1599a936feb8c09df6f86a376c77e2fbee78154e41",
+          "size_bytes": 1299,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/tests/test_catalog_sync.py": {
+      "description": "Product 46 canonical offline catalog synchronization regression test",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "a1d7e9259496238eb8eb11242825f0e27313c53568a24200a59cfe1a0ee6ac6e",
+      "size_bytes": 734,
+      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -3765,6 +4087,15 @@
       "tests": "78 focused Node tests + Windows install/UI/uninstall and research-plan smoke",
       "description": "Offline-first portfolio launcher, local source-cited search and a bounded, human-approved research harness with optional loopback Ollama reasoning; does not bundle every runtime or a live PsiCat model.",
       "link": "45-axiomzero-pc-suite/"
+    },
+    {
+      "name": "AxiomZero Android Suite For Mobile Phones",
+      "version": "0.1.0",
+      "trl": "Not assessed",
+      "port": "Native Android app (API 26+)",
+      "tests": "5 Android unit tests + focused catalog sync test",
+      "description": "Offline portfolio browsing, user-selected checkout documentation, bounded private text/ZIP evidence search with citations, and local UNVERIFIED research notes/export. No network permission, cloud assistant, arbitrary commands, or release-readiness claim.",
+      "link": "46-axiomzero-android-suite/"
     }
   ]
 }

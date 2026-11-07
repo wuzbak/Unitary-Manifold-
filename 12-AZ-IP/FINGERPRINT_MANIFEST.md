@@ -1228,3 +1228,47 @@ Apply the steward-approved shared fifteen-minute CPU inference budget across own
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs` | `446bfcbed0aa03055566a02108751d22078bfdf12c789efaaf44dec31c5dbbc5` | 14104 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `d19cdb67ab305a316fe376ca22680187d58a193fd7746a494343d4cd31f20cdf` | 37924 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `7a08c91dc598fb6b481107965b3cb4e7667b354a8b5cd47e78d7dffa233d724c` | 40380 |
+
+### Product 46 registration — AxiomZero Android Suite — 2026-11-07
+
+Registered a native Android adaptation of Product 45's offline portfolio,
+local evidence and governed research-note workflows. The Android app uses
+user-selected Storage Access Framework documents, bounded text/ZIP imports
+and local keyword retrieval; it has no network permission. Product 46 is not
+release-signed or device-qualified, and Product 45's runtime manifest remains
+scoped to Products 01–45.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/README.md` | `d3dc0be99cd02791b322f6c8661c7e3d8bb8e0075d352388f30cd75f4ffdaf06` | 22597 |
+| `12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md` | `f1d6ebf8c0fce690dc78e9aed1734fcfd1141f4e17fdfba634d6c7d749a46b84` | 8640 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `4023df39223c60278b3d2268d5c2a3884fc212b1dd278ff2cd708698a6b739b5` | 32533 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd` | 16646 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py` | `6f6507748d474ea62233a522467a7c32baf26ffe6967d411c104b55c5c5c18ea` | 3118 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `9202ba7151d856bc2f4b986fcddeca5a01d9a992070c1998468d95ab4634e469` | 9893 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs` | `15417710e6560e462c2ec04560b6b7a542de398753c2c7847111c736253221e5` | 3116 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs` | `3c0979bd5f43ab8e2b28ad802dc8c007bde351135f1ab3d4f95dce8740992da7` | 8090 |
+| `12-AZ-IP/46-axiomzero-android-suite/.gitignore` | `098fbdf1e4703d8d0e9f1e1c32cdd1ee7d4faa8545e7c0c33e8346a4f607f60a` | 48 |
+| `12-AZ-IP/46-axiomzero-android-suite/README.md` | `2a79c3c32e722641d50080ec23dd581f0c508072f26ef6923df846d8ef1dfa51` | 4005 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/build.gradle.kts` | `eaa52069110a42432410ee1737040bd26668a5a001c24a3b26da69c03fb4b503` | 801 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/AndroidManifest.xml` | `65aaf6350d63ee1fd00a79102bd8eee51ab4f28e55a67692f8d88fae3ae863d9` | 609 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd` | 16646 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalLibrary.kt` | `cfbd17e77184f9e5ae4c569e3a25ec4c2235bb2376d3067ff2fdcaa94d655e66` | 3493 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt` | `3f361842b753e2412841eb789240445aa12a62625345931a222015254216a4ac` | 17724 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/PortfolioCatalog.kt` | `12acff5d52295263e0c40bce6077e487228c3be79dda601427dad3a8ba515bfa` | 2057 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/ResearchNotebook.kt` | `2951e78c1cf6f852abe62610d7fe167b5e1b1901e0286ed89a20fbff6d3e335d` | 2995 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/SafeTextArchive.kt` | `9d24c5207eb664d97f05b0444e49f65e3fe406d69c6b7099e0f135b81c449d38` | 3393 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/strings.xml` | `3f8a025364d3e49aa1a8f4fea515c5c9030cdf92eb2fd18ad685f187e21bb1e6` | 86 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/styles.xml` | `8475fba0601bd454b360e9396e5336823942974d18d1bab25bc2669fd4e71f56` | 594 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/PortfolioCatalogTest.kt` | `3adde02d0e55e90574fe98aaacb62a12010608e4b02e9d2e47564571f84afbd3` | 975 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/SafeTextArchiveTest.kt` | `d6012f0bf02728fe04ab928f9873b5aeb0da4106b11731ebcb0f04316042c7b8` | 2006 |
+| `12-AZ-IP/46-axiomzero-android-suite/build.gradle.kts` | `f209b9adc57eda11229414b45615ba4988a7ad51f86763cee14255bb8908a05c` | 119 |
+| `12-AZ-IP/46-axiomzero-android-suite/gradle.properties` | `d5f372c6d46ad7c8d33f714bfae564eb5e1d73a159c495df9bc782b33e3567c2` | 100 |
+| `12-AZ-IP/46-axiomzero-android-suite/gradle/libs.versions.toml` | `5ac688d04c92a64d33bd62b1142f8ea8aec20f877f7ae31eeb3f410c6fac6526` | 896 |
+| `12-AZ-IP/46-axiomzero-android-suite/gradle/wrapper/gradle-wrapper.jar` | `55243ef57851f12b070ad14f7f5bb8302daceeebc5bce5ece5fa6edb23e1145c` | 48966 |
+| `12-AZ-IP/46-axiomzero-android-suite/gradle/wrapper/gradle-wrapper.properties` | `3f132e383623486783abdfbb8550329a98873a0985878678e4a982dc052cf5bf` | 250 |
+| `12-AZ-IP/46-axiomzero-android-suite/gradlew` | `aed171fb114f82e6eaea4970a245a200e0582a7dcc8ec0891ca41b6e4a62b754` | 8654 |
+| `12-AZ-IP/46-axiomzero-android-suite/gradlew.bat` | `fedad02c18e266ec094995a5751b7fe1eb6e74f66bf75db64fae2e50eb22c234` | 2896 |
+| `12-AZ-IP/46-axiomzero-android-suite/scripts/build_catalog.py` | `bc6c2a59f483aa97ae9c1a65b3c1a3f33030e6941c3a2841b948bbfe3b57de29` | 1393 |
+| `12-AZ-IP/46-axiomzero-android-suite/settings.gradle.kts` | `f7084ddc2cc4df247829e84094a08429121b75881960726f4fa25276e259c05f` | 341 |
+| `12-AZ-IP/46-axiomzero-android-suite/tests/test_catalog_sync.py` | `a1d7e9259496238eb8eb11242825f0e27313c53568a24200a59cfe1a0ee6ac6e` | 734 |

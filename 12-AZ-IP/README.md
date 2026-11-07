@@ -11,7 +11,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - Canonical convergence charter: [`../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md`](../9-INFRASTRUCTURE/EXECUTION_SPINE_CONVERGENCE_CHARTER.md)
 - External PsiCat submissions and unreviewed test artifacts: [`psicat-external-intake/`](./psicat-external-intake/).
 
-## Product registry (45 canonical software products / surfaces)
+## Product registry (46 canonical software products / surfaces)
 
 | # | Product | Version | TRL | Port / Endpoint | Tests | Description | Folder |
 |---|---|---:|---|---|---:|---|---|
@@ -60,6 +60,7 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 | 43 | AZ Geometric Tori Transformer | 1.0.0 | TRL-1 | CLI / Python library + web (http://localhost:8143) | 46 | From-scratch (NumPy-only, custom autograd) transformer whose positional encoding and attention bias are derived from the repository's own Z_74 toroidal phase lattice (K_CS=74=5²+7², (5,7) braid winding) instead of standard sinusoidal RoPE — toroidal rotary encoding with finite orbit periods plus a toroidal relative-distance attention bias; wired as `getToriTransformerGeometry`/`getToriTransformerDemo` native PsiCat tools, exposed via PsiCat Browser through the Navigator's generic `/api/psicat` surface. ADJACENT TRACK, not a hardgate physics claim. | [43-az-geometric-tori-transformer/](43-az-geometric-tori-transformer/) |
 | 44 | AxiomZero Weave | 0.1.0 | Not assessed | CLI / local HTTP (http://127.0.0.1:8144) + native PsiCat tools | Focused pytest suites | Five-strand, seven-operation evidence and computation integration: current grounding, scoped memory, real Oracle/Transformer adapters, matched synthetic controls, and durable Pentad-constrained effects. Adjacent software only; private exports remain excluded. | [44-axiomzero-weave/](44-axiomzero-weave/) |
 | 45 | AxiomZero PC Suite | 0.1.0 | Not assessed | Windows desktop installer / portable | Focused Node/Python suites + Windows install/UI/native/runtime/uninstall smoke | Offline-first portfolio, source-cited local evidence, governed research, native experimental toroidal character model, Python/CPU-JAX provisioning, authenticated Node workbench and supervised browser deployment. Not a production assistant or complete all-target installer; no arbitrary shell or automatic cloud fallback. | [45-axiomzero-pc-suite/](45-axiomzero-pc-suite/) |
+| 46 | AxiomZero Android Suite For Mobile Phones | 0.1.0 | Not assessed | Native Android app (API 26+) | Focused Python catalog check + Android unit tests | Offline portfolio browser, user-selected checkout documentation, bounded private text/ZIP evidence search with citations, and local UNVERIFIED research notes/export. No network permission, cloud assistant, arbitrary commands, or release-readiness claim. | [46-axiomzero-android-suite/](46-axiomzero-android-suite/) |
 
 *Sub-surfaces and shared infrastructure (part of Product 01):*
 
@@ -95,7 +96,8 @@ All scattered AxiomZero software assets have been copied into `12-AZ-IP/` and co
 - `26-um-arts/` — canonical UM-ARTS regression application and Python package; `TOOLS.um_arts` retains backwards-compatible CLI, submodule, and pytest-plugin imports
 - `27-psicat-vite-web-workbench/` — standalone local Vite app with curated frontend starters and human-gated native Product 20 actions
 - `28-az-calorimetry-console/` through `40-az-live-data-harness/` — thirteen new standalone products (direct Python packages, not merges of pre-existing folders), each built against one of the thirteen "Phase 0/1 buildable now" directions named in `7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md`; see each product's own README "Epistemic status" section for exactly which article phase is and is not implemented
-- `45-axiomzero-pc-suite/` — offline-first Electron desktop catalog and Windows launcher; its generated 45-product directory stays synchronized with this master registry
+- `45-axiomzero-pc-suite/` — offline-first Electron desktop catalog and Windows launcher; its generated 46-product catalog stays synchronized with this master registry
+- `46-axiomzero-android-suite/` — native offline-first Android adaptation of Product 45's portfolio, local evidence and research-note workflows; its catalog asset is synchronized from Product 45's canonical catalog
 
 ## Product 26 operational entrypoints
 

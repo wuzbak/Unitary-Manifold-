@@ -206,7 +206,7 @@ async function verifyWindow(target) {
 
 waitForPage()
   .then(verifyWindow)
-  .then(() => console.log("Product 45 rendered 45 products/runtime contracts, reached its native model and created/cancelled a checkpointed research task without renderer exceptions."))
+  .then(() => console.log("Product 45 rendered 46 products and 45 runtime contracts, reached its native model and created/cancelled a checkpointed research task without renderer exceptions."))
   .catch((error) => {
     console.error(error);
     process.exitCode = 1;

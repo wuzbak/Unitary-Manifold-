@@ -36,11 +36,11 @@ def parse_catalog(readme: str) -> list[dict[str, str]]:
                 "folder": "12-AZ-IP/" + folder_match.group(1).rstrip("/") + "/",
             }
         )
-    expected_ids = [f"{number:02d}" for number in range(1, 46)]
+    expected_ids = [f"{number:02d}" for number in range(1, 47)]
     actual_ids = [product["id"] for product in products]
     if actual_ids != expected_ids:
         raise ValueError(
-            "The canonical catalog must contain Products 01-44 in order; "
+            "The canonical catalog must contain Products 01-46 in order; "
             f"found {actual_ids!r}."
         )
     return products

@@ -4,7 +4,7 @@
 
 Product 45 is an offline-first desktop front door to the registered AxiomZero
 portfolio. Its bundled catalog is built from the canonical `12-AZ-IP/README.md`
-and includes Products 01–45. It helps an operator search products, tools,
+and includes Products 01–46. It helps an operator search products, tools,
 calculators and engines, open local product documentation, and reach a
 user-selected work folder. Loopback service links are opened only after an
 explicit click.
@@ -330,7 +330,7 @@ Artifacts are written to `dist/`. `npm run smoke:win` first requires a clean
 installation destination and proves that the **actual installer** rejects
 missing and tampered companion parts with a nonzero exit, before silently
 installing and uninstalling the per-user NSIS build. It launches the installed
-application and verifies that the window renders all 45 products and the
+application and verifies that the window renders all 46 products and the
 local evidence/runtime/native-model controls, creates a research plan and cancels
 it through the preload bridge without renderer exceptions. It also runs
 standalone installed native inference and training, verifies the bundled source
@@ -513,7 +513,9 @@ fail closed with a startup error rather than silently reset or replay.
 The harness has no arbitrary shell, source-write, external-network, finance,
 legal-action, privilege-elevation or epistemic-promotion tools. Worker isolation
 keeps search responsive but is **not an OS security sandbox**. This deliberately
-bounded control plane does not install or orchestrate all 45 product runtimes.
+bounded control plane does not install or orchestrate all 45 desktop-managed
+product runtimes. Product 46 is a native Android app; install it through Android
+Studio or Android's user-controlled package installer.
 Its task/results/audit exports are plaintext local data, not encrypted memory
 or an automatic cross-product profile export.
 
