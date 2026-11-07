@@ -64,7 +64,12 @@ class LocalLibrary(private val file: java.io.File) {
                 if (score == 0) null else EvidenceMatch(
                     name = document.name,
                     line = index + 1,
-                    excerpt = line.trim().take(500),
+                    excerpt = line.run {
+                        val firstMatch = terms.map { indexOf(it, ignoreCase = true) }
+                            .filter { it >= 0 }.minOrNull() ?: 0
+                        val start = (firstMatch - 100).coerceAtLeast(0)
+                        substring(start, minOf(length, start + 500)).trim()
+                    },
                     sha256 = document.sha256,
                     score = score
                 )
