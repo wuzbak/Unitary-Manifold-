@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8678,
+  "file_count": 8679,
   "lanes": {
     "az_ip": 2673,
     "compactification": 9,
-    "other": 5582,
+    "other": 5583,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -90,7 +90,7 @@
     "data": 4,
     "demo.ipynb": 1,
     "docker-compose.yml": 1,
-    "docs": 99,
+    "docs": 100,
     "dvc.yaml": 1,
     "firebase.json": 1,
     "hf-spaces": 54,
@@ -36130,6 +36130,12 @@
     },
     {
       "path": "docs/archived_hypotheses/unitary_os_sunset.md",
+      "top_level": "docs",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "docs/audits/REPOSITORY_CONSISTENCY_AUDIT_2026_11_07.md",
       "top_level": "docs",
       "kind": "file",
       "lane": "other"
