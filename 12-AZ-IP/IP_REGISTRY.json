@@ -3914,9 +3914,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "536c054984918fdaf29bdb83c9773024673c43bd16f7f6598dfc370c7ec0b87b",
-      "size_bytes": 10075,
-      "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+      "sha256": "9f7b95201b67107550336d00b48823888433b4de6f50ff48754edaaab6bd851e",
+      "size_bytes": 10097,
+      "reseal_note": "Bind transfer progress callbacks by name without changing pinned size/hash defaults.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "536c054984918fdaf29bdb83c9773024673c43bd16f7f6598dfc370c7ec0b87b",
+          "size_bytes": 10075,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
     },
     "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt": {
       "description": "Strict model stream integrity, atomic private installation and native pin contracts",

@@ -128,7 +128,7 @@ object MobileModel {
         require(screenStorage(directory)) {
             "Not enough private storage: keep at least ${MIN_FREE_BYTES / (1024 * 1024)} MiB free for verification."
         }
-        input.copyVerified(installedFile(directory), cancelled, progress)
+        input.copyVerified(installedFile(directory), cancelled, progress = progress)
     }
 
     fun download(
@@ -157,7 +157,7 @@ object MobileModel {
             require(connection.contentLengthLong == -1L || connection.contentLengthLong == SIZE_BYTES) {
                 "The model server reported an unexpected content size."
             }
-            connection.inputStream.use { input -> input.copyVerified(installedFile(directory), cancelled, progress) }
+            connection.inputStream.use { input -> input.copyVerified(installedFile(directory), cancelled, progress = progress) }
         } finally {
             connection.disconnect()
         }

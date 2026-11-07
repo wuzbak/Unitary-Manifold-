@@ -1417,3 +1417,13 @@ previous source seal in registry history; hosted compilation remains mandatory.
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `55303aba19bbdf964874a757ce5f9c251f488e838f93dfa22f1617873d60a8d3` | 6549 |
+
+### Product 46 verified transfer callback reseal — 2026-11-07
+
+Hosted Kotlin compilation identified positional progress arguments bound to the
+optional byte-size parameter. Bind progress explicitly while preserving exact
+size/hash defaults. The previous store seal remains in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt` | `9f7b95201b67107550336d00b48823888433b4de6f50ff48754edaaab6bd851e` | 10097 |
