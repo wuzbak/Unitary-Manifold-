@@ -179,8 +179,26 @@ Standalone checks:
   checked, all internal file links resolved**.
 - `git diff --check`: **passed**.
 
-The combined post-correction core/recycling/governance run is the next
-checkpoint requirement; no final outcome is asserted here yet.
+Combined post-correction command, executed on frozen correction commit
+`aa610235d4840440afc204d09ad56047ed36a257` with unchanged source/dependencies:
+
+```bash
+python -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
+```
+
+Result: **65,732 passed, 60 skipped, 66 deselected, 0 failed**, three warnings,
+797.27 seconds. Log: `audit-combined-after.log`. Warnings concern an existing
+dataclass collection name, FastAPI's dependency deprecation, and an existing
+test returning a dictionary. Optional integrations were skipped and default
+slow deselections retained; product suites outside this command were not run.
+This receipt does not replace the canonical historical regression marker or
+certify all repository assets.
+
+`python TOOLS/checks/check_canonical_ledger_sync.py --base-sha b47cf02 --head-sha aa610235d4840440afc204d09ad56047ed36a257`
+also passed: canonical wave/pillar synchronization is not required for this
+diff. The correction commit and evidence checkpoints are pushed to the draft
+PR. Only this audit record is updated after the frozen regression; no tested
+implementation is changed by recording the outcome.
 
 ## Remaining scope and next audit tranche
 
@@ -213,5 +231,6 @@ Use the session artifact directory's `audit-venv/bin/python` for this
 environment's exact test commands; it is not a repository dependency or a
 portable environment guarantee. Artifacts and SQLite audit/task state are
 session-persistent; this document and commits are the durable cross-session
-record. No correction edits or dependency installations should occur during
-the combined post-correction run.
+record. `audit-environment.txt` records installed distributions. The combined
+post-correction run is complete; resume the remaining scope above rather than
+relabeling this first tranche a whole-repository all-clear.
