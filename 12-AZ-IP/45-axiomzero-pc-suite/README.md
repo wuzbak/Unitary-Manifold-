@@ -506,7 +506,10 @@ build, checks actual CPU JAX values/gradients, and requires Product 24's window,
 sync/Navigator readiness and graceful process exit. A failed or skipped native
 check does not certify those capabilities or permit publishing an installer.
 `.github/workflows/pc-suite-windows.yml` builds and uploads them as a workflow
-artifact on pull requests and manual dispatch. `SHA256SUMS.txt` covers the
+artifact on pull requests and manual dispatch. Packaging explicitly uses
+`--publish never`: only the workflow's version-tagged release step publishes
+after every acceptance gate, so packaging does not need a GitHub publishing
+token or attempt an early upload. `SHA256SUMS.txt` covers the
 installer, companion manifest, every model part, and the versioned download
 helper. A `pc-suite-v*` tag
 additionally publishes all these files as a GitHub Release. Builds are currently

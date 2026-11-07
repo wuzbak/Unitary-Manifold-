@@ -138,7 +138,12 @@ jstring new_string_from_utf8(JNIEnv *env, const std::string &input) {
 }
 
 jstring error(JNIEnv *env, const char *message) {
-    return env->NewStringUTF(message);
+    jclass exception = env->FindClass("java/lang/IllegalStateException");
+    if (exception != nullptr) {
+        env->ThrowNew(exception, message);
+        env->DeleteLocalRef(exception);
+    }
+    return nullptr;
 }
 
 }  // namespace
@@ -252,22 +257,29 @@ Java_com_axiomzero_androidsuite_LocalModelRuntime_nativeGenerate(
     const llama_token eos = llama_vocab_eos(vocab);
     const llama_token eot = llama_vocab_eot(vocab);
     for (jint index = 0; index < max_tokens && !session->cancelled.load(); ++index) {
-        const llama_token token = llama_sampler_sample(sampler, session->context, -1);
+        llama_token token = llama_sampler_sample(sampler, session->context, -1);
         if (token == eos || token == eot) {
             break;
         }
-        char piece[256];
+        char piece[8192];
         const int32_t piece_size = llama_token_to_piece(vocab, token, piece, sizeof(piece), 0, false);
+        if (piece_size < 0) {
+            llama_sampler_free(sampler);
+            return error(env, "The local model produced a token exceeding the output buffer.");
+        }
         if (piece_size > 0) {
-            output.append(piece, static_cast<size_t>(
-                std::min<int32_t>(piece_size, static_cast<int32_t>(sizeof(piece)))));
-            if (output.size() > 8192) {
+            if (output.size() + static_cast<size_t>(piece_size) > sizeof(piece)) {
                 break;
             }
+            output.append(piece, static_cast<size_t>(piece_size));
         }
         llama_sampler_accept(sampler, token);
         if (index + 1 < max_tokens && llama_decode(session->context, llama_batch_get_one(&token, 1)) != 0) {
-            break;
+            llama_sampler_free(sampler);
+            if (session->cancelled.load()) {
+                return new_string_from_utf8(env, "Generation cancelled.");
+            }
+            return error(env, "The local model could not evaluate a generated token.");
         }
     }
     llama_sampler_free(sampler);

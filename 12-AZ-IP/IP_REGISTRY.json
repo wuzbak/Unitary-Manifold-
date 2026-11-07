@@ -1123,10 +1123,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "717f8619fa52106f658559f43cd014a4fe167d3e182cfe897594a509c2d6eb4c",
-      "size_bytes": 43710,
-      "reseal_note": "Document explicit pinned-release Windows installer-kit retrieval, consent, HTTPS/checksum bounds and manual installation; preserve model and native qualification gates.",
+      "sha256": "ee49d912550ce18e70fa4e99c2d2450abe1b1298c2ba879d318fb1c1bf6c8abf",
+      "size_bytes": 43923,
+      "reseal_note": "Explain build-only packaging and publication exclusively after workflow acceptance gates.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "717f8619fa52106f658559f43cd014a4fe167d3e182cfe897594a509c2d6eb4c",
+          "size_bytes": 43710,
+          "reseal_note": "Document explicit pinned-release Windows installer-kit retrieval, consent, HTTPS/checksum bounds and manual installation; preserve model and native qualification gates."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "1e05a486f998bffff1186053d6f497d920794d9d0ae8484e99af29fc7fe8c58a",
@@ -1355,11 +1361,17 @@
       "description": "Product 45 Electron desktop, ZIP reader dependency and Windows installer configuration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6",
-      "size_bytes": 3325,
-      "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim.",
+      "updated": "2026-11-07",
+      "sha256": "7df26f92c2c9420255c3805d526cc21bea2b5d74965449dc9cbd09267feea0f3",
+      "size_bytes": 3341,
+      "reseal_note": "Disable packager auto-publication; only the qualified workflow release step publishes artifacts.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6",
+          "size_bytes": 3325,
+          "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "fa02b64f6afe58828ceeef62bb236143dc2ef8ef329617ddbb78941dec8ef453",
@@ -3905,9 +3917,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "acaea6d916cab545efed3232a36895bb330d5fd74361df0496a37170303bffff",
-      "size_bytes": 11062,
-      "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+      "sha256": "1827b464e6cdaf35b07337910ea7f826a6268aace9bb14538426cfdc39cd6688",
+      "size_bytes": 11624,
+      "reseal_note": "Use mutable decode tokens and propagate native failures as exceptions, never successful answer text.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "acaea6d916cab545efed3232a36895bb330d5fd74361df0496a37170303bffff",
+          "size_bytes": 11062,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
     },
     "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt": {
       "description": "Verified private model transfers and race-safe native runtime ownership",
@@ -3957,9 +3977,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "989665afb552751dbe7db5d36c6a48addb54dfa35a95930684078af4d6214622",
-      "size_bytes": 1842,
-      "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+      "sha256": "3388fabb5ffc250b60c52aa219889cf710d3d34860f17509ebd54d57820a0dc9",
+      "size_bytes": 2190,
+      "reseal_note": "Require failed native generation to throw instead of returning error text as a model answer.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "989665afb552751dbe7db5d36c6a48addb54dfa35a95930684078af4d6214622",
+          "size_bytes": 1842,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",

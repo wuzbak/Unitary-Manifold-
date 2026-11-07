@@ -11,6 +11,17 @@ import java.util.concurrent.atomic.AtomicReference
 
 @RunWith(AndroidJUnit4::class)
 class LocalModelRuntimeOwnershipTest {
+    @Test(expected = IllegalStateException::class)
+    fun nativeFailuresCannotReturnAnswerText() {
+        val runtime = LocalModelRuntime()
+        runtime.installCancellationProbeForTest()
+        try {
+            runtime.generate("A probe without a loaded model must fail.", 1)
+        } finally {
+            runtime.close()
+        }
+    }
+
     @Test
     fun concurrentNativeCancelAndCloseNeverUseFreedSession() {
         repeat(100) {

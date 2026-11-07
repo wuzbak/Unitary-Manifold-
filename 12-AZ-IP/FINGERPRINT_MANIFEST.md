@@ -1427,3 +1427,18 @@ size/hash defaults. The previous store seal remains in registry history.
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt` | `9f7b95201b67107550336d00b48823888433b4de6f50ff48754edaaab6bd851e` | 10097 |
+
+### Gated Windows packaging and Android native failure reseal — 2026-11-07
+
+Separate Windows build-only packaging from qualified publication after hosted
+acceptance exposed the packager's unsolicited token request. Correct native
+decode token mutability and propagate inference errors as exceptions rather
+than success-shaped answer strings. Add an installed-JNI negative control.
+Retain all earlier seals; no runtime qualification is inferred from source.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `7df26f92c2c9420255c3805d526cc21bea2b5d74965449dc9cbd09267feea0f3` | 3341 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `ee49d912550ce18e70fa4e99c2d2450abe1b1298c2ba879d318fb1c1bf6c8abf` | 43923 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/llama_jni.cpp` | `1827b464e6cdaf35b07337910ea7f826a6268aace9bb14538426cfdc39cd6688` | 11624 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt` | `3388fabb5ffc250b60c52aa219889cf710d3d34860f17509ebd54d57820a0dc9` | 2190 |
