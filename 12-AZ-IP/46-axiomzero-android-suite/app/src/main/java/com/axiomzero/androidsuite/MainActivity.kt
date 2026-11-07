@@ -358,7 +358,6 @@ class MainActivity : AppCompatActivity() {
         val body = TextView(this).apply {
             this.text = text
             textSize = 14f
-            setTextColor(android.graphics.Color.rgb(220, 228, 239))
             setPadding(dp(18), dp(12), dp(18), dp(12))
         }
         AlertDialog.Builder(this)
