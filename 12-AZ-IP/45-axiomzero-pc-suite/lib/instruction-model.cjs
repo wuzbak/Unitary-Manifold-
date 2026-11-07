@@ -616,10 +616,10 @@ function createInstructionModel(options) {
       };
       const nonce = `READY_${crypto.randomBytes(16).toString("hex")}`;
       const challenge = completionBody(JSON.stringify({
-        question: "Copy the ownership_token value from the supplied evidence verbatim into answer, " +
+        question: "Copy the entire text of evidence OWNERSHIP verbatim into answer, " +
           "with no added characters, prose, punctuation or inline citation markers. " +
           "Put the supporting evidence ID only in citations. Use the normal JSON envelope with status UNVERIFIED.",
-        evidence: [{ id: "OWNERSHIP", text: `ownership_token=${nonce}` }]
+        evidence: [{ id: "OWNERSHIP", text: nonce }]
       }));
       for (const credential of [null, crypto.randomBytes(32).toString("base64url")]) {
         await ownListener(owned, port);
@@ -642,7 +642,15 @@ function createInstructionModel(options) {
           challengeResult.citations.length !== 1 || challengeResult.citations[0] !== "OWNERSHIP") && "citations"
       ].filter(Boolean);
       if (mismatches.length) {
-        throw failure(`Instruction engine ownership/instruction challenge failed: ${mismatches.join(", ")} mismatch.`);
+        throw Object.assign(
+          failure(`Instruction engine ownership/instruction challenge failed: ${mismatches.join(", ")} mismatch.`),
+          { ownershipChallenge: {
+            expectedAnswer: nonce,
+            receivedAnswer: typeof challengeResult.answer === "string" ? challengeResult.answer.slice(0, 256) : null,
+            receivedStatus: challengeResult.status,
+            receivedCitations: challengeResult.citations
+          } }
+        );
       }
       await ownListener(owned, port);
       await checkArtifacts(artifacts.artifacts);

@@ -23,6 +23,14 @@ and deletion across activity recreation, and invalidate pending evidence results
 when deletion is requested. Cover ranking, large collections and store ordering
 with native unit tests; preserve themed documentation text and full checkout paths.
 
+Final hosted qualification exposed a Product 45 ownership-copy mismatch after
+its independent candidate sanity checks passed. Make the synthetic evidence
+text the token itself, retaining the same fresh 128-bit token, exact equality,
+status/citation/schema checks, no retries and all authentication/ownership
+guards. Preserve bounded synthetic challenge diagnostics rather than hiding
+future mismatches. Native acceptance must be rerun; mocked contracts do not
+qualify model behavior.
+
 ## Complete CodeQL comparison coverage (2026-11-06)
 
 PR #1177's CodeQL jobs passed, but the aggregate remained neutral because
