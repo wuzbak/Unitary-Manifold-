@@ -1,6 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const http = require("node:http");
+const { EventEmitter } = require("node:events");
 const {
   ENDPOINT, MAX_RESPONSE_BYTES, MAX_CONTEXT_CHARS, TIMEOUT_MS,
   buildReasoningMessages, createLocalReasoner, reasonLocally
@@ -9,6 +10,31 @@ const {
 const input = { model: "llama3.2:latest", goal: "Evaluate the supplied evidence", context: "[1] Reference" };
 const answer = (content = "Unverified analysis: evidence is missing.") => ({
   message: { role: "assistant", content }, done: true
+});
+
+test("default transport remains sixty seconds; long-budget abort destroys the request immediately", async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  let destroyed = 0;
+  const reason = createLocalReasoner({ request: () => {
+    const request = new EventEmitter();
+    request.end = () => {};
+    request.destroy = () => { destroyed++; };
+    return request;
+  } });
+  const ordinary = assert.rejects(reason(input), /timed out/);
+  t.mock.timers.tick(59999);
+  assert.equal(destroyed, 0);
+  t.mock.timers.tick(1);
+  await ordinary;
+  assert.equal(destroyed, 1);
+  const controller = new AbortController();
+  const extended = assert.rejects(reason({ ...input, timeoutMs: 900000, signal: controller.signal }),
+    { name: "AbortError" });
+  t.mock.timers.tick(60000);
+  assert.equal(destroyed, 1);
+  controller.abort();
+  await extended;
+  assert.equal(destroyed, 2);
 });
 
 async function provider(t, handler, timeoutMs = 1000) {
@@ -91,8 +117,25 @@ test("input limits reject rather than truncate, before sending any request", asy
   const messages = buildReasoningMessages({ goal: "x".repeat(400), context: "x".repeat(12000) });
   assert.equal(JSON.parse(messages[1].content).untrusted_evidence.length, 12000);
   assert.equal(JSON.parse(buildReasoningMessages({ goal: "分析" })[1].content).untrusted_evidence, "");
-  for (const timeoutMs of [0, -1, Infinity, 60001]) {
+  for (const timeoutMs of [0, -1, Infinity, 900001]) {
     assert.throws(() => createLocalReasoner({ timeoutMs }), /timeout/);
+  }
+});
+test("explicit fifteen-minute chat budget overrides default sixty seconds and aborts at the exact cap", async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  const { reason } = await provider(t, () => {});
+  const pending = assert.rejects(reason({ ...input, timeoutMs: 900000 }), /timed out/);
+  await new Promise((resolve) => setImmediate(resolve));
+  t.mock.timers.tick(60000);
+  t.mock.timers.tick(839999);
+  let settled = false;
+  pending.then(() => { settled = true; });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(settled, false);
+  t.mock.timers.tick(1);
+  await pending;
+  for (const timeoutMs of [0, -1, Infinity, 900001, "900000"]) {
+    await assert.rejects(reason({ ...input, timeoutMs }), /timeout/);
   }
 });
 

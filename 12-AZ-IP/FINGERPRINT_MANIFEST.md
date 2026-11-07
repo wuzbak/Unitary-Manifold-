@@ -1318,3 +1318,38 @@ Native acceptance must be rerun; unit fixtures are not model qualification.
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `02f333aff831043613dd19574bf7af865800d3435bf00fcca20f73cd63447b3e` | 32786 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `fa324e58257f8eaf614f4f9c20535448261faa3401af830c0f285bb92743d81a` | 38234 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `47dffa2b711d685668b31fe0c7da7da15ea7b8dcd7e9383039588640b2c7666a` | 41056 |
+
+### Product 45 local-model usability and branch-wide registered asset reseal — 2026-11-07
+
+Reseal every changed registered asset in the union of `origin/main..HEAD`,
+staged changes and the current worktree, including the Product 46 README
+changed by the earlier branch commit. Preserve each previous recorded seal
+in `reseal_history`; historical entries are retained, not independently
+reverified. Existing unregistered paths remain unregistered.
+
+Product 45 adds explicitly approved installed-Ollama discovery, reports
+remote/non-completion rejection without breaking recognizable legacy metadata,
+and bounds external reasoning to eighteen minutes total and fifteen minutes
+for chat loading/generation. Non-model steps retain sixty seconds; cancelling
+the HTTP request does not stop the independently owned engine. Complete
+Windows installer-kit instructions retain companion integrity checks and
+existing bundled model/native qualification gates. Android documentation
+clarifies download/install artifact availability and runtime boundaries.
+These exact-byte seals are not Windows installation, Android device,
+third-party artifact provenance or model-inference qualification.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `1e05a486f998bffff1186053d6f497d920794d9d0ae8484e99af29fc7fe8c58a` | 41272 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `5bd969b03ffdb99e5462b54e8e13de807b88c09e7800456c90f2d59bee09c83c` | 17941 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs` | `390003cdb741eb58aaae44f50b67d96a67e74d0a849ee17ff0a82f0f01003138` | 19035 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs` | `859faafb330286665ec33f948c1e7ec0f3feeedfb13269c1dda55bca529a422d` | 6798 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `b6231445adf8767528f92ad5fce14c66fb105dc7f7066f8c5df54b0a02e0a3e1` | 36681 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `f13cf72f13036a0700813636c4fc6eafcc9459c156c58ba4968632896b5c959a` | 3688 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `6f6227d68c9879aeb35ee9196f2ae5251817a55f66511bd459d364ffd1f9bc56` | 40984 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `9560ba76cd71069a96674376035b6651f6f92c439f9530f6acbe7d493e6c4ffd` | 10375 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs` | `d069496a4b45a1eb2535f8a33df7b947399c335dc42998c866cd1c5abbb77e7c` | 15054 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs` | `5d3007db09a3b77eab00bb9d553904e70321fdc0de21078467ec9d0e0b8e50a8` | 10751 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `0d771a2ecb6eb80690ac998c15d7b88330e5f3a8827712f8887686af7841a9b6` | 18677 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs` | `389d5c4b209d339ee669cf4f3738daf5638700dc7abd1cfae2cadb7a005bd60a` | 1976 |
+| `12-AZ-IP/46-axiomzero-android-suite/README.md` | `914082aaf78b1e40f008cc9da4298e885a1e6b6b53d23315aaf352bda7dfa52b` | 4579 |

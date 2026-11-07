@@ -14,6 +14,8 @@ from .merlin_local_provider import generate_local_response
 
 MAX_LOCAL_CONTEXT_MESSAGES = 64
 MAX_LOCAL_CONTEXT_CHARACTERS = 48_000
+DEFAULT_LOCAL_TIMEOUT_SECONDS = 30
+MAX_LOCAL_TIMEOUT_SECONDS = 1800
 
 
 def local_context_parity_enabled() -> bool:
@@ -85,21 +87,35 @@ def get_inference_providers() -> list[dict[str, Any]]:
         chat_path = _clean_chat_path(os.environ.get(f"{env_prefix}_CHAT_PATH", "v1/chat/completions"))
         model = str(os.environ.get(f"{env_prefix}_MODEL", "")).strip()
         enabled = _bool_env(f"{env_prefix}_ENABLED", default=bool(endpoint and model))
-        available = bool(enabled and endpoint and model)
-        providers.append(
-            _provider_record(
-                name=name,
-                provider_kind="local_openai_compat",
-                available=available,
-                health="ready" if available else "not_configured",
-                summary="Optional self-hosted OpenAI-compatible local endpoint for sovereign inference.",
-                lane_targets=lanes,
-                model=model,
-                endpoint=endpoint,
-                chat_path=chat_path,
-                reason="" if available else f"Set {env_prefix}_BASE_URL and {env_prefix}_MODEL to enable this lane.",
-            )
+        timeout_env = f"{env_prefix}_TIMEOUT_SECONDS"
+        timeout_text = os.environ.get(timeout_env, "").strip()
+        timeout_digits = timeout_text.lstrip("0")
+        timeout_valid = not timeout_text or (
+            timeout_text.isascii() and timeout_text.isdecimal()
+            and 1 <= len(timeout_digits) <= 4 and int(timeout_digits) <= MAX_LOCAL_TIMEOUT_SECONDS
         )
+        timeout = int(timeout_digits) if timeout_text and timeout_valid else DEFAULT_LOCAL_TIMEOUT_SECONDS
+        available = bool(enabled and endpoint and model and timeout_valid)
+        if not timeout_valid:
+            reason = f"{timeout_env} must be an integer from 1 to {MAX_LOCAL_TIMEOUT_SECONDS}."
+        elif not available:
+            reason = f"Set {env_prefix}_BASE_URL and {env_prefix}_MODEL to enable this lane."
+        else:
+            reason = ""
+        provider = _provider_record(
+            name=name,
+            provider_kind="local_openai_compat",
+            available=available,
+            health="ready" if available else ("invalid_config" if not timeout_valid else "not_configured"),
+            summary="Optional self-hosted OpenAI-compatible local endpoint for sovereign inference.",
+            lane_targets=lanes,
+            model=model,
+            endpoint=endpoint,
+            chat_path=chat_path,
+            reason=reason,
+        )
+        provider["timeout_seconds"] = timeout if timeout_valid else None
+        providers.append(provider)
     providers.append(
         _provider_record(
             name="openrouter_compat",
@@ -172,6 +188,7 @@ async def _call_local_chat(
     prompt: str,
     temperature: float,
     messages: list[dict[str, str]] | None = None,
+    timeout_seconds: int = DEFAULT_LOCAL_TIMEOUT_SECONDS,
 ) -> str:
     payload = {
         "model": model,
@@ -179,7 +196,7 @@ async def _call_local_chat(
         "messages": messages if messages is not None else [{"role": "user", "content": prompt}],
     }
     endpoint_url = f"{base_url.rstrip('/')}/{chat_path.lstrip('/')}"
-    async with httpx.AsyncClient(timeout=30.0) as client:
+    async with httpx.AsyncClient(timeout=float(timeout_seconds)) as client:
         response = await client.post(endpoint_url, json=payload)
         response.raise_for_status()
         data = response.json()
@@ -346,6 +363,7 @@ async def generate_inference_response(
             ),
             temperature=temperature,
             messages=messages,
+            timeout_seconds=provider["timeout_seconds"],
         )
     except (httpx.HTTPError, ValueError, TypeError) as exc:
         return {

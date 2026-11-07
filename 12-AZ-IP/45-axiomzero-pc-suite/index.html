@@ -146,13 +146,41 @@
           <div class="harness-options">
             <label for="harness-use-model"><input id="harness-use-model" type="checkbox"> Add local reasoning</label>
             <label for="harness-model">Backend (psicat:embedded or installed Ollama model)
-              <input id="harness-model" maxlength="80" disabled value="psicat:embedded" placeholder="psicat:embedded">
+              <input id="harness-model" list="harness-model-options" maxlength="80" disabled value="psicat:embedded" placeholder="psicat:embedded">
+              <datalist id="harness-model-options"><option value="psicat:embedded"></option></datalist>
             </label>
+            <button id="harness-list-models" type="button">List installed Ollama models (approval required)</button>
             <button id="harness-create" class="primary" type="submit">Create research plan</button>
           </div>
         </form>
+        <p id="harness-model-message" class="message" role="status" aria-live="polite"></p>
+        <details>
+          <summary>Optional local 27B IQ3 model — bring your own, no managed download</summary>
+          <p class="muted">
+            The bundled Qwen3-4B remains unchanged. The name “Qwen3.8 27B IQ3”
+            and approximately 13.5 GB file size are user-supplied, not authenticated
+            artifact identity. Verify the publisher, pinned revision, exact byte size,
+            SHA-256 and license yourself before obtaining/importing a GGUF into trusted
+            Ollama. The installed Product README includes a Windows import example.
+            Ollama must support that exact architecture, IQ3 quantization and chat template.
+            Discovery is not a load test or compatibility certificate.
+          </p>
+          <p class="muted">
+            Run Detect this PC first. Allow room beyond the weights for context/cache
+            and runtime; 32 GB system RAM is a conservative starting point, not a
+            guarantee of fit or GPU support. External reasoning has an 18-minute
+            total deadline, including a 15-minute chat budget for cold loading and
+            generation; metadata inspection is capped at 10 seconds. Slow models
+            may still time out. Pause/cancel aborts the HTTP request, not the
+            separately owned Ollama process. Choose an exact installed model name,
+            create a plan and approve each step. No model is pulled or selected
+            automatically, and Ask PsiCat still uses the bundled model.
+            Configure the external engine offline; loopback alone does not prevent
+            its networking or retention. All output remains UNVERIFIED.
+          </p>
+        </details>
         <p class="harness-policy muted">
-          Six attempts per task · 60-second ordinary / 6-minute embedded CPU step deadlines · 50 saved tasks.
+          Six attempts per task · 60-second non-model / 18-minute model step deadlines · 50 saved tasks.
           Checkpoints and the bounded hash-linked audit are plaintext in this user profile.
           Approvals never survive a restart; interrupted tasks do not replay automatically.
         </p>

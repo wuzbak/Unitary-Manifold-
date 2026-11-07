@@ -18,6 +18,18 @@ test("Windows qualification installs the real local companion model and rejects 
   assert.match(script, /instruction_smoke\.cjs"\) \(Join-Path \$installDirectory "resources\\psicat-instruction"\)/);
   assert.doesNotMatch(script, /\$portable|win-unpacked/);
 });
+test("the complete Windows artifact kit and tagged release retain every companion asset", () => {
+  const workflow = fs.readFileSync(path.join(__dirname, "../../../.github/workflows/pc-suite-windows.yml"), "utf8");
+  assert.match(workflow, /name: axiomzero-pc-suite-windows/);
+  for (const asset of ["dist/*.exe", "dist/*-offline.json", "dist/*-model.part*", "dist/SHA256SUMS.txt"]) {
+    assert.ok(workflow.includes(asset), `missing installer kit asset ${asset}`);
+  }
+  assert.match(workflow, /if: startsWith\(github.ref, 'refs\/tags\/pc-suite-v'\)/);
+  assert.match(workflow, /Release checksums do not cover every asset/);
+  const nsis = fs.readFileSync(path.join(__dirname, "../scripts/offline-installer.nsh"), "utf8");
+  assert.match(nsis, /complete offline installer kit is required, not just this EXE/);
+  assert.match(nsis, /Extract the entire axiomzero-pc-suite-windows artifact ZIP/);
+});
 
 test("UI diagnostics retain bounded time for awaited installed-resource verification", () => {
   const script = fs.readFileSync(path.join(__dirname, "../scripts/electron-ui-smoke.cjs"), "utf8");
@@ -71,7 +83,8 @@ test("UI smoke waits for runtime contracts even after catalog cards have rendere
           value = { available: true, exportAvailable: true, initialExportDisabled: true, initialResultHidden: true };
         } else if (expression.includes("askInstructionModel")) {
           value = { ask: true, cancel: true, status: true, export: true, cancelDisabled: true,
-            defaultBackend: "psicat:embedded", output: "" };
+            defaultBackend: "psicat:embedded", modelDiscovery: true, discoveryEnabled: true,
+            initialChoices: ["psicat:embedded"], discoveryMessage: "", output: "" };
         } else if (expression.includes("runPlatformAction")) {
           value = { cards: 4, downloads: false, device: "", distro: "",
             message: "not hardware-execution certification" };

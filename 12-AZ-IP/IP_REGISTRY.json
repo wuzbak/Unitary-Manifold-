@@ -1101,10 +1101,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "02f333aff831043613dd19574bf7af865800d3435bf00fcca20f73cd63447b3e",
-      "size_bytes": 32786,
-      "reseal_note": "Document literal whole-evidence ownership copying and bounded synthetic-only failure diagnostics without weakening acceptance.",
+      "sha256": "1e05a486f998bffff1186053d6f497d920794d9d0ae8484e99af29fc7fe8c58a",
+      "size_bytes": 41272,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "02f333aff831043613dd19574bf7af865800d3435bf00fcca20f73cd63447b3e",
+          "size_bytes": 32786,
+          "reseal_note": "Document literal whole-evidence ownership copying and bounded synthetic-only failure diagnostics without weakening acceptance."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "4023df39223c60278b3d2268d5c2a3884fc212b1dd278ff2cd708698a6b739b5",
@@ -1385,11 +1391,17 @@
       "description": "Product 45 main-process security boundaries, local data imports and portfolio actions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "a0e58b8c746f846250413ec985b0e77dfbd245f43bd4c3d711a258bf5186d3f1",
-      "size_bytes": 35520,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "b6231445adf8767528f92ad5fce14c66fb105dc7f7066f8c5df54b0a02e0a3e1",
+      "size_bytes": 36681,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a0e58b8c746f846250413ec985b0e77dfbd245f43bd4c3d711a258bf5186d3f1",
+          "size_bytes": 35520,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "97f4478f213f947579c31b6590a6deecded7d6c5145c381094ba3aecaa1a8f92",
@@ -1444,11 +1456,17 @@
       "description": "Product 45 allowlisted context-isolated bridge, including local knowledge operations",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "0b14fc9b6d1e3b5f8bd9f080ae04fe26ccbe56ce9600f969ff560d3d48fb2a5b",
-      "size_bytes": 3617,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "f13cf72f13036a0700813636c4fc6eafcc9459c156c58ba4968632896b5c959a",
+      "size_bytes": 3688,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "0b14fc9b6d1e3b5f8bd9f080ae04fe26ccbe56ce9600f969ff560d3d48fb2a5b",
+          "size_bytes": 3617,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "239177ad01f99875448cd5e4c4478cf78d0c361613be64a2c62764c40465679d",
@@ -1497,11 +1515,17 @@
       "description": "Product 45 desktop catalog, local library and cited search interface",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "cda180ac63ea6549bd4cb5da0d8004e49761ea054b9f11ba9f59596b942c2e38",
-      "size_bytes": 39553,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "6f6227d68c9879aeb35ee9196f2ae5251817a55f66511bd459d364ffd1f9bc56",
+      "size_bytes": 40984,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "cda180ac63ea6549bd4cb5da0d8004e49761ea054b9f11ba9f59596b942c2e38",
+          "size_bytes": 39553,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "9705a40cb835ca3b52aa221fa114020572defac0eda9ec98ce4d9daebe92b839",
@@ -1562,11 +1586,17 @@
       "description": "Product 45 local desktop UI with privacy disclosure and restrictive content policy",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "91b32169095b9c8b879fe6d5a3784547bf667441ee8153715f9574b23c793725",
-      "size_bytes": 15911,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "5bd969b03ffdb99e5462b54e8e13de807b88c09e7800456c90f2d59bee09c83c",
+      "size_bytes": 17941,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "91b32169095b9c8b879fe6d5a3784547bf667441ee8153715f9574b23c793725",
+          "size_bytes": 15911,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "7c38b909fd20ce79f76b517f76003572f542ea76fcdf732cf3be585876748fca",
@@ -1741,10 +1771,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "00bd5df3ba021d95c648eeab4d50a6886ff7a31148d879d1821e82d9b630a282",
-      "size_bytes": 9893,
-      "reseal_note": "Assert the installed desktop UI renders 46 products and 45 desktop runtime contracts.",
+      "sha256": "9560ba76cd71069a96674376035b6651f6f92c439f9530f6acbe7d493e6c4ffd",
+      "size_bytes": 10375,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "00bd5df3ba021d95c648eeab4d50a6886ff7a31148d879d1821e82d9b630a282",
+          "size_bytes": 9893,
+          "reseal_note": "Assert the installed desktop UI renders 46 products and 45 desktop runtime contracts."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "9202ba7151d856bc2f4b986fcddeca5a01d9a992070c1998468d95ab4634e469",
@@ -1916,10 +1952,16 @@
       "description": "Product 45 bounded research policy, durable tasks, approvals and hash-linked audit",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "f6510866cffbc84e7df9a6cbf4a95653fc8b04e28a1c489c36120bb20160e2e0",
-      "size_bytes": 17923,
+      "updated": "2026-11-07",
+      "sha256": "390003cdb741eb58aaae44f50b67d96a67e74d0a849ee17ff0a82f0f01003138",
+      "size_bytes": 19035,
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "f6510866cffbc84e7df9a6cbf4a95653fc8b04e28a1c489c36120bb20160e2e0",
+          "size_bytes": 17923,
+          "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "df85c0447f9a74c1cc827d49a0ebe70387802866c35e06d1c361dfa6bc9df30b",
@@ -1938,15 +1980,24 @@
           "size_bytes": 17191
         }
       ],
-      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs": {
       "description": "Product 45 fixed-loopback bounded Ollama reasoning transport",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "24018a05d12ed66fb651d8f1bbf49402812ea7f1988bd5151d7880706f0e0647",
-      "size_bytes": 6520
+      "updated": "2026-11-07",
+      "sha256": "859faafb330286665ec33f948c1e7ec0f3feeedfb13269c1dda55bca529a422d",
+      "size_bytes": 6798,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "24018a05d12ed66fb651d8f1bbf49402812ea7f1988bd5151d7880706f0e0647",
+          "size_bytes": 6520,
+          "reseal_note": "Previous recorded seal before the optional local-model and installer usability update; historical seal is retained, not independently reverified."
+        }
+      ],
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/lib/worker-search.cjs": {
       "description": "Product 45 cancellable evidence worker lifecycle",
@@ -1968,10 +2019,16 @@
       "description": "Product 45 task/approval/budget/recovery/audit/worker regressions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "446bfcbed0aa03055566a02108751d22078bfdf12c789efaaf44dec31c5dbbc5",
-      "size_bytes": 14104,
+      "updated": "2026-11-07",
+      "sha256": "d069496a4b45a1eb2535f8a33df7b947399c335dc42998c866cd1c5abbb77e7c",
+      "size_bytes": 15054,
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "446bfcbed0aa03055566a02108751d22078bfdf12c789efaaf44dec31c5dbbc5",
+          "size_bytes": 14104,
+          "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "de6ade6f2eb54a9fb04e512c720402d056140ac660f50094246e9674ecad4e05",
@@ -1990,25 +2047,40 @@
           "size_bytes": 12857
         }
       ],
-      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs": {
       "description": "Product 45 bounded local model transport contract regressions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "743755f1c54891a1511180b655144a42446791cd8eeed1a33936457d00768614",
-      "size_bytes": 9050
+      "updated": "2026-11-07",
+      "sha256": "5d3007db09a3b77eab00bb9d553904e70321fdc0de21078467ec9d0e0b8e50a8",
+      "size_bytes": 10751,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "743755f1c54891a1511180b655144a42446791cd8eeed1a33936457d00768614",
+          "size_bytes": 9050,
+          "reseal_note": "Previous recorded seal before the optional local-model and installer usability update; historical seal is retained, not independently reverified."
+        }
+      ],
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs": {
       "description": "Product 45 desktop startup, native approval IPC and fail-closed checkpoint regressions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "7d2d51cab6d0a906bf973df0985a75cb771ae3bb6205c1adf639996b3c00703b",
-      "size_bytes": 15416,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "0d771a2ecb6eb80690ac998c15d7b88330e5f3a8827712f8887686af7841a9b6",
+      "size_bytes": 18677,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "7d2d51cab6d0a906bf973df0985a75cb771ae3bb6205c1adf639996b3c00703b",
+          "size_bytes": 15416,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "448a4af2cd45718c17fa9c6318df41e9aa709a89799359f6c5cfae3743982cbc",
@@ -2650,11 +2722,17 @@
       "description": "Product 45 Windows runtime integration and contracts: preload-state.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "fbcb2382206ebf48a52fb9d852dc9e9377c1debcecebc086305e6ae8a39e0543",
-      "size_bytes": 1915,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "389d5c4b209d339ee669cf4f3738daf5638700dc7abd1cfae2cadb7a005bd60a",
+      "size_bytes": 1976,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "fbcb2382206ebf48a52fb9d852dc9e9377c1debcecebc086305e6ae8a39e0543",
+          "size_bytes": 1915,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "916bf6ab9242955a77a531513e4ff0bd5de7ec74928729aa3bde403f989667e0",
@@ -3420,10 +3498,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "2a79c3c32e722641d50080ec23dd581f0c508072f26ef6923df846d8ef1dfa51",
-      "size_bytes": 4005,
-      "reseal_note": "Clarify ZIP expanded-entry limits and Android feature boundaries.",
+      "sha256": "914082aaf78b1e40f008cc9da4298e885a1e6b6b53d23315aaf352bda7dfa52b",
+      "size_bytes": 4579,
+      "reseal_note": "Clarify Android download/install artifact availability and runtime/model limitations; no signing or device/model qualification claim.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "2a79c3c32e722641d50080ec23dd581f0c508072f26ef6923df846d8ef1dfa51",
+          "size_bytes": 4005,
+          "reseal_note": "Clarify ZIP expanded-entry limits and Android feature boundaries."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "ab7a86ee090d31850da7d9027794be5cf4c3e8873d5c0c79a37900ee21afd751",

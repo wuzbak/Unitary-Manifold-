@@ -20,6 +20,30 @@ environment or responsive status endpoint constitutes full capability
 certification. Product 20 handles its own handshake; its managed launch disables
 local command execution.
 
+## Windows download and install — read first
+
+**An EXE alone is not the installer kit.** The full bundled Qwen3-4B model
+must remain in separately hashed companion parts to avoid NSIS/GitHub's
+per-file size ceilings. Nothing is fetched during setup.
+
+The simplest download is the **axiomzero-pc-suite-windows** artifact ZIP
+from a **successful, fully qualified** run of the Product 45 Windows workflow.
+Extract the whole ZIP into one local folder, then run its EXE; do not run it
+inside the ZIP or move only the EXE. The ZIP already contains the offline
+manifest, every numbered model part and `SHA256SUMS.txt` together.
+If using a tagged pre-release instead, download **all** of those individual
+assets into one folder, preserving their exact filenames. See
+[Verified offline companion payload](#verified-offline-companion-payload).
+
+An absent/failed workflow artifact or a release without assets is **not a
+downloadable installer**. Only a version-matching `pc-suite-v*` tag publishes
+release assets after all Windows gates pass; ordinary commits do not publish
+them. The candidate's documented native acceptance blocker remains in force.
+This source update does not create, qualify or publish a Windows build.
+Remaining UX limitation: tagged releases still require multiple asset downloads;
+the complete workflow artifact ZIP avoids manually assembling them. Missing
+parts fail closed instead of triggering an unapproved network recovery.
+
 ## Embedded instruction assistant
 
 The selected **Ask PsiCat** candidate uses Unsloth's Q4_K_M conversion of
@@ -94,6 +118,105 @@ references; this deliberately small context budget reflects measured baseline
 CPU latency. Slow inference can still time out; a failed step requires fresh
 approval and is not recorded as completed. Named external Ollama models retain
 their separate explicit disclosure.
+
+## Optional larger local model through Ollama
+
+This additive path uses the existing **Research control plane**, not a second
+managed downloader. **Ask PsiCat** and `psicat:embedded` retain the bundled
+Qwen3-4B runtime, model cap and qualification gates.
+Product 20's standalone OpenAI-compatible provider setup is separate: it does
+not authenticate Ollama weights. Product 45's temporary owned, keyed embedded
+server is private to its operation, not a shareable provider endpoint.
+
+“Qwen3.8 27B IQ3” and an approximately 13.5 GB download are user-supplied
+descriptions. This suite has **no authenticated publisher/revision/filename,
+exact size or SHA-256 for that artifact**, and does not assert that the name
+identifies a published or supported model. Do not substitute another model
+and label it verified. No 27B weights are hosted or downloaded by this suite.
+
+### Bring a verified local GGUF (Windows)
+
+1. Use **Detect this PC** before obtaining weights. The baseline readiness
+   threshold is for small-model evaluation, not a 27B fit test. Roughly 13.5 GB
+   of weights needs additional RAM/VRAM for runtime, context and KV cache.
+   **32 GB system RAM is a conservative starting point, not a guarantee**.
+   Allow space for both the original GGUF and Ollama's imported copy, plus
+   working files. GPU offload depends on Ollama and its drivers; the suite
+   does not measure dedicated VRAM or certify GPU compatibility.
+2. Independently choose a trusted publisher and **pinned immutable revision**,
+   then check the exact filename, license, byte size and SHA-256 supplied by
+   that trusted source. Obtain the file yourself outside this repository,
+   preferably transferring it offline. A digest copied from an arbitrary
+   mirror, a model name, or an approximate size is not authenticated provenance.
+3. Install/start a trusted Ollama locally yourself. Follow that installed
+   version's official local-only/cloud-disable guidance and apply an OS outbound
+   network restriction if privacy requires it. The suite never installs/starts
+   Ollama, requests `/api/pull`, accepts cloud entries, or enables networking
+   on your behalf. Loopback does **not** sandbox the external engine.
+4. In your own local work folder, verify the chosen GGUF before importing.
+   Enter values from the independently trusted pinned publisher, **not guesses**:
+
+   ```powershell
+   $file = (Resolve-Path -LiteralPath ".\publisher-27b-iq3.gguf").Path
+   $expectedBytes = [long](Read-Host "Exact publisher-pinned byte size")
+   $expectedHash = (Read-Host "Trusted publisher SHA-256").Trim().ToLowerInvariant()
+   if ($expectedBytes -le 0 -or $expectedHash -cnotmatch '^[a-f0-9]{64}$') {
+       throw "Exact trusted size and SHA-256 are required"
+   }
+   if ((Get-Item -LiteralPath $file).Length -ne $expectedBytes -or
+       (Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLowerInvariant() -cne $expectedHash) {
+       throw "Artifact integrity mismatch; do not import"
+   }
+   # Run only after provenance/license review and compatibility checks.
+   [IO.File]::WriteAllText((Join-Path $PWD "Modelfile"), 'FROM "./publisher-27b-iq3.gguf"',
+       [Text.UTF8Encoding]::new($false))
+   ollama create operator-27b:iq3 -f .\Modelfile
+   if ($LASTEXITCODE -ne 0) { throw "Local GGUF import failed; no model is qualified" }
+   ollama list
+   ```
+
+   This import example is operator-executed, not code run by the suite.
+   Preserve the publisher/revision/hash/license record locally. **Ollama must
+   support the exact GGUF architecture, IQ3 variant and chat template**;
+   a successful import or listed tag is not an inference/quality test.
+   Unknown architecture/quantization/template errors require a compatible
+   trusted engine or another explicitly reviewed local artifact, not a cloud
+   fallback. Do not replace the suite's pinned bundled llama.cpp/GGUF files.
+5. Click **List installed Ollama models (approval required)**. A default-cancel
+   native dialog authorizes one bounded `/api/tags` request to
+   `127.0.0.1:11434`, with no question/evidence. Valid local choices appear as
+   suggestions with engine-reported size; discovery never changes your current
+   selection. Names, byte sizes and digests are **UNVERIFIED engine metadata**,
+   not upstream authentication. Empty lists and unavailable services have explicit
+   errors/instructions; no retries, downloads or background discovery occur.
+6. Enable **Add local reasoning**, explicitly choose the exact installed tag
+   (the example becomes `operator-27b:iq3`/the name shown by `ollama list`), enter
+   a goal, create a plan and approve each step. The final approval discloses
+   metadata inspection followed by question/evidence transfer to the local
+   engine. `/api/show` rejects explicit non-completion capabilities; reported
+   remote/cloud models are rejected **before sending question/evidence**.
+   Ordinary completion-capable models are not restricted to GGUF metadata.
+   Older Ollama versions without `capabilities` may supply recognizable model
+   `details`; these are accepted without certifying architecture or inference.
+   Explicit non-completion models and unrecognizable metadata fail rather than
+   breaking working legacy models solely for missing optional metadata.
+   External reasoning has an **18-minute total step deadline** with a separate
+   **15-minute HTTP chat budget**, including cold loading and generation.
+   Metadata inspection remains limited to **10 seconds**. Non-model steps
+   retain **60 seconds**; the embedded path is unchanged. Pause/cancel aborts
+   inspection or the chat request immediately, but cannot stop the separately
+   owned engine, which may continue computation. A 27B CPU run may still exceed
+   these limits. No automatic retry or background continuation is initiated
+   by the suite. A failed step retains its error and
+   requires fresh approval to retry; cancellation stays available.
+
+External engine behavior, retention, outbound networking, claimed model
+identity, IQ3 support and actual third-party inference are **not verified by
+these checks**. Even an accepted engine can misreport metadata. Use only an
+installation you trust/configure offline; the suite cannot police a separate
+process. Questions, excerpts and generated answers may be private; research
+checkpoints are plaintext. Outputs remain UNVERIFIED, retrieved text remains
+untrusted data, tool calls are rejected, and no generated text executes.
 
 Windows packaging depends on actual instruction/citation/refusal acceptance.
 The workflow verifies the conversion against Unsloth's LFS hash and exact
@@ -466,9 +589,10 @@ available RAM and 10 GiB free disk. Meeting these thresholds only permits
 identifiers are not reliable measurements of dedicated VRAM or CUDA capability;
 these remain explicitly unverified. Training readiness is never inferred.
 The exact licensed model and its measured memory/latency/context requirements
-must still be evaluated before production use. Only the small experimental
-own-model seed described above is bundled; no deployment-quality general
-assistant weights are supplied. Product 43's causal character-level workflow
+must still be evaluated before production use. The small experimental own-model
+seed and the Qwen3-4B instruction candidate described above are separate bundled
+paths; neither establishes production assistant qualification.
+Product 43's causal character-level workflow
 is experimental, not a production assistant.
 
 ### Task execution
@@ -484,9 +608,11 @@ The built-in workflow searches the bundled catalog, searches persisted local
 evidence in a cancellable worker, and composes a report containing references
 and source excerpts. It does not pretend keyword retrieval inferred an answer.
 No match is explicitly reported as an evidence gap. Optional local reasoning
-adds one final step using Ollama at `http://127.0.0.1:11434/api/chat`; install
-and start Ollama and download a model separately, then enter its exact
-installed model name. The suite never installs models, chooses a cloud
+adds one final step using the bundled `psicat:embedded` backend or Ollama at
+`http://127.0.0.1:11434/api/chat`; see the optional larger-local-model instructions
+above for explicit discovery, local GGUF compatibility inspection and selection.
+Install/start Ollama and obtain/import a trusted local model separately.
+The suite never installs models, chooses a cloud
 fallback, follows redirects, or accepts model tool calls. Before sending the
 goal and bounded evidence context, it requires another native approval.
 The local provider has its own retention and operational policy. Generated
@@ -500,9 +626,12 @@ Pause/cancel aborts active work; already completed results remain available.
 A restart marks in-flight execution interrupted and requires new approval.
 Failed steps show their error and can be explicitly retried within the
 **six-attempt total budget**; there are no hidden retries or unconstrained
-loops. Ordinary execution has a **60-second deadline**; explicitly approved
-embedded CPU reasoning has an **eighteen-minute deadline**, including startup
-and a shared fifteen-minute inference budget. Evidence search runs
+loops. Non-model execution has a **60-second deadline**; explicitly approved
+embedded and external reasoning have an **eighteen-minute deadline**.
+Embedded startup and its shared fifteen-minute inference budget are unchanged.
+External Ollama reasoning has a ten-second metadata inspection cap and a
+fifteen-minute chat budget including cold loading/generation; cancelling the
+HTTP request does not stop that user-owned process. Evidence search runs
 outside the main UI thread, outputs are capped at **24,000 characters**, and
 context at **12,000 characters**. Context truncation is disclosed; full
 results remain in step checkpoints. The optional local model response is

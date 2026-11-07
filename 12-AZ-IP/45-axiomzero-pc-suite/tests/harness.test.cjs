@@ -134,7 +134,26 @@ test("timeouts abort tool signals and preserve an explicit failed checkpoint", a
   assert.equal(harness.active, null);
 });
 
-test("only explicitly selected embedded CPU reasoning gets the disclosed eighteen-minute deadline", async (t) => {
+test("external long-budget reasoning remains cancellable after the ordinary deadline", async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  let signal;
+  const { harness } = fixture(t, {
+    "model.reason": (request) => { signal = request.signal; return new Promise(() => {}); }
+  });
+  const run = harness.create({ goal: "PsiCat memory", model: "operator-27b:iq3" });
+  for (let step = 0; step < 3; step++) await harness.execute(harness.proposal(run.id), async () => true);
+  const pending = harness.execute(harness.proposal(run.id), async () => true);
+  await new Promise((resolve) => setImmediate(resolve));
+  t.mock.timers.tick(POLICY.stepTimeoutMs);
+  assert.equal(signal.aborted, false);
+  harness.stop(run.id, true);
+  await pending;
+  assert.equal(signal.aborted, true);
+  assert.equal(harness.get(run.id).status, "cancelled");
+  assert.equal(harness.active, null);
+});
+
+test("explicitly selected embedded and external reasoning get eighteen minutes; other steps keep sixty seconds", async (t) => {
   t.mock.timers.enable({ apis: ["setTimeout"] });
   for (const model of ["psicat:embedded", "llama3.2:3b"]) {
     let signal;
@@ -144,14 +163,15 @@ test("only explicitly selected embedded CPU reasoning gets the disclosed eightee
     const run = harness.create({ goal: "PsiCat offline memory", model });
     for (let step = 0; step < 3; step++) await harness.execute(harness.proposal(run.id), async () => true);
     const proposal = harness.proposal(run.id);
-    if (model === "psicat:embedded") assert.match(proposal.disclosure, /eighteen-minute deadline/);
+    assert.match(proposal.disclosure, /eighteen-minute (?:total )?deadline/);
     const pending = assert.rejects(harness.execute(proposal, async () => true), /deadline/);
     await new Promise((resolve) => setImmediate(resolve));
-    if (model === "psicat:embedded") {
-      t.mock.timers.tick(POLICY.stepTimeoutMs);
-      assert.equal(signal.aborted, false);
-      t.mock.timers.tick(POLICY.embeddedStepTimeoutMs - POLICY.stepTimeoutMs);
-    } else t.mock.timers.tick(POLICY.stepTimeoutMs);
+    t.mock.timers.tick(POLICY.stepTimeoutMs);
+    assert.equal(signal.aborted, false);
+    const deadline = model === "psicat:embedded" ? POLICY.embeddedStepTimeoutMs : POLICY.externalStepTimeoutMs;
+    t.mock.timers.tick(deadline - POLICY.stepTimeoutMs - 1);
+    assert.equal(signal.aborted, false);
+    t.mock.timers.tick(1);
     await pending;
     assert.equal(signal.aborted, true);
     assert.equal(harness.get(run.id).status, "failed");

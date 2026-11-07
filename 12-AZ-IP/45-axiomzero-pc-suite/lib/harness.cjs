@@ -12,6 +12,8 @@ const POLICY = Object.freeze({
   maxEvents: 2000,
   stepTimeoutMs: 60000,
   embeddedStepTimeoutMs: 1080000,
+  externalStepTimeoutMs: 1080000,
+  externalInferenceTimeoutMs: 900000,
   epistemicLabel: "UNVERIFIED"
 });
 const SCHEMA = "axiomzero-research-harness-v1";
@@ -106,6 +108,7 @@ class ResearchHarness {
     this.tools = tools;
     this.timeoutMs = timeoutMs ?? POLICY.stepTimeoutMs;
     this.embeddedTimeoutMs = timeoutMs ?? POLICY.embeddedStepTimeoutMs;
+    this.externalTimeoutMs = timeoutMs ?? POLICY.externalStepTimeoutMs;
     this.active = null;
     this.state = {
       schema: SCHEMA, policyVersion: POLICY.version, runs: [], events: [],
@@ -206,7 +209,7 @@ class ResearchHarness {
       disclosure: step.tool === "model.reason"
         ? run.model === "psicat:embedded"
           ? "Run the bundled CPU Qwen/llama.cpp instruction backend with the goal and up to 1,200 UTF-8 bytes of prior results as quoted evidence [E1]. This CPU step has an eighteen-minute deadline, including startup and a shared fifteen-minute inference budget; cancellation remains available. No cloud or external model service is contacted. The report checkpoint retains the answer. Model output is unverified; citations do not establish entailment."
-          : `Send the goal and at most 12,000 characters of prior results to Ollama at 127.0.0.1:11434 using "${run.model}". The local service controls its own retention. Model output is unverified.`
+          : `Inspect "${run.model}" via Ollama /api/show, then send the goal and at most 12,000 characters of prior results to /api/chat at 127.0.0.1:11434. Reported cloud/remote models and explicit non-completion capabilities are rejected; legacy model details are accepted without certifying compatibility. This external model step has an eighteen-minute total deadline, a ten-second metadata inspection limit and a fifteen-minute chat budget including cold loading/generation. Pause/cancel aborts the suite's HTTP request; the separately owned engine may continue work and is not stopped by the suite. No pull/download, fallback, or background requests. The external engine controls its own networking and retention; loopback does not guarantee it stays offline. A roughly 13.5 GB 27B IQ3 file needs additional RAM/VRAM for context and runtime (32 GB system RAM is a conservative starting point, not a guarantee); slow CPU inference may still time out. Engine metadata does not authenticate model identity, provenance, quantization, or third-party inference. Output remains UNVERIFIED and is saved in this plaintext checkpoint.`
         : "Read only the bundled catalog or imported local index, or compose their evidence report. No source writes, shell commands, cloud requests, or epistemic promotion."
     };
   }
@@ -246,8 +249,9 @@ class ResearchHarness {
           const error = new Error("Harness step exceeded its execution deadline.");
           controller.abort(error);
           reject(error);
-        }, current.tool === "model.reason" && current.model === "psicat:embedded"
-          ? this.embeddedTimeoutMs : this.timeoutMs);
+        }, current.tool === "model.reason"
+          ? (current.model === "psicat:embedded" ? this.embeddedTimeoutMs : this.externalTimeoutMs)
+          : this.timeoutMs);
       });
       const aborted = new Promise((_, reject) => {
         controller.signal.addEventListener("abort", () => reject(controller.signal.reason), { once: true });

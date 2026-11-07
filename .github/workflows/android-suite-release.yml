@@ -68,12 +68,14 @@ jobs:
           name: axiomzero-android-suite-debug
           path: release-assets
       - name: Verify and checksum the APK
+        working-directory: release-assets
         run: |
-          test -s release-assets/app-debug.apk
-          sha256sum release-assets/app-debug.apk > release-assets/SHA256SUMS.txt
+          test -s app-debug.apk
+          sha256sum app-debug.apk > SHA256SUMS.txt
       - name: Publish the pre-release assets
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
           gh release create "$GITHUB_REF_NAME" \
             release-assets/app-debug.apk \

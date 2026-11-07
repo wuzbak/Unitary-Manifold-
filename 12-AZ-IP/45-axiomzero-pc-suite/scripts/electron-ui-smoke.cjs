@@ -159,12 +159,17 @@ async function verifyWindow(target) {
         export: typeof window.axiomSuite.exportInstructionAnswer === "function",
         cancelDisabled: document.querySelector("#instruction-cancel").disabled,
         defaultBackend: document.querySelector("#harness-model").value,
+        modelDiscovery: typeof window.axiomSuite.listOllamaModels === "function",
+        discoveryEnabled: !document.querySelector("#harness-list-models").disabled,
+        initialChoices: [...document.querySelectorAll("#harness-model-options option")].map(option => option.value),
+        discoveryMessage: document.querySelector("#harness-model-message").textContent,
         output: document.querySelector("#instruction-output").textContent
       })`, returnByValue: true
     });
     assert.deepEqual(instruction.result.value, {
       ask: true, cancel: true, status: true, export: true, cancelDisabled: true,
-      defaultBackend: "psicat:embedded", output: ""
+      defaultBackend: "psicat:embedded", modelDiscovery: true, discoveryEnabled: true,
+      initialChoices: ["psicat:embedded"], discoveryMessage: "", output: ""
     });
     const platforms = await send("Runtime.evaluate", {
       expression: `(async () => {

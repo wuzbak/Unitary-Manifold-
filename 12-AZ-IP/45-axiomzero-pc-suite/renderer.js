@@ -763,6 +763,35 @@ document.querySelector("#harness-use-model").addEventListener("change", (event) 
   model.disabled = !event.target.checked;
   model.required = event.target.checked;
 });
+document.querySelector("#harness-list-models").addEventListener("click", async () => {
+  const button = document.querySelector("#harness-list-models");
+  if (button.disabled) return;
+  const message = document.querySelector("#harness-model-message");
+  button.disabled = true;
+  message.textContent = "Awaiting native approval for installed model metadata only...";
+  try {
+    const result = await window.axiomSuite.listOllamaModels();
+    if (result.canceled) {
+      message.textContent = "Cancelled. No model service was contacted.";
+      return;
+    }
+    const options = document.querySelector("#harness-model-options");
+    const embedded = document.createElement("option");
+    embedded.value = "psicat:embedded";
+    options.replaceChildren(embedded);
+    for (const model of result.models) {
+      const option = document.createElement("option");
+      option.value = model.name;
+      option.label = `${(model.sizeBytes / 1024 ** 3).toFixed(2)} GiB · engine-reported, UNVERIFIED`;
+      options.append(option);
+    }
+    message.textContent = `${result.models.length} installed local choices; ${result.omitted} entries omitted. ${result.boundary} Enable local reasoning and choose a name explicitly; the current backend has not changed.`;
+  } catch (error) {
+    message.textContent = `Model discovery failed: ${error.message} The selected backend has not changed.`;
+  } finally {
+    button.disabled = false;
+  }
+});
 document.querySelector("#harness-form").addEventListener("submit", (event) => {
   event.preventDefault();
   runHarnessAction("create");

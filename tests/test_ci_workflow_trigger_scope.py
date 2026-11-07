@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 
 import pytest
@@ -55,6 +56,29 @@ def test_psicat_pr_smoke_jobs_include_repository_root_on_pythonpath() -> None:
         job = _load(workflow_name)["jobs"][job_name]
         assert job["defaults"]["run"]["working-directory"] == "12-AZ-IP/20-psicat-navigator"
         assert job["env"]["PYTHONPATH"] == expected
+
+
+def test_android_release_publication_targets_repository_without_checkout() -> None:
+    job = _load("android-suite-release.yml")["jobs"]["publish"]
+    publication = next(step for step in job["steps"] if step.get("name") == "Publish the pre-release assets")
+    assert publication["env"]["GH_REPO"] == "${{ github.repository }}"
+    assert publication["env"]["GH_TOKEN"] == "${{ github.token }}"
+    assert "gh release create" in publication["run"]
+    assert "--verify-tag" in publication["run"]
+    assert "build" in job["needs"]
+
+
+@pytest.mark.skipif(
+    not shutil.which("bash") or not shutil.which("sha256sum"),
+    reason="Android release checksum step requires bash and sha256sum",
+)
+def test_android_release_checksum_can_be_verified_next_to_downloaded_apk(tmp_path: Path) -> None:
+    job = _load("android-suite-release.yml")["jobs"]["publish"]
+    checksum = next(step for step in job["steps"] if step.get("name") == "Verify and checksum the APK")
+    assert checksum["working-directory"] == "release-assets"
+    (tmp_path / "app-debug.apk").write_bytes(b"synthetic APK")
+    subprocess.run(["bash", "-e", "-c", checksum["run"]], cwd=tmp_path, check=True)
+    subprocess.run(["sha256sum", "--check", "SHA256SUMS.txt"], cwd=tmp_path, check=True)
 
 
 def test_tests_workflow_restores_required_coverage_gate() -> None:

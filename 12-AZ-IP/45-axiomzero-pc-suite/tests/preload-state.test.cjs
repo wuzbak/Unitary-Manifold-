@@ -35,9 +35,10 @@ test("instruction preload exposes fixed channels, not executable, endpoint or AP
   await api.askInstructionModel("What works offline?");
   await api.cancelInstructionModel();
   await api.exportInstructionAnswer();
+  await api.listOllamaModels("http://untrusted.invalid", "ignored");
   assert.deepEqual(calls, [
     ["instruction:status"], ["instruction:ask", "What works offline?"],
-    ["instruction:cancel"], ["instruction:export"]
+    ["instruction:cancel"], ["instruction:export"], ["harness:ollama-models"]
   ]);
   assert.equal(api.spawn, undefined);
   assert.equal(api.request, undefined);
