@@ -14,8 +14,8 @@ license, including the Defensive Public Commons License where stated.
 
 ## Canonical software portfolio
 
-The following 45 products and surfaces are listed in the canonical registry at
-[`README.md`](README.md#product-registry-45-canonical-software-products--surfaces).
+The following 46 products and surfaces are listed in the canonical registry at
+[`README.md`](README.md#product-registry-46-canonical-software-products--surfaces).
 
 | # | Product | Portfolio type | Canonical location |
 |---|---|---|---|
@@ -64,6 +64,7 @@ The following 45 products and surfaces are listed in the canonical registry at
 | 43 | AZ Geometric Tori Transformer | AI/ML library and application | `12-AZ-IP/43-az-geometric-tori-transformer/` |
 | 44 | AxiomZero Weave | Governed evidence and computation integration | `12-AZ-IP/44-axiomzero-weave/` |
 | 45 | AxiomZero PC Suite | Offline-first Windows portfolio, local evidence, governed research, native experimental toroidal model and approved Python runtime provisioning | `12-AZ-IP/45-axiomzero-pc-suite/` |
+| 46 | AxiomZero Android Suite For Mobile Phones | Native Android portfolio browser, local evidence search and governed research notebook | `12-AZ-IP/46-axiomzero-android-suite/` |
 
 The PsiCat portfolio comprises Products 20, 23, 24, 25, and 27. Its name and
 product identities are subject to the separate

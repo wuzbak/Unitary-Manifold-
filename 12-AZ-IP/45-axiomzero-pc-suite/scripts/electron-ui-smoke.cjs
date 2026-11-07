@@ -82,11 +82,11 @@ async function verifyWindow(target) {
         returnByValue: true
       });
       rendered = response.result.value;
-      if (rendered?.cards === 45 && rendered.runtimes === 45) break;
+      if (rendered?.cards === 46 && rendered.runtimes === 45) break;
       await new Promise((resolve) => setTimeout(resolve, 250));
     }
     assert.equal(rendered.title, "AxiomZero PC Suite");
-    assert.equal(rendered.cards, 45, "all catalog entries should render");
+    assert.equal(rendered.cards, 46, "all catalog entries should render");
     assert.equal(rendered.runtimes, 45, "all actual runtime contracts should render");
     assert.equal(rendered.jaxInstallDisabled, false, "the CPU JAX installer must be available");
     assert.equal(rendered.browserInstallDisabled, false, "the Windows browser installer must be available");
@@ -206,7 +206,7 @@ async function verifyWindow(target) {
 
 waitForPage()
   .then(verifyWindow)
-  .then(() => console.log("Product 45 rendered 45 products/runtime contracts, reached its native model and created/cancelled a checkpointed research task without renderer exceptions."))
+  .then(() => console.log("Product 45 rendered 46 products and 45 runtime contracts, reached its native model and created/cancelled a checkpointed research task without renderer exceptions."))
   .catch((error) => {
     console.error(error);
     process.exitCode = 1;

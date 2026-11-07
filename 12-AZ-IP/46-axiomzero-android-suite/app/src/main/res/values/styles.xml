@@ -1,0 +1,12 @@
+<resources>
+    <style name="Theme.AxiomZeroAndroidSuite" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#80B9FF</item>
+        <item name="colorPrimaryVariant">#315B8D</item>
+        <item name="colorSecondary">#66D6B0</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">#0B1220</item>
+        <item name="android:navigationBarColor">#0B1220</item>
+        <item name="android:windowBackground">#0B1220</item>
+    </style>
+</resources>

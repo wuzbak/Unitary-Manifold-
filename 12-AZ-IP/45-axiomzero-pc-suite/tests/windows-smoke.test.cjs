@@ -53,7 +53,7 @@ test("UI smoke waits for runtime contracts even after catalog cards have rendere
         if (expression.includes("title: document.title")) {
           catalogPolls += 1;
           value = {
-            title: "AxiomZero PC Suite", cards: 45, runtimes: catalogPolls === 1 ? 0 : 45,
+            title: "AxiomZero PC Suite", cards: 46, runtimes: catalogPolls === 1 ? 0 : 45,
             jaxInstallDisabled: false, browserInstallDisabled: false, posixInstallDisabled: true,
             body: ["Ask PsiCat", "Local evidence library", "Search locally", "Open PsiCat Navigator",
               "Research control plane", "PC readiness assessment", "PsiCat native model",

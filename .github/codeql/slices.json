@@ -172,6 +172,14 @@
       ]
     },
     {
+      "slice_id": "python-azip-product-46",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/46-axiomzero-android-suite"
+      ]
+    },
+    {
       "slice_id": "python-repository-tooling",
       "language": "python",
       "build_mode": "none",
@@ -213,7 +221,8 @@
       "build_mode": "none",
       "paths": [
         "12-AZ-IP/14-sdam/app/core/security/src/main/java",
-        "12-AZ-IP/15-pentacorder"
+        "12-AZ-IP/15-pentacorder",
+        "12-AZ-IP/46-axiomzero-android-suite"
       ]
     }
   ]

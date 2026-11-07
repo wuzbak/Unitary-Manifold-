@@ -15,11 +15,11 @@ const os = require("node:os");
 const suiteDir = path.resolve(__dirname, "..");
 const repositoryRoot = path.resolve(suiteDir, "../..");
 
-test("bundled catalog contains Products 01-45 with unique safe folder references", () => {
+test("bundled catalog contains Products 01-46 with unique safe folder references", () => {
   const products = loadProducts(path.join(suiteDir, "catalog", "products.json"));
-  assert.equal(products.length, 45);
+  assert.equal(products.length, 46);
   assert.equal(products[0].id, "01");
-  assert.equal(products.at(-1).id, "45");
+  assert.equal(products.at(-1).id, "46");
   assert.equal(new Set(products.map((product) => product.id)).size, products.length);
 });
 

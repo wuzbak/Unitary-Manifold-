@@ -33,14 +33,15 @@ function safeRelativePath(value) {
   return resolved;
 }
 
-test("runtime manifest matches all 45 unique Product45 catalog IDs", () => {
+test("runtime manifest covers Products 01-45, excluding the Android-only suite", () => {
   assert.ok(Array.isArray(runtimes));
   assert.equal(runtimes.length, 45);
   const expected = Array.from({ length: 45 }, (_, index) => String(index + 1).padStart(2, "0"));
   const ids = runtimes.map((runtime) => runtime.id);
   assert.equal(new Set(ids).size, 45);
   assert.deepEqual([...ids].sort(), expected);
-  assert.deepEqual([...ids].sort(), products.map((product) => product.id).sort());
+  assert.deepEqual(products.map((product) => product.id), [...expected, "46"]);
+  assert.equal(products.at(-1).name, "AxiomZero Android Suite For Mobile Phones");
 });
 
 test("every runtime has fixed enums, prerequisites and an explicit limitation", () => {
