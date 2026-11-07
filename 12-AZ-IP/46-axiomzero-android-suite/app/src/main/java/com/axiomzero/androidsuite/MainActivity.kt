@@ -305,7 +305,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 val root = DocumentFile.fromTreeUri(this, rootUri)
                     ?: throw IllegalStateException("The selected repository folder is unavailable.")
-                val segments = product.folder.removeSuffix("/").split("/").drop(1) + "README.md"
+                val segments = product.folder.removeSuffix("/").split("/") + "README.md"
                 val document = segments.fold(root) { parent, segment ->
                     parent.findFile(segment) ?: throw IllegalStateException("Could not find ${product.name}/$segment.")
                 }
