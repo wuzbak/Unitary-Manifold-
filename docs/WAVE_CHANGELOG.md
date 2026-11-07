@@ -15,6 +15,8 @@ JDK 17 APK build, unit-test and lint job; source presence and catalog checks
 alone do not qualify mobile execution. Local Android validation reached
 dependency resolution but Google Maven was unavailable. Hosted execution,
 device behavior and release signing remain separately disclosed obligations.
+The full-regression inventory also requires Product 46 in UM-ARTS' explicit
+repository suite example; add the new suite without relaxing inventory equality.
 
 ## Complete CodeQL comparison coverage (2026-11-06)
 
