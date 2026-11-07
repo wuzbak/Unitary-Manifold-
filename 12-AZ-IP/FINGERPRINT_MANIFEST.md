@@ -1353,3 +1353,58 @@ third-party artifact provenance or model-inference qualification.
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `0d771a2ecb6eb80690ac998c15d7b88330e5f3a8827712f8887686af7841a9b6` | 18677 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs` | `389d5c4b209d339ee669cf4f3738daf5638700dc7abd1cfae2cadb7a005bd60a` | 1976 |
 | `12-AZ-IP/46-axiomzero-android-suite/README.md` | `914082aaf78b1e40f008cc9da4298e885a1e6b6b53d23315aaf352bda7dfa52b` | 4579 |
+
+### Product 45 explicit installer-kit download helper — 2026-11-07
+
+Register the user-executed PowerShell helper and its synthetic/static regression
+tests, and reseal the related Product 45 README while retaining the previous
+recorded README seal in `IP_REGISTRY.json` history. Pinned official release
+metadata, exact checksum-allowlisted names, bounded HTTPS transfers, explicit
+multi-GiB consent and exclusive verified files preserve the existing offline
+installer/model contract. Publication still requires every existing Windows
+gate; these source seals do not qualify, publish, install or execute a build.
+The Android seals above are unaffected by this PC-scoped update.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `717f8619fa52106f658559f43cd014a4fe167d3e182cfe897594a509c2d6eb4c` | 43710 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `d1a65c6398e30b87e88b2109b92613e937fe3b9995150450da3849be9266d8a8` | 13150 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `859aa22fc443d4eecb4797ebf3e9d964776f37aa0d8a64e8395ce3ee6f5b6270` | 10058 |
+
+### Product 46 optional native models and shared catalog reseal — 2026-11-07
+
+Reseal registered Android build, dependency, permission and UI assets for the
+additive private model-download/import and evidence-bounded local inference
+path. Synchronize both offline catalogs and the canonical product description.
+Every previous recorded seal is retained in registry history. Networking is
+explicitly limited to user-requested model downloads; production readiness,
+physical-device performance and model-answer accuracy are not asserted.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/README.md` | `f5bdd2cd39546fffc5d4417671189991fe45ead5e7b2cc961f7835e5c1971c9d` | 22676 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8` | 16718 |
+| `12-AZ-IP/46-axiomzero-android-suite/README.md` | `6ecd0af749ef5c7faf92a3720e375b469fb1722f38ccf57bdb0cf60d02420e7d` | 10246 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/build.gradle.kts` | `626c15df153acbeb496c788a12f8af0deddd3110918e5283cba81823d5d4888f` | 1384 |
+| `12-AZ-IP/46-axiomzero-android-suite/gradle/libs.versions.toml` | `ab7da567054b004bc5eb4920fe3dfca75e50caef7428547e5ea243f6a43f837e` | 1154 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/AndroidManifest.xml` | `93dc88a7ab8cbf1f01a145400ca6b69fb4e7c610b2cad8d510aae5d73cdf198e` | 721 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8` | 16718 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt` | `4976ad0412f91786fc603169e3c4a775b03d60a23afff66191c809e4e50c46c0` | 30284 |
+
+### Product 46 optional model runtime source registration — 2026-11-07
+
+Register the pinned engine build, local model store, JNI ownership boundaries,
+licensing notices and transfer/runtime tests. Synthetic linkage receipts cannot
+stand in for real-model qualification; the required hosted lane separately
+checks actual app download, private import, loading and bounded inference.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/LLAMA_CPP_LICENSE.txt` | `94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d` | 1078 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/THIRD_PARTY_NOTICES.md` | `92fb51af3ba05ad94b43bcc409769db92296f95ce3bdf4c4ac2448f2aab2a5bd` | 1689 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/CMakeLists.txt` | `68038df4d8d0a832cb6efd20f6cd7950c2d08dcdba8d0df220381e488f6642de` | 1515 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/llama_jni.cpp` | `acaea6d916cab545efed3232a36895bb330d5fd74361df0496a37170303bffff` | 11062 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt` | `536c054984918fdaf29bdb83c9773024673c43bd16f7f6598dfc370c7ec0b87b` | 10075 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `a938e4d25b69892c261d2780032967a08f9575d9142ba15ff7177b7684d55387` | 4611 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `40f5df6d9cfaa164827f7deaa879a7ab27ed83c36408d832d0e13ef3a49bbbca` | 6548 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt` | `989665afb552751dbe7db5d36c6a48addb54dfa35a95930684078af4d6214622` | 1842 |

@@ -1,5 +1,30 @@
 # Wave Changelog
 
+## Product 45/46 installation and local-model integration (2026-11-07)
+
+Add main-site download entry points and version-matched test-release workflows.
+Product 45 retains its bundled Qwen3-4B and verified companion payload; explicit
+local Ollama discovery and longer bounded model deadlines add an operator-owned
+larger-model path without automatic downloads or cloud fallback. PsiCat's
+existing local-provider lanes gain bounded configurable HTTP timeouts and
+configuration instructions. Fix Android release repository selection and make
+its checksum usable beside the downloaded APK.
+
+Add a consent-gated Windows helper that retrieves the complete versioned kit
+and verifies release files, the offline manifest and the assembled model hash.
+Implement optional Qwen3.5-2B download/import and pinned llama.cpp Android JNI
+without removing retrieval or notebook functionality. Provision JDK 17, SDK 34,
+NDK 26.1 and CMake 3.22.1 in shared hosted checks; require emulator installation,
+native ownership regression checks and actual model download/import/inference
+receipts before uploading the APK.
+
+Hosted native/device qualification and release publication remain pending.
+The local agent cannot resolve Google Maven or model-download hosts, so source
+and synthetic tests alone do not establish mobile functionality. No physical
+phone performance or actual 27B inference qualification is claimed.
+Evidence/notebook boundaries, UNVERIFIED labels, canonical physics claims, TOE
+score and falsification conditions remain unchanged.
+
 ## v38.6 (2026-11-07 — Sprint DB: Pillar 1135)
 
 Certify the previously-unallocated `src/physics/planar_radion/` module by

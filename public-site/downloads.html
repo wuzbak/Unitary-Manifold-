@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AxiomZero product downloads and installation</title>
+  <meta name="description" content="Download and install the Windows and Android AxiomZero test builds, with verification and local model instructions.">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <nav class="nav">
+    <a class="nav-brand" href="index.html"><div class="nav-logo">UM</div>Unitary Manifold</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="az-apps/index.html">AZ Products</a></li>
+    </ul>
+  </nav>
+  <main class="container" style="padding-top:7rem;padding-bottom:4rem;max-width:960px">
+    <h1>Download and install AxiomZero</h1>
+    <p>These are test builds, not production-certified releases. Download only
+      published assets from this repository. If a version is absent, it has
+      not been published; the source checkout is not an installer.</p>
+    <section id="windows" style="margin-top:3rem">
+      <h2>Product 45: Windows x64</h2>
+      <p>The installer includes a local Qwen3-4B model distributed in companion
+        files. <strong>The EXE alone is insufficient.</strong> Setup never
+        downloads missing files.</p>
+      <p><a class="btn btn-primary" href="https://github.com/wuzbak/Unitary-Manifold-/releases?q=pc-suite-v"
+        target="_blank" rel="noopener noreferrer">Open Windows test releases</a></p>
+      <ol>
+        <li>Download the release's versioned <code>AxiomZero-PC-Suite-*-download.ps1</code>
+          helper, or download every installer, offline manifest, model part and
+          <code>SHA256SUMS.txt</code> manually into one folder.</li>
+        <li>Read the helper before running it in Windows PowerShell. It asks
+          before downloading the multi-gigabyte kit and verifies its files;
+          it does not run the installer or install a model automatically.
+          Follow the exact command in the release's Product README.</li>
+        <li>Keep the complete kit together and run its EXE from the extracted
+          local folder, not inside a ZIP. Missing or corrupted companion files
+          must be replaced from the same release.</li>
+      </ol>
+      <p>An optional larger model can be imported into an operator-managed
+        local Ollama installation. Choose it explicitly in the research
+        control plane. This does not replace the bundled model or authenticate
+        third-party weights, and requires substantially more memory and disk.</p>
+      <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/45-axiomzero-pc-suite/README.md"
+        target="_blank" rel="noopener noreferrer">Windows installation and local-model guide</a></p>
+    </section>
+    <section id="android" style="margin-top:3rem">
+      <h2>Product 46: Android</h2>
+      <p>Requires Android 8.0 or later on a 64-bit ARM device. The APK does not
+        bundle model weights; local retrieval remains available without a
+        model download.</p>
+      <p><a class="btn btn-primary" href="https://github.com/wuzbak/Unitary-Manifold-/releases?q=android-suite-v"
+        target="_blank" rel="noopener noreferrer">Open Android test releases</a></p>
+      <ol>
+        <li>Download <code>app-debug.apk</code> and <code>SHA256SUMS.txt</code>
+          from the same published release.</li>
+        <li>Verify the APK before installing. In PowerShell,
+          <code>Get-FileHash .\app-debug.apk -Algorithm SHA256</code> must match
+          the checksum. On Linux, run <code>sha256sum --check SHA256SUMS.txt</code>
+          in the download folder.</li>
+        <li>Transfer the APK to your test phone and explicitly allow installation
+          from that source, or use <code>adb install app-debug.apk</code> on a
+          connected device with authorized USB debugging. Never uninstall an
+          existing copy before exporting notes you need to retain.</li>
+      </ol>
+      <p>For optional on-device reasoning, use the app's <strong>Local AI</strong>
+        tab to explicitly download its verified Qwen3.5-2B model (about 1.28 GB),
+        or import the exact pinned GGUF from a file you already own. This does
+        not upload your evidence. Inference requires at least 4 GiB RAM and
+        matching local evidence; the transfer requires 1.75 GiB free app storage.
+        All generated answers remain UNVERIFIED.</p>
+      <p>The APK is debug-signed. A build signed with a different debug key
+        cannot update an existing install; uninstalling clears private app data.
+        Read the release notes for supported Android versions, model controls
+        and the exact scope of runtime verification. Physical-device
+        performance is not guaranteed by emulator checks.</p>
+      <p><a href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/12-AZ-IP/46-axiomzero-android-suite/README.md"
+        target="_blank" rel="noopener noreferrer">Android installation and capability guide</a></p>
+    </section>
+    <p style="margin-top:3rem">Evidence, retrieval and generated model output
+      remain UNVERIFIED. Local inference does not certify the repository's
+      physics claims or give model output permission to execute tools.</p>
+  </main>
+</body>
+</html>

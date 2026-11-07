@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - ".github/workflows/pc-suite-platforms.yml"
+      - ".github/workflows/android-suite-build.yml"
+      - ".github/scripts/verify-android-suite.sh"
       - "12-AZ-IP/02-az-kernel/**"
       - "12-AZ-IP/14-sdam/**"
       - "12-AZ-IP/15-pentacorder/**"
@@ -16,35 +18,8 @@ permissions:
 
 jobs:
   android-suite:
-    name: Product 46 Android build and unit tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-      - uses: gradle/actions/setup-gradle@v4
-      - name: Verify offline catalog
-        run: |
-          python3 12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py --check
-          python3 12-AZ-IP/46-axiomzero-android-suite/scripts/build_catalog.py --check
-      - name: Build and test the native Android suite
-        working-directory: 12-AZ-IP/46-axiomzero-android-suite
-        run: |
-          checksum="$(curl --fail --location --proto '=https' --proto-redir '=https' --silent --show-error --max-time 60 https://services.gradle.org/distributions/gradle-8.6-bin.zip.sha256)"
-          if [[ ! "$checksum" =~ ^[a-f0-9]{64}$ ]]; then
-            echo "::error::Official Gradle distribution checksum must be exactly 64 lowercase hexadecimal characters."
-            exit 1
-          fi
-          printf '\ndistributionSha256Sum=%s\n' "$checksum" >> gradle/wrapper/gradle-wrapper.properties
-          ./gradlew --no-daemon :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
-      - uses: actions/upload-artifact@v4
-        with:
-          name: axiomzero-android-suite-debug
-          path: 12-AZ-IP/46-axiomzero-android-suite/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
+    name: Product 46 Android build and device tests
+    uses: ./.github/workflows/android-suite-build.yml
 
   android:
     runs-on: windows-latest

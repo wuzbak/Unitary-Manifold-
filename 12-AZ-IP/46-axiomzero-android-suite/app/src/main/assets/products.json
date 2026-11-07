@@ -410,7 +410,7 @@
     "version": "0.1.0",
     "trl": "Not assessed",
     "endpoint": "Native Android app (API 26+)",
-    "description": "Offline portfolio browser, user-selected checkout documentation, bounded private text/ZIP evidence search with citations, and local UNVERIFIED research notes/export. No network permission, cloud assistant, arbitrary commands, or release-readiness claim.",
+    "description": "Offline portfolio browser, user-selected checkout documentation, bounded private evidence and UNVERIFIED notes/export; optional verified Qwen3.5-2B download/import and evidence-bounded native inference. Network use requires explicit model-download action; no cloud fallback, arbitrary commands, or production-readiness claim.",
     "folder": "12-AZ-IP/46-axiomzero-android-suite/"
   }
 ]

@@ -31,8 +31,9 @@ from a **successful, fully qualified** run of the Product 45 Windows workflow.
 Extract the whole ZIP into one local folder, then run its EXE; do not run it
 inside the ZIP or move only the EXE. The ZIP already contains the offline
 manifest, every numbered model part and `SHA256SUMS.txt` together.
-If using a tagged pre-release instead, download **all** of those individual
-assets into one folder, preserving their exact filenames. See
+For a tagged pre-release, use the **small, user-executed download helper** below
+to retrieve and verify the complete kit, or download **all** individual assets
+into one folder, preserving their exact filenames. See
 [Verified offline companion payload](#verified-offline-companion-payload).
 
 An absent/failed workflow artifact or a release without assets is **not a
@@ -40,9 +41,44 @@ downloadable installer**. Only a version-matching `pc-suite-v*` tag publishes
 release assets after all Windows gates pass; ordinary commits do not publish
 them. The candidate's documented native acceptance blocker remains in force.
 This source update does not create, qualify or publish a Windows build.
-Remaining UX limitation: tagged releases still require multiple asset downloads;
-the complete workflow artifact ZIP avoids manually assembling them. Missing
-parts fail closed instead of triggering an unapproved network recovery.
+Missing parts fail closed instead of triggering an unapproved network recovery.
+
+### One-command retrieval of a pinned Windows installer kit
+
+Once a qualified `pc-suite-v0.1.0` release exists, save its
+`AxiomZero-PC-Suite-0.1.0-download.ps1` asset from the
+[official tagged release](https://github.com/wuzbak/Unitary-Manifold-/releases/tag/pc-suite-v0.1.0)
+and review it before running it. This is a small downloader, **not the installer**.
+It works with built-in Windows PowerShell 5.1; no GitHub CLI is required.
+Create a new local folder, then run from the folder where you saved the script:
+
+```powershell
+New-Item -ItemType Directory -Path .\AxiomZero-PC-Suite-0.1.0-kit
+powershell.exe -NoProfile -File .\AxiomZero-PC-Suite-0.1.0-download.ps1 -Tag pc-suite-v0.1.0 -DestinationDirectory .\AxiomZero-PC-Suite-0.1.0-kit
+```
+
+The helper displays the multi-GiB size and requires typing `DOWNLOAD` before
+retrieving the installer/model files. `-AcceptLargeDownload` is an explicit
+noninteractive consent option. If local PowerShell policy blocks the reviewed
+script, follow your administrator's policy rather than weakening system policy.
+Use an explicit version tag, never `latest`; a missing release stops with an
+error and is not evidence that a build has shipped.
+
+Only official repository HTTPS release metadata and bounded GitHub asset/CDN
+downloads are used. Exact versioned filenames come from `SHA256SUMS.txt`;
+unexpected names, paths, URLs, duplicates, gaps, size mismatches and hash
+mismatches abort. The manifest and complete model digest are also checked.
+Release checksums provide distribution integrity under trust in the official
+GitHub release; they are **not an independent publisher signature**. Verify the
+download helper's own release checksum independently before executing it.
+
+The helper never installs, executes downloaded files, configures startup,
+overwrites existing kit files or retries automatically. Interrupted/failed
+downloads remove their private partial files and stop. If final files remain
+after a filesystem failure, never run an incomplete kit: retry in a **new empty
+folder**; delete old files only yourself. After `VERIFIED INSTALLER KIT`, manually
+run the EXE **in that same folder**, keeping the manifest and every model part
+alongside it. Allow additional disk space for setup's assembled model.
 
 ## Embedded instruction assistant
 
@@ -471,7 +507,8 @@ sync/Navigator readiness and graceful process exit. A failed or skipped native
 check does not certify those capabilities or permit publishing an installer.
 `.github/workflows/pc-suite-windows.yml` builds and uploads them as a workflow
 artifact on pull requests and manual dispatch. `SHA256SUMS.txt` covers the
-installer, companion manifest, and every model part. A `pc-suite-v*` tag
+installer, companion manifest, every model part, and the versioned download
+helper. A `pc-suite-v*` tag
 additionally publishes all these files as a GitHub Release. Builds are currently
 **unsigned**; Windows SmartScreen may show a publisher warning. No automatic
 update service is included. The configured artifacts target Windows x64;
@@ -495,6 +532,8 @@ For version `0.1.0`, place these files together in the **same local folder**:
 - `AxiomZero-PC-Suite-0.1.0-offline.json`
 - `AxiomZero-PC-Suite-0.1.0-model.part001`, `.part002`, and `.part003`
 - `SHA256SUMS.txt` (for independent distribution-integrity checking)
+- `AxiomZero-PC-Suite-0.1.0-download.ps1` (optional retrieval helper, also hashed;
+  setup itself does not execute it)
 
 Use the installer from that folder, including for silent `/S` installation.
 Do not put parts in the installation directory or rename them. Transfer all
@@ -523,9 +562,10 @@ package intentionally uses regular NSIS and the fail-closed local hook instead.
 `npm run payload:verify` checks the whole release set and writes checksums.
 `dist:win` restores the full model in `dist/win-unpacked` **after** installer
 archive creation for real unpacked diagnostics. Product 45 releases are
-published as clearly labeled GitHub pre-releases; download the installer,
-offline manifest, every model part, and `SHA256SUMS.txt` into one folder before
-running setup. Release smoke verifies and runs the full model installed by the
+published as clearly labeled GitHub pre-releases; use the
+[consent-gated download helper](#one-command-retrieval-of-a-pinned-windows-installer-kit)
+or download the installer, offline manifest, every model part, and
+`SHA256SUMS.txt` into one folder before running setup. Release smoke verifies and runs the full model installed by the
 actual local-payload installer.
 
 To run from source:

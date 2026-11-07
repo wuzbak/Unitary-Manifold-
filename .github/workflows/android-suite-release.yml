@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - ".github/workflows/android-suite-release.yml"
+      - ".github/workflows/android-suite-build.yml"
+      - ".github/scripts/verify-android-suite.sh"
       - "12-AZ-IP/46-axiomzero-android-suite/**"
       - "12-AZ-IP/45-axiomzero-pc-suite/catalog/**"
       - "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py"
@@ -17,43 +19,7 @@ permissions:
 
 jobs:
   build:
-    name: Build and verify Product 46 debug APK
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-      - uses: gradle/actions/setup-gradle@v4
-      - name: Verify the canonical offline catalog
-        run: |
-          python3 12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py --check
-          python3 12-AZ-IP/46-axiomzero-android-suite/scripts/build_catalog.py --check
-      - name: Verify release tag matches Product 46 version
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          version="$(sed -nE 's/^[[:space:]]*versionName = "([^"]+)"[[:space:]]*$/\1/p' 12-AZ-IP/46-axiomzero-android-suite/app/build.gradle.kts)"
-          if [[ -z "$version" || "$GITHUB_REF_NAME" != "android-suite-v$version" ]]; then
-            echo "::error::Release tag must match Product 46 versionName."
-            exit 1
-          fi
-      - name: Build, test, and lint Product 46
-        working-directory: 12-AZ-IP/46-axiomzero-android-suite
-        run: |
-          checksum="$(curl --fail --location --proto '=https' --proto-redir '=https' --silent --show-error --max-time 60 https://services.gradle.org/distributions/gradle-8.6-bin.zip.sha256)"
-          if [[ ! "$checksum" =~ ^[a-f0-9]{64}$ ]]; then
-            echo "::error::Official Gradle distribution checksum must be exactly 64 lowercase hexadecimal characters."
-            exit 1
-          fi
-          printf '\ndistributionSha256Sum=%s\n' "$checksum" >> gradle/wrapper/gradle-wrapper.properties
-          ./gradlew --no-daemon :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
-      - uses: actions/upload-artifact@v4
-        with:
-          name: axiomzero-android-suite-debug
-          path: 12-AZ-IP/46-axiomzero-android-suite/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
+    uses: ./.github/workflows/android-suite-build.yml
 
   publish:
     name: Publish Product 46 test pre-release
@@ -63,6 +29,14 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
+      - name: Verify release tag matches Product 46 version
+        run: |
+          version="$(sed -nE 's/^[[:space:]]*versionName = "([^"]+)"[[:space:]]*$/\1/p' 12-AZ-IP/46-axiomzero-android-suite/app/build.gradle.kts)"
+          if [[ -z "$version" || "$GITHUB_REF_NAME" != "android-suite-v$version" ]]; then
+            echo "::error::Release tag must match Product 46 versionName."
+            exit 1
+          fi
       - uses: actions/download-artifact@v4
         with:
           name: axiomzero-android-suite-debug
