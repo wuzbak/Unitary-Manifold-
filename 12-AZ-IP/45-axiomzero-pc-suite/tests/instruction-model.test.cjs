@@ -234,7 +234,8 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
     const supplied = JSON.parse(message.body.messages[1].content);
     assert.deepEqual(Object.keys(supplied).sort(), ["evidence", "question"]);
     assert.deepEqual(supplied.evidence.map(item => item.id), ["OWNERSHIP"]);
-    assert.match(supplied.evidence[0].text, /^ownership_token=READY_[a-f0-9]{32}$/);
+    assert.match(supplied.evidence[0].text, /^READY_[a-f0-9]{32}$/);
+    assert.match(supplied.question, /Copy the entire text of evidence OWNERSHIP verbatim into answer/);
     assert.match(supplied.question, /no added characters, prose, punctuation or inline citation markers/);
     assert.match(supplied.question, /supporting evidence ID only in citations/);
     assert.ok(!supplied.question.includes("READY_"), "the challenge asks a question rather than supplying a completed answer");
@@ -542,7 +543,17 @@ test("bounds bytes and rejects malformed/truncated/tool/thinking HTTP completion
     "bad-challenge-schema", "annotated-challenge", "challenge-http", "challenge-truncated", "auth-bypass"]) {
     await t.test(mode, async (t) => {
       const f = await fixture(t, { mode });
-      await assert.rejects(f.runtime.answer({ question: "x", evidence }), /limit|JSON|protocol|health|challenge|unauthenticated/);
+      await assert.rejects(f.runtime.answer({ question: "x", evidence }), (error) => {
+        assert.match(error.message, /limit|JSON|protocol|health|challenge|unauthenticated/);
+        if (mode === "bad-challenge" || mode === "annotated-challenge") {
+          assert.match(error.ownershipChallenge.expectedAnswer, /^READY_[a-f0-9]{32}$/);
+          assert.equal(error.ownershipChallenge.receivedAnswer,
+            mode === "bad-challenge" ? "wrong" : error.ownershipChallenge.expectedAnswer + " [OWNERSHIP]");
+          assert.deepEqual(Object.keys(error.ownershipChallenge).sort(),
+            ["expectedAnswer", "receivedAnswer", "receivedCitations", "receivedStatus"]);
+        }
+        return true;
+      });
       assert.notEqual(f.children[0].signalCode, null);
     });
   }

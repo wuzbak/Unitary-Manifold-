@@ -1302,3 +1302,19 @@ these changes do not assert release signing or device qualification.
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/PortfolioCatalog.kt` | `29b191ff4443b0b542ea34383a26475f3cd9b32e85559a3e42a854a7fc83ddd3` | 2069 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/PortfolioCatalogTest.kt` | `8bd5639c39cbbddf5d10b9d67208ce82a3afc8e74049bc1f718ce3a6abeab2a2` | 1168 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/LocalLibraryTest.kt` | `a796f0dae0f7e2b1548e45c4e7c15eae57448ac8b684eb33195eb539c52892b2` | 2521 |
+
+### Product 45 literal ownership-copy qualification reseal — 2026-11-07
+
+Hosted candidate sanity checks passed, but the governed client's exact random
+token challenge failed. Supply the token alone as synthetic evidence and ask
+for verbatim copying of its entire text, without a key/value parsing step.
+Retain the fresh 128-bit token, exact equality, status, citation, schema and
+authentication checks, and the three consecutive fresh-process acceptance
+trials without retries. Preserve bounded synthetic mismatch diagnostics.
+Native acceptance must be rerun; unit fixtures are not model qualification.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `02f333aff831043613dd19574bf7af865800d3435bf00fcca20f73cd63447b3e` | 32786 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `fa324e58257f8eaf614f4f9c20535448261faa3401af830c0f285bb92743d81a` | 38234 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `47dffa2b711d685668b31fe0c7da7da15ea7b8dcd7e9383039588640b2c7666a` | 41056 |

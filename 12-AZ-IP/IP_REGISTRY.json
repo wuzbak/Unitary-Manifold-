@@ -1101,10 +1101,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "4023df39223c60278b3d2268d5c2a3884fc212b1dd278ff2cd708698a6b739b5",
-      "size_bytes": 32533,
-      "reseal_note": "Document the 46-product catalog and the Android-only Product 46 deployment boundary.",
+      "sha256": "02f333aff831043613dd19574bf7af865800d3435bf00fcca20f73cd63447b3e",
+      "size_bytes": 32786,
+      "reseal_note": "Document literal whole-evidence ownership copying and bounded synthetic-only failure diagnostics without weakening acceptance.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "4023df39223c60278b3d2268d5c2a3884fc212b1dd278ff2cd708698a6b739b5",
+          "size_bytes": 32533,
+          "reseal_note": "Document the 46-product catalog and the Android-only Product 46 deployment boundary."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "f8556f7e05d3f66ceea98c1b66f5f16860b263307c03acbcd3fc764b212bc97e",
@@ -3064,11 +3070,17 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "d19cdb67ab305a316fe376ca22680187d58a193fd7746a494343d4cd31f20cdf",
-      "size_bytes": 37924,
-      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate.",
+      "updated": "2026-11-07",
+      "sha256": "fa324e58257f8eaf614f4f9c20535448261faa3401af830c0f285bb92743d81a",
+      "size_bytes": 38234,
+      "reseal_note": "Use token-only synthetic evidence for literal ownership copying; retain exact fresh 128-bit equality and all gates, and expose bounded synthetic failure diagnostics.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "d19cdb67ab305a316fe376ca22680187d58a193fd7746a494343d4cd31f20cdf",
+          "size_bytes": 37924,
+          "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "c08c1e0b1483c60d1c5bcb9f224d59f1eaf6054b72f6fb8e99d86a519c89714c",
@@ -3222,11 +3234,17 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "7a08c91dc598fb6b481107965b3cb4e7667b354a8b5cd47e78d7dffa233d724c",
-      "size_bytes": 40380,
-      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate.",
+      "updated": "2026-11-07",
+      "sha256": "47dffa2b711d685668b31fe0c7da7da15ea7b8dcd7e9383039588640b2c7666a",
+      "size_bytes": 41056,
+      "reseal_note": "Require token-only synthetic challenge evidence and verify mismatch diagnostics while retaining every fail-closed contract.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "7a08c91dc598fb6b481107965b3cb4e7667b354a8b5cd47e78d7dffa233d724c",
+          "size_bytes": 40380,
+          "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "cfb82dd889b96b5a22ff6c6b57de35c1fbf6d0f01f59ab36b7702d4fb58b2645",
