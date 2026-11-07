@@ -1442,3 +1442,13 @@ Retain all earlier seals; no runtime qualification is inferred from source.
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `ee49d912550ce18e70fa4e99c2d2450abe1b1298c2ba879d318fb1c1bf6c8abf` | 43923 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/llama_jni.cpp` | `1827b464e6cdaf35b07337910ea7f826a6268aace9bb14538426cfdc39cd6688` | 11624 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt` | `3388fabb5ffc250b60c52aa219889cf710d3d34860f17509ebd54d57820a0dc9` | 2190 |
+
+### Product 46 verified stream test compilation reseal — 2026-11-07
+
+Explicitly import the object-scoped stream verifier in Kotlin unit tests after
+both native ABIs compiled successfully. Retain the previous test seal; model
+execution and device checks remain independent requirements.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `6a9b540f3231f75dc2efd8abce2d056f596b809d0fa5c6e336633018ebc8577b` | 4671 |

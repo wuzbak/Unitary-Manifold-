@@ -1,5 +1,7 @@
 package com.axiomzero.androidsuite
 
+import com.axiomzero.androidsuite.MobileModel.copyVerified
+
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertThrows

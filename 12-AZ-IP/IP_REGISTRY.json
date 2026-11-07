@@ -3951,9 +3951,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "a938e4d25b69892c261d2780032967a08f9575d9142ba15ff7177b7684d55387",
-      "size_bytes": 4611,
-      "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+      "sha256": "6a9b540f3231f75dc2efd8abce2d056f596b809d0fa5c6e336633018ebc8577b",
+      "size_bytes": 4671,
+      "reseal_note": "Import the object-scoped verified stream extension explicitly for Kotlin unit compilation.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "a938e4d25b69892c261d2780032967a08f9575d9142ba15ff7177b7684d55387",
+          "size_bytes": 4611,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
     },
     "12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt": {
       "description": "Distinct synthetic linkage and required real model download/import/inference receipts",
