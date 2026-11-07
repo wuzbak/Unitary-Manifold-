@@ -287,6 +287,10 @@ def adm_homogeneous_hyperbolic_evolution_certificate() -> Dict[str, Any]:
 
 
 def _truth_surface_sync_status() -> Dict[str, Any]:
+    # Note: um_live_status.json and SPRINT_PLAN.md's "CURRENT AUDITABLE STATE"
+    # header are regenerated/overwritten by each later sprint, so only the
+    # append-only "Historical continuity" line (and the historical fragments
+    # below) are checked here, not those two ephemeral current-state surfaces.
     from src.core.pillar1109_sprint_cr_master_charter import build_truth_surface_sync_status
 
     sync = build_truth_surface_sync_status({
@@ -315,11 +319,7 @@ def _truth_surface_sync_status() -> Dict[str, Any]:
             '### Sprint CZ ADM homogeneous hyperbolic evolution', 'exact symbolic identity',
         ],
         (_ROOT / 'docs' / 'SPRINT_PLAN.md').resolve().as_posix(): [
-            f'CURRENT AUDITABLE STATE ({VERSION} — Sprint {SPRINT})',
             'Historical continuity: v38.4 Sprint CZ',
-        ],
-        (_ROOT / '9-INFRASTRUCTURE' / 'um_live_status.json').resolve().as_posix(): [
-            '"version": "38.4"', '"sprint": "CZ"', '"next_slot": 1133',
         ],
     })
     path = _ROOT / 'docs' / 'WAVE_CHANGELOG.md'
