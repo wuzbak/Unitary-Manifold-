@@ -382,6 +382,18 @@ Extracted Linux PowerShell fixtures do not establish hosted Windows networking,
 multi-GB throughput, or actual model qualification.
 The PR remains draft until required checks pass at the repaired commit.
 
+The first repair push (`82c08f0`) exposed an additional coupled wiring failure:
+CodeQL run `42427310383`, job `128568248470`, rejected the new
+`.github/tests/test_embedded_model_download_contract.py` as the only uncovered
+Python file (**4,442/4,443 covered**). The existing repository-tooling slice
+now includes `.github/tests`; no source is excluded and no coverage gate is
+disabled. `python TOOLS/checks/codeql_slices.py check` now reports
+**4,443/4,443 covered, 0 excluded, 0 missing**.
+`python -m pytest tests/ci_tooling/test_codeql_slices.py -q` reports
+**25 passed**, including an explicit routing/changed-file planning regression.
+The concurrently started local core run is supplementary unfrozen evidence,
+not a final-head receipt; latest-head hosted checks remain authoritative.
+
 ## Remaining scope
 
 1. Obtain steward direction for Product 24/25 catalog reconciliation and define
