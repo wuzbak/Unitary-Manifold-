@@ -235,7 +235,7 @@ physical verification. They are the next correction tranche:
 | F2 | `src/core/pillar793_graviton_mass_bound_kk.py:13-23,64-75,153-167`; `tests/test_pillar793_graviton_mass_bound_kk.py:198-212`; `docs/CLAIM_MASTER_BOARD.md:477,483` | P793's <4 TeV exclusion, 0.8 TeV threshold verdict helper, and explicit-input PASS tests disagree; the default computed value routes FALSIFIED. P430/Admission 10 is a separate channel-specific tension/≥5 TeV bound. No common model/coupling/channel premise is established. Do not infer physical falsification or choose a spectrum to reconcile them. |
 | F3 | `docs/TRUTH_LAYER.md:973-985`; `STATUS.md:3-16`; P1135 source | “Open and untouched” obscures P1135's certified restricted subcase while the general physical-time residual remains open. Clarify subcase versus framework-level obligation; do not broaden P1135's certificate. |
 | R4 | `bot/assistant_api.py:147-166,364-375` | `retrieve_context()` always appends static PREDICTIONS/FALLIBILITY text with DESI Y1, the older r bound, and stale Higgs labels despite the new boundary and current status feed. Local RAG queries reproduce stale text. Replace with dynamic qualified status or a pointer-only summary and assert retrieved output. |
-| I1 | `12-AZ-IP/README.md:18-63,65-82`; `12-AZ-IP/IP_REGISTRY.json:3718-4167` | README contains 38 numbered product rows (01–07 and 16–46) plus eight shared surfaces, for 46 total. JSON has 44 entries: 36 numbered products and the same eight surfaces; numbered Products 24 and 25 are absent, while 08–15 are not rows in the README catalog. Product 24 has fingerprinted assets but no product record; Product 25 has neither a product record nor asset fingerprints. The mismatch is established, but the fingerprint scope for Product 25 must be defined before registering its files. |
+| I1 | `12-AZ-IP/README.md:18-63,65-82`; `12-AZ-IP/PORTFOLIO_LICENSE_SCHEDULE.md:17-18,42-43`; `12-AZ-IP/IP_REGISTRY.json:3718-4167`; `12-AZ-IP/FINGERPRINT_MANIFEST.md:6-12,81-89,1049` | README/license schedule declare 46 canonical products/surfaces; JSON has 44 entries. Products 24 and 25 are absent (08–15 are not catalog rows). Product 24 has 26 fingerprinted assets but no product metadata; Product 25 has neither a product record nor asset fingerprints/history. This is a real catalog sync defect, but the manifest describes steward-governed registration, not automatic directory inclusion. Do not autonomously choose Product 25's fingerprint set or add registry entries without steward approval. |
 | I2 | `src/core/pillar536_axiomzero_ip_registry.py:232-266`; `tests/test_pillar536_axiomzero_ip_registry.py:378-382`; registry asset entries | Verifier reported `all_verified=True` for 8 of 10 `IP_ASSET_CLASSES` paths; two were not in the JSON assets map, which contains 194 entries. It also did not disclose that this was not registry-wide coverage. Corrected below: scope and unregistered count are explicit, and `all_verified` now requires every scoped path to be registered and verified. |
 
 Inventory expert checks passed for `COMPACTIFICATION/build_maps.py --check`,
@@ -285,14 +285,46 @@ remains unresolved; no product records or asset fingerprints were added. The
 audit has not certified external behavior or registry-wide fingerprint
 completeness.
 
+### Formal action-to-evolution slice — P1130-P1135
+
+The bounded review found no current status contradiction within this chain:
+
+- P1130 promotes the Euler-Lagrange field-equation deliverable only within its
+  stated static perimeter; its t-relaxation law and framework-level
+  physical-time evolution remain open.
+- P1131 closes the exact non-diagonal reduction identity. It removes that
+  obligation from the current contract while preserving P1130's historical
+  three-item record.
+- P1132 explicitly withdraws its earlier hyperbolic/physical propagation
+  interpretation. Its current source and regression test limit the result to
+  off-shell acceleration and static identities; the current Truth Layer and
+  planar technical note identify the supersession.
+- P1135 certifies a separate restricted massless, zero-vector, transversely
+  isotropic coordinate-time sector through the existing symbolic/numerical
+  acceptance report. It leaves both broader P1130 obligations open and
+  disclaims global well-posedness and empirical confirmation.
+- No P1130-P1135 Lean source was found in the bounded Lean path search. Their
+  source/docs identify the evidence as executable Python/SymPy/numerical
+  checks, not a Lean proof; no formal-verification claim was inferred.
+
+Slow-inclusive focused command:
+
+```bash
+/root/.copilot/session-state/776568fa3fb942f2bc5d5ee3af49a04d/files/audit-venv/bin/python -m pytest -p no:cacheprovider tests/test_pillar1130_action_derived_flow_steward_promotion.py tests/test_pillar1131_offdiagonal_exact_reduction_closure.py tests/test_pillar1132_adm_homogeneous_hyperbolic_evolution.py tests/test_pillar1133_superfluid_effective_theory.py tests/test_pillar1134_rare_decay_probes.py tests/test_pillar1135_planar_radion_physical_time_certification.py tests/test_action_to_evolution_contract.py tests/test_planar_radion_acceptance.py -q -m ""
+```
+
+Result: **113 passed, 0 failed** in 53.43 seconds. This validates the
+repository's scoped executable contracts, not the underlying physics or any
+Lean proof. No source correction was justified in this bounded slice.
+
 ## Remaining scope
 
-1. Establish the intended Product 24/25 catalog and fingerprint-registration
-   contract before adding either product metadata or Product 25 asset hashes.
+1. Obtain steward direction for Product 24/25 catalog reconciliation and define
+   the Product 25 fingerprint set before changing registry metadata/assets.
 2. Audit additional frontend/HF/product status paths and verify deploy-time
    behavior with repository tests; hosted deployment is not verified.
 3. Review formal theorem axiom dependencies and action-to-observable contracts
-   beyond the P1130-P1135 bounded chain.
+   outside the reviewed P1130-P1135 slice.
 4. Expand product/governance/editorial/archive provenance and registered-asset
    checks in bounded batches.
 5. The slow-inclusive supervised result above covers the specified core suite,
