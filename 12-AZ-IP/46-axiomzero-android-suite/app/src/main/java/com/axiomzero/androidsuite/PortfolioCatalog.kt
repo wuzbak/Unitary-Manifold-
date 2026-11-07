@@ -44,7 +44,7 @@ object PortfolioCatalog {
     }
 
     fun search(products: List<Product>, query: String): List<Product> {
-        val terms = query.trim().split(Regex("\\s+")).filter(String::isNotBlank)
+        val terms = query.trim().lowercase().split(Regex("\\s+")).filter(String::isNotBlank)
         if (terms.isEmpty()) return products
         return products.filter { product ->
             val searchable = "${product.id} ${product.name} ${product.description} ${product.endpoint}"
