@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8679,
+  "file_count": 8682,
   "lanes": {
     "az_ip": 2673,
     "compactification": 9,
-    "other": 5583,
+    "other": 5586,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -16,7 +16,7 @@
     ".dvc": 1,
     ".firebaserc": 1,
     ".gitattributes": 1,
-    ".github": 53,
+    ".github": 54,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
@@ -100,7 +100,7 @@
     "mkdocs.yml": 1,
     "package-lock.json": 1,
     "proof": 17,
-    "public-site": 83,
+    "public-site": 84,
     "pyproject.toml": 1,
     "pytest.ini": 1,
     "recycling": 14,
@@ -113,7 +113,7 @@
     "src": 1664,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1569,
+    "tests": 1570,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -3397,6 +3397,12 @@
     },
     {
       "path": ".github/pull_request_template.md",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/tests/test_embedded_model_download_contract.py",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -38283,6 +38289,12 @@
       "lane": "other"
     },
     {
+      "path": "public-site/js/status-snapshot.js",
+      "top_level": "public-site",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "public-site/js/um-image-generator.js",
       "top_level": "public-site",
       "kind": "file",
@@ -57436,6 +57448,12 @@
     },
     {
       "path": "tests/test_sprint_z_pillars_711_to_715.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_status_consumer_audit.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

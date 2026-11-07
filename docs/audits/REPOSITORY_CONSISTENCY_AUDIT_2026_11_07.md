@@ -317,6 +317,71 @@ Result: **113 passed, 0 failed** in 53.43 seconds. This validates the
 repository's scoped executable contracts, not the underlying physics or any
 Lean proof. No source correction was justified in this bounded slice.
 
+## Merge-blocker repair checkpoint
+
+The checks at `b846a8a86cec7ab97d0cfc73eb6e4b5353f78e4b`
+are **not merge-ready**. Failed job logs establish three distinct causes:
+
+- CI run `42422494650` and the Tests compactified preflight stop on
+  `Stale maps: monorepo_map.json`. The canonical map omitted the newly tracked
+  public status helper and status-consumer regression test.
+- Tests run `42422494820` fails the explicit UM-ARTS inventory coverage
+  assertion because `tests/test_status_consumer_audit.py` is not selected in
+  the repository execution config. Coverage reports **1 failed, 66,241
+  passed, 36 skipped**; fast shard 3 reports **1 failed, 14,615 passed,
+  33 skipped, 20 deselected**. The supervisors correctly reject the incomplete
+  validation; they must not be bypassed.
+- Windows CPU-backend run `42422494759` cancels the streamed model read
+  exactly 15 minutes after fetching begins. This is download cancellation,
+  not evidence that the model passed or failed qualification.
+
+The map was regenerated with `python COMPACTIFICATION/build_maps.py`.
+The UM-ARTS config was synchronized surgically with discovery, preserving
+existing reviewed selections rather than replacing them with a new inventory.
+The Windows downloader now has one shared 30-minute budget inside a 35-minute
+fetch step, 60-second header/read idle cancellation, and at most three
+transient-only attempts. Retries restart from the pinned publisher and remove
+only their own incomplete destination. Redirects retain the approved HTTPS
+host checks and additionally reject nonstandard ports and user information.
+Byte caps, LFS SHA-256, provenance, and mandatory acceptance remain unchanged.
+The workflow runs the new `.github/tests/` contract/runtime fixture explicitly;
+it is not inserted into the unrelated Python core execution suite.
+
+Local validation used the preserved audit environment:
+
+- Inventory/map/status-consumer focused tests: **34 passed**.
+- `python TOOLS/checks/check_licensing_policy.py`: structural evidence checks
+  passed; explicitly not legal certification.
+- `python COMPACTIFICATION/build_maps.py --check`: passed.
+- The exact platform-smoke pytest selection from `.github/workflows/ci.yml`
+  (licensing, metric, file-size, HF failure aggregation, integer claim, and
+  selected Navigator compatibility/training tests): **135 passed** in 86.84s.
+  This is local Linux evidence, not hosted macOS or Windows certification.
+- `python TOOLS/checks/run_supervised_pytest_batch.py --suite compactified-preflight`:
+  **89 passed** in 32.65s.
+- `python TOOLS/checks/run_supervised_pytest_batch.py --suite integration-preflight`:
+  **318 passed** in 40.39s.
+- `python -m pytest recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`:
+  **3,404 passed, 3 skipped** in 7.99s.
+- `PWSH_EXE=<session PowerShell>/pwsh python -m unittest discover -s .github/tests -p test_embedded_model_download_contract.py -q`:
+  **5 tests passed**, including 17 extracted PowerShell transport scenarios,
+  in 13.807s. The first local attempt failed explicitly because PowerShell was
+  absent. The rerun used session-only PowerShell 7.5.4, downloaded from its
+  official release and SHA-256 checked against the publisher's manifest.
+  Fixtures exercise progress, transient retries, idle/shared deadlines,
+  redirect guards, sizes, and cleanup without external network requests.
+- `python -m unittest discover -s 12-AZ-IP/43-az-geometric-tori-transformer/tests -p test_candidate_engine.py -q`:
+  **70 tests passed**. Intentional negative-fixture FAIL output is not a
+  production candidate evaluation.
+- `node --test 12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs`:
+  **87 passed, 0 failed**.
+
+These receipts address the identified blockers locally. They do not replace
+latest-head CI, coverage, mutation, or slow-inclusive full-core gates.
+Extracted Linux PowerShell fixtures do not establish hosted Windows networking,
+multi-GB throughput, or actual model qualification.
+The PR remains draft until required checks pass at the repaired commit.
+
 ## Remaining scope
 
 1. Obtain steward direction for Product 24/25 catalog reconciliation and define
