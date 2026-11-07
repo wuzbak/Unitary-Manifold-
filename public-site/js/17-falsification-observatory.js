@@ -2,8 +2,9 @@
  * Falsification Observatory — JS engine
  * Unitary Manifold v23 | Pillar 787 | AxiomZero Technologies & Consulting, SPC
  *
- * Implements all 7 experiment routing functions in pure JavaScript,
- * mirroring the Python oracle in src/core/pillar787_falsification_routing_oracle.py
+ * Historical measurement simulator, not live observational verification.
+ * Retains P787 routes except withdrawn EXP-5/EXP-7 physical comparisons.
+ * Current scope: 9-INFRASTRUCTURE/um_live_status.json and docs/TRUTH_LAYER.md.
  *
  * Theory & scientific direction: ThomasCory Walker-Pearson
  * Code architecture & synthesis: GitHub Copilot (AI)
@@ -33,11 +34,6 @@ const FO = (() => {
     R_PRED: 0.0315,
     R_KILL: 0.036,
 
-    MG_PRED: 2.5,         // TeV
-    MG_KILL: 5.0,         // TeV
-
-    KK_DM_EW: 1e-46,      // cm²
-    XENON_SENS: 5e-47,
   };
 
   // ── Verdict colours ───────────────────────────────────────────────────────
@@ -46,6 +42,8 @@ const FO = (() => {
     TENSION: '#f59e0b',
     FALSIFIED: '#ef4444',
     AWAITING_DATA: '#94a3b8',
+    MODEL_DEPENDENT_UNESTABLISHED: '#94a3b8',
+    UNSUPPORTED: '#94a3b8',
   };
 
   // ── Routing functions ─────────────────────────────────────────────────────
@@ -132,16 +130,13 @@ const FO = (() => {
   }
 
   function routeHLLHC(mgExcl) {
-    const mg = mgExcl != null ? mgExcl : 1.8;
-    const v = mg >= PRED.MG_KILL ? 'FALSIFIED'
-            : mg >= PRED.MG_PRED ? 'TENSION'
-            : 'PASS';
-    return verdict('EXP-5', 'HL-LHC KK Graviton M_G*', v,
-      `M_G* ≈ ${PRED.MG_PRED} TeV (narrow-width RS1)`,
-      `Exclusion to ${mg} TeV`, null,
-      `No signal found through 5 TeV exclusion`,
-      [709],
-      `Current exclusion: ${mg} TeV. HL-LHC Run 4 will reach ~5 TeV. Prediction: ${PRED.MG_PRED} TeV.`
+    return verdict('EXP-5', 'HL-LHC KK Graviton M_G*', 'MODEL_DEPENDENT_UNESTABLISHED',
+      'No established universal graviton mass; spectrum/coupling/channel assumptions require reconciliation.',
+      mgExcl == null ? null : `User-supplied exclusion to ${mgExcl} TeV; not a validated comparison`,
+      null,
+      'No operative universal mass-only falsifier without a specified detector-channel contract.',
+      [430, 793],
+      'Consult 9-INFRASTRUCTURE/um_live_status.json and FALLIBILITY.md; historical spectra and channel verdicts disagree.'
     );
   }
 
@@ -156,16 +151,12 @@ const FO = (() => {
   }
 
   function routeXENON() {
-    const limit = PRED.XENON_SENS;
-    const v = limit < PRED.KK_DM_EW * 0.1 ? 'FALSIFIED'
-            : limit < PRED.KK_DM_EW ? 'TENSION'
-            : 'PASS';
-    return verdict('EXP-7', 'XENON-nT KK Dark Matter', v,
-      `σ_EW ≈ 1×10⁻⁴⁶ cm² (EW channel, Pillar 717)`,
-      `Sensitivity: ${PRED.XENON_SENS.toExponential(0)} cm²`, null,
-      `Null below ${(PRED.KK_DM_EW * 0.1).toExponential(0)} cm²`,
-      [717],
-      'EW-channel prediction at 10⁻⁴⁶ cm² is within XENON-nT design reach. Gravitational channel ~10⁻⁵⁶ cm² (null).'
+    return verdict('EXP-7', 'XENON-nT KK Dark Matter', 'UNSUPPORTED',
+      'Physical cross-section and mass-dependent detector comparison are not established.',
+      null, null,
+      'Neither a positive nor a null recoil result tests an unspecified scattering prediction.',
+      [290, 717, 790],
+      'See docs/TRUTH_LAYER.md#synthesis-repair-2026-10-05; particle/mediator identities and recoil amplitude remain open.'
     );
   }
 
@@ -188,11 +179,11 @@ const FO = (() => {
   }
 
   function summary(results) {
-    const counts = { PASS: 0, TENSION: 0, FALSIFIED: 0, AWAITING_DATA: 0 };
+    const counts = { PASS: 0, TENSION: 0, FALSIFIED: 0, AWAITING_DATA: 0, MODEL_DEPENDENT_UNESTABLISHED: 0, UNSUPPORTED: 0 };
     results.forEach(r => { counts[r.verdict] = (counts[r.verdict] || 0) + 1; });
-    const status = counts.FALSIFIED > 0 ? 'FRAMEWORK_FALSIFIED'
-                 : counts.TENSION > 0   ? 'FRAMEWORK_UNDER_TENSION'
-                 : 'FRAMEWORK_CONSISTENT';
+    const status = counts.FALSIFIED > 0 ? 'SIMULATION_THRESHOLD_MET'
+                 : counts.TENSION > 0   ? 'SIMULATION_UNDER_TENSION'
+                 : 'SIMULATION_INCOMPLETE';
     return { counts, status };
   }
 
@@ -229,7 +220,7 @@ const FO = (() => {
             <span class="exp-code">${exp.code}</span>
             <div class="exp-name" style="margin-top:0.3rem;">${exp.name}</div>
           </div>
-          <span class="exp-verdict-badge ${badgeClass}">${v.replace('_', ' ')}</span>
+          <span class="exp-verdict-badge ${badgeClass}">${v.replace(/_/g, ' ')}</span>
         </div>
         <div class="exp-body">
           <div class="exp-row"><strong>Prediction:</strong> ${exp.prediction}</div>
@@ -248,15 +239,15 @@ const FO = (() => {
     const el = document.getElementById('framework-status-bar');
     const txt = document.getElementById('framework-status-text');
     el.className = '';
-    if (sum.status === 'FRAMEWORK_FALSIFIED') {
+    if (sum.status === 'SIMULATION_THRESHOLD_MET') {
       el.classList.add('status-falsified');
-      txt.textContent = `⚠ ${sum.status} — ${sum.counts.FALSIFIED} experiment(s) met kill condition`;
-    } else if (sum.status === 'FRAMEWORK_UNDER_TENSION') {
+      txt.textContent = `⚠ ${sum.status} — ${sum.counts.FALSIFIED} historical route threshold(s) met; not an observation certificate`;
+    } else if (sum.status === 'SIMULATION_UNDER_TENSION') {
       el.classList.add('status-tension');
-      txt.textContent = `${sum.status} — ${sum.counts.TENSION} experiment(s) in tension`;
+      txt.textContent = `${sum.status} — ${sum.counts.TENSION} historical route(s) in tension; physical comparisons remain unestablished`;
     } else {
-      el.classList.add('status-consistent');
-      txt.textContent = `${sum.status} — all open experiments within predicted ranges`;
+      el.classList.add('status-unknown');
+      txt.textContent = `${sum.status} — not a framework consistency certificate`;
     }
   }
 
@@ -265,6 +256,8 @@ const FO = (() => {
     document.getElementById('tally-tension').textContent = counts.TENSION || 0;
     document.getElementById('tally-falsified').textContent = counts.FALSIFIED || 0;
     document.getElementById('tally-awaiting').textContent = counts.AWAITING_DATA || 0;
+    document.getElementById('tally-unsupported').textContent =
+      (counts.UNSUPPORTED || 0) + (counts.MODEL_DEPENDENT_UNESTABLISHED || 0);
   }
 
   // ── Public API ────────────────────────────────────────────────────────────

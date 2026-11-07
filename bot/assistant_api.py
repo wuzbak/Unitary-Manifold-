@@ -103,8 +103,12 @@ physics framework (5D Kaluza-Klein, 208+ pillars, live Lean4 theorem corpus).
 
 RULES — never break these:
 1. CITE: Always cite the relevant Pillar number and its gate status when answering a physics question.
-   Gate labels: HARDGATE (formally closed), ADJACENT_TRACK (exploratory, not a hardgate claim),
+   Gate labels: HARDGATE (historical registry label, not blanket physical closure),
+   ADJACENT_TRACK (exploratory, not a hardgate claim),
    OPEN_GAP (acknowledged open problem), ARCHITECTURE_LIMIT (known boundary of the framework).
+   Read proof/TIER_1_FORMAL.md and docs/TRUTH_LAYER.md#foundation-reassessment.
+   Reserve PROVED for a checked proposition with explicit assumptions and axiom dependencies;
+   passing tests or a registry label do not discharge open foundation obligations.
 2. HONEST: If you are uncertain, say so. Never confabulate. If the knowledge base does not contain
    the answer, say "I don't have that in the knowledge base" and offer the closest relevant pillar.
 3. NO SYCOPHANCY: Do not agree with the user just to be agreeable. If they make an incorrect claim,
@@ -241,12 +245,16 @@ def load_live_status() -> dict[str, Any]:
                 "date": legacy.get("date", "unknown"),
                 "source_of_truth": str(LEGACY_STATUS_PATH),
                 "generated_by": "legacy public-site/data/status.json fallback",
+                "regression_provenance": "Historical legacy snapshot; not current full-suite clearance.",
             },
             "tests": {
-                "passed": int(legacy.get("tests_passed", 0) or 0),
-                "skipped": int(legacy.get("tests_skipped", 0) or 0),
-                "deselected": int(legacy.get("tests_deselected", 0) or 0),
-                "failed": int(legacy.get("tests_failed", legacy.get("failures", 0)) or 0),
+                key: int(value) if value is not None else None
+                for key, value in {
+                    "passed": legacy.get("tests_passed"),
+                    "skipped": legacy.get("tests_skipped"),
+                    "deselected": legacy.get("tests_deselected"),
+                    "failed": legacy.get("tests_failed", legacy.get("failures")),
+                }.items()
             },
             "lean4": {"theorem_count": int(legacy.get("lean4_theorems", 0) or 0)},
             "pillars": {
@@ -257,14 +265,16 @@ def load_live_status() -> dict[str, Any]:
             "open_gates": legacy.get("open_tensions", []),
         }
 
+    logger.error("Live status unavailable: generator, generated artifact and legacy snapshot could not be loaded")
     return {
         "meta": {
             "version": "unknown",
             "date": "unknown",
             "source_of_truth": "unavailable",
             "generated_by": "assistant_api fallback",
+            "regression_provenance": "Unavailable: no regression evidence could be loaded.",
         },
-        "tests": {"passed": 0, "skipped": 0, "deselected": 0, "failed": 0},
+        "tests": {"passed": None, "skipped": None, "deselected": None, "failed": None},
         "lean4": {"theorem_count": 0},
         "pillars": {"next_slot": 0, "hardgate_count": 208, "total_slots": 0},
         "open_gates": [],
@@ -289,19 +299,26 @@ def build_status_response() -> dict[str, Any]:
     version = live_status.get("meta", {}).get("version", "unknown")
     legacy_version = version if str(version).startswith("v") else f"v{version}"
 
-    regression = (
-        f"{int(tests.get('passed', 0)):,} passed · "
-        f"{int(tests.get('skipped', 0))} skipped · "
-        f"{int(tests.get('deselected', 0))} deselected · "
-        f"{int(tests.get('failed', 0))} failed"
-    )
+    test_counts = {
+        key: int(tests[key]) if tests.get(key) is not None else None
+        for key in ("passed", "skipped", "deselected", "failed")
+    }
+    regression = "Regression unavailable: incomplete or missing recorded counts"
+    if all(value is not None for value in test_counts.values()):
+        regression = (
+            f"Historical regression: {test_counts['passed']:,} passed · "
+            f"{test_counts['skipped']} skipped · "
+            f"{test_counts['deselected']} deselected · "
+            f"{test_counts['failed']} failed"
+        )
+    unavailable = live_status.get("meta", {}).get("source_of_truth") == "unavailable"
 
     return {
         **live_status,
-        "tests_passed": int(tests.get("passed", 0) or 0),
-        "tests_skipped": int(tests.get("skipped", 0) or 0),
-        "tests_deselected": int(tests.get("deselected", 0) or 0),
-        "tests_failed": int(tests.get("failed", 0) or 0),
+        "tests_passed": test_counts["passed"],
+        "tests_skipped": test_counts["skipped"],
+        "tests_deselected": test_counts["deselected"],
+        "tests_failed": test_counts["failed"],
         "lean4_theorems": int(lean4.get("theorem_count", 0) or 0),
         "pillars_hardgate": int(pillars.get("hardgate_count", 0) or 0),
         "pillars_total": int(pillars.get("total_slots", 0) or 0),
@@ -309,9 +326,14 @@ def build_status_response() -> dict[str, Any]:
         "version": legacy_version,
         "date": live_status.get("meta", {}).get("date", "unknown"),
         "regression": regression,
-        "failures": int(tests.get("failed", 0) or 0),
+        "failures": test_counts["failed"],
         "primary_falsifier": primary_falsifier,
-        "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
+        "epistemic_status": (
+            "Unavailable: no status evidence could be loaded."
+            if unavailable else
+            "Scoped implementation evidence only; foundation obligations remain open; "
+            "no repository-wide mathematical or empirical certification."
+        ),
         "status_source": live_status.get("meta", {}).get("source_of_truth", str(LIVE_STATUS_PATH)),
     }
 
@@ -338,7 +360,13 @@ def retrieve_context(query: str) -> str:
     scores.sort(key=lambda x: x[0], reverse=True)
     selected = scores[:MAX_CONTEXT_CHUNKS]
 
-    chunks = []
+    chunks = [
+        "[Current evidence boundary] The representative pillar entries and "
+        "numeric summaries below are historical navigation data, not current "
+        "closure or observation verdicts. HARDGATE is a registry label. Read "
+        "proof/TIER_1_FORMAL.md, docs/TRUTH_LAYER.md#foundation-reassessment "
+        "and 9-INFRASTRUCTURE/um_live_status.json for scoped current evidence."
+    ]
     for _, p in selected:
         chunks.append(f"[Pillar {p['id']} · {p['gate']}] {p['name']}: {p['text']}")
 

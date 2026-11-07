@@ -24,3 +24,8 @@ def test_status_drift_gate_passes_on_repo():
     failures = module.run_checks(REPO_ROOT)
     assert failures == []
 
+
+def test_status_drift_workflow_checks_generated_artifact():
+    workflow = (REPO_ROOT / ".github/workflows/status-drift-gate.yml").read_text()
+    assert "python3 9-INFRASTRUCTURE/check_status_drift.py" in workflow
+    assert "python3 9-INFRASTRUCTURE/generate_live_status.py --check" in workflow

@@ -27,8 +27,9 @@
 
 ### Machine-readable status review
 
-Expert review completed on the checkpoint branch; these findings are awaiting
-correction and independent regression review:
+Expert review completed on the checkpoint branch. The first correction tranche
+addresses the presentation defects below; the underlying physical obligations
+are not closed:
 
 | ID | Evidence at baseline | Finding | Disposition |
 |----|----------------------|---------|-------------|
@@ -92,9 +93,13 @@ the entire corpus remain outside this bounded review.
 - The required initial `python -m pytest tests/ -q` failed because the default
   interpreter lacks pytest. Missing test dependencies were restored in a
   session-isolated virtual environment, not in the shared system environment.
-- The same tests-only command is running with that environment's interpreter;
-  the retained log is `audit-baseline-tests.log` in the session artifact folder.
-  It has no final result yet and is not a full repository regression.
+- Pre-correction `python -m pytest tests/ -q` with the isolated interpreter:
+  **62,305 passed, 57 skipped, 66 deselected, 0 failed**, three warnings,
+  850.80 seconds. This is tests-only, excludes slow tests, and is not a full
+  repository regression. The retained log is `audit-baseline-tests.log`.
+- Pre-correction `python -m pytest recycling/ "5-GOVERNANCE/Unitary Pentad/" -q`:
+  **3,404 passed, 3 skipped, 0 failed** in 9.86 seconds. Log:
+  `audit-governance-before.log`.
 - `python COMPACTIFICATION/build_maps.py --check` initially reported stale
   `monorepo_map.json` because this audit added an indexed path. Regeneration
   with the existing builder restored equality; no inventory logic was changed.
@@ -108,6 +113,93 @@ the entire corpus remain outside this bounded review.
 
 Existing regression markers are historical evidence, not a fresh run.
 
+## Corrections and independent checks
+
+- C1-C3: narrowed blanket all-chain consistency prose, synchronized the current
+  Truth Layer header with STATUS, and identified the Gatekeeper count as the
+  historical Sprint CU receipt.
+- R1-R3: labeled mixed-era inventories and regression expectations historical;
+  corrected the alpha diagnostic's claimed derivation; prioritized Tier-1 and
+  reassessment pointers; qualified assistant registry labels and legacy
+  retrieval summaries. Historical formulas and receipts remain traceable.
+- S1: live EXP-7 is `UNSUPPORTED`; physical cross-section/limit-ratio fields are
+  unset and its old threshold is explicitly non-operative without a physical
+  detector contract.
+- S2: live EXP-5 and its mass field are unestablished, rather than selecting
+  a spectrum or a new physical exclusion. A direct pre-correction execution of
+  `src.core.pillar793_graviton_mass_bound_kk.kk_graviton_mass_tev(1)` returned
+  **0.40304222059897743 TeV**, and `hllhc_verdict()` returned **FALSIFIED**,
+  contradicting the module's supplied 1 TeV/PASS headline. This is a toy
+  implementation contradiction, not evidence of physical falsification.
+- S3-S4: compatibility text exposes historical scope; unavailable or missing
+  regression counts remain JSON null, not zero failures. All-source failure
+  logs an error. Known integer/string legacy counts retain numeric compatibility.
+- S5: `--check` compares the actual artifact and rejects missing, malformed,
+  or stale output. The existing drift workflow runs this check. Generator
+  regressions no longer skip wholesale when FastAPI is absent.
+
+An independent final-diff reviewer found two additional directly coupled
+consumer defects. Both were corrected: the dashboard now preserves null/zero
+counts and never substitutes hardcoded historic totals; the observatory
+withdraws unsupported EXP-5/EXP-7 physical comparisons and calls its remaining
+P787 routes historical simulations, not framework certificates.
+
+A narrower frontend review verified nullable behavior and unsupported verdict
+rendering, then caught a cross-origin/main-branch fallback introduced during
+the repair. The dashboard retains its existing same-origin historical snapshot
+fallback instead, with explicit provenance, failure logging, and tests asserting
+the exact API/local URL sequence. The multi-underscore verdict badge was also
+corrected. No external status service was introduced.
+
+Triple checks comprise original-source comparison, executed regressions
+(including real JavaScript, not merely a Python mirror), and independent
+diff/consumer review. They are not independent scientific reproduction.
+
+Post-correction focused command (isolated interpreter):
+
+```bash
+python -m pytest tests/test_base44_live_status.py tests/test_status_drift_gate.py tests/test_bot_rag_index.py tests/test_falsification_observatory.py COMPACTIFICATION/test_maps.py -q
+```
+
+Result: **201 passed, 0 failed**, one dependency deprecation warning, 6.13
+seconds. Actual Node execution covers null/missing/zero counts, API failure with
+successful local fallback, both sources failing, exact fallback URLs, and
+unestablished mass/detector verdicts for multiple inputs.
+
+Standalone checks:
+
+- `python 9-INFRASTRUCTURE/generate_live_status.py --check`: **passed**, artifact
+  matches generated status; historical counts unchanged.
+- `python 9-INFRASTRUCTURE/check_status_drift.py`: **passed**.
+- `python COMPACTIFICATION/build_maps.py --check`: **passed**.
+- `node --check public-site/js/17-falsification-observatory.js`: **passed**.
+- `python TOOLS/audit/check_internal_links.py --root docs`: **90 files checked,
+  all internal file links resolved**.
+- `python TOOLS/audit/check_internal_links.py --root 6-MONOGRAPH`: **13 files
+  checked, all internal file links resolved**.
+- `git diff --check`: **passed**.
+
+The combined post-correction core/recycling/governance run is the next
+checkpoint requirement; no final outcome is asserted here yet.
+
+## Remaining scope and next audit tranche
+
+1. Reconcile P793's supplied headline, computed spectrum, physical inputs and
+   exclusion function with the older Admission 10/P430 channel assumptions.
+   Do not change toy constants or claim physical falsification to make labels
+   agree. The live presentation is corrected; source physics remains open.
+2. Trace remaining current-facing status consumers, including static flashcards,
+   `physics-engine.js` historical datasets, HF spaces and deployment artifacts.
+   Do not convert dated snapshots into live status or silently rewrite history.
+3. Review formal theorem axiom dependencies and action-to-observable contracts
+   with specialist evidence; this tranche did not certify every derivation.
+4. Expand beyond assigned entrypoints to product/governance/editorial/archive
+   provenance and registered-asset consistency, in bounded batches.
+5. A true whole-repository, slow-inclusive certification requires its documented
+   suite inventory, complete dependencies, frozen source/environment provenance,
+   and complete supervised receipts. The combined pytest command below is not
+   that certification.
+
 ## Resume procedure
 
 Read this document and the draft PR, inspect the dedicated branch's latest
@@ -116,3 +208,10 @@ Do not regenerate status totals, fingerprinted assets, or whole-repository
 inventories without first identifying their canonical generators and gates.
 Record reviewed scope, commands and outcomes, remaining scope, and blockers
 before every pushed checkpoint.
+
+Use the session artifact directory's `audit-venv/bin/python` for this
+environment's exact test commands; it is not a repository dependency or a
+portable environment guarantee. Artifacts and SQLite audit/task state are
+session-persistent; this document and commits are the durable cross-session
+record. No correction edits or dependency installations should occur during
+the combined post-correction run.

@@ -16,12 +16,12 @@ from __future__ import annotations
 import importlib.util
 import json
 import re
+from copy import deepcopy
+import shutil
+import subprocess
 from pathlib import Path
 
 import pytest
-
-fastapi = pytest.importorskip("fastapi", reason="fastapi not installed")
-from fastapi.testclient import TestClient
 
 REPO_ROOT = Path(__file__).parent.parent
 STATUS_PATH = REPO_ROOT / "STATUS.md"
@@ -46,6 +46,9 @@ def live_status_module():
 
 @pytest.fixture(scope="module")
 def assistant_api_module():
+    pytest.importorskip("fastapi", reason="fastapi not installed")
+    pytest.importorskip("httpx", reason="httpx not installed")
+    pytest.importorskip("numpy", reason="numpy not installed")
     return _load_module(
         "assistant_api_base44_test",
         REPO_ROOT / "bot" / "assistant_api.py",
@@ -170,6 +173,8 @@ def test_generated_live_status_has_no_keys():
 
 
 def test_assistant_api_status_uses_live_status(assistant_api_module, live_status_module):
+    from fastapi.testclient import TestClient
+
     client = TestClient(assistant_api_module.app)
     response = client.get("/api/status")
     assert response.status_code == 200
@@ -190,3 +195,166 @@ def test_assistant_api_status_uses_live_status(assistant_api_module, live_status
     assert payload["pillars_total"] == live_status["pillars"]["total_slots"]
     assert payload["next_pillar_slot"] == live_status["pillars"]["next_slot"]
     assert payload["status_source"]
+    assert payload["regression"].startswith("Historical regression:")
+    assert "foundation obligations remain open" in payload["epistemic_status"]
+
+
+def test_live_status_does_not_publish_unsupported_detector_or_mass_claims(live_status_module):
+    data = live_status_module.build_live_status()
+    predictions = {row["id"]: row for row in data["predictions"]}
+    assert data["physics"]["kk_graviton_mass_tev"] is None
+    assert predictions["EXP-5"]["status"] == "MODEL_DEPENDENT_UNESTABLISHED"
+    assert "0.403 TeV" in predictions["EXP-5"]["verdict"]
+    assert predictions["EXP-7"]["status"] == "UNSUPPORTED"
+    assert predictions["EXP-7"]["cross_section_cm2"] is None
+    assert predictions["EXP-7"]["limit_ratio"] is None
+    assert "not an operative physical falsifier" in predictions["EXP-7"]["kill_condition_scope"]
+
+
+@pytest.mark.parametrize("experiment", ["EXP-5", "EXP-7"])
+def test_validation_rejects_fabricated_detector_pass(live_status_module, experiment):
+    data = deepcopy(live_status_module.build_live_status())
+    next(row for row in data["predictions"] if row["id"] == experiment)["status"] = "PASS"
+    assert any(experiment in error for error in live_status_module.validate(data))
+
+
+@pytest.mark.parametrize("field", ["cross_section_cm2", "limit_ratio"])
+def test_validation_rejects_physical_values_for_unsupported_proxy(live_status_module, field):
+    data = deepcopy(live_status_module.build_live_status())
+    next(row for row in data["predictions"] if row["id"] == "EXP-7")[field] = 1.0
+    assert any("EXP-7" in error for error in live_status_module.validate(data))
+
+
+@pytest.mark.parametrize("version", ["unknown", "999.9"])
+def test_validation_rejects_noncanonical_version(live_status_module, version):
+    data = deepcopy(live_status_module.build_live_status())
+    data["meta"]["version"] = version
+    assert any("meta.version" in error for error in live_status_module.validate(data))
+
+
+def test_generator_check_compares_artifact(live_status_module, tmp_path, capsys):
+    output = tmp_path / "status.json"
+    assert live_status_module.main(["--output", str(output)]) == 0
+    assert live_status_module.main(["--check", "--output", str(output)]) == 0
+    recorded = json.loads(output.read_text())
+    recorded["meta"]["version"] = "unknown"
+    output.write_text(json.dumps(recorded))
+    assert live_status_module.main(["--check", "--output", str(output)]) == 1
+    assert "stale live-status artifact" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("contents", [None, "{invalid json"])
+def test_generator_check_reports_missing_or_invalid_artifact(live_status_module, tmp_path, capsys, contents):
+    output = tmp_path / "status.json"
+    if contents is not None:
+        output.write_text(contents)
+    assert live_status_module.main(["--check", "--output", str(output)]) == 1
+    assert "cannot read live-status artifact" in capsys.readouterr().err
+
+
+def test_api_status_unavailable_is_not_zero_failures(assistant_api_module, monkeypatch, caplog):
+    monkeypatch.setattr(assistant_api_module, "_build_live_status_from_generator", lambda: None)
+    monkeypatch.setattr(assistant_api_module, "_read_json_file", lambda path: None)
+    payload = assistant_api_module.build_status_response()
+    assert payload["status_source"] == "unavailable"
+    assert payload["tests"] == dict.fromkeys(("passed", "skipped", "deselected", "failed"))
+    for field in ("tests_passed", "tests_skipped", "tests_deselected", "tests_failed", "failures"):
+        assert payload[field] is None
+    assert payload["regression"].startswith("Regression unavailable:")
+    assert payload["epistemic_status"].startswith("Unavailable:")
+    assert "Live status unavailable" in caplog.text
+
+
+@pytest.mark.parametrize("source", ["artifact", "legacy", "partial_legacy", "string_legacy"])
+def test_api_status_fallback_preserves_provenance(assistant_api_module, live_status_module, monkeypatch, source):
+    monkeypatch.setattr(assistant_api_module, "_build_live_status_from_generator", lambda: None)
+    canonical = live_status_module.build_live_status()
+    legacy = {"version": "34.9", "tests_passed": 63787}
+    if source in ("legacy", "string_legacy"):
+        legacy.update(tests_skipped=23, tests_deselected=12, tests_failed=0)
+    if source == "string_legacy":
+        legacy.update(tests_passed="63787", tests_skipped="23", tests_deselected="12", tests_failed="0")
+
+    def read_status(path):
+        if source == "artifact" and path == assistant_api_module.LIVE_STATUS_PATH:
+            return canonical
+        if source != "artifact" and path == assistant_api_module.LEGACY_STATUS_PATH:
+            return legacy
+        return None
+
+    monkeypatch.setattr(assistant_api_module, "_read_json_file", read_status)
+    payload = assistant_api_module.build_status_response()
+    assert "foundation obligations remain open" in payload["epistemic_status"]
+    if source == "partial_legacy":
+        assert payload["tests_failed"] is None
+        assert payload["failures"] is None
+        assert payload["regression"].startswith("Regression unavailable:")
+    else:
+        assert payload["regression"].startswith("Historical regression:")
+        assert payload["tests_failed"] == 0
+        assert payload["tests"]["failed"] == 0
+
+
+def test_legacy_assistant_retrieval_marks_historical_claim_scope(assistant_api_module):
+    context = assistant_api_module.retrieve_context("pillar 2")
+    assert context.startswith("[Current evidence boundary]")
+    assert "historical navigation data, not current closure" in context
+    assert "HARDGATE is a registry label" in context
+    assert "docs/TRUTH_LAYER.md#foundation-reassessment" in context
+
+
+@pytest.mark.parametrize("payload,expected_passed,expected_failed", [
+    ({"tests_passed": None, "tests_failed": None, "tests": {"passed": 0, "failed": 0}}, "Unknown", "Unknown"),
+    ({"tests": {"passed": 0, "failed": 0}}, "0", "0"),
+    ({}, "Unknown", "Unknown"),
+    (None, "Unknown", "Unknown"),
+    ({"api_unavailable": True, "snapshot": {"tests_passed": 10, "tests_failed": 0}}, "10", "0"),
+])
+def test_verification_dashboard_preserves_unknown_counts(payload, expected_passed, expected_failed):
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("Node.js required for dashboard execution")
+    script = """
+const fs = require('fs');
+const vm = require('vm');
+const html = fs.readFileSync(process.argv[1], 'utf8');
+const code = [...html.matchAll(/<script>([\\s\\S]*?)<\\/script>/g)]
+  .map(match => match[1]).find(source => source.includes('function loadStatusJson'));
+const payload = JSON.parse(process.argv[2]);
+const nodes = {};
+const errors = [];
+const requests = [];
+const document = {
+  getElementById: id => nodes[id] ||= {textContent: 'Unknown', insertAdjacentHTML() {}},
+  addEventListener: (name, callback) => callback()
+};
+vm.runInNewContext(code, {
+  document,
+  console: {warn() {}, error: message => errors.push(message)},
+  UM: {verificationDashboardData: () => ({
+    admissions: [], predictions: [], primary_falsifier: 'beta',
+    tests_total: 63787, lean4_total: 4080, pillars_total: 1135
+  })},
+  fetch: url => {
+    requests.push(url);
+    return payload === null || (payload.api_unavailable && url === '/api/status')
+      ? Promise.reject(new Error('status unavailable'))
+      : Promise.resolve({ok: true, json: () => Promise.resolve(payload.snapshot || payload)});
+  }
+});
+setImmediate(() => console.log(JSON.stringify({nodes, errors, requests})));
+"""
+    result = subprocess.run(
+        [node, "-e", script, str(REPO_ROOT / "public-site/apps/verification-dashboard.html"), json.dumps(payload)],
+        check=True, capture_output=True, text=True,
+    )
+    rendered = json.loads(result.stdout)
+    assert rendered["nodes"]["vd-tests"]["textContent"] == expected_passed
+    assert rendered["nodes"]["vd-failed"]["textContent"] == expected_failed
+    assert rendered["requests"] == (
+        ["/api/status", "../data/status.json"]
+        if payload is None or payload.get("api_unavailable") else ["/api/status"]
+    )
+    if payload is None:
+        assert "Verification status unavailable" in rendered["errors"]
+        assert "Status unavailable" in rendered["nodes"]["vd-summary"]["textContent"]

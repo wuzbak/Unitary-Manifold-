@@ -1,5 +1,5 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v38.2
+# Unitary Manifold v38.6
 
 ## Constrained planar Einstein--radion dynamics (2026-11-03)
 
@@ -2115,7 +2115,12 @@ A complete ToE would additionally:
 - Derive the Yukawa hierarchy without any NLO blend procedure
 - Achieve full ADM 3+1 quantization
 
-Current framework status: all 208 hardgate pillar derivation chains internally self-consistent. External empirical confirmation pending (LiteBIRD ~2032). See FALLIBILITY.md for gaps and architecture limits.md`.
+Current framework status: scoped implementation checks do not establish all
+208 registered hardgate derivation chains. The foundation reassessment
+withdraws or leaves open the audited claims; registry labels and passing tests
+do not discharge those obligations. External empirical confirmation remains
+pending (LiteBIRD ~2032). See [FALLIBILITY.md](../FALLIBILITY.md) and the
+[foundation reassessment](#foundation-reassessment) for gaps and limits.
 
 ---
 

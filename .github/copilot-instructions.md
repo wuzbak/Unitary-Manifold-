@@ -1,14 +1,19 @@
 # GitHub Copilot Instructions — Unitary Manifold
 
-> Canonical regression marker: 64,150 passed · 22 skipped · 18 deselected · 0 failed.
+> Historical Sprint CU regression receipt: 64,150 passed · 22 skipped · 18 deselected · 0 failed. Not a current full-suite all-clear.
+
+Read `proof/TIER_1_FORMAL.md`, `STATUS.md`, and
+`docs/TRUTH_LAYER.md#foundation-reassessment` for current scope and evidence.
+The v34.9 inventory below is historical; use the canonical status and Git-index
+maps for current allocation. Registry labels are not proof of physical closure.
 
 This file provides context for GitHub Copilot and AI coding assistants working
 on the Unitary Manifold repository.
 
 ## What This Repository Is
 
-A 5-dimensional Kaluza-Klein physics framework — **v34.9** — with:
-- **208 core physics pillars** (hardgate, formally closed)
+A 5-dimensional Kaluza-Klein physics framework — historical **v34.9** inventory — with:
+- **208 core physics pillars** (hardgate registry; audited foundation obligations remain open)
 - **992 total pillar slots** (next slot 993; Pillars 218–992 are adjacent/completion/infrastructure tracks)
 - **Ω₀ Holon Zero** + sub-pillars (Pillar 70-B, 70-C, 70-D)
 - **Independent HILS governance framework** (Unitary Pentad)
@@ -17,27 +22,32 @@ A 5-dimensional Kaluza-Klein physics framework — **v34.9** — with:
 
 **Theory:** ThomasCory Walker-Pearson (2026)  
 **Implementation:** GitHub Copilot (AI)  
-**Status:** Active — pillar set CLOSED; 0 test failures required at all times
+**Status:** Active — the registered core set is fixed, not a blanket scientific-closure certificate; 0 test failures required at all times
 
 ## Test Suite — Always Run Before and After Changes
 
 ```bash
 # Fast suite (core physics, run first):
 python -m pytest tests/ -q
-# Expected: see STATUS.md for current tests/-only sub-suite total (≥ 27,000 passed)
+# Scope: tests/ only; record the actual outcome, skips, and deselections
 
 # Recycling suite:
 python -m pytest recycling/ -q
-# Expected: 316 passed, 0 failed
+# Record the actual outcome; do not substitute a historical expected count
 
 # Unitary Pentad suite:
 python -m pytest "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: ~1,487 passed, 254 skipped, 0 failed
+# Independent governance scope; record the actual outcome
 
-# Full repository (takes ~130 seconds):
+# Combined core/recycling/governance scope (not every product suite):
 python3 -m pytest tests/ recycling/ "5-GOVERNANCE/Unitary Pentad/" -q
-# Expected: 63,787 passed · 23 skipped · 12 deselected · 0 failed
+# Historical v34.9 receipt: 63,787 passed · 23 skipped · 12 deselected · 0 failed
+# This is not a current expected total or proof of a fresh execution
 ```
+
+The default pytest configuration excludes `slow` tests. A slow-inclusive run
+requires `-m ""`; report its exact scope and environment. Do not infer whole
+repository clearance from the combined command, focused tests, or old receipts.
 
 ## Repository Structure
 
@@ -98,7 +108,7 @@ BRAIDED_SOUND_SPEED = 12/37 # c_s; from (5,7) braid resonance
 N_S = 0.9635                # CMB spectral index (Planck: 0.9649 ± 0.0042 ✅)
 R_BRAIDED = 0.0315          # tensor-to-scalar ratio (BICEP/Keck < 0.036 ✅)
 # Birefringence: β ∈ {≈0.273°, ≈0.331°} canonical / {≈0.290°, ≈0.351°} derived
-# Framework status: internally self-consistent; external confirmation pending (LiteBIRD ~2032)
+# Scoped checks only; foundation obligations open, external confirmation pending (LiteBIRD ~2032)
 
 # Unitary Pentad
 XI_C = 35/74                # Ξ_c consciousness coupling constant
