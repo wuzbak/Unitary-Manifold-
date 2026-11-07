@@ -3932,9 +3932,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "40f5df6d9cfaa164827f7deaa879a7ab27ed83c36408d832d0e13ef3a49bbbca",
-      "size_bytes": 6548,
-      "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+      "sha256": "55303aba19bbdf964874a757ce5f9c251f488e838f93dfa22f1617873d60a8d3",
+      "size_bytes": 6549,
+      "reseal_note": "Use nullable-safe native smoke cleanup when runtime construction fails.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "40f5df6d9cfaa164827f7deaa879a7ab27ed83c36408d832d0e13ef3a49bbbca",
+          "size_bytes": 6548,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
     },
     "12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt": {
       "description": "Native session cancel/close ownership race instrumentation regression",

@@ -1408,3 +1408,12 @@ checks actual app download, private import, loading and bounded inference.
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `a938e4d25b69892c261d2780032967a08f9575d9142ba15ff7177b7684d55387` | 4611 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `40f5df6d9cfaa164827f7deaa879a7ab27ed83c36408d832d0e13ef3a49bbbca` | 6548 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt` | `989665afb552751dbe7db5d36c6a48addb54dfa35a95930684078af4d6214622` | 1842 |
+
+### Product 46 native smoke cleanup reseal — 2026-11-07
+
+Reseal nullable-safe instrumentation cleanup after expert review. Retain the
+previous source seal in registry history; hosted compilation remains mandatory.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `55303aba19bbdf964874a757ce5f9c251f488e838f93dfa22f1617873d60a8d3` | 6549 |

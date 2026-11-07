@@ -34,7 +34,7 @@ class LocalModelSmokeTest {
             File(context.filesDir, "native-linkage-smoke-receipt.json").writeText(receipt.toString(2))
             Log.i("P46ModelSmoke", "mode=synthetic-linkage engine=$version")
         } finally {
-            runtime.close()
+            runtime?.close()
         }
     }
 
