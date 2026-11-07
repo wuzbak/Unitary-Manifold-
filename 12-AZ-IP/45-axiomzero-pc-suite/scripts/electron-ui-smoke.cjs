@@ -82,11 +82,11 @@ async function verifyWindow(target) {
         returnByValue: true
       });
       rendered = response.result.value;
-      if (rendered?.cards === 45 && rendered.runtimes === 45) break;
+      if (rendered?.cards === 46 && rendered.runtimes === 45) break;
       await new Promise((resolve) => setTimeout(resolve, 250));
     }
     assert.equal(rendered.title, "AxiomZero PC Suite");
-    assert.equal(rendered.cards, 45, "all catalog entries should render");
+    assert.equal(rendered.cards, 46, "all catalog entries should render");
     assert.equal(rendered.runtimes, 45, "all actual runtime contracts should render");
     assert.equal(rendered.jaxInstallDisabled, false, "the CPU JAX installer must be available");
     assert.equal(rendered.browserInstallDisabled, false, "the Windows browser installer must be available");

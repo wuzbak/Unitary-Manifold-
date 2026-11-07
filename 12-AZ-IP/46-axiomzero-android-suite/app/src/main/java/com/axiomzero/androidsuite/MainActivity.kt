@@ -17,10 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
-    private val worker = Executors.newSingleThreadExecutor()
+    private val worker = LocalStoreTasks.worker
     private lateinit var content: LinearLayout
     private lateinit var catalog: List<Product>
     private lateinit var library: LocalLibrary
@@ -60,11 +59,6 @@ class MainActivity : AppCompatActivity() {
         notebook = ResearchNotebook(File(filesDir, "research-notebook.json"))
         repositoryUri = getSharedPreferences("suite", MODE_PRIVATE).getString("repositoryUri", null)?.let(Uri::parse)
         render()
-    }
-
-    override fun onDestroy() {
-        worker.shutdown()
-        super.onDestroy()
     }
 
     private fun render() {
@@ -158,15 +152,20 @@ class MainActivity : AppCompatActivity() {
                 .setMessage("This deletes Product 46's private evidence index. Original selected files are unchanged.")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Delete") { _, _ ->
-                    if (library.clear()) {
-                        selectedMatches = emptyList()
-                        selectedQuestion = ""
-                        searchResults = ""
-                        toast("Local evidence index removed.")
-                    } else {
-                        toast("The local evidence index could not be removed.")
-                    }
+                    LocalStoreTasks.evidenceRevision.incrementAndGet()
+                    selectedMatches = emptyList()
+                    selectedQuestion = ""
+                    searchResults = ""
                     render()
+                    worker.execute {
+                        val removed = library.clear()
+                        runOnUiThread {
+                            if (!isFinishing && !isDestroyed) {
+                                toast(if (removed) "Local evidence index removed."
+                                else "The local evidence index could not be removed.")
+                            }
+                        }
+                    }
                 }
                 .show()
         })
@@ -187,13 +186,21 @@ class MainActivity : AppCompatActivity() {
                     toast("The question changed. Run local evidence search again before saving.")
                     return@button
                 }
-                try {
-                    notebook.add(question, selectedMatches)
-                    toast("Research note saved locally.")
-                    selectedTab = "Research"
-                    render()
-                } catch (error: Exception) {
-                    toast(error.message ?: "Research note could not be saved.")
+                val noteQuestion = selectedQuestion
+                val noteMatches = selectedMatches
+                worker.execute {
+                    try {
+                        notebook.add(noteQuestion, noteMatches)
+                        runOnUiThread {
+                            if (!isFinishing && !isDestroyed) {
+                                toast("Research note saved locally.")
+                                selectedTab = "Research"
+                                render()
+                            }
+                        }
+                    } catch (error: Exception) {
+                        runOnUiThread { toast(error.message ?: "Research note could not be saved.") }
+                    }
                 }
             })
         }
@@ -211,9 +218,16 @@ class MainActivity : AppCompatActivity() {
                 .setMessage("This deletes Product 46's private notebook. Any exported copies are unchanged.")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Delete") { _, _ ->
-                    if (notebook.clear()) toast("Research notebook removed.")
-                    else toast("The research notebook could not be removed.")
-                    render()
+                    worker.execute {
+                        val removed = notebook.clear()
+                        runOnUiThread {
+                            if (!isFinishing && !isDestroyed) {
+                                toast(if (removed) "Research notebook removed."
+                                else "The research notebook could not be removed.")
+                                render()
+                            }
+                        }
+                    }
                 }
                 .show()
         })
@@ -237,11 +251,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun importDocuments(uris: List<Uri>) {
+        val revision = LocalStoreTasks.evidenceRevision.get()
         worker.execute {
             var imported = 0
             try {
                 uris.forEach { uri -> imported += library.import(contentResolver, uri, displayName(uri)) }
                 runOnUiThread {
+                    if (isFinishing || isDestroyed || revision != LocalStoreTasks.evidenceRevision.get()) {
+                        return@runOnUiThread
+                    }
                     toast("Indexed $imported new document(s).")
                     searchResults = ""
                     selectedMatches = emptyList()
@@ -263,6 +281,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         val requestedQuestion = question
+        val revision = LocalStoreTasks.evidenceRevision.get()
         worker.execute {
             try {
                 val matches = library.search(requestedQuestion)
@@ -280,6 +299,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 runOnUiThread {
+                    if (isFinishing || isDestroyed || revision != LocalStoreTasks.evidenceRevision.get()) {
+                        return@runOnUiThread
+                    }
                     if (question != requestedQuestion) {
                         toast("The question changed while searching. Search again to refresh results.")
                         return@runOnUiThread

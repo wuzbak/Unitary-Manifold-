@@ -14,6 +14,8 @@ class PortfolioCatalogTest {
     fun searchMatchesAllTermsAcrossProductFields() {
         assertEquals(listOf("14"), PortfolioCatalog.search(products, "mobile android").map { it.id })
         assertEquals(listOf("46"), PortfolioCatalog.search(products, "46 suite").map { it.id })
+        assertEquals(listOf("14"), PortfolioCatalog.search(products, "SDAM").map { it.id })
+        assertEquals(listOf("14", "46"), PortfolioCatalog.search(products, "AnDrOiD").map { it.id })
     }
 
     @Test

@@ -4,6 +4,13 @@ import android.content.ContentResolver
 import android.net.Uri
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicLong
+
+internal object LocalStoreTasks {
+    val worker = Executors.newSingleThreadExecutor()
+    val evidenceRevision = AtomicLong()
+}
 
 data class EvidenceDocument(
     val name: String,
@@ -23,6 +30,37 @@ class LocalLibrary(private val file: java.io.File) {
     companion object {
         const val MAX_COLLECTION_BYTES = 8 * 1024 * 1024
         const val MAX_DOCUMENTS = 500
+
+        internal fun searchDocuments(documents: List<EvidenceDocument>, query: String, limit: Int): List<EvidenceMatch> {
+            require(limit >= 0) { "The search result limit cannot be negative." }
+            val terms = query.lowercase().split(Regex("[^\\p{L}\\p{N}_]+")).filter { it.length > 1 }.distinct()
+            if (terms.isEmpty() || limit == 0) return emptyList()
+            val order = compareByDescending<EvidenceMatch> { it.score }.thenBy { it.name }.thenBy { it.line }
+            val best = mutableListOf<EvidenceMatch>()
+            for (document in documents) {
+                document.text.lineSequence().forEachIndexed { index, line ->
+                    val lowered = line.lowercase()
+                    val score = terms.count(lowered::contains)
+                    if (score > 0) {
+                        val firstMatch = terms.map { line.indexOf(it, ignoreCase = true) }
+                            .filter { it >= 0 }.minOrNull() ?: 0
+                        val start = (firstMatch - 100).coerceAtLeast(0)
+                        val match = EvidenceMatch(
+                            document.name, index + 1,
+                            line.substring(start, minOf(line.length, start + 500)).trim(),
+                            document.sha256, score
+                        )
+                        val position = best.indexOfFirst { order.compare(match, it) < 0 }
+                            .let { if (it < 0) best.size else it }
+                        if (position < limit) {
+                            best.add(position, match)
+                            if (best.size > limit) best.removeAt(best.lastIndex)
+                        }
+                    }
+                }
+            }
+            return best
+        }
     }
 
     fun documents(): List<EvidenceDocument> {
@@ -54,29 +92,7 @@ class LocalLibrary(private val file: java.io.File) {
         return combined.size - current.size
     }
 
-    fun search(query: String, limit: Int = 5): List<EvidenceMatch> {
-        val terms = query.lowercase().split(Regex("[^\\p{L}\\p{N}_]+")).filter { it.length > 1 }.distinct()
-        if (terms.isEmpty()) return emptyList()
-        return documents().flatMap { document ->
-            document.text.lineSequence().mapIndexedNotNull { index, line ->
-                val lowered = line.lowercase()
-                val score = terms.count(lowered::contains)
-                if (score == 0) null else EvidenceMatch(
-                    name = document.name,
-                    line = index + 1,
-                    excerpt = line.run {
-                        val firstMatch = terms.map { indexOf(it, ignoreCase = true) }
-                            .filter { it >= 0 }.minOrNull() ?: 0
-                        val start = (firstMatch - 100).coerceAtLeast(0)
-                        substring(start, minOf(length, start + 500)).trim()
-                    },
-                    sha256 = document.sha256,
-                    score = score
-                )
-            }
-        }.sortedWith(compareByDescending<EvidenceMatch> { it.score }.thenBy { it.name }.thenBy { it.line })
-            .take(limit)
-    }
+    fun search(query: String, limit: Int = 5): List<EvidenceMatch> = searchDocuments(documents(), query, limit)
 
     fun clear(): Boolean = !file.exists() || file.delete()
 

@@ -1284,3 +1284,21 @@ required; local Google Maven resolution is unavailable.
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt` | `fa9cc1dee5ec2e49cb2d18f04ec2553f635f82136b91cb8fbc3cebf0015a7dc4` | 17726 |
+
+### Product 46 review and desktop compatibility reseal — 2026-11-07
+
+Correct the Windows qualification's 46 catalog / 45 runtime boundary. Bound
+Android evidence ranking, center excerpts on matching text, serialize local
+store writes and deletion across activity recreation, and invalidate pending
+search results on deletion. Preserve checkout-relative documentation paths,
+theme text colors and activity validity. Add native regression coverage;
+these changes do not assert release signing or device qualification.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `00bd5df3ba021d95c648eeab4d50a6886ff7a31148d879d1821e82d9b630a282` | 9893 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalLibrary.kt` | `80bcae164774668fdb6c4aac0c3b30bb4b56d3bd5e63b63f10d761012f1c2211` | 4694 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt` | `1cef95cd91be173f637a93f823855cb71159e26c050dfb45a3952b7d21941e51` | 18999 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/PortfolioCatalog.kt` | `29b191ff4443b0b542ea34383a26475f3cd9b32e85559a3e42a854a7fc83ddd3` | 2069 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/PortfolioCatalogTest.kt` | `8bd5639c39cbbddf5d10b9d67208ce82a3afc8e74049bc1f718ce3a6abeab2a2` | 1168 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/LocalLibraryTest.kt` | `a796f0dae0f7e2b1548e45c4e7c15eae57448ac8b684eb33195eb539c52892b2` | 2521 |

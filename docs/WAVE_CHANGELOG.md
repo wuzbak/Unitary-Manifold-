@@ -17,6 +17,11 @@ dependency resolution but Google Maven was unavailable. Hosted execution,
 device behavior and release signing remain separately disclosed obligations.
 The full-regression inventory also requires Product 46 in UM-ARTS' explicit
 repository suite example; add the new suite without relaxing inventory equality.
+Review fixes retain 46 desktop catalog cards and 45 runtime contracts, bound
+Android retrieval to its requested result count, serialize local-store writes
+and deletion across activity recreation, and invalidate pending evidence results
+when deletion is requested. Cover ranking, large collections and store ordering
+with native unit tests; preserve themed documentation text and full checkout paths.
 
 ## Complete CodeQL comparison coverage (2026-11-06)
 

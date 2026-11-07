@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8675,
+  "file_count": 8676,
   "lanes": {
-    "az_ip": 2672,
+    "az_ip": 2673,
     "compactification": 9,
     "other": 5580,
     "psicat_articles": 356,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2672,
+    "12-AZ-IP": 2673,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2833,6 +2833,7 @@
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/SafeTextArchive.kt",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/strings.xml",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/styles.xml",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/LocalLibraryTest.kt",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/PortfolioCatalogTest.kt",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/SafeTextArchiveTest.kt",
       "12-AZ-IP/46-axiomzero-android-suite/build.gradle.kts",
@@ -22315,6 +22316,13 @@
     },
     {
       "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/styles.xml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/LocalLibraryTest.kt",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",

@@ -1735,10 +1735,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "9202ba7151d856bc2f4b986fcddeca5a01d9a992070c1998468d95ab4634e469",
+      "sha256": "00bd5df3ba021d95c648eeab4d50a6886ff7a31148d879d1821e82d9b630a282",
       "size_bytes": 9893,
       "reseal_note": "Assert the installed desktop UI renders 46 products and 45 desktop runtime contracts.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "9202ba7151d856bc2f4b986fcddeca5a01d9a992070c1998468d95ab4634e469",
+          "size_bytes": 9893,
+          "reseal_note": "Original Product 46 integration changed the success message but retained 45-card assertions; superseded by corrected assertions and fixture."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "b236099a06e069e66a184c7cf8fec3ae1c03e8481ea54097657777e78ae2f7fd",
@@ -3521,10 +3527,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "fa9cc1dee5ec2e49cb2d18f04ec2553f635f82136b91cb8fbc3cebf0015a7dc4",
-      "size_bytes": 17726,
-      "reseal_note": "Use the Android TextView setter for selectable text; add actual JDK 17 Android build, tests and lint qualification.",
+      "sha256": "1cef95cd91be173f637a93f823855cb71159e26c050dfb45a3952b7d21941e51",
+      "size_bytes": 18999,
+      "reseal_note": "Serialize local writes and deletion across activity recreation, invalidate pending evidence results, preserve checkout paths and themed documentation text, and guard destroyed activities.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "fa9cc1dee5ec2e49cb2d18f04ec2553f635f82136b91cb8fbc3cebf0015a7dc4",
+          "size_bytes": 17726,
+          "reseal_note": "Use the Android TextView setter for selectable text; add actual JDK 17 Android build, tests and lint qualification."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "3f361842b753e2412841eb789240445aa12a62625345931a222015254216a4ac",
@@ -3550,10 +3562,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "12acff5d52295263e0c40bce6077e487228c3be79dda601427dad3a8ba515bfa",
-      "size_bytes": 2057,
-      "reseal_note": "Simplify typed all-term portfolio search matching.",
+      "sha256": "29b191ff4443b0b542ea34383a26475f3cd9b32e85559a3e42a854a7fc83ddd3",
+      "size_bytes": 2069,
+      "reseal_note": "Normalize portfolio queries for case-insensitive matching.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "12acff5d52295263e0c40bce6077e487228c3be79dda601427dad3a8ba515bfa",
+          "size_bytes": 2057,
+          "reseal_note": "Simplify typed all-term portfolio search matching."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "8eee8ca4519eaefc73b0ff46b9a401fde9cdfb855709f611c7aa77c9ff3a6c6a",
@@ -3567,9 +3585,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "cfbd17e77184f9e5ae4c569e3a25ec4c2235bb2376d3067ff2fdcaa94d655e66",
-      "size_bytes": 3493,
-      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+      "sha256": "80bcae164774668fdb6c4aac0c3b30bb4b56d3bd5e63b63f10d761012f1c2211",
+      "size_bytes": 4694,
+      "reseal_note": "Retain only requested top evidence matches with stable ranking and match-centered excerpts; share a process-lifetime local-store queue.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "cfbd17e77184f9e5ae4c569e3a25ec4c2235bb2376d3067ff2fdcaa94d655e66",
+          "size_bytes": 3493,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
     },
     "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/SafeTextArchive.kt": {
       "description": "Product 46 bounded text and ZIP import with path and size checks",
@@ -3603,9 +3629,26 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "3adde02d0e55e90574fe98aaacb62a12010608e4b02e9d2e47564571f84afbd3",
-      "size_bytes": 975,
-      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+      "sha256": "8bd5639c39cbbddf5d10b9d67208ce82a3afc8e74049bc1f718ce3a6abeab2a2",
+      "size_bytes": 1168,
+      "reseal_note": "Cover uppercase and mixed-case Android portfolio queries.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "3adde02d0e55e90574fe98aaacb62a12010608e4b02e9d2e47564571f84afbd3",
+          "size_bytes": 975,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/LocalLibraryTest.kt": {
+      "description": "Product 46 bounded evidence ranking, excerpt and serialized deletion regression tests",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "a796f0dae0f7e2b1548e45c4e7c15eae57448ac8b684eb33195eb539c52892b2",
+      "size_bytes": 2521,
+      "reseal_note": "Initial local-library regression registration; device qualification and release readiness are not asserted."
     },
     "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/SafeTextArchiveTest.kt": {
       "description": "Product 46 bounded import and archive path safety unit tests",
