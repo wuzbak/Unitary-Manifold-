@@ -75,6 +75,11 @@ def test_android_packaging_and_release_share_mandatory_device_verification() -> 
     assert _load("android-suite-release.yml")["jobs"]["build"]["uses"] == build_workflow
     job = _load("android-suite-build.yml")["jobs"]["build"]
     steps = job["steps"]
+    sdk = next(step for step in steps if step.get("name") == "Provision the Android SDK")
+    assert sdk["with"]["packages"] == "platform-tools"
+    native_tools = next(step for step in steps if step.get("name") == "Install the pinned Android native toolchain")
+    assert '"ndk;26.1.10909125"' in native_tools["run"]
+    assert '"cmake;3.22.1"' in native_tools["run"]
     emulator = next(step for step in steps if "android-emulator-runner@" in step.get("uses", ""))
     assert emulator["with"]["arch"] == "x86_64"
     assert emulator["with"]["script"] == "bash ../../.github/scripts/verify-android-suite.sh"
