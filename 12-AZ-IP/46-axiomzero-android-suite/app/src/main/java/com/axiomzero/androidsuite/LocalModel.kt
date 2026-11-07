@@ -22,6 +22,7 @@ object MobileModel {
     const val REPOSITORY = "Unsloth/Qwen3.5-2B-GGUF"
     const val MODEL_CARD = "https://huggingface.co/Unsloth/Qwen3.5-2B-GGUF"
     const val BASE_MODEL_CARD = "https://huggingface.co/Qwen/Qwen3.5-2B"
+    const val ASSISTANT_PREFIX = "<|im_start|>assistant\n<think>\n\n</think>\n\n"
 
     fun downloadUrl(): String =
         "https://huggingface.co/$REPOSITORY/resolve/$REVISION/$FILE_NAME?download=true"

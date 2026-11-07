@@ -42,11 +42,12 @@ expected = {
     "model_sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
     "context_tokens": 512,
     "generation_max_tokens": 16,
+    "thinking_enabled": False,
 }
 for key, value in expected.items():
     if type(receipt.get(key)) is not type(value) or receipt[key] != value:
         raise SystemExit(f"Android real-model receipt has an invalid {key!r} value")
-if not isinstance(receipt.get("output"), str) or not receipt["output"].strip():
-    raise SystemExit("Android real-model inference produced no output")
+if not isinstance(receipt.get("output"), str) or receipt["output"].strip() != "HELLO":
+    raise SystemExit("Android real-model inference did not complete the requested direct answer")
 print("Verified Android download, private import, native load and bounded real-model inference.")
 PY

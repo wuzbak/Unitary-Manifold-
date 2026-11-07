@@ -97,7 +97,7 @@ def test_android_packaging_and_release_share_mandatory_device_verification() -> 
 
 
 @pytest.mark.skipif(os.name != "posix" or shutil.which("bash") is None, reason="Requires the Linux-hosted Android gate")
-@pytest.mark.parametrize("invalid", [None, "installation", "instrumentation", "synthetic", "import_verified", "model_bytes", "output"])
+@pytest.mark.parametrize("invalid", [None, "installation", "instrumentation", "synthetic", "import_verified", "model_bytes", "thinking_enabled", "reasoning_only", "output"])
 def test_android_real_model_gate_rejects_failed_or_unqualified_receipts(tmp_path: Path, invalid: str | None) -> None:
     receipt = {
         "mode": "real-pinned-model-app-download",
@@ -109,7 +109,8 @@ def test_android_real_model_gate_rejects_failed_or_unqualified_receipts(tmp_path
         "model_sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
         "context_tokens": 512,
         "generation_max_tokens": 16,
-        "output": "Synthetic fixture for testing receipt rejection, not model qualification.",
+        "thinking_enabled": False,
+        "output": "HELLO",  # Synthetic receipt fixture, not a native inference result.
     }
     if invalid == "synthetic":
         receipt["synthetic"] = True
@@ -117,6 +118,10 @@ def test_android_real_model_gate_rejects_failed_or_unqualified_receipts(tmp_path
         receipt["import_verified"] = False
     elif invalid == "model_bytes":
         receipt["model_bytes"] = 1
+    elif invalid == "thinking_enabled":
+        receipt["thinking_enabled"] = True
+    elif invalid == "reasoning_only":
+        receipt["output"] = "<think>Thinking Process: analyze the request..."
     elif invalid == "output":
         receipt["output"] = ""
     receipt_path = tmp_path / "fixture.json"

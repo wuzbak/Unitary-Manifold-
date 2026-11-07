@@ -3544,10 +3544,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "6ecd0af749ef5c7faf92a3720e375b469fb1722f38ccf57bdb0cf60d02420e7d",
-      "size_bytes": 10246,
-      "reseal_note": "Document pinned native inference, verified optional download/import and explicit device/signing qualification limits.",
+      "sha256": "c6a3a841132325195b82e7e50ea7d11cc385811b0122a39b41125858310e57a1",
+      "size_bytes": 10805,
+      "reseal_note": "Document bounded non-thinking answers and exact real-model greeting qualification without asserting general answer quality.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "6ecd0af749ef5c7faf92a3720e375b469fb1722f38ccf57bdb0cf60d02420e7d",
+          "size_bytes": 10246,
+          "reseal_note": "Document pinned native inference, verified optional download/import and explicit device/signing qualification limits."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "914082aaf78b1e40f008cc9da4298e885a1e6b6b53d23315aaf352bda7dfa52b",
@@ -3705,10 +3711,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "4976ad0412f91786fc603169e3c4a775b03d60a23afff66191c809e4e50c46c0",
-      "size_bytes": 30284,
-      "reseal_note": "Add explicit private model transfer, evidence-bounded inference and cancellation controls without removing existing evidence/notebook flows.",
+      "sha256": "36a7ec0c9cea48637b2ce689ca33730b99b3b6af42f56d3f0f4256024202a3a9",
+      "size_bytes": 30314,
+      "reseal_note": "Use the shared non-thinking assistant prefix while preserving evidence escaping and bounded generation.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "4976ad0412f91786fc603169e3c4a775b03d60a23afff66191c809e4e50c46c0",
+          "size_bytes": 30284,
+          "reseal_note": "Add explicit private model transfer, evidence-bounded inference and cancellation controls without removing existing evidence/notebook flows."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "1cef95cd91be173f637a93f823855cb71159e26c050dfb45a3952b7d21941e51",
@@ -3934,10 +3946,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "9f7b95201b67107550336d00b48823888433b4de6f50ff48754edaaab6bd851e",
-      "size_bytes": 10097,
-      "reseal_note": "Bind transfer progress callbacks by name without changing pinned size/hash defaults.",
+      "sha256": "4f5f68277d1b8845e42d26823d1cf29d3c0b4463463e4597a9fd424ab365ebd4",
+      "size_bytes": 10179,
+      "reseal_note": "Share the pinned Qwen3.5 non-thinking assistant prefix between UI and real-model instrumentation.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "9f7b95201b67107550336d00b48823888433b4de6f50ff48754edaaab6bd851e",
+          "size_bytes": 10097,
+          "reseal_note": "Bind transfer progress callbacks by name without changing pinned size/hash defaults."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "536c054984918fdaf29bdb83c9773024673c43bd16f7f6598dfc370c7ec0b87b",
@@ -3951,10 +3969,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "10edd5b1ced0a4b1d24fa9e665faffd593df54d0e3ad1082ca5e06159d9a7736",
-      "size_bytes": 4733,
-      "reseal_note": "Resolve the native pin contract from Android Gradle's app-module test working directory.",
+      "sha256": "e3aaacc5cf68089863b798c77575c68841816b0ea56f1dfb56380e9c8cefef2b",
+      "size_bytes": 4834,
+      "reseal_note": "Assert exact shared non-thinking prefix in the pinned mobile model contract.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "10edd5b1ced0a4b1d24fa9e665faffd593df54d0e3ad1082ca5e06159d9a7736",
+          "size_bytes": 4733,
+          "reseal_note": "Resolve the native pin contract from Android Gradle's app-module test working directory."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "6a9b540f3231f75dc2efd8abce2d056f596b809d0fa5c6e336633018ebc8577b",
@@ -3974,10 +3998,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "55303aba19bbdf964874a757ce5f9c251f488e838f93dfa22f1617873d60a8d3",
-      "size_bytes": 6549,
-      "reseal_note": "Use nullable-safe native smoke cleanup when runtime construction fails.",
+      "sha256": "e77f78dec9da492cd04256a84c20da409dd58744de40a248d6257f5a0721a4b9",
+      "size_bytes": 6777,
+      "reseal_note": "Require an exact completed direct greeting from actual model inference and record non-thinking mode.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "55303aba19bbdf964874a757ce5f9c251f488e838f93dfa22f1617873d60a8d3",
+          "size_bytes": 6549,
+          "reseal_note": "Use nullable-safe native smoke cleanup when runtime construction fails."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "40f5df6d9cfaa164827f7deaa879a7ab27ed83c36408d832d0e13ef3a49bbbca",

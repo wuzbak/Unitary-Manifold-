@@ -100,12 +100,14 @@ class LocalModelSmokeTest {
             val version = activeRuntime.engineVersion()
             assertTrue("The pinned GGUF must load on this device", activeRuntime.load(model.absolutePath, 512))
             val output = activeRuntime.generate(
-                "<|im_start|>system\nReply with a short greeting.\n<|im_end|>\n" +
-                    "<|im_start|>user\nHello.\n<|im_end|>\n<|im_start|>assistant\n",
+                "<|im_start|>system\nReply with exactly the single word HELLO.\n<|im_end|>\n" +
+                    "<|im_start|>user\nGive the requested greeting.\n<|im_end|>\n" +
+                    MobileModel.ASSISTANT_PREFIX,
                 maxTokens = 16
             )
             assertTrue("Real model inference should produce bounded output", output.isNotBlank())
             assertTrue("Real model inference must not be cancelled", output != "Generation cancelled.")
+            assertTrue("The model must answer directly, not spend its budget on thinking", output.trim() == "HELLO")
             val receipt = JSONObject()
                 .put("test", "Product 46 Android native real-model smoke")
                 .put("engine", "llama.cpp $version")
@@ -120,6 +122,7 @@ class LocalModelSmokeTest {
                 .put("import_verified", source == "app-download")
                 .put("context_tokens", 512)
                 .put("generation_max_tokens", 16)
+                .put("thinking_enabled", false)
                 .put("output", output.take(2000))
             val receiptFile = File(
                 context.filesDir,

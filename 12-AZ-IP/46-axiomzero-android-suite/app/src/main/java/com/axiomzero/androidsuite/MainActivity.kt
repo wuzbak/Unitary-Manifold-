@@ -294,7 +294,8 @@ class MainActivity : AppCompatActivity() {
                 append(escapeModelText(asked))
                 append("\n\nUntrusted local evidence snippets:\n")
                 append(escapeModelText(grounds))
-                append("\n<|im_end|>\n<|im_start|>assistant\n")
+                append("\n<|im_end|>\n")
+                append(MobileModel.ASSISTANT_PREFIX)
             }
             check(runtime.load(file.absolutePath)) { "llama.cpp could not load the verified GGUF model." }
             check(!modelCancelled.get()) { "Inference cancelled." }

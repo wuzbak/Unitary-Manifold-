@@ -1461,3 +1461,19 @@ and repository roots. Keep the strict full-commit assertions and prior seals.
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `10edd5b1ced0a4b1d24fa9e665faffd593df54d0e3ad1082ca5e06159d9a7736` | 4733 |
+
+### Product 46 completed-answer qualification reseal — 2026-11-07
+
+The first real-model receipt contained only unfinished thinking. Share the
+pinned Qwen3.5 non-thinking prefix across the UI and instrumentation, and require
+an actual completed greeting within the existing token budget. Preserve previous
+seals; the stronger hosted gate must pass before publication. This narrow check
+does not certify general answer quality or physical-phone performance.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/README.md` | `c6a3a841132325195b82e7e50ea7d11cc385811b0122a39b41125858310e57a1` | 10805 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt` | `36a7ec0c9cea48637b2ce689ca33730b99b3b6af42f56d3f0f4256024202a3a9` | 30314 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt` | `4f5f68277d1b8845e42d26823d1cf29d3c0b4463463e4597a9fd424ab365ebd4` | 10179 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `e3aaacc5cf68089863b798c77575c68841816b0ea56f1dfb56380e9c8cefef2b` | 4834 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `e77f78dec9da492cd04256a84c20da409dd58744de40a248d6257f5a0721a4b9` | 6777 |

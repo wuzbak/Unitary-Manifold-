@@ -56,6 +56,13 @@ is bundled in the APK. Product 45's model training, Windows Python/Node runtime
 manager, supervised desktop workbench, hardware diagnostics and Windows
 installer are not Android capabilities.
 
+The bounded mobile answer path uses Qwen3.5's non-thinking assistant prefix,
+so its token budget is spent on a direct answer rather than an unfinished
+scratchpad. This formatting follows the
+[Qwen3.5 template included in the pinned engine](https://github.com/ggml-org/llama.cpp/blob/9f0e5098a5d5d8adb8dd5c59036ae2a38ab07db9/models/templates/Qwen3.5-4B.jinja).
+Runtime qualification requires an actual completed greeting, not merely
+nonempty reasoning or error text; it does not certify general answer quality.
+
 Import limits: 2 MiB per text document, 16 MiB of expanded ZIP data,
 8 MiB total indexed text and 500 documents. Unsupported archive members within
 the per-entry limit are skipped; oversized or malformed entries produce a
@@ -128,7 +135,8 @@ adb shell run-as com.axiomzero.androidsuite cat files/local-model-smoke-receipt.
 ```
 
 The real-model test rechecks exact size and SHA-256, loads the GGUF at a
-512-token context and generates at most 16 tokens. Its receipt uses
+512-token context and requires the exact direct answer `HELLO` within at most
+16 generated tokens. Its receipt uses
 `"mode":"real-pinned-model-app-download"`, `"synthetic":false`, and
 `"inference_executed":true`, and includes model identity, bounded output, and
 `"import_verified":true`. Before inference, the test streams the downloaded

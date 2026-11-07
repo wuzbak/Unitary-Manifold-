@@ -42,6 +42,7 @@ class MobileModelTest {
         assertEquals(64, MobileModel.SHA256.length)
         assertEquals(1792L * 1024 * 1024, MobileModel.MIN_FREE_BYTES)
         assertEquals(4L * 1024 * 1024 * 1024, MobileModel.MIN_RAM_BYTES)
+        assertEquals("<|im_start|>assistant\n<think>\n\n</think>\n\n", MobileModel.ASSISTANT_PREFIX)
     }
 
     @Test
