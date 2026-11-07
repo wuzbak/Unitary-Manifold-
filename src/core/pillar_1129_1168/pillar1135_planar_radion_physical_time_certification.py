@@ -116,7 +116,9 @@ def _planar_radion_acceptance_evidence() -> Dict[str, Any]:
 
 def planar_radion_physical_time_certificate() -> Dict[str, Any]:
     """Return the fail-closed evidence packet for the Pillar 1135 certification."""
-    report = _planar_radion_acceptance_evidence()
+    from copy import deepcopy
+
+    report = deepcopy(_planar_radion_acceptance_evidence())
     gates = dict(report.get('gates', {}))
     negative_controls = dict(report.get('negative_controls', {}))
     verified = bool(report.get('passed') and gates and all(gates.values()))
