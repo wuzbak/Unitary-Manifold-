@@ -56,10 +56,18 @@ at 256 KiB.
 Requirements: Android Studio with Android SDK 34 and JDK 17. Open this
 directory as a Gradle project, allow Android Studio to resolve the pinned
 Gradle plugin/library versions, then run `./gradlew :app:assembleDebug` or
-`./gradlew :app:testDebugUnitTest`. The output is an unsigned debug APK under
-`app/build/outputs/apk/debug/`; it is not a Play Store or release-signed
-artifact. Enable developer installation or use Android Studio's Run action
-to install it on a test phone.
+`./gradlew :app:testDebugUnitTest`. The output is a debug APK under
+`app/build/outputs/apk/debug/`, signed with a non-production Android debug key;
+it is not production/release-signed or Play Store-ready. Enable developer
+installation or use Android Studio's Run action to install it on a test phone.
+
+The `android-suite-v<versionName>` tag workflow publishes this APK and its
+SHA-256 checksum as a GitHub pre-release. The main website's Product 46
+download button links to those test releases. Install only on a device where
+you accept test-build software; no physical-device qualification is claimed.
+Each workflow build uses its runner's non-production debug signing key, so a
+later test APK may not install as an in-place update. Uninstalling first
+clears the app's private data; export any notes you need before reinstalling.
 
 Before building, verify the bundled catalog from the repository root:
 

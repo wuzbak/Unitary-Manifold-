@@ -399,8 +399,11 @@ package intentionally uses regular NSIS and the fail-closed local hook instead.
 `npm run payload:stage` generates the parts and compile-time manifest seal;
 `npm run payload:verify` checks the whole release set and writes checksums.
 `dist:win` restores the full model in `dist/win-unpacked` **after** installer
-archive creation for real unpacked diagnostics. Release smoke instead verifies
-and runs the full model installed by the actual local-payload installer.
+archive creation for real unpacked diagnostics. Product 45 releases are
+published as clearly labeled GitHub pre-releases; download the installer,
+offline manifest, every model part, and `SHA256SUMS.txt` into one folder before
+running setup. Release smoke verifies and runs the full model installed by the
+actual local-payload installer.
 
 To run from source:
 

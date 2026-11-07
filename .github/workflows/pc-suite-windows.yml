@@ -207,5 +207,5 @@ jobs:
             }
           }
           if ($checksums.Count -ne ($artifacts.Count - 1)) { throw "Release checksums do not cover every asset." }
-          gh release create "$env:GITHUB_REF_NAME" $artifacts --title "AxiomZero PC Suite $env:GITHUB_REF_NAME" --notes-file "12-AZ-IP/45-axiomzero-pc-suite/README.md"
+          gh release create "$env:GITHUB_REF_NAME" $artifacts --title "$env:GITHUB_REF_NAME — AxiomZero PC Suite (Windows x64 test build)" --notes-file "12-AZ-IP/45-axiomzero-pc-suite/README.md" --prerelease --verify-tag
           if ($LASTEXITCODE -ne 0) { throw "GitHub release publication failed." }
