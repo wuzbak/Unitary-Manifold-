@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Status Dashboard — axiomzerospc.org</title>
-  <meta name="description" content="Public status dashboard for the Unitary Manifold: v34.0, 62,525 passing tests, 3,912 Lean4 theorems, open residuals, and the primary LiteBIRD falsifier." />
+  <meta name="description" content="Public status dashboard for the Unitary Manifold: dated snapshot, open residuals, and the primary LiteBIRD falsifier." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/main.css" />
@@ -82,7 +82,7 @@
     <li><a href="../portal/library/">Library</a></li>
     <li><a href="../portal/engine/">Science Engine</a></li>
     <li><a href="index.html" class="active">Status</a></li>
-    <li><span class="nav-badge" id="nav-version">v34.0</span></li>
+    <li><span class="nav-badge" id="nav-version">Unavailable</span></li>
   </ul>
   <button class="nav-mobile-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
 </nav>
@@ -92,7 +92,7 @@
     <div class="container">
       <div class="app-id-badge">PUBLIC STATUS SURFACE</div>
       <h1 class="app-title">Repository Status Dashboard</h1>
-      <p class="app-subtitle">Honest public snapshot for the Unitary Manifold. Repository-level internal mathematical self-consistency is established; external empirical confirmation is still pending.</p>
+      <p class="app-subtitle">Honest public snapshot for the Unitary Manifold. Foundational derivations and independent CMB normalization remain open; external empirical confirmation is pending.</p>
       <div class="status-links">
         <a class="btn" href="../portal/knowledge/status.json">Machine-readable JSON →</a>
         <a class="btn" href="https://github.com/wuzbak/Unitary-Manifold-/blob/main/FALLIBILITY.md" target="_blank" rel="noopener">FALLIBILITY.md →</a>
@@ -102,31 +102,32 @@
   </section>
 
   <section class="container" style="padding: 2rem 0 3rem;">
+    <p id="status-source" role="status">Status snapshot unavailable.</p>
     <div class="status-grid">
       <div class="status-card">
         <div class="status-card-label">Version</div>
-        <div class="status-card-value" style="color:var(--color-gold);" id="status-version">v34.0</div>
-        <div class="status-card-sub" id="status-date">2026-09-02</div>
+        <div class="status-card-value" style="color:var(--color-gold);" id="status-version">Unavailable</div>
+        <div class="status-card-sub" id="status-date">Unavailable</div>
       </div>
       <div class="status-card">
         <div class="status-card-label">Passing Tests</div>
-        <div class="status-card-value" style="color:var(--color-green);" id="status-tests">62,525</div>
+        <div class="status-card-value" style="color:var(--color-green);" id="status-tests">Unavailable</div>
         <div class="status-card-sub">0 failures required</div>
       </div>
       <div class="status-card">
         <div class="status-card-label">Lean4 Theorems</div>
-        <div class="status-card-value" style="color:var(--color-accent);" id="status-lean4">3,912</div>
+        <div class="status-card-value" style="color:var(--color-accent);" id="status-lean4">Unavailable</div>
         <div class="status-card-sub">machine-checkable theorem registry</div>
       </div>
       <div class="status-card">
         <div class="status-card-label">Hardgate Pillars</div>
-        <div class="status-card-value">208</div>
+        <div class="status-card-value" id="status-hardgate">Unavailable</div>
         <div class="status-card-sub">formally closed core set</div>
       </div>
       <div class="status-card">
         <div class="status-card-label">Total Pillars</div>
-        <div class="status-card-value" id="status-pillars">992</div>
-        <div class="status-card-sub" id="status-next">next pillar slot: 993</div>
+        <div class="status-card-value" id="status-pillars">Unavailable</div>
+        <div class="status-card-sub" id="status-next">Unavailable</div>
       </div>
     </div>
 
@@ -160,8 +161,8 @@
           </tr>
           <tr>
             <td>CMB peak suppression</td>
-            <td class="mono">33.6% irreducible A<sub>s</sub> mismatch</td>
-            <td>ARCHITECTURE_LIMIT</td>
+            <td class="mono">Independent normalization and transfer corrections open</td>
+            <td>OPEN — irreducibility not established</td>
           </tr>
           <tr>
             <td>α<sub>s</sub> Type-B floor</td>
@@ -190,38 +191,19 @@
 </footer>
 
 <script src="../js/assistant.js" defer></script>
+<script src="../js/status-snapshot.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     if (typeof AZAssistant !== 'undefined') {
-      AZAssistant.setPageContext('Public status dashboard — v34.0, 62,525 tests, 3,912 Lean4 theorems, open residuals, and the LiteBIRD falsifier');
+      AZAssistant.setPageContext('Public status dashboard — a dated status snapshot, open residuals, and the LiteBIRD falsifier');
     }
   });
-  function loadStatusJson(url) {
-    return fetch(url).then(function(r) {
-      if (!r.ok) throw new Error('status fetch failed');
-      return r.json();
-    });
-  }
-  loadStatusJson('/api/status')
-    .catch(function() { return loadStatusJson('../data/status.json'); })
-    .then(function(d) {
-      var testsPassed = d.tests_passed || (d.tests && d.tests.passed);
-      var leanTheorems = d.lean4_theorems || (d.lean4 && d.lean4.theorem_count);
-      var version = d.version || (d.meta && d.meta.version && ('v' + d.meta.version));
-      var date = d.date || (d.meta && d.meta.date);
-      var totalPillars = d.pillars_total || (d.pillars && d.pillars.total_slots);
-      var nextSlot = d.next_pillar_slot || (d.pillars && d.pillars.next_slot);
-      if (typeof testsPassed === 'number') document.getElementById('status-tests').textContent = testsPassed.toLocaleString();
-      if (typeof leanTheorems === 'number') document.getElementById('status-lean4').textContent = leanTheorems.toLocaleString();
-      if (version) {
-        document.getElementById('nav-version').textContent = version;
-        document.getElementById('status-version').textContent = version;
-      }
-      if (date) document.getElementById('status-date').textContent = date;
-      if (typeof totalPillars === 'number') document.getElementById('status-pillars').textContent = totalPillars.toLocaleString();
-      if (typeof nextSlot === 'number') document.getElementById('status-next').textContent = 'next pillar slot: ' + nextSlot.toLocaleString();
-    })
-    .catch(function(){});
+  loadBundledStatus('../data/status.json', {
+    version: ['nav-version', 'status-version'], date: ['status-date'],
+    tests_passed: ['status-tests'], lean4_theorems: ['status-lean4'],
+    pillars_hardgate: ['status-hardgate'], pillars_total: ['status-pillars'],
+    next_pillar_slot: ['status-next']
+  });
 </script>
 </body>
 </html>

@@ -235,20 +235,62 @@ physical verification. They are the next correction tranche:
 | F2 | `src/core/pillar793_graviton_mass_bound_kk.py:13-23,64-75,153-167`; `tests/test_pillar793_graviton_mass_bound_kk.py:198-212`; `docs/CLAIM_MASTER_BOARD.md:477,483` | P793's <4 TeV exclusion, 0.8 TeV threshold verdict helper, and explicit-input PASS tests disagree; the default computed value routes FALSIFIED. P430/Admission 10 is a separate channel-specific tension/≥5 TeV bound. No common model/coupling/channel premise is established. Do not infer physical falsification or choose a spectrum to reconcile them. |
 | F3 | `docs/TRUTH_LAYER.md:973-985`; `STATUS.md:3-16`; P1135 source | “Open and untouched” obscures P1135's certified restricted subcase while the general physical-time residual remains open. Clarify subcase versus framework-level obligation; do not broaden P1135's certificate. |
 | R4 | `bot/assistant_api.py:147-166,364-375` | `retrieve_context()` always appends static PREDICTIONS/FALLIBILITY text with DESI Y1, the older r bound, and stale Higgs labels despite the new boundary and current status feed. Local RAG queries reproduce stale text. Replace with dynamic qualified status or a pointer-only summary and assert retrieved output. |
-| I1 | `12-AZ-IP/README.md:14-16,62-76`; `12-AZ-IP/IP_REGISTRY.json:3716-4167` | Current README catalog lists Products 01–46; registry products has 44 entries representing 36 product numbers, missing 08–15, 24 and 25. Product IDs are not physics pillars; inspect registry schema/asset meanings before treating this as a sync defect. |
-| I2 | `src/core/pillar536_axiomzero_ip_registry.py:232-266`; `tests/test_pillar536_axiomzero_ip_registry.py:378-382`; registry asset entries | Verifier reports `all_verified=True` for a fixed 10-class scope (8 verified, 0 tampered), while the registry contains 194 asset entries. Clarify scoped verification versus registry-wide completion; inspect consumers and historical asset status before changing API. |
+| I1 | `12-AZ-IP/README.md:18-63,65-82`; `12-AZ-IP/IP_REGISTRY.json:3718-4167` | README contains 38 numbered product rows (01–07 and 16–46) plus eight shared surfaces, for 46 total. JSON has 44 entries: 36 numbered products and the same eight surfaces; numbered Products 24 and 25 are absent, while 08–15 are not rows in the README catalog. Product 24 has fingerprinted assets but no product record; Product 25 has neither a product record nor asset fingerprints. The mismatch is established, but the fingerprint scope for Product 25 must be defined before registering its files. |
+| I2 | `src/core/pillar536_axiomzero_ip_registry.py:232-266`; `tests/test_pillar536_axiomzero_ip_registry.py:378-382`; registry asset entries | Verifier reported `all_verified=True` for 8 of 10 `IP_ASSET_CLASSES` paths; two were not in the JSON assets map, which contains 194 entries. It also did not disclose that this was not registry-wide coverage. Corrected below: scope and unregistered count are explicit, and `all_verified` now requires every scoped path to be registered and verified. |
 
 Inventory expert checks passed for `COMPACTIFICATION/build_maps.py --check`,
 Product 45 catalog `--check` (46 products), and Product 46 copy `--check`.
 Fingerprint manifests were not regenerated; historical snapshot differences
 were not presumed stale.
 
+### Second-tranche corrections and validation
+
+- **S6-S10:** Public status pages now use explicitly dated bundled snapshots
+  rather than a nonexistent Firebase `/api/status`; null/invalid values display
+  as unavailable while zero remains a real count. The HF loader preserves
+  source/date and null counts; each Space and shared package are staged and
+  uploaded together as one revision. Current DESI/physics summaries no longer
+  apply a single-scalar falsification threshold or stale closure labels.
+- **F1-F2:** P793 now calls the 1 TeV input a separately supplied benchmark,
+  reports the calculation's ≈0.403 TeV output as illustrative, and retires the
+  mass-only detector verdict. The verdict API returns
+  `MODEL_DEPENDENT_UNESTABLISHED` for all mass inputs. No physical spectrum,
+  coupling, or detector-channel contract was inferred.
+- **F3:** Truth Layer wording distinguishes P1135's restricted certificate
+  from the still-open broader obligation.
+- **R4:** Assistant retrieval renders dated generator-backed prediction rows;
+  if unavailable it emits only a canonical pointer, not stale hard-coded
+  DESI-Y1, tensor-bound, or Higgs labels.
+- **I2:** Pillar 536 now states its 10-path scope, counts paths missing from
+  the registry, and reports `all_verified` only when all scoped paths are
+  registered and match. Current result: 8 verified, 2 not registered,
+  0 missing, 0 tampered, `all_verified: false`. This is not a check of all 194
+  JSON registry assets.
+
+Combined focused command, using the session-isolated interpreter:
+
+```bash
+/root/.copilot/session-state/776568fa3fb942f2bc5d5ee3af49a04d/files/audit-venv/bin/python -m pytest -p no:cacheprovider tests/test_pillar536_axiomzero_ip_registry.py tests/test_status_consumer_audit.py tests/test_pillar793_graviton_mass_bound_kk.py tests/test_bot_assistant_api.py tests/test_hf_spaces_canary.py -q
+```
+
+Result: **177 passed, 0 failed**, one existing Starlette/httpx deprecation
+warning, under 2 seconds. This includes HF canary YAML and mocked-transport
+checks; it does not probe hosted Spaces. This is targeted validation after
+the second-tranche source changes; the earlier slow-inclusive full-core
+receipt predates these edits and does not certify them. The independent diff
+review found no significant issues; that reviewer's environment lacked pytest.
+
+HF live deployment behavior was not probed. Product 24/25 registry metadata
+remains unresolved; no product records or asset fingerprints were added. The
+audit has not certified external behavior or registry-wide fingerprint
+completeness.
+
 ## Remaining scope
 
-1. Apply S6-S10/F1-F3/R4/I1-I2 corrections only after validating their
-   consumers and preserving historical snapshots.
-2. Audit additional frontend/HF/product status paths and establish their
-   deploy-time behavior with repository tests; no hosted deployment probe yet.
+1. Establish the intended Product 24/25 catalog and fingerprint-registration
+   contract before adding either product metadata or Product 25 asset hashes.
+2. Audit additional frontend/HF/product status paths and verify deploy-time
+   behavior with repository tests; hosted deployment is not verified.
 3. Review formal theorem axiom dependencies and action-to-observable contracts
    beyond the P1130-P1135 bounded chain.
 4. Expand product/governance/editorial/archive provenance and registered-asset

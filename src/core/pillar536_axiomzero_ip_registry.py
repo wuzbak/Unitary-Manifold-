@@ -256,9 +256,11 @@ def verify_against_registry(registry_path: str = "12-AZ-IP/IP_REGISTRY.json") ->
     report: Dict = {
         "pillar": PILLAR_NUMBER,
         "registry_path": registry_path,
+        "scope": "IP_ASSET_CLASSES paths only; does not cover every registry asset",
         "total": len(live),
         "verified": 0,
         "missing": 0,
+        "not_in_registry": 0,
         "tampered": 0,
         "assets": [],
     }
@@ -274,6 +276,7 @@ def verify_against_registry(registry_path: str = "12-AZ-IP/IP_REGISTRY.json") ->
             report["missing"] += 1
         elif committed_sha is None:
             verdict = "NOT_IN_REGISTRY"
+            report["not_in_registry"] += 1
         elif live_sha == committed_sha:
             verdict = "VERIFIED"
             report["verified"] += 1
@@ -288,11 +291,7 @@ def verify_against_registry(registry_path: str = "12-AZ-IP/IP_REGISTRY.json") ->
             "committed_sha": committed_sha,
         })
 
-    report["all_verified"] = (
-        report["tampered"] == 0
-        and report["missing"] == 0
-        and report["verified"] > 0
-    )
+    report["all_verified"] = report["total"] > 0 and report["verified"] == report["total"]
     return report
 
 

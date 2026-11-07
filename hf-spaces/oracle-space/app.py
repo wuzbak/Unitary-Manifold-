@@ -46,11 +46,15 @@ try:
     from space_core.live_status import status_snapshot
     _STATUS = status_snapshot()
 except Exception:
-    _STATUS = {"version": "vunknown", "tests_passed": 0, "lean4_theorems": 0}
+    _STATUS = {"version": "vunknown", "tests_passed": None, "lean4_theorems": None}
+
+def format_count(value):
+    return f"{value:,}" if isinstance(value, int) and not isinstance(value, bool) else "unavailable"
+
 
 VERSION               = str(_STATUS["version"])
-LEAN4_COUNT           = int(_STATUS["lean4_theorems"])
-TEST_COUNT            = int(_STATUS["tests_passed"])
+LEAN4_COUNT           = format_count(_STATUS.get("lean4_theorems"))
+TEST_COUNT            = format_count(_STATUS.get("tests_passed"))
 SPRINT_BA_STATUS      = {"k_cs_74": "FIXED_BY_9D_GS_P849", "phi0": "PARTIAL_P853", "dim_chain": "CLOSED_P858", "desi_dr3": "PREREGISTERED_P824"}
 R_PREDICTED           = 0.0315
 BETA_CANONICAL        = [0.2728, 0.3309]  # degrees — approximate
@@ -67,6 +71,7 @@ OX_MAX_TOKENS       = 4096
 _SPACE_DIR = os.path.dirname(os.path.abspath(__file__))
 OX_CONTEXT_PACK_PATH = os.path.join(_SPACE_DIR, "ox_full_context.md")
 
+STATUS_PROVENANCE = f"source: {_STATUS.get('source', 'unavailable')}; date: {_STATUS.get('date', 'unknown')}"
 EPISTEMIC_FOOTER = (
     "\n\n---\n"
     "*Open science artifact — AxiomZero Technologies & Consulting, SPC — UBI 606 239 876*\n"
@@ -237,7 +242,7 @@ def run_ox_query(query: str, use_full_context: bool, temperature: float) -> str:
     else:
         repo_ctx = (
             "Full context pack not available. Core: Pillars 1–208 hardgated, "
-            f"live status {VERSION} with {TEST_COUNT:,} tests and {LEAN4_COUNT:,} Lean4 theorems, n_w=5, K_cs=74."
+            f"status {VERSION} ({STATUS_PROVENANCE}) with {TEST_COUNT} tests and {LEAN4_COUNT} Lean4 theorems, n_w=5, K_cs=74."
         )
         ctx_note = "Inline stub (context pack not found — upload ox_full_context.md to Space)."
 
@@ -295,7 +300,7 @@ with gr.Blocks(
         > *Epistemic honesty: all outputs carry gate labels. Results include uncertainty and open gaps.
         > This engine does not claim to prove the Unitary Manifold — it computes predictions from it.*
 
-        **Status snapshot:** {TEST_COUNT:,} passing tests · {LEAN4_COUNT:,} Lean4 theorems.
+        **Status snapshot ({STATUS_PROVENANCE}):** {TEST_COUNT} passing tests · {LEAN4_COUNT} Lean4 theorems.
 
         **Primary falsifier:** Birefringence β — LiteBIRD ~2032.
         **Primary open gap:** DESI w_a tension · Δm²₂₁ residual.

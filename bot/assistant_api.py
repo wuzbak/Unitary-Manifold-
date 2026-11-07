@@ -145,22 +145,15 @@ PILLAR_KNOWLEDGE: list[dict[str, Any]] = [
 ]
 
 PREDICTIONS_TEXT = """
-Key UM predictions and status:
-- n_s = 0.9635 (Planck: 0.9649 ± 0.0042 → 0.3σ) HARDGATE
-- r = 0.0315 (BICEP/Keck: < 0.036) HARDGATE
-- Birefringence β ∈ {≈0.273°, ≈0.331°} — UNTESTED — LiteBIRD ~2032 primary falsifier. Gap [0.29°–0.31°] falsifies mechanism.
-- Higgs mass ~126.2 GeV (LHC: 125.25 ± 0.17 GeV) ONE_LOOP_CONSISTENT
-- Dark energy w_a=0 (DESI Y1: ~2σ tension with w_a≠0) OPEN_GAP
-- Δm²₂₁: 1.07σ residual tension OPEN_GAP
+Current prediction status is not hard-coded here. Use only the dated,
+generator-backed status rows below when available; otherwise consult the
+canonical live-status pointer without inferring a current observation.
 """
 
 FALLIBILITY_TEXT = """
-Admitted open problems (FALLIBILITY.md):
-1. CMB acoustic peak amplitude suppressed ×4–7 — architecture limit
-2. n_w=5 uniqueness not proved from first principles alone
-3. DESI Y1 w_a≠0 tension (~2σ) — DESI Y2 will adjudicate
-4. Δm²₂₁ sub-1σ not achieved — NLO gate NLO_INSUFFICIENT_FOR_SUB_1SIGMA
-Primary falsifier: birefringence β — LiteBIRD ~2032
+For current open problems and their scope, consult FALLIBILITY.md,
+docs/TRUTH_LAYER.md, and the canonical live-status pointer. Do not treat
+historical summaries as current evidence.
 """
 
 # Simple in-memory cache
@@ -225,6 +218,44 @@ def _build_live_status_from_generator() -> dict[str, Any] | None:
     except Exception as exc:
         logger.warning("Failed to build live status from generator: %s", exc)
     return None
+
+
+def _prediction_status_context() -> str:
+    """Render only dated prediction data from the canonical generator."""
+    status = _build_live_status_from_generator()
+    meta = status.get("meta") if isinstance(status, dict) else None
+    predictions = status.get("predictions") if isinstance(status, dict) else None
+    if not isinstance(meta, dict) or not isinstance(predictions, list):
+        return (
+            "[Current prediction data unavailable] No generator-backed status "
+            "was loaded. Consult 9-INFRASTRUCTURE/um_live_status.json and "
+            "docs/TRUTH_LAYER.md; no current prediction verdict is inferred."
+        )
+
+    date = meta.get("date") or "unknown date"
+    source = meta.get("source_of_truth") or "canonical generator (source unspecified)"
+    rows = []
+    for prediction in predictions:
+        if not isinstance(prediction, dict):
+            continue
+        fields = [
+            str(prediction[key])
+            for key in ("id", "name", "status", "verdict", "kill_condition", "decision_window")
+            if prediction.get(key) is not None
+        ]
+        if fields:
+            rows.append("- " + " | ".join(fields))
+    if not rows:
+        return (
+            f"[Generator-backed prediction status · {date} · {source}] "
+            "The generator supplied no prediction rows; no verdict is inferred."
+        )
+    return (
+        f"[Generator-backed prediction status · {date} · {source}] "
+        "Rows reproduce the generator's qualified status and scope; retrieval "
+        "does not independently validate observations or promote claims.\n"
+        + "\n".join(rows)
+    )
 
 
 def load_live_status() -> dict[str, Any]:
@@ -370,7 +401,9 @@ def retrieve_context(query: str) -> str:
     for _, p in selected:
         chunks.append(f"[Pillar {p['id']} · {p['gate']}] {p['name']}: {p['text']}")
 
-    # Always include predictions and fallibility summary
+    # Keep static summaries pointer-only; current prediction details must come
+    # from the dated canonical generator and fail closed when it is unavailable.
+    chunks.append(_prediction_status_context())
     chunks.append(PREDICTIONS_TEXT)
     chunks.append(FALLIBILITY_TEXT)
 
