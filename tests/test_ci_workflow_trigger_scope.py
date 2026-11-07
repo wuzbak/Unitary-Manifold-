@@ -85,6 +85,8 @@ def test_android_packaging_and_release_share_mandatory_device_verification() -> 
     assert emulator["with"]["script"] == "bash ../../.github/scripts/verify-android-suite.sh"
     script = (REPO_ROOT / ".github/scripts/verify-android-suite.sh").read_text()
     assert ":app:connectedDebugAndroidTest" in script
+    assert "adb install -r app/build/outputs/apk/debug/app-debug.apk" in script
+    assert "adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk" in script
     assert "-e requireRealModel true" in script
     assert "-e modelSource app-download" in script
     assert "if" not in emulator
@@ -95,7 +97,7 @@ def test_android_packaging_and_release_share_mandatory_device_verification() -> 
 
 
 @pytest.mark.skipif(os.name != "posix" or shutil.which("bash") is None, reason="Requires the Linux-hosted Android gate")
-@pytest.mark.parametrize("invalid", [None, "instrumentation", "synthetic", "import_verified", "model_bytes", "output"])
+@pytest.mark.parametrize("invalid", [None, "installation", "instrumentation", "synthetic", "import_verified", "model_bytes", "output"])
 def test_android_real_model_gate_rejects_failed_or_unqualified_receipts(tmp_path: Path, invalid: str | None) -> None:
     receipt = {
         "mode": "real-pinned-model-app-download",
@@ -124,6 +126,7 @@ def test_android_real_model_gate_rejects_failed_or_unqualified_receipts(tmp_path
     adb = tmp_path / "adb"
     adb.write_text(
         '#!/usr/bin/env bash\n'
+        'if [[ "$1" == install && "$P46_RESULT" == INSTALL_FAILED ]]; then exit 1; fi\n'
         'if [[ "$1" == shell ]]; then printf "%s\\n" "$P46_RESULT"; '
         'else cat "$P46_RECEIPT"; fi\n'
     )
@@ -135,7 +138,9 @@ def test_android_real_model_gate_rejects_failed_or_unqualified_receipts(tmp_path
             **os.environ,
             "PATH": str(tmp_path) + os.pathsep + os.environ["PATH"],
             "P46_RECEIPT": str(receipt_path),
-            "P46_RESULT": "FAILURES!!!" if invalid == "instrumentation" else "OK (2 tests)",
+            "P46_RESULT": {
+                "instrumentation": "FAILURES!!!", "installation": "INSTALL_FAILED"
+            }.get(invalid, "OK (2 tests)"),
         },
         capture_output=True,
         text=True,

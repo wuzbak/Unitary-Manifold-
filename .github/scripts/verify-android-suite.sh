@@ -5,6 +5,9 @@ set -euo pipefail
 
 ./gradlew --no-daemon :app:connectedDebugAndroidTest
 mkdir -p build/device-verification
+# Gradle removes the application and test package after connected tests.
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 adb shell run-as com.axiomzero.androidsuite rm -f files/local-model-smoke-receipt.json
 
 timeout 35m adb shell am instrument -w \
