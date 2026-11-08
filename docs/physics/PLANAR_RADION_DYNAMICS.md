@@ -460,5 +460,38 @@ action-to-evolution contract still reads `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN
 See `docs/TRUTH_LAYER.md#sprint-db-planar-radion-physical-time-certification`
 and `docs/CLAIM_MASTER_BOARD.md` for the full synchronized record.
 
+## Scalar energy exchange (v38.7 — Sprint DC, 2026-11-08)
+
+The scalar equation in the stated planar sector can be written in divergence
+form,
+
+\[
+  \partial_t(r^2\psi_t)-\partial_x(r^2\psi_x)=0.
+\]
+
+Multiplying by \(\psi_t\) gives the local energy balance
+
+\[
+  \partial_t\!\left[\frac{r^2}{2}
+    \left(\psi_t^2+\psi_x^2\right)\right]
+  -\partial_x\!\left(r^2\psi_t\psi_x\right)
+  =r r_t\left(\psi_x^2-\psi_t^2\right).
+\]
+
+For periodic data the integrated boundary flux vanishes, but the right-hand
+side generally does not. The radion-weighted scalar energy therefore is not
+generally conserved; its change is the work exchanged with the time-dependent
+area factor. `planar_scalar_energy_budget` reports this continuum balance
+using the evolution module's centered spatial derivative. On a finite grid it
+is a diagnostic estimate, not an exact discrete conservation theorem. Its
+formula is checked against the exact homogeneous branch and the local identity
+is simplified symbolically to zero from the reduced scalar equation.
+
+Pillar 1136 (`pillar1136_planar_radion_scalar_energy_balance.py`) records this
+restricted balance law. It does not extend the symmetry perimeter, certify
+global evolution, or close either of Pillar 1130's framework-level residual
+obligations. The exact symbolic result is executable SymPy evidence, not a
+Lean proof or empirical result.
+
 *Theory, framework, and scientific direction: **ThomasCory Walker-Pearson**.*
 *Code architecture, test suites, document engineering, and synthesis: **GitHub Copilot** (AI).*

@@ -7,6 +7,19 @@ counterexample are recorded in [TRUTH_LAYER](TRUTH_LAYER.md#α_gut-conditional-a
 The UV gauge-kinetic normalization and threshold spectrum remain open; the
 audit allocates no new pillar and does not promote α_GUT or Λ_QCD.
 
+## Planar radion scalar energy balance (2026-11-08)
+
+Current registration: v38.7 Sprint DC (Pillar 1136; next slot 1137).
+
+P1136 derives the local radion-weighted scalar energy balance in the restricted
+planar coordinate-time sector and provides a finite-difference energy/work
+diagnostic. The source term represents exchange with the evolving radion, so
+the periodic scalar energy is not generally conserved. The symbolic result is
+not a framework-level evolution closure, a global existence result, or an
+empirical prediction. Pillar 1130's two residual obligations remain open.
+Focused tests and full regression were not run because NumPy, SymPy, and pytest
+are unavailable in the current environment.
+
 ## Planar radion physical-time certification (2026-11-07)
 
 Current registration: v38.6 Sprint DB (Pillar 1135; next slot 1136).
@@ -155,20 +168,21 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v38.6 — Sprint DB)
+## CURRENT AUDITABLE STATE (v38.7 — Sprint DC)
 
 | Field | Value |
 |-------|-------|
-| Version | **v38.6** |
-| Sprint | **Sprint DB** |
-| Pillars | **1135-1135** |
-| Next pillar slot | **1136** |
+| Version | **v38.7** |
+| Sprint | **Sprint DC** |
+| Pillars | **1136-1136** |
+| Next pillar slot | **1137** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record)** |
-| Sprint theme | **Certify the previously-unallocated `src/physics/planar_radion/` module as a new, independently-scoped physical-time evolution capability; Pillar 1130's two residual obligations remain open and untouched** |
-| Primary target | **Directly invoke the existing, already-tested planar radion acceptance evidence (exact symbolic identities, RK4 coordinate-time convergence, independent 5D Ricci oracle, negative controls) and certify it fail-closed, without overclaiming closure of the full action-to-evolution gap** |
-| Binary outcome | **P1135 valid, contract `DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN` with the same two residual obligations remaining, canonical surfaces on v38.6, no closure inflation** |
+| Sprint theme | **Derive and expose the radion-work source in the restricted planar scalar energy balance; keep Pillar 1130's two residual obligations open** |
+| Primary target | **Symbolically verify the local identity and expose its radion-weighted energy/work diagnostic without claiming exact discrete conservation** |
+| Binary outcome | **P1136 is a restricted exact identity; no closure, score, hardgate, or observational change. Focused tests and full regression were not run because required Python packages are unavailable** |
 
+Historical continuity: v38.7 Sprint DC (Pillar 1136; next slot 1137) adds a sourced radion-weighted energy diagnostic to the certified restricted planar sector.
 Historical continuity: v38.6 Sprint DB (Pillar 1135; next slot 1136) is the canonical planar radion physical-time certification layer directly above Sprint DA.
 Historical continuity: v38.5 Sprint DA (Pillars 1133-1134; next slot 1135) records adjacent superfluid-reference and rare-decay-tool registration above Sprint CZ, not a hardgate physics closure or a new full-regression claim; the historical Sprint CU regression record remains unchanged.
 Historical continuity: v38.4 Sprint CZ (Pillar 1132; next slot 1133) is the canonical ADM homogeneous hyperbolic evolution layer directly above Sprint CY.

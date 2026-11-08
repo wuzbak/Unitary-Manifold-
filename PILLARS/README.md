@@ -112,6 +112,7 @@ They have full test suites and markdown documentation but do NOT affect the hard
 | [1108](P1108/README.md) | Sprint CQ Master Integration Certificate | 🟡 ADJACENT | `src/core/pillar1108_sprint_cq_master_integration_certificate.py` |
 | [1133](P1133/README.md) | Superfluid Effective-Theory Reference Calculation | 🟡 ADJACENT | `—` |
 | [1134](P1134/README.md) | Rare B-meson decay probes and the “zeptoverse” | 🟡 ADJACENT | `—` |
+| [1136](P1136/README.md) | Planar radion scalar energy balance | 🟡 ADJACENT | `src/core/pillar_1129_1168/pillar1136_planar_radion_scalar_energy_balance.py` |
 | [209](P209/README.md) | universal_yukawa_bc | 🟡 ADJACENT | `src/core/pillar209_universal_yukawa_bc.py` |
 | [210](P210/README.md) | neutrino_mass_splittings | 🟡 ADJACENT | `src/core/pillar210_neutrino_mass_splittings.py` |
 | [211](P211/README.md) | higgs_mass_geometric | 🟡 ADJACENT | `src/core/pillar211_higgs_mass_geometric.py` |

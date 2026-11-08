@@ -15,6 +15,10 @@ import pytest
         ("pillar1129_malecns_connectome_empirical_bridge", "_repository_root"),
         ("pillar1133_superfluid_effective_theory", "bogoliubov_energy_joule"),
         ("pillar1134_rare_decay_probes", "SignificanceAssessment"),
+        (
+            "pillar1136_planar_radion_scalar_energy_balance",
+            "planar_radion_scalar_energy_balance_certificate",
+        ),
     ],
 )
 def test_flat_import_identity_introspection_and_discovery(module_name, symbol):
