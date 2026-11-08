@@ -1,5 +1,13 @@
 # Wave Changelog
 
+## α_GUT conditional action-matching audit (2026-11-08)
+
+Derive tree-level gauge zero-mode matching for a specified orbifold action and
+exhibit independent kinetic coefficients at fixed CS level. Correct historical
+structured CS status labels to distinguish assumptions from derived results.
+The first-principles α_GUT and QCD-scale gap remains open; no pillar, version,
+score, hardgate promotion or observational falsifier changes.
+
 ## Kernel warning-blocker follow-through (2026-11-08)
 
 Address the standalone kernel build separately from qualified Product 45/46

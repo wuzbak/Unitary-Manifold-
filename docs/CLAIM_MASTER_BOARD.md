@@ -1,6 +1,12 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
 # Unitary Manifold v38.6
 
+> **α_GUT / Λ_QCD qualification (2026-11-08):** The geometric candidate
+> `N_c/K_CS` is not a first-principles derivation from the stated 5D action.
+> Conditional gauge-kinetic matching and its remaining assumptions are
+> documented in [TRUTH_LAYER](TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
+> Historical numerical agreement does not close the UV normalization gap.
+
 ## Planar radion physical-time certification (2026-11-07)
 
 P1135 now reports `PLANAR_RADION_RESTRICTED_PHYSICAL_TIME_EVOLUTION_CERTIFIED`.

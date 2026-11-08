@@ -1,5 +1,11 @@
 # DERIVATION_STATUS.md — Epistemic Status of Every Major Claim
 
+> **α_GUT / Λ_QCD qualification (2026-11-08):** The candidate `N_c/K_CS`
+> remains postulated, not derived from the stated 5D action. The conditional
+> orbifold matching and its independent kinetic coefficients are described in
+> [TRUTH_LAYER](../docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08);
+> historical closure statements below do not supersede this qualification.
+
 > **Current ledger: v38.6 — Sprint DB (2026-11-07).** Pillar 1135 certifies
 > the previously-unallocated `src/physics/planar_radion/` module (massless,
 > zero-vector, transversely isotropic circle sector) as a new,

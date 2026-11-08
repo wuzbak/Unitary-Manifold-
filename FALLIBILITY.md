@@ -1,5 +1,12 @@
 # Fallibility, Limitations, and Failure Modes
 
+> **α_GUT / Λ_QCD qualification (2026-11-08):** The candidate
+> `alpha_GUT = N_c/K_CS` is not derived from the stated 5D action. Conditional
+> gauge-kinetic matching leaves independent bulk and boundary coefficients;
+> fixing the CS level alone does not determine them in that EFT family.
+> Older closure claims below are historical and do not establish a
+> first-principles QCD scale. See [the action matching and counterexample](docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
+
 *Unitary Manifold v38.6 — Sprint DB ledger synchronization (2026-11-07):
 Pillar 1135 certifies the previously-unallocated `src/physics/planar_radion/`
 module (massless, zero-vector, transversely isotropic circle sector) as a

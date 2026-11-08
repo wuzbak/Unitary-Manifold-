@@ -39,6 +39,7 @@ from src.core.omega_qcd_phase_a import (
     cs_coupling_from_n_w_k_cs,
     alpha_gut_geometric,
     cs_first_principles_closure_audit,
+    tree_level_orbifold_gauge_matching,
     beta0_qcd_nf,
     rge_alpha_s,
     alpha_3_sm_only_at_mgut,
@@ -48,6 +49,73 @@ from src.core.omega_qcd_phase_a import (
     full_chain_n_w_k_cs_to_lambda_qcd,
     omega_qcd_phase_a_report,
 )
+
+
+class TestConditionalOrbifoldGaugeMatching:
+    def test_bulk_and_boundary_normalization(self):
+        result = tree_level_orbifold_gauge_matching(2.0, 0.5, (0.25, 0.75))
+        assert result["bulk_inverse_g4_squared"] == pytest.approx(4.0)
+        assert result["inverse_g4_squared"] == pytest.approx(5.0)
+        assert result["alpha_tree"] == pytest.approx(1.0 / (20.0 * math.pi))
+        assert result["first_principles_alpha_gut_derived"] is False
+
+    @pytest.mark.parametrize("k_cs", [61, 74])
+    def test_fixed_geometry_and_cs_level_do_not_fix_kinetic_coefficient(self, k_cs):
+        # Both actions use the same interval, group and CS level. The kinetic
+        # coefficients are independent inputs to this conditional EFT.
+        n_c, length = 3, 2.0
+        candidate = n_c / k_cs
+        first = tree_level_orbifold_gauge_matching(length, 4 * math.pi * length * candidate)
+        second = tree_level_orbifold_gauge_matching(length, 2 * math.pi * length * candidate)
+        assert first["alpha_tree"] == pytest.approx(candidate)
+        assert second["alpha_tree"] == pytest.approx(candidate / 2)
+        assert first["alpha_tree"] != second["alpha_tree"]
+
+    def test_boundary_term_changes_matching_with_fixed_bulk(self):
+        bulk_only = tree_level_orbifold_gauge_matching(1.0, 1.0)
+        with_boundary = tree_level_orbifold_gauge_matching(1.0, 1.0, (0.0, 1.0))
+        assert with_boundary["alpha_tree"] == pytest.approx(bulk_only["alpha_tree"] / 2)
+
+    @pytest.mark.parametrize(
+        "length,g5_squared,boundaries",
+        [
+            (0.0, 1.0, (0.0, 0.0)),
+            (-1.0, 1.0, (0.0, 0.0)),
+            (float("nan"), 1.0, (0.0, 0.0)),
+            (1.0, 0.0, (0.0, 0.0)),
+            (1.0, float("inf"), (0.0, 0.0)),
+            (1.0, 1.0, (-1.0, 0.0)),
+            (1.0, 1.0, (float("nan"), 0.0)),
+            (1.0, 1.0, (0.0,)),
+        ],
+    )
+    def test_rejects_invalid_input(self, length, g5_squared, boundaries):
+        with pytest.raises(ValueError):
+            tree_level_orbifold_gauge_matching(length, g5_squared, boundaries)
+
+    def test_cs_term_has_no_quadratic_contribution_about_zero_background(self):
+        sympy = pytest.importorskip("sympy")
+        from sympy.diffgeom import CoordSystem, Differential, Manifold, Patch, WedgeProduct
+
+        manifold = Manifold("M", 5)
+        patch = Patch("P", manifold)
+        coordinates = CoordSystem("x", patch, sympy.symbols("x1:6", real=True))
+        x = coordinates.base_scalars()
+        dx = coordinates.base_oneforms()
+        t = sympy.symbols("t")
+        connection = t * (dx[4] + x[0] * dx[1] + x[2] * dx[3])
+        curvature = Differential(connection)
+        cs_form = WedgeProduct(connection, curvature, curvature)
+        cs_coefficient = sympy.simplify(cs_form(*coordinates.base_vectors()))
+        assert cs_coefficient == 2 * t**3
+        assert sympy.diff(cs_coefficient, t, 2).subs(t, 0) == 0
+
+    def test_rs_warp_factor_cancels_for_four_dimensional_zero_mode(self):
+        sympy = pytest.importorskip("sympy")
+        warp = sympy.symbols("A", real=True)
+        volume_factor = sympy.exp(-4 * warp)
+        inverse_metric_pair = sympy.exp(4 * warp)
+        assert sympy.simplify(volume_factor * inverse_metric_pair) == 1
 
 
 # ===========================================================================
@@ -969,3 +1037,5 @@ class TestCsFirstPrinciplesClosureAudit:
         assert audit["lane"] == "UV_ALPHA_GUT_FIRST_PRINCIPLES"
         assert audit["lane_status"] == "OPEN"
         assert audit["first_principles_closed"] is False
+        assert "L/g5^2 + tau_0 + tau_L" in audit["kinetic_matching_requirement"]
+        assert "not derived" in audit["kinetic_matching_requirement"]

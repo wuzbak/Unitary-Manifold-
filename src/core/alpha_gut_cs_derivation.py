@@ -1,7 +1,14 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 """
-alpha_gut_cs_derivation.py — α_GUT first-principles derivation from 5D CS action.
+alpha_gut_cs_derivation.py — historical conditional α_GUT candidate.
+
+The derivation narrative below is retained as historical context, not as an
+earned first-principles result. The purported CS-to-gauge-kinetic relation is
+an assumption, and the Abelian and non-Abelian normalization steps are not
+derived from the stated Einstein--Hilbert action. See
+``omega_qcd_phase_a.cs_first_principles_closure_audit`` and the α_GUT
+qualification in ``docs/TRUTH_LAYER.md`` for the current status.
 
 ═══════════════════════════════════════════════════════════════════════════
 AXIOM-ZERO COMPLIANCE DECLARATION
@@ -143,7 +150,7 @@ ALPHA_GUT_FORMULA: str = "α_GUT = N_c / K_CS = 3/74"
 # ---------------------------------------------------------------------------
 
 def step1_dirac_quantization(k_cs: int = K_CS) -> Dict:
-    """Step 1: Dirac quantization on the 5D CS gauge bundle.
+    """Evaluate the historical, postulated CS Dirac relation.
 
     The 5D CS Dirac condition on S¹:
         g₅² = (2π/K_CS) × Vol(S¹)
@@ -165,12 +172,12 @@ def step1_dirac_quantization(k_cs: int = K_CS) -> Dict:
         "g4_squared": g4_squared,
         "alpha_abelian": alpha_abelian,
         "note": "Abelian result; SU(N_c) group factor applied in Step 3",
-        "status": "DERIVED from 5D CS Dirac condition",
+        "status": "CONDITIONAL_ON_POSTULATED_5D_CS_DIRAC_CONDITION",
     }
 
 
 def step2_kk_dimensional_reduction(k_cs: int = K_CS) -> Dict:
-    """Step 2: KK dimensional reduction g₅² → g₄².
+    """Evaluate the historical KK expression under its assumed normalization.
 
     The 5D coupling g₅ (dimension [mass]^{-1/2}) reduces to 4D by:
         g₄² = g₅² × M_KK    [KK mode mass sets the scale]
@@ -190,12 +197,12 @@ def step2_kk_dimensional_reduction(k_cs: int = K_CS) -> Dict:
         "k_cs": k_cs,
         "g4_squared": g4_squared,
         "formula_coupling": "g₄² = 2π/K_CS",
-        "status": "DERIVED from standard KK reduction of 5D gauge theory",
+        "status": "CONDITIONAL_ON_POSTULATED_BULK_KINETIC_NORMALIZATION",
     }
 
 
 def step3_nonabelian_group_factor(k_cs: int = K_CS, n_c: int = N_C) -> Dict:
-    """Step 3: Non-Abelian SU(N_c) CS group-theory factor.
+    """Evaluate the postulated non-Abelian SU(N_c) CS coupling relation.
 
     The SU(N_c) CS action with standard normalisation:
         S_CS = (K_CS/4π N_c) Tr[A ∧ F ∧ F]
@@ -218,7 +225,7 @@ def step3_nonabelian_group_factor(k_cs: int = K_CS, n_c: int = N_C) -> Dict:
         "alpha_gut": alpha_gut,
         "trace_normalisation": "Tr[T^a T^b] = δ^{ab}/2  (fundamental SU(N_c))",
         "n_c_origin": "N_c = ⌈n_w/2⌉ = 3 from SU(3) braid quantization (Pillar 148)",
-        "status": "DERIVED from non-Abelian CS trace normalisation",
+        "status": "POSTULATED_NONABELIAN_CS_COUPLING_RELATION",
     }
 
 
@@ -226,7 +233,7 @@ def alpha_gut_full_derivation(
     k_cs: int = K_CS,
     n_c: int = N_C,
 ) -> Dict:
-    """Full three-step derivation of α_GUT from 5D CS action.
+    """Return the historical three-step candidate and its open status.
 
     Returns
     -------
@@ -256,23 +263,22 @@ def alpha_gut_full_derivation(
             "alpha_gut_geo": alpha_gut,
             "residual_pct": cross_check_residual,
             "note": (
-                "KK-corrected SM RGE (4-loop) gives α_s(M_GUT) within ~10% of "
-                "α_GUT = N_c/K_CS — consistent cross-check (not a derivation)."
+                "One-loop illustrative expression using a measured low-energy "
+                "coupling and a fixed high scale; not a first-principles derivation."
             ),
         },
         "previous_status": "POSTULATED BY CS ANALOGY",
-        "new_status": "DERIVED FROM 5D SU(N_c) CS ACTION",
+        "new_status": "POSTULATED_BY_CS_ANALOGY",
         "residual_caveat": (
-            "The identification of the 5D SU(N_c) gauge field with the SM GUT "
-            "gauge field is fully rigorous only in the 10D completion (E₈×E₈). "
-            "At 5D, the derivation establishes the scaling N_c/K_CS; the "
-            "numerical agreement with the SM GUT coupling confirms the identification."
+            "The CS-to-gauge-kinetic coupling relation and identification with "
+            "the GUT gauge sector remain unproved; numerical agreement does not "
+            "establish either. No 10D completion is asserted to resolve them."
         ),
     }
 
 
 def fallibility_status_update() -> Dict:
-    """Return the updated FALLIBILITY.md §III.3.1 status entry.
+    """Return the corrected FALLIBILITY.md §III.3.1 status entry.
 
     Returns
     -------
@@ -286,27 +292,24 @@ def fallibility_status_update() -> Dict:
             "Dirac-like CS quantization applied to 5D gauge bundle; "
             "not derived from S = ∫d⁵x √-G·R"
         ),
-        "new_label": "DERIVED FROM 5D SU(N_c) CS ACTION",
+        "new_label": "POSTULATED_BY_CS_ANALOGY",
         "new_note": (
-            "Three-step derivation: "
-            "(1) 5D Dirac condition on CS bundle; "
-            "(2) KK dimensional reduction; "
-            "(3) SU(N_c) trace normalisation."
-            "  Residual caveat: 10D completion for full GUT identification."
+            "The proposed CS Dirac and non-Abelian coupling relations are "
+            "assumptions, not consequences established by the stated 5D action."
         ),
         "module": "src/core/alpha_gut_cs_derivation.py",
     }
 
 
 def alpha_gut_derivation_summary() -> Dict:
-    """Structured α_GUT derivation summary for v10.17."""
+    """Structured historical α_GUT candidate summary for v10.17."""
     deriv = alpha_gut_full_derivation()
     return {
         "version": "v10.17",
-        "title": "α_GUT = N_c/K_CS — First-Principles Derivation from 5D CS Action",
+        "title": "α_GUT = N_c/K_CS — Conditional CS Candidate",
         "formula": ALPHA_GUT_FORMULA,
         "alpha_gut": ALPHA_GUT_GEO,
         "derivation": deriv,
         "fallibility_update": fallibility_status_update(),
-        "status": "DERIVED FROM 5D SU(N_c) CS ACTION",
+        "status": "POSTULATED_BY_CS_ANALOGY",
     }

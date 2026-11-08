@@ -1,5 +1,12 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
+> **α_GUT / Λ_QCD qualification (2026-11-08):** The candidate `N_c/K_CS`
+> remains postulated, not derived from the stated 5D action. Conditional
+> orbifold gauge matching exposes independent bulk and boundary kinetic
+> coefficients. Historical closure statements do not resolve this
+> first-principles gap; see [the matching and counterexample](docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
+> No pillar, version, hardgate label or falsifier changes.
+
 > **Planar radion physical-time certification (2026-11-07; v38.6 Sprint DB, Pillar 1135):**
 > P1135 certifies the previously-unallocated `src/physics/planar_radion/` module
 > (massless, zero-vector, transversely isotropic circle sector) by directly

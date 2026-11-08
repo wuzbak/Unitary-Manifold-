@@ -1,6 +1,12 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
 # Unitary Manifold v38.6
 
+> **α_GUT / Λ_QCD qualification (2026-11-08):** The CS-level coupling
+> relation is postulated, not derived from the stated 5D action. Conditional
+> orbifold matching and the open UV normalization are detailed in
+> [TRUTH_LAYER](TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
+> No first-principles QCD closure is claimed.
+
 > **Planar radion physical-time certification (2026-11-07):** P1135 certifies
 > the previously-unallocated `src/physics/planar_radion/` module
 > (`PLANAR_RADION_RESTRICTED_PHYSICAL_TIME_EVOLUTION_CERTIFIED`) by directly

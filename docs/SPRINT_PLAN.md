@@ -1,5 +1,12 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
+## α_GUT action-matching audit (2026-11-08)
+
+The conditional orbifold kinetic reduction and an explicit fixed-CS-level
+counterexample are recorded in [TRUTH_LAYER](TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
+The UV gauge-kinetic normalization and threshold spectrum remain open; the
+audit allocates no new pillar and does not promote α_GUT or Λ_QCD.
+
 ## Planar radion physical-time certification (2026-11-07)
 
 Current registration: v38.6 Sprint DB (Pillar 1135; next slot 1136).

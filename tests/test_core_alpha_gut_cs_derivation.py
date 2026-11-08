@@ -1,6 +1,6 @@
 # Copyright (C) 2026  AxiomZero Technologies & Consulting, SPC
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
-"""Tests for src/core/alpha_gut_cs_derivation.py — α_GUT first-principles derivation."""
+"""Tests for the historical conditional α_GUT candidate."""
 from __future__ import annotations
 
 import math
@@ -63,9 +63,9 @@ def test_step1_g4_squared_formula():
     assert abs(result["g4_squared"] - expected) < 1e-12
 
 
-def test_step1_status_derived():
+def test_step1_status_conditional():
     result = step1_dirac_quantization()
-    assert "DERIVED" in result["status"]
+    assert result["status"] == "CONDITIONAL_ON_POSTULATED_5D_CS_DIRAC_CONDITION"
 
 
 # Step 2 — KK dimensional reduction
@@ -82,9 +82,9 @@ def test_step2_g4_squared_consistent():
     assert abs(r1["g4_squared"] - r2["g4_squared"]) < 1e-12
 
 
-def test_step2_status_derived():
+def test_step2_status_conditional():
     result = step2_kk_dimensional_reduction()
-    assert "DERIVED" in result["status"]
+    assert result["status"] == "CONDITIONAL_ON_POSTULATED_BULK_KINETIC_NORMALIZATION"
 
 
 # Step 3 — Non-Abelian group factor
@@ -108,9 +108,9 @@ def test_step3_dirac_condition():
     assert abs(product - N_C) < 1e-10
 
 
-def test_step3_status_derived():
+def test_step3_status_conditional():
     result = step3_nonabelian_group_factor()
-    assert "DERIVED" in result["status"]
+    assert result["status"] == "POSTULATED_NONABELIAN_CS_COUPLING_RELATION"
 
 
 # Full derivation
@@ -134,8 +134,7 @@ def test_full_derivation_previous_status():
 
 def test_full_derivation_new_status():
     result = alpha_gut_full_derivation()
-    assert "DERIVED" in result["new_status"]
-    assert "CS ACTION" in result["new_status"]
+    assert result["new_status"] == "POSTULATED_BY_CS_ANALOGY"
 
 
 def test_full_derivation_cross_check_finite():
@@ -160,7 +159,7 @@ def test_fallibility_old_label():
 
 def test_fallibility_new_label():
     result = fallibility_status_update()
-    assert "DERIVED" in result["new_label"]
+    assert result["new_label"] == "POSTULATED_BY_CS_ANALOGY"
 
 
 def test_fallibility_module_path():
@@ -183,4 +182,4 @@ def test_alpha_gut_summary_version():
 
 def test_alpha_gut_summary_status():
     summary = alpha_gut_derivation_summary()
-    assert "DERIVED" in summary["status"]
+    assert summary["status"] == "POSTULATED_BY_CS_ANALOGY"

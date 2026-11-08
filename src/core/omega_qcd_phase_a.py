@@ -498,6 +498,56 @@ def alpha_gut_geometric(
     return base
 
 
+def tree_level_orbifold_gauge_matching(
+    interval_length: float,
+    g5_squared: float,
+    boundary_inverse_g_squared: tuple[float, float] = (0.0, 0.0),
+) -> Dict[str, object]:
+    """Reduce a specified 5D gauge kinetic action for an even, flat zero mode.
+
+    With ``Tr(T_a T_b) = delta_ab/2``, a bulk term
+    ``-Tr(F_MN F^MN)/(2*g5_squared)`` and fixed-point terms
+    ``-tau_i Tr(F_mu_nu F^mu_nu)/2`` give
+    ``1/g4_squared = interval_length/g5_squared + tau_0 + tau_L``.
+    The interval is integrated once; boundary coefficients are defined as
+    integrated 4D action coefficients, not delta-function densities.
+    A Randall--Sundrum warp factor cancels from the bulk zero-mode gauge
+    kinetic integral when ``interval_length`` is the proper interval length.
+
+    This is conditional matching for an independently specified 5D gauge
+    sector, not a derivation of that sector from the UM Einstein-Hilbert
+    action. Common boundary coefficients are assumed for an unbroken gauge
+    factor; threshold and loop corrections are not included. Nonnegative
+    boundary coefficients define the ghost-free example domain used here;
+    no claim about all possible boundary actions is made.
+    """
+    if not math.isfinite(interval_length) or interval_length <= 0:
+        raise ValueError("interval_length must be finite and positive")
+    if not math.isfinite(g5_squared) or g5_squared <= 0:
+        raise ValueError("g5_squared must be finite and positive")
+    if len(boundary_inverse_g_squared) != 2 or any(
+        not math.isfinite(value) or value < 0
+        for value in boundary_inverse_g_squared
+    ):
+        raise ValueError("boundary coefficients must be two finite nonnegative numbers")
+
+    bulk = interval_length / g5_squared
+    inverse_g4_squared = bulk + sum(boundary_inverse_g_squared)
+    if not math.isfinite(inverse_g4_squared) or inverse_g4_squared <= 0:
+        raise ValueError("matched inverse coupling must be finite and positive")
+    alpha = 1.0 / (4.0 * math.pi * inverse_g4_squared)
+    if not math.isfinite(alpha) or alpha <= 0:
+        raise ValueError("matched alpha must be finite and positive")
+    return {
+        "bulk_inverse_g4_squared": bulk,
+        "boundary_inverse_g4_squared": boundary_inverse_g_squared,
+        "inverse_g4_squared": inverse_g4_squared,
+        "alpha_tree": alpha,
+        "scope": "conditional tree-level matching for an even flat gauge zero mode",
+        "first_principles_alpha_gut_derived": False,
+    }
+
+
 def cs_first_principles_closure_audit(
     n_w: int = N_W,
     k_cs: int = K_CS,
@@ -513,6 +563,11 @@ def cs_first_principles_closure_audit(
         "first_principles_closed": False,
         "lane_status": "OPEN",
         "current_state": "CS quantization relation remains postulated by analogy",
+        "kinetic_matching_requirement": (
+            "For a specified gauge sector, L/g5^2 + tau_0 + tau_L = "
+            "K_CS/(4*pi*N_c) is required to obtain N_c/K_CS at tree level; "
+            "this equality is not derived by the existing UM action."
+        ),
         "non_promotion_reason": (
             "Path-A coupling matches KK-corrected running, but a direct 5D action-level derivation is pending."
         ),

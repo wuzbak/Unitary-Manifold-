@@ -3,7 +3,13 @@
 """
 src/core/alpha_gut_su5_complete.py
 ====================================
-SU(5)-embedded closure of the α_GUT derivation from the 5D Chern-Simons action.
+Historical SU(5) comparison for the conditional α_GUT candidate.
+
+The narrative below is retained as historical context. Its non-Abelian
+CS-to-kinetic-coupling relation and proposed resolution of the Pillar 173
+normalization discrepancy are assumptions, not established consequences of
+the stated 5D action. Numerical agreement does not close either gap; see the
+α_GUT qualification in ``docs/TRUTH_LAYER.md`` for the current audit.
 
 THE GAP BEING CLOSED
 --------------------
@@ -188,7 +194,7 @@ def step1_su_nc_cs_dirac_condition(
     k_cs: int = K_CS,
     c_fund: float = C_FUND_DYNKIN,
 ) -> Dict[str, object]:
-    """Derive α_GUT from the SU(N_c) 5D CS Dirac condition.
+    """Evaluate the postulated SU(N_c) 5D CS Dirac condition.
 
     The non-Abelian 5D CS action for SU(N_c) on the orbifold gives:
 
@@ -224,7 +230,7 @@ def step1_su_nc_cs_dirac_condition(
         "alpha_gut": alpha,
         "dirac_check": dirac_check,
         "dirac_check_ok": abs(dirac_check - n_c) < 1e-10,
-        "status": f"DERIVED from SU({n_c}) CS action on orbifold",
+        "status": "POSTULATED_NONABELIAN_CS_COUPLING_RELATION",
     }
 
 
@@ -236,7 +242,7 @@ def step2_pillar173_discrepancy_resolution(
     n_c: int = N_C,
     k_cs: int = K_CS,
 ) -> Dict[str, object]:
-    """Resolve the apparent factor 2π/N_c discrepancy between Step 1 and Pillar 173.
+    """Compare the historical Step 1 and Pillar 173 candidate formulas.
 
     Pillar 173 computes: α_s(M_KK) = 2π / (N_c K_CS) from the CS boundary action.
     Step 1 derives: α_GUT = N_c / K_CS from the SU(N_c) Dirac condition.
@@ -288,13 +294,11 @@ def step2_pillar173_discrepancy_resolution(
         "expected_ratio_nc_sq_over_2pi": expected_ratio,
         "ratio_matches_expected": abs(ratio - expected_ratio) < 1e-8,
         "explanation": (
-            "Pillar 173 gives α(M_KK) from U(1)-normalized CS boundary. "
-            "Step 1 gives α_GUT from SU(N_c) topological Dirac condition. "
-            "The ratio N_c²/(2π) ≈ {:.3f} is the group-theory normalization "
-            "factor between the two conventions. Both are CORRECT for their "
-            "respective physical quantities."
+            "The candidate formulas have algebraic ratio N_c²/(2π) ≈ {:.3f}. "
+            "The claimed interpretation as a group-normalization conversion "
+            "is not derived by this calculation."
         ).format(expected_ratio),
-        "status": "RESOLVED — discrepancy is convention (U(1) vs SU(N_c) normalization)",
+        "status": "OPEN — algebraic ratio does not establish a normalization conversion",
     }
 
 
@@ -481,7 +485,7 @@ def rge_running_contribution(
 # ---------------------------------------------------------------------------
 
 def alpha_gut_su5_full_derivation() -> Dict[str, object]:
-    """Complete SU(5)-embedded derivation of α_GUT from the 5D CS action.
+    """Return historical SU(5) checks without claiming first-principles closure.
 
     Returns
     -------
@@ -493,7 +497,7 @@ def alpha_gut_su5_full_derivation() -> Dict[str, object]:
     budget = residual_discrepancy_budget()
     rge = rge_running_contribution()
 
-    all_steps_ok = (
+    algebraic_checks_ok = (
         s1["dirac_check_ok"]
         and s2["ratio_matches_expected"]
         and s3["agrees_at_2pct"]
@@ -509,12 +513,10 @@ def alpha_gut_su5_full_derivation() -> Dict[str, object]:
         "step3": s3,
         "residual_budget": budget,
         "rge_running": rge,
-        "all_steps_ok": all_steps_ok,
+        "algebraic_checks_ok": algebraic_checks_ok,
+        "all_steps_ok": False,
         "previous_status": "POSTULATED BY CS ANALOGY (FALLIBILITY.md §II)",
-        "new_status": (
-            "CONSTRAINED FROM 5D SU(N_c) CS ACTION "
-            "(agrees with SU(5) GUT at 1.7%; SU(5) Casimir correction reduces to < 0.5%)"
-        ),
+        "new_status": "POSTULATED_BY_CS_ANALOGY",
     }
 
 
@@ -533,7 +535,7 @@ def fallibility_status_update_alpha_gut() -> Dict[str, str]:
         "fallibility_section": "§II — Admitted Gaps in Theoretical Derivations",
         "quantity": "α_GUT = N_c/K_CS",
         "old_label": "POSTULATED BY CS ANALOGY",
-        "new_label": "CONSTRAINED FROM 5D SU(N_c) CS ACTION (agrees at 1.7%)",
+        "new_label": "POSTULATED_BY_CS_ANALOGY",
         "module": "src/core/alpha_gut_su5_complete.py",
         "supporting_modules": [
             "src/core/alpha_gut_cs_derivation.py",  # Pillar 99-B
@@ -544,7 +546,7 @@ def fallibility_status_update_alpha_gut() -> Dict[str, str]:
 
 
 def alpha_gut_su5_summary() -> Dict[str, object]:
-    """High-level summary of the SU(5) α_GUT closure.
+    """High-level summary of the historical SU(5) α_GUT candidate.
 
     Returns
     -------
@@ -553,7 +555,7 @@ def alpha_gut_su5_summary() -> Dict[str, object]:
     derivation = alpha_gut_su5_full_derivation()
     return {
         "version": "v10.50",
-        "title": "α_GUT SU(5)-Embedded CS Derivation",
+        "title": "Conditional α_GUT SU(5) Candidate",
         "formula": "α_GUT = N_c / K_CS = 3/74",
         "alpha_gut": ALPHA_GUT_NC_KCS,
         "alpha_su5_pdg": ALPHA_GUT_SU5_PDG,
@@ -562,11 +564,9 @@ def alpha_gut_su5_summary() -> Dict[str, object]:
         "previous_status": derivation["previous_status"],
         "n_steps": 3,
         "key_result": (
-            "α_GUT = N_c/K_CS = 3/74 ≈ 0.0405 is DERIVED from the SU(N_c) "
-            "5D Chern-Simons Dirac quantization condition. "
-            "Agreement with SU(5) GUT: 1.7% (closing to < 0.5% with Casimir correction). "
-            "The Pillar 173 formula 2π/(N_c K_CS) is the U(1)-normalized KK-scale "
-            "coupling — a different quantity, consistent with Step 1."
+            "α_GUT = N_c/K_CS is a candidate conditional on an unproved CS "
+            "coupling relation. Numerical agreement with a reference coupling "
+            "does not derive that relation or resolve the Pillar 173 discrepancy."
         ),
         "fallibility_update": fallibility_status_update_alpha_gut(),
         "derivation": derivation,
