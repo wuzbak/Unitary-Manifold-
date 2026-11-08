@@ -121,9 +121,9 @@ def test_step1_dirac_check():
     assert result["dirac_check_ok"] is True
 
 
-def test_step1_status_contains_derived():
+def test_step1_status_postulated():
     result = step1_su_nc_cs_dirac_condition()
-    assert "DERIVED" in result["status"] or "derived" in result["status"].lower()
+    assert result["status"] == "POSTULATED_NONABELIAN_CS_COUPLING_RELATION"
 
 
 def test_step1_custom_n_c():
@@ -173,9 +173,9 @@ def test_step2_expected_ratio_formula():
     assert abs(result["expected_ratio_nc_sq_over_2pi"] - expected_ratio) < 1e-12
 
 
-def test_step2_status_contains_resolved():
+def test_step2_status_open():
     result = step2_pillar173_discrepancy_resolution()
-    assert "RESOLVED" in result["status"] or "convention" in result["status"].lower()
+    assert result["status"].startswith("OPEN")
 
 
 # ---------------------------------------------------------------------------
@@ -313,9 +313,10 @@ def test_full_derivation_alpha_gut():
     assert abs(result["alpha_gut"] - ALPHA_GUT_NC_KCS) < 1e-15
 
 
-def test_full_derivation_all_steps_ok():
+def test_full_derivation_algebraic_checks_do_not_certify_steps():
     result = alpha_gut_su5_full_derivation()
-    assert result["all_steps_ok"] is True
+    assert result["algebraic_checks_ok"] is True
+    assert result["all_steps_ok"] is False
 
 
 def test_full_derivation_previous_status():
@@ -323,9 +324,9 @@ def test_full_derivation_previous_status():
     assert "POSTULATED" in result["previous_status"]
 
 
-def test_full_derivation_new_status_constrained():
+def test_full_derivation_new_status_postulated():
     result = alpha_gut_su5_full_derivation()
-    assert "CONSTRAINED" in result["new_status"]
+    assert result["new_status"] == "POSTULATED_BY_CS_ANALOGY"
 
 
 def test_full_derivation_pct_error_within_2pct():
@@ -349,9 +350,9 @@ def test_fallibility_old_label():
     assert "POSTULATED" in result["old_label"]
 
 
-def test_fallibility_new_label_constrained():
+def test_fallibility_new_label_postulated():
     result = fallibility_status_update_alpha_gut()
-    assert "CONSTRAINED" in result["new_label"]
+    assert result["new_label"] == "POSTULATED_BY_CS_ANALOGY"
 
 
 def test_fallibility_module_path():
@@ -381,9 +382,9 @@ def test_summary_n_steps():
     assert result["n_steps"] == 3
 
 
-def test_summary_status_constrained():
+def test_summary_status_postulated():
     result = alpha_gut_su5_summary()
-    assert "CONSTRAINED" in result["status"]
+    assert result["status"] == "POSTULATED_BY_CS_ANALOGY"
 
 
 def test_summary_pct_error_finite():

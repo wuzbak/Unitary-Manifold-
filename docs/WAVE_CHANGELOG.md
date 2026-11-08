@@ -1,5 +1,13 @@
 # Wave Changelog
 
+## α_GUT conditional action-matching audit (2026-11-08)
+
+Derive tree-level gauge zero-mode matching for a specified orbifold action and
+exhibit independent kinetic coefficients at fixed CS level. Correct historical
+structured CS status labels to distinguish assumptions from derived results.
+The first-principles α_GUT and QCD-scale gap remains open; no pillar, version,
+score, hardgate promotion or observational falsifier changes.
+
 ## Unification proof review follow-through (2026-11-08)
 
 ### What changed
@@ -199,12 +207,12 @@ Certify the previously-unallocated `src/physics/planar_radion/` module by
 directly invoking its existing, already-tested acceptance evidence
 (`TOOLS.checks.run_planar_radion_acceptance.run_acceptance`), with no
 reimplementation: exact symbolic identities, RK4 coordinate-time evolution
-with second-order spatial/fourth-order temporal convergence against exact
-references, an independent five-dimensional Ricci oracle, and six rejected
+with spatial convergence against exact references and separate temporal
+self-convergence, an independent five-dimensional Ricci oracle, and six rejected
 negative controls. The resulting subcase status is
 `PLANAR_MASSLESS_ZERO_VECTOR_CONSTRAINT_COMPATIBLE_PHYSICAL_TIME_EVOLUTION_CERTIFIED`,
-restricted to the declared massless/zero-vector/planar perimeter. This is the
-first certified constraint-compatible, nonconstant, coordinate-time
+restricted to the declared massless/zero-vector/planar perimeter. This is a
+certified constraint-compatible, nonconstant, coordinate-time
 propagating-scalar evolution in the repository. **Next pillar slot:** 1136.
 It does not close either residual obligation of Pillar 1130
 (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`, `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED`)

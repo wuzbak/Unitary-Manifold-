@@ -1,5 +1,12 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
+## α_GUT action-matching audit (2026-11-08)
+
+The conditional orbifold kinetic reduction and an explicit fixed-CS-level
+counterexample are recorded in [TRUTH_LAYER](TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
+The UV gauge-kinetic normalization and threshold spectrum remain open; the
+audit allocates no new pillar and does not promote α_GUT or Λ_QCD.
+
 ## Planar radion physical-time certification (2026-11-07)
 
 Current registration: v38.6 Sprint DB (Pillar 1135; next slot 1136).
@@ -7,10 +14,10 @@ Current registration: v38.6 Sprint DB (Pillar 1135; next slot 1136).
 P1135 certifies the previously-unallocated `src/physics/planar_radion/`
 module as a new, independently-scoped capability, by directly invoking its
 existing acceptance evidence (`TOOLS.checks.run_planar_radion_acceptance`):
-exact symbolic identities, RK4 coordinate-time evolution with second-order
-spatial/fourth-order temporal convergence against exact references, an
+exact symbolic identities, RK4 coordinate-time evolution with spatial
+convergence against exact references and separate temporal self-convergence, an
 independent five-dimensional Ricci oracle, and six rejected negative
-controls. This is the first certified constraint-compatible, nonconstant,
+controls. This is a certified constraint-compatible, nonconstant,
 coordinate-time propagating-scalar evolution in the repository, restricted to
 the declared massless/zero-vector/planar perimeter. It does not close either
 of Pillar 1130's residual obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`,

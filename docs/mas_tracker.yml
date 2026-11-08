@@ -2,6 +2,13 @@ version: "v38.6"
 date: "2026-11-07"
 updated: "2026-11-07"
 
+alpha_gut_matching_audit_2026_11_08:
+  status: "FIRST_PRINCIPLES_ALPHA_GUT_OPEN"
+  scope: "Conditional tree-level orbifold gauge kinetic matching; independent bulk and boundary coefficients"
+  new_pillars: 0
+  version_promotion: false
+  reference: "docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08"
+
 health_repair_2026_10_09:
   new_pillars: 0
   version_promotion: false

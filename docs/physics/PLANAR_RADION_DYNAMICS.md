@@ -451,7 +451,7 @@ which invokes the acceptance evidence above directly (no reimplementation)
 and exposes it as a fail-closed certificate:
 `PLANAR_RADION_RESTRICTED_PHYSICAL_TIME_EVOLUTION_CERTIFIED`, with the
 specific subcase `PLANAR_MASSLESS_ZERO_VECTOR_CONSTRAINT_COMPATIBLE_PHYSICAL_TIME_EVOLUTION_CERTIFIED`.
-This is the repository's first certified constraint-compatible, nonconstant,
+This is a certified constraint-compatible, nonconstant,
 coordinate-time propagating-scalar evolution, restricted to the perimeter
 documented above. It does not close either of Pillar 1130's residual
 obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`,

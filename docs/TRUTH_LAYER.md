@@ -1,6 +1,70 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
 # Unitary Manifold v38.6
 
+## α_GUT: conditional action matching and remaining UV gap (2026-11-08)
+
+**No first-principles closure is claimed.** The current Ω_QCD audit keeps the
+relation `K_CS * alpha_GUT = N_c` open: the older CS/SU(5) formulas assume
+the coupling-to-level relation rather than deriving it from the stated
+Einstein--Hilbert action. Agreement with a reference coupling is not a
+derivation. Earlier statements below calling the QCD chain or α_GUT derived
+are historical and do not supersede this qualification. The structured
+`alpha_gut_cs_derivation.py` and `alpha_gut_su5_complete.py` results now also
+label those assumptions as conditional or postulated, rather than reporting
+them as derived or treating numerical agreement as a completed derivation.
+
+For a *separately specified* 5D gauge action, take an even, flat zero mode on
+the physical orbifold interval of length \(L\), with
+\(\mathrm{Tr}(T_aT_b)=\delta_{ab}/2\). The bulk Yang--Mills term is
+\(-\mathrm{Tr}(F_{MN}F^{MN})/(2g_5^2)\); boundary kinetic coefficients
+\(\tau_0,\tau_L\) multiply \(-\mathrm{Tr}(F_{\mu\nu}F^{\mu\nu})/2\) in
+the integrated 4D action. Direct integration yields
+
+\[
+  \frac{1}{g_4^2}=\frac{L}{g_5^2}+\tau_0+\tau_L,\qquad
+  \alpha_4=\frac{1}{4\pi(L/g_5^2+\tau_0+\tau_L)}.
+\]
+
+In the usual warped metric \(ds^2=e^{-2A(y)}g_{\mu\nu}dx^\mu dx^\nu+dy^2\),
+the volume factor \(e^{-4A}\) cancels the two inverse-metric factors in
+the zero-mode \(F_{\mu\nu}^2\) integral. Boundary terms here are coefficients
+of integrated 4D actions, so no additional orbifold delta-function factor is
+assumed. This tree-level matching omits threshold and loop corrections and
+assumes a common unbroken gauge-factor normalization.
+
+For fixed \(L\), group, CS level and boundary matter, two allowed independent
+positive bulk kinetic coefficients give different \(\alpha_4\); changing a
+nonnegative boundary coefficient also changes it. In particular,
+\(3/74\) is obtained only if the independent coefficients satisfy
+\(L/g_5^2+\tau_0+\tau_L=74/(12\pi)\). The CS term begins at cubic order
+in the gauge field about a vanishing background, and its level alone does
+not fix the independent quadratic Yang--Mills coefficient in this family.
+This is a counterexample to identifying CS level alone with the coupling in
+the specified EFT family, **not** a no-go theorem for every UV completion or
+nonzero background.
+
+The recent unification review also records the \((5,6,61)\) shadow branch
+alongside \((5,7,74)\); observational sector selection remains open. Even
+conditionally using the same \(N_c=3\) postulate, the corresponding candidate
+would be \(3/61\), with required kinetic combination \(61/(12\pi)\).
+The matching counterexample applies at either fixed level. The finite
+observation-filtered scan and its sector-selection caveats are documented in
+[Part VII.3 of the unification review](../1-THEORY/UNIFICATION_PROOF.md);
+neither numerical sector selection nor an algebraic level fixes the
+independent non-Abelian kinetic normalization.
+
+`tree_level_orbifold_gauge_matching()` implements this conditional matching;
+its inputs are not geometric predictions. To earn a first-principles α_GUT
+prediction, an explicit non-Abelian UV action and orbifold spectrum must fix
+the bulk and boundary coefficients, their group normalization and thresholds
+without using the measured coupling. Only then can consistent running and
+threshold matching determine the QCD scale. No pillar, version, hardgate
+status, TOE score or observational falsifier changes here.
+
+For orbifold gauge theories with boundary kinetic terms, see Carena et al.,
+[*Branes and Orbifolds are Opaque*](https://arxiv.org/abs/hep-ph/0207056)
+and Mück et al., [Phys. Rev. D 71, 066004](https://doi.org/10.1103/PhysRevD.71.066004).
+
 ## Constrained planar Einstein--radion dynamics (2026-11-03)
 
 The [technical derivation and experiment](physics/PLANAR_RADION_DYNAMICS.md)
@@ -977,7 +1041,7 @@ Sprint CZ's homogeneous ADM decomposition was reassessed (2026-11-03): fixed fla
 `planar_radion_physical_time_certificate()` invokes the existing, already-tested acceptance evidence in `TOOLS.checks.run_planar_radion_acceptance.run_acceptance()` directly (no reimplementation) and certifies, fail-closed on every declared gate:
 
 - exact symbolic identities (null-gauge evolution equations, null constraints, and the pre-gauge metric-variation cross-check), verified by SymPy simplification to be identically zero, not sampled;
-- admissible constrained initial data (FFT-based constraint solve) evolved by RK4 in real coordinate time, with second-order spatial and fourth-order temporal convergence, checked against Bessel/Kasner/gauge-wave exact references and an independently implemented (no shared code with the solver) five-dimensional Ricci oracle using fourth-order finite differences;
+- admissible constrained initial data (FFT-based constraint solve) evolved by RK4 in real coordinate time, with spatial convergence checked against Bessel and gauge-wave exact references and temporal self-convergence checked separately; Kasner/FRW identities are symbolic checks, and an independently implemented five-dimensional Ricci oracle uses fourth-order finite differences;
 - six negative controls, all correctly rejected.
 
 If any declared gate fails, the pillar reports `PLANAR_RADION_PHYSICAL_TIME_EVOLUTION_NOT_VERIFIED` rather than the certified status `PLANAR_MASSLESS_ZERO_VECTOR_CONSTRAINT_COMPATIBLE_PHYSICAL_TIME_EVOLUTION_CERTIFIED`.
