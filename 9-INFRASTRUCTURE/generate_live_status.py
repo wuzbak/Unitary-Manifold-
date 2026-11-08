@@ -17,14 +17,14 @@ Structure:
   tests           — passed, skipped, deselected, failed
   lean4           — historical declaration count, not discharged physics obligations
   pillars         — next_slot, hardgate_count, total_slots
-  physics         — static constants (never change)
+  physics         — declared constants and explicitly qualified model inputs
   predictions     — live falsification-window verdicts
   open_gates      — active non-PASS gates (honest tension inventory)
   fetch_targets   — URLs for the two context files Base44 should fetch
 
 Usage:
   python 9-INFRASTRUCTURE/generate_live_status.py          # writes um_live_status.json
-  python 9-INFRASTRUCTURE/generate_live_status.py --check  # validate only, exit non-zero if invalid
+  python 9-INFRASTRUCTURE/generate_live_status.py --check  # validate and compare committed output
 
 Theory & scientific direction: ThomasCory Walker-Pearson.
 Code, engineering, synthesis: GitHub Copilot (AI).
@@ -44,7 +44,7 @@ SPRINT_PLAN_PATH = REPO_ROOT / "docs" / "SPRINT_PLAN.md"
 OUTPUT_PATH = REPO_ROOT / "9-INFRASTRUCTURE" / "um_live_status.json"
 
 # ---------------------------------------------------------------------------
-# Static physics constants — these never change; they are geometric derivations
+# Declared constants and model inputs, not universally action-derived quantities
 # ---------------------------------------------------------------------------
 PHYSICS_CONSTANTS = {
     "winding_number_n_w": 5,
@@ -62,7 +62,8 @@ PHYSICS_CONSTANTS = {
     "birefringence_gap_forbidden": [0.29, 0.31],
     "xi_c_consciousness_coupling": round(35 / 74, 6),
     "sentinel_capacity": round(12 / 37, 6),
-    "kk_graviton_mass_tev": 1.0,
+    "kk_graviton_mass_tev": None,
+    "kk_graviton_mass_status": "MODEL_DEPENDENT_UNESTABLISHED",
     "dark_matter_mass_window_tev": [0.8, 1.3],
     "quark_lepton_cl_split": round(-4 / 222, 6),
     "dimensions": 5,
@@ -119,9 +120,11 @@ PREDICTIONS = [
     {
         "id": "EXP-5",
         "name": "HL-LHC KK graviton M_G*",
-        "status": "PASS",
-        "verdict": "M_G*(n=1)≈1.0 TeV predicted; HL-LHC exclusion <4.0 TeV — PASS (within reach)",
+        "status": "MODEL_DEPENDENT_UNESTABLISHED",
+        "verdict": "No universal PASS: historical Admission 10 separates M_KK≈1.04 TeV from the first graviton≈3.98 TeV and reports gluon-channel tension. P793's assumed braided spectrum instead computes ≈0.403 TeV, not its supplied 1 TeV headline. Spectrum, coupling and channel assumptions require reconciliation.",
         "kill_condition": "M_G* excluded up to 10 TeV",
+        "kill_condition_scope": "Historical lane rule only; a physical exclusion requires a specified spectrum, coupling and detector channel.",
+        "references": ["FALLIBILITY.md", "docs/CLAIM_MASTER_BOARD.md", "src/core/pillar793_graviton_mass_bound_kk.py"],
         "decision_window": "HL-LHC Run 4 2029–2033",
         "pillar": 793,
     },
@@ -137,9 +140,13 @@ PREDICTIONS = [
     {
         "id": "EXP-7",
         "name": "XENON-nT dark matter σ_SI",
-        "status": "PASS",
-        "verdict": "σ_SI≈6×10⁻⁴⁷ cm² below XENON-nT limit — PASS",
+        "status": "UNSUPPORTED",
+        "verdict": "No physical cross-section or detector-limit comparison is established. The retained proxy is not an area; particle/mediator identity, recoil amplitude and mass-dependent limits remain unspecified. Neither a positive nor a null recoil result confirms or refutes this unspecified prediction.",
         "kill_condition": "σ_SI excluded above 10⁻⁴⁷ cm²",
+        "kill_condition_scope": "Historical proxy threshold, not an operative physical falsifier without a dimensionally valid scattering prediction and mass-dependent detector contract.",
+        "cross_section_cm2": None,
+        "limit_ratio": None,
+        "references": ["docs/TRUTH_LAYER.md#synthesis-repair-2026-10-05"],
         "decision_window": "XENON-nT ongoing",
         "pillar": 790,
     },
@@ -381,7 +388,20 @@ def validate(data: dict) -> list[str]:
         errors.append("physics.winding_number_n_w must be 5")
     if data["physics"]["cs_level_k_cs"] != 74:
         errors.append("physics.cs_level_k_cs must be 74")
+    parsed = _parse_status_md()
+    for field in ("version", "sprint", "date"):
+        if data["meta"].get(field) != parsed[field] or parsed[field] == "unknown":
+            errors.append(f"meta.{field} must match a known canonical STATUS.md value")
+    if data["physics"].get("kk_graviton_mass_tev") is not None:
+        errors.append("physics.kk_graviton_mass_tev must remain unset pending spectrum reconciliation")
     predictions = {row["id"]: row for row in data["predictions"]}
+    if predictions.get("EXP-5", {}).get("status") != "MODEL_DEPENDENT_UNESTABLISHED":
+        errors.append("EXP-5 must not assert PASS before spectrum/channel reconciliation")
+    dark_matter = predictions.get("EXP-7", {})
+    if dark_matter.get("status") != "UNSUPPORTED":
+        errors.append("EXP-7 must remain UNSUPPORTED until a physical detector contract is derived")
+    if dark_matter.get("cross_section_cm2") is not None or dark_matter.get("limit_ratio") is not None:
+        errors.append("EXP-7 physical cross-section and limit ratio must remain unset")
     if predictions.get("EXP-2", {}).get("status") != "HIGH_TENSION":
         errors.append("EXP-2 must remain HIGH_TENSION until canonical truth surfaces change")
     if "DESI DR3" not in predictions.get("EXP-2", {}).get("decision_window", ""):
@@ -410,7 +430,7 @@ def validate(data: dict) -> list[str]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Generate um_live_status.json")
-    parser.add_argument("--check", action="store_true", help="Validate only; exit non-zero if invalid")
+    parser.add_argument("--check", action="store_true", help="Validate and compare output; exit non-zero if invalid or stale")
     parser.add_argument("--output", type=str, default=str(OUTPUT_PATH), help="Output path")
     args = parser.parse_args(argv)
 
@@ -423,7 +443,16 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     if args.check:
-        print(f"OK: um_live_status.json would be valid (v{data['meta']['version']}, "
+        out_path = Path(args.output)
+        try:
+            recorded = json.loads(out_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            print(f"ERROR: cannot read live-status artifact {out_path}: {exc}", file=sys.stderr)
+            return 1
+        if recorded != data:
+            print(f"ERROR: stale live-status artifact {out_path}; run the generator", file=sys.stderr)
+            return 1
+        print(f"OK: um_live_status.json matches generated status (v{data['meta']['version']}, "
               f"{data['tests']['passed']:,} historical test passes, "
               f"{data['lean4']['theorem_count']} historical Lean4 declarations, "
               f"next slot {data['pillars']['next_slot']})")

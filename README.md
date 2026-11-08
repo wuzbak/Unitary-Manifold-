@@ -70,9 +70,9 @@ tests/test_metric.py::TestComputeCurvature::test_output_shapes PASSED           
 
 </details>
 
-> **Current status (live):** Framework is internally self-consistent.
+> **Current status (live):** Scoped implementation checks are recorded; blanket consistency of all derivation chains is not established. The [foundation reassessment](docs/TRUTH_LAYER.md#foundation-reassessment) withdraws or leaves open the audited foundation claims.
 > Canonical live status and latest verified regression totals are tracked in [`STATUS.md`](STATUS.md), [`docs/mas_tracker.yml`](docs/mas_tracker.yml), and [`9-INFRASTRUCTURE/um_live_status.json`](9-INFRASTRUCTURE/um_live_status.json).
-> Tests verify mathematical self-consistency of the implementation, not physical correctness.
+> Passing tests verify their particular implementation assertions, not all derivation chains or physical correctness. Historical regression receipts are not a current repository-wide all-clear.
 >
 > 🟡 **HIGH_TENSION signals — read before citing:**
 > - **r-tension:** Framework predicts r = 0.0315 (derived from N_w=5, k_CS=74, braid geometry). ACT DR6 combined bound: r < 0.016 (95% CL). Gap: ~2σ. Status: ARCHITECTURE_LIMIT_CERTIFIED (Pillar 396) — irreducible in current 5D-EFT. Decidable by CMB-S4 (~2030). Formal treatment: [`docs/R_TENSION_FORMAL_STATUS.md`](docs/R_TENSION_FORMAL_STATUS.md).

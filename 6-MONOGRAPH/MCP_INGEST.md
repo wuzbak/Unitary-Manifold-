@@ -1,6 +1,13 @@
 # Unitary Manifold — MCP Low-Token Ingest Proof
 
-> Canonical regression marker: 64,150 passed · 22 skipped · 18 deselected · 0 failed.
+> Historical Sprint CU regression receipt: 64,150 passed · 22 skipped · 18 deselected · 0 failed. This is not current full-suite clearance.
+
+> **Current reading rule:** Read [`proof/TIER_1_FORMAL.md`](../proof/TIER_1_FORMAL.md),
+> [`STATUS.md`](../STATUS.md), and the
+> [foundation reassessment](../docs/TRUTH_LAYER.md#foundation-reassessment) first.
+> This mixed-era ingest snapshot retains historical formulas and summaries,
+> not a current closure certificate. Later dated corrections supersede its
+> historical SOLVED/proof language. Current execution requires fresh evidence.
 
 > **Purpose:** Compact, structured summary of this repository optimised for
 > AI model ingestion via Model Context Protocol (MCP).  Every section is
@@ -13,7 +20,7 @@
 | Field | Value |
 |-------|-------|
 | Name | Unitary Manifold |
-| Version | v22.6 — Sprint AK (Pillars 773+; Lean4 872 theorems; 56,279+ tests; 2026-08-20) |
+| Historical snapshot version | v22.6 — Sprint AK (Pillars 773+; Lean4 872 declarations; 56,279+ tests; 2026-08-20); current version: `STATUS.md` |
 | Lead Author | ThomasCory Walker-Pearson (AxiomZero Technologies) |
 | Affiliation | AxiomZero Technologies (DBA, est. March 26, 2026) / Independent Researcher, Pacific Northwest, USA |
 | Contributors | GitHub Copilot (code architecture, test suites, document engineering, synthesis) · Google Gemini · OpenAI · Microsoft Copilot (synthesis & verification) |
@@ -34,15 +41,19 @@ as projections of a single higher-dimensional geometry.
 **Core claim:** The Second Law of Thermodynamics is a *geometric identity*,
 not a statistical postulate.
 
-> *Claims are internally closed within the Unitary Manifold framework and validated by numerical tests included in this repository.*
+> *Historical closure descriptions below are superseded where contradicted by the foundation reassessment. Numerical tests verify particular assertions, not all derivations or empirical correctness.*
 
-**Canonical status (v34.9):** Full regression: **63,787 passed · 23 skipped · 12 deselected · 0 failed** (internal mathematical self-consistency). Sprint BL maps the remaining flavor-family residual into a shared UV flavor/moduli boundary and keeps α_s as an explicit compactification-facing architecture limit. Primary falsifier remains LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For canonical truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
+**Historical status (v34.9, not current clearance):** Recorded regression: **63,787 passed · 23 skipped · 12 deselected · 0 failed**; not proof of all derivation chains. Sprint BL mapped the remaining flavor-family residual into a shared UV flavor/moduli boundary and kept α_s as an explicit compactification-facing architecture limit. Primary falsifier remains LiteBIRD birefringence β ∈ {≈0.273°, ≈0.331°} with admissible window [0.22°, 0.38°] and explicit excluded gap [0.29°, 0.31°]. For current truth-sync use `docs/CLAIM_MASTER_BOARD.md`, `docs/TRUTH_LAYER.md`, and `docs/GATEKEEPER_SUMMARY.md`.
+
+The table preserves historical status labels except for the explicitly
+corrected alpha diagnostic. SOLVED here is not a current physical-closure
+verdict; observation tensions and surviving obligations are in the live ledgers.
 
 | Requirement | Status | Identity |
 |---|---|---|
 | φ stabilisation | **SOLVED** | Internal curvature–vorticity feedback |
 | Bμ geometric link | **SOLVED** | `Im(S_eff) = ∫BμJ^μ_inf d⁴x` (theorem) |
-| α numerical value | **SOLVED** | `α = φ₀⁻²` (KK cross-block curvature) |
+| α numerical value | **NUMERICAL DIAGNOSTIC, NOT ACTION-DERIVED** | `extract_alpha_from_curvature()` retains `⟨φ⁻²⟩`; this does not determine an action coupling |
 | CMB spectral index nₛ | **SOLVED** | KK Jacobian J≈31.42 → nₛ≈0.9635 (Planck 2018 1σ) |
 | Cosmic birefringence β | **SOLVED** | CS level k_cs=74 → β=0.3513° (within 1σ of 0.35°±0.14°) |
 | Tensor-to-scalar ratio r | **SOLVED** | Braided (5,7) state: r_braided≈0.0315 < 0.036 (BICEP/Keck ✓); nₛ unchanged |
@@ -57,7 +68,7 @@ not a statistical postulate.
 | `φ` | Entropic dilaton / radion; encodes `L₅ = φ ℓP` |
 | `H_μν = ∂_μB_ν − ∂_νB_μ` | Field strength |
 | `J^μ_inf = φ²u^μ` | Conserved information current |
-| `α = φ₀⁻²` | Nonminimal coupling — **derived**, not free |
+| `α = φ₀⁻²` | Historical identification; the retained inverse-radius diagnostic is **not an action-derived coupling** |
 
 ### Walker–Pearson field equations
 
@@ -65,7 +76,10 @@ not a statistical postulate.
 G_μν + λ²(H_μρH_ν^ρ − ¼g_μν H²) + αRφ²g_μν = 8πG₄ T_μν
 ```
 
-### α from the KK cross-block Riemann term
+### Historical α identification (not an action-derived coupling)
+
+The expression below is a retained historical identification. It does not
+derive the phenomenological coupling or implemented evolution equations.
 
 ```
 α = (ℓP/L₅)² = 1/φ₀²     [G₅₅ = φ² → L₅ = φ₀ℓP → α = φ₀⁻²]
@@ -87,12 +101,19 @@ such that `UΨ* = Ψ*`.
 ## 3 · File Map (canonical entry points)
 
 > Canonical first reads for agents:
+> - `proof/TIER_1_FORMAL.md`
+> - `STATUS.md`
+> - `docs/TRUTH_LAYER.md#foundation-reassessment`
 > - `6-MONOGRAPH/MCP_INGEST.md` (this file)
 > - `4-IMPLICATIONS/WHAT_THIS_MEANS.md`
 > - `9-INFRASTRUCTURE/llms.txt`
 > - `docs/CLAIM_MASTER_BOARD.md`
 > - `docs/TRUTH_LAYER.md`
 > - `docs/GATEKEEPER_SUMMARY.md`
+
+The following file tree is historical, not a current path inventory. Use
+`docs/navigation/REPOSITORY_MAP.md` and `COMPACTIFICATION/monorepo_map.json`
+for current indexed paths.
 
 ```
 /

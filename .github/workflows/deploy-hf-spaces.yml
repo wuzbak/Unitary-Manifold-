@@ -33,6 +33,8 @@ jobs:
         run: |
           python3 - <<'EOF'
           import os
+          import shutil
+          import tempfile
           from huggingface_hub import HfApi
           
           api = HfApi(token=os.environ["HF_TOKEN"])
@@ -60,12 +62,19 @@ jobs:
               except Exception as e:
                   print(f"Repo creation: {e}")
               
-              api.upload_folder(
-                  folder_path=space_path,
-                  repo_id=repo_id,
-                  repo_type="space",
-                  commit_message=f"Auto-deploy from GitHub: {space_name}"
-              )
+              with tempfile.TemporaryDirectory(prefix="hf-space-upload-") as upload_dir:
+                  shutil.copytree(space_path, upload_dir, dirs_exist_ok=True)
+                  shutil.copytree(
+                      os.path.join(spaces_dir, "space_core"),
+                      os.path.join(upload_dir, "space_core"),
+                      dirs_exist_ok=True,
+                  )
+                  api.upload_folder(
+                      folder_path=upload_dir,
+                      repo_id=repo_id,
+                      repo_type="space",
+                      commit_message=f"Auto-deploy from GitHub: {space_name}"
+                  )
               print(f"Deployed {space_name} -> https://huggingface.co/spaces/{repo_id}")
           
           print("All Spaces deployed.")

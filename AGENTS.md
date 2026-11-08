@@ -100,7 +100,7 @@ following priority order.
 |----------|------|--------------|---------|
 | 8 | `proof/README.md` | ~500 | Isolated formal-core policy and interpretation boundary |
 | 9 | `README.md` | ~2 000 | Full project overview, equations, quickstart |
-| 10 | `1-THEORY/UNIFICATION_PROOF.md` | ~2 500 | Formal proof: QM, EM, SM as exact projections of the 5D geometry |
+| 10 | `1-THEORY/UNIFICATION_PROOF.md` | ~2 500 | Repository projection arguments; read conditions and the current foundation reassessment, not a blanket formal proof of QM/EM/SM |
 | 11 | `1-THEORY/QUANTUM_THEOREMS.md` | ~3 000 | New theorems: BH information, CCR, Hawking T, ER=EPR, P8/P6 formal derivations (v13.1) |
 | 12 | `src/core/evolution.py` | ~1 200 | Walker-Pearson integrator, FieldState API |
 | 13 | `src/core/metric.py` | ~900 | KK metric, curvature computation |

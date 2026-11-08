@@ -56,16 +56,21 @@ try:
     from space_core.live_status import status_snapshot
     _STATUS = status_snapshot()
 except Exception:
-    _STATUS = {"version": "vunknown", "tests_passed": 0, "lean4_theorems": 0}
+    _STATUS = {"version": "vunknown", "tests_passed": None, "lean4_theorems": None}
+
+def format_count(value):
+    return f"{value:,}" if isinstance(value, int) and not isinstance(value, bool) else "unavailable"
+
 
 VERSION        = str(_STATUS["version"])
-TEST_COUNT     = int(_STATUS["tests_passed"])
-LEAN4_COUNT    = int(_STATUS["lean4_theorems"])
+TEST_COUNT     = format_count(_STATUS.get("tests_passed"))
+LEAN4_COUNT    = format_count(_STATUS.get("lean4_theorems"))
 
+STATUS_PROVENANCE = f"source: {_STATUS.get('source', 'unavailable')}; date: {_STATUS.get('date', 'unknown')}"
 FOOTER = (
     "\n\n---\n"
     f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION} · "
-    f"{TEST_COUNT:,} tests · {LEAN4_COUNT:,} Lean4 theorems*\n"
+    f"{STATUS_PROVENANCE} · {TEST_COUNT} tests · {LEAN4_COUNT} Lean4 theorems*\n"
     "*Open science artifact. Use at your own liability.*"
 )
 
@@ -529,7 +534,7 @@ EXPERIMENTS = {
         "status": "TENSION",
         "pillar": 38,
         "gate": "HARDGATE",
-        "falsifies_if": "w_a ≠ 0 confirmed at >5σ",
+        "falsifies_if": "w_a ≠ 0 confirmed >3σ by at least 3 independent datasets",
     },
     "JUNO Neutrino Masses": {
         "prediction": "Normal hierarchy from 5D orbifold BC; Δm²₂₁ 1.07σ tension",
@@ -548,12 +553,12 @@ EXPERIMENTS = {
         "falsifies_if": "n_s deviation >3σ",
     },
     "HL-LHC BSM Search": {
-        "prediction": "KK modes at m_n = n/R_c (above LHC reach in SM)",
+        "prediction": "Graviton spectrum and couplings are model-dependent and unresolved",
         "timeline": "Run 3 ongoing; HL-LHC 2027+",
-        "status": "PENDING",
+        "status": "MODEL_DEPENDENT_UNESTABLISHED",
         "pillar": 3,
         "gate": "HARDGATE",
-        "falsifies_if": "KK mode found below predicted tower",
+        "falsifies_if": "Historical lane condition only; a physical exclusion requires a specified spectrum, coupling, and detector channel",
     },
     "nEDM Neutron Electric Dipole": {
         "prediction": "CP phase from discrete torsion (Pillar 179)",
@@ -564,12 +569,12 @@ EXPERIMENTS = {
         "falsifies_if": "d_n outside predicted range",
     },
     "XENON-nT Dark Matter": {
-        "prediction": "KK dark matter candidate mass window",
+        "prediction": "No physical cross-section or detector-limit comparison established",
         "timeline": "Ongoing",
-        "status": "PENDING",
+        "status": "UNSUPPORTED",
         "pillar": 38,
         "gate": "HARDGATE",
-        "falsifies_if": "DM detected outside KK mass window",
+        "falsifies_if": "Not established for an unspecified particle and recoil model",
     },
 }
 
@@ -614,7 +619,7 @@ INTERROGATOR_KB = {
     "What is Holon Zero (Pillar 70)?": "Ω₀ — the zero-point configuration of minimum coherent energy. Ground state of the 5D KK field. Hardgate (Pillar 70 + sub-pillars 70-B, 70-C, 70-D).",
     "What does HARDGATE mean?": "A formally closed pillar — the highest epistemic confidence level. Hardgate claims are backed by mathematical derivations, tests, and (where applicable) Lean4 formal proofs.",
     "What is OX Alpha?": "OX Alpha (stealth/ox-alpha) is an extended-memory AI model via OpenRouter. Integrated as Product 20 (OX Navigator). Uses the full UM repository as context (~85k tokens). Requires OPENROUTER_API_KEY.",
-    "How many tests pass?": f"{TEST_COUNT:,} passing tests, 0 failures, 47 skipped, 12 deselected. Run: python -m pytest tests/ recycling/ '5-GOVERNANCE/Unitary Pentad/' -q",
+    "How many tests pass?": f"{TEST_COUNT} passing tests, failure and skip counts: see status source. Run: python -m pytest tests/ recycling/ '5-GOVERNANCE/Unitary Pentad/' -q",
     "What is the braided sound speed?": "c_s = 12/37 ≈ 0.3243c. Derived from (5,7) braid resonance. Gate: HARDGATE (Pillar 3).",
     "What is k_cs?": "k_cs = 74 = 5² + 7² = 25 + 49. The Chern-Simons level. Selected by birefringence data. Gate: HARDGATE.",
 }
@@ -655,7 +660,7 @@ FLASHCARDS = [
     {"q": "What is Holon Zero?", "a": "Ω₀ — minimum coherent energy ground state. Pillar 70. HARDGATE."},
     {"q": "What is Ξ_c?", "a": "Consciousness coupling constant. Ξ_c = 35/74. Pillar 9. ADJACENT_TRACK."},
     {"q": "How many hardgate pillars?", "a": "208 hardgate pillars. Next slot: 806."},
-    {"q": "How many Lean4 theorems?", "a": f"{LEAN4_COUNT:,} Lean4 theorems. Formally verified."},
+    {"q": "How many Lean4 theorems?", "a": f"{LEAN4_COUNT} Lean4 theorems. Formally verified."},
     {"q": "What is FTUM?", "a": "Fixed-point Transient Universe Mechanism. Multiverse iteration converges at φ₀. Pillar 5. HARDGATE."},
     {"q": "What is the Unitary Pentad?", "a": "Independent HILS governance framework. Borrows UM math but independent of physics. NOT a hardgate claim."},
     {"q": "What is OX Alpha?", "a": "stealth/ox-alpha — extended memory AI via OpenRouter. Product 20. Requires OPENROUTER_API_KEY."},
@@ -685,8 +690,8 @@ OX_NAV_SYSTEM = f"""\
 You are the OX Navigator — AxiomZero's extended-memory AI powered by OX Alpha.
 You hold the FULL Unitary Manifold repository as a single coherent thought:
 - 208 hardgate pillars with derivations and citations
-- {LEAN4_COUNT:,} Lean4 theorems (formally verified)  
-- {TEST_COUNT:,} passing tests, 0 failures
+- {LEAN4_COUNT} Lean4 theorems (formally verified)
+- {TEST_COUNT} passing tests, failure count: see status source
 - All open gaps, admissions, and FALLIBILITY.md content
 - All 20 AZ products and their specifications
 - The Unitary Pentad governance framework (separate from physics)
@@ -738,7 +743,7 @@ HEADER = f"""
     AxiomZero Products 11–20
   </h1>
   <p style="color:#7a8ba8; font-size:.9rem;">
-    {VERSION} · {TEST_COUNT:,} tests · {LEAN4_COUNT:,} Lean4 theorems · 0 failures ·
+    {VERSION} · {STATUS_PROVENANCE} · {TEST_COUNT} tests · {LEAN4_COUNT} Lean4 theorems · failure count: see status source ·
     <a href="https://axiomzerospc.org" style="color:#7c4dff;" target="_blank">axiomzerospc.org</a>
   </p>
 </div>

@@ -103,8 +103,12 @@ physics framework (5D Kaluza-Klein, 208+ pillars, live Lean4 theorem corpus).
 
 RULES — never break these:
 1. CITE: Always cite the relevant Pillar number and its gate status when answering a physics question.
-   Gate labels: HARDGATE (formally closed), ADJACENT_TRACK (exploratory, not a hardgate claim),
+   Gate labels: HARDGATE (historical registry label, not blanket physical closure),
+   ADJACENT_TRACK (exploratory, not a hardgate claim),
    OPEN_GAP (acknowledged open problem), ARCHITECTURE_LIMIT (known boundary of the framework).
+   Read proof/TIER_1_FORMAL.md and docs/TRUTH_LAYER.md#foundation-reassessment.
+   Reserve PROVED for a checked proposition with explicit assumptions and axiom dependencies;
+   passing tests or a registry label do not discharge open foundation obligations.
 2. HONEST: If you are uncertain, say so. Never confabulate. If the knowledge base does not contain
    the answer, say "I don't have that in the knowledge base" and offer the closest relevant pillar.
 3. NO SYCOPHANCY: Do not agree with the user just to be agreeable. If they make an incorrect claim,
@@ -141,22 +145,15 @@ PILLAR_KNOWLEDGE: list[dict[str, Any]] = [
 ]
 
 PREDICTIONS_TEXT = """
-Key UM predictions and status:
-- n_s = 0.9635 (Planck: 0.9649 ± 0.0042 → 0.3σ) HARDGATE
-- r = 0.0315 (BICEP/Keck: < 0.036) HARDGATE
-- Birefringence β ∈ {≈0.273°, ≈0.331°} — UNTESTED — LiteBIRD ~2032 primary falsifier. Gap [0.29°–0.31°] falsifies mechanism.
-- Higgs mass ~126.2 GeV (LHC: 125.25 ± 0.17 GeV) ONE_LOOP_CONSISTENT
-- Dark energy w_a=0 (DESI Y1: ~2σ tension with w_a≠0) OPEN_GAP
-- Δm²₂₁: 1.07σ residual tension OPEN_GAP
+Current prediction status is not hard-coded here. Use only the dated,
+generator-backed status rows below when available; otherwise consult the
+canonical live-status pointer without inferring a current observation.
 """
 
 FALLIBILITY_TEXT = """
-Admitted open problems (FALLIBILITY.md):
-1. CMB acoustic peak amplitude suppressed ×4–7 — architecture limit
-2. n_w=5 uniqueness not proved from first principles alone
-3. DESI Y1 w_a≠0 tension (~2σ) — DESI Y2 will adjudicate
-4. Δm²₂₁ sub-1σ not achieved — NLO gate NLO_INSUFFICIENT_FOR_SUB_1SIGMA
-Primary falsifier: birefringence β — LiteBIRD ~2032
+For current open problems and their scope, consult FALLIBILITY.md,
+docs/TRUTH_LAYER.md, and the canonical live-status pointer. Do not treat
+historical summaries as current evidence.
 """
 
 # Simple in-memory cache
@@ -223,6 +220,44 @@ def _build_live_status_from_generator() -> dict[str, Any] | None:
     return None
 
 
+def _prediction_status_context() -> str:
+    """Render only dated prediction data from the canonical generator."""
+    status = _build_live_status_from_generator()
+    meta = status.get("meta") if isinstance(status, dict) else None
+    predictions = status.get("predictions") if isinstance(status, dict) else None
+    if not isinstance(meta, dict) or not isinstance(predictions, list):
+        return (
+            "[Current prediction data unavailable] No generator-backed status "
+            "was loaded. Consult 9-INFRASTRUCTURE/um_live_status.json and "
+            "docs/TRUTH_LAYER.md; no current prediction verdict is inferred."
+        )
+
+    date = meta.get("date") or "unknown date"
+    source = meta.get("source_of_truth") or "canonical generator (source unspecified)"
+    rows = []
+    for prediction in predictions:
+        if not isinstance(prediction, dict):
+            continue
+        fields = [
+            str(prediction[key])
+            for key in ("id", "name", "status", "verdict", "kill_condition", "decision_window")
+            if prediction.get(key) is not None
+        ]
+        if fields:
+            rows.append("- " + " | ".join(fields))
+    if not rows:
+        return (
+            f"[Generator-backed prediction status · {date} · {source}] "
+            "The generator supplied no prediction rows; no verdict is inferred."
+        )
+    return (
+        f"[Generator-backed prediction status · {date} · {source}] "
+        "Rows reproduce the generator's qualified status and scope; retrieval "
+        "does not independently validate observations or promote claims.\n"
+        + "\n".join(rows)
+    )
+
+
 def load_live_status() -> dict[str, Any]:
     """Load canonical live status for Base44/frontends with safe fallbacks."""
     live_status = _build_live_status_from_generator()
@@ -241,12 +276,16 @@ def load_live_status() -> dict[str, Any]:
                 "date": legacy.get("date", "unknown"),
                 "source_of_truth": str(LEGACY_STATUS_PATH),
                 "generated_by": "legacy public-site/data/status.json fallback",
+                "regression_provenance": "Historical legacy snapshot; not current full-suite clearance.",
             },
             "tests": {
-                "passed": int(legacy.get("tests_passed", 0) or 0),
-                "skipped": int(legacy.get("tests_skipped", 0) or 0),
-                "deselected": int(legacy.get("tests_deselected", 0) or 0),
-                "failed": int(legacy.get("tests_failed", legacy.get("failures", 0)) or 0),
+                key: int(value) if value is not None else None
+                for key, value in {
+                    "passed": legacy.get("tests_passed"),
+                    "skipped": legacy.get("tests_skipped"),
+                    "deselected": legacy.get("tests_deselected"),
+                    "failed": legacy.get("tests_failed", legacy.get("failures")),
+                }.items()
             },
             "lean4": {"theorem_count": int(legacy.get("lean4_theorems", 0) or 0)},
             "pillars": {
@@ -257,14 +296,16 @@ def load_live_status() -> dict[str, Any]:
             "open_gates": legacy.get("open_tensions", []),
         }
 
+    logger.error("Live status unavailable: generator, generated artifact and legacy snapshot could not be loaded")
     return {
         "meta": {
             "version": "unknown",
             "date": "unknown",
             "source_of_truth": "unavailable",
             "generated_by": "assistant_api fallback",
+            "regression_provenance": "Unavailable: no regression evidence could be loaded.",
         },
-        "tests": {"passed": 0, "skipped": 0, "deselected": 0, "failed": 0},
+        "tests": {"passed": None, "skipped": None, "deselected": None, "failed": None},
         "lean4": {"theorem_count": 0},
         "pillars": {"next_slot": 0, "hardgate_count": 208, "total_slots": 0},
         "open_gates": [],
@@ -289,19 +330,26 @@ def build_status_response() -> dict[str, Any]:
     version = live_status.get("meta", {}).get("version", "unknown")
     legacy_version = version if str(version).startswith("v") else f"v{version}"
 
-    regression = (
-        f"{int(tests.get('passed', 0)):,} passed · "
-        f"{int(tests.get('skipped', 0))} skipped · "
-        f"{int(tests.get('deselected', 0))} deselected · "
-        f"{int(tests.get('failed', 0))} failed"
-    )
+    test_counts = {
+        key: int(tests[key]) if tests.get(key) is not None else None
+        for key in ("passed", "skipped", "deselected", "failed")
+    }
+    regression = "Regression unavailable: incomplete or missing recorded counts"
+    if all(value is not None for value in test_counts.values()):
+        regression = (
+            f"Historical regression: {test_counts['passed']:,} passed · "
+            f"{test_counts['skipped']} skipped · "
+            f"{test_counts['deselected']} deselected · "
+            f"{test_counts['failed']} failed"
+        )
+    unavailable = live_status.get("meta", {}).get("source_of_truth") == "unavailable"
 
     return {
         **live_status,
-        "tests_passed": int(tests.get("passed", 0) or 0),
-        "tests_skipped": int(tests.get("skipped", 0) or 0),
-        "tests_deselected": int(tests.get("deselected", 0) or 0),
-        "tests_failed": int(tests.get("failed", 0) or 0),
+        "tests_passed": test_counts["passed"],
+        "tests_skipped": test_counts["skipped"],
+        "tests_deselected": test_counts["deselected"],
+        "tests_failed": test_counts["failed"],
         "lean4_theorems": int(lean4.get("theorem_count", 0) or 0),
         "pillars_hardgate": int(pillars.get("hardgate_count", 0) or 0),
         "pillars_total": int(pillars.get("total_slots", 0) or 0),
@@ -309,9 +357,14 @@ def build_status_response() -> dict[str, Any]:
         "version": legacy_version,
         "date": live_status.get("meta", {}).get("date", "unknown"),
         "regression": regression,
-        "failures": int(tests.get("failed", 0) or 0),
+        "failures": test_counts["failed"],
         "primary_falsifier": primary_falsifier,
-        "epistemic_status": "repository-level internal mathematical self-consistency established; external empirical confirmation pending",
+        "epistemic_status": (
+            "Unavailable: no status evidence could be loaded."
+            if unavailable else
+            "Scoped implementation evidence only; foundation obligations remain open; "
+            "no repository-wide mathematical or empirical certification."
+        ),
         "status_source": live_status.get("meta", {}).get("source_of_truth", str(LIVE_STATUS_PATH)),
     }
 
@@ -338,11 +391,19 @@ def retrieve_context(query: str) -> str:
     scores.sort(key=lambda x: x[0], reverse=True)
     selected = scores[:MAX_CONTEXT_CHUNKS]
 
-    chunks = []
+    chunks = [
+        "[Current evidence boundary] The representative pillar entries and "
+        "numeric summaries below are historical navigation data, not current "
+        "closure or observation verdicts. HARDGATE is a registry label. Read "
+        "proof/TIER_1_FORMAL.md, docs/TRUTH_LAYER.md#foundation-reassessment "
+        "and 9-INFRASTRUCTURE/um_live_status.json for scoped current evidence."
+    ]
     for _, p in selected:
         chunks.append(f"[Pillar {p['id']} · {p['gate']}] {p['name']}: {p['text']}")
 
-    # Always include predictions and fallibility summary
+    # Keep static summaries pointer-only; current prediction details must come
+    # from the dated canonical generator and fail closed when it is unavailable.
+    chunks.append(_prediction_status_context())
     chunks.append(PREDICTIONS_TEXT)
     chunks.append(FALLIBILITY_TEXT)
 

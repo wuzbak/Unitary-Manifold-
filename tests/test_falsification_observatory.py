@@ -3,13 +3,15 @@
 """
 Tests for the Falsification Observatory app (45 tests).
 
-Tests the Python oracle (Pillar 787) and the JS engine logic via
-equivalent assertions.  The JS is tested through the Python oracle mirror;
-for a full JS test the JS engine exports _test for Node/jsdom.
+Preserves historical Python oracle assertions and executes the JavaScript
+harness separately for current unsupported-comparison boundaries.
 """
 
 import pytest
 import os
+import json
+import shutil
+import subprocess
 from src.core.pillar787_falsification_routing_oracle import (
     route_litebird, route_desi, route_juno, route_act_r,
     route_hllhc, route_nedm, route_xenon,
@@ -189,3 +191,31 @@ class TestPillarChainIntegrity:
 
     def test_pillar_771_in_desi_chain(self):
         assert 771 in route_desi().relevant_pillars
+
+
+def test_javascript_withdraws_unestablished_detector_comparisons():
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("Node.js required for JavaScript execution")
+    script = """
+const engine = require(process.argv[1])._test;
+console.log(JSON.stringify({
+  defaults: engine.runOracle(),
+  massInputs: [0, 1.8, 5, 10].map(value => engine.routeHLLHC(value)),
+  summary: engine.summary(engine.runOracle())
+}));
+"""
+    result = subprocess.run(
+        [node, "-e", script, os.path.abspath(APP_JS)],
+        check=True, capture_output=True, text=True,
+    )
+    data = json.loads(result.stdout)
+    by_code = {row["code"]: row for row in data["defaults"]}
+    assert by_code["EXP-5"]["verdict"] == "MODEL_DEPENDENT_UNESTABLISHED"
+    assert by_code["EXP-7"]["verdict"] == "UNSUPPORTED"
+    assert by_code["EXP-7"]["observed"] is None
+    assert "cm²" not in by_code["EXP-7"]["prediction"]
+    assert all(row["verdict"] == "MODEL_DEPENDENT_UNESTABLISHED" for row in data["massInputs"])
+    assert data["summary"]["counts"]["UNSUPPORTED"] == 1
+    assert data["summary"]["counts"]["MODEL_DEPENDENT_UNESTABLISHED"] == 1
+    assert data["summary"]["status"].startswith("SIMULATION_")

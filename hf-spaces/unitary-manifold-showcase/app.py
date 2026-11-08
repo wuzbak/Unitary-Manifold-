@@ -106,7 +106,7 @@ with gr.Blocks(css=custom_css, title="Unitary Manifold \u2014 AxiomZero Technolo
               <h3 style="color:#4DD0E1;">Compactification Kernel</h3>
               <p>Fingerprint: (5, 7, 74). The entire framework compresses into a singular seed from which it can be reconstructed.</p>
               <h3 style="color:#4DD0E1;">Epistemic Status</h3>
-              <p>Repository-level internal mathematical self-consistency established. External empirical confirmation pending. Open tensions tracked honestly with explicit kill conditions.</p>
+              <p>Foundational derivations and independent CMB normalization remain open. External empirical confirmation pending. Open tensions tracked honestly with explicit kill conditions.</p>
             </div>
             """)
         with gr.Tab("PRODUCTS"):

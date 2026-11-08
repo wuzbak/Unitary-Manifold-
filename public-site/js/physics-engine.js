@@ -48,8 +48,6 @@ const UM = (() => {
     WA_CANONICAL:     0.0,
     SIGMA_DESI_DR2:   2.75,
     SIGMA_DR3_PROJ:   3.64,
-    SIGMA_FALSIFIED:  3.0,
-    SIGMA_PASS:       2.0,
 
     // Neutrino mass splittings (eV²)
     DM31_CLOSED:      2.4110e-3,
@@ -237,10 +235,6 @@ const UM = (() => {
    * @returns {object}
    */
   function desiTensionTracker(sigma = 2.75, w0 = -0.727, wa = -0.75) {
-    const branch =
-      sigma >= CONSTANTS.SIGMA_FALSIFIED ? "FALSIFIED" :
-      sigma >= CONSTANTS.SIGMA_PASS      ? "TENSION"   : "PASS";
-
     // Distance from UM prediction (w0=-1, wa=0) in sigma units
     const deltaW0 = w0 - CONSTANTS.W0_CANONICAL;
     const deltaWa = wa - CONSTANTS.WA_CANONICAL;
@@ -255,15 +249,12 @@ const UM = (() => {
       delta_w0:         +deltaW0.toFixed(4),
       delta_wa:         +deltaWa.toFixed(4),
       combined_distance:+combined_distance.toFixed(4),
-      decision_branch:  branch,
-      falsified:        branch === "FALSIFIED",
+      decision_branch:  "NOT_DETERMINABLE_FROM_ONE_DATASET",
+      falsified:        null,
       dr3_projected_sigma: CONSTANTS.SIGMA_DR3_PROJ,
-      decision_window:  "DESI DR3 / Y5 (~2027)",
-      action: branch === "FALSIFIED" ? "Activate Pillar 268 extension specification." :
-              branch === "TENSION"   ? "Monitor; keep extension on standby." :
-                                      "Frozen radion confirmed.",
-      honest_note: "Architecture limit CERTIFIED (P301): no rolling-radion solution avoids fine-tuning at σ≥3. Do not revisit until DR3 formally falsifies at ≥3σ.",
-      architecture_limit: "ARCHITECTURE_LIMIT_CERTIFIED",
+      decision_window:  "DESI DR3 monitoring",
+      action: "A single input cannot determine the multi-dataset falsification condition.",
+      honest_note: "Canonical condition: w_a ≠ 0 confirmed >3σ by at least 3 independent datasets. DR2 combined BAO+CMB+SNe is a dataset-dependent 2.75σ tension.",
     };
   }
 
@@ -274,16 +265,16 @@ const UM = (() => {
    */
   function verificationDashboardData() {
     const admissions = [
-      { id: 1,  name: "CMB peak amplitude A_s",          status: "ARCHITECTURE_LIMIT_CERTIFIED",            closed: false },
+      { id: 1,  name: "CMB peak amplitude A_s",          status: "NORMALIZATION_AND_TRANSFER_OPEN",           closed: false },
       { id: 2,  name: "n_w = 5 uniqueness",               status: "BRAID_UNIQUENESS_CERTIFIED",             closed: true  },
       { id: 3,  name: "Tensor ratio r tension",           status: "IRREDUCIBLE_WITHIN_5D_EFT",              closed: false },
       { id: 4,  name: "Holographic entropy S=A/4G",       status: "DERIVED_CONDITIONAL",                    closed: true  },
       { id: 5,  name: "FTUM fixed point",                  status: "CLOSED_SOBOLEV_H1",                      closed: true  },
       { id: 6,  name: "λ_GW warp factor",                 status: "DERIVED_FROM_GW_NORMALIZATION",          closed: true  },
       { id: 7,  name: "Jarlskog CP naturalness",          status: "JARLSKOG_LAYER2_ARCHITECTURE_LIMIT_CERTIFIED", closed: false },
-      { id: 8,  name: "P8 full functional space",         status: "ALGEBRAIC_KERNEL_PROVED",                closed: true  },
+      { id: 8,  name: "P8 full functional space",         status: "FULL_FUNCTIONAL_CLOSURE_WITHDRAWN",        closed: false  },
       { id: 9,  name: "Consciousness attractor",           status: "COUPLED_MASTER_EQUATION",                closed: true  },
-      { id: 10, name: "LHC KK graviton",                  status: "CONSTRAINED_BOUNDED",                    closed: true  },
+      { id: 10, name: "LHC KK graviton",                  status: "MODEL_DEPENDENT_UNESTABLISHED",           closed: false  },
       { id: 11, name: "N_e e-folds",                      status: "CLOSED_CASCADE",                         closed: true  },
       { id: 12, name: "FTUM basin geometry",              status: "CLOSED_SOBOLEV_H1",                      closed: true  },
       { id: 13, name: "Metric ansatz uniqueness",         status: "CLOSED_GHY_Z2",                          closed: true  },
@@ -291,12 +282,12 @@ const UM = (() => {
 
     const predictions = [
       { name: "CMB n_s",         um: "0.9635",  measured: "0.9649 ± 0.0042", status: "CONFIRMED",     sigma: 0.3 },
-      { name: "Tensor ratio r",  um: "0.0315",  measured: "< 0.036 (95% CL)", status: "CONSISTENT",   sigma: null },
+      { name: "Tensor ratio r",  um: "0.0315",  measured: "ACT DR6 r < 0.016 (95% CL)", status: "IN_TENSION",   sigma: null },
       { name: "Birefringence β", um: "0.273° / 0.331°", measured: "PENDING",  status: "PENDING",      sigma: null },
       { name: "DESI wₐ = 0",     um: "0.0",     measured: "2.30σ tension",    status: "IN_TENSION",   sigma: 2.30 },
       { name: "α_s(M_Z)",        um: "tightened UV window", measured: "PDG 0.1180 outside window", status: "IN_TENSION", sigma: null },
       { name: "Flavor family",   um: "shared UV flavor/moduli lane", measured: "boundary mapped, not closed", status: "IN_TENSION", sigma: null },
-      { name: "KK graviton",     um: "≥ 5 TeV", measured: "> 2.3 TeV (Run 2)", status: "CONSISTENT",  sigma: null },
+      { name: "KK graviton",     um: "spectrum and coupling unresolved", measured: "channel-dependent constraints", status: "MODEL_DEPENDENT_UNESTABLISHED",  sigma: null },
       { name: "Proton decay",    um: ">> 10^35 yr", measured: "> 1.6×10^34 yr", status: "CONSISTENT", sigma: null },
     ];
 

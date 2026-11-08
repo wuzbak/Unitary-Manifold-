@@ -65,41 +65,42 @@ def load_live_status() -> dict[str, Any]:
     """Load canonical status from generator, then local artifact, then remote URL."""
     repo_root = Path(__file__).resolve().parents[2]
 
-    payload = _build_from_generator(repo_root)
-    if payload:
-        return payload
+    for source, read in (
+        ("generator", lambda: _build_from_generator(repo_root)),
+        ("local artifact", lambda: _read_json(repo_root / "9-INFRASTRUCTURE" / "um_live_status.json")),
+        (DEFAULT_STATUS_URL, lambda: _read_url(DEFAULT_STATUS_URL)),
+    ):
+        payload = read()
+        if payload is not None:
+            return {**payload, "_status_source": source}
 
-    payload = _read_json(repo_root / "9-INFRASTRUCTURE" / "um_live_status.json")
-    if payload:
-        return payload
-
-    payload = _read_url(DEFAULT_STATUS_URL)
-    if payload:
-        return payload
-
-    return {
-        "meta": {"version": "unknown", "date": "unknown"},
-        "tests": {"passed": 0, "skipped": 0, "deselected": 0, "failed": 0},
-        "lean4": {"theorem_count": 0},
-        "pillars": {"hardgate_count": 208, "next_slot": 0, "total_slots": 0},
-    }
+    return {"meta": {}, "tests": {}, "lean4": {}, "pillars": {},
+            "_status_source": "unavailable"}
 
 
-def status_snapshot() -> dict[str, int | str]:
-    """Normalized status values for UI surfaces."""
+def status_snapshot() -> dict[str, int | str | None]:
+    """Normalize counts without treating missing data as zero."""
     payload = load_live_status()
-    version = str(payload.get("meta", {}).get("version", "unknown"))
+    meta = payload.get("meta", {})
+    version = meta.get("version") or "unknown"
+    version = str(version)
     if version != "unknown" and not version.startswith("v"):
         version = f"v{version}"
+
+    def count(section: str, key: str) -> int | None:
+        value = payload.get(section, {}).get(key)
+        return value if isinstance(value, int) and not isinstance(value, bool) and value >= 0 else None
+
     return {
         "version": version,
-        "date": str(payload.get("meta", {}).get("date", "unknown")),
-        "tests_passed": int(payload.get("tests", {}).get("passed", 0) or 0),
-        "tests_skipped": int(payload.get("tests", {}).get("skipped", 0) or 0),
-        "tests_deselected": int(payload.get("tests", {}).get("deselected", 0) or 0),
-        "tests_failed": int(payload.get("tests", {}).get("failed", 0) or 0),
-        "lean4_theorems": int(payload.get("lean4", {}).get("theorem_count", 0) or 0),
-        "hardgate_pillars": int(payload.get("pillars", {}).get("hardgate_count", 208) or 208),
-        "next_pillar_slot": int(payload.get("pillars", {}).get("next_slot", 0) or 0),
+        "date": meta.get("date") or "unknown",
+        "source": payload.get("_status_source", "unknown"),
+        "tests_passed": count("tests", "passed"),
+        "tests_skipped": count("tests", "skipped"),
+        "tests_deselected": count("tests", "deselected"),
+        "tests_failed": count("tests", "failed"),
+        "lean4_theorems": count("lean4", "theorem_count"),
+        "hardgate_pillars": count("pillars", "hardgate_count"),
+        "total_pillar_slots": count("pillars", "total_slots"),
+        "next_pillar_slot": count("pillars", "next_slot"),
     }
-

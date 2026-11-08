@@ -380,6 +380,15 @@ class TestVerifyAgainstRegistry:
         if "error" not in result:
             assert result["tampered"] == 0
 
+    def test_verify_reports_scope_and_unregistered_assets(self):
+        result = verify_against_registry()
+        if "error" not in result:
+            assert result["scope"] == "IP_ASSET_CLASSES paths only; does not cover every registry asset"
+            assert result["not_in_registry"] == sum(
+                asset["verdict"] == "NOT_IN_REGISTRY" for asset in result["assets"]
+            )
+            assert result["all_verified"] is (result["verified"] == result["total"] and result["total"] > 0)
+
     def test_verify_has_assets_list(self):
         result = verify_against_registry()
         if "error" not in result:

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>DESI Tension Tracker — Unitary Manifold</title>
-  <meta name="description" content="Dark energy w₀-wₐ visualizer. 2.75σ DESI DR2 tension. DR3 decision tree (PASS/TENSION/FALSIFIED). Frozen-radion architecture limit." />
+  <meta name="description" content="Dark energy w₀-wₐ visualizer. DESI DR2 combined-data tension; a single input cannot decide the multi-dataset falsification condition." />
   <meta property="og:title" content="DESI Tension Tracker — Unitary Manifold" />
-  <meta property="og:description" content="Dark energy w₀-wₐ visualizer. 2.75σ DESI DR2 tension. DR3 decision tree (PASS/TENSION/FALSIFIED). Frozen-radion architecture limit." />
+  <meta property="og:description" content="Dark energy w₀-wₐ visualizer. DESI DR2 combined-data tension; a single input cannot decide the multi-dataset falsification condition." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://wuzbak.github.io/Unitary-Manifold-/apps/desi-tracker.html" />
   <link rel="canonical" href="https://wuzbak.github.io/Unitary-Manifold-/apps/desi-tracker.html" />
@@ -33,7 +33,7 @@
   <div style="margin-bottom:2rem">
     <div class="section-eyebrow">Dark Energy Tracker</div>
     <h1 style="margin-bottom:.5rem">DESI Tension Tracker</h1>
-    <p class="text-muted">The UM predicts w₀ = −1, wₐ = 0 (frozen radion — no rolling dark energy). DESI DR2 shows 2.75σ tension. Track the decision tree toward DR3.</p>
+    <p class="text-muted">The UM predicts w₀ = −1, wₐ = 0 (frozen radion — no rolling dark energy). DESI DR2 combined BAO+CMB+SNe shows 2.75σ tension. A single input cannot decide the multi-dataset condition.</p>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:2rem;align-items:start">
@@ -46,7 +46,7 @@
             <input type="range" id="sigmaObs" min="0" max="5" step="0.05" value="2.75" oninput="updateDESI()"/>
             <span class="range-val" id="sigmaVal">2.75</span>
           </div>
-          <div class="text-xs text-muted">DESI DR2: 2.75σ · Projected DR3: 3.64σ</div>
+          <div class="text-xs text-muted">DESI DR2 combined BAO+CMB+SNe: 2.75σ · Historical DR3 projection: 3.64σ</div>
         </div>
         <div class="form-group">
           <label class="form-label">w₀ (measured)</label>
@@ -67,14 +67,14 @@
       </div>
 
       <div class="card">
-        <h3 style="margin-bottom:1rem">Decision Branches</h3>
+        <h3 style="margin-bottom:1rem">Falsification condition</h3>
         <div id="branch-display"></div>
         <div style="margin-top:1rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:8px">
           <div class="text-xs text-muted" style="margin-bottom:.4rem">Recommended Action</div>
           <div id="action-text" class="text-sm"></div>
         </div>
         <div class="text-xs text-muted" style="margin-top:.75rem;border-top:1px solid var(--color-border);padding-top:.75rem">
-          Architecture limit CERTIFIED (P301): no rolling-radion solution avoids RS1 hierarchy fine-tuning at σ≥3. Do not revisit until DR3 formally falsifies at ≥3σ.
+          Canonical condition: wₐ ≠ 0 confirmed &gt;3σ by at least 3 independent datasets. This calculator takes only one scalar and cannot decide it.
         </div>
       </div>
     </div>
@@ -116,22 +116,12 @@ function updateDESI() {
 
   // Branch display
   const bEl = document.getElementById("branch-display");
-  const branches = [
-    { label:"PASS",      thresh:"σ < 2.0",    active: res.decision_branch==="PASS",      cls:"badge-green"  },
-    { label:"TENSION",   thresh:"2.0 ≤ σ < 3.0", active: res.decision_branch==="TENSION",   cls:"badge-orange" },
-    { label:"FALSIFIED", thresh:"σ ≥ 3.0",    active: res.decision_branch==="FALSIFIED",  cls:"badge-red"    },
-  ];
-  bEl.innerHTML = branches.map(b => `
-    <div style="display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,0.04)">
-      <span class="badge ${b.active?b.cls:'badge-blue'}" style="opacity:${b.active?1:0.3};min-width:80px;justify-content:center">${b.label}</span>
-      <span class="text-mono text-xs text-muted">${b.thresh}</span>
-      ${b.active?'<span style="margin-left:auto;color:var(--color-gold)">← current</span>':''}
-    </div>`).join("");
+  bEl.textContent = "Not determinable from one dataset";
   document.getElementById("action-text").textContent = res.action;
 
   // Results
   const rows = [
-    ["Decision branch", `<span class="badge ${res.falsified?'badge-red':res.decision_branch==='TENSION'?'badge-orange':'badge-green'}">${res.decision_branch}</span>`],
+    ["Decision branch", `<span class="badge badge-blue">${res.decision_branch}</span>`],
     ["Δw₀ from UM", `<span class="text-mono">${res.delta_w0}</span>`],
     ["Δwₐ from UM", `<span class="text-mono">${res.delta_wa}</span>`],
     ["Combined distance", `<span class="text-mono">${res.combined_distance}</span>`],

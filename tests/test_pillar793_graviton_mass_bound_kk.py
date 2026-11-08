@@ -50,6 +50,7 @@ class TestConstants:
         assert C_S == pytest.approx(12.0 / 37.0, rel=1e-9)
 
     def test_m_kk_tev(self):
+        # This is an input benchmark, not a P790-derived graviton mass.
         assert M_KK_TEV == 1.0
 
     def test_hllhc_exclusion(self):
@@ -82,6 +83,9 @@ class TestKKGravitonMassTev:
     def test_mode1_formula(self):
         expected = BESSEL_ZEROS_J1[0] * M_KK_TEV * C_S**2
         assert kk_graviton_mass_tev(1) == pytest.approx(expected, rel=1e-9)
+
+    def test_mode1_value_is_only_the_supplied_benchmark_formula_output(self):
+        assert kk_graviton_mass_tev(1) == pytest.approx(0.403, abs=0.001)
 
     def test_mode2_larger_than_mode1(self):
         assert kk_graviton_mass_tev(2) > kk_graviton_mass_tev(1)
@@ -188,27 +192,11 @@ class TestWidthToMassRatio:
 # ---------------------------------------------------------------------------
 
 class TestHLLHCVerdict:
-    def test_default_returns_string(self):
-        assert isinstance(hllhc_verdict(), str)
-
-    def test_default_pass_or_tension(self):
-        v = hllhc_verdict()
-        assert v in ("PASS", "TENSION", "FALSIFIED")
-
-    def test_low_mass_falsified(self):
-        assert hllhc_verdict(0.5) == "FALSIFIED"
-
-    def test_high_mass_tension(self):
-        assert hllhc_verdict(5.0) == "TENSION"
-
-    def test_in_window_pass(self):
-        assert hllhc_verdict(1.0) == "PASS"
-
-    def test_borderline_pass_4tev(self):
-        assert hllhc_verdict(4.0) == "PASS"
-
-    def test_above_4tev_tension(self):
-        assert hllhc_verdict(4.001) == "TENSION"
+    # These inputs preserve the former boundary-test coverage, but none can
+    # produce a physical verdict without a reconciled channel contract.
+    @pytest.mark.parametrize("mass", [None, -1.0, 0.0, 0.5, 1.0, 4.0, 4.001, 5.0, 1e6])
+    def test_mass_alone_is_unestablished(self, mass):
+        assert hllhc_verdict(mass) == "MODEL_DEPENDENT_UNESTABLISHED"
 
 
 # ---------------------------------------------------------------------------
@@ -252,26 +240,23 @@ class TestGravitonGateSummary:
     def test_zero_mode_mass(self):
         assert self.s["zero_mode_mass_gev"] == 0.0
 
-    def test_m_g_star_n1_positive(self):
-        assert self.s["m_g_star_n1_tev"] > 0
+    def test_illustrative_formula_n1_positive(self):
+        assert self.s["illustrative_formula_value_n1_tev"] > 0
 
     def test_spectrum_ascending(self):
-        s = self.s["kk_spectrum_tev"]
+        s = self.s["illustrative_formula_spectrum_tev"]
         assert all(s[i] < s[i + 1] for i in range(len(s) - 1))
 
     def test_hllhc_exclusion_present(self):
-        assert "hllhc_exclusion_tev" in self.s
-        assert self.s["hllhc_exclusion_tev"] == 4.0
+        assert self.s["supplied_exclusion_benchmark_tev"] == 4.0
+        assert self.s["detector_verdict_status"] == "MODEL_DEPENDENT_UNESTABLISHED"
 
     def test_lean4_entry(self):
         assert "1051" in self.s["lean4"]
         assert "1066" in self.s["lean4"]
 
-    def test_falsification_keys(self):
-        f = self.s["falsification"]
-        assert "PASS" in f
-        assert "TENSION" in f
-        assert "FALSIFIED" in f
+    def test_verdict_contract_disclaims_mass_only_classification(self):
+        assert "No PASS, TENSION, or FALSIFIED" in self.s["detector_verdict_contract"]
 
     def test_alias_callable(self):
         s = GRAVITON_GATE_SUMMARY()

@@ -59,20 +59,25 @@ try:
 except Exception:
     _STATUS = {
         "version": "vunknown",
-        "hardgate_pillars": 208,
-        "tests_passed": 0,
-        "lean4_theorems": 0,
+        "hardgate_pillars": None,
+        "tests_passed": None,
+        "lean4_theorems": None,
     }
 
-VERSION             = str(_STATUS["version"])
-PILLAR_COUNT        = int(_STATUS["hardgate_pillars"])
-TEST_COUNT          = int(_STATUS["tests_passed"])
-LEAN4_COUNT         = int(_STATUS["lean4_theorems"])
+def format_count(value):
+    return f"{value:,}" if isinstance(value, int) and not isinstance(value, bool) else "unavailable"
 
+
+VERSION             = str(_STATUS["version"])
+PILLAR_COUNT        = format_count(_STATUS.get("hardgate_pillars"))
+TEST_COUNT          = format_count(_STATUS.get("tests_passed"))
+LEAN4_COUNT         = format_count(_STATUS.get("lean4_theorems"))
+
+STATUS_PROVENANCE = f"source: {_STATUS.get('source', 'unavailable')}; date: {_STATUS.get('date', 'unknown')}"
 FOOTER = (
     "\n\n---\n"
     f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION} · "
-    f"{TEST_COUNT:,} tests · {LEAN4_COUNT:,} Lean4 theorems*\n"
+    f"{STATUS_PROVENANCE} · {TEST_COUNT} tests · {LEAN4_COUNT} Lean4 theorems*\n"
     "*Open science artifact. Use at your own liability.*"
 )
 
@@ -109,8 +114,8 @@ AXIOM_OS_SYSTEM = f"""\
 You are AxiomOS — a persistent AI cognitive layer grounded in the Unitary Manifold 5D KK framework.
 You manage memory, hierarchical goals, and belief states. You have access to:
 - 208 hardgate physics pillars (HARDGATE gate)
-- {LEAN4_COUNT:,} Lean4 theorems (formally verified)
-- {TEST_COUNT:,} passing tests (0 failures)
+- {LEAN4_COUNT} Lean4 theorems (formally verified)
+- {TEST_COUNT} passing tests (failure count: see status source)
 - All open gaps and admissions in FALLIBILITY.md
 
 Agent modes:
@@ -285,7 +290,7 @@ def um_sos_lookup(pillar_id: int, query: str) -> str:
                 f"**Gate:** {gate_icon} `{gate}`\n\n"
                 f"**Description:** {desc}\n\n"
                 f"**Source:** `{src}`\n\n"
-                f"**Status:** {VERSION} — {TEST_COUNT:,} tests passing" + FOOTER)
+                f"**Status:** {VERSION} — {TEST_COUNT} tests passing" + FOOTER)
 
     if pillar_id and pillar_id not in PILLAR_DB:
         if 1 <= pillar_id <= 208:
@@ -318,18 +323,18 @@ def um_sos_lookup(pillar_id: int, query: str) -> str:
 
 def um_sos_status() -> str:
     lines = [
-        f"## UM-SOS Live Status · {VERSION}",
+        f"## UM-SOS Status · {VERSION} · {_STATUS.get('source', 'unavailable')}",
         "",
         f"| Metric | Value |",
         f"|--------|-------|",
-        f"| Tests passing | {TEST_COUNT:,} |",
-        f"| Tests failed | 0 |",
-        f"| Lean4 theorems | {LEAN4_COUNT:,} |",
+        f"| Tests passing | {TEST_COUNT} |",
+        f"| Tests failed | {format_count(_STATUS.get('tests_failed'))} |",
+        f"| Lean4 theorems | {LEAN4_COUNT} |",
         f"| Hardgate pillars | {PILLAR_COUNT} |",
-        f"| Total pillar slots | 805 |",
-        f"| Next slot | 806 |",
+        f"| Total pillar slots | {format_count(_STATUS.get('total_pillar_slots'))} |",
+        f"| Next slot | {format_count(_STATUS.get('next_pillar_slot'))} |",
         f"| Version | {VERSION} |",
-        f"| Date | 2026-08-23 |",
+        f"| Date | {_STATUS.get('date', 'unknown')} |",
         "",
         "**Primary falsifier:** β ∈ {≈0.273°, ≈0.331°} — LiteBIRD ~2032",
         "",
@@ -665,7 +670,7 @@ HEADER = f"""
     AxiomZero Products 01–10
   </h1>
   <p style="color:#7a8ba8; font-size:.9rem;">
-    {VERSION} · {TEST_COUNT:,} tests · {LEAN4_COUNT:,} Lean4 theorems · 0 failures ·
+    {VERSION} · {STATUS_PROVENANCE} · {TEST_COUNT} tests · {LEAN4_COUNT} Lean4 theorems · failure count: see status source ·
     <a href="https://axiomzerospc.org" style="color:#3b8bff;" target="_blank">axiomzerospc.org</a>
   </p>
 </div>

@@ -73,6 +73,8 @@ jobs:
         run: node --test 12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs
       - name: Check candidate verifier contracts
         run: python -m unittest discover -s 12-AZ-IP/43-az-geometric-tori-transformer/tests -p test_candidate_engine.py -q
+      - name: Check bounded public artifact downloader contracts
+        run: python -m unittest discover -s .github/tests -p test_embedded_model_download_contract.py -q
       - uses: actions/checkout@v4
         with:
           repository: ggml-org/llama.cpp
@@ -100,6 +102,7 @@ jobs:
           cmake --build native-engine/build --config Release --target llama-server llama-quantize --parallel 2
           if ($LASTEXITCODE -ne 0) { throw "CPU engine compilation failed." }
       - name: Fetch Unsloth Qwen3 instruction-only conversion and verify provenance
+        timeout-minutes: 35
         run: |
           $repository = "unsloth/Qwen3-4B-Instruct-2507-GGUF"
           $revision = "a06e946bb6b655725eafa393f4a9745d460374c9"
@@ -131,48 +134,107 @@ jobs:
           if ($asset.lfs.sha256 -cnotmatch "^[a-f0-9]{64}$" -or $asset.lfs.size -lt 1000000 -or $asset.lfs.size -gt 3000000000) {
             throw "Authoritative conversion LFS digest/size is missing or exceeds the approved 3 GB installation budget."
           }
+          # One budget for all assets and retries, leaving time in the 75-minute job
+          # for mandatory acceptance. A healthy multi-GB stream may exceed 15 minutes.
+          $downloadDeadline = [System.Threading.CancellationTokenSource]::new([TimeSpan]::FromMinutes(30))
           function Receive-PublicAsset([string]$url, [string]$destination, [long]$maximum, [long]$expected = -1) {
-            $handler = [System.Net.Http.HttpClientHandler]::new()
-            $handler.AllowAutoRedirect = $false
-            $client = [System.Net.Http.HttpClient]::new($handler)
-            $deadline = [System.Threading.CancellationTokenSource]::new([TimeSpan]::FromMinutes(15))
-            $response = $null
-            $inputStream = $null
-            $outputStream = $null
-            try {
-              $uri = [Uri]$url
-              for ($redirect = 0; $redirect -le 5; $redirect++) {
-                if ($uri.Scheme -cne "https" -or -not ($uri.Host -eq "huggingface.co" -or $uri.Host.EndsWith(".huggingface.co") -or $uri.Host.EndsWith(".hf.co") -or $uri.Host -in @("apache.org", "www.apache.org"))) {
-                  throw "Public artifact redirect escaped the approved HTTPS model publisher."
-                }
-                $response = $client.GetAsync($uri, [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead, $deadline.Token).GetAwaiter().GetResult()
-                if ([int]$response.StatusCode -notin @(301, 302, 303, 307, 308)) { break }
-                if ($redirect -eq 5 -or $null -eq $response.Headers.Location) { throw "Artifact redirect limit exceeded." }
-                $uri = [Uri]::new($uri, $response.Headers.Location)
-                $response.Dispose()
-                $response = $null
-              }
-              $response.EnsureSuccessStatusCode() | Out-Null
-              $length = $response.Content.Headers.ContentLength
-              if ($null -ne $length -and ($length -gt $maximum -or ($expected -ge 0 -and $length -ne $expected))) {
-                throw "Artifact declared byte length is invalid."
-              }
-              $inputStream = $response.Content.ReadAsStreamAsync().GetAwaiter().GetResult()
-              $outputStream = [System.IO.File]::Open($destination, [System.IO.FileMode]::CreateNew)
-              $buffer = [byte[]]::new(1048576)
+            if ($maximum -le 0 -or $expected -gt $maximum -or (Test-Path -LiteralPath $destination)) {
+              throw "Artifact byte budget or new destination is invalid."
+            }
+            for ($attempt = 1; $attempt -le 3; $attempt++) {
+              $handler = [System.Net.Http.HttpClientHandler]::new()
+              $handler.AllowAutoRedirect = $false
+              $client = [System.Net.Http.HttpClient]::new($handler)
+              $client.Timeout = [System.Threading.Timeout]::InfiniteTimeSpan
+              $operation = [System.Threading.CancellationTokenSource]::CreateLinkedTokenSource($downloadDeadline.Token)
+              $response = $null
+              $inputStream = $null
+              $outputStream = $null
+              $created = $false
+              $succeeded = $false
+              $retryable = $false
+              $status = 0
+              $phase = "headers"
               [long]$total = 0
-              while (($count = $inputStream.ReadAsync($buffer, 0, $buffer.Length, $deadline.Token).GetAwaiter().GetResult()) -gt 0) {
-                $total += $count
-                if ($total -gt $maximum) { throw "Artifact exceeded its byte budget." }
-                $outputStream.Write($buffer, 0, $count)
+              [long]$nextProgress = 67108864
+              try {
+                $downloadDeadline.Token.ThrowIfCancellationRequested()
+                # Restart at the pinned publisher URL, not an expired signed CDN URL.
+                $uri = [Uri]$url
+                for ($redirect = 0; $redirect -le 5; $redirect++) {
+                  if ($uri.Scheme -cne "https" -or $uri.Port -ne 443 -or $uri.UserInfo -ne "" -or -not ($uri.Host -eq "huggingface.co" -or $uri.Host.EndsWith(".huggingface.co") -or $uri.Host.EndsWith(".hf.co") -or $uri.Host -in @("apache.org", "www.apache.org"))) {
+                    throw "Public artifact redirect escaped the approved HTTPS model publisher."
+                  }
+                  $operation.CancelAfter([TimeSpan]::FromSeconds(60))
+                  $response = $client.GetAsync($uri, [System.Net.Http.HttpCompletionOption]::ResponseHeadersRead, $operation.Token).GetAwaiter().GetResult()
+                  if ([int]$response.StatusCode -notin @(301, 302, 303, 307, 308)) { break }
+                  if ($redirect -eq 5 -or $null -eq $response.Headers.Location) { throw "Artifact redirect limit exceeded." }
+                  $uri = [Uri]::new($uri, $response.Headers.Location)
+                  $response.Dispose()
+                  $response = $null
+                }
+                $status = [int]$response.StatusCode
+                if (-not $response.IsSuccessStatusCode) {
+                  $retryable = $status -in @(408, 429, 500, 502, 503, 504)
+                  throw "Artifact publisher returned HTTP $status."
+                }
+                $length = $response.Content.Headers.ContentLength
+                if ($null -ne $length -and ($length -gt $maximum -or ($expected -ge 0 -and $length -ne $expected))) {
+                  throw "Artifact declared byte length is invalid."
+                }
+                $inputStream = $response.Content.ReadAsStreamAsync($operation.Token).GetAwaiter().GetResult()
+                $phase = "local file"
+                $outputStream = [System.IO.File]::Open($destination, [System.IO.FileMode]::CreateNew)
+                $created = $true
+                $buffer = [byte[]]::new(1048576)
+                while ($true) {
+                  $phase = "read"
+                  # Reset only the idle timer; never reset the shared wall-clock budget.
+                  $operation.CancelAfter([TimeSpan]::FromSeconds(60))
+                  $count = $inputStream.ReadAsync($buffer, 0, $buffer.Length, $operation.Token).GetAwaiter().GetResult()
+                  if ($count -eq 0) { break }
+                  $total += $count
+                  $phase = "validation"
+                  if ($total -gt $maximum) { throw "Artifact exceeded its byte budget." }
+                  $phase = "local file"
+                  $outputStream.Write($buffer, 0, $count)
+                  if ($total -ge $nextProgress) {
+                    Write-Host "Artifact attempt $attempt`: received $total bytes (limit $maximum)."
+                    $nextProgress = $total + 67108864
+                  }
+                }
+                $phase = "validation"
+                if (($expected -ge 0 -and $total -ne $expected) -or ($null -ne $length -and $total -ne $length)) {
+                  throw "Artifact actual byte length is invalid."
+                }
+                $outputStream.Dispose()
+                $outputStream = $null
+                $succeeded = $true
+                Write-Host "Artifact download completed on attempt $attempt`: $total bytes."
+                return
+              } catch {
+                $failure = $_.Exception.GetBaseException()
+                if ($phase -in @("headers", "read") -and ($failure -is [System.Net.Http.HttpRequestException] -or $failure -is [System.IO.IOException] -or $failure -is [System.Net.Sockets.SocketException] -or $failure -is [System.OperationCanceledException])) {
+                  $retryable = $true
+                }
+                $reason = if ($downloadDeadline.IsCancellationRequested) { "shared 30-minute deadline exceeded" } elseif ($operation.IsCancellationRequested) { "60-second header/read idle timeout" } else { $failure.Message }
+                # Transport exceptions can contain signed URLs; log only their type.
+                if ($retryable -and -not $operation.IsCancellationRequested) { $reason = "transient transport/HTTP failure ($($failure.GetType().Name), HTTP $status)" }
+                if (-not $retryable -or $attempt -eq 3 -or $downloadDeadline.IsCancellationRequested) {
+                  throw "Artifact download failed on attempt $attempt in $phase after $total bytes: $reason"
+                }
+                Write-Host "Artifact attempt $attempt failed in $phase after $total bytes: $reason; retrying from the pinned publisher."
+              } finally {
+                if ($null -ne $outputStream) { $outputStream.Dispose() }
+                if ($null -ne $inputStream) { $inputStream.Dispose() }
+                if ($null -ne $response) { $response.Dispose() }
+                $operation.Dispose()
+                $client.Dispose()
+                if ($created -and -not $succeeded) { Remove-Item -LiteralPath $destination -Force }
               }
-              if ($expected -ge 0 -and $total -ne $expected) { throw "Artifact actual byte length is invalid." }
-            } finally {
-              if ($null -ne $outputStream) { $outputStream.Dispose() }
-              if ($null -ne $inputStream) { $inputStream.Dispose() }
-              if ($null -ne $response) { $response.Dispose() }
-              $deadline.Dispose()
-              $client.Dispose()
+              if ($downloadDeadline.Token.WaitHandle.WaitOne([TimeSpan]::FromSeconds(5 * $attempt))) {
+                throw "Artifact download shared 30-minute deadline exceeded during retry backoff."
+              }
             }
           }
           $url = "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$([uri]::EscapeDataString($file))"
@@ -217,6 +279,7 @@ jobs:
           foreach ($notice in @($metadata.siblings | Where-Object { $_.rfilename -cin @("NOTICE", "NOTICE.txt", "NOTICE.md") })) {
             Receive-PublicAsset "https://huggingface.co/${repository}/resolve/$($metadata.sha)/$([uri]::EscapeDataString($notice.rfilename))" ([System.IO.Path]::GetFullPath("candidate/$($notice.rfilename)")) 65536
           }
+          $downloadDeadline.Dispose()
           $enginePath = [System.IO.Path]::GetFullPath("native-engine/build/bin/Release/llama-server.exe")
           $engineSha = (Get-FileHash $enginePath -Algorithm SHA256).Hash.ToLowerInvariant()
           $manifest = [ordered]@{
