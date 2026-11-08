@@ -1,6 +1,6 @@
-version: "v38.6"
-date: "2026-11-07"
-updated: "2026-11-07"
+version: "v38.7"
+date: "2026-11-08"
+updated: "2026-11-08"
 
 alpha_gut_matching_audit_2026_11_08:
   status: "FIRST_PRINCIPLES_ALPHA_GUT_OPEN"
@@ -27,6 +27,31 @@ canonical_status_notice: >
   (sprint_id v30.0, next_pillar_slot 942) predates the compact tracker
   format   adopted at v31.0/Sprint BG and must never be read as the
   repository's current pillar count, version, or regression total.
+
+v38_7_sprint_dc:
+  sprint: DC
+  version: v38.7
+  date: "2026-11-08"
+  pillars: 1136-1136
+  new_pillars: 1
+  new_tests: 5
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures: []
+  advances:
+    - PLANAR_RADION_SCALAR_ENERGY_BALANCE_DERIVED
+  residual_obligations:
+    - T_RELAXATION_LAW_DECLARED_NOT_DERIVED
+    - PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED
+  remaining_open:
+    - GAUGE_FIELD_PHYSICAL_TIME_EVOLUTION
+    - FULLY_INHOMOGENEOUS_5D_SECTOR_PHYSICAL_TIME_EVOLUTION
+    - Z2_ORBIFOLD_PHYSICAL_TIME_EVOLUTION
+    - GLOBAL_WELL_POSEDNESS
+  regression: "Not run; Python environment lacks NumPy, SymPy, and pytest"
+  focused_regression: "Not run; Python environment lacks NumPy, SymPy, and pytest"
+  next_pillar_slot: 1137
 
 v38_6_sprint_db:
   sprint: DB

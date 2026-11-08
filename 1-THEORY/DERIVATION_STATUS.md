@@ -6,7 +6,17 @@
 > [TRUTH_LAYER](../docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08);
 > historical closure statements below do not supersede this qualification.
 
-> **Current ledger: v38.6 — Sprint DB (2026-11-07).** Pillar 1135 certifies
+> **Current ledger: v38.7 — Sprint DC (2026-11-08).** Pillar 1136 derives
+> the radion-weighted local scalar energy balance in the restricted planar
+> sector. Its periodic energy is sourced by radion work, not generally
+> conserved. The exact symbolic identity does not establish a discrete
+> conservation theorem, global evolution, or framework closure. Pillar
+> 1130's `T_RELAXATION_LAW_DECLARED_NOT_DERIVED` and
+> `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` obligations remain open; next slot
+> 1137. Focused tests and full regression were not run because NumPy, SymPy,
+> and pytest are unavailable.
+
+> **Historical: v38.6 — Sprint DB (2026-11-07).** Pillar 1135 certifies
 > the previously-unallocated `src/physics/planar_radion/` module (massless,
 > zero-vector, transversely isotropic circle sector) as a new,
 > independently-scoped capability, by directly invoking its existing
@@ -63,10 +73,10 @@
 > Photon origin and action-to-evolution equivalence remain open. No new physics
 > closure is claimed.
 
-**The Unitary Manifold v38.6 — Unambiguous Record**
+**The Unitary Manifold v38.7 — Unambiguous Record**
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-11-07 (v38.6 — Sprint DB: Pillar 1135 certifies the previously-unallocated `src/physics/planar_radion/` module as a new, independently-scoped capability within the declared massless/zero-vector/planar perimeter; next slot 1136. Does not close `T_RELAXATION_LAW_DECLARED_NOT_DERIVED` or `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` at the framework level; both remain open. No framework closure.)*
-*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record, tests/ + recycling/ + Pentad; Sprints CV and CW recorded none; Sprint DB focused verification is reported in docs/TRUTH_LAYER.md).*
+*Last updated: 2026-11-08 (v38.7 — Sprint DC: Pillar 1136 derives the restricted planar radion-weighted scalar energy balance; its periodic energy is not generally conserved, and the finite-grid helper is a diagnostic rather than an exact discrete invariant. Pillar 1130's framework obligations remain open; next slot 1137. Focused tests and full regression were not run because NumPy, SymPy, and pytest are unavailable.)*
+*Latest verified full regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (historical Sprint CU record, tests/ + recycling/ + Pentad; not a current all-clear).*
 
 *Historical Sprint DA registration (v38.5, 2026-11-05): Pillars 1133–1134; next slot 1135. Adjacent superfluid-reference and rare-decay-tool registration, already recorded in STATUS.md; no derived UM connection, hardgate promotion or physics closure was claimed. This historical registration is not current version metadata.*
 

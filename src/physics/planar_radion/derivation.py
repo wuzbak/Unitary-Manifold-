@@ -164,6 +164,30 @@ def constraint_propagation_residuals():
     return {"u": sp.factor(du), "v": sp.factor(dv)}
 
 
+def scalar_energy_balance_residual():
+    """Derive the local radion-weighted scalar energy balance from its EOM."""
+    t, x = sp.symbols("t x", real=True)
+    r = sp.Function("r")(t, x)
+    psi = sp.Function("psi")(t, x)
+    psi_t, psi_x = sp.diff(psi, t), sp.diff(psi, x)
+    energy_density = sp.Rational(1, 2) * r**2 * (psi_t**2 + psi_x**2)
+    flux = r**2 * psi_t * psi_x
+    radion_work = r * sp.diff(r, t) * (psi_x**2 - psi_t**2)
+    wave_equation = (
+        sp.diff(psi, t, 2) - sp.diff(psi, x, 2)
+        + 2 * sp.diff(r, t) * psi_t / r
+        - 2 * sp.diff(r, x) * psi_x / r
+    )
+    residual = sp.diff(energy_density, t) - sp.diff(flux, x) - radion_work
+    residual = residual.subs(
+        sp.diff(psi, t, 2),
+        sp.diff(psi, x, 2)
+        - 2 * sp.diff(r, t) * psi_t / r
+        + 2 * sp.diff(r, x) * psi_x / r,
+    )
+    return sp.simplify(residual), wave_equation
+
+
 @lru_cache(maxsize=1)
 def direct_ricci_residuals():
     """Compute Ricci from the 4D metric and compare to planar warped products.
@@ -495,6 +519,9 @@ def exact_symbolic_checks():
     return {
         "metric_variation": metric_variation_residuals(),
         "constraint_propagation": constraint_propagation_residuals(),
+        "scalar_energy_balance": {
+            "local_balance": scalar_energy_balance_residual()[0],
+        },
         "direct_ricci": direct_ricci_residuals(),
         "direct_5d_uplift_ricci": direct_five_dimensional_uplift_residuals(),
         "frw_branch": frw_branch_residuals(),

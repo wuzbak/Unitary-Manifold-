@@ -1,5 +1,24 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v38.6
+# Unitary Manifold v38.7
+
+## Sprint DC: planar radion scalar energy balance (2026-11-08)
+
+Pillar 1136 derives the local balance equation for the radion-weighted scalar
+energy in the already-declared massless, zero-vector, transversely isotropic
+planar sector. The periodic boundary flux integrates to zero, while the
+radion-work source \(r r_t(\psi_x^2-\psi_t^2)\) generally does not; the scalar
+energy is therefore not asserted to be conserved. The implementation exposes
+a centered-difference diagnostic, and a SymPy identity checks the continuum
+equation. This does not certify exact discrete conservation, global
+well-posedness, new sector dynamics, or empirical confirmation.
+
+No hardgate label, TOE score, observational falsifier, Lean theorem count, or
+framework closure changes. Pillar 1130's
+`T_RELAXATION_LAW_DECLARED_NOT_DERIVED` and
+`PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` obligations remain open. The
+environment lacked NumPy, SymPy, and pytest, so focused tests and regression
+were not run. See [the derivation and implementation](physics/PLANAR_RADION_DYNAMICS.md#scalar-energy-exchange-v387--sprint-dc-2026-11-08)
+and [Pillar 1136](../PILLARS/P1136/README.md).
 
 ## α_GUT: conditional action matching and remaining UV gap (2026-11-08)
 

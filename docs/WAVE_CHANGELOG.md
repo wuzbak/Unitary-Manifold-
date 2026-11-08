@@ -1,5 +1,32 @@
 # Wave Changelog
 
+## v38.7 (2026-11-08 — Sprint DC: Pillar 1136)
+
+### What changed
+- Added `planar_scalar_energy_budget` to report the radion-weighted scalar
+  energy and its radion-work rate in the restricted physical-time solver.
+- Added an exact symbolic derivation of the local balance law and Pillar 1136,
+  with focused tests for the identity, the homogeneous exact branch, and the
+  fail-closed pillar packet.
+- Updated the planar-radion technical note and canonical status ledgers, and
+  refreshed the generated live/public status JSON while adding a grounded
+  PsiCat research brief and article.
+
+### What did not change
+- The periodic scalar energy is not claimed to be conserved: the radion-work
+  source generally changes it. The finite-difference diagnostic does not
+  establish exact discrete conservation.
+- No hardgate physics label, TOE score, observational falsifier, Lean theorem
+  count, or framework-level closure changed. Pillar 1130's two evolution
+  obligations remain open.
+- Neither focused tests nor full regression ran: this environment lacks
+  NumPy, SymPy, and pytest. The Sprint CU total remains a historical receipt.
+
+### Why
+An energy balance is a useful diagnostic for the recently registered
+coordinate-time scalar sector, provided the radion's work term is kept explicit
+instead of assuming scalar-energy conservation.
+
 ## α_GUT conditional action-matching audit (2026-11-08)
 
 Derive tree-level gauge zero-mode matching for a specified orbifold action and

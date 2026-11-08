@@ -1,11 +1,22 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v38.6
+# Unitary Manifold v38.7
 
 > **α_GUT / Λ_QCD qualification (2026-11-08):** The geometric candidate
 > `N_c/K_CS` is not a first-principles derivation from the stated 5D action.
 > Conditional gauge-kinetic matching and its remaining assumptions are
 > documented in [TRUTH_LAYER](TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
 > Historical numerical agreement does not close the UV normalization gap.
+
+## Planar radion scalar energy balance (2026-11-08)
+
+P1136 derives the local radion-weighted scalar energy balance in the restricted
+planar sector. The radion-work source generally changes the periodic scalar
+energy; no conservation law is asserted. The diagnostic uses centered spatial
+differences and the symbolic identity is limited to the stated reduced
+equation. It does not close either of Pillar 1130's evolution obligations or
+establish global well-posedness, empirical confirmation, or a new hardgate
+claim. Focused tests and full regression were not run because NumPy, SymPy,
+and pytest are unavailable. See [Sprint DC](TRUTH_LAYER.md#sprint-dc-planar-radion-scalar-energy-balance-2026-11-08).
 
 ## Planar radion physical-time certification (2026-11-07)
 
@@ -95,6 +106,8 @@ still-open physical obligations in the table.
 
 
 
+
+*P1136 (v38.7): PLANAR_RADION_SCALAR_ENERGY_BALANCE_DERIVED. `src/core/pillar_1129_1168/pillar1136_planar_radion_scalar_energy_balance.py` checks the local radion-weighted scalar energy identity in the restricted planar sector and pairs it with the `planar_scalar_energy_budget` diagnostic. The radion-work source generally changes the periodic integrated energy; this is not a conservation law, exact discrete invariant, global theorem, empirical prediction, or closure of Pillar 1130's two open framework obligations. Focused tests and full regression were not run because NumPy, SymPy, and pytest are unavailable. Truth layer: [Sprint DC](TRUTH_LAYER.md#sprint-dc-planar-radion-scalar-energy-balance-2026-11-08).*
 
 *P1135 (v38.6): PLANAR_RADION_RESTRICTED_PHYSICAL_TIME_EVOLUTION_CERTIFIED. `src/core/pillar_1129_1168/pillar1135_planar_radion_physical_time_certification.py` certifies, by directly invoking the existing, already-tested acceptance evidence in `TOOLS.checks.run_planar_radion_acceptance` (no reimplementation), the previously-unallocated `src/physics/planar_radion/` module (derivation, geometry, evolution) as a new, independently-scoped capability alongside — not closing — Pillar 1130's two remaining residual obligations (T_RELAXATION_LAW_DECLARED_NOT_DERIVED, PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED), both of which remain open. `planar_radion_physical_time_certificate()` certifies fail-closed on every declared acceptance gate: exact symbolic identities (null-gauge evolution equations, null constraints, pre-gauge metric-variation cross-check); admissible constrained initial data evolved by RK4 in real coordinate time with spatial convergence checked against Bessel and gauge-wave exact references, temporal self-convergence checked separately, and Kasner/FRW identities checked symbolically; an independently implemented five-dimensional Ricci oracle; and six correctly-rejected negative controls. This is certified constraint-compatible, nonconstant, coordinate-time propagating-scalar evolution restricted to the declared massless/zero-vector/planar perimeter. The contract still reads DELIVERABLES_EARNED_EVOLUTION_LAW_OPEN, not closure-ready. Framework closure not earned. Truth layer: [Sprint DB](TRUTH_LAYER.md#sprint-db-planar-radion-physical-time-certification).*
 

@@ -7,7 +7,18 @@
 > Older closure claims below are historical and do not establish a
 > first-principles QCD scale. See [the action matching and counterexample](docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
 
-*Unitary Manifold v38.6 — Sprint DB ledger synchronization (2026-11-07):
+*Unitary Manifold v38.7 — Sprint DC ledger synchronization (2026-11-08):
+Pillar 1136 derives the radion-weighted local scalar energy balance in the
+restricted planar sector. The periodic scalar energy exchanges work with the
+evolving radion and is not generally conserved. The finite-grid diagnostic
+uses centered derivatives and is not an exact discrete conservation result.
+Neither it nor the exact symbolic identity establishes global existence,
+empirical confirmation, or framework-level closure. Pillar 1130's two
+evolution obligations remain open; next slot 1137. No full or focused pytest
+run was possible because NumPy, SymPy, and pytest are unavailable in this
+environment. The Sprint CU full-regression marker remains historical.*
+
+*Historical: Unitary Manifold v38.6 — Sprint DB ledger synchronization (2026-11-07):
 Pillar 1135 certifies the previously-unallocated `src/physics/planar_radion/`
 module (massless, zero-vector, transversely isotropic circle sector) as a
 new, independently-scoped capability; it does not close either of Pillar

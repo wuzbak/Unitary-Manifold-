@@ -2,12 +2,12 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8698,
+  "file_count": 8703,
   "lanes": {
     "az_ip": 2685,
     "compactification": 9,
-    "other": 5590,
-    "psicat_articles": 356,
+    "other": 5594,
+    "psicat_articles": 357,
     "psicat_books": 58
   },
   "top_levels": {
@@ -29,7 +29,7 @@
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 949,
+    "7-OUTREACH": 951,
     "8-SAFETY": 8,
     "9-INFRASTRUCTURE": 268,
     "AGENTS.md": 1,
@@ -63,7 +63,7 @@
     "NOTICE": 1,
     "PEER_REVIEW_RESPONSE_v933.md": 1,
     "PENTAD_PRODUCT_NOTICE.md": 1,
-    "PILLARS": 531,
+    "PILLARS": 532,
     "PROVENANCE.md": 1,
     "README.md": 1,
     "RECOVERY": 2,
@@ -110,10 +110,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1664,
+    "src": 1665,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1570,
+    "tests": 1571,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -3277,7 +3277,8 @@
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-353-the-state-of-the-manifold-october-2026.md",
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md",
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-355-p1133-superfluid-connections-without-overclaiming.md",
-      "7-OUTREACH/A Z PsiCat Literature/Articles/article-356-post-1134-the-zeptoverse-and-rare-b-decays.md"
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-356-post-1134-the-zeptoverse-and-rare-b-decays.md",
+      "7-OUTREACH/A Z PsiCat Literature/Articles/article-357-p1136-radion-energy-balance.md"
     ]
   },
   "files": [
@@ -26913,6 +26914,12 @@
       "lane": "psicat_articles"
     },
     {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Articles/article-357-p1136-radion-energy-balance.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_articles"
+    },
+    {
       "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-01-psicat-new-first-announcement.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -29859,6 +29866,12 @@
       "lane": "other"
     },
     {
+      "path": "7-OUTREACH/substack/research/p1136-planar-radion-energy-balance-brief.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "7-OUTREACH/substack/visuals/README.md",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -32740,6 +32753,12 @@
     },
     {
       "path": "PILLARS/P1134/README.md",
+      "top_level": "PILLARS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "PILLARS/P1136/README.md",
       "top_level": "PILLARS",
       "kind": "file",
       "lane": "other"
@@ -46527,6 +46546,12 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar_1129_1168/pillar1136_planar_radion_scalar_energy_balance.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pillar_1132_1134/__init__.py",
       "top_level": "src",
       "kind": "file",
@@ -52798,6 +52823,12 @@
     },
     {
       "path": "tests/test_pillar1135_planar_radion_physical_time_certification.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar1136_planar_radion_scalar_energy_balance.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

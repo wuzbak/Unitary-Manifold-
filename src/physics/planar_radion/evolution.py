@@ -22,6 +22,7 @@ __all__ = [
     "PlanarRadionState",
     "PlanarRadionTrajectory",
     "constrained_areal_initial_data",
+    "planar_scalar_energy_budget",
     "planar_constraint_diagnostic",
     "evolve_planar_radion",
 ]
@@ -256,6 +257,35 @@ def planar_constraint_diagnostic(state: PlanarRadionState) -> dict[str, FloatArr
         "Cv": 0.5 * (constraint_sum + constraint_difference),
         "Cu_plus_Cv": constraint_sum,
         "Cv_minus_Cu": constraint_difference,
+    }
+
+
+def planar_scalar_energy_budget(state: PlanarRadionState) -> dict[str, float]:
+    """Return the periodic scalar energy and its radion-work rate.
+
+    The scalar equation implies
+    ``d_t e - d_x(r**2 * psi_t * psi_x) = w``, where
+    ``e = r**2 * (psi_t**2 + psi_x**2) / 2`` and
+    ``w = r * r_t * (psi_x**2 - psi_t**2)``.
+    The periodic boundary flux integrates to zero. Spatial derivatives use
+    the same centered stencil as the evolution system.
+    """
+    try:
+        with np.errstate(over="raise", divide="raise", invalid="raise"):
+            psi_x = _periodic_d1(state.psi, state.dx)
+            energy_density = 0.5 * state.r**2 * (state.psi_t**2 + psi_x**2)
+            radion_work_density = state.r * state.r_t * (
+                psi_x**2 - state.psi_t**2
+            )
+            energy = float(state.dx * np.sum(energy_density))
+            radion_work_rate = float(state.dx * np.sum(radion_work_density))
+    except FloatingPointError as exc:
+        raise ValueError("energy budget left the finite physical domain") from exc
+    if not math.isfinite(energy) or not math.isfinite(radion_work_rate):
+        raise ValueError("energy budget left the finite physical domain")
+    return {
+        "energy": energy,
+        "radion_work_rate": radion_work_rate,
     }
 
 
