@@ -1,5 +1,15 @@
 # Wave Changelog
 
+## Kernel warning-blocker follow-through (2026-11-08)
+
+Address the standalone kernel build separately from qualified Product 45/46
+releases. Preserve warnings-as-errors and deferred hardware boundaries; do not
+activate PCI MMIO or claim a configured timer merely to consume unused constants.
+Track the canonical kernel sources as well as their legacy compatibility path in
+CI, and propagate release compiler failures through the log pipeline. Real UEFI
+build results remain necessary; existing permissive host/boot lanes do not certify
+hardware execution. Leave the in-progress mutation gate running unchanged.
+
 ## Product 45 audited-status patch release (2026-11-08)
 
 Published Windows 0.1.0 and Android 0.1.0 after their native acceptance gates.

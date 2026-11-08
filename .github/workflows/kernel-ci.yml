@@ -3,10 +3,12 @@ name: AZ-OS Kernel CI
 on:
   push:
     paths:
+      - "12-AZ-IP/02-az-kernel/**"
       - "11-AZ-OS/**"
       - ".github/workflows/kernel-ci.yml"
   pull_request:
     paths:
+      - "12-AZ-IP/02-az-kernel/**"
       - "11-AZ-OS/**"
       - ".github/workflows/kernel-ci.yml"
 
@@ -51,6 +53,7 @@ jobs:
       - name: Build kernel (release)
         working-directory: 11-AZ-OS/ax-kernel
         run: |
+          set -o pipefail
           cargo build --release --target x86_64-unknown-uefi 2>&1 | tee /tmp/build.log
           echo "Build exit code: $?"
 

@@ -48,6 +48,21 @@ def test_psicat_performance_gate_limits_pushes_to_main() -> None:
     assert _extract_branches("psicat-performance-gate.yml", "pull_request") == ["**"]
 
 
+def test_kernel_build_tracks_canonical_sources_and_preserves_release_failures() -> None:
+    workflow = _load("kernel-ci.yml")
+    events = workflow.get("on") or workflow.get(True)
+    for event in ("push", "pull_request"):
+        assert "12-AZ-IP/02-az-kernel/**" in events[event]["paths"]
+        assert "11-AZ-OS/**" in events[event]["paths"]
+    assert workflow["env"]["RUSTFLAGS"] == "-D warnings"
+    steps = workflow["jobs"]["build-kernel"]["steps"]
+    release = next(step for step in steps if step.get("name") == "Build kernel (release)")
+    assert release["run"].index("set -o pipefail") < release["run"].index("cargo build")
+    assert "|| true" not in release["run"]
+    dev = next(step for step in steps if step.get("name") == "Build kernel (dev)")
+    assert dev["run"] == "cargo build --target x86_64-unknown-uefi"
+
+
 def test_psicat_pr_smoke_jobs_include_repository_root_on_pythonpath() -> None:
     expected = "${{ github.workspace }}"
     for workflow_name, job_name in [
