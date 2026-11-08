@@ -59,6 +59,8 @@
     .status-consistent { color: var(--pass-color); }
     .status-tension { color: var(--tension-color); }
     .status-falsified { color: var(--falsified-color); }
+    .status-unknown { color: var(--awaiting-color); }
+    .status-unknown .status-dot { background: var(--awaiting-color); }
 
     /* Tally row */
     .tally-row {
@@ -97,6 +99,8 @@
     .exp-card.verdict-TENSION { border-top: 3px solid var(--tension-color); }
     .exp-card.verdict-FALSIFIED { border-top: 3px solid var(--falsified-color); }
     .exp-card.verdict-AWAITING_DATA { border-top: 3px solid var(--awaiting-color); }
+    .exp-card.verdict-UNSUPPORTED,
+    .exp-card.verdict-MODEL_DEPENDENT_UNESTABLISHED { border-top: 3px solid var(--awaiting-color); }
 
     .exp-header {
       padding: 1rem 1.25rem 0.5rem;
@@ -117,6 +121,11 @@
     .badge-TENSION { background: var(--tension-bg); color: var(--tension-color); border: 1px solid rgba(245,158,11,0.3); }
     .badge-FALSIFIED { background: var(--falsified-bg); color: var(--falsified-color); border: 1px solid rgba(239,68,68,0.3); }
     .badge-AWAITING_DATA { background: var(--awaiting-bg); color: var(--awaiting-color); border: 1px solid rgba(148,163,184,0.2); }
+    .exp-verdict-badge.badge-UNSUPPORTED,
+    .exp-verdict-badge.badge-MODEL_DEPENDENT_UNESTABLISHED {
+      background: var(--awaiting-bg); color: var(--awaiting-color);
+      white-space: normal; overflow-wrap: anywhere;
+    }
 
     .exp-body { padding: 0.6rem 1.25rem 1rem; flex: 1; display: flex; flex-direction: column; gap: 0.7rem; }
 
@@ -213,17 +222,17 @@
   <header class="obs-hero">
     <h1>⚗ Falsification Observatory</h1>
     <p class="subtitle">
-      Real-time routing of live experiments against pre-registered kill conditions — Unitary Manifold v34.0 Sprint BL
+      Historical measurement simulator — not live experimental verification. EXP-5/EXP-7 physical comparisons are unestablished.
     </p>
     <span class="version-tag">Pillar 787</span>
     <span class="version-tag">7 experiments</span>
-    <span class="version-tag">Lean4 1006 theorems</span>
+    <span class="version-tag">Historical P787 routes</span>
   </header>
 
   <!-- Framework status bar -->
-  <div id="framework-status-bar" class="status-consistent">
+  <div id="framework-status-bar" class="status-unknown">
     <div class="status-dot"></div>
-    <span id="framework-status-text">FRAMEWORK_CONSISTENT — loading verdicts…</span>
+    <span id="framework-status-text">Simulation loading — no framework all-clear</span>
   </div>
 
   <!-- Verdict tally -->
@@ -232,6 +241,7 @@
     <div class="tally-chip tension">⚠ TENSION: <span id="tally-tension">—</span></div>
     <div class="tally-chip falsified">✕ FALSIFIED: <span id="tally-falsified">—</span></div>
     <div class="tally-chip awaiting">◌ AWAITING: <span id="tally-awaiting">—</span></div>
+    <div class="tally-chip awaiting">UNESTABLISHED: <span id="tally-unsupported">—</span></div>
   </div>
 
   <!-- Main content wrapper -->
@@ -239,8 +249,8 @@
 
     <!-- Milestone banner -->
     <div class="milestone-banner" style="margin-top:1.5rem;">
-      🏁 v34.0 Sprint BL checkpoint — Lean4 formal theorem count stands at <strong>3,912</strong> theorems.
-      Pillars 982–992 added as the architecture-limit runtime and flavor-family boundary package. DESI DR3 remains preregistered. LiteBIRD remains the primary falsifier ~2032.
+      🏁 Historical v34.0 Sprint BL checkpoint — <strong>3,912</strong> recorded Lean4 declarations, not discharged physical proof obligations.
+      Pillars 982–992 were added as the architecture-limit runtime and flavor-family boundary package. Remaining simulator routes retain historical assumptions; read the <a href="../status/index.html">current status</a> before citing. LiteBIRD remains the primary falsifier ~2032.
     </div>
 
     <!-- Custom input panel -->
@@ -281,7 +291,7 @@
         </div>
         <div class="input-group">
           <label>HL-LHC M_G* exclusion (TeV)</label>
-          <input type="number" id="in-mg" placeholder="default: 1.8" step="0.1">
+          <input type="number" id="in-mg" placeholder="no validated mass-only comparison" step="0.1">
         </div>
       </div>
       <button class="btn-run" onclick="FO.run()">▶ Update Observatory</button>
@@ -301,6 +311,7 @@
     <div class="legend-item"><div class="legend-dot" style="background:var(--tension-color)"></div>TENSION — outside range, below kill threshold</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--falsified-color)"></div>FALSIFIED — bright-line kill condition met</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--awaiting-color)"></div>AWAITING — data not yet available</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--awaiting-color)"></div>UNESTABLISHED — no supported physical comparison</div>
   </div>
 
   <!-- Footer -->

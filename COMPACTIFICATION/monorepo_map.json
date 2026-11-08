@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8694,
+  "file_count": 8698,
   "lanes": {
     "az_ip": 2685,
     "compactification": 9,
-    "other": 5586,
+    "other": 5590,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -16,7 +16,7 @@
     ".dvc": 1,
     ".firebaserc": 1,
     ".gitattributes": 1,
-    ".github": 56,
+    ".github": 57,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
@@ -90,7 +90,7 @@
     "data": 4,
     "demo.ipynb": 1,
     "docker-compose.yml": 1,
-    "docs": 99,
+    "docs": 100,
     "dvc.yaml": 1,
     "firebase.json": 1,
     "hf-spaces": 54,
@@ -100,7 +100,7 @@
     "mkdocs.yml": 1,
     "package-lock.json": 1,
     "proof": 17,
-    "public-site": 84,
+    "public-site": 85,
     "pyproject.toml": 1,
     "pytest.ini": 1,
     "recycling": 14,
@@ -113,7 +113,7 @@
     "src": 1664,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1569,
+    "tests": 1570,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -3415,6 +3415,12 @@
     },
     {
       "path": ".github/scripts/verify-android-suite.sh",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/tests/test_embedded_model_download_contract.py",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -36249,6 +36255,12 @@
       "lane": "other"
     },
     {
+      "path": "docs/audits/REPOSITORY_CONSISTENCY_AUDIT_2026_11_07.md",
+      "top_level": "docs",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "docs/braid_lock_derivation.md",
       "top_level": "docs",
       "kind": "file",
@@ -38392,6 +38404,12 @@
     },
     {
       "path": "public-site/js/physics-engine.js",
+      "top_level": "public-site",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "public-site/js/status-snapshot.js",
       "top_level": "public-site",
       "kind": "file",
       "lane": "other"
@@ -57550,6 +57568,12 @@
     },
     {
       "path": "tests/test_sprint_z_pillars_711_to_715.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_status_consumer_audit.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

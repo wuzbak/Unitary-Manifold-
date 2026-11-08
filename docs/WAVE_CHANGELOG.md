@@ -32,6 +32,25 @@ No physical-phone performance or actual 27B inference qualification is claimed.
 Evidence/notebook boundaries, UNVERIFIED labels, canonical physics claims, TOE
 score and falsification conditions remain unchanged.
 
+## Repository consistency audit, first bounded tranche (2026-11-07)
+
+Preserve a dedicated, resumable audit with three expert reviews and offline
+`bot.rag_index` retrieval. Correct live AI/discovery closure overstatements,
+Truth Layer header drift, and historical regression provenance without changing
+version, pillar allocation, hardgate registry, TOE score, or the birefringence
+falsifier. Retain mixed-era ingest material as explicitly historical.
+
+Correct the live-status detector and graviton summaries without inventing a
+physical amplitude or selecting among incompatible spectra. Unavailable API
+status must expose unknown counts, not zero failures. Enforce generated-artifact
+equality in the existing drift workflow, with negative regressions and generator
+tests that no longer depend on FastAPI being installed.
+
+This is not a repository-wide or physics all-clear. Reviewed evidence,
+validation outcomes, deferred source/consumer contradictions, and resumption
+instructions are recorded in
+[`the audit checkpoint`](audits/REPOSITORY_CONSISTENCY_AUDIT_2026_11_07.md).
+
 ## v38.6 (2026-11-07 — Sprint DB: Pillar 1135)
 
 Certify the previously-unallocated `src/physics/planar_radion/` module by

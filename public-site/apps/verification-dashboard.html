@@ -35,7 +35,7 @@
     <li><a href="../pentad/index.html">Pentad</a></li>
     <li><a href="../status/index.html">Status</a></li>
     <li><a href="../ip/index.html">IP</a></li>
-    <li><span class="nav-badge" id="nav-version">v34.0</span></li>
+    <li><span class="nav-badge" id="nav-version">Unknown</span></li>
   </ul>
 </nav>
 
@@ -48,42 +48,42 @@
   </div>
 
   <div class="status-hero">
-    <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-muted);">Current audited branch state</div>
+    <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-muted);">Recorded software metadata — not current CI clearance</div>
     <div class="status-grid">
       <div class="status-card">
-        <div class="status-num" id="vd-version">v34.0</div>
+        <div class="status-num" id="vd-version">Unknown</div>
         <div class="text-xs text-muted">Version</div>
       </div>
       <div class="status-card">
-        <div class="status-num" id="vd-tests">62,525</div>
-        <div class="text-xs text-muted">Passing tests</div>
+        <div class="status-num" id="vd-tests">Unknown</div>
+        <div class="text-xs text-muted">Historical recorded passes</div>
       </div>
       <div class="status-card">
-        <div class="status-num" id="vd-failed">0</div>
-        <div class="text-xs text-muted">Failures</div>
+        <div class="status-num" id="vd-failed">Unknown</div>
+        <div class="text-xs text-muted">Recorded failures</div>
       </div>
       <div class="status-card">
-        <div class="status-num" id="vd-lean4">3,912</div>
-        <div class="text-xs text-muted">Lean4 theorems</div>
+        <div class="status-num" id="vd-lean4">Unknown</div>
+        <div class="text-xs text-muted">Historical Lean4 declarations</div>
       </div>
       <div class="status-card">
-        <div class="status-num" id="vd-pillars">992</div>
+        <div class="status-num" id="vd-pillars">Unknown</div>
         <div class="text-xs text-muted">Total pillar slots</div>
       </div>
       <div class="status-card">
-        <div class="status-num" id="vd-next">993</div>
+        <div class="status-num" id="vd-next">Unknown</div>
         <div class="text-xs text-muted">Next pillar slot</div>
       </div>
     </div>
     <div style="margin-top:1rem;color:var(--color-muted);font-size:.9rem" id="vd-summary">
-      Internal mathematical self-consistency is established. External empirical confirmation is still pending.
+      Status evidence loading. Historical counts do not establish current full-suite or scientific clearance.
     </div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
-        <h3>Active architecture boundaries</h3>
+        <h3>Historical architecture-boundary snapshot</h3>
         <div style="font-family:var(--font-mono);font-size:.8rem;color:var(--color-muted)">
           <span class="text-green" id="adm-closed-n">10</span> closed · <span style="color:var(--color-orange)" id="adm-open-n">3</span> open
         </div>
@@ -92,7 +92,7 @@
     </div>
 
     <div class="card">
-      <h3 style="margin-bottom:1.25rem">Predictions &amp; live residuals</h3>
+      <h3 style="margin-bottom:1.25rem">Historical prediction snapshot — consult live ledgers</h3>
       <div id="predictions-list"></div>
     </div>
   </div>
@@ -157,25 +157,38 @@ document.addEventListener("DOMContentLoaded", () => {
     dashboard.primary_falsifier.replace(/β/g, "<strong>β</strong>");
 
   function applyLiveStatus(d) {
-    const testsPassed = d.tests_passed || (d.tests && d.tests.passed) || dashboard.tests_total;
-    const testsFailed = d.tests_failed || (d.tests && d.tests.failed) || 0;
-    const leanTheorems = d.lean4_theorems || (d.lean4 && d.lean4.theorem_count) || dashboard.lean4_total;
-    const version = d.version || (d.meta && d.meta.version && ('v' + d.meta.version)) || dashboard.version;
-    const nextSlot = d.next_pillar_slot || (d.pillars && d.pillars.next_slot) || (dashboard.pillars_total + 1);
-    const totalPillars = d.pillars_total || (d.pillars && d.pillars.total_slots) || dashboard.pillars_total;
+    const recordedCount = (flat, section, key) =>
+      Object.prototype.hasOwnProperty.call(d, flat) ? d[flat] : (d[section]?.[key] ?? null);
+    const displayCount = value => value == null ? 'Unknown' : Number(value).toLocaleString();
+    const testsPassed = recordedCount('tests_passed', 'tests', 'passed');
+    const testsFailed = recordedCount('tests_failed', 'tests', 'failed');
+    const leanTheorems = recordedCount('lean4_theorems', 'lean4', 'theorem_count');
+    const version = d.version || (d.meta?.version && ('v' + d.meta.version)) || 'Unknown';
+    const nextSlot = recordedCount('next_pillar_slot', 'pillars', 'next_slot');
+    const totalPillars = recordedCount('pillars_total', 'pillars', 'total_slots');
     document.getElementById("vd-version").textContent = version;
     document.getElementById("nav-version").textContent = version;
-    document.getElementById("vd-tests").textContent = Number(testsPassed).toLocaleString();
-    document.getElementById("vd-failed").textContent = Number(testsFailed).toLocaleString();
-    document.getElementById("vd-lean4").textContent = Number(leanTheorems).toLocaleString();
-    document.getElementById("vd-pillars").textContent = Number(totalPillars).toLocaleString();
-    document.getElementById("vd-next").textContent = Number(nextSlot).toLocaleString();
+    document.getElementById("vd-tests").textContent = displayCount(testsPassed);
+    document.getElementById("vd-failed").textContent = displayCount(testsFailed);
+    document.getElementById("vd-lean4").textContent = displayCount(leanTheorems);
+    document.getElementById("vd-pillars").textContent = displayCount(totalPillars);
+    document.getElementById("vd-next").textContent = displayCount(nextSlot);
+    document.getElementById("vd-summary").textContent = d.epistemic_status ||
+      (testsPassed == null || testsFailed == null
+        ? 'Status unavailable or incomplete; no current all-clear.'
+        : 'Historical software receipt only; foundation obligations remain open.');
   }
 
   loadStatusJson('/api/status')
-    .catch(function() { return loadStatusJson('../data/status.json'); })
+    .catch(function(error) {
+      console.warn('API status unavailable; trying the historical same-origin snapshot', error);
+      return loadStatusJson('../data/status.json');
+    })
     .then(applyLiveStatus)
-    .catch(function(){});
+    .catch(function(error) {
+      console.error('Verification status unavailable', error);
+      applyLiveStatus({epistemic_status: 'Status unavailable; no current all-clear.'});
+    });
 });
 </script>
 </body>

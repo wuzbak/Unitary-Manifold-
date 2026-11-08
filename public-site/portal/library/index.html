@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Open Science Library — axiomzerospc.org</title>
-  <meta name="description" content="Full open access library: 74-chapter monograph, arXiv preprint, FALLIBILITY register, BibTeX citations, and live status dashboard." />
+  <meta name="description" content="Full open access library: 74-chapter monograph, arXiv preprint, FALLIBILITY register, BibTeX citations, and dated status snapshot." />
   <meta name="theme-color" content="#050a1a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -93,34 +93,35 @@
   <div class="lib-section" id="status">
     <h2>📊 Live Status Dashboard</h2>
     <p>Real-time framework health — test counts, theorem totals, and open gap tracking. Loaded from STATUS.md.</p>
+    <p id="status-source" role="status">Status snapshot unavailable.</p>
     <div class="status-cards" id="status-cards">
       <div class="stat-card">
-        <div class="stat-num-lg" id="s-tests">62,525</div>
+        <div class="stat-num-lg" id="s-tests">Unavailable</div>
         <div class="stat-label">Tests Passing</div>
         <div class="stat-sub">0 failures required</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg" id="s-skipped">48</div>
+        <div class="stat-num-lg" id="s-skipped">Unavailable</div>
         <div class="stat-label">Skipped</div>
         <div class="stat-sub">optional deps</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg" id="s-lean">3,912</div>
+        <div class="stat-num-lg" id="s-lean">Unavailable</div>
         <div class="stat-label">Lean4 Theorems</div>
         <div class="stat-sub">machine-verified</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg" id="s-pillars">208+</div>
+        <div class="stat-num-lg" id="s-pillars">Unavailable</div>
         <div class="stat-label">Physics Pillars</div>
         <div class="stat-sub">core set CLOSED</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg" id="s-version">v34.0</div>
+        <div class="stat-num-lg" id="s-version">Unavailable</div>
         <div class="stat-label">Framework Version</div>
-        <div class="stat-sub" id="s-date">2026-09-02</div>
+        <div class="stat-sub" id="s-date">Unavailable</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num-lg" style="color:#ff453a;" id="s-failed">0</div>
+        <div class="stat-num-lg" style="color:#ff453a;" id="s-failed">Unavailable</div>
         <div class="stat-label">Test Failures</div>
         <div class="stat-sub">hard requirement</div>
       </div>
@@ -267,6 +268,7 @@
 </footer>
 
 <script src="../../js/assistant.js" defer></script>
+<script src="../../js/status-snapshot.js"></script>
 <script>
 function copyBibTeX() {
   var txt = document.getElementById('bibtex-block').textContent;
@@ -277,40 +279,15 @@ function copyBibTeX() {
   });
 }
 
-function loadStatusJson(url) {
-  return fetch(url).then(function(r) {
-    if (!r.ok) throw new Error('status fetch failed');
-    return r.json();
-  });
-}
-
-function applyLiveStatus(d) {
-  var testsPassed = d.tests_passed || (d.tests && d.tests.passed);
-  var testsSkipped = d.tests_skipped || (d.tests && d.tests.skipped);
-  var testsFailed = d.tests_failed || (d.tests && d.tests.failed);
-  var leanTheorems = d.lean4_theorems || (d.lean4 && d.lean4.theorem_count);
-  var hardgatePillars = d.pillars_hardgate || (d.pillars && d.pillars.hardgate_count);
-  var version = d.version || (d.meta && d.meta.version && ('v' + d.meta.version));
-  var date = d.date || (d.meta && d.meta.date);
-
-  if (typeof testsPassed === 'number') document.getElementById('s-tests').textContent = testsPassed.toLocaleString();
-  if (typeof testsSkipped === 'number') document.getElementById('s-skipped').textContent = testsSkipped;
-  if (typeof testsFailed === 'number') document.getElementById('s-failed').textContent = testsFailed;
-  if (typeof leanTheorems === 'number') document.getElementById('s-lean').textContent = leanTheorems.toLocaleString();
-  if (typeof hardgatePillars === 'number') document.getElementById('s-pillars').textContent = hardgatePillars.toLocaleString();
-  if (version) document.getElementById('s-version').textContent = version;
-  if (date) document.getElementById('s-date').textContent = date;
-}
-
-// Prefer live Base44/backend status; fall back to bundled static JSON.
-loadStatusJson('/api/status')
-  .catch(function() { return loadStatusJson('../../data/status.json'); })
-  .then(applyLiveStatus)
-  .catch(function(){});
+loadBundledStatus('../../data/status.json', {
+  tests_passed: ['s-tests'], tests_skipped: ['s-skipped'], tests_failed: ['s-failed'],
+  lean4_theorems: ['s-lean'], pillars_hardgate: ['s-pillars'],
+  version: ['s-version'], date: ['s-date']
+});
 
 document.addEventListener('DOMContentLoaded', function() {
   if (typeof AZAssistant !== 'undefined') {
-    AZAssistant.setPageContext('Open Science Library — monograph, arXiv preprint, FALLIBILITY register, citation metadata, and live status dashboard');
+    AZAssistant.setPageContext('Open Science Library — monograph, arXiv preprint, FALLIBILITY register, citation metadata, and dated status snapshot');
   }
 });
 </script>

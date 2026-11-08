@@ -114,6 +114,17 @@ def test_plan_selects_changed_slices_and_everything_when_the_plan_changes():
         assert len(ids([trigger])) == len(m["slices"])
 
 
+def test_workflow_contract_tests_are_analysed_by_repository_tooling():
+    manifest = cs.load_manifest()
+    path = ".github/tests/test_embedded_model_download_contract.py"
+    selected = [
+        s["slice_id"] for s in manifest["slices"]
+        if s["language"] == "python" and cs.in_slice(path, s, manifest["paths_ignore"])
+    ]
+    assert selected == ["python-repository-tooling"]
+    assert [s["slice_id"] for s in cs.plan(manifest, [path])] == selected
+
+
 def test_android_suite_sources_have_language_specific_analysis_slices():
     manifest = cs.load_manifest()
     cases = {

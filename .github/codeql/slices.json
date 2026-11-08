@@ -185,6 +185,7 @@
       "build_mode": "none",
       "paths": [
         "*.py",
+        ".github/tests",
         "9-INFRASTRUCTURE",
         "hf-spaces",
         "lodge",

@@ -32,15 +32,20 @@ try:
     from space_core.live_status import status_snapshot
     _STATUS = status_snapshot()
 except Exception:
-    _STATUS = {"version": "vunknown", "tests_passed": 0}
+    _STATUS = {"version": "vunknown", "tests_passed": None}
+
+def format_count(value):
+    return f"{value:,}" if isinstance(value, int) and not isinstance(value, bool) else "unavailable"
+
 
 VERSION        = str(_STATUS["version"])
-TEST_COUNT     = int(_STATUS["tests_passed"])
+TEST_COUNT     = format_count(_STATUS.get("tests_passed"))
+STATUS_PROVENANCE = f"source: {_STATUS.get('source', 'unavailable')}; date: {_STATUS.get('date', 'unknown')}"
 FOOTER = (
     "\n\n---\n"
     "**Gate: 🔵 ADJACENT_TRACK** — quantum simulation lane. Non-hardgate. "
     "Requires steward approval for formal pillar numbering.\n\n"
-    f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION}*"
+    f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION} · {STATUS_PROVENANCE}*"
 )
 
 # ── Pauli matrices ─────────────────────────────────────────────────────────────

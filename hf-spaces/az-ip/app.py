@@ -33,7 +33,7 @@ except Exception:
 VERSION = str(_STATUS["version"])
 FOOTER = (
     "\n\n---\n"
-    f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION}*\n"
+    f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION} · source: {_STATUS.get('source', 'unavailable')}; date: {_STATUS.get('date', 'unknown')}*\n"
     "*License: Defensive Public Commons v1.0 — All content public domain.*\n"
     "*No patents on core equations. No exclusive IP.*"
 )

@@ -26,6 +26,69 @@ def test_build_assistant_context_scaffold_falls_back_on_invalid_ast_limit():
     assert scaffold["tooling"]["ast_file_limit"] == 3
 
 
+def test_retrieve_context_uses_dated_generator_status_not_historical_static_labels(monkeypatch):
+    monkeypatch.setattr(
+        assistant_api,
+        "_build_live_status_from_generator",
+        lambda: {
+            "meta": {
+                "date": "2026-11-07",
+                "source_of_truth": "canonical test status",
+            },
+            "predictions": [
+                {
+                    "id": "EXP-2",
+                    "name": "DESI dark energy",
+                    "status": "HIGH_TENSION",
+                    "verdict": "DESI DR2/Year 3 is under high tension.",
+                    "decision_window": "DESI DR3",
+                },
+                {
+                    "id": "EXP-4",
+                    "name": "CMB tensor-to-scalar ratio",
+                    "status": "HIGH_TENSION",
+                    "verdict": "ACT DR6 reports an upper limit; status remains tension.",
+                },
+                {
+                    "id": "EXP-5",
+                    "name": "HL-LHC KK graviton",
+                    "status": "MODEL_DEPENDENT_UNESTABLISHED",
+                    "verdict": "Spectrum, coupling and channel assumptions require reconciliation.",
+                },
+            ],
+        },
+    )
+
+    context = assistant_api.retrieve_context("current predictions")
+    assert "Generator-backed prediction status · 2026-11-07" in context
+    assert "DESI DR2/Year 3" in context
+    assert "ACT DR6" in context
+    assert "MODEL_DEPENDENT_UNESTABLISHED" in context
+    assert "DESI Y1" not in context
+    assert "0.0315 (BICEP/Keck: < 0.036)" not in context
+    assert "ONE_LOOP_CONSISTENT" not in context
+    assert "126.2 GeV" not in context
+
+
+def test_prediction_status_context_reads_canonical_generator():
+    context = assistant_api._prediction_status_context()
+    assert "[Generator-backed prediction status ·" in context
+    assert "DESI Y1" not in context
+    assert "0.0315 (BICEP/Keck: < 0.036)" not in context
+    assert "ONE_LOOP_CONSISTENT" not in context
+
+
+def test_retrieve_context_falls_back_to_pointer_when_generator_unavailable(monkeypatch):
+    monkeypatch.setattr(assistant_api, "_build_live_status_from_generator", lambda: None)
+
+    context = assistant_api.retrieve_context("current predictions")
+    assert "[Current prediction data unavailable]" in context
+    assert "9-INFRASTRUCTURE/um_live_status.json" in context
+    assert "DESI Y1" not in context
+    assert "0.0315 (BICEP/Keck: < 0.036)" not in context
+    assert "ONE_LOOP_CONSISTENT" not in context
+
+
 @pytest.mark.skipif(not assistant_api.FASTAPI_AVAILABLE, reason="FastAPI not installed")
 def test_context_scaffold_endpoint_returns_prompt_context():
     from fastapi.testclient import TestClient

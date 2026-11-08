@@ -75,12 +75,12 @@ with gr.Blocks(css=custom_css, title="AxiomZero — Unitary Manifold Framework")
                 <li><strong>5D</strong> — Kaluza-Klein dimensionality</li>
               </ul>
               <h3 style="color:#4DD0E1;">Epistemic Status</h3>
-              <p>Repository-level internal mathematical self-consistency established.
+              <p>Foundational derivations and independent CMB normalization remain open.
               External empirical confirmation pending.</p>
               <h3 style="color:#4DD0E1;">Open Tensions</h3>
               <ul>
                 <li>\u0394m\u00b2\u2082\u2081 at 1.71\u03c3 — TENSION_ESCALATED (JUNO 2026)</li>
-                <li>CMB peak suppression — ARCHITECTURE_LIMIT (33.6%)</li>
+                <li>CMB normalization and transfer corrections remain open; irreducibility not established</li>
                 <li>w_a tension with DESI DR2 — 2.30\u03c3</li>
                 <li>CC KK hierarchy — 10\u2075\u2075 gap</li>
               </ul>

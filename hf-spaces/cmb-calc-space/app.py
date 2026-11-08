@@ -42,16 +42,21 @@ try:
     from space_core.live_status import status_snapshot
     _STATUS = status_snapshot()
 except Exception:
-    _STATUS = {"version": "vunknown", "tests_passed": 0, "lean4_theorems": 0}
+    _STATUS = {"version": "vunknown", "tests_passed": None, "lean4_theorems": None}
+
+def format_count(value):
+    return f"{value:,}" if isinstance(value, int) and not isinstance(value, bool) else "unavailable"
+
 
 VERSION           = str(_STATUS["version"])
-TEST_COUNT        = int(_STATUS["tests_passed"])
-LEAN4_COUNT       = int(_STATUS["lean4_theorems"])
+TEST_COUNT        = format_count(_STATUS.get("tests_passed"))
+LEAN4_COUNT       = format_count(_STATUS.get("lean4_theorems"))
 
+STATUS_PROVENANCE = f"source: {_STATUS.get('source', 'unavailable')}; date: {_STATUS.get('date', 'unknown')}"
 FOOTER = (
     "\n\n---\n"
     "**Open gap (Admission 1):** CMB acoustic peak amplitude suppressed ×4–7 vs Planck — documented ARCHITECTURE_LIMIT.\n\n"
-    f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION} · {TEST_COUNT:,} tests · Open science artifact*"
+    f"*AxiomZero Technologies & Consulting, SPC — UBI 606 239 876 · {VERSION} · {STATUS_PROVENANCE} · {TEST_COUNT} tests · Open science artifact*"
 )
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -258,7 +263,7 @@ def full_report() -> str:
     """Complete UM CMB + falsification summary."""
     lines = [
         f"# Unitary Manifold — Full CMB Physics Report",
-        f"**Version:** {VERSION} | **Date:** 2026-08-23 | **Tests:** {TEST_COUNT:,} | **Lean4:** {LEAN4_COUNT:,}",
+        f"**Version:** {VERSION} | **Date:** {_STATUS.get('date', 'unknown')} | **Tests:** {TEST_COUNT} | **Lean4:** {LEAN4_COUNT}",
         "",
         "## Framework Constants",
         "| Constant | Value | Source |",
@@ -321,7 +326,7 @@ HEADER = f"""
     🌌 CMB Calculator — Unitary Manifold
   </h1>
   <p style="color:#7a8ba8; font-size:.9rem;">
-    Gate: HARDGATE · {VERSION} · {TEST_COUNT:,} tests · 0 failures ·
+    Gate: HARDGATE · {VERSION} · {STATUS_PROVENANCE} · {TEST_COUNT} tests · failure count: see status source ·
     <a href="https://axiomzerospc.org" style="color:#30d158;" target="_blank">axiomzerospc.org</a>
   </p>
   <p style="color:#ff9f0a; font-size:.8rem;">
