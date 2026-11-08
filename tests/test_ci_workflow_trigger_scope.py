@@ -56,6 +56,8 @@ def test_kernel_build_tracks_canonical_sources_and_preserves_release_failures() 
         assert "11-AZ-OS/**" in events[event]["paths"]
     assert workflow["env"]["RUSTFLAGS"] == "-D warnings"
     steps = workflow["jobs"]["build-kernel"]["steps"]
+    provisioning = next(step for step in steps if step.get("name") == "Install QEMU")
+    assert "dosfstools mtools" in provisioning["run"]
     release = next(step for step in steps if step.get("name") == "Build kernel (release)")
     assert release["run"].index("set -o pipefail") < release["run"].index("cargo build")
     assert "|| true" not in release["run"]
