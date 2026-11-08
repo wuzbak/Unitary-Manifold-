@@ -4,7 +4,8 @@
 
 ### What changed
 - `1-THEORY/UNIFICATION_PROOF.md`: added a staleness banner (document was
-  stamped v20.1/April 2026 while the repository is at v38.6, so the stamp was
+  stamped at its original April-2026 authoring revision — repository version
+  "20.1" — while the repository is now at version "38.6", so the stamp was
   not reflecting current registry state); corrected the imprecise
   "second Chern class" label for the U(1) line-bundle topological charge
   `Q_top = (1/4π²)∫H∧H` to the accurate `c₁²`/`ch₂` characterization; added a
@@ -38,8 +39,8 @@
   version/regression headline in `STATUS.md` are unchanged.
 
 ### Why
-- An external review (ChatGPT) of an old, pinned v20.1 copy of
-  `UNIFICATION_PROOF.md` raised: (1) a version-mismatch risk for external
+- An external review (ChatGPT) of an old, pinned repository-version-"20.1"
+  copy of `UNIFICATION_PROOF.md` raised: (1) a version-mismatch risk for external
   reviewers citing stale content, (2) a genuine unaddressed algebra step in
   the complex-action phase argument, and (3) imprecise Chern-class
   terminology for a U(1) bundle. All three were verified against current
