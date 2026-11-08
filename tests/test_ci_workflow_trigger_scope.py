@@ -63,6 +63,12 @@ def test_kernel_build_tracks_canonical_sources_and_preserves_release_failures() 
     assert "|| true" not in release["run"]
     dev = next(step for step in steps if step.get("name") == "Build kernel (dev)")
     assert dev["run"] == "cargo build --target x86_64-unknown-uefi"
+    emulator = next(step for step in steps if step.get("name", "").startswith("Launch QEMU"))
+    assert "-monitor none" in emulator["run"]
+    assert 'if [ "$result" -ne 124 ]' in emulator["run"]
+    assert "|| true" not in emulator["run"]
+    assert "kernel boot is not certified" in emulator["run"]
+    assert "OVMF_CODE_4M.fd" in emulator["run"]
 
 
 def test_psicat_pr_smoke_jobs_include_repository_root_on_pythonpath() -> None:
