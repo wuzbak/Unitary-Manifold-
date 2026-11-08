@@ -270,9 +270,13 @@ Independent hosted acceptance retains its 600-second request deadline;
 no answer, citation, refusal or authorization criterion is relaxed.
 The ownership challenge and answer use the same system policy and JSON
 envelope, allowing the owned engine to reuse prefilling work. The exact fresh
-128-bit token, status and citation remain mandatory. The challenge evidence
-contains only the token, so copying the entire evidence text does not require
-interpreting a key/value prefix. Failed challenges expose bounded diagnostics
+128-bit token, status and citation remain mandatory. The token encodes 16
+fresh cryptographically random bytes as 16 common lowercase words from a fixed
+256-word list (exactly 128 bits), because the quantized model once mis-copied
+one character of a raw-hex token during native qualification. The answer must
+still equal the word sequence exactly; there is no fuzzy match or retry. The
+challenge evidence contains only the token, so copying the entire evidence
+text does not require interpreting a key/value prefix. Failed challenges expose bounded diagnostics
 for that synthetic token only, not user evidence or the engine's API key.
 Ownership, answering and
 optional review share one steward-approved bounded fifteen-minute inference

@@ -231,6 +231,33 @@ function engineArguments(model, port, key, threads, timeout, enableModelReview) 
     "--reasoning", "off", "--no-agent", "--no-webui-mcp-proxy", "--no-webui", "--no-slots",
     "--no-mmproj", "--no-models-autoload", "--timeout", String(Math.ceil(timeout / 1000)), "--log-disable"];
 }
+// Ownership challenges copy 16 common words (one per random byte, exactly 128 bits)
+// because a quantized model mis-copied a raw-hex token in native qualification.
+const OWNERSHIP_WORDS = Object.freeze((
+  "acorn almond anchor apple arrow badge baker bamboo banjo barn basil basket beach bean bear " +
+  "beetle bell bench berry bird biscuit blanket boat bottle bowl box branch bread brick bridge " +
+  "brush bucket button cabin cable cactus cake camel camera candle canoe canyon carpet carrot " +
+  "castle cat cedar cereal chair chalk cherry chess cloud clover coast coat cocoa coffee cookie " +
+  "copper coral cotton cradle crane crayon cricket crown cup curtain daisy deer desert desk dolphin " +
+  "donkey door dragon drum duck eagle easel elbow elephant elm engine falcon farm feather fence " +
+  "fern field fig finch fish flag flute forest fork fox frog garden garlic gate giraffe glove goat " +
+  "grape grass guitar hammer harbor hat hawk hazel helmet hill honey horse house island ivory " +
+  "jacket jam jar jelly jungle kettle key kite kitten koala ladder lake lamp lantern lemon leopard " +
+  "letter lily lime lion lizard lobster maple marble meadow melon mirror mitten monkey moon moose " +
+  "mountain mouse muffin mug nest net oak oar ocean olive onion orange orchid otter owl paddle " +
+  "panda paper parrot peach peanut pear pebble pencil pepper piano pickle pigeon pillow pine plum " +
+  "pocket pond pony poppy potato pumpkin puppy rabbit radio raft rain raven ribbon river robin " +
+  "rocket rose ruby saddle sail salmon sand scarf seal shell ship shoe silver sky sled snail snow " +
+  "sock sofa spoon spruce squash star stone stove sugar summer sun swan table teapot tiger tomato " +
+  "towel tower tractor train tree tulip turtle umbrella valley vase velvet violin wagon walnut " +
+  "water whale wheat wheel willow window winter wolf wool yarn zebra"
+).split(" "));
+function ownershipChallengeToken(bytes = crypto.randomBytes(16)) {
+  if (!Buffer.isBuffer(bytes) || bytes.length !== 16 || OWNERSHIP_WORDS.length !== 256) {
+    throw failure("Ownership challenge requires exactly 128 random bits.");
+  }
+  return Array.from(bytes, (byte) => OWNERSHIP_WORDS[byte]).join(" ");
+}
 function completionBody(prompt, draft = null) {
   const system = SYSTEM;
   const body = { model: ALIAS, stream: false, temperature: 0, seed: 0, max_tokens: 128,
@@ -614,9 +641,10 @@ function createInstructionModel(options) {
         if (remaining <= 0) throw failure("Instruction operation deadline exceeded.", "TIMEOUT");
         return remaining;
       };
-      const nonce = `READY_${crypto.randomBytes(16).toString("hex")}`;
+      const nonce = ownershipChallengeToken();
       const challenge = completionBody(JSON.stringify({
-        question: "Copy the entire text of evidence OWNERSHIP verbatim into answer, " +
+        question: "Copy the entire text of evidence OWNERSHIP verbatim into answer: the same 16 lowercase " +
+          "words in the same order, separated by single spaces, " +
           "with no added characters, prose, punctuation or inline citation markers. " +
           "Put the supporting evidence ID only in citations. Use the normal JSON envelope with status UNVERIFIED.",
         evidence: [{ id: "OWNERSHIP", text: nonce }]
@@ -734,4 +762,4 @@ function createInstructionModel(options) {
   return { status, answer, cancel, stopAll, isActive: () => Boolean(active) || ownedProcesses.size > 0 };
 }
 
-module.exports = { createInstructionModel, LIMITS };
+module.exports = { createInstructionModel, LIMITS, OWNERSHIP_WORDS, ownershipChallengeToken };
