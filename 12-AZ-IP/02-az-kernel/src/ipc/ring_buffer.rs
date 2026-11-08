@@ -16,6 +16,12 @@ pub struct RingBuffer<const MSG_SIZE: usize, const CAPACITY: usize> {
     tail: AtomicUsize, // consumer reads here
 }
 
+impl<const MSG_SIZE: usize, const CAPACITY: usize> Default for RingBuffer<MSG_SIZE, CAPACITY> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<const MSG_SIZE: usize, const CAPACITY: usize> RingBuffer<MSG_SIZE, CAPACITY> {
     pub const fn new() -> Self {
         Self {

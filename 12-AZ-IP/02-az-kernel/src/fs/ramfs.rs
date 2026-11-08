@@ -12,6 +12,12 @@ pub struct RamFs {
     next_ino: u64,
 }
 
+impl Default for RamFs {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl RamFs {
     pub fn new() -> Self {
         Self { inodes: heapless::Vec::new(), next_ino: 1 }
