@@ -375,11 +375,17 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "f5bdd2cd39546fffc5d4417671189991fe45ead5e7b2cc961f7835e5c1971c9d",
+      "updated": "2026-11-08",
+      "sha256": "2f70a577e656fab2ab9c570a651cb0b1fda0ba63949813c7a341d07549390cd6",
       "size_bytes": 22676,
-      "reseal_note": "Describe additive opt-in Android native inference and explicit model-only networking; no production-readiness claim.",
+      "reseal_note": "List Windows 0.1.1 in the canonical product table; preserve capability and readiness boundaries.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "f5bdd2cd39546fffc5d4417671189991fe45ead5e7b2cc961f7835e5c1971c9d",
+          "size_bytes": 22676,
+          "reseal_note": "Describe additive opt-in Android native inference and explicit model-only networking; no production-readiness claim."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "d3dc0be99cd02791b322f6c8661c7e3d8bb8e0075d352388f30cd75f4ffdaf06",
@@ -1107,10 +1113,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-08",
-      "sha256": "98f8daeafe79313b553437b3dfe500bfc40d9381d0ae083afb50af18d3341315",
+      "sha256": "f646ba4de0152ba3c3588c256aeb294757bc2d458b4e477219c3f30498e68030",
       "size_bytes": 13646,
-      "reseal_note": "Use explicit streaming .NET SHA-256 without depending on PowerShell hash-cmdlet module autoload; preserve every verification bound.",
+      "reseal_note": "Default to the version-matched Windows 0.1.1 kit; preserve explicit historical tags and integrity bounds.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "98f8daeafe79313b553437b3dfe500bfc40d9381d0ae083afb50af18d3341315",
+          "size_bytes": 13646,
+          "reseal_note": "Use explicit streaming .NET SHA-256 without depending on PowerShell hash-cmdlet module autoload; preserve every verification bound."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "d1a65c6398e30b87e88b2109b92613e937fe3b9995150450da3849be9266d8a8",
@@ -1124,10 +1136,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-08",
-      "sha256": "290f755b223b3cf7d5efdbd64a35734a3d1c0306ce1fc5ebb9f7cd83224e2208",
-      "size_bytes": 10583,
-      "reseal_note": "Exercise inherited PowerShell module paths and explicit streaming SHA-256 without skipping native PowerShell 5.1 verification.",
+      "sha256": "62980a55ac76acdc5df7a3d8ff6232ca12b93804a939df02042f302155681b2a",
+      "size_bytes": 10752,
+      "reseal_note": "Require the downloader default to match the package version while retaining historical-kit fixtures.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "290f755b223b3cf7d5efdbd64a35734a3d1c0306ce1fc5ebb9f7cd83224e2208",
+          "size_bytes": 10583,
+          "reseal_note": "Exercise inherited PowerShell module paths and explicit streaming SHA-256 without skipping native PowerShell 5.1 verification."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "859aa22fc443d4eecb4797ebf3e9d964776f37aa0d8a64e8395ce3ee6f5b6270",
@@ -1140,11 +1158,17 @@
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "ee49d912550ce18e70fa4e99c2d2450abe1b1298c2ba879d318fb1c1bf6c8abf",
-      "size_bytes": 43923,
-      "reseal_note": "Explain build-only packaging and publication exclusively after workflow acceptance gates.",
+      "updated": "2026-11-08",
+      "sha256": "2741c7ed436053897ac7a56c4b06c1b9e5d5bc9112b52ce88cf6a5c70b20005b",
+      "size_bytes": 44504,
+      "reseal_note": "Document Windows 0.1.1 audited-status packaging and preserve the unchanged 0.1.0 release.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "ee49d912550ce18e70fa4e99c2d2450abe1b1298c2ba879d318fb1c1bf6c8abf",
+          "size_bytes": 43923,
+          "reseal_note": "Explain build-only packaging and publication exclusively after workflow acceptance gates."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "717f8619fa52106f658559f43cd014a4fe167d3e182cfe897594a509c2d6eb4c",
@@ -1379,11 +1403,17 @@
       "description": "Product 45 Electron desktop, ZIP reader dependency and Windows installer configuration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "7df26f92c2c9420255c3805d526cc21bea2b5d74965449dc9cbd09267feea0f3",
+      "updated": "2026-11-08",
+      "sha256": "082d6422140fdfd653ad6bdc874ec28c8f31519910f1e82d6c07ff7f1f2a1ecc",
       "size_bytes": 3341,
-      "reseal_note": "Disable packager auto-publication; only the qualified workflow release step publishes artifacts.",
+      "reseal_note": "Bump Windows package to 0.1.1 for audited-status packaging; retain gated publication.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "7df26f92c2c9420255c3805d526cc21bea2b5d74965449dc9cbd09267feea0f3",
+          "size_bytes": 3341,
+          "reseal_note": "Disable packager auto-publication; only the qualified workflow release step publishes artifacts."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6",
@@ -1432,11 +1462,17 @@
       "description": "Product 45 locked Electron, Yauzl and Windows packaging dependency graph",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "7f35936d61a62553899c59edbb106ba477985886062df87e8d916140c2909259",
+      "updated": "2026-11-08",
+      "sha256": "4e6e260264f2c942583bccd1324e86500bf11949669e200de1d42a1048b9eb7f",
       "size_bytes": 127807,
-      "reseal_note": "Refreshed 2026-11-04 with the locked runtime ZIP reader and its MIT-licensed dependency.",
+      "reseal_note": "Synchronize lockfile package version to Windows 0.1.1; dependencies are unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "7f35936d61a62553899c59edbb106ba477985886062df87e8d916140c2909259",
+          "size_bytes": 127807,
+          "reseal_note": "Refreshed 2026-11-04 with the locked runtime ZIP reader and its MIT-licensed dependency."
+        },
         {
           "updated": "2026-11-03",
           "sha256": "e1056c5236fd7fbbd50ce79a008d946020af7904be74597b7763c25b519ebf8a",
@@ -1963,11 +1999,17 @@
       "description": "Product 45 generated offline catalog for Products 01-46",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8",
+      "updated": "2026-11-08",
+      "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
       "size_bytes": 16718,
-      "reseal_note": "Synchronize the catalog with additive opt-in Android model capabilities and unchanged production-readiness limits.",
+      "reseal_note": "Synchronize Product 45's Windows 0.1.1 catalog version without changing capability claims.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8",
+          "size_bytes": 16718,
+          "reseal_note": "Synchronize the catalog with additive opt-in Android model capabilities and unchanged production-readiness limits."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd",
@@ -3833,11 +3875,17 @@
       "description": "Product 46 synchronized offline catalog for Products 01-46",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8",
+      "updated": "2026-11-08",
+      "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
       "size_bytes": 16718,
-      "reseal_note": "Synchronize the Android catalog with additive optional native model capabilities.",
+      "reseal_note": "Catalog-only synchronization of the Windows 0.1.1 listing; Android runtime and model are unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8",
+          "size_bytes": 16718,
+          "reseal_note": "Synchronize the Android catalog with additive optional native model capabilities."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd",

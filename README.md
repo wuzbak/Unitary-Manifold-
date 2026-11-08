@@ -47,7 +47,7 @@ physical-time evolution and dark-matter identification remain open.
 
 ### AxiomZero downloads (test builds)
 
-[![Download Windows kit](https://img.shields.io/badge/Download-Windows%20kit-blue)](https://github.com/wuzbak/Unitary-Manifold-/releases/tag/pc-suite-v0.1.0)
+[![Download Windows kit](https://img.shields.io/badge/Download-Windows%20kit-blue)](https://github.com/wuzbak/Unitary-Manifold-/releases/tag/pc-suite-v0.1.1)
 [![Download Android APK](https://img.shields.io/badge/Download-Android%20APK-green)](https://github.com/wuzbak/Unitary-Manifold-/releases/download/android-suite-v0.1.0/app-debug.apk)
 
 **Product 45:** keep the Windows EXE, offline manifest and all model parts from

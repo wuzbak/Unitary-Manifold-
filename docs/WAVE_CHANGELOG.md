@@ -1,5 +1,17 @@
 # Wave Changelog
 
+## Product 45 audited-status patch release (2026-11-08)
+
+Published Windows 0.1.0 and Android 0.1.0 after their native acceptance gates.
+Main's subsequently merged consistency audit changes the status evidence
+packaged into the Windows suite. Prepare Windows 0.1.1 so the downloadable kit
+includes that audited source rather than overwriting the qualified 0.1.0 tag
+or assets. Require fresh packaging and installed-runtime qualification before
+publishing the patch or merging its download entry point. Android's source and
+model are unchanged; its existing 0.1.0 release remains source-qualified.
+The bundled Windows model, model-size cap, evidence boundaries and human
+approval controls remain unchanged.
+
 ## Product 45/46 installation and local-model integration (2026-11-07)
 
 Add main-site and root README download entry points and version-matched

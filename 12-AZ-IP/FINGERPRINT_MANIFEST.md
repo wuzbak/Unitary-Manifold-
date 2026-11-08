@@ -1478,6 +1478,25 @@ does not certify general answer quality or physical-phone performance.
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `e3aaacc5cf68089863b798c77575c68841816b0ea56f1dfb56380e9c8cefef2b` | 4834 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `e77f78dec9da492cd04256a84c20da409dd58744de40a248d6257f5a0721a4b9` | 6777 |
 
+### Product 45 audited-status patch release reseal — 2026-11-08
+
+Prepare Windows 0.1.1 to package main's audited status transport without
+replacing the published 0.1.0 release. Synchronize the canonical product table
+and both offline catalogs. The Android catalog listing changes only; its native
+runtime and pinned model do not change. Retain previous seals and require fresh
+Windows native qualification and publication before merging download links.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `2741c7ed436053897ac7a56c4b06c1b9e5d5bc9112b52ce88cf6a5c70b20005b` | 44504 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a` | 16718 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package-lock.json` | `4e6e260264f2c942583bccd1324e86500bf11949669e200de1d42a1048b9eb7f` | 127807 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `082d6422140fdfd653ad6bdc874ec28c8f31519910f1e82d6c07ff7f1f2a1ecc` | 3341 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `f646ba4de0152ba3c3588c256aeb294757bc2d458b4e477219c3f30498e68030` | 13646 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `62980a55ac76acdc5df7a3d8ff6232ca12b93804a939df02042f302155681b2a` | 10752 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a` | 16718 |
+| `12-AZ-IP/README.md` | `2f70a577e656fab2ab9c570a651cb0b1fda0ba63949813c7a341d07549390cd6` | 22676 |
+
 ### Product 45 streaming hash portability reseal — 2026-11-08
 
 Native Windows follow-through exposed unavailable `Get-FileHash` during a
