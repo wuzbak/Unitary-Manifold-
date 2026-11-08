@@ -1,5 +1,82 @@
 # Wave Changelog
 
+## UNIFICATION_PROOF.md external-review corrections (2026-11-08)
+
+### What changed
+- `1-THEORY/UNIFICATION_PROOF.md`: added a staleness banner (document was
+  stamped v20.1/April 2026 while the repository is at v38.6, so the stamp was
+  not reflecting current registry state); corrected the imprecise
+  "second Chern class" label for the U(1) line-bundle topological charge
+  `Q_top = (1/4π²)∫H∧H` to the accurate `c₁²`/`ch₂` characterization; added a
+  new tracked Gap 6 (Part XII) documenting that substituting the complex
+  `S_eff = Re + i·Im` into `e^{iS/ℏ}` yields a real damping factor from
+  `Im(S_eff)`, not an independent oscillatory phase, under the convention as
+  previously stated — an open algebraic step, not merely an identification
+  gap; and added new Part VII.3 documenting the previously-undocumented
+  `(5,6)` twin/"shadow" braid sector (`k_cs = 61`, β ≈ 0.273°) alongside the
+  primary `(5,7)` sector (`k_cs = 74`, β ≈ 0.331°) — both already existed in
+  `src/core/dual_sector_convergence.py`, `litebird_boundary.py`,
+  `pillar537_shadow_pair_parent_derivation.py`, and
+  `pillar765_litebird_v2_falsification_audit.py`, but the proof document had
+  never stated the twin-sector structure, which is directly relevant to
+  external assessments of whether `k_cs = 74` was fitted versus derived.
+- Applied the equivalent "second Chern class" terminology correction, as a
+  minimal dated inline note preserving original rewrite provenance, to the
+  two outreach copies of the same passage:
+  `7-OUTREACH/substack/books/book-from-five-dimensions-to-reality-algebraic-journey.md`
+  and its PsiCat Literature rewrite
+  `7-OUTREACH/A Z PsiCat Literature/Books/book-22-book-from-five-dimensions-to-reality-algebraic-journey.md`.
+
+### What did not change
+- No pillar status, hardgate claim, TOE score, or physics-label changed.
+- No code changed; all referenced modules (`dual_sector_convergence.py`,
+  `litebird_boundary.py`, `pillar537_...py`, `pillar765_...py`) already
+  existed and were only cited, not modified.
+- The underlying KK geometry, the `(5,7)` primary-sector derivation, and the
+  existing Gap 1–5 analysis in `UNIFICATION_PROOF.md` are unchanged.
+- `next_pillar_slot`, Lean4 theorem totals, and the canonical
+  version/regression headline in `STATUS.md` are unchanged.
+
+### Why
+- An external review (ChatGPT) of an old, pinned v20.1 copy of
+  `UNIFICATION_PROOF.md` raised: (1) a version-mismatch risk for external
+  reviewers citing stale content, (2) a genuine unaddressed algebra step in
+  the complex-action phase argument, and (3) imprecise Chern-class
+  terminology for a U(1) bundle. All three were verified against current
+  source and corrected. The reviewer also asked whether a `(5,6,61)` twin
+  sector exists analogous to `(5,7,74)`; it does, and was already implemented
+  but undocumented in the proof — this wave closes that documentation gap.
+
+### Canonical ledger sync
+- STATUS.md: N/A — no pillar/registry/hardgate state changed.
+- FALLIBILITY.md: N/A — Admissions 1/3 already document the `(5,7)`/`(5,6)`
+  uniqueness chain this wave cites; no new admission required.
+- src/core/sm_free_parameters.py: N/A — no free-parameter count changed.
+- README.md: N/A — no top-level claim changed.
+- 1-THEORY/DERIVATION_STATUS.md: N/A — no derivation status changed; this is
+  a correction/completeness wave within an existing document's own
+  self-audit (Part XII), not a new derivation.
+
+### Epistemic label deltas
+- None. Gap 6 is a new tracked item, not a change to an existing label.
+
+### Physics label delta
+- **No change.**
+
+### Falsification impact
+- No falsifier removed or weakened. The newly documented `(5,6)/k_cs=61`
+  shadow sector adds an explicit, pre-committed third falsification outcome
+  (`β` landing outside both predicted values) that was previously implicit
+  only in `src/core/dual_sector_convergence.py` and not stated in the proof
+  document itself.
+
+### Residual unknowns
+- Gap 6 (complex-action phase step) remains open pending either an explicit,
+  justified path-integral convention or a demonstration that `Re(S_eff) = 0`
+  on-shell.
+- Which of `(5,7)` or `(5,6)` is physically realized remains undecided
+  pending LiteBIRD (~2032).
+
 ## Kernel warning-blocker follow-through (2026-11-08)
 
 Address the standalone kernel build separately from qualified Product 45/46
