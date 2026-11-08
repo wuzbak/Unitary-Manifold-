@@ -60,7 +60,7 @@ Books 1–52 are unchanged; no books have been combined with one another.
 
 ## Current coverage in this pass
 
-Coverage so far: **50 / 50 books**, **356 / 356 articles**.
+Coverage so far: **50 / 50 books**, **357 / 357 articles**.
 
 Original works (not rewrites): **10** — Books 51, 52, 53, 54, 55, 56, 57, 58; Articles 353, 354.
 
@@ -488,6 +488,7 @@ Original works (not rewrites): **10** — Books 51, 52, 53, 54, 55, 56, 57, 58; 
 354. `article-354-the-untouched-manifold-what-this-monorepo-could-still-become.md` — *The Untouched Manifold: What This Monorepo Could Still Become* (original work, not a rewrite; expanded commissioned technology-transfer essay with phased roadmaps across 8 original directions plus 5 additional directions, and a closing reflection on unaddressed implications for tech, humanity, and understanding, researched via `bot/rag_index.py`)
 355. `article-355-p1133-superfluid-connections-without-overclaiming.md`
 356. `article-356-post-1134-the-zeptoverse-and-rare-b-decays.md`
+357. `article-357-p1136-radion-energy-balance.md`
 
 ## Version and gate policy
 

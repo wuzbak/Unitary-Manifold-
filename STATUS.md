@@ -15,8 +15,8 @@
 > finite-difference diagnostic, not a framework-level closure, global
 > well-posedness result, or empirical claim. Pillar 1130's
 > `T_RELAXATION_LAW_DECLARED_NOT_DERIVED` and
-> `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` obligations remain open; next slot
-> 1137. Focused test execution was unavailable in this environment because
+> `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` obligations remain open; next slot 1137.
+> Focused test execution was unavailable in this environment because
 > NumPy, SymPy, and pytest are not installed; no full regression is claimed.
 
 > **Planar radion physical-time certification (2026-11-07; v38.6 Sprint DB, Pillar 1135):**
