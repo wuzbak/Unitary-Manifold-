@@ -19,7 +19,7 @@ promotion. The Sprint CU full-regression marker remained historical.*
 > by directly invoking the existing acceptance evidence, the separate
 > `planar_radion` implementation's exact symbolic identities, RK4
 > coordinate-time evolution against exact references, independent 5D Ricci
-> oracle, and six rejected negative controls. This is the first certified
+> oracle, and six rejected negative controls. This is a certified
 > constraint-compatible, nonconstant, coordinate-time propagating-scalar
 > evolution in the repository, restricted to the declared massless/zero-vector
 > planar perimeter. It does not close `T_RELAXATION_LAW_DECLARED_NOT_DERIVED`

@@ -7,10 +7,10 @@ Current registration: v38.6 Sprint DB (Pillar 1135; next slot 1136).
 P1135 certifies the previously-unallocated `src/physics/planar_radion/`
 module as a new, independently-scoped capability, by directly invoking its
 existing acceptance evidence (`TOOLS.checks.run_planar_radion_acceptance`):
-exact symbolic identities, RK4 coordinate-time evolution with second-order
-spatial/fourth-order temporal convergence against exact references, an
+exact symbolic identities, RK4 coordinate-time evolution with spatial
+convergence against exact references and separate temporal self-convergence, an
 independent five-dimensional Ricci oracle, and six rejected negative
-controls. This is the first certified constraint-compatible, nonconstant,
+controls. This is a certified constraint-compatible, nonconstant,
 coordinate-time propagating-scalar evolution in the repository, restricted to
 the declared massless/zero-vector/planar perimeter. It does not close either
 of Pillar 1130's residual obligations (`T_RELAXATION_LAW_DECLARED_NOT_DERIVED`,

@@ -116,6 +116,44 @@ def test_certificate_fails_closed_when_gates_missing(monkeypatch) -> None:
     assert result['verified'] is False
 
 
+@pytest.mark.parametrize("removed_gate", sorted(p1135._REQUIRED_ACCEPTANCE_GATES))
+def test_certificate_rejects_each_missing_gate(monkeypatch, removed_gate) -> None:
+    gates = {name: True for name in p1135._REQUIRED_ACCEPTANCE_GATES}
+    del gates[removed_gate]
+    monkeypatch.setattr(p1135, '_planar_radion_acceptance_evidence',
+                        lambda: {'passed': True, 'gates': gates})
+    assert planar_radion_physical_time_certificate()['verified'] is False
+
+
+@pytest.mark.parametrize("gate_change", ["unexpected", "false", "truthy_non_boolean"])
+def test_certificate_rejects_invalid_gate_set(monkeypatch, gate_change) -> None:
+    gates = {name: True for name in p1135._REQUIRED_ACCEPTANCE_GATES}
+    if gate_change == "unexpected":
+        gates["unexpected_gate"] = True
+    elif gate_change == "false":
+        gates["symbolic_identities_verified"] = False
+    else:
+        gates["symbolic_identities_verified"] = 1
+    monkeypatch.setattr(p1135, '_planar_radion_acceptance_evidence',
+                        lambda: {'passed': True, 'gates': gates})
+    assert planar_radion_physical_time_certificate()['verified'] is False
+
+
+def test_certificate_does_not_expose_cached_report(monkeypatch) -> None:
+    evidence = {
+        'passed': True,
+        'gates': {name: True for name in p1135._REQUIRED_ACCEPTANCE_GATES},
+        'symbolic_checks': {'all_zero': True},
+    }
+    monkeypatch.setattr(p1135, '_planar_radion_acceptance_evidence', lambda: evidence)
+    first = planar_radion_physical_time_certificate()
+    first['acceptance_report']['symbolic_checks']['all_zero'] = False
+    first['acceptance_report']['gates']['symbolic_identities_verified'] = False
+    second = planar_radion_physical_time_certificate()
+    assert second['verified'] is True
+    assert second['symbolic_checks_all_zero'] is True
+
+
 @pytest.mark.slow
 def test_truth_surfaces_synchronized(packet) -> None:
     assert packet['truth_surface_sync']['all_pass'] is True

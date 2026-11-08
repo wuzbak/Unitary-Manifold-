@@ -6,7 +6,7 @@
 > independently-scoped capability, by directly invoking its existing
 > acceptance evidence (exact symbolic identities, RK4 coordinate-time
 > evolution with independent 5D Ricci cross-check, six rejected negative
-> controls). This is the first certified constraint-compatible, nonconstant,
+> controls). This is a certified constraint-compatible, nonconstant,
 > coordinate-time propagating-scalar evolution in the repository, within its
 > declared restricted perimeter. It does NOT close `T_RELAXATION_LAW_DECLARED_NOT_DERIVED`
 > or `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` at the framework level — both

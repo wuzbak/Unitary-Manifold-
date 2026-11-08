@@ -977,7 +977,7 @@ Sprint CZ's homogeneous ADM decomposition was reassessed (2026-11-03): fixed fla
 `planar_radion_physical_time_certificate()` invokes the existing, already-tested acceptance evidence in `TOOLS.checks.run_planar_radion_acceptance.run_acceptance()` directly (no reimplementation) and certifies, fail-closed on every declared gate:
 
 - exact symbolic identities (null-gauge evolution equations, null constraints, and the pre-gauge metric-variation cross-check), verified by SymPy simplification to be identically zero, not sampled;
-- admissible constrained initial data (FFT-based constraint solve) evolved by RK4 in real coordinate time, with second-order spatial and fourth-order temporal convergence, checked against Bessel/Kasner/gauge-wave exact references and an independently implemented (no shared code with the solver) five-dimensional Ricci oracle using fourth-order finite differences;
+- admissible constrained initial data (FFT-based constraint solve) evolved by RK4 in real coordinate time, with spatial convergence checked against Bessel and gauge-wave exact references and temporal self-convergence checked separately; Kasner/FRW identities are symbolic checks, and an independently implemented five-dimensional Ricci oracle uses fourth-order finite differences;
 - six negative controls, all correctly rejected.
 
 If any declared gate fails, the pillar reports `PLANAR_RADION_PHYSICAL_TIME_EVOLUTION_NOT_VERIFIED` rather than the certified status `PLANAR_MASSLESS_ZERO_VECTOR_CONSTRAINT_COMPATIBLE_PHYSICAL_TIME_EVOLUTION_CERTIFIED`.

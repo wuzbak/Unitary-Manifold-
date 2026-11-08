@@ -33,16 +33,15 @@ exhibits:
   constraints, and the pre-gauge metric-variation cross-check) verified by
   SymPy simplification to be identically zero, not sampled.
 * Admissible constrained initial data (FFT-based constraint solve) evolved by
-  classical RK4 in real coordinate time (not a relaxation parameter) with
-  second-order spatial and fourth-order temporal convergence, checked against
-  Bessel/Kasner/gauge-wave/FRW exact references and an independently
-  implemented (no shared code with the solver) five-dimensional Ricci oracle
-  using fourth-order finite differences.
+  classical RK4 in real coordinate time (not a relaxation parameter), with
+  spatial convergence checked against Bessel and gauge-wave exact references
+  and temporal self-convergence checked separately. Kasner/FRW identities
+  are checked symbolically. An independently implemented five-dimensional
+  Ricci oracle uses fourth-order finite differences.
 * Six negative controls, all correctly rejected.
 
-This is the first pillar to certify genuine constraint-compatible,
-nonconstant, coordinate-time physical evolution of a propagating scalar
-degree of freedom anywhere in the repository. It is explicitly restricted:
+This pillar certifies constraint-compatible, nonconstant, coordinate-time
+physical evolution of a propagating scalar in the tested sector. It is explicitly restricted:
 see :data:`DOES_NOT_ESTABLISH`. It does NOT close either of Pillar 1130's
 residual obligations at the framework level; both remain listed exactly as
 before. Framework-level closure is not earned, and
@@ -105,6 +104,21 @@ DOES_NOT_ESTABLISH: List[str] = [
 
 _ROOT = Path(__file__).resolve().parents[3]
 
+_REQUIRED_ACCEPTANCE_GATES = frozenset({
+    'symbolic_identities_verified',
+    'complete_experiment_matrix',
+    'bessel_solution_second_order',
+    'gauge_wave_solution_second_order',
+    'independent_data_second_order',
+    'constraints_second_order',
+    'uplift_second_order',
+    'finest_field_errors_below_tolerance',
+    'finest_constraints_below_tolerance',
+    'finest_uplift_below_tolerance',
+    'fourth_order_time_differences',
+    'negative_controls_rejected',
+})
+
 
 @functools.lru_cache(maxsize=1)
 def _planar_radion_acceptance_evidence() -> Dict[str, Any]:
@@ -121,7 +135,11 @@ def planar_radion_physical_time_certificate() -> Dict[str, Any]:
     report = deepcopy(_planar_radion_acceptance_evidence())
     gates = dict(report.get('gates', {}))
     negative_controls = dict(report.get('negative_controls', {}))
-    verified = bool(report.get('passed') and gates and all(gates.values()))
+    verified = (
+        report.get('passed') is True
+        and gates.keys() == _REQUIRED_ACCEPTANCE_GATES
+        and all(value is True for value in gates.values())
+    )
     return {
         'status': NEW_CERTIFIED_SUBCASE if verified else 'PLANAR_RADION_PHYSICAL_TIME_EVOLUTION_NOT_VERIFIED',
         'scope': report.get('scope'),
