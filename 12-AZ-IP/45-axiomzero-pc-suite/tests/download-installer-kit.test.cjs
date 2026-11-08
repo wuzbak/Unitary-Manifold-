@@ -15,7 +15,6 @@ const shell = process.env.P45_POWERSHELL || (process.platform === "win32" ? "pow
 
 test("download helper is explicit, pinned, bounded, exclusive, and never executes payloads", async () => {
   const source = await fs.readFile(script, "utf8");
-  assert.match(source, /\$Tag = 'pc-suite-v0\.1\.0'/);
   assert.match(source, /Read-Host 'Type DOWNLOAD/);
   assert.match(source, /FileMode\]::CreateNew/);
   assert.match(source, /AllowAutoRedirect = \$false/);
@@ -27,6 +26,8 @@ test("download helper is explicit, pinned, bounded, exclusive, and never execute
   assert.match(source, /function Get-KitSha256[\s\S]*SHA256\]::Create\(\)[\s\S]*ComputeHash\(\$stream\)/);
   assert.match(source, /\(Get-KitSha256 \$Path\) -cne \$Hash/);
   assert.doesNotMatch(source, /Get-FileHash\s+-/);
+  const { version } = JSON.parse(await fs.readFile(path.resolve(__dirname, "../package.json"), "utf8"));
+  assert.ok(source.includes(`[string]$Tag = 'pc-suite-v${version}',`), "default tag must match the packaged version");
   assert.doesNotMatch(source, /Invoke-Expression|Start-Process|Start-BitsTransfer|ExecutionPolicy Bypass|Register-ScheduledTask/);
   const workflow = await fs.readFile(path.resolve(__dirname, "../../../.github/workflows/pc-suite-windows.yml"), "utf8");
   assert.match(workflow, /shell: powershell[\s\S]*P45_POWERSHELL = "powershell.exe"/);
