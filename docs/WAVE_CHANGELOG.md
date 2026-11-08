@@ -4,13 +4,18 @@
 
 Published Windows 0.1.0 and Android 0.1.0 after their native acceptance gates.
 Main's subsequently merged consistency audit changes the status evidence
-packaged into the Windows suite. Prepare Windows 0.1.1 so the downloadable kit
+packaged into the Windows suite. Prepare Windows 0.1.2 so the downloadable kit
 includes that audited source rather than overwriting the qualified 0.1.0 tag
 or assets. Require fresh packaging and installed-runtime qualification before
 publishing the patch or merging its download entry point. Android's source and
 model are unchanged; its existing 0.1.0 release remains source-qualified.
-The bundled Windows model, model-size cap, evidence boundaries and human
-approval controls remain unchanged.
+Windows 0.1.1 publication stopped when the real model miscopied a hexadecimal
+ownership nonce during the third required fresh-process trial. Encode the same
+128 random bits losslessly as 16 common words, retaining exact matching,
+authorization probes, failure diagnostics and all three required trials.
+This representation change requires real-model qualification, not just unit
+tests. The bundled Windows model, model-size cap, evidence boundaries and human
+approval controls remain unchanged. Existing tags are not moved or overwritten.
 
 ## Product 45/46 installation and local-model integration (2026-11-07)
 

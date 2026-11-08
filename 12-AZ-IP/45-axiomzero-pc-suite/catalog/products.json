@@ -398,7 +398,7 @@
   {
     "id": "45",
     "name": "AxiomZero PC Suite",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "trl": "Not assessed",
     "endpoint": "Windows desktop installer / portable",
     "description": "Offline-first portfolio, source-cited local evidence, governed research, native experimental toroidal character model, Python/CPU-JAX provisioning, authenticated Node workbench and supervised browser deployment. Not a production assistant or complete all-target installer; no arbitrary shell or automatic cloud fallback.",

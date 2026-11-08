@@ -376,10 +376,16 @@
       "category": "tools",
       "status": "REGISTERED",
       "updated": "2026-11-08",
-      "sha256": "2f70a577e656fab2ab9c570a651cb0b1fda0ba63949813c7a341d07549390cd6",
+      "sha256": "9ffd3291bc5b897b9d4a5f400cf835fce376772972fcb5b45df157dca9b11234",
       "size_bytes": 22676,
-      "reseal_note": "List Windows 0.1.1 in the canonical product table; preserve capability and readiness boundaries.",
+      "reseal_note": "List Windows 0.1.2 in the canonical table; capability and readiness boundaries are unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "2f70a577e656fab2ab9c570a651cb0b1fda0ba63949813c7a341d07549390cd6",
+          "size_bytes": 22676,
+          "reseal_note": "List Windows 0.1.1 in the canonical product table; preserve capability and readiness boundaries."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "f5bdd2cd39546fffc5d4417671189991fe45ead5e7b2cc961f7835e5c1971c9d",
@@ -1113,10 +1119,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-08",
-      "sha256": "f646ba4de0152ba3c3588c256aeb294757bc2d458b4e477219c3f30498e68030",
+      "sha256": "633c534f67158acb150a8f2c1393f53c2c7ab44fe5029fb55a87275627850e2a",
       "size_bytes": 13646,
-      "reseal_note": "Default to the version-matched Windows 0.1.1 kit; preserve explicit historical tags and integrity bounds.",
+      "reseal_note": "Default to Windows 0.1.2 after fail-closed 0.1.1 qualification; preserve historical tags and integrity bounds.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "f646ba4de0152ba3c3588c256aeb294757bc2d458b4e477219c3f30498e68030",
+          "size_bytes": 13646,
+          "reseal_note": "Default to the version-matched Windows 0.1.1 kit; preserve explicit historical tags and integrity bounds."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "98f8daeafe79313b553437b3dfe500bfc40d9381d0ae083afb50af18d3341315",
@@ -1159,10 +1171,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-08",
-      "sha256": "2741c7ed436053897ac7a56c4b06c1b9e5d5bc9112b52ce88cf6a5c70b20005b",
-      "size_bytes": 44504,
-      "reseal_note": "Document Windows 0.1.1 audited-status packaging and preserve the unchanged 0.1.0 release.",
+      "sha256": "5076df13239da19942177b75e418b79806d884970edabcdc0bf6cd993705e56f",
+      "size_bytes": 45119,
+      "reseal_note": "Document Windows 0.1.2 lossless word ownership challenges and the unpublished 0.1.1 failure.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "2741c7ed436053897ac7a56c4b06c1b9e5d5bc9112b52ce88cf6a5c70b20005b",
+          "size_bytes": 44504,
+          "reseal_note": "Document Windows 0.1.1 audited-status packaging and preserve the unchanged 0.1.0 release."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "ee49d912550ce18e70fa4e99c2d2450abe1b1298c2ba879d318fb1c1bf6c8abf",
@@ -1404,10 +1422,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-08",
-      "sha256": "082d6422140fdfd653ad6bdc874ec28c8f31519910f1e82d6c07ff7f1f2a1ecc",
+      "sha256": "959547a07bdc29a5d16f64b5e187a96824980e5d629fecb041aa0222206ecc34",
       "size_bytes": 3341,
-      "reseal_note": "Bump Windows package to 0.1.1 for audited-status packaging; retain gated publication.",
+      "reseal_note": "Bump Windows package to 0.1.2 for exact word-challenge qualification; retain gated publication.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "082d6422140fdfd653ad6bdc874ec28c8f31519910f1e82d6c07ff7f1f2a1ecc",
+          "size_bytes": 3341,
+          "reseal_note": "Bump Windows package to 0.1.1 for audited-status packaging; retain gated publication."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "7df26f92c2c9420255c3805d526cc21bea2b5d74965449dc9cbd09267feea0f3",
@@ -1463,10 +1487,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-08",
-      "sha256": "4e6e260264f2c942583bccd1324e86500bf11949669e200de1d42a1048b9eb7f",
+      "sha256": "a63e47f2af3186a57d863fe9574426093c99abc58bcbf844e9161698a9bd1bdb",
       "size_bytes": 127807,
-      "reseal_note": "Synchronize lockfile package version to Windows 0.1.1; dependencies are unchanged.",
+      "reseal_note": "Synchronize lockfile package version to Windows 0.1.2; dependencies are unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "4e6e260264f2c942583bccd1324e86500bf11949669e200de1d42a1048b9eb7f",
+          "size_bytes": 127807,
+          "reseal_note": "Synchronize lockfile package version to Windows 0.1.1; dependencies are unchanged."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "7f35936d61a62553899c59edbb106ba477985886062df87e8d916140c2909259",
@@ -2000,10 +2030,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-08",
-      "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
+      "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
       "size_bytes": 16718,
-      "reseal_note": "Synchronize Product 45's Windows 0.1.1 catalog version without changing capability claims.",
+      "reseal_note": "Synchronize the Windows 0.1.2 catalog version; capability claims are unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
+          "size_bytes": 16718,
+          "reseal_note": "Synchronize Product 45's Windows 0.1.1 catalog version without changing capability claims."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8",
@@ -3254,11 +3290,17 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "fa324e58257f8eaf614f4f9c20535448261faa3401af830c0f285bb92743d81a",
-      "size_bytes": 38234,
-      "reseal_note": "Use token-only synthetic evidence for literal ownership copying; retain exact fresh 128-bit equality and all gates, and expose bounded synthetic failure diagnostics.",
+      "updated": "2026-11-08",
+      "sha256": "046a60fc3176a469452e9d1d72ba7f55ccb1010426520c062276b79a25f46f0a",
+      "size_bytes": 40551,
+      "reseal_note": "Losslessly encode 128 fresh random bits as 16 common words; retain exact equality, authorization probes and no retries.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "fa324e58257f8eaf614f4f9c20535448261faa3401af830c0f285bb92743d81a",
+          "size_bytes": 38234,
+          "reseal_note": "Use token-only synthetic evidence for literal ownership copying; retain exact fresh 128-bit equality and all gates, and expose bounded synthetic failure diagnostics."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "d19cdb67ab305a316fe376ca22680187d58a193fd7746a494343d4cd31f20cdf",
@@ -3418,11 +3460,17 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "47dffa2b711d685668b31fe0c7da7da15ea7b8dcd7e9383039588640b2c7666a",
-      "size_bytes": 41056,
-      "reseal_note": "Require token-only synthetic challenge evidence and verify mismatch diagnostics while retaining every fail-closed contract.",
+      "updated": "2026-11-08",
+      "sha256": "a06c183653261e6660abf8b40c9bab0126729d3fb95cd2c5a4394f65e622fc7e",
+      "size_bytes": 43812,
+      "reseal_note": "Verify lossless 256-word byte encoding, fresh randomness and fail-closed word/case/spacing mismatch controls.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "47dffa2b711d685668b31fe0c7da7da15ea7b8dcd7e9383039588640b2c7666a",
+          "size_bytes": 41056,
+          "reseal_note": "Require token-only synthetic challenge evidence and verify mismatch diagnostics while retaining every fail-closed contract."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "7a08c91dc598fb6b481107965b3cb4e7667b354a8b5cd47e78d7dffa233d724c",
@@ -3876,10 +3924,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-08",
-      "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
+      "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
       "size_bytes": 16718,
-      "reseal_note": "Catalog-only synchronization of the Windows 0.1.1 listing; Android runtime and model are unchanged.",
+      "reseal_note": "Catalog-only synchronization of Windows 0.1.2; Android runtime and model are unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
+          "size_bytes": 16718,
+          "reseal_note": "Catalog-only synchronization of the Windows 0.1.1 listing; Android runtime and model are unchanged."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8",

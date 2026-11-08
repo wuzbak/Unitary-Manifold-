@@ -1508,3 +1508,24 @@ in registry history; native verification and installer acceptance remain require
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `98f8daeafe79313b553437b3dfe500bfc40d9381d0ae083afb50af18d3341315` | 13646 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `290f755b223b3cf7d5efdbd64a35734a3d1c0306ce1fc5ebb9f7cd83224e2208` | 10583 |
+
+### Product 45 lossless ownership-word patch reseal — 2026-11-08
+
+Windows 0.1.1 publication failed closed when the real model miscopied one hex
+character on the third required trial. Prepare 0.1.2 using 16 common words that
+losslessly encode 128 fresh random bits, preserving exact equality, authorization
+probes, all three trials and no retry-for-luck. Unit tests do not replace native
+qualification. Retain all earlier seals and immutable tags; synchronize both
+catalogs without changing the Android inference runtime.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `5076df13239da19942177b75e418b79806d884970edabcdc0bf6cd993705e56f` | 45119 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8` | 16718 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `046a60fc3176a469452e9d1d72ba7f55ccb1010426520c062276b79a25f46f0a` | 40551 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package-lock.json` | `a63e47f2af3186a57d863fe9574426093c99abc58bcbf844e9161698a9bd1bdb` | 127807 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `959547a07bdc29a5d16f64b5e187a96824980e5d629fecb041aa0222206ecc34` | 3341 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `633c534f67158acb150a8f2c1393f53c2c7ab44fe5029fb55a87275627850e2a` | 13646 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `a06c183653261e6660abf8b40c9bab0126729d3fb95cd2c5a4394f65e622fc7e` | 43812 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8` | 16718 |
+| `12-AZ-IP/README.md` | `9ffd3291bc5b897b9d4a5f400cf835fce376772972fcb5b45df157dca9b11234` | 22676 |
