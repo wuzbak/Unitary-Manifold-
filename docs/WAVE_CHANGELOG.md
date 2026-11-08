@@ -7,8 +7,13 @@ releases. Preserve warnings-as-errors and deferred hardware boundaries; do not
 activate PCI MMIO or claim a configured timer merely to consume unused constants.
 Track the canonical kernel sources as well as their legacy compatibility path in
 CI, and propagate release compiler failures through the log pipeline. Real UEFI
-build results remain necessary; existing permissive host/boot lanes do not certify
-hardware execution. Leave the in-progress mutation gate running unchanged.
+build results remain necessary. Route host tests and strict library Clippy
+through the existing host-only harness, preserving configuration restoration
+and propagating failures. Constructor-equivalent defaults and regressions
+address the real Clippy findings. Provision EFI-image tools and matched OVMF
+CODE/VARS pflash, remove duplicate stdio ownership, and reject early emulator
+exit. Emulator liveness does not certify kernel boot or hardware execution.
+Leave the in-progress mutation gate running unchanged.
 
 ## Product 45 audited-status patch release (2026-11-08)
 

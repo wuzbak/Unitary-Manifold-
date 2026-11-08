@@ -63,9 +63,7 @@ jobs:
 
       - name: Run unit tests (host target)
         working-directory: 11-AZ-OS/ax-kernel
-        run: |
-          # Run tests that are not UEFI-only on the host target
-          cargo test --lib --target x86_64-unknown-linux-gnu 2>&1 || true
+        run: bash scripts/test_lib.sh --locked
 
       - name: Launch QEMU (10-second emulator liveness check, not boot certification)
         working-directory: 11-AZ-OS/ax-kernel
@@ -83,23 +81,20 @@ jobs:
           mkfs.vfat /tmp/efi.img
           mcopy -i /tmp/efi.img -s /tmp/efi/EFI ::/EFI
 
-          firmware=""
-          for candidate in /usr/share/OVMF/OVMF_CODE_4M.fd /usr/share/ovmf/OVMF.fd; do
-            if [ -r "$candidate" ]; then
-              firmware="$candidate"
-              break
-            fi
-          done
-          if [ -z "$firmware" ]; then
-            echo "::error::Installed OVMF firmware is unavailable."
+          firmware=/usr/share/OVMF/OVMF_CODE_4M.fd
+          variables=/usr/share/OVMF/OVMF_VARS_4M.fd
+          if [ ! -r "$firmware" ] || [ ! -r "$variables" ]; then
+            echo "::error::Installed OVMF CODE/VARS firmware pair is unavailable."
             exit 1
           fi
+          cp "$variables" /tmp/efi-vars.fd
 
           # Only emulator liveness is checked; normal kernel output uses GOP.
           set +e
           timeout 10 qemu-system-x86_64 \
             -machine q35 \
-            -bios "$firmware" \
+            -drive if=pflash,format=raw,readonly=on,file="$firmware" \
+            -drive if=pflash,format=raw,file=/tmp/efi-vars.fd \
             -drive file=/tmp/efi.img,format=raw,if=virtio \
             -serial stdio \
             -monitor none \
@@ -142,4 +137,4 @@ jobs:
 
       - name: Run Clippy
         working-directory: 11-AZ-OS/ax-kernel
-        run: cargo clippy --target x86_64-unknown-linux-gnu -- -D warnings 2>&1 || true
+        run: bash scripts/test_lib.sh --clippy --locked -- -D warnings

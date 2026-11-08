@@ -69,6 +69,13 @@ def test_kernel_build_tracks_canonical_sources_and_preserves_release_failures() 
     assert "|| true" not in emulator["run"]
     assert "kernel boot is not certified" in emulator["run"]
     assert "OVMF_CODE_4M.fd" in emulator["run"]
+    assert "OVMF_VARS_4M.fd" in emulator["run"]
+    assert "if=pflash,format=raw,readonly=on" in emulator["run"]
+    assert "-bios" not in emulator["run"]
+    host_tests = next(step for step in steps if step.get("name") == "Run unit tests (host target)")
+    assert host_tests["run"] == "bash scripts/test_lib.sh --locked"
+    clippy = next(step for step in workflow["jobs"]["clippy"]["steps"] if step.get("name") == "Run Clippy")
+    assert clippy["run"] == "bash scripts/test_lib.sh --clippy --locked -- -D warnings"
 
 
 def test_psicat_pr_smoke_jobs_include_repository_root_on_pythonpath() -> None:
