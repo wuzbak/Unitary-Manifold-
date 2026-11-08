@@ -860,13 +860,13 @@ The UEUM contains a topological term:
 Q_top = (1/4π²) ∫ H ∧ H
 ```
 
-This is the **second Chern class** — the instanton number of the gauge field `H_{μν}`. For any U(1) gauge field on a compact manifold, this integral takes only integer values:
+For any U(1) gauge field on a compact manifold, this integral takes only integer values:
 
 ```
 Q_top ∈ ℤ
 ```
 
-This is quantization — not from any imposed rule, but from the topology of the gauge bundle. A U(1) bundle on a compact manifold is classified by the first Chern class `c_1 ∈ H²(M, ℤ)`, and the instanton number is the integral of `c_1 ∧ c_1`. Integers are forced by the topology.
+*(Correction, 2026-11-08: earlier text called this "the second Chern class." A U(1) line bundle has no independent second Chern class — Chern classes above degree 1 vanish for line bundles. The correct statement follows in the next sentence.)* This is quantization — not from any imposed rule, but from the topology of the gauge bundle. A U(1) bundle on a compact manifold is classified by the first Chern class `c_1 ∈ H²(M, ℤ)`, and `Q_top` is the integral of `c_1 ∧ c_1` (twice the second Chern **character**, `ch₂ = c₁²/2` — analogous to, but not literally, the `c₂` of non-Abelian instanton number formulas). Integers are forced by the topology either way.
 
 ### 9.3 The Chern-Simons Level and the Dirac Quantization Condition
 

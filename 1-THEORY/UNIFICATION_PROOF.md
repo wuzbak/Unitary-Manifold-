@@ -10,6 +10,18 @@
 **Status:** Formal derivation attempt — all steps grounded in equations already implemented in this repository.
 **See [Part XII](#part-xii--critical-review-where-identifications-replace-derivations) for known gaps where identifications are made rather than derivations completed.**
 
+> **Staleness notice (added 2026-11-08):** The version/date/test-count stamp above is
+> frozen at its original **v20.1 / April 2026** authoring point and is **not** the
+> current repository state. Read `proof/TIER_1_FORMAL.md`, `STATUS.md`, and
+> `docs/TRUTH_LAYER.md#foundation-reassessment` for the canonical, currently
+> maintained status (as of this notice: v38.6). Registry labels and historical
+> inventories elsewhere in the repo are likewise not themselves proof of physical
+> closure. External reviewers citing this document should request the current
+> `STATUS.md` state rather than treat the stamp above as live. The uniqueness
+> question for `(n_w, k_cs) = (5, 74)` specifically has advanced materially since
+> April 2026 — see `FALLIBILITY.md` Admissions 1 and 3 (Pillars 70-C/70-D/537/769)
+> for the current, non-fitting derivation chain, which is not reflected below.
+
 ---
 
 ## Preface — What This Document Proves
@@ -427,9 +439,22 @@ Q_top  =  (1/4π²) ∫ H ∧ H
 ```
 
 For a U(1) gauge field, this integral over a compact manifold takes only
-integer values: `Q_top ∈ ℤ`. This is the **second Chern class** (instanton number).
+integer values: `Q_top ∈ ℤ`.
 
-### VII.2  The Chern-Simons Level IS the Dirac Quantization Condition
+> **Terminology correction (added 2026-11-08):** `H` here is the curvature
+> 2-form of a **line bundle** (a U(1) connection), not a non-Abelian field
+> strength. For a line bundle, Chern classes above degree 1 vanish
+> identically — there is no independent "second Chern class" to speak of.
+> The integer `Q_top` computed here is properly `∫ c₁ ∧ c₁` (equivalently,
+> twice the second Chern **character** `ch₂ = c₁²/2`, by the
+> Chern–Weil/Gauss–Bonnet-type identity relating `H∧H` to the square of the
+> first Chern class). This is analogous to, but not literally, the second
+> Chern class `c₂` that appears in non-Abelian (e.g. `SU(2)`) instanton
+> number formulas. The integer-quantization conclusion (`Q_top ∈ ℤ`) is
+> unaffected — it follows from `c₁ ∈ H²(M, ℤ)` for any U(1) bundle — but the
+> prior "second Chern class" label was imprecise and is corrected here.
+
+### VII.2  Chern–Simons Level and Dirac Quantization
 
 The birefringence prediction uses `k_cs = 74` — an integer Chern-Simons level
 (established in `tests/test_e2e_pipeline.py: TestUniquenessOfCSLevel`).
@@ -441,13 +466,78 @@ e · g  =  2π n ℏ c,    n ∈ ℤ
 ```
 
 requires the product of electric and magnetic charges to be an integer multiple
-of `2πℏc`. In the language of Chern-Simons theory, this is equivalent to
-requiring the CS level `k` to be an integer — which is exactly the condition
-that `k_cs = 74` satisfies.
+of `2πℏc`. Integer CS-level quantization and Dirac quantization are distinct
+conditions; an equivalence requires an explicit construction and normalization
+relating the level to electric and magnetic charges. Integer `k_cs = 74` alone
+does not establish that equivalence.
 
-The observed birefringence angle `β = 0.3513°` is therefore a *quantized*
-prediction: it corresponds to the unique integer `k = 74` that minimises
-`|β(k) − 0.35°|`. It cannot take a continuous value. **This is testable.**
+The full-formula estimate `β ≈ 0.3513°` for `k_cs = 74` is a model
+prediction, not an observed angle. Selecting an integer by minimizing
+`|β(k) − 0.35°|` uses an observational target; it is not a proof of
+observationally independent uniqueness. The canonical boundary angles below
+use a different prescription.
+
+### VII.3  The Twin Sector: (5,6) with k_cs = 61
+
+> **Added 2026-11-08** — this section was missing from prior revisions of this
+> document, which discussed `k_cs = 74` as if it were the only integer the
+> framework produces. The specified finite, observation-filtered scan below
+> has **two** co-surviving braid pairs; this is not an unrestricted uniqueness
+> theorem.
+
+A scan over ordered winding-number pairs `1 ≤ n₁ < n₂ ≤ 10` that
+simultaneously satisfy the Planck 2018 `nₛ` window (≤1σ) *and* the
+BICEP/Keck tensor-amplitude bound returns **exactly two** survivors in that
+specified range
+(`src/core/braided_winding.py: resonance_scan`, exercised in
+`src/core/dual_sector_convergence.py`):
+
+```
+(5, 7) — k_cs = 25 + 49 = 74,  c_s = 12/37,  β ≈ 0.331°   (primary sector)
+(5, 6) — k_cs = 25 + 36 = 61,  c_s = 11/61,  β ≈ 0.273°   (shadow sector)
+```
+
+Both pairs emerge from the same scan; its observational filters and finite
+range are assumptions, so their survival alone does not establish a selection
+independent of observational input. Both levels follow from
+`k_cs = n₁² + n₂²` and are integers. The angles above are the canonical
+boundary values from `src/core/litebird_boundary.py`, used by
+`src/core/dual_sector_convergence.py`; they are distinct from the
+full-formula estimates ≈0.3513° for `k_cs = 74` and ≈0.2896° for
+`k_cs = 61`. See also `src/core/pillar765_litebird_v2_falsification_audit.py`.
+
+**Which sector is physically realized is not yet decided by the framework
+alone.** `(5,7)` is the dominant attractor and is consistent with the
+Minami–Komatsu (2020) birefringence measurement; `(5,6)` is presently
+indistinguishable from `(5,7)` at current CMB precision (`β` gap ≈ 0.058°
+against a LiteBIRD-era sensitivity of `σ ≈ 0.020°`, i.e. a ≈2.9σ
+separation — `src/core/dual_sector_convergence.py`). The following are
+illustrative central-value outcomes for LiteBIRD (launch ~2032), not an
+exhaustive classification of measurements:
+
+```
+β ≈ 0.273°              → (5,6)/k_cs=61 sector selected; (5,7) disfavoured (~2.9σ)
+β ≈ 0.331°              → (5,7)/k_cs=74 sector selected; (5,6) disfavoured (~2.9σ)
+β ∈ [0.29°, 0.31°] or
+β outside [0.22°, 0.38°] → pre-committed gap/window falsifier
+```
+
+The gap/window rule above is the central-value criterion in
+`pillar765_litebird_v2_falsification_audit.py`; a real measurement's
+uncertainty must also be assessed before drawing an experimental conclusion.
+The separate `dual_sector_convergence.falsification_report` applies a wider
+open gap of approximately `(0.283°, 0.321°)`, then an uncertainty-dependent
+compatibility test (2σ by default); its classifications are not identical to
+the gap/window rule. It can return **ambiguous** if both sectors are
+compatible outside its gap, for example `β = 0.322° ± 0.030°`. Conversely,
+`0.311° ± 0.020°` falls inside its wider gap and is classified as falsified.
+These differing rules need reconciliation before either is treated as a
+complete statistical decision protocol.
+
+**Status:** The two sectors are model candidates under the stated scan and
+boundary prescriptions. Their coexistence does not prove that `k_cs = 74`
+is uniquely selected without observational input, nor that either sector is
+physically realized. This does not close the gaps in Part XII.
 
 ---
 
@@ -740,9 +830,27 @@ None of these are present in the current construction.  Additionally, the Standa
 
 ---
 
+### Gap 6: The complex-action phase step (Part II.1) — added 2026-11-08
+
+**What the document claims (Part II.1):** `S_eff = Re(S_eff) + i·Im(S_eff)`, and then "the phase factor `e^{iS/ℏ}` is determined entirely by `Im(S_eff)`," followed by `e^{i·Im(S_eff)} = exp(i ∫ B_μJ^μ_inf d⁴x)`.
+
+**What is missing — an algebra error, not merely a gap:** If `S ≡ S_eff` is substituted directly into the path-integral weight as written,
+
+```
+e^{iS_eff/ℏ} = e^{i(Re(S_eff) + i·Im(S_eff))/ℏ} = e^{i·Re(S_eff)/ℏ} · e^{−Im(S_eff)/ℏ}
+```
+
+`Im(S_eff)` multiplies `e^{iS/ℏ}` as a **real damping/weight factor** (`e^{-Im(S_eff)/ℏ}`), not as an oscillatory phase. The document's subsequent step — writing `e^{i·Im(S_eff)}` as if `Im(S_eff)` were itself the argument of a fresh, independent phase — does not follow from the stated decomposition without an additional, currently unstated convention (for example, redefining the path-integral weight as `e^{i·Re(S_eff)/ℏ}·e^{i·Im(S_eff)/ℏ}` rather than `e^{iS_eff/ℏ}`, which would require justifying why the imaginary part re-enters as a second independent phase rather than as the Euclidean/damping term standard complex-action path integrals assign to it).
+
+**Why this matters:** Parts II.1–II.2 (the Feynman phase and the Aharonov–Bohm recovery) depend on this step. The geometric identity listed in `MCP_INGEST.md` is a separate claim and does not itself require promoting `Im(S_eff)` to a phase. Connecting the imaginary action to an oscillatory quantum phase requires a justified change of action or path-integral convention and a derivation under that convention. Setting `Re(S_eff) = 0` does not fix the issue: the weight remains `e^{−Im(S_eff)/ℏ}`, a real factor.
+
+**Status:** Open — algebraic step requires repair or explicit convention, independent of and in addition to Gap 1's quantisation-postulate gap. This does not by itself invalidate the underlying KK geometry or the `Im(S_4) = ∫B_μJ^μ d⁴x` derivation in `src/core/im_action.py`, which stands on its own as a real-valued geometric identity; it specifically affects the claim that this term *is* the Feynman phase.
+
+---
+
 ## Part XII — Gap Analysis and Honest Status (Updated)
 
-The five gaps identified in independent technical review and their current status:
+The gaps identified in independent technical review and their current status:
 
 | Gap | Claim | Previous status | Updated status |
 |-----|-------|-----------------|----------------|
@@ -751,6 +859,7 @@ The five gaps identified in independent technical review and their current statu
 | Gap 3 | UEUM → Schrödinger equation | Reverse-engineered | **PARTIALLY RESOLVED** — The forward derivation path is: 5D action → canonical quantisation → path integral → stationary phase → non-relativistic limit → Schrödinger equation. The postulate is step 2 (canonical quantisation), not step 5. See `src/core/im_action.py:schrodinger_derivation_steps()`. |
 | Gap 4 | λBμ = Aμ is assumed | Undemonstrated assumption | **RESOLVED** — It is a theorem, not an assumption. The 5D geodesic equation decomposes EXACTLY (machine precision) as: acc_5D = acc_gravity + acc_Lorentz + acc_radion. The Lorentz force with A_μ = λBμ emerges from the cross-term −2Γ^μ_{ν5}u^ν u^5 without any additional input. See `src/core/kk_geodesic_reduction.py` and `tests/test_kk_geodesic_reduction.py`. |
 | Gap 5 | KK tower = Standard Model | Unsupported | **RESOLVED (partial)** — U(1) electromagnetism IS produced by the 5D S¹ compactification (photon = zero mode of Bμ, rigorously). SU(2) and SU(3) are NOT produced by the current 5D theory — Witten (1981) proved ≥11 dimensions are needed for the full SM with chiral fermions. The §IX diagram and correspondence table have been corrected to state this explicitly. The UM produces U(1) only; G_SM requires additional compact structure. See `src/core/kk_gauge_spectrum.py`. |
+| Gap 6 | `Im(S_eff)` → Feynman phase (algebra step) | Not previously tracked | **OPEN (added 2026-11-08)** — Substituting the complex `S_eff = Re + i·Im` into `e^{iS/ℏ}` yields `e^{i Re/ℏ}·e^{-Im/ℏ}`: `Im(S_eff)` enters as a real weight, not the oscillatory phase. A justified change of action or path-integral convention and a derivation are needed; setting `Re(S_eff) = 0` does not produce a phase. See Gap 6 above (Part II.1). Independent of, and in addition to, Gap 1. |
 
 ### What the gap analysis confirms
 
@@ -765,6 +874,7 @@ The five gaps identified in independent technical review and their current statu
 **What does not yet stand:**
 - Complete derivation of the path integral from first principles (requires quantisation postulate shared by all QFTs)
 - The claim that SU(2) and SU(3) follow from the same 5D geometry (requires additional compact dimensions)
+- The specific algebraic step from `Im(S_eff)` to the Feynman phase `e^{iS/ℏ}` (Gap 6) — needs a justified change of action or path-integral convention and a derivation
 
 **The honest frontier:**
 The remaining hard open problems are: (1) applying canonical quantisation to the 5D action and deriving the Hilbert space structure; (2) identifying the compactification geometry that yields SU(3)×SU(2)×U(1) and chiral fermions without additional assumptions. These are not embarrassments — they are precisely the problems that define the boundary between what this theory has achieved and what remains to be done.
