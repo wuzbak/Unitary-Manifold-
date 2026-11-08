@@ -1106,17 +1106,35 @@
       "description": "User-executed pinned official-release Windows installer-kit retrieval with explicit multi-GiB consent and bounded size/SHA-256 verification; no installation or startup",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "d1a65c6398e30b87e88b2109b92613e937fe3b9995150450da3849be9266d8a8",
-      "size_bytes": 13150
+      "updated": "2026-11-08",
+      "sha256": "98f8daeafe79313b553437b3dfe500bfc40d9381d0ae083afb50af18d3341315",
+      "size_bytes": 13646,
+      "reseal_note": "Use explicit streaming .NET SHA-256 without depending on PowerShell hash-cmdlet module autoload; preserve every verification bound.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "d1a65c6398e30b87e88b2109b92613e937fe3b9995150450da3849be9266d8a8",
+          "size_bytes": 13150,
+          "reseal_note": "Initial registered source; native Windows compatibility remained to be verified."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs": {
       "description": "Static and synthetic PowerShell installer-kit integrity, consent, path/URL bounds and fail-closed retrieval regressions; no real model or installer execution",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "859aa22fc443d4eecb4797ebf3e9d964776f37aa0d8a64e8395ce3ee6f5b6270",
-      "size_bytes": 10058
+      "updated": "2026-11-08",
+      "sha256": "290f755b223b3cf7d5efdbd64a35734a3d1c0306ce1fc5ebb9f7cd83224e2208",
+      "size_bytes": 10583,
+      "reseal_note": "Exercise inherited PowerShell module paths and explicit streaming SHA-256 without skipping native PowerShell 5.1 verification.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "859aa22fc443d4eecb4797ebf3e9d964776f37aa0d8a64e8395ce3ee6f5b6270",
+          "size_bytes": 10058,
+          "reseal_note": "Initial registered source; native Windows compatibility remained to be verified."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/README.md": {
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",

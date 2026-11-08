@@ -24,6 +24,9 @@ test("download helper is explicit, pinned, bounded, exclusive, and never execute
   assert.match(source, /\$total -gt \$Limit/);
   assert.match(source, /ReparsePoint/);
   assert.match(source, /Test-KitManifest \$plan/);
+  assert.match(source, /function Get-KitSha256[\s\S]*SHA256\]::Create\(\)[\s\S]*ComputeHash\(\$stream\)/);
+  assert.match(source, /\(Get-KitSha256 \$Path\) -cne \$Hash/);
+  assert.doesNotMatch(source, /Get-FileHash\s+-/);
   assert.doesNotMatch(source, /Invoke-Expression|Start-Process|Start-BitsTransfer|ExecutionPolicy Bypass|Register-ScheduledTask/);
   const workflow = await fs.readFile(path.resolve(__dirname, "../../../.github/workflows/pc-suite-windows.yml"), "utf8");
   assert.match(workflow, /shell: powershell[\s\S]*P45_POWERSHELL = "powershell.exe"/);
@@ -86,6 +89,9 @@ Assert-KitUrl 'https://release-assets.githubusercontent.com/file?signature=synth
 Invoke-InstallerKitDownload
 `);
   let counter = 0;
+  // Reproduces CI/user launches from PowerShell 7 whose module path a 5.1 child inherits.
+  const inheritedModulePath = path.join(root, "inherited-pwsh7-modules");
+  await fs.mkdir(path.join(inheritedModulePath, "Microsoft.PowerShell.Utility"), { recursive: true });
   const run = async ({ mutatedRelease = release, consent = "DOWNLOAD", mode = "", tag = "pc-suite-v0.1.0", existing = false } = {}) => {
     const destination = path.join(root, `kit-${++counter}`);
     await fs.mkdir(destination);
@@ -94,7 +100,7 @@ Invoke-InstallerKitDownload
     let output, error;
     try {
       output = execFileSync(shell, ["-NoLogo", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", harness], {
-        encoding: "utf8", stdio: "pipe", env: { ...process.env, KIT_SCRIPT: script, KIT_TAG: tag,
+        encoding: "utf8", stdio: "pipe", env: { ...process.env, PSModulePath: inheritedModulePath, KIT_SCRIPT: script, KIT_TAG: tag,
           KIT_DESTINATION: destination, KIT_RELEASE: releasePath, KIT_DIST: path.join(root, "dist"), KIT_CONSENT: consent, KIT_MODE: mode },
       });
     } catch (caught) { error = String(caught.stderr || caught.stdout || caught); }

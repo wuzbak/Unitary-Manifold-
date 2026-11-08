@@ -59,7 +59,7 @@ def _tokens(text: str) -> frozenset[str]:
 def prepare_local_navigation() -> None:
     """Prepare pure metadata before accepting latency-bounded HTTP requests."""
     from .merlin_benchmark import get_benchmark_corpus
-    from .merlin_repo_graph import _build_repo_graph
+    from .merlin_repo_graph import prepare_repo_graphs
 
     corpora = get_benchmark_corpus().get("corpora") or {}
     queries = {
@@ -69,12 +69,7 @@ def prepare_local_navigation() -> None:
         for query in [benchmark.get("query") or "", *(benchmark.get("setup_turns") or [])]
         if str(query)
     }
-    for query in sorted(queries):
-        try:
-            _build_repo_graph(120, query)
-        except Exception:
-            # Preparation is optional; live routing retains its own error path.
-            continue
+    prepare_repo_graphs(sorted(queries), max_files=120)
     try:
         from src.core.action_derived_flow import symbolic_kk_reduction_check
 

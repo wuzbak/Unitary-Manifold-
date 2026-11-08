@@ -133,10 +133,21 @@ function Get-KitPlan($Release, [string]$Checksums, [string]$Version, [string]$Re
     return $plan
 }
 
+# Direct .NET hashing avoids Get-FileHash module autoloading, which fails when
+# Windows PowerShell 5.1 inherits PowerShell 7's PSModulePath.
+function Get-KitSha256([string]$Path) {
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try {
+        $stream = [IO.File]::Open($Path, [IO.FileMode]::Open, [IO.FileAccess]::Read, [IO.FileShare]::Read)
+        try { $digest = $sha.ComputeHash($stream) } finally { $stream.Dispose() }
+    } finally { $sha.Dispose() }
+    return [BitConverter]::ToString($digest).Replace('-', '').ToLowerInvariant()
+}
+
 function Test-KitFile([string]$Path, [long]$Size, [string]$Hash) {
     $item = Get-Item -LiteralPath $Path -Force
     if ($item.PSIsContainer -or ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -or
-        $item.Length -ne $Size -or (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() -cne $Hash) {
+        $item.Length -ne $Size -or (Get-KitSha256 $Path) -cne $Hash) {
         throw 'Downloaded file failed size/SHA-256 verification.'
     }
 }

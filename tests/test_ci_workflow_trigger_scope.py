@@ -69,6 +69,21 @@ def test_android_release_publication_targets_repository_and_checksums_download_n
     assert "build" in job["needs"]
 
 
+def test_windows_installer_helper_is_checked_before_dependent_packaging() -> None:
+    jobs = _load("pc-suite-windows.yml")["jobs"]
+    step = next(
+        step for step in jobs["browser-desktop-runtime"]["steps"]
+        if "installer-kit helper" in step.get("name", "")
+    )
+    assert step["shell"] == "powershell"
+    assert step["working-directory"] == "12-AZ-IP/45-axiomzero-pc-suite"
+    assert '$env:P45_POWERSHELL = "powershell.exe"' in step["run"]
+    assert "node --test tests/download-installer-kit.test.cjs" in step["run"]
+    assert "throw" in step["run"]
+    assert "browser-desktop-runtime" in jobs["test-and-package"]["needs"]
+    assert any(step.get("run") == "npm run smoke:win" for step in jobs["test-and-package"]["steps"])
+
+
 def test_android_packaging_and_release_share_mandatory_device_verification() -> None:
     build_workflow = "./.github/workflows/android-suite-build.yml"
     assert _load("pc-suite-platforms.yml")["jobs"]["android-suite"]["uses"] == build_workflow

@@ -98,6 +98,13 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: 12-AZ-IP/24-psicat-web-browser/package-lock.json
+      - name: Exercise installer-kit helper using synthetic downloads in Windows PowerShell 5.1
+        shell: powershell
+        working-directory: 12-AZ-IP/45-axiomzero-pc-suite
+        run: |
+          $env:P45_POWERSHELL = "powershell.exe"
+          node --test tests/download-installer-kit.test.cjs
+          if ($LASTEXITCODE -ne 0) { throw "Installer-kit helper verification failed." }
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -153,12 +160,6 @@ jobs:
           path: 12-AZ-IP/45-axiomzero-pc-suite/build/platform-targets
       - run: python -m pip install -r requirements-native-build.txt
       - run: npm test
-      - name: Exercise installer-kit helper using synthetic downloads in Windows PowerShell 5.1
-        shell: powershell
-        run: |
-          $env:P45_POWERSHELL = "powershell.exe"
-          node --test tests/download-installer-kit.test.cjs
-          if ($LASTEXITCODE -ne 0) { throw "Installer-kit helper verification failed." }
       - run: npm run catalog:check
       - run: npm run dist:win
       - run: npm run smoke:win

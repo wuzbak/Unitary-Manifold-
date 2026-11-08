@@ -51,6 +51,14 @@ Related reading outside this product folder:
 - A local product folder bundling UI, Python engine, hidden machine-readable tooling endpoints, and tests.
 - A study-and-navigation layer that still includes the Interrogator and Flashcard Trainer.
 
+Before binding its local HTTP server, Navigator prepares optional pure navigation
+metadata and the existing parameter-pure symbolic reduction check. Benchmark
+navigation warmup shares one directory-discovery snapshot across its queries,
+instead of repeatedly scanning the whole repository. Each graph still validates
+source stats; live requests rediscover paths and refresh changed source records.
+This startup optimization does not skip preparation, precompute gate verdicts,
+relax the browser's readiness deadline, or certify Windows startup.
+
 ## How PsiCat differs from the main Oracle
 
 - The Oracle is the capstone synthesis engine for arbitrary human systems.

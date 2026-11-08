@@ -1477,3 +1477,15 @@ does not certify general answer quality or physical-phone performance.
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt` | `4f5f68277d1b8845e42d26823d1cf29d3c0b4463463e4597a9fd424ab365ebd4` | 10179 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `e3aaacc5cf68089863b798c77575c68841816b0ea56f1dfb56380e9c8cefef2b` | 4834 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `e77f78dec9da492cd04256a84c20da409dd58744de40a248d6257f5a0721a4b9` | 6777 |
+
+### Product 45 streaming hash portability reseal — 2026-11-08
+
+Native Windows follow-through exposed unavailable `Get-FileHash` during a
+PowerShell 5.1 child launch. Use explicit .NET SHA-256 streaming, retain all
+size/hash/manifest bounds and test inherited module paths. Previous seals remain
+in registry history; native verification and installer acceptance remain required.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `98f8daeafe79313b553437b3dfe500bfc40d9381d0ae083afb50af18d3341315` | 13646 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `290f755b223b3cf7d5efdbd64a35734a3d1c0306ce1fc5ebb9f7cd83224e2208` | 10583 |

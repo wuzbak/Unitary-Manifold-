@@ -18,10 +18,16 @@ NDK 26.1 and CMake 3.22.1 in shared hosted checks; require emulator installation
 native ownership regression checks and actual model download/import/inference
 receipts before uploading the APK.
 
-Hosted native/device qualification and release publication remain pending.
-The local agent cannot resolve Google Maven or model-download hosts, so source
-and synthetic tests alone do not establish mobile functionality. No physical
-phone performance or actual 27B inference qualification is claimed.
+Hosted Android run `42427198171` verified actual app download, private import,
+native loading and a completed `HELLO` within 16 generated tokens. A shared
+non-thinking prefix prevents an unfinished scratchpad from consuming the answer
+budget; the gate rejects reasoning-only receipts. This does not certify general
+answer quality. Windows follow-through exposed redundant Navigator warmup
+discovery and a helper hash-cmdlet availability failure; native acceptance and
+release publication still remain mandatory. Share one startup discovery snapshot
+without caching live paths, skipping preparation or relaxing readiness deadlines.
+Check the Windows PowerShell 5.1 helper before dependent packaging.
+No physical-phone performance or actual 27B inference qualification is claimed.
 Evidence/notebook boundaries, UNVERIFIED labels, canonical physics claims, TOE
 score and falsification conditions remain unchanged.
 
