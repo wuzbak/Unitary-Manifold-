@@ -2,7 +2,8 @@
 
 ## Product 45/46 installation and local-model integration (2026-11-07)
 
-Add main-site download entry points and version-matched test-release workflows.
+Add main-site and root README download entry points and version-matched
+test-release workflows.
 Product 45 retains its bundled Qwen3-4B and verified companion payload; explicit
 local Ollama discovery and longer bounded model deadlines add an operator-owned
 larger-model path without automatic downloads or cloud fallback. PsiCat's
