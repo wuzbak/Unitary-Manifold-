@@ -9,7 +9,8 @@
   with focused tests for the identity, the homogeneous exact branch, and the
   fail-closed pillar packet.
 - Updated the planar-radion technical note and canonical status ledgers, and
-  added a grounded PsiCat research brief and article.
+  refreshed the generated live/public status JSON while adding a grounded
+  PsiCat research brief and article.
 
 ### What did not change
 - The periodic scalar energy is not claimed to be conserved: the radion-work
