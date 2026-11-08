@@ -1,5 +1,38 @@
 # Wave Changelog
 
+## Unification proof review follow-through (2026-11-08)
+
+### What changed
+- Corrected the phase-gap closure criteria: setting the real part of the
+  action to zero leaves a real weight, not a phase. Distinguished the
+  geometric identity in `MCP_INGEST.md` from the phase claim.
+- Distinguished canonical boundary angles from full-formula estimates,
+  scoped the two-survivor scan to its finite range and observational filters,
+  and withdrew the unsupported equivalence of integer CS level and Dirac
+  quantization.
+- Recorded the inclusive gap/window criterion and the separate dual-sector
+  classifier's wider open gap and uncertainty-dependent ambiguous outcome.
+  Their differing decision rules remain an open reconciliation issue.
+
+### What did not change / ledger sync
+- Documentation correction only: no code, pillar, registry, free-parameter
+  count, canonical version, regression headline, physics label, or TOE score
+  changed. STATUS.md, FALLIBILITY.md, src/core/sm_free_parameters.py,
+  README.md, and 1-THEORY/DERIVATION_STATUS.md: N/A; no status promotion or
+  change to their canonical claims.
+
+### Honesty gate
+- No score inflation; TOE score delta is zero. Gap 6 remains open. The
+  previously asserted CS-level/Dirac equivalence and unsupported
+  observation-independent selection inference are withdrawn, not promoted.
+- The pre-committed central-value falsifier remains β in `[0.29°, 0.31°]`
+  or outside `[0.22°, 0.38°]`; measurement uncertainty matters in practice.
+  The dual-sector classifier uses a different, wider gap and also checks
+  compatibility with both peaks. Reconciliation remains open.
+- Canonical and full-formula angle estimates differ; neither resolves which
+  sector is physically realized. A justified action or path-integral
+  convention and derivation are still required for the phase claim.
+
 ## UNIFICATION_PROOF.md external-review corrections (2026-11-08)
 
 ### What changed
@@ -65,16 +98,15 @@
 - **No change.**
 
 ### Falsification impact
-- No falsifier removed or weakened. The newly documented `(5,6)/k_cs=61`
-  shadow sector adds an explicit, pre-committed third falsification outcome
-  (`β` landing outside both predicted values) that was previously implicit
-  only in `src/core/dual_sector_convergence.py` and not stated in the proof
-  document itself.
+- No falsifier removed or weakened. Part VII.3 records the pre-committed
+  central-value gap/window criterion: `β` in `[0.29°, 0.31°]` or outside
+  `[0.22°, 0.38°]`. Merely differing from both canonical peaks does not
+  establish falsification; measurement uncertainty matters.
 
 ### Residual unknowns
-- Gap 6 (complex-action phase step) remains open pending either an explicit,
-  justified path-integral convention or a demonstration that `Re(S_eff) = 0`
-  on-shell.
+- Gap 6 (complex-action phase step) remains open pending a justified change
+  of action or path-integral convention and a derivation. Setting
+  `Re(S_eff) = 0` does not produce an oscillatory phase.
 - Which of `(5,7)` or `(5,6)` is physically realized remains undecided
   pending LiteBIRD (~2032).
 
