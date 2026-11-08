@@ -43,7 +43,6 @@ pub use geodesic::GeodesicCache;
 use crate::framebuffer::AxiomFramebuffer;
 
 const MAX_PROCESSES: usize = 64;
-const TICK_HZ: u32 = 1000; // 1 ms scheduling tick
 
 /// The AxiomZero Geodesic Scheduler.
 pub struct AxiomScheduler {
@@ -99,7 +98,8 @@ impl AxiomScheduler {
         best_pid
     }
 
-    /// Advance the scheduler by one tick.  Called from the timer interrupt handler.
+    /// Advance the scheduler by one logical tick.
+    /// Currently called by the event loop; timer interrupt wiring is deferred.
     pub fn tick(&mut self) {
         self.tick_count += 1;
         // Preempt the current process if its quantum is exhausted.
@@ -128,7 +128,7 @@ impl AxiomScheduler {
         }
     }
 
-    /// The main kernel event loop (Sprint 0: spins; Sprint 1: runs processes).
+    /// The main kernel event loop; ticks count iterations, not elapsed milliseconds.
     pub fn run_event_loop(&mut self, fb: &mut AxiomFramebuffer) -> ! {
         loop {
             self.tick();
@@ -141,7 +141,7 @@ impl AxiomScheduler {
                     self.tick_count, self.processes.len());
                 fb.draw_status_line(&msg);
             }
-            // Sprint 3: HLT between ticks to conserve power.
+            // Wait for an interrupt; no periodic timer is configured here.
             #[cfg(target_arch = "x86_64")]
             unsafe { core::arch::asm!("hlt", options(nomem, nostack)); }
         }
