@@ -2,7 +2,7 @@
 # Copyright (C) 2026 ThomasCory Walker-Pearson
 [CmdletBinding()]
 param(
-    [string]$Tag = 'pc-suite-v0.1.1',
+    [string]$Tag = 'pc-suite-v0.1.2',
     [string]$DestinationDirectory = '',
     [switch]$AcceptLargeDownload
 )
