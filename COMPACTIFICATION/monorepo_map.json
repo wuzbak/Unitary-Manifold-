@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8682,
+  "file_count": 8698,
   "lanes": {
-    "az_ip": 2673,
+    "az_ip": 2685,
     "compactification": 9,
-    "other": 5586,
+    "other": 5590,
     "psicat_articles": 356,
     "psicat_books": 58
   },
@@ -16,14 +16,14 @@
     ".dvc": 1,
     ".firebaserc": 1,
     ".gitattributes": 1,
-    ".github": 54,
+    ".github": 57,
     ".gitignore": 1,
     ".pre-commit-config.yaml": 1,
     ".zenodo.json": 1,
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2673,
+    "12-AZ-IP": 2685,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -100,7 +100,7 @@
     "mkdocs.yml": 1,
     "package-lock.json": 1,
     "proof": 17,
-    "public-site": 84,
+    "public-site": 85,
     "pyproject.toml": 1,
     "pytest.ini": 1,
     "recycling": 14,
@@ -2770,6 +2770,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/lib/native-model.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/node-bootstrap.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/node-toolchain.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/ollama-models.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/operation-lock.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/portfolio-source.cjs",
@@ -2786,6 +2787,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/requirements-native-build.txt",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_catalog.py",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/build_native.py",
+      "12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/extract-node.ps1",
       "12-AZ-IP/45-axiomzero-pc-suite/scripts/install-offline-payload.ps1",
@@ -2801,6 +2803,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/styles.css",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/catalog.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/desktop-runtime.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs",
@@ -2811,6 +2814,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/tests/node-bootstrap.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/node-toolchain.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/offline-payload.test.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/ollama-models.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/portfolio-source.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs",
@@ -2822,11 +2826,18 @@
     ],
     "46-axiomzero-android-suite": [
       "12-AZ-IP/46-axiomzero-android-suite/.gitignore",
+      "12-AZ-IP/46-axiomzero-android-suite/LLAMA_CPP_LICENSE.txt",
       "12-AZ-IP/46-axiomzero-android-suite/README.md",
       "12-AZ-IP/46-axiomzero-android-suite/app/build.gradle.kts",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/AndroidManifest.xml",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/THIRD_PARTY_NOTICES.md",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/CMakeLists.txt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/llama_jni.cpp",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalLibrary.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/PortfolioCatalog.kt",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/ResearchNotebook.kt",
@@ -2834,6 +2845,7 @@
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/strings.xml",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/styles.xml",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/LocalLibraryTest.kt",
+      "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/PortfolioCatalogTest.kt",
       "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/SafeTextArchiveTest.kt",
       "12-AZ-IP/46-axiomzero-android-suite/build.gradle.kts",
@@ -3402,6 +3414,12 @@
       "lane": "other"
     },
     {
+      "path": ".github/scripts/verify-android-suite.sh",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": ".github/tests/test_embedded_model_download_contract.py",
       "top_level": ".github",
       "kind": "file",
@@ -3409,6 +3427,18 @@
     },
     {
       "path": ".github/topics.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/workflows/android-suite-build.yml",
+      "top_level": ".github",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": ".github/workflows/android-suite-release.yml",
       "top_level": ".github",
       "kind": "file",
       "lane": "other"
@@ -21901,6 +21931,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/ollama-models.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/operation-lock.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22013,6 +22050,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22118,6 +22162,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/hardware.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22188,6 +22239,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/ollama-models.test.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22251,6 +22309,13 @@
       "product": "46-axiomzero-android-suite"
     },
     {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/LLAMA_CPP_LICENSE.txt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
       "path": "12-AZ-IP/46-axiomzero-android-suite/README.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22265,7 +22330,28 @@
       "product": "46-axiomzero-android-suite"
     },
     {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
       "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/AndroidManifest.xml",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/THIRD_PARTY_NOTICES.md",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -22279,7 +22365,28 @@
       "product": "46-axiomzero-android-suite"
     },
     {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/CMakeLists.txt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/llama_jni.cpp",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
       "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalLibrary.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -22329,6 +22436,13 @@
     },
     {
       "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/LocalLibraryTest.kt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "46-axiomzero-android-suite"
+    },
+    {
+      "path": "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -38200,6 +38314,12 @@
     },
     {
       "path": "public-site/data/status.json",
+      "top_level": "public-site",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "public-site/downloads.html",
       "top_level": "public-site",
       "kind": "file",
       "lane": "other"

@@ -12,9 +12,10 @@ const {
 } = require("./lib/repository.cjs");
 const { readSettings, writeSettings } = require("./lib/settings.cjs");
 const { createExclusiveOperation } = require("./lib/operation-lock.cjs");
-const { ResearchHarness, searchCatalog, composeReport } = require("./lib/harness.cjs");
+const { ResearchHarness, searchCatalog, composeReport, POLICY } = require("./lib/harness.cjs");
 const { searchEvidence } = require("./lib/worker-search.cjs");
 const { reasonLocally } = require("./lib/local-model.cjs");
+const { createOllamaModels } = require("./lib/ollama-models.cjs");
 const { detectHardware } = require("./lib/hardware.cjs");
 const { createNativeModel } = require("./lib/native-model.cjs");
 const { createInstructionModel } = require("./lib/instruction-model.cjs");
@@ -386,6 +387,16 @@ function registerHandlers() {
     fs.writeFileSync(result.filePath, `${JSON.stringify(hardwareReport, null, 2)}\n`, { mode: 0o600 });
     return { canceled: false };
   });
+  ipcMain.handle("harness:ollama-models", async () => {
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "question", title: "Inspect installed local Ollama models",
+      message: "Contact Ollama on this PC to list installed model metadata?",
+      detail: "One bounded request to 127.0.0.1:11434 only; no questions or evidence are sent. No model is downloaded, loaded or selected automatically. Cloud entries and unsupported metadata are omitted. Engine-reported sizes and digests do not verify upstream provenance. The external engine controls its own networking and retention; use a trusted, offline-configured installation.",
+      buttons: ["Cancel", "List installed models"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    return createOllamaModels().list();
+  });
   ipcMain.handle("harness:state", () => harness.snapshot());
   ipcMain.handle("harness:create", (_event, request) => harness.create(request));
   ipcMain.handle("harness:run-step", async (_event, id) => {
@@ -395,7 +406,7 @@ function registerHandlers() {
         type: "question",
         title: "Approve one harness step",
         message: `${step.tool} for "${step.goal}"`,
-        detail: `${step.disclosure}\n\nAttempt budget: six per task. Deadline: 60 seconds per step. Approval applies only to this step and expires if its checkpoint changes.${step.contextTruncated ? "\nPrior context is truncated to 12,000 characters; full results remain in the checkpoint." : ""}`,
+        detail: `${step.disclosure}\n\nAttempt budget: six per task. Deadline: ${step.tool === "model.reason" ? "18 minutes total for this model step" : "60 seconds for this non-model step"}. Approval applies only to this step and expires if its checkpoint changes.${step.contextTruncated ? "\nPrior context is truncated to 12,000 characters; full results remain in the checkpoint." : ""}`,
         buttons: ["Cancel", "Approve this step"],
         defaultId: 0, cancelId: 0, noLink: true
       });
@@ -672,11 +683,13 @@ app.whenReady().then(() => {
       directory: knowledgeDirectory, ids: [...settings.knowledgeCollectionIds], goal, signal
     })),
     "report.compose": composeReport,
-    "model.reason": async ({ goal, model, context, signal }) => model === "psicat:embedded"
-      ? (await instructionModel.answer({
+    "model.reason": async ({ goal, model, context, signal }) => {
+      if (model === "psicat:embedded") return (await instructionModel.answer({
         question: goal, evidence: [{ id: "E1", text: instructionExcerpt(context, 1200) }], signal
-      })).answer
-      : reasonLocally({ goal, model, context, signal })
+      })).answer;
+      await createOllamaModels().inspect(model, { signal });
+      return reasonLocally({ goal, model, context, signal, timeoutMs: POLICY.externalInferenceTimeoutMs });
+    }
   });
   registerHandlers();
   createWindow();

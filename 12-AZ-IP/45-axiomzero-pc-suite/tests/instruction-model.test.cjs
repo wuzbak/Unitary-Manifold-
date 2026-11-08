@@ -11,7 +11,7 @@ const crypto = require("node:crypto");
 const http = require("node:http");
 const { spawn, execFile } = require("node:child_process");
 const { once, EventEmitter } = require("node:events");
-const { createInstructionModel, LIMITS } = require("../lib/instruction-model.cjs");
+const { createInstructionModel, LIMITS, OWNERSHIP_WORDS, ownershipChallengeToken } = require("../lib/instruction-model.cjs");
 
 // Real child sockets exercise transport, authentication, process ownership and
 // exit handling. Tiny synthetic PE/GGUF files are NOT capable model substitutes.
@@ -35,7 +35,7 @@ const CHILD = String.raw`
           response.writeHead(401); response.end("{}"); return;
         }
         const prompt = body.messages[1].content;
-        const nonce = prompt.match(/READY_[a-f0-9]+/);
+        const nonce = prompt.includes("evidence OWNERSHIP") ? [null] : null;
         if (nonce) {
           if (config.mode === "challenge-http") {
             response.writeHead(503); response.end("{}"); return;
@@ -44,15 +44,19 @@ const CHILD = String.raw`
           try { supplied = JSON.parse(prompt); } catch {}
           if (typeof supplied?.question !== "string" ||
               supplied.evidence?.length !== 1 || supplied.evidence[0].id !== "OWNERSHIP" ||
-              !supplied.evidence[0].text.includes(nonce[0])) {
+              !/^[a-z]+( [a-z]+){15}$/.test(supplied.evidence[0].text)) {
             response.writeHead(400); response.end('{"error":"ownership requires normal evidence input"}'); return;
           }
+          nonce[0] = supplied.evidence[0].text;
         }
         const reviewing = body.messages.length === 4;
         let content;
         if (nonce) content = JSON.stringify({
           status: config.mode === "bad-challenge-status" ? "UNSUPPORTED" : "UNVERIFIED",
           answer: config.mode === "bad-challenge" ? "wrong" :
+            config.mode === "one-word-challenge" ? nonce[0].replace(/^[a-z]+/, (word) => word === "apple" ? "acorn" : "apple") :
+            config.mode === "case-challenge" ? nonce[0].toUpperCase() :
+            config.mode === "spacing-challenge" ? nonce[0].replace(" ", "  ") :
             config.mode === "annotated-challenge" ? nonce[0] + " [OWNERSHIP]" : nonce[0],
           citations: [config.mode === "bad-challenge-citation" ? "FOREIGN" : "OWNERSHIP"],
           ...(config.mode === "bad-challenge-schema" ? { extra: "unexpected" } : {})
@@ -221,7 +225,7 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
   assert.equal(input.chat_template_kwargs.enable_thinking, false);
   assert.deepEqual(input.response_format, RESPONSE_FORMAT);
   const challengeRequests = f.messages.filter((message) => message.type === "request" &&
-    message.body.messages[1].content.includes("READY_"));
+    message.body.messages[1].content.includes("evidence OWNERSHIP"));
   assert.equal(challengeRequests.length, 3);
   assert.ok(challengeRequests.every((message) => message.body.max_tokens === input.max_tokens));
   assert.ok(challengeRequests.every((message) =>
@@ -234,12 +238,17 @@ test("validates streamed bundled artifacts, infers via a real owned child, and w
     const supplied = JSON.parse(message.body.messages[1].content);
     assert.deepEqual(Object.keys(supplied).sort(), ["evidence", "question"]);
     assert.deepEqual(supplied.evidence.map(item => item.id), ["OWNERSHIP"]);
-    assert.match(supplied.evidence[0].text, /^READY_[a-f0-9]{32}$/);
+    assert.match(supplied.evidence[0].text, /^[a-z]+( [a-z]+){15}$/);
+    assert.ok(supplied.evidence[0].text.split(" ").every((word) => OWNERSHIP_WORDS.includes(word)));
     assert.match(supplied.question, /Copy the entire text of evidence OWNERSHIP verbatim into answer/);
+    assert.match(supplied.question, /same 16 lowercase words in the same order, separated by single spaces/);
     assert.match(supplied.question, /no added characters, prose, punctuation or inline citation markers/);
     assert.match(supplied.question, /supporting evidence ID only in citations/);
-    assert.ok(!supplied.question.includes("READY_"), "the challenge asks a question rather than supplying a completed answer");
+    assert.ok(!supplied.question.includes(supplied.evidence[0].text),
+      "the challenge asks a question rather than supplying a completed answer");
   }
+  const tokens = challengeRequests.map((message) => JSON.parse(message.body.messages[1].content).evidence[0].text);
+  assert.equal(new Set(tokens).size, 1, "one launch reuses its single fresh challenge across authorization probes");
 });
 
 test("candidate bundled basename may vary in case but local manifest spelling is exact", async (t) => {
@@ -540,15 +549,20 @@ test("invalid or fabricated citations and promoted certificates fail determinist
 test("bounds bytes and rejects malformed/truncated/tool/thinking HTTP completions", async (t) => {
   for (const mode of ["huge", "huge-declared", "bad-json", "duplicate-json", "tool", "reasoning", "truncated",
     "bad-health", "bad-challenge", "bad-challenge-status", "bad-challenge-citation",
-    "bad-challenge-schema", "annotated-challenge", "challenge-http", "challenge-truncated", "auth-bypass"]) {
+    "bad-challenge-schema", "annotated-challenge", "one-word-challenge", "case-challenge", "spacing-challenge", "challenge-http", "challenge-truncated", "auth-bypass"]) {
     await t.test(mode, async (t) => {
       const f = await fixture(t, { mode });
       await assert.rejects(f.runtime.answer({ question: "x", evidence }), (error) => {
         assert.match(error.message, /limit|JSON|protocol|health|challenge|unauthenticated/);
-        if (mode === "bad-challenge" || mode === "annotated-challenge") {
-          assert.match(error.ownershipChallenge.expectedAnswer, /^READY_[a-f0-9]{32}$/);
-          assert.equal(error.ownershipChallenge.receivedAnswer,
-            mode === "bad-challenge" ? "wrong" : error.ownershipChallenge.expectedAnswer + " [OWNERSHIP]");
+        if (mode === "bad-challenge" || mode.endsWith("word-challenge") || mode === "annotated-challenge" ||
+            mode === "case-challenge" || mode === "spacing-challenge") {
+          assert.match(error.message, /challenge failed: answer mismatch/);
+          assert.match(error.ownershipChallenge.expectedAnswer, /^[a-z]+( [a-z]+){15}$/);
+          assert.notEqual(error.ownershipChallenge.receivedAnswer, error.ownershipChallenge.expectedAnswer);
+          if (mode === "bad-challenge" || mode === "annotated-challenge") {
+            assert.equal(error.ownershipChallenge.receivedAnswer,
+              mode === "bad-challenge" ? "wrong" : error.ownershipChallenge.expectedAnswer + " [OWNERSHIP]");
+          }
           assert.deepEqual(Object.keys(error.ownershipChallenge).sort(),
             ["expectedAnswer", "receivedAnswer", "receivedCitations", "receivedStatus"]);
         }
@@ -790,4 +804,28 @@ test("input/context budgets, invalid locations and pre-cancelled work never star
     assert.throws(() => createInstructionModel({ resourcesDirectory: directory, dataDirectory: f.dataDirectory }), /absolute local/);
   }
   assert.throws(() => createInstructionModel({ resourcesDirectory: f.resourcesDirectory, dataDirectory: f.dataDirectory, threads: 5 }), /budget/);
+});
+
+test("ownership challenge encodes exactly 128 fresh random bits as an unambiguous word sequence", () => {
+  assert.equal(OWNERSHIP_WORDS.length, 256);
+  assert.equal(new Set(OWNERSHIP_WORDS).size, 256);
+  assert.ok(Object.isFrozen(OWNERSHIP_WORDS));
+  assert.ok(OWNERSHIP_WORDS.every((word) => /^[a-z]{2,8}$/.test(word)));
+  const index = new Map(OWNERSHIP_WORDS.map((word, position) => [word, position]));
+  for (let byte = 0; byte < 256; byte++) {
+    const bytes = Buffer.alloc(16, byte);
+    bytes[15] = 255 - byte;
+    const token = ownershipChallengeToken(bytes);
+    assert.match(token, /^[a-z]+( [a-z]+){15}$/);
+    assert.deepEqual(Buffer.from(token.split(" ").map((word) => index.get(word))), bytes, "encoding is lossless");
+  }
+  const samples = new Set(Array.from({ length: 2048 }, () => ownershipChallengeToken()));
+  assert.equal(samples.size, 2048, "each launch draws a fresh token");
+  for (const bad of [Buffer.alloc(15), Buffer.alloc(17), "0".repeat(32), null]) {
+    assert.throws(() => ownershipChallengeToken(bad), /exactly 128 random bits/);
+  }
+  const source = require("node:fs").readFileSync(path.join(__dirname, "../lib/instruction-model.cjs"), "utf8");
+  assert.match(source, /const nonce = ownershipChallengeToken\(\);/);
+  assert.match(source, /function ownershipChallengeToken\(bytes = crypto\.randomBytes\(16\)\)/);
+  assert.match(source, /challengeResult\.answer !== nonce && "answer"/);
 });

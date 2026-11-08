@@ -1,6 +1,6 @@
 # Product 45 — AxiomZero PC Suite
 
-**Version 0.1.0 · Windows desktop portfolio suite, local evidence, native experimental PsiCat and governed runtime controls · production readiness not assessed**
+**Version 0.1.2 · Windows desktop portfolio suite, local evidence, native experimental PsiCat and governed runtime controls · production readiness not assessed**
 
 Product 45 is an offline-first desktop front door to the registered AxiomZero
 portfolio. Its bundled catalog is built from the canonical `12-AZ-IP/README.md`
@@ -19,6 +19,79 @@ their setup, privacy and readiness boundaries. No provisioned dependency
 environment or responsive status endpoint constitutes full capability
 certification. Product 20 handles its own handshake; its managed launch disables
 local command execution.
+
+## Windows download and install — read first
+
+**An EXE alone is not the installer kit.** The full bundled Qwen3-4B model
+must remain in separately hashed companion parts to avoid NSIS/GitHub's
+per-file size ceilings. Nothing is fetched during setup.
+
+The simplest download is the **axiomzero-pc-suite-windows** artifact ZIP
+from a **successful, fully qualified** run of the Product 45 Windows workflow.
+Extract the whole ZIP into one local folder, then run its EXE; do not run it
+inside the ZIP or move only the EXE. The ZIP already contains the offline
+manifest, every numbered model part and `SHA256SUMS.txt` together.
+For a tagged pre-release, use the **small, user-executed download helper** below
+to retrieve and verify the complete kit, or download **all** individual assets
+into one folder, preserving their exact filenames. See
+[Verified offline companion payload](#verified-offline-companion-payload).
+
+An absent/failed workflow artifact or a release without assets is **not a
+downloadable installer**. Only a version-matching `pc-suite-v*` tag publishes
+release assets after all Windows gates pass; ordinary commits do not publish
+them. The candidate's documented native acceptance blocker remains in force.
+This source update does not create, qualify or publish a Windows build.
+Missing parts fail closed instead of triggering an unapproved network recovery.
+
+### One-command retrieval of a pinned Windows installer kit
+
+Once a qualified `pc-suite-v0.1.2` release exists, save its
+`AxiomZero-PC-Suite-0.1.2-download.ps1` asset from the
+[official tagged release](https://github.com/wuzbak/Unitary-Manifold-/releases/tag/pc-suite-v0.1.2)
+and review it before running it. This is a small downloader, **not the installer**.
+It works with built-in Windows PowerShell 5.1; no GitHub CLI is required.
+Create a new local folder, then run from the folder where you saved the script:
+
+```powershell
+New-Item -ItemType Directory -Path .\AxiomZero-PC-Suite-0.1.2-kit
+powershell.exe -NoProfile -File .\AxiomZero-PC-Suite-0.1.2-download.ps1 -Tag pc-suite-v0.1.2 -DestinationDirectory .\AxiomZero-PC-Suite-0.1.2-kit
+```
+
+**Release note 0.1.2:** this patch repackages the suite from audited source so
+the bundled PsiCat Navigator ships the current repository-status transport
+(`bot/assistant_api.py`): dated generator-backed prediction rows that fail
+closed when unavailable, unknown test counts reported as unavailable rather
+than zero, and scoped epistemic wording. The model, its approved full size,
+caps and runtime gates are unchanged; nothing is downgraded. The engine
+ownership challenge now encodes its fresh 128-bit token as 16 words (see
+below) and still requires an exact copy. `pc-suite-v0.1.1` was tagged but never
+published: its native qualification failed closed when the model mis-copied one
+character of the old hex challenge token. The published
+`pc-suite-v0.1.0` release remains as built and is not modified; its helper
+still accepts `-Tag pc-suite-v0.1.0` explicitly.
+
+The helper displays the multi-GiB size and requires typing `DOWNLOAD` before
+retrieving the installer/model files. `-AcceptLargeDownload` is an explicit
+noninteractive consent option. If local PowerShell policy blocks the reviewed
+script, follow your administrator's policy rather than weakening system policy.
+Use an explicit version tag, never `latest`; a missing release stops with an
+error and is not evidence that a build has shipped.
+
+Only official repository HTTPS release metadata and bounded GitHub asset/CDN
+downloads are used. Exact versioned filenames come from `SHA256SUMS.txt`;
+unexpected names, paths, URLs, duplicates, gaps, size mismatches and hash
+mismatches abort. The manifest and complete model digest are also checked.
+Release checksums provide distribution integrity under trust in the official
+GitHub release; they are **not an independent publisher signature**. Verify the
+download helper's own release checksum independently before executing it.
+
+The helper never installs, executes downloaded files, configures startup,
+overwrites existing kit files or retries automatically. Interrupted/failed
+downloads remove their private partial files and stop. If final files remain
+after a filesystem failure, never run an incomplete kit: retry in a **new empty
+folder**; delete old files only yourself. After `VERIFIED INSTALLER KIT`, manually
+run the EXE **in that same folder**, keeping the manifest and every model part
+alongside it. Allow additional disk space for setup's assembled model.
 
 ## Embedded instruction assistant
 
@@ -95,6 +168,105 @@ CPU latency. Slow inference can still time out; a failed step requires fresh
 approval and is not recorded as completed. Named external Ollama models retain
 their separate explicit disclosure.
 
+## Optional larger local model through Ollama
+
+This additive path uses the existing **Research control plane**, not a second
+managed downloader. **Ask PsiCat** and `psicat:embedded` retain the bundled
+Qwen3-4B runtime, model cap and qualification gates.
+Product 20's standalone OpenAI-compatible provider setup is separate: it does
+not authenticate Ollama weights. Product 45's temporary owned, keyed embedded
+server is private to its operation, not a shareable provider endpoint.
+
+“Qwen3.8 27B IQ3” and an approximately 13.5 GB download are user-supplied
+descriptions. This suite has **no authenticated publisher/revision/filename,
+exact size or SHA-256 for that artifact**, and does not assert that the name
+identifies a published or supported model. Do not substitute another model
+and label it verified. No 27B weights are hosted or downloaded by this suite.
+
+### Bring a verified local GGUF (Windows)
+
+1. Use **Detect this PC** before obtaining weights. The baseline readiness
+   threshold is for small-model evaluation, not a 27B fit test. Roughly 13.5 GB
+   of weights needs additional RAM/VRAM for runtime, context and KV cache.
+   **32 GB system RAM is a conservative starting point, not a guarantee**.
+   Allow space for both the original GGUF and Ollama's imported copy, plus
+   working files. GPU offload depends on Ollama and its drivers; the suite
+   does not measure dedicated VRAM or certify GPU compatibility.
+2. Independently choose a trusted publisher and **pinned immutable revision**,
+   then check the exact filename, license, byte size and SHA-256 supplied by
+   that trusted source. Obtain the file yourself outside this repository,
+   preferably transferring it offline. A digest copied from an arbitrary
+   mirror, a model name, or an approximate size is not authenticated provenance.
+3. Install/start a trusted Ollama locally yourself. Follow that installed
+   version's official local-only/cloud-disable guidance and apply an OS outbound
+   network restriction if privacy requires it. The suite never installs/starts
+   Ollama, requests `/api/pull`, accepts cloud entries, or enables networking
+   on your behalf. Loopback does **not** sandbox the external engine.
+4. In your own local work folder, verify the chosen GGUF before importing.
+   Enter values from the independently trusted pinned publisher, **not guesses**:
+
+   ```powershell
+   $file = (Resolve-Path -LiteralPath ".\publisher-27b-iq3.gguf").Path
+   $expectedBytes = [long](Read-Host "Exact publisher-pinned byte size")
+   $expectedHash = (Read-Host "Trusted publisher SHA-256").Trim().ToLowerInvariant()
+   if ($expectedBytes -le 0 -or $expectedHash -cnotmatch '^[a-f0-9]{64}$') {
+       throw "Exact trusted size and SHA-256 are required"
+   }
+   if ((Get-Item -LiteralPath $file).Length -ne $expectedBytes -or
+       (Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLowerInvariant() -cne $expectedHash) {
+       throw "Artifact integrity mismatch; do not import"
+   }
+   # Run only after provenance/license review and compatibility checks.
+   [IO.File]::WriteAllText((Join-Path $PWD "Modelfile"), 'FROM "./publisher-27b-iq3.gguf"',
+       [Text.UTF8Encoding]::new($false))
+   ollama create operator-27b:iq3 -f .\Modelfile
+   if ($LASTEXITCODE -ne 0) { throw "Local GGUF import failed; no model is qualified" }
+   ollama list
+   ```
+
+   This import example is operator-executed, not code run by the suite.
+   Preserve the publisher/revision/hash/license record locally. **Ollama must
+   support the exact GGUF architecture, IQ3 variant and chat template**;
+   a successful import or listed tag is not an inference/quality test.
+   Unknown architecture/quantization/template errors require a compatible
+   trusted engine or another explicitly reviewed local artifact, not a cloud
+   fallback. Do not replace the suite's pinned bundled llama.cpp/GGUF files.
+5. Click **List installed Ollama models (approval required)**. A default-cancel
+   native dialog authorizes one bounded `/api/tags` request to
+   `127.0.0.1:11434`, with no question/evidence. Valid local choices appear as
+   suggestions with engine-reported size; discovery never changes your current
+   selection. Names, byte sizes and digests are **UNVERIFIED engine metadata**,
+   not upstream authentication. Empty lists and unavailable services have explicit
+   errors/instructions; no retries, downloads or background discovery occur.
+6. Enable **Add local reasoning**, explicitly choose the exact installed tag
+   (the example becomes `operator-27b:iq3`/the name shown by `ollama list`), enter
+   a goal, create a plan and approve each step. The final approval discloses
+   metadata inspection followed by question/evidence transfer to the local
+   engine. `/api/show` rejects explicit non-completion capabilities; reported
+   remote/cloud models are rejected **before sending question/evidence**.
+   Ordinary completion-capable models are not restricted to GGUF metadata.
+   Older Ollama versions without `capabilities` may supply recognizable model
+   `details`; these are accepted without certifying architecture or inference.
+   Explicit non-completion models and unrecognizable metadata fail rather than
+   breaking working legacy models solely for missing optional metadata.
+   External reasoning has an **18-minute total step deadline** with a separate
+   **15-minute HTTP chat budget**, including cold loading and generation.
+   Metadata inspection remains limited to **10 seconds**. Non-model steps
+   retain **60 seconds**; the embedded path is unchanged. Pause/cancel aborts
+   inspection or the chat request immediately, but cannot stop the separately
+   owned engine, which may continue computation. A 27B CPU run may still exceed
+   these limits. No automatic retry or background continuation is initiated
+   by the suite. A failed step retains its error and
+   requires fresh approval to retry; cancellation stays available.
+
+External engine behavior, retention, outbound networking, claimed model
+identity, IQ3 support and actual third-party inference are **not verified by
+these checks**. Even an accepted engine can misreport metadata. Use only an
+installation you trust/configure offline; the suite cannot police a separate
+process. Questions, excerpts and generated answers may be private; research
+checkpoints are plaintext. Outputs remain UNVERIFIED, retrieved text remains
+untrusted data, tool calls are rejected, and no generated text executes.
+
 Windows packaging depends on actual instruction/citation/refusal acceptance.
 The workflow verifies the conversion against Unsloth's LFS hash and exact
 repository revision under the approved **3,000,000,000-byte model cap**.
@@ -102,9 +274,13 @@ Independent hosted acceptance retains its 600-second request deadline;
 no answer, citation, refusal or authorization criterion is relaxed.
 The ownership challenge and answer use the same system policy and JSON
 envelope, allowing the owned engine to reuse prefilling work. The exact fresh
-128-bit token, status and citation remain mandatory. The challenge evidence
-contains only the token, so copying the entire evidence text does not require
-interpreting a key/value prefix. Failed challenges expose bounded diagnostics
+128-bit token, status and citation remain mandatory. The token encodes 16
+fresh cryptographically random bytes as 16 common lowercase words from a fixed
+256-word list (exactly 128 bits), because the quantized model once mis-copied
+one character of a raw-hex token during native qualification. The answer must
+still equal the word sequence exactly; there is no fuzzy match or retry. The
+challenge evidence contains only the token, so copying the entire evidence
+text does not require interpreting a key/value prefix. Failed challenges expose bounded diagnostics
 for that synthetic token only, not user evidence or the engine's API key.
 Ownership, answering and
 optional review share one steward-approved bounded fifteen-minute inference
@@ -347,8 +523,12 @@ build, checks actual CPU JAX values/gradients, and requires Product 24's window,
 sync/Navigator readiness and graceful process exit. A failed or skipped native
 check does not certify those capabilities or permit publishing an installer.
 `.github/workflows/pc-suite-windows.yml` builds and uploads them as a workflow
-artifact on pull requests and manual dispatch. `SHA256SUMS.txt` covers the
-installer, companion manifest, and every model part. A `pc-suite-v*` tag
+artifact on pull requests and manual dispatch. Packaging explicitly uses
+`--publish never`: only the workflow's version-tagged release step publishes
+after every acceptance gate, so packaging does not need a GitHub publishing
+token or attempt an early upload. `SHA256SUMS.txt` covers the
+installer, companion manifest, every model part, and the versioned download
+helper. A `pc-suite-v*` tag
 additionally publishes all these files as a GitHub Release. Builds are currently
 **unsigned**; Windows SmartScreen may show a publisher warning. No automatic
 update service is included. The configured artifacts target Windows x64;
@@ -366,12 +546,14 @@ runtime manifest, native seed and portfolio), while the model ships as
 contiguous **at most 1 GiB** parts. No release asset may reach 2 GiB, respecting
 GitHub's per-asset limit as well as NSIS's embedded archive limit.
 
-For version `0.1.0`, place these files together in the **same local folder**:
+For version `0.1.2`, place these files together in the **same local folder**:
 
-- `AxiomZero-PC-Suite-0.1.0-x64.exe`
-- `AxiomZero-PC-Suite-0.1.0-offline.json`
-- `AxiomZero-PC-Suite-0.1.0-model.part001`, `.part002`, and `.part003`
+- `AxiomZero-PC-Suite-0.1.2-x64.exe`
+- `AxiomZero-PC-Suite-0.1.2-offline.json`
+- `AxiomZero-PC-Suite-0.1.2-model.part001`, `.part002`, and `.part003`
 - `SHA256SUMS.txt` (for independent distribution-integrity checking)
+- `AxiomZero-PC-Suite-0.1.2-download.ps1` (optional retrieval helper, also hashed;
+  setup itself does not execute it)
 
 Use the installer from that folder, including for silent `/S` installation.
 Do not put parts in the installation directory or rename them. Transfer all
@@ -399,8 +581,12 @@ package intentionally uses regular NSIS and the fail-closed local hook instead.
 `npm run payload:stage` generates the parts and compile-time manifest seal;
 `npm run payload:verify` checks the whole release set and writes checksums.
 `dist:win` restores the full model in `dist/win-unpacked` **after** installer
-archive creation for real unpacked diagnostics. Release smoke instead verifies
-and runs the full model installed by the actual local-payload installer.
+archive creation for real unpacked diagnostics. Product 45 releases are
+published as clearly labeled GitHub pre-releases; use the
+[consent-gated download helper](#one-command-retrieval-of-a-pinned-windows-installer-kit)
+or download the installer, offline manifest, every model part, and
+`SHA256SUMS.txt` into one folder before running setup. Release smoke verifies and runs the full model installed by the
+actual local-payload installer.
 
 To run from source:
 
@@ -463,9 +649,10 @@ available RAM and 10 GiB free disk. Meeting these thresholds only permits
 identifiers are not reliable measurements of dedicated VRAM or CUDA capability;
 these remain explicitly unverified. Training readiness is never inferred.
 The exact licensed model and its measured memory/latency/context requirements
-must still be evaluated before production use. Only the small experimental
-own-model seed described above is bundled; no deployment-quality general
-assistant weights are supplied. Product 43's causal character-level workflow
+must still be evaluated before production use. The small experimental own-model
+seed and the Qwen3-4B instruction candidate described above are separate bundled
+paths; neither establishes production assistant qualification.
+Product 43's causal character-level workflow
 is experimental, not a production assistant.
 
 ### Task execution
@@ -481,9 +668,11 @@ The built-in workflow searches the bundled catalog, searches persisted local
 evidence in a cancellable worker, and composes a report containing references
 and source excerpts. It does not pretend keyword retrieval inferred an answer.
 No match is explicitly reported as an evidence gap. Optional local reasoning
-adds one final step using Ollama at `http://127.0.0.1:11434/api/chat`; install
-and start Ollama and download a model separately, then enter its exact
-installed model name. The suite never installs models, chooses a cloud
+adds one final step using the bundled `psicat:embedded` backend or Ollama at
+`http://127.0.0.1:11434/api/chat`; see the optional larger-local-model instructions
+above for explicit discovery, local GGUF compatibility inspection and selection.
+Install/start Ollama and obtain/import a trusted local model separately.
+The suite never installs models, chooses a cloud
 fallback, follows redirects, or accepts model tool calls. Before sending the
 goal and bounded evidence context, it requires another native approval.
 The local provider has its own retention and operational policy. Generated
@@ -497,9 +686,12 @@ Pause/cancel aborts active work; already completed results remain available.
 A restart marks in-flight execution interrupted and requires new approval.
 Failed steps show their error and can be explicitly retried within the
 **six-attempt total budget**; there are no hidden retries or unconstrained
-loops. Ordinary execution has a **60-second deadline**; explicitly approved
-embedded CPU reasoning has an **eighteen-minute deadline**, including startup
-and a shared fifteen-minute inference budget. Evidence search runs
+loops. Non-model execution has a **60-second deadline**; explicitly approved
+embedded and external reasoning have an **eighteen-minute deadline**.
+Embedded startup and its shared fifteen-minute inference budget are unchanged.
+External Ollama reasoning has a ten-second metadata inspection cap and a
+fifteen-minute chat budget including cold loading/generation; cancelling the
+HTTP request does not stop that user-owned process. Evidence search runs
 outside the main UI thread, outputs are capped at **24,000 characters**, and
 context at **12,000 characters**. Context truncation is disclosed; full
 results remain in step checkpoints. The optional local model response is

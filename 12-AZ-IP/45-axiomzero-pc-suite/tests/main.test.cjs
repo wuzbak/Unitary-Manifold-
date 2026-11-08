@@ -7,7 +7,7 @@ const vm = require("node:vm");
 const { createRequire } = require("node:module");
 const { EventEmitter } = require("node:events");
 
-async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll, instructionAnswer, instructionStopAll, platformManager } = {}) {
+async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll, instructionAnswer, instructionStopAll, platformManager, ollamaList, ollamaInspect, localReason } = {}) {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "p45-main-"));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   if (corrupt) fs.writeFileSync(path.join(directory, "research-harness.json"), "{broken");
@@ -57,7 +57,12 @@ async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll, inst
       clipboard: { writeText: (value) => clipboardWrites.push(value) },
       shell: { openExternal: async (value) => opened.push(value) }
     } : name === "./lib/local-model.cjs" ? {
-      reasonLocally: async () => "UNVERIFIED mocked local model response"
+      reasonLocally: localReason || (async () => "UNVERIFIED mocked local model response")
+    } : name === "./lib/ollama-models.cjs" ? {
+      createOllamaModels: () => ({
+        list: ollamaList || (async () => ({ models: [], omitted: 0 })),
+        inspect: ollamaInspect || (async () => ({ status: "UNVERIFIED" }))
+      })
     } : name === "./lib/instruction-model.cjs" ? {
       createInstructionModel: () => ({
         status: async () => ({ status: "available", productionAssistantVerified: false }),
@@ -206,6 +211,65 @@ test("optional reasoning is a separate disclosed native approval, never an autom
   assert.match(approvals[3].detail, /127.0.0.1:11434/);
   assert.match(approvals[3].detail, /retention/);
   assert.equal(invoke("harness:state").runs[0].status, "completed");
+});
+test("installed model discovery sends nothing at startup or on declined approval", async (t) => {
+  let calls = 0;
+  const { invoke, dialog, approvals } = await desktop(t, {
+    ollamaList: async () => { calls++; return { models: [{ name: "operator-27b:iq3" }], omitted: 0 }; }
+  });
+  assert.equal(calls, 0);
+  assert.equal((await invoke("harness:ollama-models")).canceled, true);
+  assert.equal(calls, 0);
+  assert.equal(approvals.at(-1).defaultId, 0);
+  assert.match(approvals.at(-1).detail, /no questions or evidence/i);
+  dialog.response = 1;
+  assert.equal((await invoke("harness:ollama-models")).models[0].name, "operator-27b:iq3");
+  assert.equal(calls, 1);
+  assert.equal(invoke("harness:state").runs.length, 0);
+});
+test("27B local inference inspects runtime after approval and rejects before sending evidence", async (t) => {
+  const inspections = [];
+  let inferenceCalls = 0;
+  const { invoke, dialog, approvals } = await desktop(t, {
+    ollamaInspect: async (model, { signal }) => {
+      inspections.push(model);
+      assert.equal(signal.aborted, false);
+      throw new Error("Cloud/remote Ollama models are not permitted.");
+    },
+    localReason: async () => { inferenceCalls++; return "should not happen"; }
+  });
+  const run = invoke("harness:create", { goal: "PsiCat memory", model: "operator-27b:iq3" });
+  assert.equal(inspections.length, 0);
+  dialog.response = 1;
+  for (let step = 0; step < 3; step++) await invoke("harness:run-step", run.id);
+  dialog.response = 0;
+  await invoke("harness:run-step", run.id);
+  assert.equal(inspections.length, 0);
+  dialog.response = 1;
+  await assert.rejects(invoke("harness:run-step", run.id), /Cloud\/remote/);
+  assert.deepEqual(inspections, ["operator-27b:iq3"]);
+  assert.equal(inferenceCalls, 0);
+  const checkpoint = invoke("harness:state").runs[0];
+  assert.equal(checkpoint.steps[3].status, "failed");
+  assert.match(checkpoint.steps[3].error, /Cloud\/remote/);
+  assert.match(approvals.at(-1).detail, /32 GB/);
+  assert.match(approvals.at(-1).detail, /fifteen-minute chat budget/);
+});
+test("external model approval propagates the exact fifteen-minute chat budget and shared cancellation signal", async (t) => {
+  let inspectedSignal;
+  let received;
+  const { invoke, dialog, approvals } = await desktop(t, {
+    ollamaInspect: async (_model, { signal }) => { inspectedSignal = signal; },
+    localReason: async (request) => { received = request; return "UNVERIFIED local answer"; }
+  });
+  dialog.response = 1;
+  const run = invoke("harness:create", { goal: "PsiCat memory", model: "operator-27b:iq3" });
+  for (let step = 0; step < 4; step++) await invoke("harness:run-step", run.id);
+  assert.equal(received.timeoutMs, 900000);
+  assert.equal(received.signal, inspectedSignal);
+  assert.equal(received.model, "operator-27b:iq3");
+  assert.match(approvals[0].detail, /60 seconds for this non-model step/);
+  assert.match(approvals[3].detail, /18 minutes total for this model step/);
 });
 test("the governed research plan routes embedded reasoning without Ollama or automatic approval", async (t) => {
   const { dialog, invoke, approvals } = await desktop(t);

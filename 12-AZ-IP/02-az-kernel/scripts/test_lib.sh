@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: LicenseRef-DefensivePublicCommons-1.0
 #
 # scripts/test_lib.sh — Run the host-testable kernel library (`cargo test --lib`)
+# Use `--clippy` as the first argument to lint that library on the host instead.
+# Remaining arguments are passed to Cargo, e.g. `--clippy --locked -- -D warnings`.
 #
 # The kernel binary target builds exclusively for `x86_64-unknown-uefi` with
 # `-Zbuild-std`, forced by `.cargo/config.toml` (`[build] target = ...` and
@@ -18,10 +20,18 @@
 # compilation for this one invocation. The UEFI kernel binary itself is
 # never built here — verify it separately with `cargo check`/`cargo build`
 # (uses the normal, unmodified config).
+# Clippy likewise uses the host's prebuilt runtime and checks only the library,
+# not the UEFI-only binary; no dependency version changes are needed.
 #
 # The original config is restored unconditionally (`trap ... EXIT`), even if
 # the test run fails or the script is interrupted.
 set -euo pipefail
+
+CARGO_COMMAND=test
+if [[ "${1:-}" == "--clippy" ]]; then
+  CARGO_COMMAND=clippy
+  shift
+fi
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
@@ -43,4 +53,4 @@ trap restore_config EXIT
 mv "$CONFIG" "$BACKUP"
 
 HOST_TRIPLE="$(rustc -vV | sed -n 's/^host: //p')"
-cargo test --lib --target "$HOST_TRIPLE" "$@"
+cargo "$CARGO_COMMAND" --lib --target "$HOST_TRIPLE" "$@"

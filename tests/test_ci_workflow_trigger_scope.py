@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import json
 import os
+from html.parser import HTMLParser
 from pathlib import Path
+import shutil
 import subprocess
 
 import pytest
@@ -46,6 +48,36 @@ def test_psicat_performance_gate_limits_pushes_to_main() -> None:
     assert _extract_branches("psicat-performance-gate.yml", "pull_request") == ["**"]
 
 
+def test_kernel_build_tracks_canonical_sources_and_preserves_release_failures() -> None:
+    workflow = _load("kernel-ci.yml")
+    events = workflow.get("on") or workflow.get(True)
+    for event in ("push", "pull_request"):
+        assert "12-AZ-IP/02-az-kernel/**" in events[event]["paths"]
+        assert "11-AZ-OS/**" in events[event]["paths"]
+    assert workflow["env"]["RUSTFLAGS"] == "-D warnings"
+    steps = workflow["jobs"]["build-kernel"]["steps"]
+    provisioning = next(step for step in steps if step.get("name") == "Install QEMU")
+    assert "dosfstools mtools" in provisioning["run"]
+    release = next(step for step in steps if step.get("name") == "Build kernel (release)")
+    assert release["run"].index("set -o pipefail") < release["run"].index("cargo build")
+    assert "|| true" not in release["run"]
+    dev = next(step for step in steps if step.get("name") == "Build kernel (dev)")
+    assert dev["run"] == "cargo build --target x86_64-unknown-uefi"
+    emulator = next(step for step in steps if step.get("name", "").startswith("Launch QEMU"))
+    assert "-monitor none" in emulator["run"]
+    assert 'if [ "$result" -ne 124 ]' in emulator["run"]
+    assert "|| true" not in emulator["run"]
+    assert "kernel boot is not certified" in emulator["run"]
+    assert "OVMF_CODE_4M.fd" in emulator["run"]
+    assert "OVMF_VARS_4M.fd" in emulator["run"]
+    assert "if=pflash,format=raw,readonly=on" in emulator["run"]
+    assert "-bios" not in emulator["run"]
+    host_tests = next(step for step in steps if step.get("name") == "Run unit tests (host target)")
+    assert host_tests["run"] == "bash scripts/test_lib.sh --locked"
+    clippy = next(step for step in workflow["jobs"]["clippy"]["steps"] if step.get("name") == "Run Clippy")
+    assert clippy["run"] == "bash scripts/test_lib.sh --clippy --locked -- -D warnings"
+
+
 def test_psicat_pr_smoke_jobs_include_repository_root_on_pythonpath() -> None:
     expected = "${{ github.workspace }}"
     for workflow_name, job_name in [
@@ -55,6 +87,155 @@ def test_psicat_pr_smoke_jobs_include_repository_root_on_pythonpath() -> None:
         job = _load(workflow_name)["jobs"][job_name]
         assert job["defaults"]["run"]["working-directory"] == "12-AZ-IP/20-psicat-navigator"
         assert job["env"]["PYTHONPATH"] == expected
+
+
+def test_android_release_publication_targets_repository_and_checksums_download_name() -> None:
+    job = _load("android-suite-release.yml")["jobs"]["publish"]
+    publication = next(step for step in job["steps"] if step.get("name") == "Publish the pre-release assets")
+    assert publication["env"]["GH_REPO"] == "${{ github.repository }}"
+    assert publication["env"]["GH_TOKEN"] == "${{ github.token }}"
+    assert "gh release create" in publication["run"]
+    assert "--verify-tag" in publication["run"]
+    assert "build" in job["needs"]
+
+
+def test_windows_installer_helper_is_checked_before_dependent_packaging() -> None:
+    jobs = _load("pc-suite-windows.yml")["jobs"]
+    step = next(
+        step for step in jobs["browser-desktop-runtime"]["steps"]
+        if "installer-kit helper" in step.get("name", "")
+    )
+    assert step["shell"] == "powershell"
+    assert step["working-directory"] == "12-AZ-IP/45-axiomzero-pc-suite"
+    assert '$env:P45_POWERSHELL = "powershell.exe"' in step["run"]
+    assert "node --test tests/download-installer-kit.test.cjs" in step["run"]
+    assert "throw" in step["run"]
+    assert "browser-desktop-runtime" in jobs["test-and-package"]["needs"]
+    assert any(step.get("run") == "npm run smoke:win" for step in jobs["test-and-package"]["steps"])
+
+
+def test_android_packaging_and_release_share_mandatory_device_verification() -> None:
+    build_workflow = "./.github/workflows/android-suite-build.yml"
+    assert _load("pc-suite-platforms.yml")["jobs"]["android-suite"]["uses"] == build_workflow
+    assert _load("android-suite-release.yml")["jobs"]["build"]["uses"] == build_workflow
+    job = _load("android-suite-build.yml")["jobs"]["build"]
+    steps = job["steps"]
+    sdk = next(step for step in steps if step.get("name") == "Provision the Android SDK")
+    assert sdk["with"]["packages"] == "platform-tools"
+    native_tools = next(step for step in steps if step.get("name") == "Install the pinned Android native toolchain")
+    assert '"ndk;26.1.10909125"' in native_tools["run"]
+    assert '"cmake;3.22.1"' in native_tools["run"]
+    emulator = next(step for step in steps if "android-emulator-runner@" in step.get("uses", ""))
+    assert emulator["with"]["arch"] == "x86_64"
+    assert emulator["with"]["script"] == "bash ../../.github/scripts/verify-android-suite.sh"
+    script = (REPO_ROOT / ".github/scripts/verify-android-suite.sh").read_text()
+    assert ":app:connectedDebugAndroidTest" in script
+    assert "adb install -r app/build/outputs/apk/debug/app-debug.apk" in script
+    assert "adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk" in script
+    assert "-e requireRealModel true" in script
+    assert "-e modelSource app-download" in script
+    assert "if" not in emulator
+    assert not emulator.get("continue-on-error")
+    apk = next(step for step in steps if step.get("with", {}).get("name") == "axiomzero-android-suite-debug")
+    assert steps.index(emulator) < steps.index(apk)
+    assert "if" not in apk
+
+
+@pytest.mark.skipif(os.name != "posix" or shutil.which("bash") is None, reason="Requires the Linux-hosted Android gate")
+@pytest.mark.parametrize("invalid", [None, "installation", "instrumentation", "synthetic", "import_verified", "model_bytes", "thinking_enabled", "reasoning_only", "output"])
+def test_android_real_model_gate_rejects_failed_or_unqualified_receipts(tmp_path: Path, invalid: str | None) -> None:
+    receipt = {
+        "mode": "real-pinned-model-app-download",
+        "synthetic": False,
+        "inference_executed": True,
+        "import_verified": True,
+        "source": "app-download",
+        "model_bytes": 1280835840,
+        "model_sha256": "aaf42c8b7c3cab2bf3d69c355048d4a0ee9973d48f16c731c0520ee914699223",
+        "context_tokens": 512,
+        "generation_max_tokens": 16,
+        "thinking_enabled": False,
+        "output": "HELLO",  # Synthetic receipt fixture, not a native inference result.
+    }
+    if invalid == "synthetic":
+        receipt["synthetic"] = True
+    elif invalid == "import_verified":
+        receipt["import_verified"] = False
+    elif invalid == "model_bytes":
+        receipt["model_bytes"] = 1
+    elif invalid == "thinking_enabled":
+        receipt["thinking_enabled"] = True
+    elif invalid == "reasoning_only":
+        receipt["output"] = "<think>Thinking Process: analyze the request..."
+    elif invalid == "output":
+        receipt["output"] = ""
+    receipt_path = tmp_path / "fixture.json"
+    receipt_path.write_text(json.dumps(receipt))
+    (tmp_path / "gradlew").write_text("#!/usr/bin/env bash\nexit 0\n")
+    (tmp_path / "gradlew").chmod(0o755)
+    adb = tmp_path / "adb"
+    adb.write_text(
+        '#!/usr/bin/env bash\n'
+        'if [[ "$1" == install && "$P46_RESULT" == INSTALL_FAILED ]]; then exit 1; fi\n'
+        'if [[ "$1" == shell ]]; then printf "%s\\n" "$P46_RESULT"; '
+        'else cat "$P46_RECEIPT"; fi\n'
+    )
+    adb.chmod(0o755)
+    result = subprocess.run(
+        ["bash", str(REPO_ROOT / ".github/scripts/verify-android-suite.sh")],
+        cwd=tmp_path,
+        env={
+            **os.environ,
+            "PATH": str(tmp_path) + os.pathsep + os.environ["PATH"],
+            "P46_RECEIPT": str(receipt_path),
+            "P46_RESULT": {
+                "instrumentation": "FAILURES!!!", "installation": "INSTALL_FAILED"
+            }.get(invalid, "OK (2 tests)"),
+        },
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    assert (result.returncode == 0) is (invalid is None), result.stdout + result.stderr
+
+
+def test_product_download_buttons_lead_to_platform_installation_guides() -> None:
+    class Page(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.links = []
+            self.ids = set()
+
+        def handle_starttag(self, tag, attrs):
+            attributes = dict(attrs)
+            if "id" in attributes:
+                self.ids.add(attributes["id"])
+            if tag == "a":
+                self.links.append(attributes.get("href", ""))
+
+    site = REPO_ROOT / "public-site"
+    main = Page()
+    main.feed((site / "index.html").read_text(encoding="utf-8"))
+    guide = Page()
+    guide.feed((site / "downloads.html").read_text(encoding="utf-8"))
+    for platform in ("windows", "android"):
+        assert f"downloads.html#{platform}" in main.links
+        assert platform in guide.ids
+    for prefix in ("pc-suite-v", "android-suite-v"):
+        assert f"https://github.com/wuzbak/Unitary-Manifold-/releases?q={prefix}" in guide.links
+
+
+@pytest.mark.skipif(
+    not shutil.which("bash") or not shutil.which("sha256sum"),
+    reason="Android release checksum step requires bash and sha256sum",
+)
+def test_android_release_checksum_can_be_verified_next_to_downloaded_apk(tmp_path: Path) -> None:
+    job = _load("android-suite-release.yml")["jobs"]["publish"]
+    checksum = next(step for step in job["steps"] if step.get("name") == "Verify and checksum the APK")
+    assert checksum["working-directory"] == "release-assets"
+    (tmp_path / "app-debug.apk").write_bytes(b"synthetic APK")
+    subprocess.run(["bash", "-e", "-c", checksum["run"]], cwd=tmp_path, check=True)
+    subprocess.run(["sha256sum", "--check", "SHA256SUMS.txt"], cwd=tmp_path, check=True)
 
 
 def test_tests_workflow_restores_required_coverage_gate() -> None:

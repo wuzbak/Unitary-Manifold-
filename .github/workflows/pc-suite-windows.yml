@@ -6,6 +6,8 @@ on:
       - ".github/workflows/pc-suite-windows.yml"
       - ".github/workflows/pc-suite-embedded-model.yml"
       - ".github/workflows/pc-suite-platforms.yml"
+      - ".github/workflows/android-suite-build.yml"
+      - ".github/scripts/verify-android-suite.sh"
       - "12-AZ-IP/**"
       - "src/**"
       - "bot/__init__.py"
@@ -96,6 +98,13 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: 12-AZ-IP/24-psicat-web-browser/package-lock.json
+      - name: Exercise installer-kit helper using synthetic downloads in Windows PowerShell 5.1
+        shell: powershell
+        working-directory: 12-AZ-IP/45-axiomzero-pc-suite
+        run: |
+          $env:P45_POWERSHELL = "powershell.exe"
+          node --test tests/download-installer-kit.test.cjs
+          if ($LASTEXITCODE -ne 0) { throw "Installer-kit helper verification failed." }
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -156,6 +165,13 @@ jobs:
       - run: npm run smoke:win
       - name: Reverify all offline payload parts and write full release checksums
         run: npm run payload:verify
+      - name: Attach user-executed downloader with release checksum coverage
+        run: |
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $name = "AxiomZero-PC-Suite-$version-download.ps1"
+          Copy-Item -LiteralPath scripts/download-installer-kit.ps1 -Destination "dist/$name"
+          $hash = (Get-FileHash -LiteralPath "dist/$name" -Algorithm SHA256).Hash.ToLowerInvariant()
+          Add-Content -LiteralPath dist/SHA256SUMS.txt -Value "$hash  $name" -Encoding ascii
       - uses: actions/upload-artifact@v4
         with:
           name: axiomzero-pc-suite-windows
@@ -163,6 +179,7 @@ jobs:
             12-AZ-IP/45-axiomzero-pc-suite/dist/*.exe
             12-AZ-IP/45-axiomzero-pc-suite/dist/*-offline.json
             12-AZ-IP/45-axiomzero-pc-suite/dist/*-model.part*
+            12-AZ-IP/45-axiomzero-pc-suite/dist/*-download.ps1
             12-AZ-IP/45-axiomzero-pc-suite/dist/SHA256SUMS.txt
           if-no-files-found: error
           compression-level: 0
@@ -190,7 +207,7 @@ jobs:
             throw "Release tag must match package version pc-suite-v$packageVersion."
           }
           $artifacts = Get-ChildItem -Path $distPath -File |
-            Where-Object { $_.Extension -eq ".exe" -or $_.Name -like "*-offline.json" -or $_.Name -match "-model\.part[0-9]{3}$" -or $_.Name -eq "SHA256SUMS.txt" } |
+            Where-Object { $_.Extension -eq ".exe" -or $_.Name -like "*-offline.json" -or $_.Name -match "-model\.part[0-9]{3}$" -or $_.Name -like "*-download.ps1" -or $_.Name -eq "SHA256SUMS.txt" } |
             ForEach-Object { $_.FullName }
           if (-not $artifacts) {
             throw "No Windows release artifacts were produced."
@@ -207,5 +224,5 @@ jobs:
             }
           }
           if ($checksums.Count -ne ($artifacts.Count - 1)) { throw "Release checksums do not cover every asset." }
-          gh release create "$env:GITHUB_REF_NAME" $artifacts --title "AxiomZero PC Suite $env:GITHUB_REF_NAME" --notes-file "12-AZ-IP/45-axiomzero-pc-suite/README.md"
+          gh release create "$env:GITHUB_REF_NAME" $artifacts --title "$env:GITHUB_REF_NAME — AxiomZero PC Suite (Windows x64 test build)" --notes-file "12-AZ-IP/45-axiomzero-pc-suite/README.md" --prerelease --verify-tag
           if ($LASTEXITCODE -ne 0) { throw "GitHub release publication failed." }

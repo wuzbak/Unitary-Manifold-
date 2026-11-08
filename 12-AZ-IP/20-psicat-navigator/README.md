@@ -51,6 +51,14 @@ Related reading outside this product folder:
 - A local product folder bundling UI, Python engine, hidden machine-readable tooling endpoints, and tests.
 - A study-and-navigation layer that still includes the Interrogator and Flashcard Trainer.
 
+Before binding its local HTTP server, Navigator prepares optional pure navigation
+metadata and the existing parameter-pure symbolic reduction check. Benchmark
+navigation warmup shares one directory-discovery snapshot across its queries,
+instead of repeatedly scanning the whole repository. Each graph still validates
+source stats; live requests rediscover paths and refresh changed source records.
+This startup optimization does not skip preparation, precompute gate verdicts,
+relax the browser's readiness deadline, or certify Windows startup.
+
 ## How PsiCat differs from the main Oracle
 
 - The Oracle is the capstone synthesis engine for arbitrary human systems.
@@ -67,6 +75,39 @@ Related reading outside this product folder:
 - No real API key is stored in source.
 - Missing-key behavior is explicit through `OxApiKeyMissingError`.
 - OpenRouter is not the primary path; PsiCat defaults to sovereign local/offline-first behavior.
+
+### Use an already installed local model
+
+PsiCat can use an operator-run OpenAI-compatible server without downloading or
+installing models itself. For example, start Ollama on the same computer,
+install a model through Ollama's own controls, and obtain its exact name from
+`ollama list`. In PowerShell, before starting PsiCat, configure the existing
+local provider (replace the example name with the installed model name):
+
+```powershell
+$env:MERLIN_LOCAL_SMALL_ENABLED = "1"
+$env:MERLIN_LOCAL_SMALL_BASE_URL = "http://127.0.0.1:11434"
+$env:MERLIN_LOCAL_SMALL_MODEL = "your-installed-model-name"
+$env:MERLIN_LOCAL_SMALL_TIMEOUT_SECONDS = "600"
+$env:MERLIN_ENABLE_OPENROUTER_COMPAT = "0"
+cd 12-AZ-IP/20-psicat-navigator
+python run.py --port 8020 --no-open
+```
+
+The server must provide `/v1/chat/completions`. Use a trusted loopback service:
+the query and selected grounding are sent to the configured endpoint. The
+`local_small` provider serves the medium lane and can also serve the heavy
+lane; an independently configured `MERLIN_LOCAL_MEDIUM_*` provider takes
+precedence for the heavy lane. Both accept `BASE_URL`, `MODEL`, `ENABLED`,
+optional `CHAT_PATH`, and optional `TIMEOUT_SECONDS`. The timeout defaults to
+30 seconds; it must be an integer from 1 to 1800 and sets HTTP operation
+timeouts, not a total generation deadline. Invalid values make that provider
+unavailable and are reported by `/api/psicat/runtime`. Larger CPU-only models
+may still be too slow or exceed available memory. PsiCat does not verify the
+weights installed by the external server, and model answers remain unverified
+against the cited evidence. An unavailable or failed provider falls back to
+deterministic retrieval; it does not automatically download a model or enable
+the cloud compatibility provider.
 
 ### Local context integration (opt-in)
 

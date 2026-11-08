@@ -45,6 +45,22 @@ physical-time evolution and dark-matter identification remain open.
 [![pip install](https://img.shields.io/badge/pip%20install--e%20.-blue?logo=python)](pyproject.toml)
 [![🌐 axiomzerospc.org](https://img.shields.io/badge/%F0%9F%8C%90-axiomzerospc.org-4a90e2)](https://axiomzerospc.org)
 
+### AxiomZero downloads (test builds)
+
+[![Download Windows kit](https://img.shields.io/badge/Download-Windows%20kit-blue)](https://github.com/wuzbak/Unitary-Manifold-/releases/tag/pc-suite-v0.1.2)
+[![Download Android APK](https://img.shields.io/badge/Download-Android%20APK-green)](https://github.com/wuzbak/Unitary-Manifold-/releases/download/android-suite-v0.1.0/app-debug.apk)
+
+**Product 45:** keep the Windows EXE, offline manifest and all model parts from
+the same release together; the verified downloader retrieves the complete kit.
+**Product 46:** the Android APK downloads/imports its pinned Qwen3.5-2B model
+separately, while retrieval remains available without weights.
+Verify release checksums before installing. These are unsigned Windows and
+debug-signed Android test builds, not production-certified releases.
+See the [Windows guide](12-AZ-IP/45-axiomzero-pc-suite/README.md),
+[Android guide](12-AZ-IP/46-axiomzero-android-suite/README.md), and
+[platform installation page](public-site/downloads.html). External
+Firebase/Base44 deployment is separate from merging these repository buttons.
+
 <details>
 <summary><strong>Representative core test trace (software-verification route)</strong></summary>
 

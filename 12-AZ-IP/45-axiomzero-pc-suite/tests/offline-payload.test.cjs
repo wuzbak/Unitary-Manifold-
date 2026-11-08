@@ -98,7 +98,7 @@ test("NSIS uses fail-closed local EXEDIR hooks, excludes only the model, and has
   assert.equal(pkg.build.nsis.perMachine, false);
   assert.equal(pkg.build.nsis.runAfterFinish, false);
   assert.deepEqual(pkg.build.extraResources.find((resource) => resource.from === "build/instruction").filter, ["**/*", "!*.gguf"]);
-  assert.match(pkg.scripts["dist:win"], /payload:stage && electron-builder --win nsis --x64 && node scripts\/offline-payload.cjs finalize/);
+  assert.match(pkg.scripts["dist:win"], /payload:stage && electron-builder --win nsis --x64 --publish never && node scripts\/offline-payload.cjs finalize/);
   const nsis = await fs.readFile(path.join(__dirname, "../scripts/offline-installer.nsh"), "utf8");
   assert.match(nsis, /!macro customInit[\s\S]*-PayloadDirectory "\$EXEDIR"[\s\S]*-ValidateOnly/);
   assert.match(nsis, /!macro customInstall[\s\S]*-DestinationDirectory "\$INSTDIR\\resources\\psicat-instruction"/);

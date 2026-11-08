@@ -10,7 +10,7 @@
   nsExec::ExecToLog '"$SYSDIR\WindowsPowerShell\v1.0\powershell.exe" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "$PLUGINSDIR\p45-offline-payload.ps1" -PayloadDirectory "$EXEDIR" -ManifestName "${P45_PAYLOAD_MANIFEST}" -ManifestSha256 "${P45_PAYLOAD_SHA256}" -RuntimeManifest "$PLUGINSDIR\p45-runtime-manifest.json" -ValidateOnly'
   Pop $0
   ${If} $0 != 0
-    MessageBox MB_OK|MB_ICONSTOP "Verified offline model parts are missing or invalid. Place every companion part and offline manifest beside this installer. No model will be downloaded." /SD IDOK
+    MessageBox MB_OK|MB_ICONSTOP "The complete offline installer kit is required, not just this EXE. Extract the entire axiomzero-pc-suite-windows artifact ZIP into one folder, or download every release model part and offline manifest beside this installer without renaming them. A missing or invalid part cannot be repaired by setup. No model will be downloaded." /SD IDOK
     SetErrorLevel 1
     Quit
   ${EndIf}

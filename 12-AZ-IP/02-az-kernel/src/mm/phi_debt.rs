@@ -39,6 +39,12 @@ pub struct PhiDebtAccounting {
     kk_radius: usize,
 }
 
+impl Default for PhiDebtAccounting {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PhiDebtAccounting {
     pub fn new() -> Self {
         Self { pages: heapless::Vec::new(), kk_radius: 0 }

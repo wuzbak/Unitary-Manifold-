@@ -22,6 +22,12 @@ pub struct VirtualMemoryManager {
     mappings: heapless::Vec<(usize, usize, u8), 4096>, // (phys, virt, ring)
 }
 
+impl Default for VirtualMemoryManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl VirtualMemoryManager {
     pub fn new() -> Self {
         Self { mappings: heapless::Vec::new() }

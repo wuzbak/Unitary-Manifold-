@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import ast
+import logging
 import os
 import re
 from copy import deepcopy
@@ -13,6 +14,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
+logger = logging.getLogger(__name__)
 _TOKEN_RE = re.compile(r"[A-Za-z0-9_./-]+")
 _DOC_HEADING_RE = re.compile(r"^\s*#+\s+(.*)$", re.MULTILINE)
 _PRIORITY_PREFIXES = [
@@ -371,7 +373,12 @@ def build_repo_graph(*, max_files: int = 180) -> Dict[str, Any]:
 
 
 def _build_repo_graph(max_files: int, query: str = "") -> Dict[str, Any]:
-    discovered = _discover_files()
+    return _build_repo_graph_from_discovery(_discover_files(), max_files, query)
+
+
+def _build_repo_graph_from_discovery(
+    discovered: tuple[Path, ...], max_files: int, query: str = "",
+) -> Dict[str, Any]:
     cap = max(1, min(int(max_files), 600))
     files = list(_select_files(discovered, cap, query))
     graph = _build_repo_graph_cached(cap, _state_signature(files), str(REPO_ROOT))
@@ -385,6 +392,22 @@ def _build_repo_graph(max_files: int, query: str = "") -> Dict[str, Any]:
             "selection_mode": "query_path_priority" if query else "representative_area_sampling",
         },
     }
+
+
+def prepare_repo_graphs(queries: Iterable[str], *, max_files: int = 120) -> None:
+    """Share one startup path snapshot, retaining fresh stats for each graph."""
+    try:
+        discovered = _discover_files()
+    except OSError as exc:
+        logger.warning("Repository graph warmup discovery unavailable: %s", exc)
+        return
+    for query in queries:
+        try:
+            _build_repo_graph_from_discovery(discovered, max_files, query)
+        except OSError as exc:
+            logger.warning("Repository graph warmup query %r unavailable: %s", query, exc)
+            # This optional warmup never caches failures; live routing rediscovers.
+            continue
 
 
 def route_context_via_repo_graph(query: str, *, max_hits: int = 8, max_files: int = 180) -> Dict[str, Any]:

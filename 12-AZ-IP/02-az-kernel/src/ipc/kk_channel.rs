@@ -57,6 +57,16 @@ where
     seq: u32,
 }
 
+impl<const FROM: usize, const TO: usize, const CAP: usize> Default
+    for KKChannel<FROM, TO, CAP>
+where
+    (): KKAdjacent<Ring<FROM>, Ring<TO>>,
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<const FROM: usize, const TO: usize, const CAP: usize>
     KKChannel<FROM, TO, CAP>
 where

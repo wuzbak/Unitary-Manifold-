@@ -27,6 +27,7 @@ def local_transport(monkeypatch):
     monkeypatch.setenv("MERLIN_LOCAL_SMALL_BASE_URL", "http://127.0.0.1:9000")
     monkeypatch.setenv("MERLIN_LOCAL_SMALL_MODEL", "test-local-model")
     monkeypatch.setenv("MERLIN_LOCAL_SMALL_ENABLED", "1")
+    monkeypatch.delenv("MERLIN_LOCAL_SMALL_TIMEOUT_SECONDS", raising=False)
     monkeypatch.setenv("MERLIN_ENABLE_OPENROUTER_COMPAT", "0")
     monkeypatch.delenv("MERLIN_LOCAL_CONTEXT_PARITY", raising=False)
     requests = []
@@ -56,6 +57,57 @@ def infer(**kwargs):
         preferred_provider="local_small",
         **kwargs,
     ))
+
+
+@pytest.mark.parametrize("configured,expected", [(None, 30), ("1", 1), ("000600", 600), ("1800", 1800)])
+def test_local_provider_timeout_applies_to_http_transport(monkeypatch, configured, expected):
+    monkeypatch.setenv("MERLIN_LOCAL_SMALL_BASE_URL", "http://127.0.0.1:11434")
+    monkeypatch.setenv("MERLIN_LOCAL_SMALL_MODEL", "test-model")
+    monkeypatch.setenv("MERLIN_LOCAL_SMALL_ENABLED", "1")
+    if configured is None:
+        monkeypatch.delenv("MERLIN_LOCAL_SMALL_TIMEOUT_SECONDS", raising=False)
+    else:
+        monkeypatch.setenv("MERLIN_LOCAL_SMALL_TIMEOUT_SECONDS", configured)
+    timeouts = []
+    client = httpx.AsyncClient
+
+    def handler(request):
+        return httpx.Response(200, json={"choices": [{"message": {"content": "Response"}}]})
+
+    def client_factory(**kwargs):
+        timeouts.append(kwargs["timeout"])
+        return client(transport=httpx.MockTransport(handler), **kwargs)
+
+    monkeypatch.setattr(merlin_local_inference.httpx, "AsyncClient", client_factory)
+    assert infer()["provider_variant"] == "local_small"
+    assert timeouts == [float(expected)]
+    assert merlin_local_inference.get_inference_provider("local_small")["timeout_seconds"] == expected
+
+
+@pytest.mark.parametrize("configured", ["0", "1801", "-1", "3.5", "nan", "9" * 5000])
+def test_invalid_local_timeout_is_reported_without_request(local_transport, monkeypatch, configured):
+    requests, _, _ = local_transport
+    monkeypatch.setenv("MERLIN_LOCAL_SMALL_TIMEOUT_SECONDS", configured)
+    provider = merlin_local_inference.get_inference_provider("local_small")
+    assert provider["health"] == "invalid_config"
+    assert not provider["available"]
+    assert "MERLIN_LOCAL_SMALL_TIMEOUT_SECONDS" in provider["reason"]
+    result = infer()
+    assert result["provider_variant"] == "deterministic_retrieval"
+    assert result["fallback_reason"] == provider["reason"]
+    assert requests == []
+
+
+def test_local_medium_timeout_is_independent_of_small(monkeypatch):
+    for lane in ("SMALL", "MEDIUM"):
+        monkeypatch.setenv(f"MERLIN_LOCAL_{lane}_BASE_URL", "http://127.0.0.1:11434")
+        monkeypatch.setenv(f"MERLIN_LOCAL_{lane}_MODEL", f"test-{lane.lower()}")
+        monkeypatch.setenv(f"MERLIN_LOCAL_{lane}_ENABLED", "1")
+    monkeypatch.setenv("MERLIN_LOCAL_SMALL_TIMEOUT_SECONDS", "90")
+    monkeypatch.setenv("MERLIN_LOCAL_MEDIUM_TIMEOUT_SECONDS", "600")
+    assert merlin_local_inference.choose_inference_provider("heavy_reasoner_exception") == "local_medium"
+    assert merlin_local_inference.get_inference_provider("local_small")["timeout_seconds"] == 90
+    assert merlin_local_inference.get_inference_provider("local_medium")["timeout_seconds"] == 600
 
 
 def test_standalone_local_inference_preserves_grounded_prompt(local_transport):

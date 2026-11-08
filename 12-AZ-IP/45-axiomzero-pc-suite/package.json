@@ -1,6 +1,6 @@
 {
   "name": "axiomzero-pc-suite",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Offline-first Windows desktop portfolio launcher with private local evidence search",
   "author": "ThomasCory Walker-Pearson",
   "repository": {
@@ -23,7 +23,7 @@
     "smoke:win": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-smoke.ps1",
     "payload:stage": "node scripts/offline-payload.cjs stage",
     "payload:verify": "node scripts/offline-payload.cjs verify",
-    "dist:win": "npm run catalog && npm run native:build && npm run portfolio:stage && npm run payload:stage && electron-builder --win nsis --x64 && node scripts/offline-payload.cjs finalize"
+    "dist:win": "npm run catalog && npm run native:build && npm run portfolio:stage && npm run payload:stage && electron-builder --win nsis --x64 --publish never && node scripts/offline-payload.cjs finalize"
   },
   "devDependencies": {
     "electron": "^44.3.0",

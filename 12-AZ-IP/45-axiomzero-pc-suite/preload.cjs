@@ -40,6 +40,7 @@ contextBridge.exposeInMainWorld("axiomSuite", Object.freeze({
     return () => ipcRenderer.removeListener("runtime:changed", listener);
   },
   getHarness: () => ipcRenderer.invoke("harness:state"),
+  listOllamaModels: () => ipcRenderer.invoke("harness:ollama-models"),
   createHarnessTask: (request) => ipcRenderer.invoke("harness:create", request),
   runHarnessStep: (id) => ipcRenderer.invoke("harness:run-step", id),
   pauseHarnessTask: (id) => ipcRenderer.invoke("harness:pause", id),

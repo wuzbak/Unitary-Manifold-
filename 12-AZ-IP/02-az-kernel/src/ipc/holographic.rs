@@ -77,6 +77,12 @@ pub struct HolographicBoundary {
     pub total_messages: u64,
 }
 
+impl Default for HolographicBoundary {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl HolographicBoundary {
     pub fn new() -> Self { Self { channel_count: 0, total_messages: 0 } }
 }

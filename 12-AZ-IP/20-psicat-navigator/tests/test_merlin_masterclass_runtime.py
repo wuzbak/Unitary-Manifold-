@@ -8,6 +8,7 @@ import threading
 from pathlib import Path
 
 import httpx
+import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = PRODUCT_ROOT.parents[1]
@@ -56,7 +57,8 @@ def test_navigation_preparation_does_not_run_queries_or_cache_gate_verdicts(monk
             {"query": "alpha", "setup_turns": ["alpha"]},
         ]}},
     })
-    monkeypatch.setattr(merlin_repo_graph, "_build_repo_graph", lambda cap, query: calls.append((cap, query)))
+    monkeypatch.setattr(merlin_repo_graph, "prepare_repo_graphs",
+                        lambda queries, *, max_files: calls.extend((max_files, query) for query in queries))
     monkeypatch.setattr(action_derived_flow, "symbolic_kk_reduction_check", lambda **kwargs: calls.append(kwargs))
 
     def forbidden(*args, **kwargs):
@@ -68,7 +70,7 @@ def test_navigation_preparation_does_not_run_queries_or_cache_gate_verdicts(monk
     assert calls == [(120, "alpha"), (120, "beta"), {"full": False, "exact": True}]
 
 
-def test_navigation_preparation_does_not_cache_failures_or_change_optional_availability(monkeypatch) -> None:
+def test_navigation_preparation_does_not_cache_failures_or_change_optional_availability(monkeypatch, caplog) -> None:
     from ox_navigator.engine import merlin_benchmark, merlin_rag, merlin_repo_graph
     from src.core import action_derived_flow
 
@@ -77,7 +79,7 @@ def test_navigation_preparation_does_not_cache_failures_or_change_optional_avail
         "corpora": {"stage": {"benchmarks": [{"query": "alpha"}]}},
     })
 
-    def unavailable_graph(cap, query):
+    def unavailable_graph(discovered, cap, query):
         attempts.append((cap, query))
         raise OSError("Source currently unavailable")
 
@@ -85,7 +87,8 @@ def test_navigation_preparation_does_not_cache_failures_or_change_optional_avail
         attempts.append(kwargs)
         raise ImportError("Optional formal integration unavailable")
 
-    monkeypatch.setattr(merlin_repo_graph, "_build_repo_graph", unavailable_graph)
+    monkeypatch.setattr(merlin_repo_graph, "_discover_files", lambda: ())
+    monkeypatch.setattr(merlin_repo_graph, "_build_repo_graph_from_discovery", unavailable_graph)
     monkeypatch.setattr(action_derived_flow, "symbolic_kk_reduction_check", unavailable_algebra)
     merlin_rag.prepare_local_navigation()
     merlin_rag.prepare_local_navigation()
@@ -93,6 +96,75 @@ def test_navigation_preparation_does_not_cache_failures_or_change_optional_avail
         (120, "alpha"), {"full": False, "exact": True},
         (120, "alpha"), {"full": False, "exact": True},
     ]
+    assert [
+        record.getMessage() for record in caplog.records
+        if record.name == merlin_repo_graph.__name__
+    ] == ["Repository graph warmup query 'alpha' unavailable: Source currently unavailable"] * 2
+
+
+def test_navigation_preparation_discovers_once_but_live_routing_rediscovers(monkeypatch) -> None:
+    from ox_navigator.engine import merlin_repo_graph
+
+    calls = []
+    snapshots = iter([(Path("initial.py"),), (Path("new.py"),)])
+
+    def discover():
+        snapshot = next(snapshots)
+        calls.append(("discover", snapshot))
+        return snapshot
+
+    def build(discovered, cap, query):
+        calls.append(("build", discovered, cap, query))
+        return {"ok": True}
+
+    monkeypatch.setattr(merlin_repo_graph, "_discover_files", discover)
+    monkeypatch.setattr(merlin_repo_graph, "_build_repo_graph_from_discovery", build)
+    merlin_repo_graph.prepare_repo_graphs(["alpha", "beta"])
+    assert merlin_repo_graph._build_repo_graph(120, "alpha") == {"ok": True}
+    assert calls == [
+        ("discover", (Path("initial.py"),)),
+        ("build", (Path("initial.py"),), 120, "alpha"),
+        ("build", (Path("initial.py"),), 120, "beta"),
+        ("discover", (Path("new.py"),)),
+        ("build", (Path("new.py"),), 120, "alpha"),
+    ]
+
+
+def test_navigation_preparation_retries_discovery_after_optional_failure(monkeypatch, caplog) -> None:
+    from ox_navigator.engine import merlin_repo_graph
+
+    calls = []
+
+    def discover():
+        calls.append("discover")
+        if len(calls) == 1:
+            raise OSError("Unavailable source")
+        return ()
+
+    monkeypatch.setattr(merlin_repo_graph, "_discover_files", discover)
+    monkeypatch.setattr(merlin_repo_graph, "_build_repo_graph_from_discovery",
+                        lambda discovered, cap, query: calls.append(query))
+    merlin_repo_graph.prepare_repo_graphs(["alpha"])
+    merlin_repo_graph.prepare_repo_graphs(["alpha"])
+    assert calls == ["discover", "discover", "alpha"]
+    assert [
+        record.getMessage() for record in caplog.records
+        if record.name == merlin_repo_graph.__name__
+    ] == ["Repository graph warmup discovery unavailable: Unavailable source"]
+
+
+@pytest.mark.parametrize("stage", ["discovery", "query"])
+def test_navigation_preparation_propagates_unexpected_errors(monkeypatch, caplog, stage) -> None:
+    from ox_navigator.engine import merlin_repo_graph
+
+    def unexpected(*args):
+        raise RuntimeError("Programming error")
+
+    monkeypatch.setattr(merlin_repo_graph, "_discover_files", unexpected if stage == "discovery" else lambda: ())
+    monkeypatch.setattr(merlin_repo_graph, "_build_repo_graph_from_discovery", unexpected)
+    with pytest.raises(RuntimeError, match="Programming error"):
+        merlin_repo_graph.prepare_repo_graphs(["alpha"])
+    assert not [record for record in caplog.records if record.name == merlin_repo_graph.__name__]
 
 
 def test_masterclass_execution_packet_contract() -> None:

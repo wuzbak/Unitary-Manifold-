@@ -4,6 +4,7 @@ const ENDPOINT = "http://127.0.0.1:11434/api/chat";
 const MAX_RESPONSE_BYTES = 65536;
 const MAX_CONTEXT_CHARS = 12000;
 const TIMEOUT_MS = 60000;
+const MAX_TIMEOUT_MS = 900000;
 
 const SYSTEM_PROMPT = `You are a local evidence-reasoning assistant, not a tool executor.
 The user message is a JSON envelope: "goal" is the requested task, while
@@ -38,11 +39,14 @@ function abortError() {
 
 function createLocalReasoner({ request = http.request, timeoutMs = TIMEOUT_MS } = {}) {
   if (typeof request !== "function" || !Number.isFinite(timeoutMs) ||
-      timeoutMs <= 0 || timeoutMs > TIMEOUT_MS) {
+      timeoutMs <= 0 || timeoutMs > MAX_TIMEOUT_MS) {
     throw new TypeError("Invalid local reasoning transport or timeout.");
   }
 
-  return async function reasonLocally({ model, goal, context, signal } = {}) {
+  return async function reasonLocally({ model, goal, context, signal, timeoutMs: requestTimeoutMs = timeoutMs } = {}) {
+    if (!Number.isFinite(requestTimeoutMs) || requestTimeoutMs <= 0 || requestTimeoutMs > MAX_TIMEOUT_MS) {
+      throw new TypeError("Invalid local reasoning timeout.");
+    }
     if (typeof model !== "string" || model.length > 80 ||
         !/^[A-Za-z0-9]/.test(model) || /[^A-Za-z0-9_.:/-]/.test(model)) {
       throw new TypeError("Model must be a safe name of 1–80 characters.");
@@ -80,7 +84,7 @@ function createLocalReasoner({ request = http.request, timeoutMs = TIMEOUT_MS } 
       };
       const onAbort = () => finish(abortError());
       // A wall-clock deadline also bounds slow streams and responses with no headers.
-      const timer = setTimeout(() => finish(new Error("Local reasoning timed out.")), timeoutMs);
+      const timer = setTimeout(() => finish(new Error("Local reasoning timed out.")), requestTimeoutMs);
       signal?.addEventListener("abort", onAbort, { once: true });
       if (signal?.aborted) {
         onAbort();
@@ -169,6 +173,7 @@ module.exports = {
   MAX_RESPONSE_BYTES,
   MAX_CONTEXT_CHARS,
   TIMEOUT_MS,
+  MAX_TIMEOUT_MS,
   buildReasoningMessages,
   createLocalReasoner,
   reasonLocally

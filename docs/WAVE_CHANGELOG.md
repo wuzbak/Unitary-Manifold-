@@ -1,5 +1,69 @@
 # Wave Changelog
 
+## Kernel warning-blocker follow-through (2026-11-08)
+
+Address the standalone kernel build separately from qualified Product 45/46
+releases. Preserve warnings-as-errors and deferred hardware boundaries; do not
+activate PCI MMIO or claim a configured timer merely to consume unused constants.
+Track the canonical kernel sources as well as their legacy compatibility path in
+CI, and propagate release compiler failures through the log pipeline. Real UEFI
+build results remain necessary. Route host tests and strict library Clippy
+through the existing host-only harness, preserving configuration restoration
+and propagating failures. Constructor-equivalent defaults and regressions
+address the real Clippy findings. Provision EFI-image tools and matched OVMF
+CODE/VARS pflash, remove duplicate stdio ownership, and reject early emulator
+exit. Emulator liveness does not certify kernel boot or hardware execution.
+Leave the in-progress mutation gate running unchanged.
+
+## Product 45 audited-status patch release (2026-11-08)
+
+Published Windows 0.1.0 and Android 0.1.0 after their native acceptance gates.
+Main's subsequently merged consistency audit changes the status evidence
+packaged into the Windows suite. Prepare Windows 0.1.2 so the downloadable kit
+includes that audited source rather than overwriting the qualified 0.1.0 tag
+or assets. Require fresh packaging and installed-runtime qualification before
+publishing the patch or merging its download entry point. Android's source and
+model are unchanged; its existing 0.1.0 release remains source-qualified.
+Windows 0.1.1 publication stopped when the real model miscopied a hexadecimal
+ownership nonce during the third required fresh-process trial. Encode the same
+128 random bits losslessly as 16 common words, retaining exact matching,
+authorization probes, failure diagnostics and all three required trials.
+This representation change requires real-model qualification, not just unit
+tests. The bundled Windows model, model-size cap, evidence boundaries and human
+approval controls remain unchanged. Existing tags are not moved or overwritten.
+
+## Product 45/46 installation and local-model integration (2026-11-07)
+
+Add main-site and root README download entry points and version-matched
+test-release workflows.
+Product 45 retains its bundled Qwen3-4B and verified companion payload; explicit
+local Ollama discovery and longer bounded model deadlines add an operator-owned
+larger-model path without automatic downloads or cloud fallback. PsiCat's
+existing local-provider lanes gain bounded configurable HTTP timeouts and
+configuration instructions. Fix Android release repository selection and make
+its checksum usable beside the downloaded APK.
+
+Add a consent-gated Windows helper that retrieves the complete versioned kit
+and verifies release files, the offline manifest and the assembled model hash.
+Implement optional Qwen3.5-2B download/import and pinned llama.cpp Android JNI
+without removing retrieval or notebook functionality. Provision JDK 17, SDK 34,
+NDK 26.1 and CMake 3.22.1 in shared hosted checks; require emulator installation,
+native ownership regression checks and actual model download/import/inference
+receipts before uploading the APK.
+
+Hosted Android run `42427198171` verified actual app download, private import,
+native loading and a completed `HELLO` within 16 generated tokens. A shared
+non-thinking prefix prevents an unfinished scratchpad from consuming the answer
+budget; the gate rejects reasoning-only receipts. This does not certify general
+answer quality. Windows follow-through exposed redundant Navigator warmup
+discovery and a helper hash-cmdlet availability failure; native acceptance and
+release publication still remain mandatory. Share one startup discovery snapshot
+without caching live paths, skipping preparation or relaxing readiness deadlines.
+Check the Windows PowerShell 5.1 helper before dependent packaging.
+No physical-phone performance or actual 27B inference qualification is claimed.
+Evidence/notebook boundaries, UNVERIFIED labels, canonical physics claims, TOE
+score and falsification conditions remain unchanged.
+
 ## Repository consistency audit, first bounded tranche (2026-11-07)
 
 Preserve a dedicated, resumable audit with three expert reviews and offline

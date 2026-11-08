@@ -39,6 +39,12 @@ pub struct GeodesicCache {
     rings: u32,
 }
 
+impl Default for GeodesicCache {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl GeodesicCache {
     pub fn new() -> Self {
         Self { entries: heapless::Vec::new(), rings: 5 }

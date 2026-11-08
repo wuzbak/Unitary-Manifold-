@@ -1318,3 +1318,214 @@ Native acceptance must be rerun; unit fixtures are not model qualification.
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `02f333aff831043613dd19574bf7af865800d3435bf00fcca20f73cd63447b3e` | 32786 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `fa324e58257f8eaf614f4f9c20535448261faa3401af830c0f285bb92743d81a` | 38234 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `47dffa2b711d685668b31fe0c7da7da15ea7b8dcd7e9383039588640b2c7666a` | 41056 |
+
+### Product 45 local-model usability and branch-wide registered asset reseal — 2026-11-07
+
+Reseal every changed registered asset in the union of `origin/main..HEAD`,
+staged changes and the current worktree, including the Product 46 README
+changed by the earlier branch commit. Preserve each previous recorded seal
+in `reseal_history`; historical entries are retained, not independently
+reverified. Existing unregistered paths remain unregistered.
+
+Product 45 adds explicitly approved installed-Ollama discovery, reports
+remote/non-completion rejection without breaking recognizable legacy metadata,
+and bounds external reasoning to eighteen minutes total and fifteen minutes
+for chat loading/generation. Non-model steps retain sixty seconds; cancelling
+the HTTP request does not stop the independently owned engine. Complete
+Windows installer-kit instructions retain companion integrity checks and
+existing bundled model/native qualification gates. Android documentation
+clarifies download/install artifact availability and runtime boundaries.
+These exact-byte seals are not Windows installation, Android device,
+third-party artifact provenance or model-inference qualification.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `1e05a486f998bffff1186053d6f497d920794d9d0ae8484e99af29fc7fe8c58a` | 41272 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `5bd969b03ffdb99e5462b54e8e13de807b88c09e7800456c90f2d59bee09c83c` | 17941 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/harness.cjs` | `390003cdb741eb58aaae44f50b67d96a67e74d0a849ee17ff0a82f0f01003138` | 19035 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs` | `859faafb330286665ec33f948c1e7ec0f3feeedfb13269c1dda55bca529a422d` | 6798 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `b6231445adf8767528f92ad5fce14c66fb105dc7f7066f8c5df54b0a02e0a3e1` | 36681 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `f13cf72f13036a0700813636c4fc6eafcc9459c156c58ba4968632896b5c959a` | 3688 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `6f6227d68c9879aeb35ee9196f2ae5251817a55f66511bd459d364ffd1f9bc56` | 40984 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/electron-ui-smoke.cjs` | `9560ba76cd71069a96674376035b6651f6f92c439f9530f6acbe7d493e6c4ffd` | 10375 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/harness.test.cjs` | `d069496a4b45a1eb2535f8a33df7b947399c335dc42998c866cd1c5abbb77e7c` | 15054 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs` | `5d3007db09a3b77eab00bb9d553904e70321fdc0de21078467ec9d0e0b8e50a8` | 10751 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `0d771a2ecb6eb80690ac998c15d7b88330e5f3a8827712f8887686af7841a9b6` | 18677 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/preload-state.test.cjs` | `389d5c4b209d339ee669cf4f3738daf5638700dc7abd1cfae2cadb7a005bd60a` | 1976 |
+| `12-AZ-IP/46-axiomzero-android-suite/README.md` | `914082aaf78b1e40f008cc9da4298e885a1e6b6b53d23315aaf352bda7dfa52b` | 4579 |
+
+### Product 45 explicit installer-kit download helper — 2026-11-07
+
+Register the user-executed PowerShell helper and its synthetic/static regression
+tests, and reseal the related Product 45 README while retaining the previous
+recorded README seal in `IP_REGISTRY.json` history. Pinned official release
+metadata, exact checksum-allowlisted names, bounded HTTPS transfers, explicit
+multi-GiB consent and exclusive verified files preserve the existing offline
+installer/model contract. Publication still requires every existing Windows
+gate; these source seals do not qualify, publish, install or execute a build.
+The Android seals above are unaffected by this PC-scoped update.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `717f8619fa52106f658559f43cd014a4fe167d3e182cfe897594a509c2d6eb4c` | 43710 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `d1a65c6398e30b87e88b2109b92613e937fe3b9995150450da3849be9266d8a8` | 13150 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `859aa22fc443d4eecb4797ebf3e9d964776f37aa0d8a64e8395ce3ee6f5b6270` | 10058 |
+
+### Product 46 optional native models and shared catalog reseal — 2026-11-07
+
+Reseal registered Android build, dependency, permission and UI assets for the
+additive private model-download/import and evidence-bounded local inference
+path. Synchronize both offline catalogs and the canonical product description.
+Every previous recorded seal is retained in registry history. Networking is
+explicitly limited to user-requested model downloads; production readiness,
+physical-device performance and model-answer accuracy are not asserted.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/README.md` | `f5bdd2cd39546fffc5d4417671189991fe45ead5e7b2cc961f7835e5c1971c9d` | 22676 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8` | 16718 |
+| `12-AZ-IP/46-axiomzero-android-suite/README.md` | `6ecd0af749ef5c7faf92a3720e375b469fb1722f38ccf57bdb0cf60d02420e7d` | 10246 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/build.gradle.kts` | `626c15df153acbeb496c788a12f8af0deddd3110918e5283cba81823d5d4888f` | 1384 |
+| `12-AZ-IP/46-axiomzero-android-suite/gradle/libs.versions.toml` | `ab7da567054b004bc5eb4920fe3dfca75e50caef7428547e5ea243f6a43f837e` | 1154 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/AndroidManifest.xml` | `93dc88a7ab8cbf1f01a145400ca6b69fb4e7c610b2cad8d510aae5d73cdf198e` | 721 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8` | 16718 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt` | `4976ad0412f91786fc603169e3c4a775b03d60a23afff66191c809e4e50c46c0` | 30284 |
+
+### Product 46 optional model runtime source registration — 2026-11-07
+
+Register the pinned engine build, local model store, JNI ownership boundaries,
+licensing notices and transfer/runtime tests. Synthetic linkage receipts cannot
+stand in for real-model qualification; the required hosted lane separately
+checks actual app download, private import, loading and bounded inference.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/LLAMA_CPP_LICENSE.txt` | `94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d` | 1078 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/THIRD_PARTY_NOTICES.md` | `92fb51af3ba05ad94b43bcc409769db92296f95ce3bdf4c4ac2448f2aab2a5bd` | 1689 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/CMakeLists.txt` | `68038df4d8d0a832cb6efd20f6cd7950c2d08dcdba8d0df220381e488f6642de` | 1515 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/llama_jni.cpp` | `acaea6d916cab545efed3232a36895bb330d5fd74361df0496a37170303bffff` | 11062 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt` | `536c054984918fdaf29bdb83c9773024673c43bd16f7f6598dfc370c7ec0b87b` | 10075 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `a938e4d25b69892c261d2780032967a08f9575d9142ba15ff7177b7684d55387` | 4611 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `40f5df6d9cfaa164827f7deaa879a7ab27ed83c36408d832d0e13ef3a49bbbca` | 6548 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt` | `989665afb552751dbe7db5d36c6a48addb54dfa35a95930684078af4d6214622` | 1842 |
+
+### Product 46 native smoke cleanup reseal — 2026-11-07
+
+Reseal nullable-safe instrumentation cleanup after expert review. Retain the
+previous source seal in registry history; hosted compilation remains mandatory.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `55303aba19bbdf964874a757ce5f9c251f488e838f93dfa22f1617873d60a8d3` | 6549 |
+
+### Product 46 verified transfer callback reseal — 2026-11-07
+
+Hosted Kotlin compilation identified positional progress arguments bound to the
+optional byte-size parameter. Bind progress explicitly while preserving exact
+size/hash defaults. The previous store seal remains in registry history.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt` | `9f7b95201b67107550336d00b48823888433b4de6f50ff48754edaaab6bd851e` | 10097 |
+
+### Gated Windows packaging and Android native failure reseal — 2026-11-07
+
+Separate Windows build-only packaging from qualified publication after hosted
+acceptance exposed the packager's unsolicited token request. Correct native
+decode token mutability and propagate inference errors as exceptions rather
+than success-shaped answer strings. Add an installed-JNI negative control.
+Retain all earlier seals; no runtime qualification is inferred from source.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `7df26f92c2c9420255c3805d526cc21bea2b5d74965449dc9cbd09267feea0f3` | 3341 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `ee49d912550ce18e70fa4e99c2d2450abe1b1298c2ba879d318fb1c1bf6c8abf` | 43923 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/llama_jni.cpp` | `1827b464e6cdaf35b07337910ea7f826a6268aace9bb14538426cfdc39cd6688` | 11624 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt` | `3388fabb5ffc250b60c52aa219889cf710d3d34860f17509ebd54d57820a0dc9` | 2190 |
+
+### Product 46 verified stream test compilation reseal — 2026-11-07
+
+Explicitly import the object-scoped stream verifier in Kotlin unit tests after
+both native ABIs compiled successfully. Retain the previous test seal; model
+execution and device checks remain independent requirements.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `6a9b540f3231f75dc2efd8abce2d056f596b809d0fa5c6e336633018ebc8577b` | 4671 |
+
+### Product 46 app-module pin contract reseal — 2026-11-07
+
+Resolve the native source contract from the app module as well as the suite
+and repository roots. Keep the strict full-commit assertions and prior seals.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `10edd5b1ced0a4b1d24fa9e665faffd593df54d0e3ad1082ca5e06159d9a7736` | 4733 |
+
+### Product 46 completed-answer qualification reseal — 2026-11-07
+
+The first real-model receipt contained only unfinished thinking. Share the
+pinned Qwen3.5 non-thinking prefix across the UI and instrumentation, and require
+an actual completed greeting within the existing token budget. Preserve previous
+seals; the stronger hosted gate must pass before publication. This narrow check
+does not certify general answer quality or physical-phone performance.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/46-axiomzero-android-suite/README.md` | `c6a3a841132325195b82e7e50ea7d11cc385811b0122a39b41125858310e57a1` | 10805 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/MainActivity.kt` | `36a7ec0c9cea48637b2ce689ca33730b99b3b6af42f56d3f0f4256024202a3a9` | 30314 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt` | `4f5f68277d1b8845e42d26823d1cf29d3c0b4463463e4597a9fd424ab365ebd4` | 10179 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt` | `e3aaacc5cf68089863b798c77575c68841816b0ea56f1dfb56380e9c8cefef2b` | 4834 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt` | `e77f78dec9da492cd04256a84c20da409dd58744de40a248d6257f5a0721a4b9` | 6777 |
+
+### Product 45 audited-status patch release reseal — 2026-11-08
+
+Prepare Windows 0.1.1 to package main's audited status transport without
+replacing the published 0.1.0 release. Synchronize the canonical product table
+and both offline catalogs. The Android catalog listing changes only; its native
+runtime and pinned model do not change. Retain previous seals and require fresh
+Windows native qualification and publication before merging download links.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `2741c7ed436053897ac7a56c4b06c1b9e5d5bc9112b52ce88cf6a5c70b20005b` | 44504 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a` | 16718 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package-lock.json` | `4e6e260264f2c942583bccd1324e86500bf11949669e200de1d42a1048b9eb7f` | 127807 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `082d6422140fdfd653ad6bdc874ec28c8f31519910f1e82d6c07ff7f1f2a1ecc` | 3341 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `f646ba4de0152ba3c3588c256aeb294757bc2d458b4e477219c3f30498e68030` | 13646 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `62980a55ac76acdc5df7a3d8ff6232ca12b93804a939df02042f302155681b2a` | 10752 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a` | 16718 |
+| `12-AZ-IP/README.md` | `2f70a577e656fab2ab9c570a651cb0b1fda0ba63949813c7a341d07549390cd6` | 22676 |
+
+### Product 45 streaming hash portability reseal — 2026-11-08
+
+Native Windows follow-through exposed unavailable `Get-FileHash` during a
+PowerShell 5.1 child launch. Use explicit .NET SHA-256 streaming, retain all
+size/hash/manifest bounds and test inherited module paths. Previous seals remain
+in registry history; native verification and installer acceptance remain required.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `98f8daeafe79313b553437b3dfe500bfc40d9381d0ae083afb50af18d3341315` | 13646 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `290f755b223b3cf7d5efdbd64a35734a3d1c0306ce1fc5ebb9f7cd83224e2208` | 10583 |
+
+### Product 45 lossless ownership-word patch reseal — 2026-11-08
+
+Windows 0.1.1 publication failed closed when the real model miscopied one hex
+character on the third required trial. Prepare 0.1.2 using 16 common words that
+losslessly encode 128 fresh random bits, preserving exact equality, authorization
+probes, all three trials and no retry-for-luck. Unit tests do not replace native
+qualification. Retain all earlier seals and immutable tags; synchronize both
+catalogs without changing the Android inference runtime.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `5076df13239da19942177b75e418b79806d884970edabcdc0bf6cd993705e56f` | 45119 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8` | 16718 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/instruction-model.cjs` | `046a60fc3176a469452e9d1d72ba7f55ccb1010426520c062276b79a25f46f0a` | 40551 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package-lock.json` | `a63e47f2af3186a57d863fe9574426093c99abc58bcbf844e9161698a9bd1bdb` | 127807 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `959547a07bdc29a5d16f64b5e187a96824980e5d629fecb041aa0222206ecc34` | 3341 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `633c534f67158acb150a8f2c1393f53c2c7ab44fe5029fb55a87275627850e2a` | 13646 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `a06c183653261e6660abf8b40c9bab0126729d3fb95cd2c5a4394f65e622fc7e` | 43812 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8` | 16718 |
+| `12-AZ-IP/README.md` | `9ffd3291bc5b897b9d4a5f400cf835fce376772972fcb5b45df157dca9b11234` | 22676 |

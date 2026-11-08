@@ -375,11 +375,29 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "d3dc0be99cd02791b322f6c8661c7e3d8bb8e0075d352388f30cd75f4ffdaf06",
-      "size_bytes": 22597,
-      "reseal_note": "Add Product 46 to the canonical portfolio registry and link its native Android suite.",
+      "updated": "2026-11-08",
+      "sha256": "9ffd3291bc5b897b9d4a5f400cf835fce376772972fcb5b45df157dca9b11234",
+      "size_bytes": 22676,
+      "reseal_note": "List Windows 0.1.2 in the canonical table; capability and readiness boundaries are unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "2f70a577e656fab2ab9c570a651cb0b1fda0ba63949813c7a341d07549390cd6",
+          "size_bytes": 22676,
+          "reseal_note": "List Windows 0.1.1 in the canonical product table; preserve capability and readiness boundaries."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "f5bdd2cd39546fffc5d4417671189991fe45ead5e7b2cc961f7835e5c1971c9d",
+          "size_bytes": 22676,
+          "reseal_note": "Describe additive opt-in Android native inference and explicit model-only networking; no production-readiness claim."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "d3dc0be99cd02791b322f6c8661c7e3d8bb8e0075d352388f30cd75f4ffdaf06",
+          "size_bytes": 22597,
+          "reseal_note": "Add Product 46 to the canonical portfolio registry and link its native Android suite."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "9521202c8a6ada31f09667171d68f3b736bcfd43cd89705d06045a44c6addaa8",
@@ -1096,15 +1114,97 @@
       "sha256": "fdb3ff3b1f4b35185055b3bd723f9fc67173bbbe0e00c942a73817cd42a205b2",
       "size_bytes": 504
     },
+    "12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1": {
+      "description": "User-executed pinned official-release Windows installer-kit retrieval with explicit multi-GiB consent and bounded size/SHA-256 verification; no installation or startup",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-08",
+      "sha256": "633c534f67158acb150a8f2c1393f53c2c7ab44fe5029fb55a87275627850e2a",
+      "size_bytes": 13646,
+      "reseal_note": "Default to Windows 0.1.2 after fail-closed 0.1.1 qualification; preserve historical tags and integrity bounds.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "f646ba4de0152ba3c3588c256aeb294757bc2d458b4e477219c3f30498e68030",
+          "size_bytes": 13646,
+          "reseal_note": "Default to the version-matched Windows 0.1.1 kit; preserve explicit historical tags and integrity bounds."
+        },
+        {
+          "updated": "2026-11-08",
+          "sha256": "98f8daeafe79313b553437b3dfe500bfc40d9381d0ae083afb50af18d3341315",
+          "size_bytes": 13646,
+          "reseal_note": "Use explicit streaming .NET SHA-256 without depending on PowerShell hash-cmdlet module autoload; preserve every verification bound."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "d1a65c6398e30b87e88b2109b92613e937fe3b9995150450da3849be9266d8a8",
+          "size_bytes": 13150,
+          "reseal_note": "Initial registered source; native Windows compatibility remained to be verified."
+        }
+      ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs": {
+      "description": "Static and synthetic PowerShell installer-kit integrity, consent, path/URL bounds and fail-closed retrieval regressions; no real model or installer execution",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-08",
+      "sha256": "62980a55ac76acdc5df7a3d8ff6232ca12b93804a939df02042f302155681b2a",
+      "size_bytes": 10752,
+      "reseal_note": "Require the downloader default to match the package version while retaining historical-kit fixtures.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "290f755b223b3cf7d5efdbd64a35734a3d1c0306ce1fc5ebb9f7cd83224e2208",
+          "size_bytes": 10583,
+          "reseal_note": "Exercise inherited PowerShell module paths and explicit streaming SHA-256 without skipping native PowerShell 5.1 verification."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "859aa22fc443d4eecb4797ebf3e9d964776f37aa0d8a64e8395ce3ee6f5b6270",
+          "size_bytes": 10058,
+          "reseal_note": "Initial registered source; native Windows compatibility remained to be verified."
+        }
+      ]
+    },
     "12-AZ-IP/45-axiomzero-pc-suite/README.md": {
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "02f333aff831043613dd19574bf7af865800d3435bf00fcca20f73cd63447b3e",
-      "size_bytes": 32786,
-      "reseal_note": "Document literal whole-evidence ownership copying and bounded synthetic-only failure diagnostics without weakening acceptance.",
+      "updated": "2026-11-08",
+      "sha256": "5076df13239da19942177b75e418b79806d884970edabcdc0bf6cd993705e56f",
+      "size_bytes": 45119,
+      "reseal_note": "Document Windows 0.1.2 lossless word ownership challenges and the unpublished 0.1.1 failure.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "2741c7ed436053897ac7a56c4b06c1b9e5d5bc9112b52ce88cf6a5c70b20005b",
+          "size_bytes": 44504,
+          "reseal_note": "Document Windows 0.1.1 audited-status packaging and preserve the unchanged 0.1.0 release."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "ee49d912550ce18e70fa4e99c2d2450abe1b1298c2ba879d318fb1c1bf6c8abf",
+          "size_bytes": 43923,
+          "reseal_note": "Explain build-only packaging and publication exclusively after workflow acceptance gates."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "717f8619fa52106f658559f43cd014a4fe167d3e182cfe897594a509c2d6eb4c",
+          "size_bytes": 43710,
+          "reseal_note": "Document explicit pinned-release Windows installer-kit retrieval, consent, HTTPS/checksum bounds and manual installation; preserve model and native qualification gates."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "1e05a486f998bffff1186053d6f497d920794d9d0ae8484e99af29fc7fe8c58a",
+          "size_bytes": 41272,
+          "reseal_note": "Previous recorded complete-kit and optional installed-Ollama documentation seal."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "02f333aff831043613dd19574bf7af865800d3435bf00fcca20f73cd63447b3e",
+          "size_bytes": 32786,
+          "reseal_note": "Document literal whole-evidence ownership copying and bounded synthetic-only failure diagnostics without weakening acceptance."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "4023df39223c60278b3d2268d5c2a3884fc212b1dd278ff2cd708698a6b739b5",
@@ -1321,11 +1421,29 @@
       "description": "Product 45 Electron desktop, ZIP reader dependency and Windows installer configuration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6",
-      "size_bytes": 3325,
-      "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim.",
+      "updated": "2026-11-08",
+      "sha256": "959547a07bdc29a5d16f64b5e187a96824980e5d629fecb041aa0222206ecc34",
+      "size_bytes": 3341,
+      "reseal_note": "Bump Windows package to 0.1.2 for exact word-challenge qualification; retain gated publication.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "082d6422140fdfd653ad6bdc874ec28c8f31519910f1e82d6c07ff7f1f2a1ecc",
+          "size_bytes": 3341,
+          "reseal_note": "Bump Windows package to 0.1.1 for audited-status packaging; retain gated publication."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "7df26f92c2c9420255c3805d526cc21bea2b5d74965449dc9cbd09267feea0f3",
+          "size_bytes": 3341,
+          "reseal_note": "Disable packager auto-publication; only the qualified workflow release step publishes artifacts."
+        },
+        {
+          "updated": "2026-11-06",
+          "sha256": "622701a7eea3df9201001ade81e0232a4cb26f65abee1407d6884e24418d2cf6",
+          "size_bytes": 3325,
+          "reseal_note": "Steward-approved small NSIS installer with verified offline model parts, installer-bound manifests and real missing/tampered-payload installation checks; no required network or portable readiness claim."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "fa02b64f6afe58828ceeef62bb236143dc2ef8ef329617ddbb78941dec8ef453",
@@ -1368,11 +1486,23 @@
       "description": "Product 45 locked Electron, Yauzl and Windows packaging dependency graph",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "7f35936d61a62553899c59edbb106ba477985886062df87e8d916140c2909259",
+      "updated": "2026-11-08",
+      "sha256": "a63e47f2af3186a57d863fe9574426093c99abc58bcbf844e9161698a9bd1bdb",
       "size_bytes": 127807,
-      "reseal_note": "Refreshed 2026-11-04 with the locked runtime ZIP reader and its MIT-licensed dependency.",
+      "reseal_note": "Synchronize lockfile package version to Windows 0.1.2; dependencies are unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "4e6e260264f2c942583bccd1324e86500bf11949669e200de1d42a1048b9eb7f",
+          "size_bytes": 127807,
+          "reseal_note": "Synchronize lockfile package version to Windows 0.1.1; dependencies are unchanged."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "7f35936d61a62553899c59edbb106ba477985886062df87e8d916140c2909259",
+          "size_bytes": 127807,
+          "reseal_note": "Refreshed 2026-11-04 with the locked runtime ZIP reader and its MIT-licensed dependency."
+        },
         {
           "updated": "2026-11-03",
           "sha256": "e1056c5236fd7fbbd50ce79a008d946020af7904be74597b7763c25b519ebf8a",
@@ -1385,11 +1515,17 @@
       "description": "Product 45 main-process security boundaries, local data imports and portfolio actions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "a0e58b8c746f846250413ec985b0e77dfbd245f43bd4c3d711a258bf5186d3f1",
-      "size_bytes": 35520,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "b6231445adf8767528f92ad5fce14c66fb105dc7f7066f8c5df54b0a02e0a3e1",
+      "size_bytes": 36681,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "a0e58b8c746f846250413ec985b0e77dfbd245f43bd4c3d711a258bf5186d3f1",
+          "size_bytes": 35520,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "97f4478f213f947579c31b6590a6deecded7d6c5145c381094ba3aecaa1a8f92",
@@ -1444,11 +1580,17 @@
       "description": "Product 45 allowlisted context-isolated bridge, including local knowledge operations",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "0b14fc9b6d1e3b5f8bd9f080ae04fe26ccbe56ce9600f969ff560d3d48fb2a5b",
-      "size_bytes": 3617,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "f13cf72f13036a0700813636c4fc6eafcc9459c156c58ba4968632896b5c959a",
+      "size_bytes": 3688,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "0b14fc9b6d1e3b5f8bd9f080ae04fe26ccbe56ce9600f969ff560d3d48fb2a5b",
+          "size_bytes": 3617,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "239177ad01f99875448cd5e4c4478cf78d0c361613be64a2c62764c40465679d",
@@ -1497,11 +1639,17 @@
       "description": "Product 45 desktop catalog, local library and cited search interface",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "cda180ac63ea6549bd4cb5da0d8004e49761ea054b9f11ba9f59596b942c2e38",
-      "size_bytes": 39553,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "6f6227d68c9879aeb35ee9196f2ae5251817a55f66511bd459d364ffd1f9bc56",
+      "size_bytes": 40984,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "cda180ac63ea6549bd4cb5da0d8004e49761ea054b9f11ba9f59596b942c2e38",
+          "size_bytes": 39553,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "9705a40cb835ca3b52aa221fa114020572defac0eda9ec98ce4d9daebe92b839",
@@ -1562,11 +1710,17 @@
       "description": "Product 45 local desktop UI with privacy disclosure and restrictive content policy",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "91b32169095b9c8b879fe6d5a3784547bf667441ee8153715f9574b23c793725",
-      "size_bytes": 15911,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "5bd969b03ffdb99e5462b54e8e13de807b88c09e7800456c90f2d59bee09c83c",
+      "size_bytes": 17941,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "91b32169095b9c8b879fe6d5a3784547bf667441ee8153715f9574b23c793725",
+          "size_bytes": 15911,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "7c38b909fd20ce79f76b517f76003572f542ea76fcdf732cf3be585876748fca",
@@ -1741,10 +1895,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "00bd5df3ba021d95c648eeab4d50a6886ff7a31148d879d1821e82d9b630a282",
-      "size_bytes": 9893,
-      "reseal_note": "Assert the installed desktop UI renders 46 products and 45 desktop runtime contracts.",
+      "sha256": "9560ba76cd71069a96674376035b6651f6f92c439f9530f6acbe7d493e6c4ffd",
+      "size_bytes": 10375,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "00bd5df3ba021d95c648eeab4d50a6886ff7a31148d879d1821e82d9b630a282",
+          "size_bytes": 9893,
+          "reseal_note": "Assert the installed desktop UI renders 46 products and 45 desktop runtime contracts."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "9202ba7151d856bc2f4b986fcddeca5a01d9a992070c1998468d95ab4634e469",
@@ -1869,11 +2029,29 @@
       "description": "Product 45 generated offline catalog for Products 01-46",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd",
-      "size_bytes": 16646,
-      "reseal_note": "Regenerate the offline catalog to include canonical Product 46.",
+      "updated": "2026-11-08",
+      "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
+      "size_bytes": 16718,
+      "reseal_note": "Synchronize the Windows 0.1.2 catalog version; capability claims are unchanged.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
+          "size_bytes": 16718,
+          "reseal_note": "Synchronize Product 45's Windows 0.1.1 catalog version without changing capability claims."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8",
+          "size_bytes": 16718,
+          "reseal_note": "Synchronize the catalog with additive opt-in Android model capabilities and unchanged production-readiness limits."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd",
+          "size_bytes": 16646,
+          "reseal_note": "Regenerate the offline catalog to include canonical Product 46."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "71e44ae481012492aca6d938378321a19cb480d7a62ed063b07bba9e58179d9b",
@@ -1916,10 +2094,16 @@
       "description": "Product 45 bounded research policy, durable tasks, approvals and hash-linked audit",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "f6510866cffbc84e7df9a6cbf4a95653fc8b04e28a1c489c36120bb20160e2e0",
-      "size_bytes": 17923,
+      "updated": "2026-11-07",
+      "sha256": "390003cdb741eb58aaae44f50b67d96a67e74d0a849ee17ff0a82f0f01003138",
+      "size_bytes": 19035,
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "f6510866cffbc84e7df9a6cbf4a95653fc8b04e28a1c489c36120bb20160e2e0",
+          "size_bytes": 17923,
+          "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "df85c0447f9a74c1cc827d49a0ebe70387802866c35e06d1c361dfa6bc9df30b",
@@ -1938,15 +2122,24 @@
           "size_bytes": 17191
         }
       ],
-      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/lib/local-model.cjs": {
       "description": "Product 45 fixed-loopback bounded Ollama reasoning transport",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "24018a05d12ed66fb651d8f1bbf49402812ea7f1988bd5151d7880706f0e0647",
-      "size_bytes": 6520
+      "updated": "2026-11-07",
+      "sha256": "859faafb330286665ec33f948c1e7ec0f3feeedfb13269c1dda55bca529a422d",
+      "size_bytes": 6798,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "24018a05d12ed66fb651d8f1bbf49402812ea7f1988bd5151d7880706f0e0647",
+          "size_bytes": 6520,
+          "reseal_note": "Previous recorded seal before the optional local-model and installer usability update; historical seal is retained, not independently reverified."
+        }
+      ],
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/lib/worker-search.cjs": {
       "description": "Product 45 cancellable evidence worker lifecycle",
@@ -1968,10 +2161,16 @@
       "description": "Product 45 task/approval/budget/recovery/audit/worker regressions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "446bfcbed0aa03055566a02108751d22078bfdf12c789efaaf44dec31c5dbbc5",
-      "size_bytes": 14104,
+      "updated": "2026-11-07",
+      "sha256": "d069496a4b45a1eb2535f8a33df7b947399c335dc42998c866cd1c5abbb77e7c",
+      "size_bytes": 15054,
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "446bfcbed0aa03055566a02108751d22078bfdf12c789efaaf44dec31c5dbbc5",
+          "size_bytes": 14104,
+          "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "de6ade6f2eb54a9fb04e512c720402d056140ac660f50094246e9674ecad4e05",
@@ -1990,25 +2189,40 @@
           "size_bytes": 12857
         }
       ],
-      "reseal_note": "Apply the steward-approved shared fifteen-minute CPU inference budget across ownership, answer and optional review, disclose eighteen-minute embedded research steps including startup, and retain every safety gate."
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/local-model.test.cjs": {
       "description": "Product 45 bounded local model transport contract regressions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "743755f1c54891a1511180b655144a42446791cd8eeed1a33936457d00768614",
-      "size_bytes": 9050
+      "updated": "2026-11-07",
+      "sha256": "5d3007db09a3b77eab00bb9d553904e70321fdc0de21078467ec9d0e0b8e50a8",
+      "size_bytes": 10751,
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "743755f1c54891a1511180b655144a42446791cd8eeed1a33936457d00768614",
+          "size_bytes": 9050,
+          "reseal_note": "Previous recorded seal before the optional local-model and installer usability update; historical seal is retained, not independently reverified."
+        }
+      ],
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
     },
     "12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs": {
       "description": "Product 45 desktop startup, native approval IPC and fail-closed checkpoint regressions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "7d2d51cab6d0a906bf973df0985a75cb771ae3bb6205c1adf639996b3c00703b",
-      "size_bytes": 15416,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "0d771a2ecb6eb80690ac998c15d7b88330e5f3a8827712f8887686af7841a9b6",
+      "size_bytes": 18677,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "7d2d51cab6d0a906bf973df0985a75cb771ae3bb6205c1adf639996b3c00703b",
+          "size_bytes": 15416,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "448a4af2cd45718c17fa9c6318df41e9aa709a89799359f6c5cfae3743982cbc",
@@ -2650,11 +2864,17 @@
       "description": "Product 45 Windows runtime integration and contracts: preload-state.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "fbcb2382206ebf48a52fb9d852dc9e9377c1debcecebc086305e6ae8a39e0543",
-      "size_bytes": 1915,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-07",
+      "sha256": "389d5c4b209d339ee669cf4f3738daf5638700dc7abd1cfae2cadb7a005bd60a",
+      "size_bytes": 1976,
+      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
       "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "fbcb2382206ebf48a52fb9d852dc9e9377c1debcecebc086305e6ae8a39e0543",
+          "size_bytes": 1915,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "916bf6ab9242955a77a531513e4ff0bd5de7ec74928729aa3bde403f989667e0",
@@ -3070,11 +3290,17 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "fa324e58257f8eaf614f4f9c20535448261faa3401af830c0f285bb92743d81a",
-      "size_bytes": 38234,
-      "reseal_note": "Use token-only synthetic evidence for literal ownership copying; retain exact fresh 128-bit equality and all gates, and expose bounded synthetic failure diagnostics.",
+      "updated": "2026-11-08",
+      "sha256": "046a60fc3176a469452e9d1d72ba7f55ccb1010426520c062276b79a25f46f0a",
+      "size_bytes": 40551,
+      "reseal_note": "Losslessly encode 128 fresh random bits as 16 common words; retain exact equality, authorization probes and no retries.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "fa324e58257f8eaf614f4f9c20535448261faa3401af830c0f285bb92743d81a",
+          "size_bytes": 38234,
+          "reseal_note": "Use token-only synthetic evidence for literal ownership copying; retain exact fresh 128-bit equality and all gates, and expose bounded synthetic failure diagnostics."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "d19cdb67ab305a316fe376ca22680187d58a193fd7746a494343d4cd31f20cdf",
@@ -3234,11 +3460,17 @@
       "description": "Product 45 Windows runtime integration and contracts: instruction-model.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "47dffa2b711d685668b31fe0c7da7da15ea7b8dcd7e9383039588640b2c7666a",
-      "size_bytes": 41056,
-      "reseal_note": "Require token-only synthetic challenge evidence and verify mismatch diagnostics while retaining every fail-closed contract.",
+      "updated": "2026-11-08",
+      "sha256": "a06c183653261e6660abf8b40c9bab0126729d3fb95cd2c5a4394f65e622fc7e",
+      "size_bytes": 43812,
+      "reseal_note": "Verify lossless 256-word byte encoding, fresh randomness and fail-closed word/case/spacing mismatch controls.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "47dffa2b711d685668b31fe0c7da7da15ea7b8dcd7e9383039588640b2c7666a",
+          "size_bytes": 41056,
+          "reseal_note": "Require token-only synthetic challenge evidence and verify mismatch diagnostics while retaining every fail-closed contract."
+        },
         {
           "updated": "2026-11-06",
           "sha256": "7a08c91dc598fb6b481107965b3cb4e7667b354a8b5cd47e78d7dffa233d724c",
@@ -3420,10 +3652,28 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "2a79c3c32e722641d50080ec23dd581f0c508072f26ef6923df846d8ef1dfa51",
-      "size_bytes": 4005,
-      "reseal_note": "Clarify ZIP expanded-entry limits and Android feature boundaries.",
+      "sha256": "c6a3a841132325195b82e7e50ea7d11cc385811b0122a39b41125858310e57a1",
+      "size_bytes": 10805,
+      "reseal_note": "Document bounded non-thinking answers and exact real-model greeting qualification without asserting general answer quality.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "6ecd0af749ef5c7faf92a3720e375b469fb1722f38ccf57bdb0cf60d02420e7d",
+          "size_bytes": 10246,
+          "reseal_note": "Document pinned native inference, verified optional download/import and explicit device/signing qualification limits."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "914082aaf78b1e40f008cc9da4298e885a1e6b6b53d23315aaf352bda7dfa52b",
+          "size_bytes": 4579,
+          "reseal_note": "Clarify Android download/install artifact availability and runtime/model limitations; no signing or device/model qualification claim."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "2a79c3c32e722641d50080ec23dd581f0c508072f26ef6923df846d8ef1dfa51",
+          "size_bytes": 4005,
+          "reseal_note": "Clarify ZIP expanded-entry limits and Android feature boundaries."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "ab7a86ee090d31850da7d9027794be5cf4c3e8873d5c0c79a37900ee21afd751",
@@ -3464,9 +3714,17 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "5ac688d04c92a64d33bd62b1142f8ea8aec20f877f7ae31eeb3f410c6fac6526",
-      "size_bytes": 896,
-      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+      "sha256": "ab7da567054b004bc5eb4920fe3dfca75e50caef7428547e5ea243f6a43f837e",
+      "size_bytes": 1154,
+      "reseal_note": "Pin Android instrumentation dependencies for mandatory emulator model verification.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "5ac688d04c92a64d33bd62b1142f8ea8aec20f877f7ae31eeb3f410c6fac6526",
+          "size_bytes": 896,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
     },
     "12-AZ-IP/46-axiomzero-android-suite/gradle/wrapper/gradle-wrapper.jar": {
       "description": "Product 46 Gradle 8.6 wrapper bootstrap",
@@ -3509,18 +3767,34 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "eaa52069110a42432410ee1737040bd26668a5a001c24a3b26da69c03fb4b503",
-      "size_bytes": 801,
-      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+      "sha256": "626c15df153acbeb496c788a12f8af0deddd3110918e5283cba81823d5d4888f",
+      "size_bytes": 1384,
+      "reseal_note": "Wire pinned NDK/CMake JNI builds for arm64-v8a and x86_64 and Android instrumentation.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "eaa52069110a42432410ee1737040bd26668a5a001c24a3b26da69c03fb4b503",
+          "size_bytes": 801,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
     },
     "12-AZ-IP/46-axiomzero-android-suite/app/src/main/AndroidManifest.xml": {
-      "description": "Product 46 Android app declaration with no broad storage or network permissions",
+      "description": "Product 46 Android app declaration with explicit model-download networking and no broad storage permission",
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "65aaf6350d63ee1fd00a79102bd8eee51ab4f28e55a67692f8d88fae3ae863d9",
-      "size_bytes": 609,
-      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+      "sha256": "93dc88a7ab8cbf1f01a145400ca6b69fb4e7c610b2cad8d510aae5d73cdf198e",
+      "size_bytes": 721,
+      "reseal_note": "Permit only explicit model-download HTTPS requests while retaining private storage and disabled cleartext traffic.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "65aaf6350d63ee1fd00a79102bd8eee51ab4f28e55a67692f8d88fae3ae863d9",
+          "size_bytes": 609,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
     },
     "12-AZ-IP/46-axiomzero-android-suite/app/src/main/res/values/strings.xml": {
       "description": "Product 46 Android application label",
@@ -3545,10 +3819,22 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-07",
-      "sha256": "1cef95cd91be173f637a93f823855cb71159e26c050dfb45a3952b7d21941e51",
-      "size_bytes": 18999,
-      "reseal_note": "Serialize local writes and deletion across activity recreation, invalidate pending evidence results, preserve checkout paths and themed documentation text, and guard destroyed activities.",
+      "sha256": "36a7ec0c9cea48637b2ce689ca33730b99b3b6af42f56d3f0f4256024202a3a9",
+      "size_bytes": 30314,
+      "reseal_note": "Use the shared non-thinking assistant prefix while preserving evidence escaping and bounded generation.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "4976ad0412f91786fc603169e3c4a775b03d60a23afff66191c809e4e50c46c0",
+          "size_bytes": 30284,
+          "reseal_note": "Add explicit private model transfer, evidence-bounded inference and cancellation controls without removing existing evidence/notebook flows."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "1cef95cd91be173f637a93f823855cb71159e26c050dfb45a3952b7d21941e51",
+          "size_bytes": 18999,
+          "reseal_note": "Serialize local writes and deletion across activity recreation, invalidate pending evidence results, preserve checkout paths and themed documentation text, and guard destroyed activities."
+        },
         {
           "updated": "2026-11-07",
           "sha256": "fa9cc1dee5ec2e49cb2d18f04ec2553f635f82136b91cb8fbc3cebf0015a7dc4",
@@ -3637,10 +3923,30 @@
       "description": "Product 46 synchronized offline catalog for Products 01-46",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd",
-      "size_bytes": 16646,
-      "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+      "updated": "2026-11-08",
+      "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
+      "size_bytes": 16718,
+      "reseal_note": "Catalog-only synchronization of Windows 0.1.2; Android runtime and model are unchanged.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
+          "size_bytes": 16718,
+          "reseal_note": "Catalog-only synchronization of the Windows 0.1.1 listing; Android runtime and model are unchanged."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "d49f63ea7f33712a1f7f580c1b10ca9b10575715152b8fe23af83c9e8b61f0e8",
+          "size_bytes": 16718,
+          "reseal_note": "Synchronize the Android catalog with additive optional native model capabilities."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "8cf9812294324cb941794a8d0c794c9aa525431a1c2616ba53862b56811285dd",
+          "size_bytes": 16646,
+          "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+        }
+      ]
     },
     "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/PortfolioCatalogTest.kt": {
       "description": "Product 46 catalog search unit tests",
@@ -3710,6 +4016,142 @@
       "sha256": "a1d7e9259496238eb8eb11242825f0e27313c53568a24200a59cfe1a0ee6ac6e",
       "size_bytes": 734,
       "reseal_note": "Initial Product 46 registration; app release and on-device readiness are not asserted."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/LLAMA_CPP_LICENSE.txt": {
+      "description": "Pinned llama.cpp native engine MIT license",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+      "size_bytes": 1078,
+      "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/THIRD_PARTY_NOTICES.md": {
+      "description": "Native engine and optional model provenance and licensing notices",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "92fb51af3ba05ad94b43bcc409769db92296f95ce3bdf4c4ac2448f2aab2a5bd",
+      "size_bytes": 1689,
+      "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/CMakeLists.txt": {
+      "description": "Immutable llama.cpp native build and Android JNI linkage",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "68038df4d8d0a832cb6efd20f6cd7950c2d08dcdba8d0df220381e488f6642de",
+      "size_bytes": 1515,
+      "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/cpp/llama_jni.cpp": {
+      "description": "Bounded local GGUF inference and cancellation through Android JNI",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "1827b464e6cdaf35b07337910ea7f826a6268aace9bb14538426cfdc39cd6688",
+      "size_bytes": 11624,
+      "reseal_note": "Use mutable decode tokens and propagate native failures as exceptions, never successful answer text.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "acaea6d916cab545efed3232a36895bb330d5fd74361df0496a37170303bffff",
+          "size_bytes": 11062,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/main/java/com/axiomzero/androidsuite/LocalModel.kt": {
+      "description": "Verified private model transfers and race-safe native runtime ownership",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "4f5f68277d1b8845e42d26823d1cf29d3c0b4463463e4597a9fd424ab365ebd4",
+      "size_bytes": 10179,
+      "reseal_note": "Share the pinned Qwen3.5 non-thinking assistant prefix between UI and real-model instrumentation.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "9f7b95201b67107550336d00b48823888433b4de6f50ff48754edaaab6bd851e",
+          "size_bytes": 10097,
+          "reseal_note": "Bind transfer progress callbacks by name without changing pinned size/hash defaults."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "536c054984918fdaf29bdb83c9773024673c43bd16f7f6598dfc370c7ec0b87b",
+          "size_bytes": 10075,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/test/java/com/axiomzero/androidsuite/MobileModelTest.kt": {
+      "description": "Strict model stream integrity, atomic private installation and native pin contracts",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "e3aaacc5cf68089863b798c77575c68841816b0ea56f1dfb56380e9c8cefef2b",
+      "size_bytes": 4834,
+      "reseal_note": "Assert exact shared non-thinking prefix in the pinned mobile model contract.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "10edd5b1ced0a4b1d24fa9e665faffd593df54d0e3ad1082ca5e06159d9a7736",
+          "size_bytes": 4733,
+          "reseal_note": "Resolve the native pin contract from Android Gradle's app-module test working directory."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "6a9b540f3231f75dc2efd8abce2d056f596b809d0fa5c6e336633018ebc8577b",
+          "size_bytes": 4671,
+          "reseal_note": "Import the object-scoped verified stream extension explicitly for Kotlin unit compilation."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "a938e4d25b69892c261d2780032967a08f9575d9142ba15ff7177b7684d55387",
+          "size_bytes": 4611,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelSmokeTest.kt": {
+      "description": "Distinct synthetic linkage and required real model download/import/inference receipts",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "e77f78dec9da492cd04256a84c20da409dd58744de40a248d6257f5a0721a4b9",
+      "size_bytes": 6777,
+      "reseal_note": "Require an exact completed direct greeting from actual model inference and record non-thinking mode.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "55303aba19bbdf964874a757ce5f9c251f488e838f93dfa22f1617873d60a8d3",
+          "size_bytes": 6549,
+          "reseal_note": "Use nullable-safe native smoke cleanup when runtime construction fails."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "40f5df6d9cfaa164827f7deaa879a7ab27ed83c36408d832d0e13ef3a49bbbca",
+          "size_bytes": 6548,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
+    },
+    "12-AZ-IP/46-axiomzero-android-suite/app/src/androidTest/java/com/axiomzero/androidsuite/LocalModelRuntimeOwnershipTest.kt": {
+      "description": "Native session cancel/close ownership race instrumentation regression",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-07",
+      "sha256": "3388fabb5ffc250b60c52aa219889cf710d3d34860f17509ebd54d57820a0dc9",
+      "size_bytes": 2190,
+      "reseal_note": "Require failed native generation to throw instead of returning error text as a model answer.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "989665afb552751dbe7db5d36c6a48addb54dfa35a95930684078af4d6214622",
+          "size_bytes": 1842,
+          "reseal_note": "Initial optional native-model source registration; device qualification is separate."
+        }
+      ]
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",
@@ -4160,8 +4602,8 @@
       "version": "0.1.0",
       "trl": "Not assessed",
       "port": "Native Android app (API 26+)",
-      "tests": "5 Android unit tests + focused catalog sync test",
-      "description": "Offline portfolio browsing, user-selected checkout documentation, bounded private text/ZIP evidence search with citations, and local UNVERIFIED research notes/export. No network permission, cloud assistant, arbitrary commands, or release-readiness claim.",
+      "tests": "Android unit/device tests + focused catalog sync test",
+      "description": "Offline portfolio browser, user-selected checkout documentation, bounded private evidence and UNVERIFIED notes/export; optional verified Qwen3.5-2B download/import and evidence-bounded native inference. Network use requires explicit model-download action; no cloud fallback, arbitrary commands, or production-readiness claim.",
       "link": "46-axiomzero-android-suite/"
     }
   ]

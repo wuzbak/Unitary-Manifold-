@@ -144,6 +144,26 @@ def test_repo_graph_discovers_added_files_and_drops_removed_paths(graph_root, mo
     assert graph["summary"]["total_discovered"] == 1
 
 
+def test_startup_preparation_preserves_live_source_edits_additions_and_deletions(
+    graph_root, monkeypatch,
+) -> None:
+    monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
+    original = "src/core/startup.py"
+    removed = "tests/test_removed.py"
+    added = "tests/test_added.py"
+    _write_graph_fixture(graph_root, original, "def before(): pass\n")
+    _write_graph_fixture(graph_root, removed)
+    merlin_repo_graph.prepare_repo_graphs(["startup", "removed"])
+    _write_graph_fixture(graph_root, original, "def after_preparation(): pass\n")
+    _write_graph_fixture(graph_root, added)
+    (graph_root / removed).unlink()
+    graph = merlin_repo_graph._build_repo_graph(120, "startup")
+    records = {node["path"]: node for node in graph["nodes"]}
+    assert set(records) == {original, added}
+    assert records[original]["symbols"] == ["after_preparation"]
+    assert graph["summary"]["total_discovered"] == 2
+
+
 def test_discovery_preserves_source_suffixes_and_visits_each_subtree_once(graph_root, monkeypatch) -> None:
     monkeypatch.setattr(merlin_repo_graph, "REPO_ROOT", graph_root)
     included = {
