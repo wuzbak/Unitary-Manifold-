@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8703,
+  "file_count": 8706,
   "lanes": {
-    "az_ip": 2685,
+    "az_ip": 2686,
     "compactification": 9,
-    "other": 5594,
+    "other": 5596,
     "psicat_articles": 357,
     "psicat_books": 58
   },
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2685,
+    "12-AZ-IP": 2686,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -110,10 +110,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1665,
+    "src": 1666,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1571,
+    "tests": 1572,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -2135,6 +2135,7 @@
       "12-AZ-IP/20-psicat-navigator/ox_navigator/integrations/webspace_bridge.py",
       "12-AZ-IP/20-psicat-navigator/requirements.txt",
       "12-AZ-IP/20-psicat-navigator/run.py",
+      "12-AZ-IP/20-psicat-navigator/start-local.ps1",
       "12-AZ-IP/20-psicat-navigator/testing/psicat_prompt_contracts.json",
       "12-AZ-IP/20-psicat-navigator/tests/__init__.py",
       "12-AZ-IP/20-psicat-navigator/tests/test_browser_contract.py",
@@ -17831,6 +17832,13 @@
     },
     {
       "path": "12-AZ-IP/20-psicat-navigator/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "20-psicat-navigator"
+    },
+    {
+      "path": "12-AZ-IP/20-psicat-navigator/start-local.ps1",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -46552,6 +46560,12 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar_1129_1168/pillar1137_planar_radion_kasner_relations.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pillar_1132_1134/__init__.py",
       "top_level": "src",
       "kind": "file",
@@ -52829,6 +52843,12 @@
     },
     {
       "path": "tests/test_pillar1136_planar_radion_scalar_energy_balance.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar1137_planar_radion_kasner_relations.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"
