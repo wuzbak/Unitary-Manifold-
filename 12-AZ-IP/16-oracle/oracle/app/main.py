@@ -20,6 +20,7 @@ Code:   GitHub Copilot (AI).
 
 from __future__ import annotations
 import json
+import os
 from typing import Optional
 
 import gradio as gr
@@ -601,8 +602,9 @@ def main():
     store.init_db()
     app = build_app()
     app.launch(
-        server_name="0.0.0.0",
-        server_port=7872,
+        server_name=os.environ.get("AZ_SERVICE_HOST", "127.0.0.1"),
+        server_port=int(os.environ.get("AZ_SERVICE_PORT", "7872")),
+        inbrowser=os.environ.get("AZ_SERVICE_NO_BROWSER") != "1",
         show_error=True,
     )
 

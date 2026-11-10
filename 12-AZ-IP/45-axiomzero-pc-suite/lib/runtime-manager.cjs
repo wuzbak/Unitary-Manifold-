@@ -63,7 +63,29 @@ function createRuntimeManager({
   const services = new Map();
   const desktops = new Map();
   const credentials = new Map();
-  const ports = new Map([["20", 8020], ["21", 8021], ["23", 8033], ["27", 8327], ...Array.from({ length: 16 }, (_, index) => [String(index + 28), 8128 + index]), ["44", 8144]]);
+  const ports = new Map([
+    ["01", 8001], ["03", 8003], ["04", 8004], ["05", 8005], ["06", 8006], ["07", 8007],
+    ["08", 7870], ["09", 7871], ["10", 7864], ["11", 8011], ["12", 7861], ["13", 8013],
+    ["16", 7872], ["17", 8017], ["18", 8018], ["19", 8019], ["20", 8020], ["21", 8021],
+    ["22", 7622], ["23", 8033], ["25", 8025], ["27", 8327],
+    ...Array.from({ length: 16 }, (_, index) => [String(index + 28), 8128 + index]), ["44", 8144]
+  ]);
+  // Per-user writable state and loopback binding for products whose launchers read the environment.
+  function serviceEnvironment(id, port) {
+    const data = path.join(dataDirectory, "products", id);
+    fs.mkdirSync(data, { recursive: true });
+    const host = "127.0.0.1";
+    const files = {
+      "04": { UM_SOS_HOST: host, UM_SOS_PORT: String(port), UM_SOS_PREREGISTRATION_DB: path.join(data, "preregistration.db") },
+      "11": { TERRA_DB_PATH: path.join(data, "terra.db") },
+      "12": { LITHOS_DB_PATH: path.join(data, "lithos.db"), LITHOS_OFFLINE: "true" },
+      "13": { DELPHI_DB_PATH: path.join(data, "delphi.db"), DELPHI_HOST: host, DELPHI_PORT: String(port), DELPHI_OFFLINE: "true" }
+    };
+    return {
+      AZ_SERVICE_HOST: host, AZ_SERVICE_PORT: String(port), AZ_SERVICE_NO_BROWSER: "1",
+      AZ_PRODUCT_DATA: data, GRADIO_ANALYTICS_ENABLED: "False", ...(files[id] || {})
+    };
+  }
   function entryById(id) {
     const entry = entries.find((item) => item.id === id);
     if (!entry || typeof id !== "string" || !/^\d{2}$/.test(id)) throw new Error("Runtime product identifier is invalid.");
@@ -256,6 +278,7 @@ function createRuntimeManager({
           MERLIN_LOCAL_EXECUTION_ENABLED: "0",
           MERLIN_TRAINING_RUNTIME_DIR: path.join(dataDirectory, "psicat-training"),
           OPENBLAS_NUM_THREADS: "1", OMP_NUM_THREADS: "1",
+          ...serviceEnvironment(id, port),
           ...(id === "36" ? { JAX_PLATFORMS: "cpu" } : {}),
           ...(id === "27" ? {
             PSICAT_VITE_WORKBENCH_HOST: "127.0.0.1", PSICAT_VITE_WORKBENCH_PORT: "8327",
