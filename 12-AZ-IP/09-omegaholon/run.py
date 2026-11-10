@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 # Copyright (C) 2026  AxiomZero Technologies / ThomasCory Walker-Pearson
 """OmegaHolon — launcher."""
+import os
 import sys
 from pathlib import Path
 
@@ -10,4 +11,9 @@ from app.main import build_ui
 
 if __name__ == "__main__":
     ui = build_ui()
-    ui.launch(server_name="0.0.0.0", server_port=7871, share=False, inbrowser=True)
+    ui.launch(
+        server_name=os.environ.get("AZ_SERVICE_HOST", "127.0.0.1"),
+        server_port=int(os.environ.get("AZ_SERVICE_PORT", "7871")),
+        share=False,
+        inbrowser=os.environ.get("AZ_SERVICE_NO_BROWSER") != "1",
+    )

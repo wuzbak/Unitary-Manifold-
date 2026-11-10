@@ -1529,3 +1529,14 @@ catalogs without changing the Android inference runtime.
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/instruction-model.test.cjs` | `a06c183653261e6660abf8b40c9bab0126729d3fb95cd2c5a4394f65e622fc7e` | 43812 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8` | 16718 |
 | `12-AZ-IP/README.md` | `9ffd3291bc5b897b9d4a5f400cf835fce376772972fcb5b45df157dca9b11234` | 22676 |
+
+### Product 45 full launcher assembly reseal — 2026-11-10
+
+Every launchable AZ-IP product now has a loopback launch contract, per-user data paths and a shared library workbench in the PC suite. Windows execution remains unclaimed until the installed workflow verifies it.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `30dd41278910d9ef8c806759c90d35380d52056b1e01bf3be996f1a46fc9e5f3` | 45706 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `73a4822526268be94f0fdc008146e79ecda57da6c9a16623c027891a73800848` | 32369 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `14c859b17347aa4dbc869c00cce8dbe8235ca4e6c2ed0e2d25e630a73c766d5e` | 21488 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs` | `dfbb2aff2b62a9838ae07f0c3009a8feb65e2a6dbd253b2df3299c1e31d16bd5` | 8065 |

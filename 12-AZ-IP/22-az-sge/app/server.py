@@ -32,7 +32,7 @@ import threading
 from pathlib import Path
 from typing import Optional
 
-from ..engine.sge_core import SGECore, SGEConfig
+from engine.sge_core import SGECore, SGEConfig
 
 
 _UI_DIR = Path(__file__).resolve().parents[1] / "ui"

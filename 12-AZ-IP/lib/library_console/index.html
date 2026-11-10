@@ -1,0 +1,53 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>{{TITLE}}</title>
+<style>
+body{font:14px system-ui,sans-serif;margin:0;display:grid;grid-template-columns:300px 1fr;height:100vh;background:#10141a;color:#dde3ea}
+nav{overflow:auto;border-right:1px solid #2a3340;padding:10px}
+main{overflow:auto;padding:16px}
+h1{font-size:16px;margin:0 0 8px}
+a.m{display:block;padding:3px 6px;color:#9cc4ff;cursor:pointer;word-break:break-all}
+a.bad{color:#8a93a0}
+.c{border:1px solid #2a3340;border-radius:6px;padding:10px;margin:10px 0}
+code,pre,textarea,input{font:12px ui-monospace,Consolas,monospace}
+textarea,input{width:100%;box-sizing:border-box;background:#0b0e12;color:#dde3ea;border:1px solid #2a3340;padding:4px;margin:3px 0}
+button{background:#2b5fa8;color:#fff;border:0;padding:5px 12px;border-radius:4px;cursor:pointer}
+pre{white-space:pre-wrap;background:#0b0e12;padding:8px;border-radius:4px;max-height:420px;overflow:auto}
+.note{color:#9aa4b2}
+</style>
+<nav><h1>{{TITLE}}</h1><div class="note">Raw engine outputs. Not a validation or closure claim.</div>
+<p><a class="m" id="readme">README</a></p><div id="mods"></div></nav>
+<main id="main"><p class="note">Select a module.</p></main>
+<script>
+const $=(i)=>document.getElementById(i);
+const esc=(s)=>String(s).replace(/[&<>"]/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+async function j(u,o){const r=await fetch(u,o);return r.json()}
+async function init(){
+  const d=await j("/api/modules");
+  $("mods").innerHTML=d.modules.map(m=>`<a class="m ${m.importable?"":"bad"}" data-m="${esc(m.name)}" title="${esc(m.error||m.doc)}">${esc(m.name)}${m.importable?"":" (unavailable)"}</a>`).join("");
+  $("mods").onclick=e=>{if(e.target.dataset.m)show(e.target.dataset.m)};
+  $("readme").onclick=async()=>{const r=await j("/api/readme");$("main").innerHTML=`<pre>${esc(r.text||"No README.")}</pre>`};
+}
+async function show(name){
+  const d=await j("/api/module?name="+encodeURIComponent(name));
+  if(d.error){$("main").innerHTML=`<pre>${esc(d.error)}</pre>`;return}
+  const consts=Object.entries(d.constants).map(([k,v])=>`<code>${esc(k)} = ${esc(v)}</code>`).join("<br>");
+  $("main").innerHTML=`<h1>${esc(d.name)}</h1><pre>${esc(d.doc)}</pre>${consts?`<div class="c">${consts}</div>`:""}`+
+    d.callables.map((c,i)=>`<div class="c"><b>${esc(c.kind)} ${esc(c.name)}</b><code>${esc(c.signature)}</code><pre>${esc(c.doc)}</pre>
+    ${c.kind==="class"?`<input id="im${i}" placeholder="method name (blank = construct only)" list="ml${i}"><datalist id="ml${i}">${(c.methods||[]).map(m=>`<option value="${esc(m.name)}">`).join("")}</datalist><input id="ia${i}" placeholder='constructor args as JSON list, e.g. [] or [1, 2]' value="[]">`:""}
+    <input id="a${i}" placeholder='args as JSON list' value="[]"><input id="k${i}" placeholder='kwargs as JSON object' value="{}">
+    <button data-i="${i}">Run</button><pre id="o${i}" hidden></pre></div>`).join("");
+  $("main").onclick=async e=>{
+    const i=e.target.dataset.i; if(i===undefined)return;
+    const c=d.callables[i],out=$("o"+i);out.hidden=false;
+    try{
+      const body={module:d.name,name:c.name,args:JSON.parse($("a"+i).value||"[]"),kwargs:JSON.parse($("k"+i).value||"{}")};
+      if(c.kind==="class"){body.init_args=JSON.parse($("ia"+i).value||"[]");body.method=$("im"+i).value||undefined}
+      out.textContent="Running...";
+      const r=await j("/api/call",{method:"POST",headers:{"Content-Type":"application/json","X-Console":"1"},body:JSON.stringify(body)});
+      out.textContent=r.ok?r.result+(r.truncated?"\n[truncated]":""):"Error: "+r.error;
+    }catch(err){out.textContent="Error: "+err.message}
+  };
+}
+init();
+</script>

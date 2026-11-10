@@ -1170,10 +1170,10 @@
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "5076df13239da19942177b75e418b79806d884970edabcdc0bf6cd993705e56f",
-      "size_bytes": 45119,
-      "reseal_note": "Document Windows 0.1.2 lossless word ownership challenges and the unpublished 0.1.1 failure.",
+      "updated": "2026-11-10",
+      "sha256": "30dd41278910d9ef8c806759c90d35380d52056b1e01bf3be996f1a46fc9e5f3",
+      "size_bytes": 45706,
+      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
       "reseal_history": [
         {
           "updated": "2026-11-08",
@@ -1414,6 +1414,11 @@
           "sha256": "5dcbb4028c894f500b108ede80c082e758f4f22afb035d94ce3dcb72e2c64a11",
           "size_bytes": 24058,
           "note": "Suite assistant documentation before direct instruction-tuned candidate selection."
+        },
+        {
+          "updated": "2026-11-08",
+          "sha256": "5076df13239da19942177b75e418b79806d884970edabcdc0bf6cd993705e56f",
+          "size_bytes": 45119
         }
       ]
     },
@@ -2275,10 +2280,10 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtimes.json",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "65d40342f81c09d216773642e763bb908dfe6aca19bd337841cd36a81e6789d2",
-      "size_bytes": 32687,
-      "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-10",
+      "sha256": "73a4822526268be94f0fdc008146e79ecda57da6c9a16623c027891a73800848",
+      "size_bytes": 32369,
+      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2291,6 +2296,11 @@
           "sha256": "df465a8dbcfb11405f1d702a3e584dda7dbcb65dc2c22f6d2fef83efac3f9d62",
           "size_bytes": 32207,
           "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "65d40342f81c09d216773642e763bb908dfe6aca19bd337841cd36a81e6789d2",
+          "size_bytes": 32687
         }
       ]
     },
@@ -2342,10 +2352,10 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtime-manager.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "f92898014b70f6fff2f717113870d6f61faa859b772621d0b31d208a94da2574",
-      "size_bytes": 20263,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-10",
+      "sha256": "14c859b17347aa4dbc869c00cce8dbe8235ca4e6c2ed0e2d25e630a73c766d5e",
+      "size_bytes": 21488,
+      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2370,6 +2380,11 @@
           "sha256": "1a29d6756ec03dfc7652321c0e84f3f9141f342ddc39796325f9a9c906f35870",
           "size_bytes": 10738,
           "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "f92898014b70f6fff2f717113870d6f61faa859b772621d0b31d208a94da2574",
+          "size_bytes": 20263
         }
       ]
     },
@@ -2585,16 +2600,21 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtime-manifest.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "3c0979bd5f43ab8e2b28ad802dc8c007bde351135f1ab3d4f95dce8740992da7",
-      "size_bytes": 8090,
-      "reseal_note": "Keep the desktop runtime manifest scoped to Products 01-45 while the catalog contains Product 46.",
+      "updated": "2026-11-10",
+      "sha256": "dfbb2aff2b62a9838ae07f0c3009a8feb65e2a6dbd253b2df3299c1e31d16bd5",
+      "size_bytes": 8065,
+      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
           "sha256": "df230d9f0844fab618e6f70b40d03be50e7abfb68180953e26658df0f029d20a",
           "size_bytes": 7998,
           "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-07",
+          "sha256": "3c0979bd5f43ab8e2b28ad802dc8c007bde351135f1ab3d4f95dce8740992da7",
+          "size_bytes": 8090
         }
       ]
     },

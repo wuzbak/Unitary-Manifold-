@@ -2,13 +2,14 @@
   {
     "id": "01",
     "productFolder": "12-AZ-IP/01-axiom-os/",
-    "kind": "python-library",
-    "dependencyManifest": "12-AZ-IP/01-axiom-os/requirements.txt",
-    "entrypoint": null,
-    "importName": "az_os",
+    "kind": "python-service",
+    "dependencyManifest": "12-AZ-IP/01-axiom-os/requirements-desktop.txt",
+    "entrypoint": "12-AZ-IP/01-axiom-os/run.py",
+    "launchArgs": ["serve", "--port", "8001"],
+    "healthPath": "/health",
     "installMode": "python-venv",
     "prerequisites": ["Python", "Repository checkout", "Optional Ollama and vector store for the cognitive backend"],
-    "limitation": "run.py is a provisioning bootstrap, not a foreground service launcher; it installs dependencies and registers platform services. Compatibility modules contain absolute runner-specific symlinks, including AxiomZero/api, which do not resolve in this checkout and are not portable to Windows. Importing az_os alone does not verify its submodules."
+    "limitation": "The managed launch serves the AxiomZero FastAPI dashboard on loopback port 8001 using the lean requirements-desktop.txt set. Vector-store, embedding and agent extras from requirements.txt are optional and not installed; the cognitive backend degrades gracefully without Ollama. Task execution is governed by its human-approval gate. Windows startup is checked by the installed-runtime workflow, not asserted here."
   },
   {
     "id": "02",
@@ -23,13 +24,14 @@
   {
     "id": "03",
     "productFolder": "12-AZ-IP/03-eige/",
-    "kind": "python-library",
+    "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/03-eige/requirements.txt",
-    "entrypoint": null,
-    "importName": "eige",
+    "entrypoint": "12-AZ-IP/03-eige/run.py",
+    "launchArgs": ["--port", "8003"],
+    "healthPath": "/api/health",
     "installMode": "python-venv",
     "prerequisites": ["Python", "Product directory on the Python import path", "Publication bundle and election artifacts for verifier commands"],
-    "limitation": "eige.verify and eige.county are data-dependent module CLIs, not a verified fixed service launch. The separate Flask adjudicator source is not treated as a portfolio server. Windows execution of the complete workflow has not been verified."
+    "limitation": "Managed launch serves the loopback library workbench for the eige package: browse modules and run public functions/classes with JSON arguments. The Flask adjudicator and data-dependent verify/county CLIs are not started; outputs are raw engine results, not validation. Windows execution of the complete workflow is not verified."
   },
   {
     "id": "04",
@@ -40,40 +42,43 @@
     "launchArgs": [],
     "installMode": "python-venv",
     "prerequisites": ["Python", "Repository checkout", "Writable preregistration database location"],
-    "limitation": "The documented run.py launches backend.app with uvicorn; UM_SOS_HOST and UM_SOS_PORT environment variables override its loopback bind. The backend depends on repository src modules and creates a local preregistration store. Startup on Windows has not been verified."
+    "limitation": "run.py launches backend.app with uvicorn; the suite sets UM_SOS_HOST=127.0.0.1, UM_SOS_PORT=8004 and a per-user preregistration database. The backend depends on repository src modules. Windows startup is checked by the installed-runtime workflow, not asserted here."
   },
   {
     "id": "05",
     "productFolder": "12-AZ-IP/05-uos-kernel/",
-    "kind": "python-library",
+    "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/05-uos-kernel/requirements.txt",
-    "entrypoint": null,
-    "importName": "uos_kernel",
+    "entrypoint": "12-AZ-IP/05-uos-kernel/run.py",
+    "launchArgs": ["--port", "8005"],
+    "healthPath": "/api/health",
     "installMode": "python-venv",
     "prerequisites": ["Python", "NumPy", "Repository checkout", "Product directory on the Python import path"],
-    "limitation": "The checked Python package and UOS sources are library/prototype components; no run.py or fixed foreground server command exists here. Importing the package alone does not start an operating system or establish Windows runtime compatibility."
+    "limitation": "Managed launch serves the loopback library workbench for uos_kernel. It does not boot an operating system; it exposes the Python package for inspection and calls. Windows runtime compatibility is not established."
   },
   {
     "id": "06",
     "productFolder": "12-AZ-IP/06-omega-synthesis/",
-    "kind": "python-library",
+    "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/06-omega-synthesis/requirements.txt",
-    "entrypoint": null,
-    "importName": "omega",
+    "entrypoint": "12-AZ-IP/06-omega-synthesis/run.py",
+    "launchArgs": ["--port", "8006"],
+    "healthPath": "/api/health",
     "installMode": "python-venv",
     "prerequisites": ["Python", "NumPy", "Repository checkout", "Product directory on the Python import path"],
-    "limitation": "omega/__init__.py exports UniversalEngine, but the local requirements file only declares pytest; an import in the inspected Python environment failed because NumPy was missing. No fixed service launch or Windows runtime validation is recorded."
+    "limitation": "Managed launch serves the loopback library workbench for omega (UniversalEngine and reports). NumPy is now declared. Outputs are the engine's own repository-defined results and carry no external confirmation. Windows execution is not verified."
   },
   {
     "id": "07",
     "productFolder": "12-AZ-IP/07-holon-zero/",
-    "kind": "python-library",
+    "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/07-holon-zero/requirements.txt",
-    "entrypoint": null,
-    "importName": "holon_zero",
+    "entrypoint": "12-AZ-IP/07-holon-zero/run.py",
+    "launchArgs": ["--port", "8007"],
+    "healthPath": "/api/health",
     "installMode": "python-venv",
     "prerequisites": ["Python", "Product directory on the Python import path"],
-    "limitation": "holon_zero/__init__.py exports the ground-state engine and imports in the inspected environment. There is no product run.py or documented fixed server command; this is not a desktop installer. Windows engine execution has not been verified."
+    "limitation": "Managed launch serves the loopback library workbench for holon_zero (ground-state engine and reports). NumPy is now declared. Outputs are repository-defined engine results, not independent confirmation. Windows execution is not verified."
   },
   {
     "id": "08",
@@ -84,7 +89,7 @@
     "launchArgs": [],
     "installMode": "python-venv",
     "prerequisites": ["Python", "Gradio", "Writable local case database location", "Browser"],
-    "limitation": "The documented run.py builds the Gradio UI, initializes local storage and launches on all interfaces at port 7870 with browser opening enabled. No explicit product health handler or loopback CLI flag exists. Gradio startup and Windows compatibility have not been verified."
+    "limitation": "Gradio UI bound to loopback port 7870 by the suite (AZ_SERVICE_HOST/PORT, browser auto-open disabled). Local model/network integrations are optional and not certified. Windows startup is not verified."
   },
   {
     "id": "09",
@@ -95,7 +100,7 @@
     "launchArgs": [],
     "installMode": "python-venv",
     "prerequisites": ["Python", "Gradio", "Writable local tracker database location", "Browser"],
-    "limitation": "The documented run.py builds the Gradio UI, initializes local storage and launches on all interfaces at port 7871 with browser opening enabled. No explicit product health handler or loopback CLI flag exists. Gradio startup and Windows compatibility have not been verified."
+    "limitation": "Gradio UI bound to loopback port 7871 by the suite (AZ_SERVICE_HOST/PORT, browser auto-open disabled). Windows startup is not verified."
   },
   {
     "id": "10",
@@ -103,22 +108,23 @@
     "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/10-filmers-companion/requirements.txt",
     "entrypoint": "12-AZ-IP/10-filmers-companion/run.py",
-    "launchArgs": [],
+    "launchArgs": ["--host", "127.0.0.1", "--port", "7864"],
     "healthPath": "/api/health",
     "installMode": "python-venv",
     "prerequisites": ["Python", "FastAPI and uvicorn", "Writable configured SQLite database location", "Product directory as working directory"],
-    "limitation": "run.py delegates to the documented desktop.app.main CLI and serves its FastAPI app on all interfaces at port 7864 by default. The desktop module's import path and database configuration matter; the Android subproject is a separate build. Windows startup has not been verified."
+    "limitation": "FastAPI service on loopback port 7864 via the documented desktop.app.main CLI. The Android subproject is a separate build. Windows startup is not verified."
   },
   {
     "id": "11",
     "productFolder": "12-AZ-IP/11-terra-os/",
-    "kind": "python-library",
+    "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/11-terra-os/requirements.txt",
-    "entrypoint": null,
-    "importName": "terra_os",
+    "entrypoint": "12-AZ-IP/11-terra-os/run.py",
+    "launchArgs": ["--port", "8011"],
+    "healthPath": "/api/v1/",
     "installMode": "python-venv",
     "prerequisites": ["Python", "FastAPI and uvicorn", "Repository checkout", "Product directory on the Python import path"],
-    "limitation": "The scientific terra_os package exists, but run.py imports app.main whose factory imports terra.app.*; no terra package exists in this product. README uvicorn and requirements commands use the same missing terra layout. A fixed service launch is therefore not registered, including on Windows."
+    "limitation": "run.py now aliases the terra.app import layout and binds loopback port 8011 with a per-user SQLite database (TERRA_DB_PATH). Soil/water answers come from the bundled TF-IDF knowledge base. Windows startup is not verified."
   },
   {
     "id": "12",
@@ -130,18 +136,18 @@
     "healthPath": "/api/v1/",
     "installMode": "python-venv",
     "prerequisites": ["Python", "FastAPI and uvicorn", "Writable configured specimen database location"],
-    "limitation": "The documented run.py invokes app.main.create_app directly and binds all interfaces at port 7861. The separate app.main CLI refers to lithic.app.main and is not the registered launch. Optional Gradio/agent paths and Windows startup have not been verified."
+    "limitation": "run.py binds loopback port 7861 via AZ_SERVICE_HOST/PORT with a per-user specimen database (LITHOS_DB_PATH). Optional Gradio/agent and remote sync paths are not certified. Windows startup is not verified."
   },
   {
     "id": "13",
     "productFolder": "12-AZ-IP/13-delphi/",
-    "kind": "python-library",
+    "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/13-delphi/requirements.txt",
-    "entrypoint": null,
-    "importName": "delphi",
+    "entrypoint": "12-AZ-IP/13-delphi/run.py",
+    "launchArgs": ["--port", "8013"],
     "installMode": "python-venv",
     "prerequisites": ["Python", "Gradio and FastAPI", "Product directory on the Python import path"],
-    "limitation": "The delphi package exists, but app/main.py imports delphi.app.* while the app tree is outside delphi. The documented delphi.app.main uvicorn target and delphi/deploy requirements path do not exist. run.py cannot repair those imports; no fixed service launch or Windows readiness is registered."
+    "limitation": "run.py now aliases the delphi.app import layout and serves the Gradio+FastAPI app on loopback port 8013 with a per-user database (DELPHI_DB_PATH). Readings are explicitly framed hypothesis exploration, not predictions. Windows startup is not verified."
   },
   {
     "id": "14",
@@ -172,27 +178,29 @@
     "launchArgs": [],
     "installMode": "python-venv",
     "prerequisites": ["Python", "Gradio", "Writable local database location", "Browser"],
-    "limitation": "The documented run.py invokes oracle.app.main.main, which initializes storage and launches Gradio on all interfaces at port 7872. --demo exits instead of serving. No explicit product health handler or loopback CLI flag exists; Windows startup has not been verified."
+    "limitation": "Gradio UI bound to loopback port 7872 by the suite (AZ_SERVICE_HOST/PORT, browser auto-open disabled). Windows startup is not verified."
   },
   {
     "id": "17",
     "productFolder": "12-AZ-IP/17-um-image-generator/",
-    "kind": "static",
+    "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/17-um-image-generator/requirements.txt",
-    "entrypoint": "12-AZ-IP/17-um-image-generator/ui/index.html",
-    "installMode": "source-only",
+    "entrypoint": "12-AZ-IP/17-um-image-generator/run.py",
+    "launchArgs": ["--no-open", "--port", "8017"],
+    "installMode": "python-venv",
     "prerequisites": ["Browser", "Python for the bundled local static HTTP server"],
-    "limitation": "run.py --no-open serves UI assets on loopback using only the Python standard library; it has no image-generation HTTP API or health handler. The requirements file is for Python engine use, not the static server. Windows browser rendering and Python engine execution have not been verified."
+    "limitation": "Stdlib static server on loopback port 8017. Images are generated locally in the browser from repository formulas. Windows startup is not verified."
   },
   {
     "id": "18",
     "productFolder": "12-AZ-IP/18-um-reader/",
-    "kind": "static",
+    "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/18-um-reader/requirements.txt",
-    "entrypoint": "12-AZ-IP/18-um-reader/ui/index.html",
-    "installMode": "source-only",
+    "entrypoint": "12-AZ-IP/18-um-reader/run.py",
+    "launchArgs": ["--no-open", "--port", "8018"],
+    "installMode": "python-venv",
     "prerequisites": ["Browser", "Python for the bundled local static HTTP server", "Repository checkout for linked repository documents"],
-    "limitation": "run.py --no-open serves UI assets and contained repository documents on loopback; there is no product API or health handler. The requirements file supports Python engine use rather than the static server. Windows browser/document rendering has not been verified."
+    "limitation": "Stdlib server on loopback port 8018 serving the reader UI and contained repository documents. Windows startup is not verified."
   },
   {
     "id": "19",
@@ -231,12 +239,14 @@
   {
     "id": "22",
     "productFolder": "12-AZ-IP/22-az-sge/",
-    "kind": "python-library",
+    "kind": "python-service",
     "dependencyManifest": "12-AZ-IP/22-az-sge/requirements.txt",
-    "entrypoint": null,
+    "entrypoint": "12-AZ-IP/22-az-sge/run.py",
+    "launchArgs": ["--port", "7622"],
+    "healthPath": "/api/status",
     "installMode": "python-venv",
     "prerequisites": ["Python", "NumPy and cryptography", "Repository checkout"],
-    "limitation": "run.py imports app.server as a top-level module, but app/server.py uses from ..engine.sge_core, which goes beyond that package root. Thus the documented dashboard command is not a verified launch. Engine source is retained as library code; no import name or Windows operational readiness is asserted."
+    "limitation": "The relative-import defect in app/server.py is fixed; the dashboard binds loopback port 7622. It performs local scans/checks only on paths and inputs you supply. Windows startup is not verified."
   },
   {
     "id": "23",
@@ -263,12 +273,13 @@
   {
     "id": "25",
     "productFolder": "12-AZ-IP/25-psicat-braided-brain/",
-    "kind": "static",
-    "dependencyManifest": "12-AZ-IP/25-psicat-braided-brain/package.json",
-    "entrypoint": "12-AZ-IP/25-psicat-braided-brain/ui/index.html",
-    "installMode": "source-only",
+    "kind": "python-service",
+    "dependencyManifest": "12-AZ-IP/25-psicat-braided-brain/requirements.txt",
+    "entrypoint": "12-AZ-IP/25-psicat-braided-brain/run.py",
+    "launchArgs": ["--no-open", "--port", "8025"],
+    "installMode": "python-venv",
     "prerequisites": ["Browser", "Local HTTP origin for service-worker caching", "Optional Python for run.py static serving"],
-    "limitation": "package.json contains only test/lint scripts, not npm start; its main field names a browser script, not a Node service. run.py is a standard-library static server. Offline caching requires a suitable browser origin and prior asset loading; Windows browser behavior has not been verified."
+    "limitation": "Stdlib static server on loopback port 8025 for the Braided Brain web app. Windows startup is not verified."
   },
   {
     "id": "26",

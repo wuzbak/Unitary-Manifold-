@@ -151,10 +151,10 @@ test("registered non-default Python service modes match checked launcher syntax"
   for (const [id, args] of Object.entries(expected)) {
     assert.deepEqual(runtimes.find((runtime) => runtime.id === id).launchArgs, args, id);
   }
-  for (const id of ["01", "11", "13", "22"]) {
+  for (const id of ["01", "03", "05", "06", "07", "11", "13", "22"]) {
     const runtime = runtimes.find((item) => item.id === id);
-    assert.notEqual(runtime.kind, "python-service", `${id}: known blocked/bootstrap command must not be registered`);
-    assert.equal(runtime.entrypoint, null);
+    assert.equal(runtime.kind, "python-service", id);
+    assert.ok(runtime.entrypoint.endsWith("/run.py"), id);
   }
   assert.match(runtimes.find((runtime) => runtime.id === "26").limitation, /fcntl.*native Windows/u);
 });
