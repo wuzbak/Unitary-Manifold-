@@ -7,6 +7,8 @@
 > first-principles gap; see [the matching and counterexample](docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
 > No pillar, version, hardgate label or falsifier changes.
 
+> **Planar radion Kasner relations (2026-11-10):** Pillar 1137 (v38.8 Sprint DD, 2026-11-10) derives the exact generalized-Kasner relations of the rolling planar radion branch r^2 = a t + b (a != 0): exponents sum to 1 and p_long^2 + 2 p_trans^2 + (3/2) s^2 = 1. Restricted symbolic identity only; adjacent track, no hardgate, score, falsifier or closure change. Next slot 1138.
+
 > **Planar radion scalar energy balance (2026-11-08; v38.7 Sprint DC, Pillar 1136):**
 > derives the radion-weighted scalar's local energy-exchange identity in the
 > already-certified massless, zero-vector, transversely isotropic planar

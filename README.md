@@ -1561,3 +1561,5 @@ docs/mas_tracker.yml's `sparse_pillar_registry` for the per-pillar tracker
 entries. This backfill makes no hardgate Pillar 1–208 claim, adds zero
 Lean4 theorems, and does not change the canonical version or regression
 headline recorded elsewhere in this file.
+
+> **Latest adjacent-track note (2026-11-10, Sprint DD):** Pillar 1137 derives exact generalized-Kasner relations for the rolling planar radion branch; restricted identity only, no hardgate, score or closure change.

@@ -6,6 +6,8 @@
 > [TRUTH_LAYER](../docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08);
 > historical closure statements below do not supersede this qualification.
 
+> **v38.8 Sprint DD (2026-11-10):** Pillar 1137 (v38.8 Sprint DD, 2026-11-10) derives the exact generalized-Kasner relations of the rolling planar radion branch r^2 = a t + b (a != 0): exponents sum to 1 and p_long^2 + 2 p_trans^2 + (3/2) s^2 = 1. Restricted symbolic identity only; adjacent track, no hardgate, score, falsifier or closure change. Next slot 1138.
+>
 > **Current ledger: v38.7 — Sprint DC (2026-11-08).** Pillar 1136 derives
 > the radion-weighted local scalar energy balance in the restricted planar
 > sector. Its periodic energy is sourced by radion work, not generally

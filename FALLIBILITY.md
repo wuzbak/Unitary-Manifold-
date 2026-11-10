@@ -8,7 +8,7 @@
 > first-principles QCD scale. See [the action matching and counterexample](docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
 
 *Unitary Manifold v38.7 — Sprint DC ledger synchronization (2026-11-08):
-Pillar 1136 derives the radion-weighted local scalar energy balance in the
+Pillar 1137 adds exact generalized-Kasner relations for the rolling planar branch; stability and genericity outside that homogeneous branch remain open, and no closure is claimed. Pillar 1136 derives the radion-weighted local scalar energy balance in the
 restricted planar sector. The periodic scalar energy exchanges work with the
 evolving radion and is not generally conserved. The finite-grid diagnostic
 uses centered derivatives and is not an exact discrete conservation result.
