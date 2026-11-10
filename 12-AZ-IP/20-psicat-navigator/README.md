@@ -84,6 +84,13 @@ install a model through Ollama's own controls, and obtain its exact name from
 `ollama list`. In PowerShell, before starting PsiCat, configure the existing
 local provider (replace the example name with the installed model name):
 
+Quick local test on Windows from a checkout (no Product 45 installer kit; creates
+a private `.venv`, installs `requirements.txt`, then open http://127.0.0.1:8020/):
+
+```powershell
+powershell -NoProfile -File .\start-local.ps1
+```
+
 ```powershell
 $env:MERLIN_LOCAL_SMALL_ENABLED = "1"
 $env:MERLIN_LOCAL_SMALL_BASE_URL = "http://127.0.0.1:11434"

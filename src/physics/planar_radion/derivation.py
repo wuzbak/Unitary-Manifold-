@@ -514,6 +514,30 @@ def areal_sigma_integrability_residuals():
     }
 
 
+def frw_kasner_relation_residuals():
+    """Return exact generalized-Kasner relations for the rolling planar branch.
+
+    The longitudinal and two transverse exponents sum to one, and the scalar
+    amplitude (normalised by the reduced action's 3/4 kinetic weight) closes
+    the quadratic relation.  ``k + 1`` is strictly positive for every
+    non-zero ``a``, so the proper-time power 3(p^2+a^2)/(4a^2) is strictly positive.
+    """
+    a, momentum = sp.symbols("a p", real=True, nonzero=True)
+    data = frw_kasner_parameters(a, momentum)
+    longitudinal = data["longitudinal_kasner_exponent"]
+    transverse = data["transverse_kasner_exponent"]
+    amplitude = data["scalar_kasner_amplitude"]
+    return {
+        "linear_sum": sp.simplify(longitudinal + 2 * transverse - 1),
+        "quadratic_sum": sp.simplify(
+            longitudinal**2 + 2 * transverse**2 + sp.Rational(3, 2) * amplitude**2 - 1
+        ),
+        "proper_time_power_closed_form": sp.simplify(
+            data["proper_time_power"] - 3 * (momentum**2 + a**2) / (4 * a**2)
+        ),
+    }
+
+
 def exact_symbolic_checks():
     """Collect identities used by tests and the accompanying derivation note."""
     return {
@@ -525,6 +549,7 @@ def exact_symbolic_checks():
         "direct_ricci": direct_ricci_residuals(),
         "direct_5d_uplift_ricci": direct_five_dimensional_uplift_residuals(),
         "frw_branch": frw_branch_residuals(),
+        "frw_kasner_relations": frw_kasner_relation_residuals(),
         "bessel_mode": bessel_mode_residual(),
         "areal_sigma_integrability": areal_sigma_integrability_residuals(),
     }

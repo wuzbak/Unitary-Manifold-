@@ -1,5 +1,21 @@
 # Wave Changelog
 
+## v38.8 (2026-11-10 — Sprint DD: Pillar 1137)
+
+### What changed
+- Added `frw_kasner_relation_residuals` and Pillar 1137: exact linear and
+  quadratic Kasner relations for the rolling planar radion branch, with tests.
+- Product 20 `run.py` now resolves the repository root so it launches
+  standalone; added `start-local.ps1` and a README note.
+
+### What did not change
+- No hardgate label, TOE score, falsifier, Lean count or closure changed.
+  Stability/genericity outside the homogeneous branch remain open.
+- Full regression was not run; focused tests pass.
+
+### Why
+Extends the restricted planar track and unblocks local Navigator testing.
+
 ## v38.7 (2026-11-08 — Sprint DC: Pillar 1136)
 
 ### What changed

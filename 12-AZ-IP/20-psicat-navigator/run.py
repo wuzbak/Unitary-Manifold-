@@ -9,7 +9,11 @@ import argparse
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(__file__))
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_REPO_ROOT = os.path.dirname(os.path.dirname(_HERE))
+for _path in (_HERE, _REPO_ROOT):
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
 
 from ox_navigator.app.server import serve
 
