@@ -36,14 +36,15 @@ function renderPlatformTargets(targets) {
     const actions = target.kind === "wsl2" ? [["provision", "Provision selected WSL distro"], ["run", "Start selected WSL runtime"], ["stop", "Stop owned WSL runtime"]]
       : [...(target.bundled ? [["importBundled", "Use bundled artifact (offline)"]] : []),
         ["prepare", "Build artifact"], ["export", "Export prepared artifact"],
-        ...(target.kind === "android" ? [["install", "Install on selected Android device"], ["launchAndroid", "Open on selected Android device or emulator"]] : [])];
+        ...(target.kind === "android" ? [["install", "Install on selected Android device"], ["launchAndroid", "Open on selected Android device or emulator"]] : []),
+        ...(target.kind === "uefi" ? [["startVm", "Boot isolated QEMU preview"], ["stopVm", "Stop owned QEMU preview"]] : [])];
     for (const [action, label] of actions) {
       const button = document.createElement("button");
       button.type = "button";
       button.dataset.platformId = target.id;
       button.dataset.platformAction = action;
       button.textContent = label;
-      button.dataset.unavailable = String(action !== "launchAndroid" && target.status === "blocked" && (action === "prepare" || !target.bundled));
+      button.dataset.unavailable = String(!["launchAndroid", "stopVm"].includes(action) && target.status === "blocked" && (action === "prepare" || !target.bundled));
       button.disabled = platformBusy || button.dataset.unavailable === "true";
       controls.append(button);
     }

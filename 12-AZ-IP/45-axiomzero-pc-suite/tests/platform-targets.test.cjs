@@ -60,7 +60,8 @@ test('real emulator installs and launches both Android activities', {
   });
   for (const [id, apk, packageName] of apps) {
     assert.ok(apk && path.isAbsolute(apk), `APK path is required for ${id}`);
-    execFileSync(adb, ['-s', serial, 'install', apk], { encoding: 'utf8', timeout: 60000 });
+    // Test-only emulator: grant requested runtime permissions so the app activity can be observed.
+    execFileSync(adb, ['-s', serial, 'install', '-g', apk], { encoding: 'utf8', timeout: 60000 });
     const receipt = await api.launchAndroid(id, { serial });
     assert.equal(receipt.status, 'launched');
     assert.ok(execFileSync(adb, ['-s', serial, 'shell', 'pidof', packageName], { encoding: 'utf8' }).trim());
@@ -166,7 +167,7 @@ test('lists real targets and reports only actually missing build inputs', () => 
   assert.equal(targets['android-sdam'].status, 'buildable');
   assert.equal(targets['android-pentacorder'].status, 'blocked');
   assert.deepEqual(targets['android-pentacorder'].missing, ['12-AZ-IP/15-pentacorder/gradle/libs.versions.toml']);
-  assert.match(targets['uefi-az-kernel'].notes, /never writes firmware/);
+  assert.match(targets['uefi-az-kernel'].notes, /never modifies physical firmware/);
   assert.equal(targets['wsl-psicat-navigator'].kind, 'wsl2');
   const restored = harness({ pentacorderCatalog: true });
   assert.equal(restored.api.list().find((target) => target.id === 'android-pentacorder').status, 'buildable');
@@ -232,12 +233,24 @@ test('does not report success when Android fails or starts a different activity'
     'Error: Activity class does not exist.\n',
     'Status: timeout\nActivity: com.sdam.debug/com.sdam.MainActivity\n',
     'Status: ok\nActivity: unrelated.package/.MainActivity\n',
+    'Starting: Intent { cmp=other/package }\nStatus: ok\nActivity: com.google.android.permissioncontroller/com.android.permissioncontroller.permission.ui.GrantPermissionsActivity\n',
   ]) {
     const h = harness({ handler(tool, args) {
       if (tool === 'adb.exe' && args.includes('start')) return makeChild({ stdout: output });
     } });
     await assert.rejects(h.api.launchAndroid('android-sdam', { serial: 'USB:42' }), /did not confirm/);
   }
+});
+
+test('reports an Android permission prompt without claiming the app activity launched', async () => {
+  const h = harness({ handler(tool, args) {
+    if (tool === 'adb.exe' && args.includes('start')) return makeChild({
+      stdout: `Starting: Intent { cmp=${args.at(-1)} }\nStatus: ok\nActivity: com.google.android.permissioncontroller/com.android.permissioncontroller.permission.ui.GrantPermissionsActivity\n`,
+    });
+  } });
+  const receipt = await h.api.launchAndroid('android-sdam', { serial: 'USB:42' });
+  assert.equal(receipt.status, 'permission-required');
+  assert.match(receipt.note, /not yet confirmed/);
 });
 
 test('rejects unauthorized devices, foreign artifacts and path escapes without installing', async () => {
@@ -497,6 +510,14 @@ test('install refuses an APK without a matching prepare receipt even if named li
   writeFile(forged, 'forged');
   await assert.rejects(h.api.install('android-sdam', { serial: 'USB:42', apkPath: forged }), /no matching prepare receipt/);
   assert.ok(!h.calls.some((call) => call.tool === 'adb.exe' && call.args.includes('install')));
+});
+
+test('UEFI VM refuses artifacts without a matching prepare receipt', async () => {
+  const h = harness();
+  const forged = path.join(h.data, 'artifacts', 'uefi-az-kernel-forged.efi');
+  writeFile(forged, 'forged');
+  await assert.rejects(h.api.startVm({ artifactPath: forged }), /no matching prepare receipt/);
+  assert.equal(h.calls.length, 0);
 });
 
 test('WSL readiness requires every Windows port listener to be the WSL relay', async () => {

@@ -1587,3 +1587,24 @@ The official cockpit, UEFI VM and native end-to-end qualification remain open.
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `8c1b077d78c6e570afd629eabc82b90392d7b5a7978253432ed531c77780dfaf` | 19355 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `9b9152d9092bd0735bff59d8f5cf6582535586b66f987848737f65d741800453` | 29939 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `ef8f8eb09c9a6d42b831d10db9b82ed1396d1ba6c693202ac902c1b201a5f3d9` | 25075 |
+
+### PC suite UEFI preview and custody-gap disclosure — 2026-11-11
+
+Register the isolated QEMU preview and its tests, report Android permission
+prompts without claiming an activity launch, and document the EIGE custody
+verification gap. The EIGE README's previous registry seal did not match its
+pre-edit Git version; both are retained in the registry history. Native Windows
+and Android qualification and the official EIGE cockpit remain open.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/03-eige/README.md` | `7917158433539d8714f705696b6fb5e0cf56ae6de97e7d91618c768f09efe2b7` | 6879 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `687aa93c636cdcdc0009bb8ee7c4c9ae9244624aa8af1425dc32031e866021e0` | 47802 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `7a7bddca11457ace89b3a6ffc41efa7505ed4937c7726836e15c65c2afe67e62` | 18063 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs` | `5e87f313627e2a990b1c39630f2a9663d7b941dceec7696985539c75cb3491fe` | 41971 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/uefi-vm.cjs` | `121ade88db4644ab29169c674c95128745f55a0d8e8f49c3a988b1758728db96` | 7637 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `f4806e894be28dc9f917e27127794ac502f85c72a443ca89b65f6206c240408e` | 39056 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `296cb77fd0aaea9f2e9b7e53e079bde1f25b38d4ad3343e017db399e2634905e` | 41632 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `b0e47d297e5a8f6da7a7e16fbbb76f71f262411f4fb9444416a33522f812fb53` | 21080 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `79518c4c3843738349c37f3aa4566f13780529b719388585fdb8bf999a7526c3` | 31213 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs` | `a06dffdf697864f3e205c87169b3d10cdc8e3820b445c68a3349bcb649ea717b` | 5675 |

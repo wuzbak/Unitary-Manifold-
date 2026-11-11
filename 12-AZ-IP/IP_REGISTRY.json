@@ -326,9 +326,24 @@
       "description": "Canonical EIGE product README",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "489f7b37166b0f51c541bee8cd673c465082488361b4d304ec7bc6506060058d",
-      "size_bytes": 6660
+      "updated": "2026-11-11",
+      "sha256": "7917158433539d8714f705696b6fb5e0cf56ae6de97e7d91618c768f09efe2b7",
+      "size_bytes": 6879,
+      "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "b1eef6670212c0658950af2e11444f6cdaadf7d9faa740f845be719b05157182",
+          "size_bytes": 6489,
+          "reseal_note": "Pre-edit Git version; prior registry seal was stale."
+        },
+        {
+          "updated": "2026-08-18",
+          "sha256": "489f7b37166b0f51c541bee8cd673c465082488361b4d304ec7bc6506060058d",
+          "size_bytes": 6660,
+          "reseal_note": "Previously recorded seal. The prior seal did not match the pre-edit Git version."
+        }
+      ],
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap."
     },
     "12-AZ-IP/04-um-sos/README.md": {
       "description": "Canonical UM-SOS product README",
@@ -1183,9 +1198,9 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "c3f326873a46071d2e9e5cf9f1d081c3b8c57bde79eeaf12f66a6cfee3d79b58",
-      "size_bytes": 46829,
-      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
+      "sha256": "687aa93c636cdcdc0009bb8ee7c4c9ae9244624aa8af1425dc32031e866021e0",
+      "size_bytes": 47802,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
         {
           "updated": "2026-11-11",
@@ -1443,6 +1458,12 @@
           "sha256": "30dd41278910d9ef8c806759c90d35380d52056b1e01bf3be996f1a46fc9e5f3",
           "size_bytes": 45706,
           "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "c3f326873a46071d2e9e5cf9f1d081c3b8c57bde79eeaf12f66a6cfee3d79b58",
+          "size_bytes": 46829,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -1545,9 +1566,9 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "0535d172575e534d91e8c4a87e21acca44998324fd9c3f6e0814b741a97d4f4f",
-      "size_bytes": 37681,
-      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
+      "sha256": "f4806e894be28dc9f917e27127794ac502f85c72a443ca89b65f6206c240408e",
+      "size_bytes": 39056,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
         {
           "updated": "2026-11-07",
@@ -1608,6 +1629,12 @@
           "sha256": "a65d7c69db51777aaf2a379fd0ff23f9011a3255487dd6bbed76d12a9eacab68",
           "size_bytes": 6334,
           "reseal_note": "Initial Product 45 registration."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "0535d172575e534d91e8c4a87e21acca44998324fd9c3f6e0814b741a97d4f4f",
+          "size_bytes": 37681,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -1681,9 +1708,9 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "f4943998ea1afa97d3dcd54082b6e4c48e154d0c8eef293a206e3af360557317",
-      "size_bytes": 41486,
-      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
+      "sha256": "296cb77fd0aaea9f2e9b7e53e079bde1f25b38d4ad3343e017db399e2634905e",
+      "size_bytes": 41632,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
         {
           "updated": "2026-11-07",
@@ -1750,6 +1777,12 @@
           "sha256": "203da940a2cbec4c44a38e221417eb59c8f5f3fa460d2733df40a788dc8370a4",
           "size_bytes": 5187,
           "reseal_note": "Initial Product 45 registration."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "f4943998ea1afa97d3dcd54082b6e4c48e154d0c8eef293a206e3af360557317",
+          "size_bytes": 41486,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -1758,9 +1791,9 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "ef752d584b3b8a3517df7f19419308e78b3202a532e9903cedc499e7801b2d53",
-      "size_bytes": 17980,
-      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
+      "sha256": "7a7bddca11457ace89b3a6ffc41efa7505ed4937c7726836e15c65c2afe67e62",
+      "size_bytes": 18063,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
         {
           "updated": "2026-11-07",
@@ -1827,6 +1860,12 @@
           "sha256": "850f1ee2c939b521c141e0fd780916c221bab5b01fe710ad60a04c66add2586b",
           "size_bytes": 3875,
           "reseal_note": "Initial Product 45 registration."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "ef752d584b3b8a3517df7f19419308e78b3202a532e9903cedc499e7801b2d53",
+          "size_bytes": 17980,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -2266,9 +2305,9 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "8c1b077d78c6e570afd629eabc82b90392d7b5a7978253432ed531c77780dfaf",
-      "size_bytes": 19355,
-      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
+      "sha256": "b0e47d297e5a8f6da7a7e16fbbb76f71f262411f4fb9444416a33522f812fb53",
+      "size_bytes": 21080,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
         {
           "updated": "2026-11-07",
@@ -2311,6 +2350,12 @@
           "sha256": "730c1c6666bf937c7345ea902b6af52bbef5fa05804486f7abc9a958befc0a78",
           "size_bytes": 4718,
           "reseal_note": "Previous governed harness seal."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "8c1b077d78c6e570afd629eabc82b90392d7b5a7978253432ed531c77780dfaf",
+          "size_bytes": 19355,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -3562,15 +3607,21 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "cd446495f2a1f2443f148aed3ac001215fd1126d6938f2c93d63540ced3e3d04",
-      "size_bytes": 39062,
-      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
+      "sha256": "5e87f313627e2a990b1c39630f2a9663d7b941dceec7696985539c75cb3491fe",
+      "size_bytes": 41971,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
           "sha256": "8160f81810e6e0745561dda7618622583f46a35a6e31562bace1c4a37bb45e77",
           "size_bytes": 37367,
           "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "cd446495f2a1f2443f148aed3ac001215fd1126d6938f2c93d63540ced3e3d04",
+          "size_bytes": 39062,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -3734,15 +3785,21 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "9b9152d9092bd0735bff59d8f5cf6582535586b66f987848737f65d741800453",
-      "size_bytes": 29939,
-      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
+      "sha256": "79518c4c3843738349c37f3aa4566f13780529b719388585fdb8bf999a7526c3",
+      "size_bytes": 31213,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
           "sha256": "eceaf9a560109f3aa4e97672a34cf8fc76bd044fdd7f4ab57afd08b8cf7be524",
           "size_bytes": 26569,
           "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "9b9152d9092bd0735bff59d8f5cf6582535586b66f987848737f65d741800453",
+          "size_bytes": 29939,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -4296,6 +4353,24 @@
           "reseal_note": "Initial optional native-model source registration; device qualification is separate."
         }
       ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/uefi-vm.cjs": {
+      "description": "Product 45 isolated UEFI preview and verification: uefi-vm.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-11",
+      "sha256": "121ade88db4644ab29169c674c95128745f55a0d8e8f49c3a988b1758728db96",
+      "size_bytes": 7637,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs": {
+      "description": "Product 45 isolated UEFI preview and verification: uefi-vm.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-11",
+      "sha256": "a06dffdf697864f3e205c87169b3d10cdc8e3820b445c68a3349bcb649ea717b",
+      "size_bytes": 5675,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap."
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",

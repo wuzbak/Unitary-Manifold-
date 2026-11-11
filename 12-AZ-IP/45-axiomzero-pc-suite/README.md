@@ -327,6 +327,8 @@ emulator** launches the corresponding installed debug activity after separate
 native approval and requires ADB to report that exact activity started. An
 emulator must already be installed and running; the suite does not provision
 one, and a successful activity launch does not verify sensor-dependent features.
+When Android instead opens its system permission prompt, the suite reports that
+the app activity is not yet confirmed; respond on the selected device and retry.
 
 Optional source builds require installed Android SDK/JDK or Rust/UEFI tooling.
 Dependency downloads are off by default. Offline Android builds require a
@@ -334,6 +336,15 @@ complete matching Gradle wrapper cache before any wrapper executes, plus
 cached Maven dependencies. A separate checkbox and native approval permit a
 networked build. UEFI export never flashes firmware, edits boot variables,
 writes a system partition or changes removable media.
+
+After importing or building the UEFI artifact, **Boot isolated QEMU preview**
+asks for a trusted `qemu-system-x86_64` executable and matching OVMF code and
+variables template. The suite copies those inputs and the verified EFI image
+into disposable user-data storage, disables VM networking, and checks the
+kernel's rendered boot banner before reporting it observed. **Stop owned QEMU
+preview** or quitting the suite stops the owned VM. This does not install QEMU,
+write physical disks or firmware, or establish that the unfinished kernel's
+displayed cognitive-layer banner represents a running agent network.
 
 Navigator's WSL path provisions Python dependencies inside an explicitly
 selected registered distribution, then starts the real service with local
@@ -388,7 +399,7 @@ own UI; Product 01 starts its dashboard with `run.py serve`; library products
 (03, 05, 06, 07) start a shared loopback workbench
 (`12-AZ-IP/lib/library_console`) to browse modules and call public functions.
 Windows execution of these launchers is not claimed until the installed
-workflow verifies it; Product 02 remains an artifact-only target.
+workflow verifies it; Product 02's VM is a kernel preview, not a complete OS.
 
 Product 03 also offers **Open EIGE workflow console** after dependency
 installation and native approval. This opens an independent PowerShell window
@@ -399,6 +410,9 @@ keys, required sign-offs and optional PKCS#11 dependencies remain the
 operator's responsibility. The shell can execute arbitrary commands as the
 user and remains open after the suite exits. It is not the official cockpit,
 does not enforce its workflow gates, and verification is not certification.
+In particular, county administrative events and bundle verification do not
+enforce the custody ledger's two-official signature checks; see Product 03's
+README before using custody records.
 
 Products 24 and 27 use the managed Node toolchain. **Install private Node LTS** downloads the
 maintained Node 24 Windows x64 archive and checksum manifest from fixed

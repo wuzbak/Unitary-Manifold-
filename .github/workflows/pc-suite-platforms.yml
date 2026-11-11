@@ -10,7 +10,9 @@ on:
       - "12-AZ-IP/14-sdam/**"
       - "12-AZ-IP/15-pentacorder/**"
       - "12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs"
+      - "12-AZ-IP/45-axiomzero-pc-suite/lib/uefi-vm.cjs"
       - "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs"
+      - "12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs"
       - "12-AZ-IP/46-axiomzero-android-suite/**"
   workflow_dispatch:
   workflow_call:
@@ -113,6 +115,30 @@ jobs:
           target: google_apis
           arch: x86_64
           script: P45_ANDROID_ADB="$ANDROID_HOME/platform-tools/adb" node --test --test-name-pattern="real emulator installs and launches" 12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs
+
+  uefi-boot-smoke:
+    name: Boot the UEFI artifact in isolated QEMU
+    needs: uefi
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: pc-suite-uefi-artifact
+          path: uefi-output
+      - name: Install QEMU and OVMF
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends qemu-system-x86 ovmf
+      - name: Verify the kernel framebuffer and owned VM shutdown
+        env:
+          P45_UEFI_QEMU: /usr/bin/qemu-system-x86_64
+          P45_UEFI_CODE: /usr/share/OVMF/OVMF_CODE_4M.fd
+          P45_UEFI_VARS: /usr/share/OVMF/OVMF_VARS_4M.fd
+          P45_UEFI_EFI: ${{ github.workspace }}/uefi-output/az-kernel.efi
+        run: node --test --test-name-pattern="real QEMU" 12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs
 
   bundle:
     needs: [android, uefi]

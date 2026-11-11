@@ -41,6 +41,8 @@ async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll, inst
   }
   const dialog = {
     response: 0,
+    openFiles: [],
+    showOpenDialog: async () => ({ canceled: false, filePaths: [dialog.openFiles.shift()] }),
     showMessageBox: async (_window, request) => {
       approvals.push(request);
       return { response: dialog.response };
@@ -178,6 +180,33 @@ test("platform artifacts require native approval and build downloads default off
   dialog.response = 1;
   await invoke("platform:action", { action: "launchAndroid", id: target.id, serial: "emulator-5554" });
   assert.deepEqual(calls.at(-1), ["launch", target.id, "emulator-5554"]);
+});
+
+test("UEFI VM starts only with prepared artifact, explicitly selected files and native approval", async (t) => {
+  const calls = [];
+  const target = { id: "uefi-az-kernel", name: "Kernel", notes: "VM preview" };
+  const { invoke, dialog, approvals } = await desktop(t, { platformManager: {
+    list: () => [target], close: async () => {},
+    importBundled: async () => ({ artifact: "uefi-az-kernel-fixture.efi" }),
+    startVm: async (options) => { calls.push(options); return { status: "boot-banner-observed" }; },
+    stopVm: async () => ({ status: "stopped" }),
+  } });
+  await assert.rejects(invoke("platform:action", { action: "startVm", id: target.id }), /artifact/);
+  dialog.response = 1;
+  await invoke("platform:action", { action: "importBundled", id: target.id });
+  dialog.openFiles = ["qemu.exe", "code.fd", "vars.fd"];
+  dialog.response = 0;
+  assert.equal((await invoke("platform:action", { action: "startVm", id: target.id })).canceled, true);
+  assert.equal(calls.length, 0);
+  dialog.openFiles = ["qemu.exe", "code.fd", "vars.fd"];
+  dialog.response = 1;
+  assert.equal((await invoke("platform:action", { action: "startVm", id: target.id })).status, "boot-banner-observed");
+  assert.equal(calls[0].qemu, "qemu.exe");
+  assert.equal(calls[0].code, "code.fd");
+  assert.equal(calls[0].vars, "vars.fd");
+  assert.match(calls[0].artifactPath, /platform-targets[/\\]artifacts[/\\]uefi-az-kernel-fixture\.efi$/);
+  assert.match(approvals.at(-1).detail, /only select trusted software/);
+  assert.equal((await invoke("platform:action", { action: "stopVm", id: target.id })).status, "stopped");
 });
 
 test("platform export verifies copied bytes before replacing the selected destination", async (t) => {
