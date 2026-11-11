@@ -2,13 +2,13 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8716,
+  "file_count": 8722,
   "lanes": {
     "az_ip": 2695,
     "compactification": 9,
-    "other": 5597,
+    "other": 5602,
     "psicat_articles": 357,
-    "psicat_books": 58
+    "psicat_books": 59
   },
   "top_levels": {
     ".bazelrc": 1,
@@ -29,7 +29,7 @@
     "4-IMPLICATIONS": 55,
     "5-GOVERNANCE": 146,
     "6-MONOGRAPH": 20,
-    "7-OUTREACH": 951,
+    "7-OUTREACH": 952,
     "8-SAFETY": 8,
     "9-INFRASTRUCTURE": 268,
     "AGENTS.md": 1,
@@ -63,7 +63,7 @@
     "NOTICE": 1,
     "PEER_REVIEW_RESPONSE_v933.md": 1,
     "PENTAD_PRODUCT_NOTICE.md": 1,
-    "PILLARS": 532,
+    "PILLARS": 534,
     "PROVENANCE.md": 1,
     "README.md": 1,
     "RECOVERY": 2,
@@ -90,7 +90,7 @@
     "data": 4,
     "demo.ipynb": 1,
     "docker-compose.yml": 1,
-    "docs": 101,
+    "docs": 102,
     "dvc.yaml": 1,
     "firebase.json": 1,
     "hf-spaces": 54,
@@ -110,10 +110,10 @@
     "requirements.txt": 1,
     "setup.cfg": 1,
     "setup.py": 1,
-    "src": 1666,
+    "src": 1667,
     "ten-proofs-oai.pdf": 1,
     "terrifying-theories": 1,
-    "tests": 1572,
+    "tests": 1573,
     "unit-distance-proof.pdf": 1,
     "unitary_manifold": 1
   },
@@ -2926,7 +2926,8 @@
       "7-OUTREACH/A Z PsiCat Literature/Books/book-55-the-architecture-of-impunity.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-56-the-complete-pillar-guide.md",
       "7-OUTREACH/A Z PsiCat Literature/Books/book-57-axiomzero-applied-sciences-and-intellectual-properties.md",
-      "7-OUTREACH/A Z PsiCat Literature/Books/book-58-the-state-of-the-manifold.md"
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-58-the-state-of-the-manifold.md",
+      "7-OUTREACH/A Z PsiCat Literature/Books/book-59-the-work-between-the-equations.md"
     ],
     "articles": [
       "7-OUTREACH/A Z PsiCat Literature/Articles/article-01-v22-9-honest-accounting.md",
@@ -27342,6 +27343,12 @@
       "lane": "psicat_books"
     },
     {
+      "path": "7-OUTREACH/A Z PsiCat Literature/Books/book-59-the-work-between-the-equations.md",
+      "top_level": "7-OUTREACH",
+      "kind": "file",
+      "lane": "psicat_books"
+    },
+    {
       "path": "7-OUTREACH/A Z PsiCat Literature/PsiCat-Comic-Shop-2026-10-08.pdf",
       "top_level": "7-OUTREACH",
       "kind": "file",
@@ -32838,6 +32845,18 @@
       "lane": "other"
     },
     {
+      "path": "PILLARS/P1137/README.md",
+      "top_level": "PILLARS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "PILLARS/P1138/README.md",
+      "top_level": "PILLARS",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "PILLARS/P183/README.md",
       "top_level": "PILLARS",
       "kind": "file",
@@ -36475,6 +36494,12 @@
     },
     {
       "path": "docs/peer_review_core_bundle.json",
+      "top_level": "docs",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "docs/physics/ACTION_TO_EVOLUTION_LINEARIZED_ZERO_MODE.md",
       "top_level": "docs",
       "kind": "file",
       "lane": "other"
@@ -46638,6 +46663,12 @@
       "lane": "other"
     },
     {
+      "path": "src/core/pillar_1129_1168/pillar1138_action_derived_linearized_zero_mode_evolution.py",
+      "top_level": "src",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
       "path": "src/core/pillar_1132_1134/__init__.py",
       "top_level": "src",
       "kind": "file",
@@ -52921,6 +52952,12 @@
     },
     {
       "path": "tests/test_pillar1137_planar_radion_kasner_relations.py",
+      "top_level": "tests",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "tests/test_pillar1138_action_derived_linearized_zero_mode_evolution.py",
       "top_level": "tests",
       "kind": "file",
       "lane": "other"

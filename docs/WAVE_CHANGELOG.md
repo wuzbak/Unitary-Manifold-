@@ -1,5 +1,36 @@
 # Wave Changelog
 
+## v38.9 (2026-11-11 — Sprint DE: Pillar 1138)
+
+### What changed
+- Added a fail-closed symbolic certificate deriving the quadratic
+  radion–Maxwell action and its physical-coordinate-time equations around a
+  constant-radion Minkowski background.
+- Verified the radion and transverse gauge wave equations, longitudinal
+  Maxwell constraints, quadratic coupling order, and null principal symbol.
+- Added the P1138 technical note and restored P1137's missing pillar
+  navigation page. The P1137 source was already tracked in the 1129–1168
+  shard; its flat import path is intentional and covered by tests.
+- Synchronized the current sprint status and generated live-status metadata.
+
+### What did not change
+- No nonlinear metric backreaction, full 3+1 evolution, relaxation-law
+  derivation, or framework-level physical-time closure is claimed. The two
+  framework residual obligations remain open.
+- No hardgate label, TOE score, observational falsifier, Lean count, or
+  historical full-regression receipt changed. Focused tests passed (16 tests).
+  Historical combined Sprint CU receipt: 64,150 passed · 22 skipped · 18 deselected · 0 failed.
+  Separate fresh runs passed with zero
+  failures: `tests/` 62,409 passed, 69
+  skipped, 66 deselected (default slow-test filter); `recycling/` 316 passed;
+  Unitary Pentad 3,088 passed, 3 skipped. This is scoped validation, not
+  whole-repository clearance; the Sprint CU regression total remains historical.
+
+### Why
+Advance the explicitly routed action-to-evolution lane with a derivation from
+the action's coordinate-time equations, rather than treating its separate
+relaxation parameter as physical time.
+
 ## v38.8 (2026-11-10 — Sprint DD: Pillar 1137)
 
 ### What changed

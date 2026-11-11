@@ -1,5 +1,21 @@
 # STATUS.md — Unitary Manifold Pillar Registry
 
+*v38.9 Sprint DE (2026-11-11): Pillar 1138 derives the quadratic zero-mode radion–gauge action and its physical-coordinate-time equations around constant-radion Minkowski space. The radion and two transverse gauge polarizations obey the null wave equation; the longitudinal Maxwell sector obeys Gauss/electric-field constraints. This advances only the linearized fixed-background sector: the relaxation-time law and framework-level physical-time obligations remain open. No hardgate, score, falsifier, Lean-count, or framework-closure change. Historical combined Sprint CU receipt: 64,150 passed · 22 skipped · 18 deselected · 0 failed. Fresh per-scope validation: `tests/` 62,409 passed · 69 skipped · 66 deselected; `recycling/` 316 passed; Unitary Pentad 3,088 passed · 3 skipped; 0 failures. These were separate commands, with the default slow-test filter for `tests/`, not a whole-repository clearance. Lean4 total→4080 (+0); next slot 1139.*
+
+> **Action-derived linearized radion–gauge evolution (2026-11-11; v38.9 Sprint DE, Pillar 1138):**
+> derives the quadratic zero-mode action and physical-coordinate-time equations
+> about constant-radion Minkowski space. The radion and two transverse gauge
+> polarizations have the null dispersion relation; the longitudinal Maxwell
+> sector is constrained. This is linearized, fixed-background evidence only:
+> the relaxation-time law and framework-level physical-time obligations remain
+> open. No hardgate, score, falsifier, Lean-count, or framework-closure change.
+> Focused action-to-evolution/P1137/P1138 checks: 16 passed. Fresh per-scope
+> validation: `tests/` 62,409 passed, 69 skipped, 66 deselected;
+> `recycling/` 316 passed; Unitary Pentad 3,088 passed, 3 skipped; all three
+> commands had zero failures. These were separate runs; default slow tests were
+> excluded from `tests/`, so this is not whole-repository clearance.
+> Next slot 1139.
+
 > **α_GUT / Λ_QCD qualification (2026-11-08):** The candidate `N_c/K_CS`
 > remains postulated, not derived from the stated 5D action. Conditional
 > orbifold gauge matching exposes independent bulk and boundary kinetic

@@ -1,5 +1,41 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
-# Unitary Manifold v38.7
+# Unitary Manifold v38.9
+
+## Sprint DE: action-derived linearized radion–gauge evolution (2026-11-11)
+
+Pillar 1138 expands the massless Einstein-frame circle action about
+constant-radion Minkowski space and derives the quadratic physical-time
+equations in the one-spatial-coordinate, zero-mode sector. The radion and two
+transverse Maxwell polarizations obey the massless wave equation. The
+longitudinal electric field satisfies both Gauss' constraint and a vanishing
+time derivative, while the perturbative radion dependence of the gauge
+kinetic coefficient first enters beyond quadratic order. The symbolic
+certificate checks the action expansion, Euler equations, constraint
+identities and null principal symbol.
+
+This is a fixed-background linearized result, not a nonlinear
+Einstein–Maxwell–radion evolution system. It does not derive the separate
+relaxation-time law, the full \(3+1\) system, the orbifold sector, or global
+existence. Pillar 1130's framework-level
+`T_RELAXATION_LAW_DECLARED_NOT_DERIVED` and
+`PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` obligations remain open. No hardgate,
+TOE score, falsifier or framework closure changes. Focused P1137/P1138 and
+action-to-evolution tests passed **16 tests**. Separate fresh runs also passed
+with zero failures: `tests/` 62,409 passed, 69 skipped, 66 deselected (default
+slow-test filter); `recycling/` 316 passed; Unitary Pentad 3,088 passed, 3
+skipped. These are scoped runs, not whole-repository clearance.
+See the [derivation and scope](physics/ACTION_TO_EVOLUTION_LINEARIZED_ZERO_MODE.md).
+
+## Sprint DD: planar radion Kasner relations (2026-11-10)
+
+Pillar 1137 derives the exact generalized-Kasner identities on the rolling
+homogeneous planar-radion branch. This is a restricted symbolic identity; it
+does not establish stability or genericity outside that branch. The tracked
+source is in `src/core/pillar_1129_1168/` and remains available through the
+canonical flat `src.core.pillar1137_*` import path. No hardgate, score,
+falsifier or framework closure changes. See
+[`PILLARS/P1137`](../PILLARS/P1137/README.md) and
+[`PLANAR_RADION_DYNAMICS.md`](physics/PLANAR_RADION_DYNAMICS.md).
 
 ## Radion fifth-force qualification (2026-11-10)
 
