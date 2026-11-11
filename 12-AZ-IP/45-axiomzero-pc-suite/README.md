@@ -1,6 +1,6 @@
 # Product 45 — AxiomZero PC Suite
 
-**Version 0.1.2 · Windows desktop portfolio suite, local evidence, native experimental PsiCat and governed runtime controls · production readiness not assessed**
+**Version 0.1.3 candidate · Windows desktop portfolio suite, local evidence, native experimental PsiCat and governed runtime controls · production readiness not assessed**
 
 Product 45 is an offline-first desktop front door to the registered AxiomZero
 portfolio. Its bundled catalog is built from the canonical `12-AZ-IP/README.md`
@@ -45,17 +45,21 @@ Missing parts fail closed instead of triggering an unapproved network recovery.
 
 ### One-command retrieval of a pinned Windows installer kit
 
-Once a qualified `pc-suite-v0.1.2` release exists, save its
-`AxiomZero-PC-Suite-0.1.2-download.ps1` asset from the
-[official tagged release](https://github.com/wuzbak/Unitary-Manifold-/releases/tag/pc-suite-v0.1.2)
+Once a qualified `pc-suite-v0.1.3` release exists, save its
+`AxiomZero-PC-Suite-0.1.3-download.ps1` asset from the
+[official tagged release](https://github.com/wuzbak/Unitary-Manifold-/releases/tag/pc-suite-v0.1.3)
 and review it before running it. This is a small downloader, **not the installer**.
 It works with built-in Windows PowerShell 5.1; no GitHub CLI is required.
 Create a new local folder, then run from the folder where you saved the script:
 
 ```powershell
-New-Item -ItemType Directory -Path .\AxiomZero-PC-Suite-0.1.2-kit
-powershell.exe -NoProfile -File .\AxiomZero-PC-Suite-0.1.2-download.ps1 -Tag pc-suite-v0.1.2 -DestinationDirectory .\AxiomZero-PC-Suite-0.1.2-kit
+New-Item -ItemType Directory -Path .\AxiomZero-PC-Suite-0.1.3-kit
+powershell.exe -NoProfile -File .\AxiomZero-PC-Suite-0.1.3-download.ps1 -Tag pc-suite-v0.1.3 -DestinationDirectory .\AxiomZero-PC-Suite-0.1.3-kit
 ```
+
+**Candidate 0.1.3 is not yet a published release.** It identifies the updated
+suite separately from the existing 0.1.2 build; a version-matching tag and
+successful release workflow are still required.
 
 **Release note 0.1.2:** this patch repackages the suite from audited source so
 the bundled PsiCat Navigator ships the current repository-status transport
@@ -322,7 +326,13 @@ artifacts with their actual SHA-256/size manifest. **Use bundled artifact
 no JDK, Gradle or Rust toolchain is required to export it. APK installation
 requires ADB, one explicitly selected authorized device and native approval;
 it never silently replaces an installed package. Debug APKs are not
-production-signed mobile releases.
+production-signed mobile releases. **Open on selected Android device or
+emulator** launches the corresponding installed debug activity after separate
+native approval and requires ADB to report that exact activity started. An
+emulator must already be installed and running; the suite does not provision
+one, and a successful activity launch does not verify sensor-dependent features.
+When Android instead opens its system permission prompt, the suite reports that
+the app activity is not yet confirmed; respond on the selected device and retry.
 
 Optional source builds require installed Android SDK/JDK or Rust/UEFI tooling.
 Dependency downloads are off by default. Offline Android builds require a
@@ -330,6 +340,15 @@ complete matching Gradle wrapper cache before any wrapper executes, plus
 cached Maven dependencies. A separate checkbox and native approval permit a
 networked build. UEFI export never flashes firmware, edits boot variables,
 writes a system partition or changes removable media.
+
+After importing or building the UEFI artifact, **Boot isolated QEMU preview**
+asks for a trusted `qemu-system-x86_64` executable and matching OVMF code and
+variables template. The suite copies those inputs and the verified EFI image
+into disposable user-data storage, disables VM networking, and checks the
+kernel's rendered boot banner before reporting it observed. **Stop owned QEMU
+preview** or quitting the suite stops the owned VM. This does not install QEMU,
+write physical disks or firmware, or establish that the unfinished kernel's
+displayed cognitive-layer banner represents a running agent network.
 
 Navigator's WSL path provisions Python dependencies inside an explicitly
 selected registered distribution, then starts the real service with local
@@ -377,12 +396,28 @@ Other non-Python target tooling is not managed.
 
 Each managed Python product launches only on loopback (127.0.0.1) at a fixed
 port from the runtime manager's table, with per-user databases under the
-suite data directory. Service products (04, 08–13, 16–19, 22, 25) start their
+suite data directory for Products 04, 08–13, and 16. Product 04 serves its
+explorer and Product 25 opens its actual app page. Service products
+(04, 08–13, 16–19, 22, 25) start their
 own UI; Product 01 starts its dashboard with `run.py serve`; library products
 (03, 05, 06, 07) start a shared loopback workbench
 (`12-AZ-IP/lib/library_console`) to browse modules and call public functions.
 Windows execution of these launchers is not claimed until the installed
-workflow verifies it; Products 02, 14 and 15 remain build-tooling targets.
+workflow verifies it; Product 02's VM is a kernel preview, not a complete OS.
+
+Product 03 also offers **Open EIGE workflow console** after dependency
+installation and native approval. This opens an independent PowerShell window
+in the suite's writable Product 03 data directory with `eige-county` and
+`eige-verify` commands bound to the installed environment. Run either command
+with `--help`; inspect `$LASTEXITCODE` after each operation. Paths, production
+keys, required sign-offs and optional PKCS#11 dependencies remain the
+operator's responsibility. The shell can execute arbitrary commands as the
+user and remains open after the suite exits. It is not the official cockpit,
+does not enforce its workflow gates, and verification is not certification.
+Product 03 now also has log-bound signed custody CLI commands and bundle
+signature checks, but legacy administrative custody events are not checked and
+the complete official workflow is not enforced; see Product 03's README before
+using custody records.
 
 Products 24 and 27 use the managed Node toolchain. **Install private Node LTS** downloads the
 maintained Node 24 Windows x64 archive and checksum manifest from fixed
@@ -555,13 +590,13 @@ runtime manifest, native seed and portfolio), while the model ships as
 contiguous **at most 1 GiB** parts. No release asset may reach 2 GiB, respecting
 GitHub's per-asset limit as well as NSIS's embedded archive limit.
 
-For version `0.1.2`, place these files together in the **same local folder**:
+For version `0.1.3`, place these files together in the **same local folder**:
 
-- `AxiomZero-PC-Suite-0.1.2-x64.exe`
-- `AxiomZero-PC-Suite-0.1.2-offline.json`
-- `AxiomZero-PC-Suite-0.1.2-model.part001`, `.part002`, and `.part003`
+- `AxiomZero-PC-Suite-0.1.3-x64.exe`
+- `AxiomZero-PC-Suite-0.1.3-offline.json`
+- `AxiomZero-PC-Suite-0.1.3-model.part001`, `.part002`, and `.part003`
 - `SHA256SUMS.txt` (for independent distribution-integrity checking)
-- `AxiomZero-PC-Suite-0.1.2-download.ps1` (optional retrieval helper, also hashed;
+- `AxiomZero-PC-Suite-0.1.3-download.ps1` (optional retrieval helper, also hashed;
   setup itself does not execute it)
 
 Use the installer from that folder, including for silent `/S` installation.

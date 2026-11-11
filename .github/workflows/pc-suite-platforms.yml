@@ -9,6 +9,10 @@ on:
       - "12-AZ-IP/02-az-kernel/**"
       - "12-AZ-IP/14-sdam/**"
       - "12-AZ-IP/15-pentacorder/**"
+      - "12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs"
+      - "12-AZ-IP/45-axiomzero-pc-suite/lib/uefi-vm.cjs"
+      - "12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs"
+      - "12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs"
       - "12-AZ-IP/46-axiomzero-android-suite/**"
   workflow_dispatch:
   workflow_call:
@@ -78,6 +82,63 @@ jobs:
           name: pc-suite-uefi-artifact
           path: 12-AZ-IP/02-az-kernel/target/x86_64-unknown-uefi/release/az-kernel.efi
           if-no-files-found: error
+
+  android-launch-smoke:
+    name: Launch Products 14 and 15 on an Android emulator
+    needs: android
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: pc-suite-android-sdam-artifact
+          path: platform-output
+      - uses: actions/download-artifact@v4
+        with:
+          name: pc-suite-android-pentacorder-artifact
+          path: platform-output
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407
+        with:
+          packages: platform-tools
+          log-accepted-android-sdk-licenses: false
+      - name: Enable emulator hardware acceleration
+        run: sudo chmod 666 /dev/kvm
+      - name: Install and launch the actual Android activities
+        uses: ReactiveCircus/android-emulator-runner@4c44018e59b437e86cdfc41da381398f93ed8808
+        env:
+          P45_ANDROID_EMULATOR_SERIAL: emulator-5554
+          P45_ANDROID_SDAM_APK: ${{ github.workspace }}/platform-output/android-sdam.apk
+          P45_ANDROID_PENTACORDER_APK: ${{ github.workspace }}/platform-output/android-pentacorder.apk
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          script: P45_ANDROID_ADB="$ANDROID_HOME/platform-tools/adb" node --test --test-name-pattern="real emulator installs and launches" 12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs
+
+  uefi-boot-smoke:
+    name: Boot the UEFI artifact in isolated QEMU
+    needs: uefi
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: pc-suite-uefi-artifact
+          path: uefi-output
+      - name: Install QEMU and OVMF
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends qemu-system-x86 ovmf
+      - name: Verify the kernel framebuffer and owned VM shutdown
+        env:
+          P45_UEFI_QEMU: /usr/bin/qemu-system-x86_64
+          P45_UEFI_CODE: /usr/share/OVMF/OVMF_CODE_4M.fd
+          P45_UEFI_VARS: /usr/share/OVMF/OVMF_VARS_4M.fd
+          P45_UEFI_EFI: ${{ github.workspace }}/uefi-output/az-kernel.efi
+        run: node --test --test-name-pattern="real QEMU" 12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs
 
   bundle:
     needs: [android, uefi]

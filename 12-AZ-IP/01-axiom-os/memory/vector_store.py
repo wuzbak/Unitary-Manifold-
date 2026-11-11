@@ -77,8 +77,10 @@ class VectorStore:
             cfg = json.loads(config_path.read_text())
         else:
             cfg = {}
+        from AxiomZero import repository_root
+
         repo_root_str = cfg.get("repo_root")
-        repo_root = Path(repo_root_str) if repo_root_str else Path(__file__).parent.parent.parent
+        repo_root = Path(repo_root_str).expanduser() if repo_root_str else repository_root()
         rag_cfg = cfg.get("rag", {})
         return cls(
             repo_root=repo_root,

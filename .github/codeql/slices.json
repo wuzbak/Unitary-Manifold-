@@ -40,6 +40,17 @@
       ]
     },
     {
+      "slice_id": "python-core",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "src",
+        "tests",
+        "recycling",
+        "claims"
+      ]
+    },
+    {
       "slice_id": "python-governance-pentad",
       "language": "python",
       "build_mode": "none",
@@ -66,6 +77,24 @@
         "12-AZ-IP/20-psicat-navigator/tests",
         "12-AZ-IP/20-psicat-navigator/tools",
         "12-AZ-IP/20-psicat-navigator/conftest*.py"
+      ]
+    },
+    {
+      "slice_id": "python-psicat-runtime",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/20-psicat-navigator/ox_navigator/app",
+        "12-AZ-IP/20-psicat-navigator/ox_navigator/engine"
+      ]
+    },
+    {
+      "slice_id": "python-product20",
+      "language": "python",
+      "build_mode": "none",
+      "paths": [
+        "12-AZ-IP/20-psicat-navigator",
+        "TOOLS/checks"
       ]
     },
     {

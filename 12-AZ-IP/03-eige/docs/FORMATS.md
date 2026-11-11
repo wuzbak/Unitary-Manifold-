@@ -278,7 +278,22 @@ Pending provisionals and mismatches between accepted and accepted-counted provis
 
 ## Chain-of-custody records
 
-Custody event types are `seal_applied`, `seal_verified`, `seal_broken`, `transfer`, `container_opened`, and `storage_check`. Each event requires at least two Ed25519 sign-offs from distinct registered officials with role `official`. Custody events are appended to the Merkle log. Verification flags seal mismatches, openings without a prior seal break, transfers from the wrong custodian or without a seal, and backwards timestamps.
+Custody event types are `seal_applied`, `seal_verified`, `seal_broken`,
+`transfer`, `container_opened`, and `storage_check`. Durable signed entries
+have type `custody_v2`, a `body` containing `event`, `container_id`,
+`location`, integer `timestamp`, string-valued `details`, and `log_id`, and a
+`signoffs` array containing `official_id`, `key_id`, and `signature` for each
+signer. At least two distinct registered officials must sign the exact body,
+using the `custody` signature context. The bundle verifier checks these
+signatures and the log binding against the supplied registry; it does not
+authenticate that registry or prove the event time, physical custody or
+completeness. Development keys are flagged. Older `custody` and unsigned
+`chain_of_custody` entries are explicitly `not_checked`.
+
+The separate in-memory `CustodyLedger.verify_container` helper can flag
+sequence problems such as seal mismatches, openings without a prior seal break,
+transfers from the wrong custodian or without a seal, and backwards timestamps.
+The bundle verifier does not currently run that continuity check.
 
 ## Bundle layout
 
@@ -313,7 +328,8 @@ Log entries written by `eige.county` are:
 | `manifest_committed` | `details.sha256` = SHA-256 of the canonical manifest |
 | `cvr_import` | `details` = source file name, SHA-256, format and record count; precedes that file's CVRs |
 | `cvr` | `cvr` = the normalized EIGE CVR |
-| other | administrative events, e.g. chain-of-custody records, logged with `eige.county event` |
+| `custody_v2` | log-bound body and two or more official signatures, logged with `eige.county custody-record` |
+| other | unsigned administrative events logged with `eige.county event`, not custody sign-offs |
 
 ### County log database
 

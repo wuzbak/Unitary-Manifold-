@@ -8,6 +8,7 @@ const os = require('node:os');
 const http = require('node:http');
 const crypto = require('node:crypto');
 const { spawn } = require('node:child_process');
+const { startUefiVm } = require('./uefi-vm.cjs');
 
 const MAX_OUTPUT = 128 * 1024;
 const DEFAULT_TIMEOUT_MS = 30 * 60 * 1000;
@@ -32,6 +33,7 @@ const ANDROID = {
     productId: '14',
     name: 'SDAM Android APK',
     project: '12-AZ-IP/14-sdam/app',
+    activity: 'com.sdam.debug/com.sdam.MainActivity',
     catalog: 'gradle/libs.versions.toml',
     artifact: ['app', 'build', 'outputs', 'apk', 'debug', 'app-debug.apk'],
   },
@@ -39,6 +41,7 @@ const ANDROID = {
     productId: '15',
     name: 'Pentacorder Android APK',
     project: '12-AZ-IP/15-pentacorder',
+    activity: 'com.axiomzero.pentacorder.debug/com.gibbernode.MainActivity',
     catalog: 'gradle/libs.versions.toml',
     artifact: ['app', 'build', 'outputs', 'apk', 'debug', 'app-debug.apk'],
   },
@@ -251,6 +254,7 @@ function createPlatformTargets(options = {}) {
   let activeOperation = null;
   let quitting = false;
   let service = null;
+  let vm = null;
   const liveChildren = new Set();
 
   const requireWindows = () => {
@@ -394,16 +398,16 @@ function createPlatformTargets(options = {}) {
       return {
         id, productId: spec.productId, name: spec.name, kind: 'android',
         status: missing.length ? 'blocked' : 'buildable', missing, gradleOfflineReady, gradleOfflineError, bundled: bundledTargets.has(id),
-        actions: [...(missing.length ? [] : ['prepare']), ...(bundledTargets.has(id) ? ['importBundled'] : []), 'install'],
-        notes: 'Gradle assembleDebug from tracked source; install is a non-replacing adb install to one exact selected serial. Windows cannot run the APK.',
+        actions: [...(missing.length ? [] : ['prepare']), ...(bundledTargets.has(id) ? ['importBundled'] : []), 'install', 'launchAndroid'],
+        notes: 'Gradle assembleDebug from tracked source; install is a non-replacing adb install to one exact selected serial. Launch requires an already running authorized Android device or emulator and the installed debug APK; hardware-dependent features may be unavailable.',
       };
     });
     const uefiMissing = missingFiles(UEFI.project, UEFI.required);
     targets.push({
       id: 'uefi-az-kernel', productId: UEFI.productId, name: UEFI.name, kind: 'uefi',
       status: uefiMissing.length ? 'blocked' : 'buildable', missing: uefiMissing, bundled: bundledTargets.has('uefi-az-kernel'),
-      actions: [...(uefiMissing.length ? [] : ['prepare']), ...(bundledTargets.has('uefi-az-kernel') ? ['importBundled'] : [])],
-      notes: 'Exports the Cargo x86_64-unknown-uefi .efi file only; never writes firmware, removable media, ESP partitions, or boot variables.',
+      actions: [...(uefiMissing.length ? [] : ['prepare']), ...(bundledTargets.has('uefi-az-kernel') ? ['importBundled'] : []), 'startVm', 'stopVm'],
+      notes: 'QEMU preview requires an explicitly selected QEMU executable and matching OVMF code/variables files. It uses disposable virtual storage only and never modifies physical firmware, disks or boot variables. The boot banner does not certify a complete OS.',
     });
     targets.push({
       id: 'wsl-psicat-navigator', productId: NAVIGATOR.productId, name: 'PsiCat Navigator (WSL2)', kind: 'wsl2',
@@ -550,6 +554,70 @@ function createPlatformTargets(options = {}) {
         deviceSerialSha256: crypto.createHash('sha256').update(serial).digest('hex'), apk: path.basename(apk), sha256,
       });
     });
+  }
+
+  async function launchAndroid(id, opts = {}) {
+    safeId(id);
+    if (!ANDROID[id]) throw new Error('Only registered Android APK targets can be launched.');
+    const { serial } = opts;
+    if (typeof serial !== 'string' || !/^[A-Za-z0-9._:-]{1,128}$/.test(serial)) throw new Error('An exact ADB device serial is required.');
+    return exclusive(async () => {
+      requireWindows();
+      const devices = await adbDevices();
+      if (!devices.some((device) => device.serial === serial && device.state === 'device')) {
+        throw new Error('The explicitly selected ADB serial is not connected in device state; no device was selected automatically.');
+      }
+
+      const activity = ANDROID[id].activity;
+      const result = await capture(exe('adb.exe'), ['-s', serial, 'shell', 'am', 'start', '-W', '-n', activity], repositoryRoot);
+      const escapedActivity = activity.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const ok = /^Status:\s*ok\s*$/mi.test(result.stdout);
+      const confirmed = new RegExp(`^Activity:\\s*${escapedActivity}\\s*$`, 'mi').test(result.stdout);
+      const requested = new RegExp(`^Starting:\\s*Intent\\s*\\{[^\\r\\n}]*\\bcmp=${escapedActivity}(?:\\s|\\})`, 'mi').test(result.stdout);
+      const permission = /^Activity:\s*(?:com\.google\.android\.permissioncontroller|com\.android\.permissioncontroller)\/com\.android\.permissioncontroller\.permission\.ui\.GrantPermissionsActivity\s*$/mi.test(result.stdout);
+      if (!ok || (!confirmed && !(requested && permission))) {
+        throw new Error(`Android did not confirm the requested activity launch: ${(result.stdout + result.stderr).slice(-2000)}`);
+      }
+      return writeReceipt({
+        target: id, productId: ANDROID[id].productId, action: 'launchAndroid', status: confirmed ? 'launched' : 'permission-required',
+        ...(confirmed ? {} : { note: 'Respond to the Android system permission prompt on the selected device; the app activity is not yet confirmed.' }),
+        deviceSerialSha256: crypto.createHash('sha256').update(serial).digest('hex'), activity,
+      });
+    });
+  }
+
+  async function startVm(opts = {}) {
+    return exclusive(async () => {
+      if (vm) throw new Error('An owned UEFI VM is already running.');
+      if (!['win32', 'linux'].includes(platform)) throw new Error('UEFI VM preview is supported on Windows and Linux only.');
+      const artifacts = dataDirectory('artifacts');
+      const artifact = checkedFile(artifacts, opts.artifactPath);
+      if (!path.basename(artifact).startsWith('uefi-az-kernel-') || path.extname(artifact).toLowerCase() !== '.efi') {
+        throw new Error('Select a prepared AZ-KERNEL artifact.');
+      }
+      const sha256 = hashFile(artifact);
+      if (!hasPrepareReceipt('uefi-az-kernel', path.basename(artifact), sha256)) throw new Error('UEFI artifact has no matching prepare receipt.');
+      const font = checkedFile(productPath(UEFI.project), path.join(productPath(UEFI.project), 'assets/font8x16.bin'));
+      const current = await startUefiVm({
+        qemu: opts.qemu, code: opts.code, vars: opts.vars, artifact, artifactHash: sha256, font,
+        dataDirectory: dataDirectory('uefi-vm'), spawn: spawnImpl, terminate,
+        register: (child) => liveChildren.add(child), unregister: (child) => liveChildren.delete(child),
+        isQuitting: () => quitting, env: sanitizedEnv(baseEnv), timeoutMs: startupTimeoutMs,
+        display: options.vmDisplay || 'default',
+      });
+      vm = current;
+      current.exited.then(() => { if (vm === current) vm = null; });
+      return { status: 'boot-banner-observed', target: 'uefi-az-kernel', sha256,
+        note: 'The kernel framebuffer banner was observed in the owned VM; this does not verify a complete OS.' };
+    });
+  }
+
+  async function stopVm() {
+    if (!vm) throw new Error('No owned UEFI VM is running.');
+    const current = vm;
+    await current.stop();
+    if (vm === current) vm = null;
+    return { status: 'stopped', target: 'uefi-az-kernel' };
   }
 
   async function listDistros() {
@@ -711,6 +779,9 @@ function createPlatformTargets(options = {}) {
     if (service) {
       try { await stopService(); } catch (error) { errors.push(error); }
     }
+    if (vm) {
+      try { await stopVm(); } catch (error) { errors.push(error); }
+    }
     for (const child of [...liveChildren]) {
       try { await terminate(child); liveChildren.delete(child); } catch (error) { errors.push(error); }
     }
@@ -726,6 +797,9 @@ function createPlatformTargets(options = {}) {
     prepare,
     importBundled,
     listDevices: adbDevices,
+    launchAndroid,
+    startVm,
+    stopVm,
     install,
     listDistros,
     provisionPosix,

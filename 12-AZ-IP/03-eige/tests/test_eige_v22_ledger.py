@@ -9,6 +9,8 @@ from eige.crypto.signing import DevelopmentSigner, KeyRegistry
 from eige.ledger.bulletin import BulletinBoard, BulletinError, EquivocationDetected, Witness
 from eige.ledger.custody import CustodyError, CustodyLedger, custody_event, sign_off
 from eige.ledger.log import MerkleLog, sign_tree_head
+from eige.report import VerificationReport
+from eige.verify import verify_log
 
 
 def registry_with(*items):
@@ -65,6 +67,31 @@ def test_verify_container_reports_broken_seals_and_transfer_gaps():
     assert any("opened without recording seal" in issue for issue in issues)
     assert any("transfer from someone_else" in issue for issue in issues)
     assert any("without an intact seal" in issue for issue in issues)
+
+
+@pytest.mark.parametrize("problem", ["duplicate", "wrong_role", "wrong_log", "bad_signature", "malformed"])
+def test_independent_log_verification_rejects_signed_head_covering_invalid_custody(problem):
+    county, alice, bob = DevelopmentSigner(b"c" * 32), DevelopmentSigner(b"a" * 32), DevelopmentSigner(b"b" * 32)
+    reg = registry_with((county, "county", "county-log"), (alice, "alice", "official"),
+                        (bob, "bob", "witness" if problem == "wrong_role" else "official"))
+    body = {**custody_event("seal_applied", "box", "store", 10, seal_id="S"),
+            "log_id": "other" if problem == "wrong_log" else "county"}
+    a = sign_off(body, "alice", alice).as_dict()
+    b = sign_off(body, "bob", bob).as_dict()
+    if problem == "duplicate":
+        b = a.copy()
+    elif problem == "bad_signature":
+        b["signature"] = "00" * 64
+    elif problem == "malformed":
+        b.pop("signature")
+    log = MerkleLog("county")
+    log.append({"type": "custody_v2", "body": body, "signoffs": [a, b]})
+    head = log.sign_head(county, 20)
+    report = VerificationReport("custody")
+    _, ok = verify_log(log.entries(), [head.as_dict()], reg, report)
+    assert not ok
+    assert any(c.check == "Signed tree heads" and c.status == "verified" for c in report.checks)
+    assert any(c.check == "Log-bound custody signatures" and c.status == "failed" for c in report.checks)
 
 
 def test_bulletin_board_consistency_witness_threshold_and_gossip():

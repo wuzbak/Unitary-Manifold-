@@ -47,6 +47,27 @@ from oracle.engine.synthesis import (
 )
 
 
+def test_gradio_interface_builds():
+    pytest.importorskip("gradio")
+    from oracle.app.main import build_app
+
+    assert build_app() is not None
+
+
+def test_gradio_synthesis_persists_a_real_session(tmp_path, monkeypatch):
+    pytest.importorskip("gradio")
+    from oracle.app.main import run_synthesis
+    from oracle.db import store
+
+    monkeypatch.setattr(store, "DB_PATH", tmp_path / "oracle.db")
+    body = ["", "SOLID", 0.8, "", "", "", "", ""]
+    summary, report = run_synthesis("Desktop test", "Project / Initiative", "",
+                                    *(body * 5), *([0.7] * 7), "", "", "", "")
+    assert "Desktop test" in summary
+    assert "GRAND SYNTHESIS REPORT" in report
+    assert store.load_sessions()[0]["system_name"] == "Desktop test"
+
+
 # ── Fixtures ──────────────────────────────────────────────────────────────────
 
 def make_body(

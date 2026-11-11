@@ -41,6 +41,8 @@ async function desktop(t, { corrupt = false, runtimeAccess, runtimeStopAll, inst
   }
   const dialog = {
     response: 0,
+    openFiles: [],
+    showOpenDialog: async () => ({ canceled: false, filePaths: [dialog.openFiles.shift()] }),
     showMessageBox: async (_window, request) => {
       approvals.push(request);
       return { response: dialog.response };
@@ -153,7 +155,8 @@ test("platform artifacts require native approval and build downloads default off
     close: async () => {},
     importBundled: async (id) => { calls.push(["bundled", id]); return { artifact: "SDAM.apk" }; },
     prepare: async (id, options) => { calls.push(["prepare", id, options.allowNetwork]); return { artifact: "SDAM.apk" }; },
-    install: async (id, options) => { calls.push(["install", id, options.serial, options.apkPath]); return { status: "installed" }; }
+    install: async (id, options) => { calls.push(["install", id, options.serial, options.apkPath]); return { status: "installed" }; },
+    launchAndroid: async (id, options) => { calls.push(["launch", id, options.serial]); return { status: "launched" }; }
   } });
   assert.equal((await invoke("platform:action", { action: "importBundled", id: target.id })).canceled, true);
   assert.equal(calls.length, 0);
@@ -171,6 +174,39 @@ test("platform artifacts require native approval and build downloads default off
   await invoke("platform:action", { action: "install", id: target.id, serial: "chosen-device", apkPath: "/untrusted.apk" });
   assert.equal(calls.at(-1)[2], "chosen-device");
   assert.match(calls.at(-1)[3], /platform-targets[/\\]artifacts[/\\]SDAM\.apk$/);
+  dialog.response = 0;
+  assert.equal((await invoke("platform:action", { action: "launchAndroid", id: target.id, serial: "emulator-5554" })).canceled, true);
+  assert.notEqual(calls.at(-1)[0], "launch");
+  dialog.response = 1;
+  await invoke("platform:action", { action: "launchAndroid", id: target.id, serial: "emulator-5554" });
+  assert.deepEqual(calls.at(-1), ["launch", target.id, "emulator-5554"]);
+});
+
+test("UEFI VM starts only with prepared artifact, explicitly selected files and native approval", async (t) => {
+  const calls = [];
+  const target = { id: "uefi-az-kernel", name: "Kernel", notes: "VM preview" };
+  const { invoke, dialog, approvals } = await desktop(t, { platformManager: {
+    list: () => [target], close: async () => {},
+    importBundled: async () => ({ artifact: "uefi-az-kernel-fixture.efi" }),
+    startVm: async (options) => { calls.push(options); return { status: "boot-banner-observed" }; },
+    stopVm: async () => ({ status: "stopped" }),
+  } });
+  await assert.rejects(invoke("platform:action", { action: "startVm", id: target.id }), /artifact/);
+  dialog.response = 1;
+  await invoke("platform:action", { action: "importBundled", id: target.id });
+  dialog.openFiles = ["qemu.exe", "code.fd", "vars.fd"];
+  dialog.response = 0;
+  assert.equal((await invoke("platform:action", { action: "startVm", id: target.id })).canceled, true);
+  assert.equal(calls.length, 0);
+  dialog.openFiles = ["qemu.exe", "code.fd", "vars.fd"];
+  dialog.response = 1;
+  assert.equal((await invoke("platform:action", { action: "startVm", id: target.id })).status, "boot-banner-observed");
+  assert.equal(calls[0].qemu, "qemu.exe");
+  assert.equal(calls[0].code, "code.fd");
+  assert.equal(calls[0].vars, "vars.fd");
+  assert.match(calls[0].artifactPath, /platform-targets[/\\]artifacts[/\\]uefi-az-kernel-fixture\.efi$/);
+  assert.match(approvals.at(-1).detail, /only select trusted software/);
+  assert.equal((await invoke("platform:action", { action: "stopVm", id: target.id })).status, "stopped");
 });
 
 test("platform export verifies copied bytes before replacing the selected destination", async (t) => {
@@ -330,9 +366,11 @@ test("runtime provisioning and service execution require separate native approva
   assert.equal((await invoke("runtime:python")).canceled, true);
   assert.equal((await invoke("runtime:install", "43")).canceled, true);
   assert.equal((await invoke("runtime:start", "43")).canceled, true);
+  assert.equal((await invoke("runtime:eige-console")).canceled, true);
   assert.match(approvals[0].detail, /third-party software/);
   assert.match(approvals[1].detail, /pip or npm downloads and executes/);
   assert.match(approvals[2].detail, /local command execution is disabled/);
+  assert.match(approvals.at(-1).detail, /not the unfinished official cockpit/);
   assert.equal(approvals.every((approval) => approval.defaultId === 0), true);
   assert.equal((await invoke("runtime:node")).canceled, true);
   assert.match(approvals.at(-1).detail, /nodejs.org/);

@@ -1540,3 +1540,137 @@ Every launchable AZ-IP product now has a loopback launch contract, per-user data
 | `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `73a4822526268be94f0fdc008146e79ecda57da6c9a16623c027891a73800848` | 32369 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `14c859b17347aa4dbc869c00cce8dbe8235ca4e6c2ed0e2d25e630a73c766d5e` | 21488 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs` | `dfbb2aff2b62a9838ae07f0c3009a8feb65e2a6dbd253b2df3299c1e31d16bd5` | 8065 |
+
+### PC suite desktop startup and persistence reseal — 2026-11-11
+
+Repair the UM-SOS explorer and Oracle startup, direct Braided Brain to its app,
+and keep additional product databases in per-user storage. The Windows smoke
+checks are extended but have not yet been executed for these changes.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/04-um-sos/README.md` | `5536f2289d13fc4aeeab21d4d42d9a6b99de32876f7fab83e7d8f156e6c072e7` | 4357 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `555c03b8d7cc1f9032b85a02f11369456450fc722c66ef6082e312602775e492` | 45812 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `4c62026c063798331c839487df5842d087c1abf27260a2c76d93a2998de49d95` | 32396 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `5d5d8c018a7ad9624c013599c727f297b10a291a19e09ec768fadba2e4879b4e` | 21622 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `61511cc52bcfd4edf071f82289a7584d05b0c7568cb58c46a0563688cb9cf9e4` | 8171 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `116def9e8a3a4ffd6af252a573005b53ab9185dd890e575311cb15ae725422fa` | 20671 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs` | `e9394cbc93bb5ebb6e92ed4a7223a929b0f55975f058048a2f6431171f6e0254` | 8066 |
+
+### Axiom OS symlink-free desktop packaging reseal — 2026-11-11
+
+Resolve the canonical package and repository root without relying on symlinks
+excluded from installed bundles. Add Product 01 to the Windows smoke; native
+Windows execution remains unverified.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/01-axiom-os/README.md` | `a4bbe3799b31f0b471d37af12390419a2c194e26800eff1d0c24abc2a2f3832d` | 10477 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `e8e77f4846d046597d095185fb52b2ecbb9bbea1ad82636538bcdc1e9ae3a998` | 8494 |
+
+### PC suite EIGE console and Android launch reseal — 2026-11-11
+
+Expose existing EIGE command-line workflows in an approved independent console
+and launch installed Android activities on an explicitly selected device.
+The official cockpit, UEFI VM and native end-to-end qualification remain open.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `c3f326873a46071d2e9e5cf9f1d081c3b8c57bde79eeaf12f66a6cfee3d79b58` | 46829 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `475a4cbe589b8c88489eb4dcfe05242e7772df35fbd34dd2b4bebeab26465bbf` | 32403 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `ef752d584b3b8a3517df7f19419308e78b3202a532e9903cedc499e7801b2d53` | 17980 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs` | `cd446495f2a1f2443f148aed3ac001215fd1126d6938f2c93d63540ced3e3d04` | 39062 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `c2efdd21063d2c0935748f30e78c4506adb79785655cb6699011130df04e9c50` | 24994 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `0535d172575e534d91e8c4a87e21acca44998324fd9c3f6e0814b741a97d4f4f` | 37681 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `785a48757057efbe1c0c0ea7e1615ef08517ea513f4063fd752bc6e92d2ae096` | 3757 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `f4943998ea1afa97d3dcd54082b6e4c48e154d0c8eef293a206e3af360557317` | 41486 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `8c1b077d78c6e570afd629eabc82b90392d7b5a7978253432ed531c77780dfaf` | 19355 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `9b9152d9092bd0735bff59d8f5cf6582535586b66f987848737f65d741800453` | 29939 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `ef8f8eb09c9a6d42b831d10db9b82ed1396d1ba6c693202ac902c1b201a5f3d9` | 25075 |
+
+### PC suite UEFI preview and custody-gap disclosure — 2026-11-11
+
+Register the isolated QEMU preview and its tests, report Android permission
+prompts without claiming an activity launch, and document the EIGE custody
+verification gap. The EIGE README's previous registry seal did not match its
+pre-edit Git version; both are retained in the registry history. Native Windows
+and Android qualification and the official EIGE cockpit remain open.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/03-eige/README.md` | `7917158433539d8714f705696b6fb5e0cf56ae6de97e7d91618c768f09efe2b7` | 6879 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `687aa93c636cdcdc0009bb8ee7c4c9ae9244624aa8af1425dc32031e866021e0` | 47802 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `7a7bddca11457ace89b3a6ffc41efa7505ed4937c7726836e15c65c2afe67e62` | 18063 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs` | `5e87f313627e2a990b1c39630f2a9663d7b941dceec7696985539c75cb3491fe` | 41971 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/uefi-vm.cjs` | `121ade88db4644ab29169c674c95128745f55a0d8e8f49c3a988b1758728db96` | 7637 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `f4806e894be28dc9f917e27127794ac502f85c72a443ca89b65f6206c240408e` | 39056 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `296cb77fd0aaea9f2e9b7e53e079bde1f25b38d4ad3343e017db399e2634905e` | 41632 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `b0e47d297e5a8f6da7a7e16fbbb76f71f262411f4fb9444416a33522f812fb53` | 21080 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `79518c4c3843738349c37f3aa4566f13780529b719388585fdb8bf999a7526c3` | 31213 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs` | `a06dffdf697864f3e205c87169b3d10cdc8e3820b445c68a3349bcb649ea717b` | 5675 |
+
+### EIGE durable custody documentation reseal — 2026-11-11
+
+Document separately signed log-bound custody records and their independent
+verification. Legacy events remain unchecked; the full official cockpit and
+workflow gates remain open.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/03-eige/README.md` | `9698407d80d6ef859bbadf28916f8d8da0f6946183a0cd7501a76c33af012a40` | 7086 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `03552160684cab6132c7e86a636003876daddf6d1579ff5abb5ae108a48799aa` | 47867 |
+
+### Windows EIGE gate reseal — 2026-11-11
+
+Require native Windows EIGE custody and verifier tests before desktop packaging.
+Actual Windows results remain pending.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `67e1c838f1fc9b2aff288579f8f0a56d2c198250739cbea616510c31e7edc7f1` | 10765 |
+
+### PC suite 0.1.3 candidate and EIGE Windows case compatibility — 2026-11-11
+
+Distinguish the unpublished updated installer from the existing 0.1.2 release,
+synchronize both catalogs, and scope Python case compatibility to EIGE on
+Windows. Native qualification and release publication remain pending.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/README.md` | `6d7646ddde30066062ec4e0330c83eccdbddc59b0e360d5694b2f7d49a939a2b` | 22675 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `52eaa842a8d705319e08c0bbdc56c51063b07d919b80ceb2fa9d9cf35b4cf75d` | 48079 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `24313846af4b14f1fa6f5bcb337d10a5eaf68ab2109aad454961566b09499c7b` | 3341 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package-lock.json` | `ff5148ba9d4eab794f929aecf1fbb23bdb3ed45e2b11f5d00fccda2ec2464119` | 127807 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `bc367173ab2dbd3522272f265b6adc322ca65b122426944e286f6f2a482ef187` | 16717 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `6b43ea6f964be4404ce00f49abb42a9e71fe6625dd125aded860c5d8099fd392` | 13646 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `e678a071613d39dc43d70a13754dcb236a8e76db0c0d90e215405f396089d5e3` | 25032 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `1e83ca1e68ad6d5649c9241bd3048a234aa359a69b61cac19a2659a9ded24d08` | 25250 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `bc367173ab2dbd3522272f265b6adc322ca65b122426944e286f6f2a482ef187` | 16717 |
+
+### Android emulator launch diagnostics — 2026-11-11
+
+Retain a failing launch gate and capture Android crash diagnostics when an
+activity exits after launch.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `cce9d3a7c410f07bc9cea3e6044cd16bc9494548bd4f2bab9b06e3d7e9da0d09` | 31558 |
+
+### Android emulator process startup wait — 2026-11-11
+
+Allow bounded process startup time after a confirmed Android activity launch and
+retain crash diagnostics if the process never appears.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `a88d28525e51d2dc8583cff40d46f2cde386cc5be10b74dc544c1253c0483ba1` | 31892 |
+
+### Product 24 cold Navigator readiness — 2026-11-11
+
+Allow the Product 20 Navigator sidecar a bounded 30-second cold-start window on
+Windows while preserving strict health-payload validation and fail-closed
+startup and cleanup.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/24-psicat-web-browser/desktop/runtime.js` | `a7b99f699f8f47b53f72d675cbd496fbc473e12c5682800fb17d534281f226ea` | 31495 |

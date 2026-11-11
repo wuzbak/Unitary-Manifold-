@@ -32,7 +32,7 @@ import urllib.request
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable, List, Optional
+from typing import Callable, Iterator, List, Optional
 
 ALLOWED_HOSTS = frozenset({"raw.githubusercontent.com", "dataverse.harvard.edu"})
 MAX_BYTES = 200 * 1024 * 1024
@@ -140,25 +140,31 @@ def load_local(path: str, source: str, original_url: str, expected_sha256: Optio
     return Fetched(data, Provenance(source, original_url, mtime, digest, len(data)))
 
 
-def _read_csv(data: bytes, required: List[str]) -> csv.DictReader:
+def _read_csv(data: bytes, required: List[str]) -> Iterator[dict]:
     try:
         text = data.decode("utf-8-sig")
     except UnicodeDecodeError as exc:
         raise OpenDataError(f"CSV is not valid UTF-8: {exc}") from exc
-    reader = csv.DictReader(io.StringIO(text))
-    header = [h.strip().lower() for h in (reader.fieldnames or [])]
-    missing = [c for c in required if c not in header]
-    if missing:
-        raise OpenDataError(f"CSV missing required column(s): {', '.join(missing)}")
-    reader.fieldnames = header
-    return reader
+    try:
+        reader = csv.DictReader(io.StringIO(text, newline=""), strict=True)
+        header = [h.strip().lower() for h in (reader.fieldnames or [])]
+        missing = [c for c in required if c not in header]
+        if missing:
+            raise OpenDataError(f"CSV missing required column(s): {', '.join(missing)}")
+        reader.fieldnames = header
+        yield from reader
+    except csv.Error as exc:
+        raise OpenDataError(f"invalid CSV: {exc}") from exc
 
 
 def _parse_int(value: Optional[str], row: int, column: str) -> int:
     text = (value or "").strip().replace(",", "")
-    if not text.isdigit():
+    if not text.isdecimal():
         raise OpenDataError(f"row {row}: column '{column}' is not a non-negative integer ({value!r})")
-    return int(text)
+    try:
+        return int(text)
+    except ValueError as exc:
+        raise OpenDataError(f"row {row}: column '{column}' is not a valid integer") from exc
 
 
 def parse_openelections_csv(data: bytes, level: str = "county") -> List[ResultRow]:

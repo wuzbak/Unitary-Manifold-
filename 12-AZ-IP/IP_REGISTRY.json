@@ -281,9 +281,9 @@
       "description": "Canonical merged Axiom OS suite README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "05ed1c24584a6fbe87a4b842b9fa1b8add1fc5491ad281709377e8487ba66cc9",
-      "size_bytes": 9983,
+      "updated": "2026-11-11",
+      "sha256": "a4bbe3799b31f0b471d37af12390419a2c194e26800eff1d0c24abc2a2f3832d",
+      "size_bytes": 10477,
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -295,9 +295,15 @@
           "updated": "2026-08-18",
           "sha256": "5cabf9cfb1bad808503845a6f9c2850c2f7ae4b2e8f8615e4eddd4ea5218748c",
           "size_bytes": 2191
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "05ed1c24584a6fbe87a4b842b9fa1b8add1fc5491ad281709377e8487ba66cc9",
+          "size_bytes": 9983,
+          "reseal_note": "Documented deterministic per-operation SQLite connection closure, retaining commit/rollback and explicit restart limitations."
         }
       ],
-      "reseal_note": "Documented deterministic per-operation SQLite connection closure, retaining commit/rollback and explicit restart limitations."
+      "reseal_note": "Make Axiom OS imports and repository discovery work in symlink-free PC suite bundles; extend installed Windows smoke."
     },
     "12-AZ-IP/02-az-kernel/README.md": {
       "description": "Canonical merged AZ-KERNEL README",
@@ -320,18 +326,39 @@
       "description": "Canonical EIGE product README",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-08-18",
-      "sha256": "489f7b37166b0f51c541bee8cd673c465082488361b4d304ec7bc6506060058d",
-      "size_bytes": 6660
+      "updated": "2026-11-11",
+      "sha256": "9698407d80d6ef859bbadf28916f8d8da0f6946183a0cd7501a76c33af012a40",
+      "size_bytes": 7086,
+      "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "7917158433539d8714f705696b6fb5e0cf56ae6de97e7d91618c768f09efe2b7",
+          "size_bytes": 6879,
+          "reseal_note": "Documented the EIGE custody verification gap."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "b1eef6670212c0658950af2e11444f6cdaadf7d9faa740f845be719b05157182",
+          "size_bytes": 6489,
+          "reseal_note": "Pre-edit Git version; prior registry seal was stale."
+        },
+        {
+          "updated": "2026-08-18",
+          "sha256": "489f7b37166b0f51c541bee8cd673c465082488361b4d304ec7bc6506060058d",
+          "size_bytes": 6660,
+          "reseal_note": "Previously recorded seal. The prior seal did not match the pre-edit Git version."
+        }
+      ],
+      "reseal_note": "Document durable log-bound custody sign-offs, verification and remaining official workflow limits."
     },
     "12-AZ-IP/04-um-sos/README.md": {
       "description": "Canonical UM-SOS product README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "d24961de87892b8f92d4f77a37309998db01a2a6da25054ad7baccd0d074d918",
-      "size_bytes": 4289,
-      "reseal_note": "Documented actual Docker build context and separate container/host bindings. Previous registry seal may predate preceding mainline edits.",
+      "updated": "2026-11-11",
+      "sha256": "5536f2289d13fc4aeeab21d4d42d9a6b99de32876f7fab83e7d8f156e6c072e7",
+      "size_bytes": 4357,
+      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
       "reseal_history": [
         {
           "updated": "2026-11-05",
@@ -344,6 +371,12 @@
           "sha256": "4455314d54e4ce3d7519ce32f482e3d4547f3505cb0c13840932f57987b25465",
           "size_bytes": 3008,
           "reseal_note": "Previously recorded seal, not a verified pre-edit file hash."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "d24961de87892b8f92d4f77a37309998db01a2a6da25054ad7baccd0d074d918",
+          "size_bytes": 4289,
+          "reseal_note": "Documented actual Docker build context and separate container/host bindings. Previous registry seal may predate preceding mainline edits."
         }
       ]
     },
@@ -375,11 +408,17 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "9ffd3291bc5b897b9d4a5f400cf835fce376772972fcb5b45df157dca9b11234",
-      "size_bytes": 22676,
-      "reseal_note": "List Windows 0.1.2 in the canonical table; capability and readiness boundaries are unchanged.",
+      "updated": "2026-11-11",
+      "sha256": "6d7646ddde30066062ec4e0330c83eccdbddc59b0e360d5694b2f7d49a939a2b",
+      "size_bytes": 22675,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "9ffd3291bc5b897b9d4a5f400cf835fce376772972fcb5b45df157dca9b11234",
+          "size_bytes": 22676,
+          "reseal_note": "List Windows 0.1.2 in the canonical table; capability and readiness boundaries are unchanged."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "2f70a577e656fab2ab9c570a651cb0b1fda0ba63949813c7a341d07549390cd6",
@@ -1118,11 +1157,17 @@
       "description": "User-executed pinned official-release Windows installer-kit retrieval with explicit multi-GiB consent and bounded size/SHA-256 verification; no installation or startup",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "633c534f67158acb150a8f2c1393f53c2c7ab44fe5029fb55a87275627850e2a",
+      "updated": "2026-11-11",
+      "sha256": "6b43ea6f964be4404ce00f49abb42a9e71fe6625dd125aded860c5d8099fd392",
       "size_bytes": 13646,
-      "reseal_note": "Default to Windows 0.1.2 after fail-closed 0.1.1 qualification; preserve historical tags and integrity bounds.",
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "633c534f67158acb150a8f2c1393f53c2c7ab44fe5029fb55a87275627850e2a",
+          "size_bytes": 13646,
+          "reseal_note": "Default to Windows 0.1.2 after fail-closed 0.1.1 qualification; preserve historical tags and integrity bounds."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "f646ba4de0152ba3c3588c256aeb294757bc2d458b4e477219c3f30498e68030",
@@ -1147,11 +1192,17 @@
       "description": "Static and synthetic PowerShell installer-kit integrity, consent, path/URL bounds and fail-closed retrieval regressions; no real model or installer execution",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "62980a55ac76acdc5df7a3d8ff6232ca12b93804a939df02042f302155681b2a",
-      "size_bytes": 10752,
-      "reseal_note": "Require the downloader default to match the package version while retaining historical-kit fixtures.",
+      "updated": "2026-11-11",
+      "sha256": "67e1c838f1fc9b2aff288579f8f0a56d2c198250739cbea616510c31e7edc7f1",
+      "size_bytes": 10765,
+      "reseal_note": "Require native EIGE custody and verification checks before Windows packaging.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "62980a55ac76acdc5df7a3d8ff6232ca12b93804a939df02042f302155681b2a",
+          "size_bytes": 10752,
+          "reseal_note": "Require the downloader default to match the package version while retaining historical-kit fixtures."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "290f755b223b3cf7d5efdbd64a35734a3d1c0306ce1fc5ebb9f7cd83224e2208",
@@ -1170,11 +1221,29 @@
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-10",
-      "sha256": "30dd41278910d9ef8c806759c90d35380d52056b1e01bf3be996f1a46fc9e5f3",
-      "size_bytes": 45706,
-      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
+      "updated": "2026-11-11",
+      "sha256": "52eaa842a8d705319e08c0bbdc56c51063b07d919b80ceb2fa9d9cf35b4cf75d",
+      "size_bytes": 48079,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "03552160684cab6132c7e86a636003876daddf6d1579ff5abb5ae108a48799aa",
+          "size_bytes": 47867,
+          "reseal_note": "Document durable log-bound custody sign-offs, verification and remaining official workflow limits."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "687aa93c636cdcdc0009bb8ee7c4c9ae9244624aa8af1425dc32031e866021e0",
+          "size_bytes": 47802,
+          "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "555c03b8d7cc1f9032b85a02f11369456450fc722c66ef6082e312602775e492",
+          "size_bytes": 45812,
+          "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "2741c7ed436053897ac7a56c4b06c1b9e5d5bc9112b52ce88cf6a5c70b20005b",
@@ -1419,6 +1488,18 @@
           "updated": "2026-11-08",
           "sha256": "5076df13239da19942177b75e418b79806d884970edabcdc0bf6cd993705e56f",
           "size_bytes": 45119
+        },
+        {
+          "updated": "2026-11-10",
+          "sha256": "30dd41278910d9ef8c806759c90d35380d52056b1e01bf3be996f1a46fc9e5f3",
+          "size_bytes": 45706,
+          "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "c3f326873a46071d2e9e5cf9f1d081c3b8c57bde79eeaf12f66a6cfee3d79b58",
+          "size_bytes": 46829,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -1426,11 +1507,17 @@
       "description": "Product 45 Electron desktop, ZIP reader dependency and Windows installer configuration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "959547a07bdc29a5d16f64b5e187a96824980e5d629fecb041aa0222206ecc34",
+      "updated": "2026-11-11",
+      "sha256": "24313846af4b14f1fa6f5bcb337d10a5eaf68ab2109aad454961566b09499c7b",
       "size_bytes": 3341,
-      "reseal_note": "Bump Windows package to 0.1.2 for exact word-challenge qualification; retain gated publication.",
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "959547a07bdc29a5d16f64b5e187a96824980e5d629fecb041aa0222206ecc34",
+          "size_bytes": 3341,
+          "reseal_note": "Bump Windows package to 0.1.2 for exact word-challenge qualification; retain gated publication."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "082d6422140fdfd653ad6bdc874ec28c8f31519910f1e82d6c07ff7f1f2a1ecc",
@@ -1491,11 +1578,17 @@
       "description": "Product 45 locked Electron, Yauzl and Windows packaging dependency graph",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "a63e47f2af3186a57d863fe9574426093c99abc58bcbf844e9161698a9bd1bdb",
+      "updated": "2026-11-11",
+      "sha256": "ff5148ba9d4eab794f929aecf1fbb23bdb3ed45e2b11f5d00fccda2ec2464119",
       "size_bytes": 127807,
-      "reseal_note": "Synchronize lockfile package version to Windows 0.1.2; dependencies are unchanged.",
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "a63e47f2af3186a57d863fe9574426093c99abc58bcbf844e9161698a9bd1bdb",
+          "size_bytes": 127807,
+          "reseal_note": "Synchronize lockfile package version to Windows 0.1.2; dependencies are unchanged."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "4e6e260264f2c942583bccd1324e86500bf11949669e200de1d42a1048b9eb7f",
@@ -1520,11 +1613,17 @@
       "description": "Product 45 main-process security boundaries, local data imports and portfolio actions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "b6231445adf8767528f92ad5fce14c66fb105dc7f7066f8c5df54b0a02e0a3e1",
-      "size_bytes": 36681,
-      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
+      "updated": "2026-11-11",
+      "sha256": "f4806e894be28dc9f917e27127794ac502f85c72a443ca89b65f6206c240408e",
+      "size_bytes": 39056,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "b6231445adf8767528f92ad5fce14c66fb105dc7f7066f8c5df54b0a02e0a3e1",
+          "size_bytes": 36681,
+          "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "a0e58b8c746f846250413ec985b0e77dfbd245f43bd4c3d711a258bf5186d3f1",
@@ -1578,6 +1677,12 @@
           "sha256": "a65d7c69db51777aaf2a379fd0ff23f9011a3255487dd6bbed76d12a9eacab68",
           "size_bytes": 6334,
           "reseal_note": "Initial Product 45 registration."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "0535d172575e534d91e8c4a87e21acca44998324fd9c3f6e0814b741a97d4f4f",
+          "size_bytes": 37681,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -1585,11 +1690,17 @@
       "description": "Product 45 allowlisted context-isolated bridge, including local knowledge operations",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "f13cf72f13036a0700813636c4fc6eafcc9459c156c58ba4968632896b5c959a",
-      "size_bytes": 3688,
-      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
+      "updated": "2026-11-11",
+      "sha256": "785a48757057efbe1c0c0ea7e1615ef08517ea513f4063fd752bc6e92d2ae096",
+      "size_bytes": 3757,
+      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "f13cf72f13036a0700813636c4fc6eafcc9459c156c58ba4968632896b5c959a",
+          "size_bytes": 3688,
+          "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "0b14fc9b6d1e3b5f8bd9f080ae04fe26ccbe56ce9600f969ff560d3d48fb2a5b",
@@ -1644,11 +1755,17 @@
       "description": "Product 45 desktop catalog, local library and cited search interface",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "6f6227d68c9879aeb35ee9196f2ae5251817a55f66511bd459d364ffd1f9bc56",
-      "size_bytes": 40984,
-      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
+      "updated": "2026-11-11",
+      "sha256": "296cb77fd0aaea9f2e9b7e53e079bde1f25b38d4ad3343e017db399e2634905e",
+      "size_bytes": 41632,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "6f6227d68c9879aeb35ee9196f2ae5251817a55f66511bd459d364ffd1f9bc56",
+          "size_bytes": 40984,
+          "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "cda180ac63ea6549bd4cb5da0d8004e49761ea054b9f11ba9f59596b942c2e38",
@@ -1708,6 +1825,12 @@
           "sha256": "203da940a2cbec4c44a38e221417eb59c8f5f3fa460d2733df40a788dc8370a4",
           "size_bytes": 5187,
           "reseal_note": "Initial Product 45 registration."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "f4943998ea1afa97d3dcd54082b6e4c48e154d0c8eef293a206e3af360557317",
+          "size_bytes": 41486,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -1715,11 +1838,17 @@
       "description": "Product 45 local desktop UI with privacy disclosure and restrictive content policy",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "5bd969b03ffdb99e5462b54e8e13de807b88c09e7800456c90f2d59bee09c83c",
-      "size_bytes": 17941,
-      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
+      "updated": "2026-11-11",
+      "sha256": "7a7bddca11457ace89b3a6ffc41efa7505ed4937c7726836e15c65c2afe67e62",
+      "size_bytes": 18063,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "5bd969b03ffdb99e5462b54e8e13de807b88c09e7800456c90f2d59bee09c83c",
+          "size_bytes": 17941,
+          "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "91b32169095b9c8b879fe6d5a3784547bf667441ee8153715f9574b23c793725",
@@ -1779,6 +1908,12 @@
           "sha256": "850f1ee2c939b521c141e0fd780916c221bab5b01fe710ad60a04c66add2586b",
           "size_bytes": 3875,
           "reseal_note": "Initial Product 45 registration."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "ef752d584b3b8a3517df7f19419308e78b3202a532e9903cedc499e7801b2d53",
+          "size_bytes": 17980,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -2034,11 +2169,17 @@
       "description": "Product 45 generated offline catalog for Products 01-46",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
-      "size_bytes": 16718,
-      "reseal_note": "Synchronize the Windows 0.1.2 catalog version; capability claims are unchanged.",
+      "updated": "2026-11-11",
+      "sha256": "bc367173ab2dbd3522272f265b6adc322ca65b122426944e286f6f2a482ef187",
+      "size_bytes": 16717,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
+          "size_bytes": 16718,
+          "reseal_note": "Synchronize the Windows 0.1.2 catalog version; capability claims are unchanged."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
@@ -2217,11 +2358,17 @@
       "description": "Product 45 desktop startup, native approval IPC and fail-closed checkpoint regressions",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-07",
-      "sha256": "0d771a2ecb6eb80690ac998c15d7b88330e5f3a8827712f8887686af7841a9b6",
-      "size_bytes": 18677,
-      "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit.",
+      "updated": "2026-11-11",
+      "sha256": "b0e47d297e5a8f6da7a7e16fbbb76f71f262411f4fb9444416a33522f812fb53",
+      "size_bytes": 21080,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
       "reseal_history": [
+        {
+          "updated": "2026-11-07",
+          "sha256": "0d771a2ecb6eb80690ac998c15d7b88330e5f3a8827712f8887686af7841a9b6",
+          "size_bytes": 18677,
+          "reseal_note": "Optional consent-gated installed-Ollama discovery and bounded external reasoning; preserve bundled model, payload integrity and qualification gates; clarify complete Windows installer kit."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "7d2d51cab6d0a906bf973df0985a75cb771ae3bb6205c1adf639996b3c00703b",
@@ -2257,6 +2404,12 @@
           "sha256": "730c1c6666bf937c7345ea902b6af52bbef5fa05804486f7abc9a958befc0a78",
           "size_bytes": 4718,
           "reseal_note": "Previous governed harness seal."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "8c1b077d78c6e570afd629eabc82b90392d7b5a7978253432ed531c77780dfaf",
+          "size_bytes": 19355,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
         }
       ]
     },
@@ -2280,11 +2433,17 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtimes.json",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-10",
-      "sha256": "73a4822526268be94f0fdc008146e79ecda57da6c9a16623c027891a73800848",
-      "size_bytes": 32369,
-      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
+      "updated": "2026-11-11",
+      "sha256": "475a4cbe589b8c88489eb4dcfe05242e7772df35fbd34dd2b4bebeab26465bbf",
+      "size_bytes": 32403,
+      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "4c62026c063798331c839487df5842d087c1abf27260a2c76d93a2998de49d95",
+          "size_bytes": 32396,
+          "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "f29a97e3d16c84b6eea719093349e8fb9bf64cb13c100298a76aa8fec48f4b44",
@@ -2301,6 +2460,12 @@
           "updated": "2026-11-04",
           "sha256": "65d40342f81c09d216773642e763bb908dfe6aca19bd337841cd36a81e6789d2",
           "size_bytes": 32687
+        },
+        {
+          "updated": "2026-11-10",
+          "sha256": "73a4822526268be94f0fdc008146e79ecda57da6c9a16623c027891a73800848",
+          "size_bytes": 32369,
+          "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite."
         }
       ]
     },
@@ -2352,11 +2517,23 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtime-manager.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-10",
-      "sha256": "14c859b17347aa4dbc869c00cce8dbe8235ca4e6c2ed0e2d25e630a73c766d5e",
-      "size_bytes": 21488,
-      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
+      "updated": "2026-11-11",
+      "sha256": "e678a071613d39dc43d70a13754dcb236a8e76db0c0d90e215405f396089d5e3",
+      "size_bytes": 25032,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "c2efdd21063d2c0935748f30e78c4506adb79785655cb6699011130df04e9c50",
+          "size_bytes": 24994,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "5d5d8c018a7ad9624c013599c727f297b10a291a19e09ec768fadba2e4879b4e",
+          "size_bytes": 21622,
+          "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "38b9e1ce661d34ef83edea87789700875c8f16e6749dc9bd100d4226fe8e7916",
@@ -2385,6 +2562,12 @@
           "updated": "2026-11-04",
           "sha256": "f92898014b70f6fff2f717113870d6f61faa859b772621d0b31d208a94da2574",
           "size_bytes": 20263
+        },
+        {
+          "updated": "2026-11-10",
+          "sha256": "14c859b17347aa4dbc869c00cce8dbe8235ca4e6c2ed0e2d25e630a73c766d5e",
+          "size_bytes": 21488,
+          "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite."
         }
       ]
     },
@@ -2442,10 +2625,10 @@
       "description": "Product 45 native model/runtime packaging and contracts: portfolio_smoke.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "51e4ab3c5c01b6d525931b9825b0dd32069f39d2a660b58f54f714bfe670fbdd",
-      "size_bytes": 7197,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-11",
+      "sha256": "e8e77f4846d046597d095185fb52b2ecbb9bbea1ad82636538bcdc1e9ae3a998",
+      "size_bytes": 8494,
+      "reseal_note": "Make Axiom OS imports and repository discovery work in symlink-free PC suite bundles; extend installed Windows smoke.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2476,6 +2659,18 @@
           "sha256": "a4ca35f4e385150d40afb274e676d3ddc1e05786b99d1453708585ca9264b298",
           "size_bytes": 1922,
           "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "51e4ab3c5c01b6d525931b9825b0dd32069f39d2a660b58f54f714bfe670fbdd",
+          "size_bytes": 7197,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "61511cc52bcfd4edf071f82289a7584d05b0c7568cb58c46a0563688cb9cf9e4",
+          "size_bytes": 8171,
+          "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage."
         }
       ]
     },
@@ -2565,11 +2760,23 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtime-manager.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "2f252d451c2ba74f929a07dfc5345b90c2c7985b16d3bfe3dadfedb04771859c",
-      "size_bytes": 17119,
-      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-11",
+      "sha256": "1e83ca1e68ad6d5649c9241bd3048a234aa359a69b61cac19a2659a9ded24d08",
+      "size_bytes": 25250,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "ef8f8eb09c9a6d42b831d10db9b82ed1396d1ba6c693202ac902c1b201a5f3d9",
+          "size_bytes": 25075,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "116def9e8a3a4ffd6af252a573005b53ab9185dd890e575311cb15ae725422fa",
+          "size_bytes": 20671,
+          "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage."
+        },
         {
           "updated": "2026-11-04",
           "sha256": "ac15ad00f7810c3f8fbbeee4f36545628bb1781962116f0d27e5eb6abe2e6203",
@@ -2593,6 +2800,12 @@
           "sha256": "d330293bb41989007635865c05c2bd28a58ee452d1db91d6071976934e71038d",
           "size_bytes": 6920,
           "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "2f252d451c2ba74f929a07dfc5345b90c2c7985b16d3bfe3dadfedb04771859c",
+          "size_bytes": 17119,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
         }
       ]
     },
@@ -2600,10 +2813,10 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtime-manifest.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-10",
-      "sha256": "dfbb2aff2b62a9838ae07f0c3009a8feb65e2a6dbd253b2df3299c1e31d16bd5",
-      "size_bytes": 8065,
-      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
+      "updated": "2026-11-11",
+      "sha256": "e9394cbc93bb5ebb6e92ed4a7223a929b0f55975f058048a2f6431171f6e0254",
+      "size_bytes": 8066,
+      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2615,6 +2828,12 @@
           "updated": "2026-11-07",
           "sha256": "3c0979bd5f43ab8e2b28ad802dc8c007bde351135f1ab3d4f95dce8740992da7",
           "size_bytes": 8090
+        },
+        {
+          "updated": "2026-11-10",
+          "sha256": "dfbb2aff2b62a9838ae07f0c3009a8feb65e2a6dbd253b2df3299c1e31d16bd5",
+          "size_bytes": 8065,
+          "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite."
         }
       ]
     },
@@ -2924,11 +3143,17 @@
       "description": "Product 24 Windows runtime integration and contracts: runtime.js",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "c0941291b94cb2a0e52dfaf2f5a8f72deb170c60e1795490799ae86db19a23cd",
-      "size_bytes": 31472,
-      "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests.",
+      "updated": "2026-11-11",
+      "sha256": "a7b99f699f8f47b53f72d675cbd496fbc473e12c5682800fb17d534281f226ea",
+      "size_bytes": 31495,
+      "reseal_note": "Allow Product 24's Navigator sidecar up to 30 seconds for a cold Windows startup while retaining strict health validation and fail-closed startup and cleanup.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "c0941291b94cb2a0e52dfaf2f5a8f72deb170c60e1795490799ae86db19a23cd",
+          "size_bytes": 31472,
+          "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "8969484ad05d0e8d1f85b155c3e9e34cfe2b533a8ffd5d49e7d5bab887310c40",
@@ -3453,10 +3678,24 @@
       "description": "Product 45 Windows runtime integration and contracts: platform-targets.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "8160f81810e6e0745561dda7618622583f46a35a6e31562bace1c4a37bb45e77",
-      "size_bytes": 37367,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "updated": "2026-11-11",
+      "sha256": "5e87f313627e2a990b1c39630f2a9663d7b941dceec7696985539c75cb3491fe",
+      "size_bytes": 41971,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-04",
+          "sha256": "8160f81810e6e0745561dda7618622583f46a35a6e31562bace1c4a37bb45e77",
+          "size_bytes": 37367,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "cd446495f2a1f2443f148aed3ac001215fd1126d6938f2c93d63540ced3e3d04",
+          "size_bytes": 39062,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
+        }
+      ]
     },
     "12-AZ-IP/45-axiomzero-pc-suite/scripts/instruction_smoke.cjs": {
       "description": "Product 45 Windows runtime integration and contracts: instruction_smoke.cjs",
@@ -3617,10 +3856,36 @@
       "description": "Product 45 Windows runtime integration and contracts: platform-targets.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "eceaf9a560109f3aa4e97672a34cf8fc76bd044fdd7f4ab57afd08b8cf7be524",
-      "size_bytes": 26569,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+      "updated": "2026-11-11",
+      "sha256": "a88d28525e51d2dc8583cff40d46f2cde386cc5be10b74dc544c1253c0483ba1",
+      "size_bytes": 31892,
+      "reseal_note": "Wait up to ten seconds for Android app process startup before reporting emulator launch failure; preserve launch gate.",
+      "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "cce9d3a7c410f07bc9cea3e6044cd16bc9494548bd4f2bab9b06e3d7e9da0d09",
+          "size_bytes": 31558,
+          "reseal_note": "Preserve Android emulator failure with bounded crash diagnostics; no launch gate was relaxed."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "79518c4c3843738349c37f3aa4566f13780529b719388585fdb8bf999a7526c3",
+          "size_bytes": 31213,
+          "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "eceaf9a560109f3aa4e97672a34cf8fc76bd044fdd7f4ab57afd08b8cf7be524",
+          "size_bytes": 26569,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "9b9152d9092bd0735bff59d8f5cf6582535586b66f987848737f65d741800453",
+          "size_bytes": 29939,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
+        }
+      ]
     },
     "12-AZ-IP/15-pentacorder/core/ui/src/main/java/com/gibbernode/ui/Theme.kt": {
       "description": "Product 15 Windows runtime integration and contracts: Theme.kt",
@@ -3943,11 +4208,17 @@
       "description": "Product 46 synchronized offline catalog for Products 01-46",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
-      "size_bytes": 16718,
-      "reseal_note": "Catalog-only synchronization of Windows 0.1.2; Android runtime and model are unchanged.",
+      "updated": "2026-11-11",
+      "sha256": "bc367173ab2dbd3522272f265b6adc322ca65b122426944e286f6f2a482ef187",
+      "size_bytes": 16717,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
+          "size_bytes": 16718,
+          "reseal_note": "Catalog-only synchronization of Windows 0.1.2; Android runtime and model are unchanged."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
@@ -4172,6 +4443,24 @@
           "reseal_note": "Initial optional native-model source registration; device qualification is separate."
         }
       ]
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/lib/uefi-vm.cjs": {
+      "description": "Product 45 isolated UEFI preview and verification: uefi-vm.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-11",
+      "sha256": "121ade88db4644ab29169c674c95128745f55a0d8e8f49c3a988b1758728db96",
+      "size_bytes": 7637,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap."
+    },
+    "12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs": {
+      "description": "Product 45 isolated UEFI preview and verification: uefi-vm.test.cjs",
+      "category": "apps",
+      "status": "REGISTERED",
+      "updated": "2026-11-11",
+      "sha256": "a06dffdf697864f3e205c87169b3d10cdc8e3820b445c68a3349bcb649ea717b",
+      "size_bytes": 5675,
+      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap."
     }
   },
   "_private_repo_note": "wuzbak/Private contains additional apps, engines, and OS assets. Grant access and copy to appropriate category subfolder, then register here with SHA-256 fingerprint.",

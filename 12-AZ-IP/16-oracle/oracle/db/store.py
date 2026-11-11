@@ -20,7 +20,7 @@ import os
 from pathlib import Path
 from typing import Optional
 
-DB_PATH = Path(__file__).parent.parent.parent / "data" / "oracle.db"
+DB_PATH = Path(os.environ.get("AZ_PRODUCT_DATA", Path(__file__).parent.parent.parent / "data")) / "oracle.db"
 
 
 def _connect() -> sqlite3.Connection:

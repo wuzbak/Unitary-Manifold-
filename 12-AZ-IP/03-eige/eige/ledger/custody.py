@@ -31,6 +31,7 @@ _REQUIRED = {
     "storage_check": (),
 }
 MIN_SIGNOFFS = 2
+SIGNED_CUSTODY_TYPE = "custody_v2"
 
 
 class CustodyError(ValueError):
@@ -67,6 +68,94 @@ def custody_event(event_type: str, container_id: str, location: str, timestamp: 
 
 def sign_off(body: dict, official_id: str, signer: Signer) -> Signoff:
     return Signoff(official_id, signer.key_id, signer.sign(CUSTODY_CONTEXT, body))
+
+
+def validate_bound_body(body: object, log_id: str) -> None:
+    """Validate a custody body whose signatures are bound to one log."""
+    if not isinstance(body, dict) or set(body) != {
+        "event", "container_id", "location", "timestamp", "details", "log_id"
+    }:
+        raise CustodyError("custody body has missing or unexpected fields")
+    if not isinstance(log_id, str) or not log_id or body["log_id"] != log_id:
+        raise CustodyError("custody body is not bound to this log")
+    if (not isinstance(body["timestamp"], int) or isinstance(body["timestamp"], bool)
+            or body["timestamp"] < 0):
+        raise CustodyError("custody timestamp must be a non-negative integer")
+    if any(not isinstance(body[k], str) or not body[k].strip()
+           for k in ("event", "container_id", "location")):
+        raise CustodyError("event, container_id and location must be non-empty strings")
+    details = body["details"]
+    if not isinstance(details, dict) or any(
+        not isinstance(k, str) or not k or not isinstance(v, str) for k, v in details.items()
+    ):
+        raise CustodyError("custody details must map strings to strings")
+    if body["event"] not in EVENT_TYPES:
+        raise CustodyError(f"unknown custody event type {body['event']!r}")
+    missing = [k for k in _REQUIRED[body["event"]] if not details.get(k, "").strip()]
+    if missing:
+        raise CustodyError(f"{body['event']} requires {', '.join(missing)}")
+
+
+def validate_signoff(body: dict, signoff: Signoff, registry: KeyRegistry, *, allow_development: bool = True) -> bool:
+    if any(not isinstance(v, str) or not v.strip()
+           for v in (signoff.official_id, signoff.key_id, signoff.signature)):
+        raise CustodyError("sign-off fields must be non-empty strings")
+    result = registry.verify(
+        signoff.key_id, CUSTODY_CONTEXT, body, signoff.signature, body["timestamp"],
+        expected_owner=signoff.official_id, expected_role="official", allow_development=allow_development,
+    )
+    if not result.valid:
+        raise CustodyError(f"sign-off by {signoff.official_id} rejected: {result.reason}")
+    return result.development_only
+
+
+def validate_bound_entry(entry: object, registry: KeyRegistry, log_id: str, *, allow_development: bool = True) -> bool:
+    """Validate a log-bound entry; return whether a development key was used."""
+    if not isinstance(entry, dict) or set(entry) != {"type", "body", "signoffs"} or entry["type"] != SIGNED_CUSTODY_TYPE:
+        raise CustodyError("invalid signed custody entry")
+    body = entry["body"]
+    validate_bound_body(body, log_id)
+    if not isinstance(entry["signoffs"], list):
+        raise CustodyError("custody signoffs must be a list")
+    officials = set()
+    development = False
+    for item in entry["signoffs"]:
+        if not isinstance(item, dict) or set(item) != {"official_id", "key_id", "signature"}:
+            raise CustodyError("invalid custody sign-off fields")
+        signoff = Signoff(**item)
+        development = validate_signoff(body, signoff, registry, allow_development=allow_development) or development
+        officials.add(signoff.official_id)
+    if len(officials) < MIN_SIGNOFFS:
+        raise CustodyError(f"two-person rule: need {MIN_SIGNOFFS} distinct officials, got {len(officials)}")
+    return development
+
+
+@dataclass
+class CustodyScan:
+    signed: int = 0
+    legacy: int = 0
+    failures: int = 0
+    examples: List[tuple] = field(default_factory=list)
+    development: bool = False
+
+    def observe(self, entry: dict, index: int, registry: KeyRegistry, log_id: str) -> None:
+        if entry.get("type") in ("custody", "chain_of_custody"):
+            self.legacy += 1
+        elif entry.get("type") == SIGNED_CUSTODY_TYPE:
+            self.signed += 1
+            try:
+                self.development = validate_bound_entry(entry, registry, log_id) or self.development
+            except CustodyError as exc:
+                self.failures += 1
+                if len(self.examples) < 10:
+                    self.examples.append((index, str(exc)))
+
+    def merge(self, other: "CustodyScan", offset: int) -> None:
+        self.signed += other.signed
+        self.legacy += other.legacy
+        self.failures += other.failures
+        self.examples.extend((offset + index, message) for index, message in other.examples[:10 - len(self.examples)])
+        self.development = self.development or other.development
 
 
 @dataclass

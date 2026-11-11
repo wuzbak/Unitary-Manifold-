@@ -15,6 +15,30 @@ async function main() {
     dataDirectory: path.join(temporary, "runtimes")
   });
   try {
+    for (const [id, pathname, title] of [
+      ["01", "/", "AxiomZero"],
+      ["04", "/frontend/", "UM-SOS Prediction Explorer"],
+      ["16", "/", "Oracle"],
+      ["25", "/ui/index.html", "PsiCat Braided Brain"]
+    ]) {
+      assert.equal((await manager.install(id)).status, "installed");
+      const started = await manager.start(id);
+      const url = new URL(pathname, started.endpoint);
+      const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
+      assert.equal(response.status, 200, `Product ${id} UI did not load.`);
+      assert.match(await response.text(), new RegExp(title, "i"));
+      if (id === "01") {
+        const status = await fetch(new URL("/status", started.endpoint), { signal: AbortSignal.timeout(10000) });
+        assert.equal(status.status, 200);
+        assert.deepEqual((await status.json()).managers, ["m1", "m2", "m3", "m4", "m5", "m6", "m7"]);
+      }
+      manager.stop(id);
+      for (let attempt = 0; attempt < 100 && manager.list().find((entry) => entry.id === id).running; attempt++) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+      assert.equal(manager.list().find((entry) => entry.id === id).running, false);
+      console.log(`Installed Product ${id}: loopback UI, start and stop passed.`);
+    }
     const receipt = await manager.install("43");
     assert.equal(receipt.status, "installed");
     const started = await manager.start("43");

@@ -3,6 +3,8 @@ from pathlib import Path
 from typing import List, Optional
 
 from fastapi import FastAPI, Query
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from src.core.um_sos_api import create_app as create_core_app
@@ -43,6 +45,11 @@ class PreregistrationInput(BaseModel):
 def create_app(db_path: Optional[Path] = None) -> FastAPI:
     app = create_core_app()
     store = PreregistrationStore(db_path)
+    product_root = Path(__file__).resolve().parents[1]
+
+    @app.get("/", include_in_schema=False)
+    def explorer():
+        return RedirectResponse("/frontend/")
 
     @app.post("/api/v1/preregistered/local", status_code=201)
     def add_local_preregistration(payload: PreregistrationInput):
@@ -52,6 +59,9 @@ def create_app(db_path: Optional[Path] = None) -> FastAPI:
     def list_local_preregistrations(limit: int = Query(default=100, ge=1, le=200)):
         records = store.list(limit)
         return {"count": len(records), "records": records}
+
+    for folder in ("frontend", "graph", "registry"):
+        app.mount(f"/{folder}", StaticFiles(directory=product_root / folder, html=True), name=folder)
 
     return app
 

@@ -86,6 +86,28 @@ jobs:
           path: recovered-python-products.xml
           if-no-files-found: warn
 
+  eige-native:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install EIGE dependencies
+        run: python -m pip install -r 12-AZ-IP/03-eige/requirements.txt
+      - name: Exercise durable custody, signing and bundle verification on Windows
+        env:
+          PYTHONPATH: ${{ github.workspace }}/12-AZ-IP/03-eige
+          PYTHONCASEOK: "1"
+        run: >-
+          python -m pytest
+          12-AZ-IP/03-eige/tests/test_eige_scale_ingest.py
+          12-AZ-IP/03-eige/tests/test_eige_scale_verify.py
+          12-AZ-IP/03-eige/tests/test_eige_v22_ledger.py
+          12-AZ-IP/03-eige/tests/test_eige_v22_open_data.py
+          -q
+
   browser-desktop-runtime:
     runs-on: windows-latest
     defaults:
@@ -134,7 +156,7 @@ jobs:
           if-no-files-found: error
 
   test-and-package:
-    needs: [browser-desktop-runtime, instruction-backend, platform-artifacts, recovered-python-products]
+    needs: [browser-desktop-runtime, instruction-backend, platform-artifacts, recovered-python-products, eige-native]
     runs-on: windows-latest
     defaults:
       run:

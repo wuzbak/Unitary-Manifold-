@@ -146,6 +146,47 @@ def test_android_suite_sources_have_language_specific_analysis_slices():
         assert selected == [expected_slice], path
 
 
+@needs_git
+def test_legacy_baseline_slices_preserve_scopes_and_have_replacement_coverage():
+    manifest = cs.load_manifest()
+    files = [f for f in cs.tracked_files() if f.endswith(".py")]
+    legacy = {
+        "python-core": (
+            ["src", "tests", "recycling", "claims"],
+            {"python-core-src", "python-core-tests"},
+        ),
+        "python-product20": (
+            ["12-AZ-IP/20-psicat-navigator", "TOOLS/checks"],
+            {"python-runtime-integration", "python-psicat-tests-tools"},
+        ),
+        "python-psicat-runtime": (
+            [
+                "12-AZ-IP/20-psicat-navigator/ox_navigator/app",
+                "12-AZ-IP/20-psicat-navigator/ox_navigator/engine",
+            ],
+            {"python-runtime-integration"},
+        ),
+    }
+    slices = {s["slice_id"]: s for s in manifest["slices"]}
+    ignore = manifest["paths_ignore"]
+    for slice_id, (historical_paths, replacement_ids) in legacy.items():
+        assert slices[slice_id]["paths"] == historical_paths
+        former_scope = {
+            f for f in files
+            if any(cs.matches(f, path) for path in historical_paths)
+            and not any(cs.matches(f, path) for path in ignore)
+        }
+        replacement_scope = {
+            f for f in files
+            if any(
+                cs.in_slice(f, slices[replacement_id], ignore)
+                for replacement_id in replacement_ids
+            )
+        }
+        assert former_scope, f"{slice_id} must remain a real analysis"
+        assert former_scope <= replacement_scope, f"{slice_id} has uncovered former paths"
+
+
 def test_plan_cli_writes_actions_outputs(tmp_path):
     changed = tmp_path / "changed.txt"
     changed.write_text("12-AZ-IP/03-eige/eige/county.py\n")

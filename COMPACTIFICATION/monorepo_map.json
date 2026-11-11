@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8722,
+  "file_count": 8724,
   "lanes": {
-    "az_ip": 2695,
+    "az_ip": 2697,
     "compactification": 9,
     "other": 5602,
     "psicat_articles": 357,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2695,
+    "12-AZ-IP": 2697,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -2784,6 +2784,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/lib/repository.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/settings.cjs",
+      "12-AZ-IP/45-axiomzero-pc-suite/lib/uefi-vm.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/lib/worker-search.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/main.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/package-lock.json",
@@ -2829,6 +2830,7 @@
       "12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/test_android_catalog.py",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py",
+      "12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs",
       "12-AZ-IP/45-axiomzero-pc-suite/tests/windows-smoke.test.cjs"
     ],
     "46-axiomzero-android-suite": [
@@ -22038,6 +22040,13 @@
       "product": "45-axiomzero-pc-suite"
     },
     {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/uefi-vm.cjs",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/lib/worker-search.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22347,6 +22356,13 @@
     },
     {
       "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/test_psicat_core.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "45-axiomzero-pc-suite"
+    },
+    {
+      "path": "12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",

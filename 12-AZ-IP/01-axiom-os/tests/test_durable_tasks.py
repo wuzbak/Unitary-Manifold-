@@ -4,8 +4,12 @@
 
 import asyncio
 from contextlib import ExitStack
+import os
 from pathlib import Path
+import shutil
 import sqlite3
+import subprocess
+import sys
 import time
 import uuid
 from unittest.mock import AsyncMock, patch
@@ -20,6 +24,51 @@ def _orchestrator(tmp_path):
     return AxiomZeroOrchestrator(
         config={"state_db": str(tmp_path / "state.db")},
         repo_root=root,
+    )
+
+
+def test_staged_product_runs_without_symlinks_and_uses_repository_root(tmp_path):
+    pytest.importorskip("fastapi")
+    pytest.importorskip("httpx")
+    source = Path(__file__).resolve().parents[1]
+    product = tmp_path / "repo" / "12-AZ-IP" / "01-axiom-os"
+
+    def ignore_links(directory, names):
+        return {
+            name for name in names
+            if (Path(directory) / name).is_symlink() or name in {"tests", "__pycache__"}
+        }
+
+    shutil.copytree(source, product, ignore=ignore_links)
+    home = tmp_path / "home"
+    home.mkdir()
+    script = """
+from pathlib import Path
+import json
+from fastapi.testclient import TestClient
+from AxiomZero.core.agent_core import AxiomZeroOrchestrator
+from AxiomZero.memory.vector_store import VectorStore
+from AxiomZero.api.server import create_app
+
+root = Path.cwd().parents[1]
+assert AxiomZeroOrchestrator.from_config().repo_root == root
+assert VectorStore.from_config().repo_root == root
+override = Path.cwd() / 'explicit-config.json'
+override.write_text(json.dumps({'repo_root': str(Path.cwd()), 'state_db': str(Path.cwd() / 'state.db')}))
+assert AxiomZeroOrchestrator.from_config(override).repo_root == Path.cwd()
+assert VectorStore.from_config(override).repo_root == Path.cwd()
+with TestClient(create_app()) as client:
+    assert client.get('/health').status_code == 200
+    status = client.get('/status')
+    assert status.status_code == 200
+    assert set(status.json()['managers']) == {'m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7'}
+"""
+    subprocess.run(
+        [sys.executable, "-c", script],
+        cwd=product,
+        env={**os.environ, "PYTHONPATH": str(product), "HOME": str(home), "USERPROFILE": str(home)},
+        check=True,
+        timeout=60,
     )
 
 

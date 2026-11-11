@@ -109,7 +109,7 @@ test("service launches use fixed string argument arrays and implemented endpoint
     }
     if (Object.hasOwn(runtime, "healthPath")) {
       assert.ok(["python-service", "node"].includes(runtime.kind));
-      assert.match(runtime.healthPath, /^\/[a-zA-Z0-9/_-]+$/u);
+      assert.match(runtime.healthPath, /^\/[a-zA-Z0-9/_.-]+$/u);
       assert.ok(!runtime.healthPath.includes("//") && !runtime.healthPath.includes(".."));
     }
     if (Object.hasOwn(runtime, "importName")) {

@@ -27,9 +27,10 @@ import gradio as gr
 
 from oracle.engine.constants import (
     N_W, N_2, K_CS, C_S_F, XI_C_F,
-    DEFAULT_PENTAD_BODIES, AUDIT_DIMENSIONS,
+    DEFAULT_PENTAD_BODIES,
     stability_floor, omega_grade,
 )
+from oracle.engine.integrity import AUDIT_DIMENSIONS
 from oracle.engine.synthesis import SynthesisOrchestrator
 from oracle.db import store
 

@@ -160,7 +160,7 @@ function registerHandlers() {
   ipcMain.handle("platform:distros", async () => (await selectedPlatformTargets()).listDistros());
   ipcMain.handle("platform:action", (_event, request) => runPlatformMutation(async () => {
     if (!request || typeof request !== "object" || Array.isArray(request) ||
-        !["prepare", "importBundled", "install", "provision", "run", "stop", "export"].includes(request.action) ||
+        !["prepare", "importBundled", "install", "launchAndroid", "startVm", "stopVm", "provision", "run", "stop", "export"].includes(request.action) ||
         (request.allowNetwork !== undefined && typeof request.allowNetwork !== "boolean")) {
       throw new TypeError("Select a registered platform action.");
     }
@@ -173,6 +173,10 @@ function registerHandlers() {
       await posixRuntime.stop();
       posixRuntime = null;
       return { status: "stopped" };
+    }
+    if (request.action === "stopVm") {
+      if (target.id !== "uefi-az-kernel") throw new Error("Only the UEFI target has an owned VM.");
+      return manager.stopVm();
     }
     if (request.action === "export") {
       const prepared = preparedPlatforms.get(target.id);
@@ -204,10 +208,23 @@ function registerHandlers() {
       }
       return { status: "exported", sha256: prepared.sha256 };
     }
+    let vmFiles;
+    if (request.action === "startVm") {
+      if (target.id !== "uefi-az-kernel") throw new Error("Only the UEFI target can start a VM.");
+      if (!preparedPlatforms.has(target.id)) throw new Error("Use a bundled artifact or build the UEFI target first.");
+      const selected = [];
+      for (const title of ["Select qemu-system-x86_64.exe", "Select matching OVMF code firmware", "Select matching OVMF variables template"]) {
+        const choice = await dialog.showOpenDialog(mainWindow, { title, properties: ["openFile"] });
+        if (choice.canceled) return { canceled: true };
+        if (choice.filePaths.length !== 1) throw new Error("Select exactly one file.");
+        selected.push(choice.filePaths[0]);
+      }
+      vmFiles = { qemu: selected[0], code: selected[1], vars: selected[2] };
+    }
     const approval = await dialog.showMessageBox(mainWindow, {
       type: "warning", title: `${request.action} | ${target.name}`,
       message: "Approve this target-specific operation?",
-      detail: `${target.notes}\n\nBuild downloads: ${request.allowNetwork === true ? "explicitly allowed" : "not allowed; cached dependencies required"}. Bundled artifacts require no build or download. Builds execute product/dependency code as your user. WSL provisioning downloads Python dependencies into the selected distribution. Android installation targets only the explicitly selected authorized device and does not replace existing packages. No distribution or OS feature is silently installed. No firmware, boot variables or removable media are modified. Device: ${typeof request.serial === "string" ? request.serial.slice(0, 128) : "none"}. WSL distribution: ${typeof request.distro === "string" ? request.distro.slice(0, 128) : "none"}.`,
+      detail: `${target.notes}\n\nBuild downloads: ${request.allowNetwork === true ? "explicitly allowed" : "not allowed; cached dependencies required"}. Bundled artifacts require no build or download. Builds execute product/dependency code as your user. WSL provisioning downloads Python dependencies into the selected distribution. Android installation targets only the explicitly selected authorized device and does not replace existing packages. The selected QEMU executable runs with your permissions; only select trusted software and matching non-secure-boot OVMF files. No distribution or OS feature is silently installed. No firmware, boot variables or removable media are modified. Device: ${typeof request.serial === "string" ? request.serial.slice(0, 128) : "none"}. WSL distribution: ${typeof request.distro === "string" ? request.distro.slice(0, 128) : "none"}.`,
       buttons: ["Cancel", "Approve selected operation"], defaultId: 0, cancelId: 0, noLink: true
     });
     if (approval.response !== 1 || suiteQuitting) return { canceled: true };
@@ -221,6 +238,13 @@ function registerHandlers() {
       const prepared = preparedPlatforms.get(target.id);
       if (!prepared) throw new Error("Use a bundled artifact or build this Android target before installing.");
       return manager.install(target.id, { serial: request.serial, apkPath: path.join(platformDataRoot, "artifacts", prepared.artifact) });
+    }
+    if (request.action === "launchAndroid") {
+      return manager.launchAndroid(target.id, { serial: request.serial });
+    }
+    if (request.action === "startVm") {
+      const prepared = preparedPlatforms.get(target.id);
+      return manager.startVm({ ...vmFiles, artifactPath: path.join(platformDataRoot, "artifacts", prepared.artifact) });
     }
     if (target.id !== "wsl-psicat-navigator") throw new Error("This action requires the registered WSL target.");
     if (request.action === "provision") return manager.provisionPosix({ distro: request.distro });
@@ -318,6 +342,16 @@ function registerHandlers() {
     return runtimeManager.start(id);
   });
   ipcMain.handle("runtime:stop", (_event, id) => runtimeManager.stop(id));
+  ipcMain.handle("runtime:eige-console", async () => {
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "warning", title: "Open EIGE workflow console",
+      message: "Open an independent local PowerShell window for EIGE county and verifier commands?",
+      detail: "This is a full user-permission command shell, not the unfinished official cockpit. Commands can modify local election files and require the operator to follow EIGE's signing, custody, reconciliation and audit procedures. Verification is not certification. The window remains open independently when the suite exits; close it yourself when finished.",
+      buttons: ["Cancel", "Open workflow console"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    return runtimeManager.openEigeConsole();
+  });
   ipcMain.handle("runtime:open", async (_event, id) => {
     const access = runtimeManager.access(id);
     if (access.token) {

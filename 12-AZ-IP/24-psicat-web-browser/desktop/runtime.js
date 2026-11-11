@@ -387,6 +387,7 @@ async function startPsiCatSidecar() {
     args: ['--no-open', '--local-execution', 'off'],
     healthPath: '/api/psicat/status',
     validateHealth: (payload) => payload.psicat_available === true && typeof payload.memory_profile_token === 'string',
+    timeoutMs: 30_000,
     env: navigatorEnvironment(process.env, NAVIGATOR_REPO_ROOT),
     onChange: (next) => { psiCatSidecar = next; broadcastState(); },
   });

@@ -211,11 +211,13 @@ class AxiomZeroOrchestrator:
             config = json.loads(default.read_text()) if default.exists() else {}
 
         # Resolve repo root
+        from AxiomZero import repository_root
+
         repo_root_str = config.get("repo_root")
         if repo_root_str:
-            repo_root = Path(repo_root_str)
+            repo_root = Path(repo_root_str).expanduser()
         else:
-            repo_root = Path(__file__).parent.parent.parent  # AxiomZero/../ = repo root
+            repo_root = repository_root()
 
         return cls(config=config, repo_root=repo_root)
 
