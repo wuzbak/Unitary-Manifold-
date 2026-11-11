@@ -1,5 +1,9 @@
 # 09 — The Source Code Map: Braid Pattern → Biology
 
+> **Research status:** This historical mapping is speculative, not a derived
+> 5D--biology dictionary. The values in this table do not establish the
+> biological identifications or experimental matches.
+
 > "The biology is the hardware. The Manifold is the firmware. The Source Code is the specific mapping of braid patterns to DNA sequences."
 
 This is the complete translation table from 5D geometry to 3D biology. Every entry is derived from the three integers n₁=5, n₂=7, k_CS=74. Nothing is fitted.
@@ -14,20 +18,20 @@ This is the complete translation table from 5D geometry to 3D biology. Every ent
 | **n₁, n₂** (braid pair) | 5, 7 | Two homologous chromosome sets (diploid). n₁ = maternal set, n₂ = paternal set. Meiosis = separating the n₁ from the n₂ braid. | ✓ Consistent |
 | **k_CS** (Chern-Simons level) | 74 = 5²+7² | Topological state count protecting winding. k_CS/π ≈ 23.55 ≈ 23 (human haploid chromosome number — open question) | ✓ / ? |
 | **Δn = n₂ − n₁** | 2 | 2 rounds of whole-genome duplication → 2²=4 HOX clusters in tetrapods | ✓ Exact |
-| **c_s = 12/37** | 0.3243 | Morphogenetic signal propagation speed. ε_r_critical = 1/c_s² = 9.51 → germination threshold w = 0.363 g/g | ✓ Within range |
+| **c_s = 12/37** | 0.3243 | Assumed phase-velocity equality gives ε_r = 9.51 | Biological mechanism not established |
 | **R_KK** | 75 μm | Compactification radius = scale of the oocyte. The cell IS a manifold cavity. | ✓ Observed |
 | **R_egg = n_w×R_KK/2π** | 59.7 μm | Human egg radius (observed: 55–70 μm) | ✓ |
-| **f_KK = c_s×c/2R_egg** | 0.324 THz | Protein hydration shell resonance frequency | ✓ Matches literature |
+| **f_KK = c_s×c/2R_egg** | 0.814 THz | Hypothetical frequency | No resonance established |
 | **ε_r_critical = 1/c_s²** | 9.51 | Polariton gate — dielectric threshold for 5D→3D bridge activation | ✓ |
-| **w_critical (Maxwell-Garnett)** | 0.363 g/g | Germination hydration threshold | ✓ All species |
-| **N_Zn = k_CS^n_w** | 2.19×10⁹ | Zinc ions released in fertilisation spark | ✓ Within range |
+| **w_critical (Maxwell-Garnett)** | Unreachable with ε_water=9, ε_dry=4.5 | No derived hydration threshold | Not established |
+| **N_Zn = k_CS^n_w** | 2.219×10⁹ | Assumed zinc-count identification | Unestablished |
 | **2×n_w** | 10 | Conserved HOX paralog groups (all bilaterian phyla) | ✓ Exact |
 | **2^Δn** | 4 | HOX clusters in tetrapods (HOXA, B, C, D) | ✓ Exact |
 | **9 = n₁+n₂−3** | 9 | Centriole triplet count — universal in eukaryotes | ✓ Exact |
 | **2×n_w protofilaments** | 10 | B-tubule and C-tubule protofilament count in centrioles | ✓ Exact |
-| **ΔS_braid = n_w×ln(k_CS)** | 21.47 nats | Braid entropy released at germination/fertilisation | Derived |
-| **ΔE_trigger = kT×ΔS** | 552 meV/cell | One-time activation energy (topological trigger) | Derived |
-| **ZPE bias = ½ℏc/R_cell** | 0.66 meV/mode | Enzyme tunneling acceleration per KK mode | ~2–3% obs ✓ |
+| **ΔS_braid = n_w×ln(k_CS)** | 21.5203 nats | Entropy for an assumed state count | Biological ensemble unestablished |
+| **kT×ΔS** | ≈553 meV | Arithmetic product at assumed temperature | Heat/work conversion unestablished |
+| **½ℏc/R_cell** | 6.58 meV/mode | Arithmetic for R_cell = 15 μm | Coupling and excess heat unestablished |
 | **n > 3×log₂(k_CS)** | n > 18.6 divs | Gastrulation / 14-day rule from flux minimum | ✓ ~Day 14 |
 | **n = 3 (8-cell)** | Gradient > cells | Compaction onset — gradient flux exceeds cell flux | ✓ 8-cell ✓ |
 | **100 = 4×n_w²** | 100 | Chromatin supercoil count per protamine toroid (dormancy knot depth) | ✓ Observed ~100 |
@@ -51,7 +55,7 @@ This is the complete translation table from 5D geometry to 3D biology. Every ent
 
 4. WATER/CALCIUM OPENS THE BRIDGE
    ε_r > 1/c_s² = 9.51  →  KK phonon becomes polariton  →  bridge ON
-   Seeds: imbibition to w > 0.363 g/g
+   Seeds: proposed threshold is not derived from the stated medium inputs
    Eggs: Ca²⁺ wave (triggered by Zn²⁺ discharge)
 
 5. THE TRIGGER FIRES

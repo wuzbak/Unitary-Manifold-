@@ -1,5 +1,20 @@
 # Fallibility, Limitations, and Failure Modes
 
+> **Radion fifth-force qualification (2026-11-10):** A vanishing potential
+> gradient at a vacuum does not rule out a matter-sourced scalar force, and
+> the cylinder condition is not radion freezing. The legacy Pillar 33/37
+> exponential-only acceleration expressions omit the Yukawa force's radial
+> derivative factor. Their couplings and approximate experimental bounds are
+> not derived exclusions. The optional circle-action potential gives
+> \(m_{\rm physical}^2=m_{\rm in}^2\phi_0/3\), within its stated normalization.
+> A separately tuned 5D interval admits an exact Minkowski background, but
+> its computed stiff-wall radion curvature is a probe approximation, not a
+> validated 5D eigenmass or finite-apparatus exclusion.
+> Earlier contrary claims below are historical. See the
+> [scoped calculation and remaining gaps](docs/physics/RADION_FIFTH_FORCE_AUDIT.md).
+> The F11 SEP falsifier is qualified; no pillar, hardgate, version, or
+> birefringence falsifier change is made.
+
 > **α_GUT / Λ_QCD qualification (2026-11-08):** The candidate
 > `alpha_GUT = N_c/K_CS` is not derived from the stated 5D action. Conditional
 > gauge-kinetic matching leaves independent bulk and boundary coefficients;
@@ -3164,10 +3179,11 @@ showing the 5D vacuum doesn't create 4D matter."
 **Answer — Pillar 197 (`sep_stress_energy_audit.py`; ~63 tests):**
 
 SEP at 10⁻¹⁵ (MICROSCOPE 2022 bound: |Δη| < 7×10⁻¹⁵):
-The EW-sector radion (m_r ≈ M_KK ≈ 1040 GeV) Yukawa range λ_r ≈ 1.9×10⁻¹⁶ m.
-At r_⊕ ≈ 6.4×10⁶ m: |Δη_Eötvös| ~ exp(−3.4×10²²) ≈ 0.
-Coupling α = 1/√6 is fixed by the 5D RS1 action, NOT tuned to dodge detection.
-Status: **SAFE** — mechanism is mass, not fine-tuning.
+For the assumed benchmark m_r ≈ 1040 GeV, λ_r ≈ 1.9×10⁻¹⁹ m.
+The historical point-Earth suppression estimate does not model the extended
+source, detector or physical scalar charges. Neither the mass nor the
+matter coupling has been derived for the relevant UM sector. Status:
+**conditional proxy; SEP comparison not established**.
 
 5D Vacuum Stress-Energy: Three-layer cancellation (Pillars 196, 70, 56) reduces
 Λ_KK to log₁₀(Λ_KK/M_Pl⁴) ≈ −2,377.  Observed Λ_obs ≈ 10⁻¹²² M_Pl⁴.

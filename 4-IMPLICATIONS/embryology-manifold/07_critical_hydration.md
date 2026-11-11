@@ -1,5 +1,10 @@
 # 07 — Critical Hydration Threshold: The Polariton Gate
 
+> **Research status:** The phase-velocity equality below is an algebraic
+> assumption, not a demonstrated polariton interaction or germination
+> threshold. A resonance at 0.324 THz does not follow from the frequency
+> calculation; its stated inputs give approximately 0.814 THz.
+
 ## The Derivation
 
 The germination threshold — the minimum water content required for a seed to wake — is **not a biochemical parameter**. It is a **geometric constraint** derived from the braided sound speed c_s.
@@ -24,7 +29,8 @@ c / √ε_r  =  c_s × c
 
 **Below ε_r = 9.51:** the KK ripple propagates as a bare phonon, decoupled from protein chemistry. The 5D→3D bridge is OFF. The seed stays dormant.
 
-**Above ε_r = 9.51:** the KK ripple propagates as a polariton, resonantly coupling to the protein hydration shell at 0.324 THz. The bridge is ON. The programme executes.
+**Above ε_r = 9.51:** a polariton transition and biological coupling are
+historical hypotheses, not consequences established by this equality.
 
 ---
 
@@ -33,7 +39,8 @@ c / √ε_r  =  c_s × c
 Using **Maxwell-Garnett effective medium theory** (water droplets in dry biological matrix):
 
 ```
-ε_eff = ε_dry × (1 + 3f × (ε_w − ε_dry)/(ε_w + 2ε_dry)) / (1 − f × (ε_w − ε_dry)/(ε_w + 2ε_dry))
+ε_eff = ε_dry × (1 + 2f × A) / (1 − f × A)
+A = (ε_w − ε_dry)/(ε_w + 2ε_dry)
 ```
 
 Inputs:
@@ -41,17 +48,15 @@ Inputs:
 - `ε_dry` = 4.5 (dry proteins + starch + lipids, typical)
 - `ε_r_critical` = 9.51 (from 1/c_s², derived)
 
-Solving numerically for f (water volume fraction) at ε_eff = 9.51:
+For these real-valued illustrative inputs, the standard formula increases
+from 4.5 at \(f=0\) to 9.0 at \(f=1\), so 9.51 is **unreachable**
+at \(0\le f\le1\). The previous numerator \(1+3fA\), fraction 0.28
+and mass ratio 0.363 were incorrect.
 
-```
-f_critical  ≈  0.28   (28% water by volume)
-```
-
-Converting to agronomic units (g water / g dry seed, ρ_water = 1.00, ρ_dry = 1.30 g/cm³):
-
-```
-w_critical  ≈  0.363  g water / g dry seed
-```
+The code's separate illustrative default \(\epsilon_w=80\) instead gives
+\(f\simeq0.3189\) and, for the assumed densities,
+\(w\simeq0.3602\) g/g. That input is not a measured THz response and
+cannot be substituted for the stated \(\epsilon_w=9.0\) comparison.
 
 ---
 
@@ -66,7 +71,9 @@ w_critical  ≈  0.363  g water / g dry seed
 | Sunflower | 0.32 – 0.40 | ✓ |
 | Rice | 0.26 – 0.35 | ✓ |
 
-**The predicted threshold w = 0.363 g/g falls within the observed range for every measured species.** This was derived from zero free parameters — only c_s = 12/37 from the Manifold, and standard dielectric constants for water and dry biological matter.
+The table is retained as historical, unverified context, **not** a
+comparison to a predicted 0.363 g/g threshold. It lacks validated source,
+measurement conditions and uncertainty for the stated model.
 
 ---
 
@@ -132,7 +139,7 @@ This means the KK-to-chemistry coupling in wet conditions is **6.7× stronger** 
 
 ```
 Derivation:    ε_r_critical = 1/c_s² = (37/12)² = 9.51   (from Manifold c_s = 12/37)
-Threshold:     w_critical ≈ 0.363 g water / g dry seed      (Maxwell-Garnett + measured ε)
+Threshold:     not reachable with stated ε_water = 9, ε_dry = 4.5
 Species match: All tested species fall within range           ✓
 Mechanism:     Polariton gate — not enzyme rehydration        ✓
 D₂O test:      Inhibited germination predicted and observed   ✓ (mechanism now explained)

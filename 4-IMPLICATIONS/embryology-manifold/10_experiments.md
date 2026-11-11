@@ -1,5 +1,11 @@
 # 10 — Testable Predictions: What To Measure and How
 
+> **Research status:** These historical proposals are not parameter-free
+> predictions derived from a 5D matter action. The 0.324 THz calculation is
+> arithmetically wrong for the stated inputs (0.814 THz); no associated
+> hydration-shell coupling is established. Detection or absence of a feature
+> alone would not confirm or falsify the broader framework.
+
 > A theory that cannot be killed is not a theory.
 
 Every prediction below is derived from the three integers (n₁=5, n₂=7, k_CS=74) with no free parameters. Each can be tested with currently available technology. They are listed from most to least experimentally accessible.
@@ -64,13 +70,16 @@ Every prediction below is derived from the three integers (n₁=5, n₂=7, k_CS=
 **Falsification:** If no cooling is detected at or before the Ca²⁺ wave, the condensate collapse model is falsified. (Warming at the entry point instead = purely exothermic chemical event, not topological discharge.)
 
 ### T2.3  KK Ripple Frequency in Cell-Free Egg Extract
-**Prediction:** THz spectroscopy of egg cytoplasm should show a resonance peak near 0.324 THz corresponding to the phonon-exciton bridge frequency.
+**Exploratory question:** Does egg cytoplasm exhibit any reproducible feature
+near the arithmetic value 0.814 THz? A coupling mechanism is not established.
 
 **Test:** THz time-domain spectroscopy (THz-TDS) of unfertilised egg cytoplasm vs post-fertilisation cytoplasm. Measure dielectric response 0.1–1.0 THz.
 
-**Expected result:** A resonance feature near 0.324 THz in unfertilised cytoplasm that broadens or disappears in post-fertilisation cytoplasm (as the condensate collapses and the bridge activates/discharges).
+**Historical hypothesis:** A feature might change between unfertilised and
+post-fertilisation cytoplasm; many non-UM mechanisms could also cause changes.
 
-**Falsification:** No spectral feature near 0.324 THz in either state = bridge frequency prediction is wrong.
+**Interpretation:** A null result would constrain only a pre-specified,
+quantitative model of such a feature, not the broader framework.
 
 ---
 
@@ -110,7 +119,7 @@ Every prediction below is derived from the three integers (n₁=5, n₂=7, k_CS=
 ### The Polariton Threshold Test (T1.1 extended with THz measurement)
 
 1. Prepare seeds
-2. Measure ε_r of each germination medium at 0.324 THz (THz-TDS, 30 min setup)
+2. Measure frequency-dependent complex ε_r across a pre-specified THz band
 3. Sow seeds in each medium
 4. Measure germination at 48 h
 

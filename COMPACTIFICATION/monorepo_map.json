@@ -2,11 +2,11 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8715,
+  "file_count": 8716,
   "lanes": {
     "az_ip": 2695,
     "compactification": 9,
-    "other": 5596,
+    "other": 5597,
     "psicat_articles": 357,
     "psicat_books": 58
   },
@@ -90,7 +90,7 @@
     "data": 4,
     "demo.ipynb": 1,
     "docker-compose.yml": 1,
-    "docs": 100,
+    "docs": 101,
     "dvc.yaml": 1,
     "firebase.json": 1,
     "hf-spaces": 54,
@@ -36481,6 +36481,12 @@
     },
     {
       "path": "docs/physics/PLANAR_RADION_DYNAMICS.md",
+      "top_level": "docs",
+      "kind": "file",
+      "lane": "other"
+    },
+    {
+      "path": "docs/physics/RADION_FIFTH_FORCE_AUDIT.md",
       "top_level": "docs",
       "kind": "file",
       "lane": "other"

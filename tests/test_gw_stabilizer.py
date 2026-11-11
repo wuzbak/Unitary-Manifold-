@@ -345,8 +345,9 @@ class TestCassiniConstraintCheck:
     def test_returns_dict(self):
         assert isinstance(self.result, dict)
 
-    def test_overall_status_satisfied(self):
-        assert "SATISFIED" in self.result["overall_status"].upper()
+    def test_overall_status_is_conditional(self):
+        assert "CONDITIONAL" in self.result["overall_status"].upper()
+        assert "NOT ESTABLISHED" in self.result["overall_status"].upper()
 
     def test_argument_1_force_zero(self):
         arg1 = self.result["argument_1_equilibrium"]
@@ -360,9 +361,9 @@ class TestCassiniConstraintCheck:
         assert "conclusion" in self.result
         assert len(self.result["conclusion"]) > 20
 
-    def test_doubly_protected(self):
-        assert "doubly" in self.result["overall_status"].lower() or \
-               "doubly" in self.result["conclusion"].lower()
+    def test_stationarity_does_not_claim_zero_matter_force(self):
+        assert "does not rule out" in self.result["argument_1_equilibrium"]["explanation"]
+        assert "Neither establishes" in self.result["conclusion"]
 
 
 # ===========================================================================
@@ -437,8 +438,8 @@ class TestPillar189cSummary:
     def test_stable_minimum_confirmed(self):
         assert self.result["stable_minimum_confirmed"] is True
 
-    def test_cassini_satisfied(self):
-        assert "SATISFIED" in self.result["cassini_satisfied"].upper()
+    def test_cassini_result_is_conditional(self):
+        assert "NOT ESTABLISHED" in self.result["cassini_satisfied"].upper()
 
     def test_radion_mass_gev_positive(self):
         assert self.result["radion_mass_gev"] > 0.0

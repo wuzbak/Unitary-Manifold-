@@ -730,12 +730,12 @@ embryology-manifold/              ← 🧬 Embryology × Unitary Manifold (TVC t
     README.md                     ← overview: R_egg = n_w × R_KK / 2π = 59.7 μm
     01_TVC_condensate.md          ← Topological Vacuum Condensation — the unknown process
     02_zinc_spark.md              ← Zinc spark as B-field discharge; N_Zn = k_CS^n_w = 2.19×10⁹
-    03_phonon_exciton_bridge.md   ← KK ripple at 0.324 THz — protein hydration shell resonance
+    03_phonon_exciton_bridge.md   ← speculative bridge; stated inputs give 0.814 THz, no established resonance
     04_centrosome_antenna.md      ← Centriole 9-fold = n₁+n₂−3; B/C tubule 10 = 2×n_w
     05_hox_genes.md               ← n_paralog_groups = 2×n_w = 10; n_clusters = 2^Δn = 4
     06_flux_quantization.md       ← Information flux; 8-cell compaction; 14-day rule
     07_critical_hydration.md      ← ε_r_critical = 1/c_s² = 9.51; w_critical = 0.363 g/g
-    08_braid_entropy.md           ← ΔS = n_w × ln(k_CS) = 21.47 nats; 2–3% metabolic excess
+    08_braid_entropy.md           ← 5 ln(74) = 21.5203 nats for an assumed state count; heat link unestablished
     09_source_code_map.md         ← Complete braid-to-biology translation table
     10_experiments.md             ← Tier 1/2/3 falsifiable predictions
 ```
