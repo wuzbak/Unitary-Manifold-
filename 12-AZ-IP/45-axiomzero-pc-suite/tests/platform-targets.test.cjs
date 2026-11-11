@@ -64,13 +64,24 @@ test('real emulator installs and launches both Android activities', {
     execFileSync(adb, ['-s', serial, 'install', '-g', apk], { encoding: 'utf8', timeout: 60000 });
     const receipt = await api.launchAndroid(id, { serial });
     assert.equal(receipt.status, 'launched');
-    try {
-      assert.ok(execFileSync(adb, ['-s', serial, 'shell', 'pidof', packageName], { encoding: 'utf8' }).trim());
-    } catch (error) {
+    let processId;
+    let launchError;
+    const deadline = Date.now() + 10000;
+    while (Date.now() < deadline && !processId) {
+      try {
+        processId = execFileSync(adb, ['-s', serial, 'shell', 'pidof', packageName], {
+          encoding: 'utf8', timeout: 5000,
+        }).trim();
+      } catch (error) {
+        launchError = error;
+      }
+      if (!processId) await new Promise((resolve) => setTimeout(resolve, 250));
+    }
+    if (!processId) {
       const log = execFileSync(adb, ['-s', serial, 'logcat', '-d', '-t', '800', 'AndroidRuntime:E', 'ActivityManager:E', 'ActivityTaskManager:E', '*:S'], {
         encoding: 'utf8', timeout: 15000,
       });
-      throw new Error(`${packageName} was not running after launch.\n${log}`, { cause: error });
+      throw new Error(`${packageName} was not running 10 seconds after launch.\n${log}`, { cause: launchError });
     }
   }
   await api.close();

@@ -1655,3 +1655,12 @@ activity exits after launch.
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `cce9d3a7c410f07bc9cea3e6044cd16bc9494548bd4f2bab9b06e3d7e9da0d09` | 31558 |
+
+### Android emulator process startup wait — 2026-11-11
+
+Allow bounded process startup time after a confirmed Android activity launch and
+retain crash diagnostics if the process never appears.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `a88d28525e51d2dc8583cff40d46f2cde386cc5be10b74dc544c1253c0483ba1` | 31892 |

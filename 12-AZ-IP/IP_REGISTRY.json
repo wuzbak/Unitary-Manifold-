@@ -3851,10 +3851,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "cce9d3a7c410f07bc9cea3e6044cd16bc9494548bd4f2bab9b06e3d7e9da0d09",
-      "size_bytes": 31558,
-      "reseal_note": "Preserve Android emulator failure with bounded crash diagnostics; no launch gate was relaxed.",
+      "sha256": "a88d28525e51d2dc8583cff40d46f2cde386cc5be10b74dc544c1253c0483ba1",
+      "size_bytes": 31892,
+      "reseal_note": "Wait up to ten seconds for Android app process startup before reporting emulator launch failure; preserve launch gate.",
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "cce9d3a7c410f07bc9cea3e6044cd16bc9494548bd4f2bab9b06e3d7e9da0d09",
+          "size_bytes": 31558,
+          "reseal_note": "Preserve Android emulator failure with bounded crash diagnostics; no launch gate was relaxed."
+        },
         {
           "updated": "2026-11-11",
           "sha256": "79518c4c3843738349c37f3aa4566f13780529b719388585fdb8bf999a7526c3",
