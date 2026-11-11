@@ -5,118 +5,17 @@ src/core/ep_violation.py
 =========================
 Pillar 37 — Equivalence Principle Violation from the Non-Frozen KK Radion.
 
-Physical context
-----------------
-The Weak Equivalence Principle (WEP) states that all test bodies fall with
-the same acceleration in a gravitational field, regardless of their
-composition.  This has been tested to extraordinary precision by the
-Eöt-Wash torsion-balance experiments:
+The historical functions in this module are compatibility models, not
+action-derived WEP exclusions. Their exponential-only force factors omit
+the radial derivative factor (1+r/λ), and their couplings, source geometry,
+and nonminimal-composition term are not established by the reduced action.
+Neither vanishing vacuum displacement nor the cylinder condition rules out
+a matter-sourced fifth force. See docs/physics/RADION_FIFTH_FORCE_AUDIT.md.
 
-    η_EW < 2 × 10⁻¹³     (Bergé et al. 2023, Schlamminger et al. 2008)
-
-where the Eötvös parameter is:
-
-    η = 2 |a₁ − a₂| / |a₁ + a₂|                                   [1]
-
-In the Unitary Manifold framework, the **non-frozen KK radion** (φ ≠ φ₀)
-mediates a universal scalar fifth force that couples to the trace of the
-stress-energy tensor:
-
-    F_φ = −α_φ × G M / r² × e^{−r/λ_φ}                            [2]
-
-Because the trace coupling is ∝ m_i (mass density), this force is universal
-at leading order — it does not violate the WEP.  However, the KK photon A_μ
-couples to **baryon number** B, not to mass, so it produces composition-
-dependent accelerations.
-
-The Eötvös parameter from the A_μ channel
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For two test bodies with baryon-to-mass ratios (B/μ)₁ and (B/μ)₂:
-
-    η_KK = α_A × |Δ(B/μ)| × e^{−r/λ_A}                           [3]
-
-where
-    α_A = 2            (KK photon coupling to baryon number, relative to G)
-    Δ(B/μ) = |(B/μ)₁ − (B/μ)₂|   (composition difference)
-    λ_A = R            (KK photon Yukawa range = compactification radius)
-
-For the radion channel (scalar, universal coupling α_φ = 2/3):
-    η_φ = 0  (no WEP violation to leading order — universal coupling)
-
-However, the **non-minimal coupling** of the radion to curvature (ξ R φ²)
-introduces a small composition-dependent correction:
-
-    η_φ^(NMC) ≈ ξ × α_φ × Δ(B/μ) × (Δm/m)_gravitational            [4]
-
-where Δ(m/m)_grav is the gravitational binding-energy fraction (≈ 10⁻⁵ for
-laboratory bodies).
-
-Experimental targets
-~~~~~~~~~~~~~~~~~~~~~
-- Current Eöt-Wash bound: η < 2 × 10⁻¹³ (Be–Ti comparison at 1 cm)
-- STE-QUEST satellite target: η < 10⁻¹⁵ (hydrogen–rubidium at 100 μm)
-
-The UM prediction for the canonical (5,7) branch with R = 10⁻³⁰ m (sub-
-Planck compactification):
-
-    η_KK ≈ α_A × |Δ(B/μ)| × e^{−r/R}
-
-For laboratory separations r ≫ R, this is exponentially suppressed:
-
-    η_KK ≈ α_A × |Δ(B/μ)| × exp(−r × m_KK)
-
-If m_KK ≳ 20 meV (λ_A ≲ 10 μm), then for r = 1 cm:
-
-    η_KK < 10⁻⁵⁰   (unobservably small)
-
-**However**, if the radion is very light (m_φ ≲ 20 meV), the radion Yukawa
-is within Eöt-Wash range.  In this light-radion scenario, the non-minimal
-coupling to curvature generates a WEP violation:
-
-    η_φ^(NMC) ≈ 2/3 × ξ × Δ(B/μ) × ε_grav
-
-This module computes all these predictions and their relation to current
-and future EP tests.
-
-Composition differences
-~~~~~~~~~~~~~~~~~~~~~~~~
-Representative Eötvös-parameter target materials:
-
-    Material pair          Δ(B/μ)
-    ──────────────────────────────
-    Be–Ti                  0.0032    (Schlamminger et al. 2008)
-    Cu–Pb                  0.0010
-    Al–Pt                  0.0034
-    H–Rb                   0.0014    (STE-QUEST target)
-    ─────────────────────────────────────────────────────────
-
-All quantities are in **natural (Planck) units**: ħ = c = G = k_B = 1.
-
-Public API
-----------
-eotvos_parameter_kk(alpha, delta_b_over_mu, r, yukawa_lambda)
-    Eötvös parameter η from the KK Yukawa channel.
-
-eotvos_parameter_radion_nmc(xi, delta_b_over_mu, epsilon_grav)
-    Eötvös parameter from non-minimal radion coupling to curvature.
-
-radion_fifth_force(M_source, r, m_phi, alpha)
-    Acceleration from the radion fifth force on a test mass.
-
-composition_dependence_kk(n1, n2, R, r, materials)
-    Compute η for a list of material pairs given a KK compactification.
-
-ep_violation_in_eot_wash_range(m_phi, alpha)
-    Check whether the radion fifth force is within Eöt-Wash sensitivity.
-
-equivalence_principle_summary(m_phi, R, r, delta_b_over_mu)
-    Full summary of EP predictions for both channels.
-
-eotvos_cylinder_condition(phi, phi0, alpha, delta_b_over_mu, r, lambda_phi)
-    WEP violation as a function of radion displacement from φ₀.
-
-wep_constraint_on_radion_mass(alpha, delta_b_over_mu, r, eta_bound)
-    Lower bound on the radion mass from WEP tests.
+The physical Eotvos parameter is 2|a1-a2|/(|a1|+|a2|). A common
+acceleration does not imply a differential WEP signal. For a conditional
+homogeneous-sphere scalar model see
+``isl_yukawa.homogeneous_sphere_eotvos_parameter``.
 
 """
 
@@ -272,13 +171,15 @@ def radion_fifth_force(
     m_phi: float,
     alpha: float = ALPHA_RADION,
 ) -> float:
-    """Radial acceleration on a unit test mass from the radion fifth force.
+    """Legacy exponential-only acceleration proxy, not the Yukawa force.
 
-    The radion-mediated force on a test mass m=1 at separation r from a
-    source of mass M_source is:
+    The historical expression for a unit test mass is:
 
         a_φ = α × G M_source / r² × e^{−r/λ_φ}      (Planck units: G = 1)
             = α × M_source / r² × e^{−r m_φ}
+
+    The gradient of the corresponding potential also contains (1 + r*m_phi);
+    this function retains its original behavior for compatibility.
 
     Parameters
     ----------
@@ -355,13 +256,9 @@ def composition_dependence_kk(
 # ---------------------------------------------------------------------------
 
 def ep_violation_in_eot_wash_range(m_phi: float, alpha: float) -> dict:
-    """Check whether the radion fifth force is within Eöt-Wash sensitivity.
-
-    Eöt-Wash tests at r ≈ 1 cm = 6.187 × 10²⁶ L_Pl.  The signal is:
+    """Calculate a legacy exponential proxy, not an experimental verdict.
 
         η ≈ alpha × Δ(B/μ) × exp(−r × m_phi)
-
-    Using Δ(B/μ) = 0.0032 (Be-Ti) and the current bound η < 2 × 10⁻¹³.
 
     Parameters
     ----------
@@ -375,9 +272,8 @@ def ep_violation_in_eot_wash_range(m_phi: float, alpha: float) -> dict:
         'alpha'             — coupling
         'lambda_phi_planck' — Yukawa range in Planck units
         'r_eot_wash_planck' — Eöt-Wash separation in Planck units
-        'eta_predicted'     — predicted η at r = 1 cm
-        'eta_bound'         — Eöt-Wash bound on η
-        'detectable'        — True if eta_predicted > eta_bound
+        'eta_proxy'         — legacy exponential proxy at assumed r = 1 cm
+        'detectable'        — None; no validated verdict
         'suppression'       — exp(−r × m_phi) (Yukawa suppression factor)
 
     Raises
@@ -399,9 +295,12 @@ def ep_violation_in_eot_wash_range(m_phi: float, alpha: float) -> dict:
         "alpha": alpha,
         "lambda_phi_planck": lambda_phi,
         "r_eot_wash_planck": r_eot,
-        "eta_predicted": eta,
-        "eta_bound": EOT_WASH_ETA_BOUND,
-        "detectable": eta > EOT_WASH_ETA_BOUND,
+        "status": "UNVALIDATED LEGACY PROXY; NO EXPERIMENTAL VERDICT",
+        "eta_proxy": eta,
+        "eta_predicted": None,
+        "eta_bound_proxy": EOT_WASH_ETA_BOUND,
+        "eta_bound": None,
+        "detectable": None,
         "suppression": suppression,
     }
 
@@ -416,7 +315,7 @@ def equivalence_principle_summary(
     r: float,
     delta_b_over_mu: float = DELTA_B_MU["Be-Ti"],
 ) -> dict:
-    """Full summary of EP predictions for both Yukawa channels.
+    """Legacy EP proxies; no validated physical or detectability verdict.
 
     Parameters
     ----------
@@ -428,15 +327,13 @@ def equivalence_principle_summary(
     Returns
     -------
     dict with keys
-        'eta_radion_channel'   — η from radion scalar channel (= 0, universal)
-        'eta_kk_channel'       — η from KK-photon vector channel
-        'eta_radion_nmc'       — η from non-minimal coupling (conformal ξ=1/6)
-        'eta_total'            — dominant contribution (max of above)
-        'eot_wash_bound'       — current Eöt-Wash bound
-        'ste_quest_target'     — STE-QUEST projected sensitivity
-        'currently_detectable' — True if eta_total > EOT_WASH_ETA_BOUND
-        'ste_quest_detectable' — True if eta_total > STE_QUEST_ETA_TARGET
-        'cylinder_condition'   — 'frozen: η_radion = 0' or 'dynamical: η ≠ 0'
+        'eta_*_proxy'          — assumed historical channel values
+        'eta_total_proxy'      — maximum of proxy magnitudes, not a sum
+        'eot_wash_bound_proxy' — historical assumed comparison value
+        'ste_quest_target_proxy' — historical assumed target
+        'currently_detectable' — None; not determined
+        'ste_quest_detectable' — None; not determined
+        'cylinder_condition'   — not determined by these inputs
 
     Raises
     ------
@@ -468,19 +365,22 @@ def equivalence_principle_summary(
     eta_total = max(abs(eta_radion), abs(eta_kk), abs(eta_nmc))
 
     return {
-        "eta_radion_channel": eta_radion,
-        "eta_kk_channel": eta_kk,
-        "eta_radion_nmc": eta_nmc,
-        "eta_total": eta_total,
-        "eot_wash_bound": EOT_WASH_ETA_BOUND,
-        "ste_quest_target": STE_QUEST_ETA_TARGET,
-        "currently_detectable": eta_total > EOT_WASH_ETA_BOUND,
-        "ste_quest_detectable": eta_total > STE_QUEST_ETA_TARGET,
-        "cylinder_condition": (
-            "frozen (cylinder condition): η_radion = 0 exactly"
-            if eta_nmc < 1.0e-20 else
-            "dynamical radion: η_NMC ≠ 0"
-        ),
+        "status": "UNVALIDATED LEGACY PROXIES; NO EXPERIMENTAL VERDICT",
+        "eta_radion_channel_proxy": eta_radion,
+        "eta_kk_channel_proxy": eta_kk,
+        "eta_radion_nmc_proxy": eta_nmc,
+        "eta_total_proxy": eta_total,
+        "eot_wash_bound_proxy": EOT_WASH_ETA_BOUND,
+        "ste_quest_target_proxy": STE_QUEST_ETA_TARGET,
+        "eta_radion_channel": None,
+        "eta_kk_channel": None,
+        "eta_radion_nmc": None,
+        "eta_total": None,
+        "eot_wash_bound": None,
+        "ste_quest_target": None,
+        "currently_detectable": None,
+        "ste_quest_detectable": None,
+        "cylinder_condition": "not determined by these inputs",
     }
 
 
@@ -496,11 +396,10 @@ def eotvos_cylinder_condition(
     r: float,
     lambda_phi: float,
 ) -> float:
-    """WEP violation as a function of radion displacement from the cylinder condition.
+    """Historical displacement proxy, not a WEP or cylinder-condition test.
 
-    When φ = φ₀ (cylinder condition), the radion is frozen and η = 0.
-    When φ ≠ φ₀ the deviation δ_cyl = |φ − φ₀|/φ₀ sources an additional
-    Yukawa with strength proportional to δ_cyl:
+    It assumes, without a matter-action derivation, a signal proportional to
+    displacement and an exponential-only force factor:
 
         η_cyl(φ) = α × |Δ(B/μ)| × δ_cyl(φ) × e^{−r/λ_φ}
 
@@ -548,7 +447,7 @@ def wep_constraint_on_radion_mass(
     r: float,
     eta_bound: float = EOT_WASH_ETA_BOUND,
 ) -> float:
-    """Minimum radion mass from WEP constraints.
+    """Return a mass threshold for the historical exponential-only proxy.
 
     The WEP bound η < η_bound with signal η ≈ α |Δ(B/μ)| exp(−r/λ) gives:
 
@@ -557,8 +456,7 @@ def wep_constraint_on_radion_mass(
         λ < −r / ln(η_bound / (α |Δ(B/μ)|))
         m_φ > −ln(η_bound / (α |Δ(B/μ)|)) / r
 
-    This is the minimum radion mass required for the fifth force to be
-    undetectable at the given separation r.
+    This is not a physical WEP mass constraint or detectability analysis.
 
     Parameters
     ----------

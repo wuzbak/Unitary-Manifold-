@@ -1,5 +1,11 @@
 # 03 — The Phonon-Exciton Bridge: KK Ripples and the Hydration Shell
 
+> **Correction:** This is a historical hypothesis, not a derived 5D--biology
+> interaction or established resonance. The stated inputs give approximately
+> 0.814 THz, not 0.324 THz; no resonance match follows. The energy and
+> tunneling/heat claims below are not experimentally established. See the
+> [radion audit](../../docs/physics/RADION_FIFTH_FORCE_AUDIT.md).
+
 ## The Missing Link
 
 > "ZPE cannot directly move an atom, but it can bias quantum tunneling in enzymes. You are missing the specific oscillation frequency where the Manifold's KK ripples resonate with the hydration shell of proteins."
@@ -23,7 +29,7 @@ The **fundamental KK ripple frequency at the egg scale**:
 ```
 f_KK(egg) = c_s × c / (2 × R_egg)
            = 0.3243 × 3×10⁸ m/s / (2 × 59.7×10⁻⁶ m)
-           ≈  0.324 THz  =  324 GHz
+           ≈  0.814 THz  =  814 GHz
 ```
 
 ---
@@ -38,12 +44,13 @@ f_KK(egg) = c_s × c / (2 × R_egg)
 | Intermolecular libration | ~1.0 THz | Walther et al. 2007 |
 | Librational peak (water) | ~1.6 THz | Zelsmann 1995 |
 
-**The KK ripple at R_egg sits AT the protein hydration layer resonance (0.3 THz). ✓**
+The value computed above does **not** coincide with the quoted 0.3 THz value;
+the listed literature values and attribution require independent verification.
 
 This is the phonon-exciton bridge:
 - **Phonon** = KK ripple in the radion field φ (geometric / 5D side)
 - **Exciton** = collective excitation of protein + hydration shell (chemical / 3D side)
-- **Bridge frequency** = 0.324 THz (where both modes overlap)
+- **Hypothetical geometric frequency** = 0.814 THz; overlap is unestablished.
 
 ---
 
@@ -51,7 +58,7 @@ This is the phonon-exciton bridge:
 
 The KK ripple carries energy per mode:
 ```
-E_KK = ½ ℏc/R_egg ≈ 0.66 meV  (per mode, per embryonic cell)
+E_KK = ½ ℏc/R_egg ≈ 1.65 meV  (for the stated assumed formula)
 kT at 37°C        ≈ 26.7 meV
 ```
 
@@ -63,7 +70,8 @@ This is **far too small** to directly drive classical atomic motion (which requi
 P_tunnel ∝ exp(−2κ × d)
 ```
 
-where κ ≈ 10 Å⁻¹ and d is barrier width. A change of **0.1 Å** in the hydration shell thickness (easily achieved by the 0.66 meV KK ripple) shifts d by ~0.1 Å, changing P_tunnel by:
+The historical estimate assumes κ ≈ 10 Å⁻¹ and an unestablished 0.1 Å
+hydration-shell displacement. Under those assumptions the expression gives:
 
 ```
 ΔP / P = exp(2κ × 0.1 Å) − 1 = exp(2) − 1 ≈ 6.4×  (order-of-magnitude acceleration)
@@ -115,20 +123,14 @@ Inputs:
   ε_dry         = 4.5   (dry proteins + starch + lipids)
   ε_r_critical  = 9.51  (1/c_s² from Manifold)
 
-Solving for water volume fraction f at ε_eff = 9.51:
-  f_critical  ≈  0.28  (28% water by volume)
-  w_critical  ≈  0.363 g water / g dry seed
+For the standard spherical-inclusion Maxwell-Garnett formula, these inputs
+cannot reach ε_eff = 9.51 for any physical 0 ≤ f ≤ 1: the limiting
+effective dielectric is 9.0. No critical water fraction follows.
 ```
 
-| Species | Observed threshold (g/g) | Predicted 0.363 in range? |
-|---------|------------------------|--------------------------|
-| Wheat | 0.34 – 0.42 | ✓ |
-| Maize | 0.30 – 0.38 | ✓ |
-| Soybean | 0.38 – 0.45 | ✓ |
-| Arabidopsis | 0.28 – 0.36 | ✓ |
-| Rice | 0.26 – 0.35 | ✓ |
-
-**The germination hydration threshold is the polariton gate, not just enzyme rehydration.** Enzymes cannot start because the signal bridge is down — not because they are dehydrated per se.
+Consequently the previously listed cross-species threshold match is withdrawn.
+The numerical dielectric inputs and any biological comparison require
+frequency-specific measurements and an independently justified model.
 
 ---
 
@@ -150,7 +152,7 @@ Ca²⁺ is the **4D classical messenger** (empty d-shell = [Ar], no topological 
 Dry / unfertilised:    ε_r < 9.51  →  bare phonon  →  bridge OFF  →  dormant
 Wet / fertilised:      ε_r > 9.51  →  polariton     →  bridge ON   →  programme executes
 
-Bridge frequency:      f = c_s × c / 2R_egg  =  0.324 THz
+Geometric frequency:   f = c_s × c / 2R_egg  ≈  0.814 THz (hypothetical)
 Bridge medium:         water (seeds) or Ca²⁺ wave (eggs)
 Bridge mechanism:      KK phonon + EM mode → polariton → hydration shell modulation → tunneling bias
 Tunneling effect:      2–10× per enzyme  →  ~2–3% excess metabolic heat (observed) ✓

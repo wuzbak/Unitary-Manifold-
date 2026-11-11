@@ -1,6 +1,26 @@
 # TRUTH_LAYER.md — Full Derivation Context, Open Tensions, and Falsification
 # Unitary Manifold v38.7
 
+## Radion fifth-force qualification (2026-11-10)
+
+The zero-mode circle action does not by itself supply a stabilized radion mass
+or a matter coupling. Its optional assumed potential yields the restricted
+physical mass \(m_{\rm in}^2\phi_0/3\) for the squared mass after kinetic
+normalization. A vacuum potential minimum does not by itself eliminate a
+matter-sourced scalar force. The historical Pillar 33/37 exponential-only
+expressions are not the point-source Yukawa force and their assumed couplings
+are not an action-derived exclusion. Legacy summary verdicts now return
+`None` where no physical conclusion is established; explicitly named proxy
+fields preserve their historical calculations. The separate force helpers and
+[derivation and experimental scope](physics/RADION_FIFTH_FORCE_AUDIT.md)
+include conditional finite-sphere and patterned-slab calculations, an exact
+AdS interval example, and a separately tuned exact Minkowski interval
+background. The Minkowski example's stiff-wall radion mass is a probe
+approximation; its full coupled spectrum, matter response, and actual
+apparatus comparison remain open.
+The historical F11 SEP falsifier has been qualified; no physical closure,
+hardgate, pillar, version, or birefringence falsifier change is claimed.
+
 ## Sprint DC: planar radion scalar energy balance (2026-11-08)
 
 Pillar 1136 derives the local balance equation for the radion-weighted scalar

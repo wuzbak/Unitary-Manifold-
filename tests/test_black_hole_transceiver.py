@@ -128,6 +128,17 @@ class TestHorizonSaturation:
         kappa = horizon_saturation(state.B, state.phi)
         assert np.all(np.isfinite(kappa))
 
+    def test_fixed_finite_B_small_phi_does_not_saturate(self):
+        B = np.ones((1, 4))
+        assert horizon_saturation(B, np.array([1e-8]))[0] < 1e-14
+
+    def test_saturation_proxy_changes_for_pure_gauge_constant_shift(self):
+        phi = np.ones(2)
+        zero = np.zeros((2, 4))
+        constant = np.ones((2, 4))
+        assert np.all(horizon_saturation(zero, phi) == 0)
+        assert np.all(horizon_saturation(constant, phi) > 0)
+
 
 # ---------------------------------------------------------------------------
 # geometric_encoding_density
