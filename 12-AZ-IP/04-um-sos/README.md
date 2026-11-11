@@ -46,7 +46,8 @@ pip install -r 12-AZ-IP/04-um-sos/requirements.txt
 python 12-AZ-IP/04-um-sos/run.py
 ```
 
-The local API binds to `127.0.0.1:8000` by default. Override `UM_SOS_HOST` and
+The local API binds to `127.0.0.1:8000` by default and serves the explorer at
+`/frontend/`, with `/` redirecting there. Override `UM_SOS_HOST` and
 `UM_SOS_PORT` only when the deployment environment provides appropriate access
 controls. Docker Compose keeps the host port loopback-bound and stores local
 preregistrations in a persistent named volume.

@@ -1540,3 +1540,19 @@ Every launchable AZ-IP product now has a loopback launch contract, per-user data
 | `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `73a4822526268be94f0fdc008146e79ecda57da6c9a16623c027891a73800848` | 32369 |
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `14c859b17347aa4dbc869c00cce8dbe8235ca4e6c2ed0e2d25e630a73c766d5e` | 21488 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs` | `dfbb2aff2b62a9838ae07f0c3009a8feb65e2a6dbd253b2df3299c1e31d16bd5` | 8065 |
+
+### PC suite desktop startup and persistence reseal — 2026-11-11
+
+Repair the UM-SOS explorer and Oracle startup, direct Braided Brain to its app,
+and keep additional product databases in per-user storage. The Windows smoke
+checks are extended but have not yet been executed for these changes.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/04-um-sos/README.md` | `5536f2289d13fc4aeeab21d4d42d9a6b99de32876f7fab83e7d8f156e6c072e7` | 4357 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `555c03b8d7cc1f9032b85a02f11369456450fc722c66ef6082e312602775e492` | 45812 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `4c62026c063798331c839487df5842d087c1abf27260a2c76d93a2998de49d95` | 32396 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `5d5d8c018a7ad9624c013599c727f297b10a291a19e09ec768fadba2e4879b4e` | 21622 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `61511cc52bcfd4edf071f82289a7584d05b0c7568cb58c46a0563688cb9cf9e4` | 8171 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `116def9e8a3a4ffd6af252a573005b53ab9185dd890e575311cb15ae725422fa` | 20671 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs` | `e9394cbc93bb5ebb6e92ed4a7223a929b0f55975f058048a2f6431171f6e0254` | 8066 |

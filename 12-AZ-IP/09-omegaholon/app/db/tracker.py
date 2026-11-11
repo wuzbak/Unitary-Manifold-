@@ -17,12 +17,13 @@ Theory: ThomasCory Walker-Pearson. Implementation: GitHub Copilot (AI).
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 from datetime import datetime, date
 from pathlib import Path
 from typing import Optional
 
-DB_PATH = Path(__file__).parent.parent.parent / "data" / "omegaholon.db"
+DB_PATH = Path(os.environ.get("AZ_PRODUCT_DATA", Path(__file__).parent.parent.parent / "data")) / "omegaholon.db"
 
 
 def _connect(db_path: Path = DB_PATH) -> sqlite3.Connection:

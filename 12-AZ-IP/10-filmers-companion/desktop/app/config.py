@@ -24,7 +24,7 @@ REPO_ROOT = FILM_DIR.parent.parent  # apps/filmmakers-companion/ → repo root
 class FilmConfig:
     # Database
     db_path: Path = field(
-        default_factory=lambda: FILM_DIR / "data" / "film.db"
+        default_factory=lambda: Path(os.getenv("FILM_DB_PATH", str(FILM_DIR / "data" / "film.db")))
     )
 
     # Server

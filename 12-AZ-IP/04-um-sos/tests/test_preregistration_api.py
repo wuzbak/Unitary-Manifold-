@@ -29,6 +29,17 @@ def _payload() -> dict:
     }
 
 
+def test_local_explorer_and_its_assets_are_served_with_api(tmp_path):
+    with TestClient(create_app(tmp_path / "preregistrations.sqlite3")) as client:
+        page = client.get("/")
+        assert page.status_code == 200
+        assert str(page.url).endswith("/frontend/")
+        assert "UM-SOS Prediction Explorer" in page.text
+        for path in ("/frontend/main.js", "/frontend/styles.css", "/graph/index.html",
+                     "/registry/predictions.json", "/api/v1/predictions/all"):
+            assert client.get(path).status_code == 200
+
+
 def test_submission_is_durable_and_digest_verifiable(tmp_path):
     database = tmp_path / "preregistrations.sqlite3"
     with TestClient(create_app(database)) as client:

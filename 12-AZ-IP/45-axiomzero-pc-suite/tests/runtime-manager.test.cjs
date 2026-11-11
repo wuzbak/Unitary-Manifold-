@@ -119,6 +119,78 @@ test("loopback lifecycle checks health and owns the process without enabling Psi
   assert.equal(manager.list()[0].running, false);
   assert.throws(() => manager.stop("20"), /not running/);
 });
+test("Braided Brain health and open action target its actual UI", async (t) => {
+  const { root } = fixture(t);
+  const folder = "12-AZ-IP/25-psicat-braided-brain/";
+  fs.mkdirSync(path.join(root, folder), { recursive: true });
+  fs.writeFileSync(path.join(root, folder, "requirements.txt"), "");
+  fs.writeFileSync(path.join(root, folder, "run.py"), "");
+  let child;
+  const manager = createRuntimeManager({
+    entries: [{ id: "25", installMode: "python-venv", productFolder: folder,
+      dependencyManifest: `${folder}requirements.txt`, entrypoint: `${folder}run.py`,
+      launchArgs: ["--no-open", "--port", "8025"], healthPath: "/ui/index.html" }],
+    sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32",
+    execute: async (_exe, args) => {
+      if (args.includes("venv")) {
+        fs.mkdirSync(path.join(args.at(-1), "Scripts"), { recursive: true });
+        fs.writeFileSync(path.join(args.at(-1), "Scripts", "python.exe"), "");
+      }
+    },
+    spawnProcess(_exe, _args, options) {
+      assert.equal(options.env.AZ_PRODUCT_DATA, path.join(root, "user/products/25"));
+      child = new EventEmitter();
+      child.stdout = new PassThrough(); child.stderr = new PassThrough();
+      const server = http.createServer((request, response) => {
+        response.statusCode = request.url === "/ui/index.html" ? 200 : 404;
+        response.end();
+      });
+      server.listen(8025, "127.0.0.1");
+      child.kill = () => { server.close(() => child.emit("close", 0)); return true; };
+      return child;
+    }
+  });
+  t.after(() => manager.stopAll());
+  await manager.install("25");
+  assert.equal((await manager.start("25")).endpoint, "http://127.0.0.1:8025/ui/index.html");
+  assert.equal(manager.access("25").endpoint, "http://127.0.0.1:8025/ui/index.html");
+  manager.stop("25");
+  await new Promise((resolve) => child.once("close", resolve));
+});
+test("FilmersCompanion receives a database path in its user data directory", async (t) => {
+  const { root } = fixture(t);
+  const folder = "12-AZ-IP/10-filmers-companion/";
+  fs.mkdirSync(path.join(root, folder), { recursive: true });
+  fs.writeFileSync(path.join(root, folder, "requirements.txt"), "");
+  fs.writeFileSync(path.join(root, folder, "run.py"), "");
+  let child;
+  const manager = createRuntimeManager({
+    entries: [{ id: "10", installMode: "python-venv", productFolder: folder,
+      dependencyManifest: `${folder}requirements.txt`, entrypoint: `${folder}run.py`,
+      launchArgs: ["--host", "127.0.0.1", "--port", "7864"], healthPath: "/api/health" }],
+    sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32",
+    execute: async (_exe, args) => {
+      if (args.includes("venv")) {
+        fs.mkdirSync(path.join(args.at(-1), "Scripts"), { recursive: true });
+        fs.writeFileSync(path.join(args.at(-1), "Scripts", "python.exe"), "");
+      }
+    },
+    spawnProcess(_exe, _args, options) {
+      assert.equal(options.env.FILM_DB_PATH, path.join(root, "user/products/10/film.db"));
+      child = new EventEmitter();
+      child.stdout = new PassThrough(); child.stderr = new PassThrough();
+      const server = http.createServer((_request, response) => response.end("{}"));
+      server.listen(7864, "127.0.0.1");
+      child.kill = () => { server.close(() => child.emit("close", 0)); return true; };
+      return child;
+    }
+  });
+  t.after(() => manager.stopAll());
+  await manager.install("10");
+  await manager.start("10");
+  manager.stop("10");
+  await new Promise((resolve) => child.once("close", resolve));
+});
 test("changed source dependencies and missing executables cannot launch under an old receipt", async (t) => {
   const { manager, root } = fixture(t);
   await manager.install("20");

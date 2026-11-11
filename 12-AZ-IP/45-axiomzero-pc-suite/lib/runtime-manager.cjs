@@ -77,6 +77,7 @@ function createRuntimeManager({
     const host = "127.0.0.1";
     const files = {
       "04": { UM_SOS_HOST: host, UM_SOS_PORT: String(port), UM_SOS_PREREGISTRATION_DB: path.join(data, "preregistration.db") },
+      "10": { FILM_DB_PATH: path.join(data, "film.db") },
       "11": { TERRA_DB_PATH: path.join(data, "terra.db") },
       "12": { LITHOS_DB_PATH: path.join(data, "lithos.db"), LITHOS_OFFLINE: "true" },
       "13": { DELPHI_DB_PATH: path.join(data, "delphi.db"), DELPHI_HOST: host, DELPHI_PORT: String(port), DELPHI_OFFLINE: "true" }
@@ -315,7 +316,7 @@ function createRuntimeManager({
             request.on("error", reject);
           });
           if (failure) throw failure;
-          return { id, status: "running", endpoint: `http://127.0.0.1:${port}` };
+          return { id, status: "running", endpoint: `http://127.0.0.1:${port}${id === "25" ? "/ui/index.html" : ""}` };
         } catch (error) { lastError = error; }
         await new Promise((resolve) => setTimeout(resolve, 300));
       }
@@ -326,7 +327,7 @@ function createRuntimeManager({
       entryById(id);
       if (!services.has(id)) throw new Error("Start this managed runtime before opening it.");
       if (id === "24") throw new Error("The browser desktop opens during startup; use its taskbar window.");
-      return { endpoint: `http://127.0.0.1:${ports.get(id)}`, token: credentials.get(id) || null };
+      return { endpoint: `http://127.0.0.1:${ports.get(id)}${id === "25" ? "/ui/index.html" : ""}`, token: credentials.get(id) || null };
     },
     stop: (id) => {
       entryById(id);

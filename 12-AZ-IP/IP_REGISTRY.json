@@ -328,10 +328,10 @@
       "description": "Canonical UM-SOS product README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "d24961de87892b8f92d4f77a37309998db01a2a6da25054ad7baccd0d074d918",
-      "size_bytes": 4289,
-      "reseal_note": "Documented actual Docker build context and separate container/host bindings. Previous registry seal may predate preceding mainline edits.",
+      "updated": "2026-11-11",
+      "sha256": "5536f2289d13fc4aeeab21d4d42d9a6b99de32876f7fab83e7d8f156e6c072e7",
+      "size_bytes": 4357,
+      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
       "reseal_history": [
         {
           "updated": "2026-11-05",
@@ -344,6 +344,12 @@
           "sha256": "4455314d54e4ce3d7519ce32f482e3d4547f3505cb0c13840932f57987b25465",
           "size_bytes": 3008,
           "reseal_note": "Previously recorded seal, not a verified pre-edit file hash."
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "d24961de87892b8f92d4f77a37309998db01a2a6da25054ad7baccd0d074d918",
+          "size_bytes": 4289,
+          "reseal_note": "Documented actual Docker build context and separate container/host bindings. Previous registry seal may predate preceding mainline edits."
         }
       ]
     },
@@ -1170,10 +1176,10 @@
       "description": "Product 45 desktop portfolio launcher, private local evidence search, limits and operational boundaries",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-10",
-      "sha256": "30dd41278910d9ef8c806759c90d35380d52056b1e01bf3be996f1a46fc9e5f3",
-      "size_bytes": 45706,
-      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
+      "updated": "2026-11-11",
+      "sha256": "555c03b8d7cc1f9032b85a02f11369456450fc722c66ef6082e312602775e492",
+      "size_bytes": 45812,
+      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
       "reseal_history": [
         {
           "updated": "2026-11-08",
@@ -1419,6 +1425,12 @@
           "updated": "2026-11-08",
           "sha256": "5076df13239da19942177b75e418b79806d884970edabcdc0bf6cd993705e56f",
           "size_bytes": 45119
+        },
+        {
+          "updated": "2026-11-10",
+          "sha256": "30dd41278910d9ef8c806759c90d35380d52056b1e01bf3be996f1a46fc9e5f3",
+          "size_bytes": 45706,
+          "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite."
         }
       ]
     },
@@ -2280,10 +2292,10 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtimes.json",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-10",
-      "sha256": "73a4822526268be94f0fdc008146e79ecda57da6c9a16623c027891a73800848",
-      "size_bytes": 32369,
-      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
+      "updated": "2026-11-11",
+      "sha256": "4c62026c063798331c839487df5842d087c1abf27260a2c76d93a2998de49d95",
+      "size_bytes": 32396,
+      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2301,6 +2313,12 @@
           "updated": "2026-11-04",
           "sha256": "65d40342f81c09d216773642e763bb908dfe6aca19bd337841cd36a81e6789d2",
           "size_bytes": 32687
+        },
+        {
+          "updated": "2026-11-10",
+          "sha256": "73a4822526268be94f0fdc008146e79ecda57da6c9a16623c027891a73800848",
+          "size_bytes": 32369,
+          "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite."
         }
       ]
     },
@@ -2352,10 +2370,10 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtime-manager.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-10",
-      "sha256": "14c859b17347aa4dbc869c00cce8dbe8235ca4e6c2ed0e2d25e630a73c766d5e",
-      "size_bytes": 21488,
-      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
+      "updated": "2026-11-11",
+      "sha256": "5d5d8c018a7ad9624c013599c727f297b10a291a19e09ec768fadba2e4879b4e",
+      "size_bytes": 21622,
+      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2385,6 +2403,12 @@
           "updated": "2026-11-04",
           "sha256": "f92898014b70f6fff2f717113870d6f61faa859b772621d0b31d208a94da2574",
           "size_bytes": 20263
+        },
+        {
+          "updated": "2026-11-10",
+          "sha256": "14c859b17347aa4dbc869c00cce8dbe8235ca4e6c2ed0e2d25e630a73c766d5e",
+          "size_bytes": 21488,
+          "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite."
         }
       ]
     },
@@ -2442,10 +2466,10 @@
       "description": "Product 45 native model/runtime packaging and contracts: portfolio_smoke.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "51e4ab3c5c01b6d525931b9825b0dd32069f39d2a660b58f54f714bfe670fbdd",
-      "size_bytes": 7197,
-      "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-11",
+      "sha256": "61511cc52bcfd4edf071f82289a7584d05b0c7568cb58c46a0563688cb9cf9e4",
+      "size_bytes": 8171,
+      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2476,6 +2500,12 @@
           "sha256": "a4ca35f4e385150d40afb274e676d3ddc1e05786b99d1453708585ca9264b298",
           "size_bytes": 1922,
           "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "51e4ab3c5c01b6d525931b9825b0dd32069f39d2a660b58f54f714bfe670fbdd",
+          "size_bytes": 7197,
+          "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
         }
       ]
     },
@@ -2565,10 +2595,10 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtime-manager.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-04",
-      "sha256": "2f252d451c2ba74f929a07dfc5345b90c2c7985b16d3bfe3dadfedb04771859c",
-      "size_bytes": 17119,
-      "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion.",
+      "updated": "2026-11-11",
+      "sha256": "116def9e8a3a4ffd6af252a573005b53ab9185dd890e575311cb15ae725422fa",
+      "size_bytes": 20671,
+      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2593,6 +2623,12 @@
           "sha256": "d330293bb41989007635865c05c2bd28a58ee452d1db91d6071976934e71038d",
           "size_bytes": 6920,
           "reseal_note": "Native own-model embedding, consent-gated runtime provisioning and explicit platform limits; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-04",
+          "sha256": "2f252d451c2ba74f929a07dfc5345b90c2c7985b16d3bfe3dadfedb04771859c",
+          "size_bytes": 17119,
+          "reseal_note": "Windows desktop startup diagnostics, readiness/cleanup gates and runtime regression fixes; no production intelligence or physics claim promotion."
         }
       ]
     },
@@ -2600,10 +2636,10 @@
       "description": "Product 45 native model/runtime packaging and contracts: runtime-manifest.test.cjs",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-10",
-      "sha256": "dfbb2aff2b62a9838ae07f0c3009a8feb65e2a6dbd253b2df3299c1e31d16bd5",
-      "size_bytes": 8065,
-      "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite.",
+      "updated": "2026-11-11",
+      "sha256": "e9394cbc93bb5ebb6e92ed4a7223a929b0f55975f058048a2f6431171f6e0254",
+      "size_bytes": 8066,
+      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2615,6 +2651,12 @@
           "updated": "2026-11-07",
           "sha256": "3c0979bd5f43ab8e2b28ad802dc8c007bde351135f1ab3d4f95dce8740992da7",
           "size_bytes": 8090
+        },
+        {
+          "updated": "2026-11-10",
+          "sha256": "dfbb2aff2b62a9838ae07f0c3009a8feb65e2a6dbd253b2df3299c1e31d16bd5",
+          "size_bytes": 8065,
+          "reseal_note": "Give every launchable AZ-IP product a loopback launch contract and per-user data paths in the PC suite."
         }
       ]
     },

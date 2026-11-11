@@ -377,7 +377,9 @@ Other non-Python target tooling is not managed.
 
 Each managed Python product launches only on loopback (127.0.0.1) at a fixed
 port from the runtime manager's table, with per-user databases under the
-suite data directory. Service products (04, 08–13, 16–19, 22, 25) start their
+suite data directory for Products 04, 08–13, and 16. Product 04 serves its
+explorer and Product 25 opens its actual app page. Service products
+(04, 08–13, 16–19, 22, 25) start their
 own UI; Product 01 starts its dashboard with `run.py serve`; library products
 (03, 05, 06, 07) start a shared loopback workbench
 (`12-AZ-IP/lib/library_console`) to browse modules and call public functions.

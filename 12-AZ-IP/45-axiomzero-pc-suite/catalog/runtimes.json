@@ -9,7 +9,7 @@
     "healthPath": "/health",
     "installMode": "python-venv",
     "prerequisites": ["Python", "Repository checkout", "Optional Ollama and vector store for the cognitive backend"],
-    "limitation": "The managed launch serves the AxiomZero FastAPI dashboard on loopback port 8001 using the lean requirements-desktop.txt set. Vector-store, embedding and agent extras from requirements.txt are optional and not installed; the cognitive backend degrades gracefully without Ollama. Task execution is governed by its human-approval gate. Windows startup is checked by the installed-runtime workflow, not asserted here."
+    "limitation": "The managed launch serves the AxiomZero FastAPI dashboard on loopback port 8001 using the lean requirements-desktop.txt set. Vector-store, embedding and agent extras from requirements.txt are optional and not installed; the cognitive backend degrades gracefully without Ollama. Task execution is governed by its human-approval gate. Windows startup is not verified."
   },
   {
     "id": "02",
@@ -40,9 +40,10 @@
     "dependencyManifest": "12-AZ-IP/04-um-sos/requirements.txt",
     "entrypoint": "12-AZ-IP/04-um-sos/run.py",
     "launchArgs": [],
+    "healthPath": "/frontend/",
     "installMode": "python-venv",
     "prerequisites": ["Python", "Repository checkout", "Writable preregistration database location"],
-    "limitation": "run.py launches backend.app with uvicorn; the suite sets UM_SOS_HOST=127.0.0.1, UM_SOS_PORT=8004 and a per-user preregistration database. The backend depends on repository src modules. Windows startup is checked by the installed-runtime workflow, not asserted here."
+    "limitation": "run.py serves the explorer and backend on loopback port 8004 with a per-user preregistration database. The backend depends on repository src modules. The Windows installed-runtime workflow includes a startup check, but its result must be verified for the build being used."
   },
   {
     "id": "05",
@@ -277,6 +278,7 @@
     "dependencyManifest": "12-AZ-IP/25-psicat-braided-brain/requirements.txt",
     "entrypoint": "12-AZ-IP/25-psicat-braided-brain/run.py",
     "launchArgs": ["--no-open", "--port", "8025"],
+    "healthPath": "/ui/index.html",
     "installMode": "python-venv",
     "prerequisites": ["Browser", "Local HTTP origin for service-worker caching", "Optional Python for run.py static serving"],
     "limitation": "Stdlib static server on loopback port 8025 for the Braided Brain web app. Windows startup is not verified."

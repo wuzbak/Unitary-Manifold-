@@ -210,8 +210,9 @@ The methodology formalizes practices the best investigative journalists have alw
 
 ## Data Storage
 
-All cases are stored in a local SQLite database at `data/axiom_cases.db`. The database
-is created automatically on first run. No data leaves your machine.
+Cases are stored in `data/axiom_cases.db` by default, or under the directory
+specified by `AZ_PRODUCT_DATA` when launched by the PC suite. The database is
+created automatically on first run. No data leaves your machine.
 
 Schema:
 - `cases` — investigation metadata

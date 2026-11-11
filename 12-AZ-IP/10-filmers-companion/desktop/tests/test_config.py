@@ -77,6 +77,7 @@ def test_db_path_is_pathlib(tmp_path, monkeypatch):
     from desktop.app.config import get_config
     cfg = get_config()
     assert isinstance(cfg.db_path, Path)
+    assert cfg.db_path == tmp_path / "test.db"
 
 
 def test_db_parent_created(tmp_path, monkeypatch):
