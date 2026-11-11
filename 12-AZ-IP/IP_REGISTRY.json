@@ -327,9 +327,15 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "7917158433539d8714f705696b6fb5e0cf56ae6de97e7d91618c768f09efe2b7",
-      "size_bytes": 6879,
+      "sha256": "9698407d80d6ef859bbadf28916f8d8da0f6946183a0cd7501a76c33af012a40",
+      "size_bytes": 7086,
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "7917158433539d8714f705696b6fb5e0cf56ae6de97e7d91618c768f09efe2b7",
+          "size_bytes": 6879,
+          "reseal_note": "Documented the EIGE custody verification gap."
+        },
         {
           "updated": "2026-11-11",
           "sha256": "b1eef6670212c0658950af2e11444f6cdaadf7d9faa740f845be719b05157182",
@@ -343,7 +349,7 @@
           "reseal_note": "Previously recorded seal. The prior seal did not match the pre-edit Git version."
         }
       ],
-      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap."
+      "reseal_note": "Document durable log-bound custody sign-offs, verification and remaining official workflow limits."
     },
     "12-AZ-IP/04-um-sos/README.md": {
       "description": "Canonical UM-SOS product README",
@@ -1198,10 +1204,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "687aa93c636cdcdc0009bb8ee7c4c9ae9244624aa8af1425dc32031e866021e0",
-      "size_bytes": 47802,
-      "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap.",
+      "sha256": "03552160684cab6132c7e86a636003876daddf6d1579ff5abb5ae108a48799aa",
+      "size_bytes": 47867,
+      "reseal_note": "Document durable log-bound custody sign-offs, verification and remaining official workflow limits.",
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "687aa93c636cdcdc0009bb8ee7c4c9ae9244624aa8af1425dc32031e866021e0",
+          "size_bytes": 47802,
+          "reseal_note": "Add isolated UEFI boot preview and Android permission-prompt reporting; document the EIGE custody verification gap."
+        },
         {
           "updated": "2026-11-11",
           "sha256": "555c03b8d7cc1f9032b85a02f11369456450fc722c66ef6082e312602775e492",

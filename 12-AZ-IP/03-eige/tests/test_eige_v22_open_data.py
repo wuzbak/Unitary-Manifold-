@@ -60,3 +60,14 @@ def test_medsl_csv_parser_and_malformed_rows_fail_loudly():
         parse_medsl_county_csv(b"state_po,county_name,office,candidate,party,candidatevotes,totalvotes\nWA,King,President,Alice,D,xx,200\n")
     with pytest.raises(OpenDataError):
         parse_medsl_county_csv(b"\xff\xff")
+
+
+def test_csv_newlines_and_malformed_quoted_fields():
+    rows = parse_openelections_csv(b'county,office,candidate,votes\rA,Mayor,"Alice\rSmith",2\r')
+    assert rows[0].candidate == "Alice\rSmith"
+    for data in (b"\r\x00", b'county,office,candidate,votes\nA,Mayor,"unfinished',
+                 "county,office,candidate,votes\nA,Mayor,Alice,²\n".encode()):
+        with pytest.raises(OpenDataError):
+            parse_openelections_csv(data)
+    with pytest.raises(OpenDataError, match="invalid CSV"):
+        parse_medsl_county_csv(b'state_po,county_name,office,candidate,party,candidatevotes,totalvotes\nWA,"unfinished')

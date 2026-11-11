@@ -27,6 +27,8 @@ from .audit import reconciliation as recon
 from .bundle import MAX_ENTRY_BYTES
 from .canonical import CanonicalEncodingError, decode_canonical
 from .crypto import merkle
+from .crypto.signing import KeyRegistry
+from .ledger.custody import CustodyScan
 from .model.election import parse_cvr, parse_election
 
 _MALFORMED = (ValueError, KeyError, TypeError, AttributeError, IndexError)
@@ -54,13 +56,14 @@ def split_ranges(path: str, parts: int) -> List[Tuple[int, int]]:
 
 
 def _worker(args: tuple) -> dict:
-    path, start, end, election_doc, track_units, wanted_batches, id_dir, max_entry = args
+    path, start, end, election_doc, track_units, wanted_batches, id_dir, max_entry, registry_doc, log_id = args
     election = parse_election(election_doc) if election_doc is not None else None
+    registry = KeyRegistry.from_dict(registry_doc)
     contests = election.contest_map if election else {}
     hashes = bytearray()
     out: Dict[str, Any] = {"n": 0, "bad": [], "bad_count": 0, "cvr_count": 0, "cvr_error": None,
                            "read_error": None, "counted": Counter(), "totals": {}, "units": {},
-                           "without_unit": 0, "offsets": {}}
+                           "without_unit": 0, "offsets": {}, "custody": CustodyScan()}
     totals: Dict[str, list] = {}
     if election:
         for c in election.contests:
@@ -105,6 +108,7 @@ def _worker(args: tuple) -> dict:
                     if len(out["bad"]) < 10:
                         out["bad"].append(i)
                     continue
+                out["custody"].observe(obj, i, registry, log_id)
                 if election is None or out["cvr_error"] is not None or obj.get("type") != "cvr":
                     continue
                 k = out["cvr_count"]
@@ -199,6 +203,7 @@ def _ordered(pool: ProcessPoolExecutor, fn, jobs: List[tuple], window: int) -> I
 
 def parallel_scan(path: str, workers: int, head_sizes: Set[int], election_doc: Optional[dict],
                   acc: Optional[recon.CanvassAccumulator], wanted: Set[Tuple[str, int]],
+                  registry: KeyRegistry, log_id: str,
                   tmpdir: Optional[str] = None, chunks_per_worker: int = 4,
                   chunk_bytes: Optional[int] = None):
     """Return a scan result equivalent to the serial ``_scan_log``."""
@@ -217,7 +222,7 @@ def parallel_scan(path: str, workers: int, head_sizes: Set[int], election_doc: O
     dirs = [os.path.join(root, f"w{k:06d}") for k in range(len(ranges))]
     merged = os.path.join(root, "ids")
     os.makedirs(merged)
-    jobs = [(path, a, b, election_doc, track_units, wanted_batches, d, MAX_ENTRY_BYTES)
+    jobs = [(path, a, b, election_doc, track_units, wanted_batches, d, MAX_ENTRY_BYTES, registry.as_dict(), log_id)
             for (a, b), d in zip(ranges, dirs)]
     batch_seen: Counter = Counter()
     locate: List[Tuple[str, int, int]] = []  # (batch, global position, byte offset)
@@ -227,6 +232,7 @@ def parallel_scan(path: str, workers: int, head_sizes: Set[int], election_doc: O
             for k, r in enumerate(_ordered(pool, _worker, jobs, window=2 * workers)):
                 _merge_buckets(dirs[k], merged)
                 base = s.n
+                s.custody.merge(r["custody"], base)
                 hb = r["hashes"]
                 for off in range(0, len(hb), 32):
                     tree.append(hb[off:off + 32])

@@ -10,6 +10,7 @@ import eige.cvr_import as ci
 from eige import county
 from eige.cvr_import import CVRImportError, iter_cvr_text, nist_cvr_to_eige
 from eige.crypto.signing import DevelopmentSigner, KeyRegistry
+from eige.ledger.custody import sign_off
 from eige.ledger.store import DurableMerkleLog
 from eige.model.election import parse_cvr, parse_election
 from eige.pipeline import SYNTHETIC_ELECTION
@@ -169,6 +170,99 @@ def test_county_end_to_end_bundle_verifies(county_dir, capsys):
     assert "Reporting-unit (precinct) results" not in names  # unit-level results were published and checked
     rc, out, _ = run(capsys, "status", db, "--check-integrity")
     assert rc == 0 and out["integrity"] == "ok" and out["size"] == 8
+
+
+def test_durable_custody_signoffs_and_independent_bundle_verification(county_dir, capsys, monkeypatch):
+    d = county_dir
+    db = d / "county.db"
+    assert run(capsys, "init", db, "--log-id", "SYNTH-COUNTY")[0] == 0
+    assert run(capsys, "commit-manifest", db, "--manifest", d / "manifest.json")[0] == 0
+    assert run(capsys, "ingest", db, "--election", d / "election.json", "--manifest", d / "manifest.json",
+               "--cvrs", d / "a.csv", d / "b.csv", "--format", "csv")[0] == 0
+
+    reg = KeyRegistry()
+    reg.register_signer(DevelopmentSigner(bytes.fromhex("11" * 32)), "SYNTH-COUNTY", "county-log", 0)
+    for name, byte in (("alice", "22"), ("bob", "33")):
+        seed = bytes.fromhex(byte * 32)
+        (d / f"{name}.key").write_text(seed.hex())
+        reg.register_signer(DevelopmentSigner(seed), name, "official", 0)
+    (d / "registry.json").write_text(json.dumps(reg.as_dict()))
+    body = {"event": "seal_applied", "container_id": "BOX-1", "location": "warehouse",
+            "timestamp": 900, "details": {"seal_id": "S-1"}, "log_id": "SYNTH-COUNTY"}
+    (d / "body.json").write_text(json.dumps(body))
+    for name in ("alice", "bob"):
+        rc, signed, _ = run(capsys, "custody-sign", db, "--body", d / "body.json",
+                            "--registry", d / "registry.json", "--official", name, "--dev-key-file", d / f"{name}.key",
+                            "--out", d / f"{name}.json")
+        assert rc == 0 and signed["written"] == str(d / f"{name}.json")
+        assert json.loads((d / f"{name}.json").read_text(encoding="utf-8"))["official_id"] == name
+    before = (d / "alice.json").read_bytes()
+    assert run(capsys, "custody-sign", db, "--body", d / "body.json", "--registry", d / "registry.json",
+               "--official", "alice", "--dev-key-file", d / "alice.key", "--out", d / "alice.json")[0] == 2
+    assert (d / "alice.json").read_bytes() == before
+
+    record = ("custody-record", db, "--body", d / "body.json", "--registry", d / "registry.json")
+    assert run(capsys, *record, "--signoff", d / "alice.json", "--signoff", d / "alice.json")[0] == 2
+    assert run(capsys, "event", db, "--type", "custody_v2")[0] == 2
+    monkeypatch.setenv("EIGE_MODE", "production")
+    rc, _, err = run(capsys, *record, "--signoff", d / "alice.json", "--signoff", d / "bob.json")
+    assert rc == 2 and "development-only" in err
+    monkeypatch.delenv("EIGE_MODE")
+    assert run(capsys, *record, "--signoff", d / "alice.json", "--signoff", d / "bob.json")[0] == 0
+    assert run(capsys, "event", db, "--type", "chain_of_custody")[0] == 0
+    assert run(capsys, "sign-head", db, "--timestamp", 1000, "--dev-key-file", d / "dev.key")[0] == 0
+    assert run(capsys, "results", db, "--election", d / "election.json", "--out", d / "results.json")[0] == 0
+    export = ("export", db, "--out", d / "bundle", "--file", f"registry.json={d / 'registry.json'}",
+              "--file", f"election.json={d / 'election.json'}", "--file", f"manifest.json={d / 'manifest.json'}",
+              "--file", f"results.json={d / 'results.json'}")
+    assert run(capsys, *export)[0] == 0
+    report = verify_bundle(str(d / "bundle"))
+    checks = {c.check: c.status for c in report.checks}
+    assert report.passed and checks["Log-bound custody signatures"] == "verified"
+    assert checks["Legacy custody events"] == "not_checked"
+    assert checks["Production custody keys"] == "warning"
+    assert verify_bundle(str(d / "bundle"), workers=2).as_dict() == report.as_dict()
+
+    # A county can sign an invalid entry's Merkle root; the independent
+    # verifier must still reject the forged official signature.
+    forged = {"type": "custody_v2", "body": body, "signoffs": [
+        json.loads((d / "alice.json").read_text()), json.loads((d / "bob.json").read_text())]}
+    forged["signoffs"][1]["signature"] = "00" * 64
+    with DurableMerkleLog(db) as log:
+        log.append(forged)
+    assert run(capsys, "sign-head", db, "--timestamp", 1100, "--dev-key-file", d / "dev.key")[0] == 0
+    assert run(capsys, *export)[0] == 0
+    report = verify_bundle(str(d / "bundle"))
+    assert not report.passed
+    assert any(c.check == "Log-bound custody signatures" and c.status == "failed" for c in report.checks)
+    assert verify_bundle(str(d / "bundle"), workers=2).as_dict() == report.as_dict()
+
+
+@pytest.mark.parametrize("mutation", ["wrong_log", "wrong_role", "bad_signature", "missing_details", "malformed"])
+def test_custody_record_rejects_invalid_attestations_without_writing(county_dir, capsys, mutation):
+    d = county_dir
+    db = d / "county.db"
+    assert run(capsys, "init", db, "--log-id", "COUNTY")[0] == 0
+    alice, bob = DevelopmentSigner(b"a" * 32), DevelopmentSigner(b"b" * 32)
+    reg = KeyRegistry()
+    reg.register_signer(alice, "alice", "official", 0)
+    reg.register_signer(bob, "bob", "witness" if mutation == "wrong_role" else "official", 0)
+    body = {"event": "seal_applied", "container_id": "box", "location": "store", "timestamp": 5,
+            "details": {"seal_id": "S"}, "log_id": "OTHER" if mutation == "wrong_log" else "COUNTY"}
+    if mutation == "missing_details":
+        body["details"] = {}
+    signoffs = [sign_off(body, "alice", alice).as_dict(), sign_off(body, "bob", bob).as_dict()]
+    if mutation == "bad_signature":
+        signoffs[1]["signature"] = "00" * 64
+    if mutation == "malformed":
+        signoffs[1]["official_id"] = None
+    for name, value in (("body", body), ("registry", reg.as_dict()), ("a", signoffs[0]), ("b", signoffs[1])):
+        (d / f"{name}.json").write_text(json.dumps(value))
+    rc, _, _ = run(capsys, "custody-record", db, "--body", d / "body.json", "--registry", d / "registry.json",
+                   "--signoff", d / "a.json", "--signoff", d / "b.json")
+    assert rc == 2
+    with DurableMerkleLog(db) as log:
+        assert log.size == 0
 
 
 def test_ingest_is_all_or_nothing_and_never_logs_a_cvr_twice(county_dir, capsys):

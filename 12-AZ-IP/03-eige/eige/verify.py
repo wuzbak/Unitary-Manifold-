@@ -34,6 +34,7 @@ from .crypto import commitments as cm
 from .crypto import merkle
 from .crypto.signing import KeyRegistry
 from .ledger.bulletin import Cosignature, verify_cosignature
+from .ledger.custody import CustodyScan
 from .ledger.log import SignedTreeHead
 from .model.election import (
     CVR,
@@ -62,6 +63,7 @@ class _Scan:
         self.cvr_error: Optional[str] = None
         self.captured: Dict[Tuple[str, int], CVR] = {}
         self.read_error: Optional[str] = None
+        self.custody = CustodyScan()
 
 
 def _scan_log(
@@ -70,6 +72,8 @@ def _scan_log(
     election: Optional[Election],
     acc: Optional[recon.CanvassAccumulator],
     wanted: Set[Tuple[str, int]],
+    registry: KeyRegistry,
+    log_id: str,
 ) -> _Scan:
     """One pass, O(log n + batches + sample) memory: canonical form, Merkle roots
     at every published head size, CVR parsing, tallies and audit-sample capture."""
@@ -96,6 +100,7 @@ def _scan_log(
                 if len(s.bad) < 10:
                     s.bad.append(i)
                 continue
+            s.custody.observe(obj, i, registry, log_id)
             if election is None or s.cvr_error is not None or obj.get("type") != "cvr":
                 continue
             k = s.cvr_count
@@ -168,13 +173,40 @@ def _report_log(scan: _Scan, heads_raw: Sequence[dict], registry: KeyRegistry,
     return heads, ok
 
 
+def _report_custody(scan: _Scan, report: VerificationReport) -> None:
+    custody = scan.custody
+    if scan.read_error or scan.bad_count:
+        report.add("Log-bound custody signatures", NOT_CHECKED, "log was unreadable or contained noncanonical entries")
+    elif custody.failures:
+        examples = "; ".join(f"index {index}: {reason}" for index, reason in custody.examples)
+        report.add("Log-bound custody signatures", FAILED, f"{custody.failures} invalid entr(y/ies): {examples}")
+    elif custody.signed:
+        report.add("Log-bound custody signatures", VERIFIED,
+                   f"{custody.signed} entr(y/ies) have two distinct registered official signatures")
+    else:
+        report.add("Log-bound custody signatures", NOT_CHECKED, "no log-bound custody entries published")
+    if custody.legacy:
+        report.add("Legacy custody events", NOT_CHECKED,
+                   f"{custody.legacy} legacy entr(y/ies) were not checked as signed custody records")
+    if custody.development:
+        report.add("Production custody keys", WARNING, "at least one custody sign-off uses a development-only key")
+
+
+def _head_log_id(heads_raw: Sequence[dict]) -> str:
+    if heads_raw and isinstance(heads_raw[0], dict) and isinstance(heads_raw[0].get("log_id"), str):
+        return heads_raw[0]["log_id"]
+    return ""
+
+
 def verify_log(
     raw_entries: Iterable[bytes], heads_raw: Sequence[dict], registry: KeyRegistry, report: VerificationReport
 ) -> Tuple[List[SignedTreeHead], bool]:
     """Verify signed tree heads against a (streamed) log."""
     sizes = {h.get("tree_size") for h in heads_raw if isinstance(h, dict) and isinstance(h.get("tree_size"), int)}
-    scan = _scan_log(raw_entries, sizes, None, None, set())
-    return _report_log(scan, heads_raw, registry, report)
+    scan = _scan_log(raw_entries, sizes, None, None, set(), registry, _head_log_id(heads_raw))
+    heads, ok = _report_log(scan, heads_raw, registry, report)
+    _report_custody(scan, report)
+    return heads, ok and not (scan.bad_count or scan.read_error or scan.custody.failures)
 
 
 def _audit_specs(audit: dict) -> List[dict]:
@@ -316,12 +348,13 @@ def verify_stream(meta: Dict[str, Any], log_lines: Optional[Iterable[bytes]], *,
         if log_path is not None and workers > 1:
             from .parallel_scan import parallel_scan
             scan = parallel_scan(log_path, workers, head_sizes, meta["election.json"] if election else None,
-                                 acc, wanted, tmpdir=tmpdir)
+                                 acc, wanted, registry, _head_log_id(heads_raw), tmpdir=tmpdir)
         else:
             if log_lines is None:
                 raise ValueError("log_lines required for a serial scan")
-            scan = _scan_log(log_lines, head_sizes, election, acc, wanted)
+            scan = _scan_log(log_lines, head_sizes, election, acc, wanted, registry, _head_log_id(heads_raw))
         heads, _ = _report_log(scan, heads_raw, registry, report)
+        _report_custody(scan, report)
         _verify_content(meta, report, scan, heads, acc, registry, unit_reported)
     finally:
         if acc is not None:

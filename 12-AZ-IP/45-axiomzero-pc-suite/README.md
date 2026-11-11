@@ -410,9 +410,10 @@ keys, required sign-offs and optional PKCS#11 dependencies remain the
 operator's responsibility. The shell can execute arbitrary commands as the
 user and remains open after the suite exits. It is not the official cockpit,
 does not enforce its workflow gates, and verification is not certification.
-In particular, county administrative events and bundle verification do not
-enforce the custody ledger's two-official signature checks; see Product 03's
-README before using custody records.
+Product 03 now also has log-bound signed custody CLI commands and bundle
+signature checks, but legacy administrative custody events are not checked and
+the complete official workflow is not enforced; see Product 03's README before
+using custody records.
 
 Products 24 and 27 use the managed Node toolchain. **Install private Node LTS** downloads the
 maintained Node 24 Windows x64 archive and checksum manifest from fixed

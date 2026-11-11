@@ -69,6 +69,44 @@ This document describes the operator flow that the official cockpit should imple
 - An export file that changed while it was being ingested.
 - A failed `status --check-integrity` on the county log database.
 
+### Durable custody sign-offs
+
+The county CLI supports separately produced, log-bound Ed25519 custody
+sign-offs. Prepare a JSON body such as:
+
+```json
+{"event":"seal_applied","container_id":"BOX-1","location":"warehouse",
+ "timestamp":1793700000,"details":{"seal_id":"S-1"},"log_id":"COUNTY-LOG-ID"}
+```
+
+The `log_id` must match the initialized county database. Each official signs
+the exact same body using their own registered official key. In production,
+set `EIGE_MODE=production`, use an HSM, and supply `EIGE_PKCS11_PIN` securely
+in each official's environment. For example:
+
+```bash
+python -m eige.county custody-sign county.db --body body.json --registry registry.json \
+  --official alice --pkcs11-lib /path/to/pkcs11.so --token TOKEN --key-label ALICE_KEY --out alice.json
+python -m eige.county custody-sign county.db --body body.json --registry registry.json \
+  --official bob --pkcs11-lib /path/to/pkcs11.so --token TOKEN --key-label BOB_KEY --out bob.json
+python -m eige.county custody-record county.db --body body.json --registry registry.json \
+  --signoff alice.json --signoff bob.json
+```
+
+For Windows PowerShell, use the same commands on single lines with the local
+PKCS#11 library path. `--out` creates UTF-8 JSON exclusively rather than
+overwriting an existing sign-off; this avoids PowerShell 5 redirection encoding.
+The record command rejects invalid, wrong-role, duplicate-official, wrong-log
+and (in production mode) development-key sign-offs before appending. The
+bundle verifier independently checks each `custody_v2` signature against its
+published registry in serial and parallel scans. Development keys are flagged;
+legacy unsigned `chain_of_custody` events and older in-memory `custody` entries
+are reported as `not_checked`. Establish registry authenticity independently:
+the bundle itself cannot prove that a registry represents the jurisdiction.
+The checks attest only to signed records, not physical custody, completeness,
+custody sequence, or readiness to certify. The cockpit and other workflow gates
+in this blueprint are not yet implemented.
+
 ## 3. Reconcile screen
 
 **Purpose:** Compare CVRs, manifests, cast counts, provisional counts, and reported results before audit or publication.

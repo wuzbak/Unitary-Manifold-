@@ -1608,3 +1608,14 @@ and Android qualification and the official EIGE cockpit remain open.
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `b0e47d297e5a8f6da7a7e16fbbb76f71f262411f4fb9444416a33522f812fb53` | 21080 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `79518c4c3843738349c37f3aa4566f13780529b719388585fdb8bf999a7526c3` | 31213 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/uefi-vm.test.cjs` | `a06dffdf697864f3e205c87169b3d10cdc8e3820b445c68a3349bcb649ea717b` | 5675 |
+
+### EIGE durable custody documentation reseal — 2026-11-11
+
+Document separately signed log-bound custody records and their independent
+verification. Legacy events remain unchecked; the full official cockpit and
+workflow gates remain open.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/03-eige/README.md` | `9698407d80d6ef859bbadf28916f8d8da0f6946183a0cd7501a76c33af012a40` | 7086 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `03552160684cab6132c7e86a636003876daddf6d1579ff5abb5ae108a48799aa` | 47867 |

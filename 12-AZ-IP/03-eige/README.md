@@ -60,11 +60,14 @@ EIGE is built to handle a full county or state, not a sample of one:
 - **Verification** — `python -m eige.verify bundle` reads the log in a single streaming pass, in bounded memory, and can split the work across processes with `--workers`; the report is identical either way. Merkle proofs read O(log² n) stored nodes rather than rebuilding the tree.
 - **Full-population checks** — results by reporting unit, risk-limiting audits of every contest from one sample (`eige.audit_input.v2`), conservative handling of lost ballots, and `python -m eige.verify state` for the statewide roll-up.
 
-**Custody integration gap:** `county event` appends administrative event data
-without applying `CustodyLedger`'s two-official signature checks, and the bundle
-verifier does not validate custody attestations. Do not treat those county
-events or a successful bundle report as proof of compliant chain of custody.
-The in-memory `CustodyLedger` checks are not yet a durable official workflow.
+**Custody boundary:** `county custody-sign` and `county custody-record` support
+log-bound, two-official signatures in the durable log, and the bundle verifier
+checks those signatures against the supplied public registry. The registry's
+authority must be established independently. Legacy `county event` records
+and in-memory `custody` entries are not checked as signed custody records;
+the verifier marks them `not_checked`. Signatures do not prove physical custody
+or enforce the complete official workflow. See
+[the custody procedure](blueprint/OFFICIAL_WORKFLOW.md#durable-custody-sign-offs).
 
 Measured throughput and memory, and the method for reproducing them, are in [SCALE.md](SCALE.md).
 

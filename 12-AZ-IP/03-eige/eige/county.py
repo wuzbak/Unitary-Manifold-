@@ -46,10 +46,12 @@ from typing import Any, Dict, Iterator, List, Optional
 
 from .audit.reconciliation import CanvassAccumulator
 from .canonical import canonical_bytes
-from .crypto.signing import DevelopmentSigner, PKCS11Ed25519Signer, Signer
+from .config import is_production
+from .crypto.signing import DevelopmentSigner, KeyRegistry, PKCS11Ed25519Signer, Signer
 from .cvr_import import READERS, CVRImportError, iter_cvr_file
 from .dedup import DuplicateDetector
 from .ledger.log import LogError
+from .ledger.custody import SIGNED_CUSTODY_TYPE, sign_off, validate_bound_body, validate_bound_entry, validate_signoff
 from .ledger.store import DurableMerkleLog
 from .model.election import (
     CVR,
@@ -246,8 +248,36 @@ def _cmd_event(a: argparse.Namespace) -> dict:
     details = _load_json(a.details) if a.details else {}
     if a.type == "cvr":
         raise CountyError("use 'ingest' to log CVRs")
+    if a.type in ("custody", SIGNED_CUSTODY_TYPE):
+        raise CountyError("signed custody types are reserved; use 'custody-record'")
     with _open(a) as log:
         return {"index": log.append({"type": a.type, "details": details})}
+
+
+def _cmd_custody_sign(a: argparse.Namespace) -> dict:
+    body = _load_json(a.body)
+    registry = KeyRegistry.from_dict(_load_json(a.registry))
+    with _open(a) as log:
+        _require_integrity(log)
+        validate_bound_body(body, log.log_id)
+        signoff = sign_off(body, a.official, make_signer(a))
+        validate_signoff(body, signoff, registry, allow_development=not is_production())
+        if a.out:
+            with open(a.out, "x", encoding="utf-8", newline="\n") as out:
+                json.dump(signoff.as_dict(), out, sort_keys=True)
+                out.write("\n")
+            return {"written": a.out, "official_id": signoff.official_id, "key_id": signoff.key_id}
+        return signoff.as_dict()
+
+
+def _cmd_custody_record(a: argparse.Namespace) -> dict:
+    body = _load_json(a.body)
+    registry = KeyRegistry.from_dict(_load_json(a.registry))
+    entry = {"type": SIGNED_CUSTODY_TYPE, "body": body, "signoffs": [_load_json(p) for p in a.signoff]}
+    with _open(a) as log:
+        _require_integrity(log)
+        validate_bound_entry(entry, registry, log.log_id, allow_development=not is_production())
+        return {"index": log.append(entry)}
 
 
 def _require_integrity(log: DurableMerkleLog) -> None:
@@ -318,9 +348,22 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("db"); s.add_argument("--manifest", required=True)
     s.set_defaults(fn=_cmd_commit_manifest)
 
-    s = sub.add_parser("event", help="log an administrative event (e.g. chain-of-custody)")
+    s = sub.add_parser("event", help="log an unsigned administrative event (not a custody sign-off)")
     s.add_argument("db"); s.add_argument("--type", required=True); s.add_argument("--details")
     s.set_defaults(fn=_cmd_event)
+
+    s = sub.add_parser("custody-sign", help="sign a log-bound custody body as one registered official")
+    s.add_argument("db"); s.add_argument("--body", required=True); s.add_argument("--registry", required=True)
+    s.add_argument("--official", required=True)
+    s.add_argument("--out", help="write the sign-off as UTF-8 JSON without overwriting an existing file")
+    s.add_argument("--pkcs11-lib"); s.add_argument("--token"); s.add_argument("--key-label")
+    s.add_argument("--dev-key-file", help="hex Ed25519 seed; DEVELOPMENT ONLY, refused in production")
+    s.set_defaults(fn=_cmd_custody_sign)
+
+    s = sub.add_parser("custody-record", help="validate and durably log two-official custody sign-offs")
+    s.add_argument("db"); s.add_argument("--body", required=True); s.add_argument("--registry", required=True)
+    s.add_argument("--signoff", action="append", required=True, help="path to a separately produced sign-off JSON")
+    s.set_defaults(fn=_cmd_custody_record)
 
     s = sub.add_parser("sign-head", help="sign the current tree head")
     s.add_argument("db"); s.add_argument("--timestamp", type=int, required=True)
