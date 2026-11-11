@@ -4,8 +4,8 @@ This folder is the curated PsiCat editorial lane for outreach.
 
 ## Structure
 
-- `Books/` — **58 individual, complete books**, one Markdown file per book:
-  50 narrative rewrites and 8 original commissioned works.
+- `Books/` — **59 individual, complete books**, one Markdown file per book:
+  50 narrative rewrites and 9 original commissioned works.
 - `Articles/` — short-form narrative rewrites (tight, readable, precise)
 - `Releases/` — original commissioned explainers of corporate policy, separately
   indexed from the historical book/article rewrite counts.
@@ -60,9 +60,9 @@ Books 1–52 are unchanged; no books have been combined with one another.
 
 ## Current coverage in this pass
 
-Coverage so far: **50 / 50 books**, **357 / 357 articles**.
+Coverage so far: **50 / 50 rewrite books**, **357 / 357 articles**.
 
-Original works (not rewrites): **10** — Books 51, 52, 53, 54, 55, 56, 57, 58; Articles 353, 354.
+Original works (not rewrites): **11** — Books 51, 52, 53, 54, 55, 56, 57, 58, 59; Articles 353, 354.
 
 ### Books
 
@@ -129,6 +129,7 @@ Original works (not rewrites): **10** — Books 51, 52, 53, 54, 55, 56, 57, 58; 
 8. [`book-56-the-complete-pillar-guide.md`](Books/book-56-the-complete-pillar-guide.md) — *The Complete Pillar Guide* (complete single-volume book; 10 main sections and all 5 adjacent-track catalog blocks covering every hardgate pillar 1–208 by domain, the adjacent-track economy 218+ by theme and individually through 1131, and a corrected epistemic ledger; researched directly against `docs/mas_tracker.yml`, `STATUS.md`, `docs/TRUTH_LAYER.md`, `FALLIBILITY.md`, `PILLARS/README.md`, and `bot/rag_index.py`, with the frozen v18.5 `7-OUTREACH/pillar-guide/` descriptions adapted and corrected against current status; not grounded in any substack source)
 9. [`book-57-axiomzero-applied-sciences-and-intellectual-properties.md`](Books/book-57-axiomzero-applied-sciences-and-intellectual-properties.md) — *AxiomZero Applied Sciences and Intellectual Properties* (complete single-volume original commissioned manuscript with six internal sections; all 45 canonical products, their integration boundaries, applied-science aims, and the separately pinned AZ ML master-plan development branch).
 10. [`book-58-the-state-of-the-manifold.md`](Books/book-58-the-state-of-the-manifold.md) — *The State of the Manifold: The AxiomZero Monorepo* (complete single-volume original commissioned manuscript with six internal sections; scientific foundations, formal and observational evidence, independent governance, applied domains, publication, engineering, holistic strengths, weaknesses, and next decisions).
+11. [`book-59-the-work-between-the-equations.md`](Books/book-59-the-work-between-the-equations.md) — *The Work Between the Equations* (original commissioned synthesis of cross-domain coordination, PsiCat publications, Base44 webspace boundaries, Markdown/RAG context reuse, and the project's value independent of a future LiteBIRD outcome; researched with the local RAG index and the supplied Nov. 10 publication export, with no external PsiCat inference or live-site verification claimed).
 
 ### Articles
 
