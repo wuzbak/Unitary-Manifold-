@@ -1664,3 +1664,13 @@ retain crash diagnostics if the process never appears.
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `a88d28525e51d2dc8583cff40d46f2cde386cc5be10b74dc544c1253c0483ba1` | 31892 |
+
+### Product 24 cold Navigator readiness — 2026-11-11
+
+Allow the Product 20 Navigator sidecar a bounded 30-second cold-start window on
+Windows while preserving strict health-payload validation and fail-closed
+startup and cleanup.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/24-psicat-web-browser/desktop/runtime.js` | `a7b99f699f8f47b53f72d675cbd496fbc473e12c5682800fb17d534281f226ea` | 31495 |

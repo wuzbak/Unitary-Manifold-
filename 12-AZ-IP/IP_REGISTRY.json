@@ -3143,11 +3143,17 @@
       "description": "Product 24 Windows runtime integration and contracts: runtime.js",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-06",
-      "sha256": "c0941291b94cb2a0e52dfaf2f5a8f72deb170c60e1795490799ae86db19a23cd",
-      "size_bytes": 31472,
-      "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests.",
+      "updated": "2026-11-11",
+      "sha256": "a7b99f699f8f47b53f72d675cbd496fbc473e12c5682800fb17d534281f226ea",
+      "size_bytes": 31495,
+      "reseal_note": "Allow Product 24's Navigator sidecar up to 30 seconds for a cold Windows startup while retaining strict health validation and fail-closed startup and cleanup.",
       "reseal_history": [
+        {
+          "updated": "2026-11-06",
+          "sha256": "c0941291b94cb2a0e52dfaf2f5a8f72deb170c60e1795490799ae86db19a23cd",
+          "size_bytes": 31472,
+          "reseal_note": "Close PR review findings by preserving in-flight local edits during backend sync and preventing corpus Python execution during evidence retrieval; retain current/historical selection and explicit boundary tests."
+        },
         {
           "updated": "2026-11-05",
           "sha256": "8969484ad05d0e8d1f85b155c3e9e34cfe2b533a8ffd5d49e7d5bab887310c40",
