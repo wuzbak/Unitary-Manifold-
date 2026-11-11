@@ -1628,3 +1628,21 @@ Actual Windows results remain pending.
 | Asset | SHA-256 | Bytes |
 |-------|---------|------:|
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `67e1c838f1fc9b2aff288579f8f0a56d2c198250739cbea616510c31e7edc7f1` | 10765 |
+
+### PC suite 0.1.3 candidate and EIGE Windows case compatibility — 2026-11-11
+
+Distinguish the unpublished updated installer from the existing 0.1.2 release,
+synchronize both catalogs, and scope Python case compatibility to EIGE on
+Windows. Native qualification and release publication remain pending.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/README.md` | `6d7646ddde30066062ec4e0330c83eccdbddc59b0e360d5694b2f7d49a939a2b` | 22675 |
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `52eaa842a8d705319e08c0bbdc56c51063b07d919b80ceb2fa9d9cf35b4cf75d` | 48079 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package.json` | `24313846af4b14f1fa6f5bcb337d10a5eaf68ab2109aad454961566b09499c7b` | 3341 |
+| `12-AZ-IP/45-axiomzero-pc-suite/package-lock.json` | `ff5148ba9d4eab794f929aecf1fbb23bdb3ed45e2b11f5d00fccda2ec2464119` | 127807 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/products.json` | `bc367173ab2dbd3522272f265b6adc322ca65b122426944e286f6f2a482ef187` | 16717 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/download-installer-kit.ps1` | `6b43ea6f964be4404ce00f49abb42a9e71fe6625dd125aded860c5d8099fd392` | 13646 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `e678a071613d39dc43d70a13754dcb236a8e76db0c0d90e215405f396089d5e3` | 25032 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `1e83ca1e68ad6d5649c9241bd3048a234aa359a69b61cac19a2659a9ded24d08` | 25250 |
+| `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `bc367173ab2dbd3522272f265b6adc322ca65b122426944e286f6f2a482ef187` | 16717 |

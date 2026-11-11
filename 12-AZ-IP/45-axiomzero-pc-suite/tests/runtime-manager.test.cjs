@@ -97,7 +97,9 @@ test("EIGE console opens only for a current installed environment and fixed work
   assert.equal((await manager.openEigeConsole()).status, "console-started");
   assert.deepEqual(calls.filter((call) => call.args.at(-1) === "--help").map((call) => call.args[1]),
     ["eige.county", "eige.verify"]);
+  assert.ok(calls.filter((call) => call.args.at(-1) === "--help").every((call) => call.options.env.PYTHONCASEOK === "1"));
   const call = calls.at(-1);
+  assert.equal(call.options.env.PYTHONCASEOK, "1");
   assert.match(call.exe, /WindowsPowerShell\\v1\.0\\powershell\.exe$/);
   assert.equal(call.options.cwd, path.join(root, "user/products/03"));
   const script = Buffer.from(call.options.env.AZ_EIGE_COMMAND, "base64").toString("utf16le");
@@ -132,10 +134,10 @@ test("EIGE workflow console starts a real Windows PowerShell process", {
 }, async (t) => {
   const { root } = fixture(t);
   const folder = "12-AZ-IP/03-eige/";
-  fs.mkdirSync(path.join(root, folder, "eige"), { recursive: true });
+  fs.mkdirSync(path.join(root, folder, "EIGE"), { recursive: true });
   fs.writeFileSync(path.join(root, folder, "requirements.txt"), "");
-  fs.writeFileSync(path.join(root, folder, "eige/__init__.py"), "");
-  for (const module of ["county", "verify"]) fs.writeFileSync(path.join(root, folder, `eige/${module}.py`), "print('help')\n");
+  fs.writeFileSync(path.join(root, folder, "EIGE/__init__.py"), "");
+  for (const module of ["county", "verify"]) fs.writeFileSync(path.join(root, folder, `EIGE/${module}.py`), "print('help')\n");
   const manager = createRuntimeManager({
     entries: [{ id: "03", installMode: "python-venv", productFolder: folder, dependencyManifest: `${folder}requirements.txt` }],
     sourceRoot: root, dataDirectory: path.join(root, "user")

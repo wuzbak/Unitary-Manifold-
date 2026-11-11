@@ -99,6 +99,7 @@ jobs:
       - name: Exercise durable custody, signing and bundle verification on Windows
         env:
           PYTHONPATH: ${{ github.workspace }}/12-AZ-IP/03-eige
+          PYTHONCASEOK: "1"
         run: >-
           python -m pytest
           12-AZ-IP/03-eige/tests/test_eige_scale_ingest.py

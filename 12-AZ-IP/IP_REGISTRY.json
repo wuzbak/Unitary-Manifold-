@@ -408,11 +408,17 @@
       "description": "Canonical 12-AZ-IP master registry README",
       "category": "tools",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "9ffd3291bc5b897b9d4a5f400cf835fce376772972fcb5b45df157dca9b11234",
-      "size_bytes": 22676,
-      "reseal_note": "List Windows 0.1.2 in the canonical table; capability and readiness boundaries are unchanged.",
+      "updated": "2026-11-11",
+      "sha256": "6d7646ddde30066062ec4e0330c83eccdbddc59b0e360d5694b2f7d49a939a2b",
+      "size_bytes": 22675,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "9ffd3291bc5b897b9d4a5f400cf835fce376772972fcb5b45df157dca9b11234",
+          "size_bytes": 22676,
+          "reseal_note": "List Windows 0.1.2 in the canonical table; capability and readiness boundaries are unchanged."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "2f70a577e656fab2ab9c570a651cb0b1fda0ba63949813c7a341d07549390cd6",
@@ -1151,11 +1157,17 @@
       "description": "User-executed pinned official-release Windows installer-kit retrieval with explicit multi-GiB consent and bounded size/SHA-256 verification; no installation or startup",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "633c534f67158acb150a8f2c1393f53c2c7ab44fe5029fb55a87275627850e2a",
+      "updated": "2026-11-11",
+      "sha256": "6b43ea6f964be4404ce00f49abb42a9e71fe6625dd125aded860c5d8099fd392",
       "size_bytes": 13646,
-      "reseal_note": "Default to Windows 0.1.2 after fail-closed 0.1.1 qualification; preserve historical tags and integrity bounds.",
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "633c534f67158acb150a8f2c1393f53c2c7ab44fe5029fb55a87275627850e2a",
+          "size_bytes": 13646,
+          "reseal_note": "Default to Windows 0.1.2 after fail-closed 0.1.1 qualification; preserve historical tags and integrity bounds."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "f646ba4de0152ba3c3588c256aeb294757bc2d458b4e477219c3f30498e68030",
@@ -1210,10 +1222,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "03552160684cab6132c7e86a636003876daddf6d1579ff5abb5ae108a48799aa",
-      "size_bytes": 47867,
-      "reseal_note": "Document durable log-bound custody sign-offs, verification and remaining official workflow limits.",
+      "sha256": "52eaa842a8d705319e08c0bbdc56c51063b07d919b80ceb2fa9d9cf35b4cf75d",
+      "size_bytes": 48079,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "03552160684cab6132c7e86a636003876daddf6d1579ff5abb5ae108a48799aa",
+          "size_bytes": 47867,
+          "reseal_note": "Document durable log-bound custody sign-offs, verification and remaining official workflow limits."
+        },
         {
           "updated": "2026-11-11",
           "sha256": "687aa93c636cdcdc0009bb8ee7c4c9ae9244624aa8af1425dc32031e866021e0",
@@ -1489,11 +1507,17 @@
       "description": "Product 45 Electron desktop, ZIP reader dependency and Windows installer configuration",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "959547a07bdc29a5d16f64b5e187a96824980e5d629fecb041aa0222206ecc34",
+      "updated": "2026-11-11",
+      "sha256": "24313846af4b14f1fa6f5bcb337d10a5eaf68ab2109aad454961566b09499c7b",
       "size_bytes": 3341,
-      "reseal_note": "Bump Windows package to 0.1.2 for exact word-challenge qualification; retain gated publication.",
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "959547a07bdc29a5d16f64b5e187a96824980e5d629fecb041aa0222206ecc34",
+          "size_bytes": 3341,
+          "reseal_note": "Bump Windows package to 0.1.2 for exact word-challenge qualification; retain gated publication."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "082d6422140fdfd653ad6bdc874ec28c8f31519910f1e82d6c07ff7f1f2a1ecc",
@@ -1554,11 +1578,17 @@
       "description": "Product 45 locked Electron, Yauzl and Windows packaging dependency graph",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "a63e47f2af3186a57d863fe9574426093c99abc58bcbf844e9161698a9bd1bdb",
+      "updated": "2026-11-11",
+      "sha256": "ff5148ba9d4eab794f929aecf1fbb23bdb3ed45e2b11f5d00fccda2ec2464119",
       "size_bytes": 127807,
-      "reseal_note": "Synchronize lockfile package version to Windows 0.1.2; dependencies are unchanged.",
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "a63e47f2af3186a57d863fe9574426093c99abc58bcbf844e9161698a9bd1bdb",
+          "size_bytes": 127807,
+          "reseal_note": "Synchronize lockfile package version to Windows 0.1.2; dependencies are unchanged."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "4e6e260264f2c942583bccd1324e86500bf11949669e200de1d42a1048b9eb7f",
@@ -2139,11 +2169,17 @@
       "description": "Product 45 generated offline catalog for Products 01-46",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
-      "size_bytes": 16718,
-      "reseal_note": "Synchronize the Windows 0.1.2 catalog version; capability claims are unchanged.",
+      "updated": "2026-11-11",
+      "sha256": "bc367173ab2dbd3522272f265b6adc322ca65b122426944e286f6f2a482ef187",
+      "size_bytes": 16717,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
+          "size_bytes": 16718,
+          "reseal_note": "Synchronize the Windows 0.1.2 catalog version; capability claims are unchanged."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",
@@ -2482,10 +2518,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "c2efdd21063d2c0935748f30e78c4506adb79785655cb6699011130df04e9c50",
-      "size_bytes": 24994,
-      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
+      "sha256": "e678a071613d39dc43d70a13754dcb236a8e76db0c0d90e215405f396089d5e3",
+      "size_bytes": 25032,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "c2efdd21063d2c0935748f30e78c4506adb79785655cb6699011130df04e9c50",
+          "size_bytes": 24994,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
+        },
         {
           "updated": "2026-11-11",
           "sha256": "5d5d8c018a7ad9624c013599c727f297b10a291a19e09ec768fadba2e4879b4e",
@@ -2719,10 +2761,16 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "ef8f8eb09c9a6d42b831d10db9b82ed1396d1ba6c693202ac902c1b201a5f3d9",
-      "size_bytes": 25075,
-      "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open.",
+      "sha256": "1e83ca1e68ad6d5649c9241bd3048a234aa359a69b61cac19a2659a9ded24d08",
+      "size_bytes": 25250,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-11",
+          "sha256": "ef8f8eb09c9a6d42b831d10db9b82ed1396d1ba6c693202ac902c1b201a5f3d9",
+          "size_bytes": 25075,
+          "reseal_note": "Add consented EIGE CLI console and selected-device Android activity launch; native and full-workflow qualification remain open."
+        },
         {
           "updated": "2026-11-11",
           "sha256": "116def9e8a3a4ffd6af252a573005b53ab9185dd890e575311cb15ae725422fa",
@@ -4142,11 +4190,17 @@
       "description": "Product 46 synchronized offline catalog for Products 01-46",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
-      "size_bytes": 16718,
-      "reseal_note": "Catalog-only synchronization of Windows 0.1.2; Android runtime and model are unchanged.",
+      "updated": "2026-11-11",
+      "sha256": "bc367173ab2dbd3522272f265b6adc322ca65b122426944e286f6f2a482ef187",
+      "size_bytes": 16717,
+      "reseal_note": "Allocate unpublished Windows 0.1.3 candidate and preserve scoped EIGE Windows case compatibility; native qualification remains pending.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "26e9e9cd6ed7cfbc9e49a4c967319069948951b3cc007342f9563e475eb419d8",
+          "size_bytes": 16718,
+          "reseal_note": "Catalog-only synchronization of Windows 0.1.2; Android runtime and model are unchanged."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "764154439aec9467da72f7498346d778aded94feef6853573e9f5eee24934e7a",

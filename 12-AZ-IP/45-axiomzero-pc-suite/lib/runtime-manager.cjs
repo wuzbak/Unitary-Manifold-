@@ -217,7 +217,7 @@ function createRuntimeManager({
       if (!systemRoot || !path.win32.isAbsolute(systemRoot)) throw new Error("Windows system directory is unavailable.");
       for (const module of ["eige.county", "eige.verify"]) {
         await execute(python, ["-m", module, "--help"], {
-          cwd: folder, timeoutMs: 30000, env: { ...process.env, PYTHONPATH: folder, PYTHONNOUSERSITE: "1" }
+          cwd: folder, timeoutMs: 30000, env: { ...process.env, PYTHONPATH: folder, PYTHONNOUSERSITE: "1", PYTHONCASEOK: "1" }
         });
       }
       const shell = path.win32.join(systemRoot, "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
@@ -236,7 +236,7 @@ function createRuntimeManager({
       const command = '$ErrorActionPreference = "Stop"; $p = Start-Process -FilePath $env:AZ_EIGE_SHELL -ArgumentList @("-NoLogo", "-NoExit", "-NoProfile", "-EncodedCommand", $env:AZ_EIGE_COMMAND) -WorkingDirectory $env:AZ_EIGE_DATA -PassThru; if ($p.HasExited) { throw "EIGE console exited during startup." }; Write-Output ("EIGE_SHELL_PID=" + $p.Id)';
       const result = await execute(shell, ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", command], {
         cwd: data, timeoutMs: 30000,
-        env: { ...process.env, AZ_EIGE_ROOT: folder, AZ_EIGE_DATA: data, AZ_EIGE_PYTHON: python, AZ_EIGE_SHELL: shell, AZ_EIGE_COMMAND: encoded }
+        env: { ...process.env, PYTHONCASEOK: "1", AZ_EIGE_ROOT: folder, AZ_EIGE_DATA: data, AZ_EIGE_PYTHON: python, AZ_EIGE_SHELL: shell, AZ_EIGE_COMMAND: encoded }
       });
       const marker = /^EIGE_SHELL_PID=([1-9]\d*)\r?$/m.exec(result.output);
       if (!marker) throw new Error("Windows did not confirm the EIGE console process was started.");

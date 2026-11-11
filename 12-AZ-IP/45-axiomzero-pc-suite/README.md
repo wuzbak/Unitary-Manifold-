@@ -1,6 +1,6 @@
 # Product 45 — AxiomZero PC Suite
 
-**Version 0.1.2 · Windows desktop portfolio suite, local evidence, native experimental PsiCat and governed runtime controls · production readiness not assessed**
+**Version 0.1.3 candidate · Windows desktop portfolio suite, local evidence, native experimental PsiCat and governed runtime controls · production readiness not assessed**
 
 Product 45 is an offline-first desktop front door to the registered AxiomZero
 portfolio. Its bundled catalog is built from the canonical `12-AZ-IP/README.md`
@@ -45,17 +45,21 @@ Missing parts fail closed instead of triggering an unapproved network recovery.
 
 ### One-command retrieval of a pinned Windows installer kit
 
-Once a qualified `pc-suite-v0.1.2` release exists, save its
-`AxiomZero-PC-Suite-0.1.2-download.ps1` asset from the
-[official tagged release](https://github.com/wuzbak/Unitary-Manifold-/releases/tag/pc-suite-v0.1.2)
+Once a qualified `pc-suite-v0.1.3` release exists, save its
+`AxiomZero-PC-Suite-0.1.3-download.ps1` asset from the
+[official tagged release](https://github.com/wuzbak/Unitary-Manifold-/releases/tag/pc-suite-v0.1.3)
 and review it before running it. This is a small downloader, **not the installer**.
 It works with built-in Windows PowerShell 5.1; no GitHub CLI is required.
 Create a new local folder, then run from the folder where you saved the script:
 
 ```powershell
-New-Item -ItemType Directory -Path .\AxiomZero-PC-Suite-0.1.2-kit
-powershell.exe -NoProfile -File .\AxiomZero-PC-Suite-0.1.2-download.ps1 -Tag pc-suite-v0.1.2 -DestinationDirectory .\AxiomZero-PC-Suite-0.1.2-kit
+New-Item -ItemType Directory -Path .\AxiomZero-PC-Suite-0.1.3-kit
+powershell.exe -NoProfile -File .\AxiomZero-PC-Suite-0.1.3-download.ps1 -Tag pc-suite-v0.1.3 -DestinationDirectory .\AxiomZero-PC-Suite-0.1.3-kit
 ```
+
+**Candidate 0.1.3 is not yet a published release.** It identifies the updated
+suite separately from the existing 0.1.2 build; a version-matching tag and
+successful release workflow are still required.
 
 **Release note 0.1.2:** this patch repackages the suite from audited source so
 the bundled PsiCat Navigator ships the current repository-status transport
@@ -586,13 +590,13 @@ runtime manifest, native seed and portfolio), while the model ships as
 contiguous **at most 1 GiB** parts. No release asset may reach 2 GiB, respecting
 GitHub's per-asset limit as well as NSIS's embedded archive limit.
 
-For version `0.1.2`, place these files together in the **same local folder**:
+For version `0.1.3`, place these files together in the **same local folder**:
 
-- `AxiomZero-PC-Suite-0.1.2-x64.exe`
-- `AxiomZero-PC-Suite-0.1.2-offline.json`
-- `AxiomZero-PC-Suite-0.1.2-model.part001`, `.part002`, and `.part003`
+- `AxiomZero-PC-Suite-0.1.3-x64.exe`
+- `AxiomZero-PC-Suite-0.1.3-offline.json`
+- `AxiomZero-PC-Suite-0.1.3-model.part001`, `.part002`, and `.part003`
 - `SHA256SUMS.txt` (for independent distribution-integrity checking)
-- `AxiomZero-PC-Suite-0.1.2-download.ps1` (optional retrieval helper, also hashed;
+- `AxiomZero-PC-Suite-0.1.3-download.ps1` (optional retrieval helper, also hashed;
   setup itself does not execute it)
 
 Use the installer from that folder, including for silent `/S` installation.

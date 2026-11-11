@@ -115,6 +115,7 @@ def test_windows_installer_helper_is_checked_before_dependent_packaging() -> Non
     eige_step = next(step for step in jobs["eige-native"]["steps"]
                      if step.get("name") == "Exercise durable custody, signing and bundle verification on Windows")
     assert eige_step["env"]["PYTHONPATH"] == "${{ github.workspace }}/12-AZ-IP/03-eige"
+    assert eige_step["env"]["PYTHONCASEOK"] == "1"
     assert any(step.get("run") == "npm run smoke:win" for step in jobs["test-and-package"]["steps"])
 
 
