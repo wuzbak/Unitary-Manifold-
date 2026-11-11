@@ -20,8 +20,8 @@ existence. Pillar 1130's framework-level
 `T_RELAXATION_LAW_DECLARED_NOT_DERIVED` and
 `PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED` obligations remain open. No hardgate,
 TOE score, falsifier or framework closure changes. Focused P1137/P1138 and
-action-to-evolution tests passed **15 tests**. Separate fresh runs also passed
-with zero failures: `tests/` 62,408 passed, 69 skipped, 66 deselected (default
+action-to-evolution tests passed **16 tests**. Separate fresh runs also passed
+with zero failures: `tests/` 62,409 passed, 69 skipped, 66 deselected (default
 slow-test filter); `recycling/` 316 passed; Unitary Pentad 3,088 passed, 3
 skipped. These are scoped runs, not whole-repository clearance.
 See the [derivation and scope](physics/ACTION_TO_EVOLUTION_LINEARIZED_ZERO_MODE.md).

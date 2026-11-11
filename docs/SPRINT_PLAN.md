@@ -10,8 +10,8 @@ radion/transverse-gauge wave equations and longitudinal Maxwell constraints.
 The scope is linearized, zero-mode, fixed-background dynamics; the
 relaxation-time law and nonlinear/framework-level evolution obligations remain
 open. Focused checks across P1137, P1138, and the action-to-evolution contract
-passed (15 tests). Fresh separate runs passed with zero failures:
-`tests/` 62,408 passed, 69 skipped, 66 deselected (default slow-test filter);
+passed (16 tests). Fresh separate runs passed with zero failures:
+`tests/` 62,409 passed, 69 skipped, 66 deselected (default slow-test filter);
 `recycling/` 316 passed; Unitary Pentad 3,088 passed, 3 skipped. These scopes
 are not a whole-repository clearance; the historical Sprint CU combined
 regression receipt is not a current all-clear.
@@ -196,7 +196,7 @@ Proceed only when all three agree.
 | Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record)** |
 | Sprint theme | **Derive physical-time linearized radion–gauge equations from the circle-reduced action within the action-to-evolution lane** |
 | Primary target | **Verify the quadratic action, Euler equations, Maxwell constraints, and massless principal symbol without claiming nonlinear or framework closure** |
-| Binary outcome | **P1138 verified for the linearized fixed-background zero-mode sector; relaxation law and general physical-time obligations remain open. Focused tests: 15 passed. Separate tests/, recycling/, and Pentad runs: 0 failures; default slow-test filter applies to tests/.** |
+| Binary outcome | **P1138 verified for the linearized fixed-background zero-mode sector; relaxation law and general physical-time obligations remain open. Focused tests: 16 passed. Separate tests/, recycling/, and Pentad runs: 0 failures; default slow-test filter applies to tests/.** |
 
 Historical continuity: v38.9 Sprint DE (Pillar 1138; next slot 1139) derives linearized coordinate-time radion–gauge evolution from the circle-reduced action, with the relaxation law and general evolution obligations still open.
 Historical continuity: v38.8 Sprint DD (Pillar 1137; next slot 1138) derives exact generalized-Kasner relations on the homogeneous planar-radion branch; stability and genericity remain open.

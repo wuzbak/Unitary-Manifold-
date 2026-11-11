@@ -71,3 +71,16 @@ def test_certificate_fails_closed_when_equation_check_fails(monkeypatch):
     assert packet["checks"]["radion_wave"] is False
     assert packet["status"] == "LINEARIZED_ZERO_MODE_RADION_GAUGE_NOT_VERIFIED"
     assert packet["framework_closure_earned"] is False
+
+
+def test_quadratic_action_fails_closed_when_radion_kinetic_check_fails(monkeypatch):
+    expansion = pillar._quadratic_action_expansion()
+    expansion["radion_quadratic"] += 1
+    monkeypatch.setattr(pillar, "_quadratic_action_expansion", lambda: expansion)
+
+    packet = pillar.action_derived_linearized_zero_mode_certificate()
+
+    assert packet["checks"]["radion_action_retains_canonical_quadratic_kinetic_term"] is False
+    assert packet["quadratic_action_expansion"]["verified"] is False
+    assert packet["verified"] is False
+    assert packet["status"] == "LINEARIZED_ZERO_MODE_RADION_GAUGE_NOT_VERIFIED"

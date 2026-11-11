@@ -7,9 +7,9 @@ gauge and radion modes have the null principal symbol; the longitudinal
 Maxwell sector is constrained. This is not nonlinear backreaction, full
 physical-time closure, or a derivation of the separate relaxation law. The
 framework-level action-to-evolution obligations remain open. The focused
-P1137/P1138/action-to-evolution regression passed 15 tests. The historical
+P1137/P1138/action-to-evolution regression passed 16 tests. The historical
 combined Sprint CU receipt is 64,150 passed, 22 skipped, 18 deselected, 0
-failed. Separate fresh scoped runs passed with zero failures: `tests/` 62,408 passed, 69 skipped, 66
+failed. Separate fresh scoped runs passed with zero failures: `tests/` 62,409 passed, 69 skipped, 66
 deselected (default slow-test filter); `recycling/` 316 passed; Unitary Pentad
 3,088 passed, 3 skipped. These do not certify the whole repository. The Sprint
 CU count remains historical.*

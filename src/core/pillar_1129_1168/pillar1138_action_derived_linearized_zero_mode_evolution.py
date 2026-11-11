@@ -169,9 +169,14 @@ def action_derived_linearized_zero_mode_certificate() -> dict[str, Any]:
             "gauge_term": str(quadratic["gauge_quadratic"]),
             "radion_term": str(quadratic["radion_quadratic"]),
             "radion_gauge_cross_term": str(quadratic["radion_gauge_cross"]),
-            "verified": checks[
-                "gauge_action_expands_to_radion_independent_quadratic_term"
-            ] and checks["radion_gauge_coupling_enters_only_beyond_quadratic_order"],
+            "verified": all(
+                checks[name]
+                for name in (
+                    "gauge_action_expands_to_radion_independent_quadratic_term",
+                    "radion_action_retains_canonical_quadratic_kinetic_term",
+                    "radion_gauge_coupling_enters_only_beyond_quadratic_order",
+                )
+            ),
         },
         "equations": {
             "radion": "chi_tt - chi_xx = 0",

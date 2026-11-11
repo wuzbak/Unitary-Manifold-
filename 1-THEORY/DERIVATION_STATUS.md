@@ -5,9 +5,9 @@
 > around a constant-radion Minkowski background, with the longitudinal Maxwell
 > sector constrained. This is linearized, fixed-background evidence only.
 > The t-relaxation law and framework-level physical-time obligations remain
-> open; focused P1137/P1138/action-to-evolution checks passed 15 tests.
+> open; focused P1137/P1138/action-to-evolution checks passed 16 tests.
 > Historical combined Sprint CU receipt: 64,150 passed · 22 skipped · 18 deselected · 0 failed.
-> Fresh per-scope validation: `tests/` 62,408 passed, 69 skipped, 66
+> Fresh per-scope validation: `tests/` 62,409 passed, 69 skipped, 66
 > deselected; `recycling/` 316 passed; Unitary Pentad 3,088 passed, 3 skipped;
 > all three commands had zero failures. Runs were separate, and the default
 > slow-test filter applies to `tests/`; this is not whole-repository clearance.
@@ -90,7 +90,7 @@
 
 **The Unitary Manifold v38.9 — Unambiguous Record**
 *This is the document a PRL referee should read first.*
-*Last updated: 2026-11-11 (v38.9 — Sprint DE: Pillar 1138 certifies linearized coordinate-time radion–gauge evolution from the quadratic action about constant-radion Minkowski space. The framework relaxation law and general physical-time obligations remain open; next slot 1139. Fresh per-scope validation: tests/ 62,408 passed, 69 skipped, 66 deselected; recycling/ 316 passed; Pentad 3,088 passed, 3 skipped; zero failures across the separate commands, with the default slow-test filter on tests/.)*
+*Last updated: 2026-11-11 (v38.9 — Sprint DE: Pillar 1138 certifies linearized coordinate-time radion–gauge evolution from the quadratic action about constant-radion Minkowski space. The framework relaxation law and general physical-time obligations remain open; next slot 1139. Fresh focused action-to-evolution tests: 16 passed. Fresh per-scope validation: tests/ 62,409 passed, 69 skipped, 66 deselected; recycling/ 316 passed; Pentad 3,088 passed, 3 skipped; zero failures across the separate commands, with the default slow-test filter on tests/.)*
 *Historical combined Sprint CU regression: 64,150 passed · 22 skipped · 18 deselected · 0 failed (not a current all-clear).*
 
 *Historical Sprint DA registration (v38.5, 2026-11-05): Pillars 1133–1134; next slot 1135. Adjacent superfluid-reference and rare-decay-tool registration, already recorded in STATUS.md; no derived UM connection, hardgate promotion or physics closure was claimed. This historical registration is not current version metadata.*

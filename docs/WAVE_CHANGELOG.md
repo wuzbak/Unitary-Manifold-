@@ -18,10 +18,10 @@
   derivation, or framework-level physical-time closure is claimed. The two
   framework residual obligations remain open.
 - No hardgate label, TOE score, observational falsifier, Lean count, or
-  historical full-regression receipt changed. Focused tests passed (15 tests).
+  historical full-regression receipt changed. Focused tests passed (16 tests).
   Historical combined Sprint CU receipt: 64,150 passed · 22 skipped · 18 deselected · 0 failed.
   Separate fresh runs passed with zero
-  failures: `tests/` 62,408 passed, 69
+  failures: `tests/` 62,409 passed, 69
   skipped, 66 deselected (default slow-test filter); `recycling/` 316 passed;
   Unitary Pentad 3,088 passed, 3 skipped. This is scoped validation, not
   whole-repository clearance; the Sprint CU regression total remains historical.

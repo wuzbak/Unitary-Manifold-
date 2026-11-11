@@ -34,7 +34,7 @@ v38_9_sprint_de:
   date: "2026-11-11"
   pillars: 1138-1138
   new_pillars: 1
-  new_tests: 5
+  new_tests: 6
   lean4_start: 4080
   lean4_end: 4080
   lean4_delta: 0
@@ -50,8 +50,8 @@ v38_9_sprint_de:
     - FULLY_INHOMOGENEOUS_5D_SECTOR_PHYSICAL_TIME_EVOLUTION
     - Z2_ORBIFOLD_PHYSICAL_TIME_EVOLUTION
     - GLOBAL_WELL_POSEDNESS
-  focused_regression: "15 passed across P1137, P1138, and action-to-evolution contract tests"
-  regression: "Historical combined Sprint CU receipt: 64,150 passed · 22 skipped · 18 deselected · 0 failed. Separate fresh runs, zero failures: tests/ 62,408 passed · 69 skipped · 66 deselected (default slow filter); recycling/ 316 passed; Unitary Pentad 3,088 passed · 3 skipped. Not whole-repository clearance."
+  focused_regression: "16 passed across P1137, P1138, and action-to-evolution contract tests"
+  regression: "Historical combined Sprint CU receipt: 64,150 passed · 22 skipped · 18 deselected · 0 failed. Separate fresh runs, zero failures: tests/ 62,409 passed · 69 skipped · 66 deselected (default slow filter); recycling/ 316 passed; Unitary Pentad 3,088 passed · 3 skipped. Not whole-repository clearance."
   next_pillar_slot: 1139
 
 v38_8_sprint_dd:

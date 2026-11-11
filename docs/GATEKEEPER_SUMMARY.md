@@ -7,8 +7,8 @@
 > \(\omega^2=k^2\); the longitudinal Maxwell field is constrained. This is
 > fixed-background linearized evidence, not nonlinear evolution or framework
 > closure. The separate relaxation law and general physical-time obligations
-> remain open. Focused P1137/P1138/action-to-evolution checks: 15 passed.
-> Separate fresh runs passed with zero failures: `tests/` 62,408 passed, 69
+> remain open. Focused P1137/P1138/action-to-evolution checks: 16 passed.
+> Separate fresh runs passed with zero failures: `tests/` 62,409 passed, 69
 > skipped, 66 deselected (default slow-test filter); `recycling/` 316 passed;
 > Unitary Pentad 3,088 passed, 3 skipped. This is scoped validation, not
 > whole-repository clearance.
@@ -80,7 +80,7 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
-> **Sprint DE (v38.9 — 2026-11-11):** 1 pillar (1138). P1138 derives the quadratic-action coordinate-time equations for linear radion and gauge perturbations around constant-radion Minkowski space. The transverse modes have \(\omega^2=k^2\); the longitudinal Maxwell field is constrained. This is not nonlinear or framework-level closure. The t-relaxation law and general physical-time obligations remain open. Focused P1137/P1138/action-to-evolution checks: 15 passed. Separate fresh tests/, recycling/, and Pentad runs passed with zero failures; default slow-test filter applies to tests/. Not whole-repository clearance. Next slot 1139.
+> **Sprint DE (v38.9 — 2026-11-11):** 1 pillar (1138). P1138 derives the quadratic-action coordinate-time equations for linear radion and gauge perturbations around constant-radion Minkowski space. The transverse modes have \(\omega^2=k^2\); the longitudinal Maxwell field is constrained. This is not nonlinear or framework-level closure. The t-relaxation law and general physical-time obligations remain open. Focused P1137/P1138/action-to-evolution checks: 16 passed. Separate fresh tests/, recycling/, and Pentad runs passed with zero failures; default slow-test filter applies to tests/. Not whole-repository clearance. Next slot 1139.
 >
 > **Sprint DD (v38.8 — 2026-11-10):** 1 pillar (1137). P1137 derives exact generalized-Kasner identities on the rolling homogeneous planar-radion branch. Stability and genericity outside that branch remain open; no hardgate or framework closure is claimed. Next slot 1138.
 >
