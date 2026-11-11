@@ -19,9 +19,9 @@ function inside(root, relative) {
   return target;
 }
 
-function runCommand(executable, args, { cwd, timeoutMs = 600000, spawnProcess = spawn } = {}) {
+function runCommand(executable, args, { cwd, env, timeoutMs = 600000, spawnProcess = spawn } = {}) {
   return new Promise((resolve, reject) => {
-    const child = spawnProcess(executable, args, { cwd, shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe"] });
+    const child = spawnProcess(executable, args, { cwd, env, shell: false, windowsHide: true, stdio: ["ignore", "pipe", "pipe"] });
     let output = "";
     let bytes = 0;
     let failure;
@@ -46,7 +46,8 @@ function runCommand(executable, args, { cwd, timeoutMs = 600000, spawnProcess = 
 function createRuntimeManager({
   entries, sourceRoot, dataDirectory, platform = process.platform, execute = runCommand,
   spawnProcess = spawn, serviceDeadlineMs = 30000, nodeToolchain,
-  extractionScript = path.join(__dirname, "../scripts/extract-node.ps1"), onStateChange = () => {}
+  extractionScript = path.join(__dirname, "../scripts/extract-node.ps1"), onStateChange = () => {},
+  systemRoot = process.env.SystemRoot
 }) {
   const tools = nodeToolchain || (() => resolveNodeToolchain(process.env, path.join(dataDirectory, "tools/node-lts")));
   const exclusiveOperation = createExclusiveOperation("A runtime installation is already in progress.");
@@ -198,6 +199,49 @@ function createRuntimeManager({
     installNode: () => runExclusive(() => installNodeLts({
       directory: path.join(dataDirectory, "tools"), extractionScript, execute, platform
     })),
+    openEigeConsole: () => runExclusive(async () => {
+      if (platform !== "win32") throw new Error("The EIGE workflow console requires Windows.");
+      const entry = entryById("03");
+      const receipt = readReceipt("03");
+      if (!receipt || receipt.status !== "installed") throw new Error("Install Product 03 dependencies first.");
+      const root = typeof sourceRoot === "function" ? sourceRoot() : sourceRoot;
+      if (receipt.sourceRoot !== root) throw new Error("The selected portfolio source changed; reinstall this runtime.");
+      const dependency = inside(root, receipt.dependencyManifest);
+      if (crypto.createHash("sha256").update(fs.readFileSync(dependency)).digest("hex") !== receipt.dependencySha256) {
+        throw new Error("The installed dependency manifest changed; reinstall this runtime.");
+      }
+      const folder = inside(root, entry.productFolder);
+      for (const module of ["county.py", "verify.py"]) inside(root, `${entry.productFolder}/eige/${module}`);
+      const python = path.join(dataDirectory, "environments", "03", "Scripts", "python.exe");
+      if (!fs.existsSync(python)) throw new Error("Installed runtime Python is missing; reinstall this product.");
+      if (!systemRoot || !path.win32.isAbsolute(systemRoot)) throw new Error("Windows system directory is unavailable.");
+      for (const module of ["eige.county", "eige.verify"]) {
+        await execute(python, ["-m", module, "--help"], {
+          cwd: folder, timeoutMs: 30000, env: { ...process.env, PYTHONPATH: folder, PYTHONNOUSERSITE: "1" }
+        });
+      }
+      const shell = path.win32.join(systemRoot, "System32", "WindowsPowerShell", "v1.0", "powershell.exe");
+      const data = path.join(dataDirectory, "products", "03");
+      fs.mkdirSync(data, { recursive: true });
+      const script = [
+        '$ErrorActionPreference = "Stop"',
+        'Set-Location -LiteralPath $env:AZ_EIGE_DATA',
+        '$env:PYTHONPATH = $env:AZ_EIGE_ROOT',
+        '$env:PYTHONNOUSERSITE = "1"',
+        'function eige-county { & $env:AZ_EIGE_PYTHON -m eige.county @args }',
+        'function eige-verify { & $env:AZ_EIGE_PYTHON -m eige.verify @args }',
+        'Write-Host "EIGE audit support, not election certification. Use eige-county --help or eige-verify --help. Check `$LASTEXITCODE after each command."'
+      ].join("; ");
+      const encoded = Buffer.from(script, "utf16le").toString("base64");
+      const command = '$ErrorActionPreference = "Stop"; $p = Start-Process -FilePath $env:AZ_EIGE_SHELL -ArgumentList @("-NoLogo", "-NoExit", "-NoProfile", "-EncodedCommand", $env:AZ_EIGE_COMMAND) -WorkingDirectory $env:AZ_EIGE_DATA -PassThru; if ($p.HasExited) { throw "EIGE console exited during startup." }; Write-Output ("EIGE_SHELL_PID=" + $p.Id)';
+      const result = await execute(shell, ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", command], {
+        cwd: data, timeoutMs: 30000,
+        env: { ...process.env, AZ_EIGE_ROOT: folder, AZ_EIGE_DATA: data, AZ_EIGE_PYTHON: python, AZ_EIGE_SHELL: shell, AZ_EIGE_COMMAND: encoded }
+      });
+      const marker = /^EIGE_SHELL_PID=([1-9]\d*)\r?$/m.exec(result.output);
+      if (!marker) throw new Error("Windows did not confirm the EIGE console process was started.");
+      return { status: "console-started", pid: Number(marker[1]) };
+    }),
     start: (id) => runExclusive(async () => {
       const entry = entryById(id);
       if (services.has(id)) throw new Error("This runtime is already running.");

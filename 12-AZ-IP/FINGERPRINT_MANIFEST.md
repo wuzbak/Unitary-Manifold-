@@ -1567,3 +1567,23 @@ Windows execution remains unverified.
 |-------|---------|------:|
 | `12-AZ-IP/01-axiom-os/README.md` | `a4bbe3799b31f0b471d37af12390419a2c194e26800eff1d0c24abc2a2f3832d` | 10477 |
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `e8e77f4846d046597d095185fb52b2ecbb9bbea1ad82636538bcdc1e9ae3a998` | 8494 |
+
+### PC suite EIGE console and Android launch reseal — 2026-11-11
+
+Expose existing EIGE command-line workflows in an approved independent console
+and launch installed Android activities on an explicitly selected device.
+The official cockpit, UEFI VM and native end-to-end qualification remain open.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `c3f326873a46071d2e9e5cf9f1d081c3b8c57bde79eeaf12f66a6cfee3d79b58` | 46829 |
+| `12-AZ-IP/45-axiomzero-pc-suite/catalog/runtimes.json` | `475a4cbe589b8c88489eb4dcfe05242e7772df35fbd34dd2b4bebeab26465bbf` | 32403 |
+| `12-AZ-IP/45-axiomzero-pc-suite/index.html` | `ef752d584b3b8a3517df7f19419308e78b3202a532e9903cedc499e7801b2d53` | 17980 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/platform-targets.cjs` | `cd446495f2a1f2443f148aed3ac001215fd1126d6938f2c93d63540ced3e3d04` | 39062 |
+| `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `c2efdd21063d2c0935748f30e78c4506adb79785655cb6699011130df04e9c50` | 24994 |
+| `12-AZ-IP/45-axiomzero-pc-suite/main.cjs` | `0535d172575e534d91e8c4a87e21acca44998324fd9c3f6e0814b741a97d4f4f` | 37681 |
+| `12-AZ-IP/45-axiomzero-pc-suite/preload.cjs` | `785a48757057efbe1c0c0ea7e1615ef08517ea513f4063fd752bc6e92d2ae096` | 3757 |
+| `12-AZ-IP/45-axiomzero-pc-suite/renderer.js` | `f4943998ea1afa97d3dcd54082b6e4c48e154d0c8eef293a206e3af360557317` | 41486 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/main.test.cjs` | `8c1b077d78c6e570afd629eabc82b90392d7b5a7978253432ed531c77780dfaf` | 19355 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `9b9152d9092bd0735bff59d8f5cf6582535586b66f987848737f65d741800453` | 29939 |
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `ef8f8eb09c9a6d42b831d10db9b82ed1396d1ba6c693202ac902c1b201a5f3d9` | 25075 |

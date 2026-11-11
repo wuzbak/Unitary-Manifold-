@@ -6,6 +6,7 @@ const os = require("node:os");
 const http = require("node:http");
 const { EventEmitter } = require("node:events");
 const { PassThrough } = require("node:stream");
+const { execFileSync } = require("node:child_process");
 const { createRuntimeManager, inside } = require("../lib/runtime-manager.cjs");
 
 function fixture(t, execute, options = {}) {
@@ -69,6 +70,85 @@ test("Python bootstrap uses the fixed user-scoped Windows package", async (t) =>
   assert.equal(calls[0].exe, "winget");
   assert.ok(calls[0].args.includes("Python.Python.3.12"));
   assert.ok(calls[0].args.includes("user"));
+});
+test("EIGE console opens only for a current installed environment and fixed workflow commands", async (t) => {
+  const { root } = fixture(t);
+  const folder = "12-AZ-IP/03-eige/";
+  fs.mkdirSync(path.join(root, folder, "eige"), { recursive: true });
+  fs.writeFileSync(path.join(root, folder, "requirements.txt"), "cryptography\n");
+  fs.writeFileSync(path.join(root, folder, "eige/county.py"), "");
+  fs.writeFileSync(path.join(root, folder, "eige/verify.py"), "");
+  const calls = [];
+  const manager = createRuntimeManager({
+    entries: [{ id: "03", installMode: "python-venv", productFolder: folder,
+      dependencyManifest: `${folder}requirements.txt` }],
+    sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32", systemRoot: "C:\\Windows",
+    execute: async (exe, args, options) => {
+      calls.push({ exe, args, options });
+      if (args.includes("venv")) {
+        fs.mkdirSync(path.join(args.at(-1), "Scripts"), { recursive: true });
+        fs.writeFileSync(path.join(args.at(-1), "Scripts", "python.exe"), "");
+      }
+      return { output: args.includes("-Command") ? "EIGE_SHELL_PID=1234\n" : "" };
+    }
+  });
+  await assert.rejects(manager.openEigeConsole(), /Install Product 03/);
+  await manager.install("03");
+  assert.equal((await manager.openEigeConsole()).status, "console-started");
+  assert.deepEqual(calls.filter((call) => call.args.at(-1) === "--help").map((call) => call.args[1]),
+    ["eige.county", "eige.verify"]);
+  const call = calls.at(-1);
+  assert.match(call.exe, /WindowsPowerShell\\v1\.0\\powershell\.exe$/);
+  assert.equal(call.options.cwd, path.join(root, "user/products/03"));
+  const script = Buffer.from(call.options.env.AZ_EIGE_COMMAND, "base64").toString("utf16le");
+  assert.match(script, /-m eige\.county @args/);
+  assert.match(script, /-m eige\.verify @args/);
+  assert.match(script, /not election certification/);
+  assert.equal(call.options.env.AZ_EIGE_PYTHON, path.join(root, "user/environments/03/Scripts/python.exe"));
+  fs.writeFileSync(path.join(root, folder, "requirements.txt"), "changed\n");
+  await assert.rejects(manager.openEigeConsole(), /manifest changed/);
+});
+test("EIGE console reports an unconfirmed Windows process instead of success", async (t) => {
+  const { root } = fixture(t);
+  const folder = "12-AZ-IP/03-eige/";
+  fs.mkdirSync(path.join(root, folder, "eige"), { recursive: true });
+  for (const file of ["requirements.txt", "eige/county.py", "eige/verify.py"]) fs.writeFileSync(path.join(root, folder, file), "");
+  const manager = createRuntimeManager({
+    entries: [{ id: "03", installMode: "python-venv", productFolder: folder, dependencyManifest: `${folder}requirements.txt` }],
+    sourceRoot: root, dataDirectory: path.join(root, "user"), platform: "win32", systemRoot: "C:\\Windows",
+    execute: async (_exe, args) => {
+      if (args.includes("venv")) {
+        fs.mkdirSync(path.join(args.at(-1), "Scripts"), { recursive: true });
+        fs.writeFileSync(path.join(args.at(-1), "Scripts", "python.exe"), "");
+      }
+      return { output: "" };
+    }
+  });
+  await manager.install("03");
+  await assert.rejects(manager.openEigeConsole(), /did not confirm/);
+});
+test("EIGE workflow console starts a real Windows PowerShell process", {
+  skip: process.platform !== "win32", timeout: 120000
+}, async (t) => {
+  const { root } = fixture(t);
+  const folder = "12-AZ-IP/03-eige/";
+  fs.mkdirSync(path.join(root, folder, "eige"), { recursive: true });
+  fs.writeFileSync(path.join(root, folder, "requirements.txt"), "");
+  fs.writeFileSync(path.join(root, folder, "eige/__init__.py"), "");
+  for (const module of ["county", "verify"]) fs.writeFileSync(path.join(root, folder, `eige/${module}.py`), "print('help')\n");
+  const manager = createRuntimeManager({
+    entries: [{ id: "03", installMode: "python-venv", productFolder: folder, dependencyManifest: `${folder}requirements.txt` }],
+    sourceRoot: root, dataDirectory: path.join(root, "user")
+  });
+  await manager.install("03");
+  const result = await manager.openEigeConsole();
+  try {
+    assert.equal(result.status, "console-started");
+    assert.ok(Number.isInteger(result.pid) && result.pid > 0);
+    process.kill(result.pid, 0);
+  } finally {
+    execFileSync(path.join(process.env.SystemRoot, "System32", "taskkill.exe"), ["/PID", String(result.pid), "/T", "/F"]);
+  }
 });
 test("quit waits for active provisioning and prevents orphaning or starting another operation", async (t) => {
   let finish;

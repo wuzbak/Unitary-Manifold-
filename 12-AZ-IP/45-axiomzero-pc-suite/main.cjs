@@ -160,7 +160,7 @@ function registerHandlers() {
   ipcMain.handle("platform:distros", async () => (await selectedPlatformTargets()).listDistros());
   ipcMain.handle("platform:action", (_event, request) => runPlatformMutation(async () => {
     if (!request || typeof request !== "object" || Array.isArray(request) ||
-        !["prepare", "importBundled", "install", "provision", "run", "stop", "export"].includes(request.action) ||
+        !["prepare", "importBundled", "install", "launchAndroid", "provision", "run", "stop", "export"].includes(request.action) ||
         (request.allowNetwork !== undefined && typeof request.allowNetwork !== "boolean")) {
       throw new TypeError("Select a registered platform action.");
     }
@@ -221,6 +221,9 @@ function registerHandlers() {
       const prepared = preparedPlatforms.get(target.id);
       if (!prepared) throw new Error("Use a bundled artifact or build this Android target before installing.");
       return manager.install(target.id, { serial: request.serial, apkPath: path.join(platformDataRoot, "artifacts", prepared.artifact) });
+    }
+    if (request.action === "launchAndroid") {
+      return manager.launchAndroid(target.id, { serial: request.serial });
     }
     if (target.id !== "wsl-psicat-navigator") throw new Error("This action requires the registered WSL target.");
     if (request.action === "provision") return manager.provisionPosix({ distro: request.distro });
@@ -318,6 +321,16 @@ function registerHandlers() {
     return runtimeManager.start(id);
   });
   ipcMain.handle("runtime:stop", (_event, id) => runtimeManager.stop(id));
+  ipcMain.handle("runtime:eige-console", async () => {
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: "warning", title: "Open EIGE workflow console",
+      message: "Open an independent local PowerShell window for EIGE county and verifier commands?",
+      detail: "This is a full user-permission command shell, not the unfinished official cockpit. Commands can modify local election files and require the operator to follow EIGE's signing, custody, reconciliation and audit procedures. Verification is not certification. The window remains open independently when the suite exits; close it yourself when finished.",
+      buttons: ["Cancel", "Open workflow console"], defaultId: 0, cancelId: 0, noLink: true
+    });
+    if (response.response !== 1) return { canceled: true };
+    return runtimeManager.openEigeConsole();
+  });
   ipcMain.handle("runtime:open", async (_event, id) => {
     const access = runtimeManager.access(id);
     if (access.token) {

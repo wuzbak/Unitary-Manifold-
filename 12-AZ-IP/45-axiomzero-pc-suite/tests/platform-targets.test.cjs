@@ -10,6 +10,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { EventEmitter } = require('node:events');
 const { PassThrough } = require('node:stream');
+const { spawn, execFileSync } = require('node:child_process');
 const { createPlatformTargets, parseBundledManifest, decodeWslList, resolveExecutable, sanitizedEnv } = require('../lib/platform-targets.cjs');
 
 const WRAPPER_PROPS = 'distributionBase=GRADLE_USER_HOME\ndistributionPath=wrapper/dists\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-8.6-bin.zip\nzipStoreBase=GRADLE_USER_HOME\nzipStorePath=wrapper/dists\n';
@@ -35,6 +36,37 @@ const ENV = {
   PSICAT_VITE_WORKBENCH_TOKEN: 'secret-token',
   WSLENV: 'OPENROUTER_API_KEY/u',
 };
+
+test('real emulator installs and launches both Android activities', {
+  skip: !process.env.P45_ANDROID_EMULATOR_SERIAL,
+  timeout: 120000,
+}, async () => {
+  const serial = process.env.P45_ANDROID_EMULATOR_SERIAL;
+  const adb = process.env.P45_ANDROID_ADB;
+  assert.ok(adb && path.isAbsolute(adb), 'P45_ANDROID_ADB must be an absolute executable path');
+  const apps = [
+    ['android-sdam', process.env.P45_ANDROID_SDAM_APK, 'com.sdam.debug'],
+    ['android-pentacorder', process.env.P45_ANDROID_PENTACORDER_APK, 'com.axiomzero.pentacorder.debug'],
+  ];
+  const api = createPlatformTargets({
+    repositoryRoot: path.resolve(__dirname, '../../..'),
+    dataRoot: path.join(fixtureRoot, 'emulator'),
+    platform: 'win32',
+    env: { SystemRoot: 'C:\\Windows', PATH: 'C:\\Android' },
+    fileExists: (file) => file === 'C:\\Android\\adb.exe',
+    spawn: (_exe, args, options) => spawn(adb, args, {
+      ...options, env: { HOME: process.env.HOME, PATH: process.env.PATH, ANDROID_HOME: process.env.ANDROID_HOME },
+    }),
+  });
+  for (const [id, apk, packageName] of apps) {
+    assert.ok(apk && path.isAbsolute(apk), `APK path is required for ${id}`);
+    execFileSync(adb, ['-s', serial, 'install', apk], { encoding: 'utf8', timeout: 60000 });
+    const receipt = await api.launchAndroid(id, { serial });
+    assert.equal(receipt.status, 'launched');
+    assert.ok(execFileSync(adb, ['-s', serial, 'shell', 'pidof', packageName], { encoding: 'utf8' }).trim());
+  }
+  await api.close();
+});
 
 function makeChild({ stdout = '', stderr = '', code = 0, keepOpen = false } = {}) {
   const child = new EventEmitter();
@@ -169,6 +201,43 @@ test('prepares SDAM offline by default and installs only to the exact selected s
   const receipt = JSON.parse(fs.readFileSync(installed.receiptPath, 'utf8'));
   assert.equal(receipt.deviceSerial, undefined);
   assert.match(receipt.deviceSerialSha256, /^[a-f0-9]{64}$/);
+});
+
+test('launches each debug activity only on the explicitly selected authorized target', async () => {
+  const h = harness({
+    handler(tool, args) {
+      if (tool === 'adb.exe' && args.includes('start')) {
+        return makeChild({ stdout: `Starting: Intent\nStatus: ok\nActivity: ${args.at(-1)}\n` });
+      }
+    }
+  });
+  for (const [id, activity] of [
+    ['android-sdam', 'com.sdam.debug/com.sdam.MainActivity'],
+    ['android-pentacorder', 'com.axiomzero.pentacorder.debug/com.gibbernode.MainActivity'],
+  ]) {
+    const receipt = await h.api.launchAndroid(id, { serial: 'USB:42' });
+    assert.equal(receipt.status, 'launched');
+    assert.equal(receipt.activity, activity);
+    assert.deepEqual(h.calls.filter((call) => call.tool === 'adb.exe' && call.args.includes('start')).at(-1).args,
+      ['-s', 'USB:42', 'shell', 'am', 'start', '-W', '-n', activity]);
+    assert.equal(receipt.deviceSerial, undefined);
+  }
+  await assert.rejects(h.api.launchAndroid('android-sdam', { serial: 'Other' }), /not connected/);
+  await assert.rejects(h.api.launchAndroid('android-sdam', { serial: 'bad serial' }), /exact ADB/);
+  await assert.rejects(h.api.launchAndroid('uefi-az-kernel', { serial: 'USB:42' }), /Only registered Android/);
+});
+
+test('does not report success when Android fails or starts a different activity', async () => {
+  for (const output of [
+    'Error: Activity class does not exist.\n',
+    'Status: timeout\nActivity: com.sdam.debug/com.sdam.MainActivity\n',
+    'Status: ok\nActivity: unrelated.package/.MainActivity\n',
+  ]) {
+    const h = harness({ handler(tool, args) {
+      if (tool === 'adb.exe' && args.includes('start')) return makeChild({ stdout: output });
+    } });
+    await assert.rejects(h.api.launchAndroid('android-sdam', { serial: 'USB:42' }), /did not confirm/);
+  }
 });
 
 test('rejects unauthorized devices, foreign artifacts and path escapes without installing', async () => {

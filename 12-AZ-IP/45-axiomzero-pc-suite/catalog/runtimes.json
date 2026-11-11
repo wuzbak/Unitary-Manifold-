@@ -31,7 +31,7 @@
     "healthPath": "/api/health",
     "installMode": "python-venv",
     "prerequisites": ["Python", "Product directory on the Python import path", "Publication bundle and election artifacts for verifier commands"],
-    "limitation": "Managed launch serves the loopback library workbench for the eige package: browse modules and run public functions/classes with JSON arguments. The Flask adjudicator and data-dependent verify/county CLIs are not started; outputs are raw engine results, not validation. Windows execution of the complete workflow is not verified."
+    "limitation": "Managed launch serves a generic loopback library workbench, not the official cockpit. A separate approved PowerShell console exposes the existing county and verifier CLIs; it does not certify elections or enforce the cockpit's sign-offs. The Flask adjudicator is not started. Windows execution of the complete workflow is not verified."
   },
   {
     "id": "04",

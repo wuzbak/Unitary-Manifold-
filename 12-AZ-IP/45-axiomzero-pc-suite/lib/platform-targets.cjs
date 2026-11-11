@@ -32,6 +32,7 @@ const ANDROID = {
     productId: '14',
     name: 'SDAM Android APK',
     project: '12-AZ-IP/14-sdam/app',
+    activity: 'com.sdam.debug/com.sdam.MainActivity',
     catalog: 'gradle/libs.versions.toml',
     artifact: ['app', 'build', 'outputs', 'apk', 'debug', 'app-debug.apk'],
   },
@@ -39,6 +40,7 @@ const ANDROID = {
     productId: '15',
     name: 'Pentacorder Android APK',
     project: '12-AZ-IP/15-pentacorder',
+    activity: 'com.axiomzero.pentacorder.debug/com.gibbernode.MainActivity',
     catalog: 'gradle/libs.versions.toml',
     artifact: ['app', 'build', 'outputs', 'apk', 'debug', 'app-debug.apk'],
   },
@@ -394,8 +396,8 @@ function createPlatformTargets(options = {}) {
       return {
         id, productId: spec.productId, name: spec.name, kind: 'android',
         status: missing.length ? 'blocked' : 'buildable', missing, gradleOfflineReady, gradleOfflineError, bundled: bundledTargets.has(id),
-        actions: [...(missing.length ? [] : ['prepare']), ...(bundledTargets.has(id) ? ['importBundled'] : []), 'install'],
-        notes: 'Gradle assembleDebug from tracked source; install is a non-replacing adb install to one exact selected serial. Windows cannot run the APK.',
+        actions: [...(missing.length ? [] : ['prepare']), ...(bundledTargets.has(id) ? ['importBundled'] : []), 'install', 'launchAndroid'],
+        notes: 'Gradle assembleDebug from tracked source; install is a non-replacing adb install to one exact selected serial. Launch requires an already running authorized Android device or emulator and the installed debug APK; hardware-dependent features may be unavailable.',
       };
     });
     const uefiMissing = missingFiles(UEFI.project, UEFI.required);
@@ -548,6 +550,30 @@ function createPlatformTargets(options = {}) {
       return writeReceipt({
         target: id, productId: ANDROID[id].productId, action: 'install', status: 'success',
         deviceSerialSha256: crypto.createHash('sha256').update(serial).digest('hex'), apk: path.basename(apk), sha256,
+      });
+    });
+  }
+
+  async function launchAndroid(id, opts = {}) {
+    safeId(id);
+    if (!ANDROID[id]) throw new Error('Only registered Android APK targets can be launched.');
+    const { serial } = opts;
+    if (typeof serial !== 'string' || !/^[A-Za-z0-9._:-]{1,128}$/.test(serial)) throw new Error('An exact ADB device serial is required.');
+    return exclusive(async () => {
+      requireWindows();
+      const devices = await adbDevices();
+      if (!devices.some((device) => device.serial === serial && device.state === 'device')) {
+        throw new Error('The explicitly selected ADB serial is not connected in device state; no device was selected automatically.');
+      }
+      const activity = ANDROID[id].activity;
+      const result = await capture(exe('adb.exe'), ['-s', serial, 'shell', 'am', 'start', '-W', '-n', activity], repositoryRoot);
+      if (!/^Status:\s*ok\s*$/mi.test(result.stdout) ||
+          !new RegExp(`^Activity:\\s*${activity.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*$`, 'mi').test(result.stdout)) {
+        throw new Error(`Android did not confirm the requested activity launch: ${(result.stdout + result.stderr).slice(-2000)}`);
+      }
+      return writeReceipt({
+        target: id, productId: ANDROID[id].productId, action: 'launchAndroid', status: 'launched',
+        deviceSerialSha256: crypto.createHash('sha256').update(serial).digest('hex'), activity,
       });
     });
   }
@@ -726,6 +752,7 @@ function createPlatformTargets(options = {}) {
     prepare,
     importBundled,
     listDevices: adbDevices,
+    launchAndroid,
     install,
     listDistros,
     provisionPosix,

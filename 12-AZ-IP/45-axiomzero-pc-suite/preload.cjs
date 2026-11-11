@@ -32,6 +32,7 @@ contextBridge.exposeInMainWorld("axiomSuite", Object.freeze({
   installRuntime: (id) => ipcRenderer.invoke("runtime:install", id),
   startRuntime: (id) => ipcRenderer.invoke("runtime:start", id),
   stopRuntime: (id) => ipcRenderer.invoke("runtime:stop", id),
+  openEigeConsole: () => ipcRenderer.invoke("runtime:eige-console"),
   openRuntime: (id) => ipcRenderer.invoke("runtime:open", id),
   onRuntimesChanged: (callback) => {
     if (typeof callback !== "function") throw new TypeError("Runtime state listener must be a function.");

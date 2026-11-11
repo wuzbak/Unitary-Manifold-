@@ -36,14 +36,14 @@ function renderPlatformTargets(targets) {
     const actions = target.kind === "wsl2" ? [["provision", "Provision selected WSL distro"], ["run", "Start selected WSL runtime"], ["stop", "Stop owned WSL runtime"]]
       : [...(target.bundled ? [["importBundled", "Use bundled artifact (offline)"]] : []),
         ["prepare", "Build artifact"], ["export", "Export prepared artifact"],
-        ...(target.kind === "android" ? [["install", "Install on selected Android device"]] : [])];
+        ...(target.kind === "android" ? [["install", "Install on selected Android device"], ["launchAndroid", "Open on selected Android device or emulator"]] : [])];
     for (const [action, label] of actions) {
       const button = document.createElement("button");
       button.type = "button";
       button.dataset.platformId = target.id;
       button.dataset.platformAction = action;
       button.textContent = label;
-      button.dataset.unavailable = String(target.status === "blocked" && (action === "prepare" || !target.bundled));
+      button.dataset.unavailable = String(action !== "launchAndroid" && target.status === "blocked" && (action === "prepare" || !target.bundled));
       button.disabled = platformBusy || button.dataset.unavailable === "true";
       controls.append(button);
     }
@@ -163,12 +163,14 @@ function renderRuntimes(entries) {
     details.append(summary, text);
     const actions = document.createElement("div");
     actions.className = "harness-controls";
-    for (const [action, label, disabled] of [
+    const buttons = [
       ["install", "Install dependencies", (entry.installMode !== "python-venv" && !["24", "27"].includes(entry.id)) || runtimeBusy || entry.running || entry.id === "26"],
       ["start", entry.managedDesktop ? "Open browser desktop" : "Start local service", (!entry.managedService && !entry.managedDesktop) || entry.running || runtimeBusy || entry.receipt?.status !== "installed"],
       ["stop", entry.managedDesktop ? "Close browser desktop" : "Stop service", !entry.running],
       ["open", "Open running dashboard", !entry.running || runtimeBusy || entry.managedDesktop]
-    ]) {
+    ];
+    if (entry.id === "03") buttons.push(["eige-console", "Open EIGE workflow console", runtimeBusy || entry.receipt?.status !== "installed"]);
+    for (const [action, label, disabled] of buttons) {
       const button = document.createElement("button");
       button.type = "button"; button.dataset.runtimeAction = action; button.dataset.id = entry.id;
       button.textContent = label; button.disabled = disabled; actions.append(button);
@@ -193,8 +195,10 @@ async function runRuntimeAction(action, id) {
     else if (action === "start") result = await window.axiomSuite.startRuntime(id);
     else if (action === "stop") result = await window.axiomSuite.stopRuntime(id);
     else if (action === "open") result = await window.axiomSuite.openRuntime(id);
+    else if (action === "eige-console") result = await window.axiomSuite.openEigeConsole();
     message.textContent = action === "refresh" ? "" : result?.canceled ? "Operation cancelled; no installation or launch was approved."
       : result?.forced ? `Owned browser tree was stopped after graceful cleanup failed: ${result.warning}`
+      : result?.status === "console-started" ? "EIGE console process started; check the separate window. This does not certify any workflow."
       : "Operation finished. Inspect the per-product state and limits below.";
   } catch (error) { message.textContent = `Runtime operation failed: ${error.message}`; }
   finally {

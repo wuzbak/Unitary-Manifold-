@@ -322,7 +322,11 @@ artifacts with their actual SHA-256/size manifest. **Use bundled artifact
 no JDK, Gradle or Rust toolchain is required to export it. APK installation
 requires ADB, one explicitly selected authorized device and native approval;
 it never silently replaces an installed package. Debug APKs are not
-production-signed mobile releases.
+production-signed mobile releases. **Open on selected Android device or
+emulator** launches the corresponding installed debug activity after separate
+native approval and requires ADB to report that exact activity started. An
+emulator must already be installed and running; the suite does not provision
+one, and a successful activity launch does not verify sensor-dependent features.
 
 Optional source builds require installed Android SDK/JDK or Rust/UEFI tooling.
 Dependency downloads are off by default. Offline Android builds require a
@@ -384,7 +388,17 @@ own UI; Product 01 starts its dashboard with `run.py serve`; library products
 (03, 05, 06, 07) start a shared loopback workbench
 (`12-AZ-IP/lib/library_console`) to browse modules and call public functions.
 Windows execution of these launchers is not claimed until the installed
-workflow verifies it; Products 02, 14 and 15 remain build-tooling targets.
+workflow verifies it; Product 02 remains an artifact-only target.
+
+Product 03 also offers **Open EIGE workflow console** after dependency
+installation and native approval. This opens an independent PowerShell window
+in the suite's writable Product 03 data directory with `eige-county` and
+`eige-verify` commands bound to the installed environment. Run either command
+with `--help`; inspect `$LASTEXITCODE` after each operation. Paths, production
+keys, required sign-offs and optional PKCS#11 dependencies remain the
+operator's responsibility. The shell can execute arbitrary commands as the
+user and remains open after the suite exits. It is not the official cockpit,
+does not enforce its workflow gates, and verification is not certification.
 
 Products 24 and 27 use the managed Node toolchain. **Install private Node LTS** downloads the
 maintained Node 24 Windows x64 archive and checksum manifest from fixed
