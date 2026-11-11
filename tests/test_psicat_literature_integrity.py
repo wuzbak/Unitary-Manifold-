@@ -20,7 +20,7 @@ ARCHIVE_DIR = PSICAT_ROOT / "Archive" / "2026-11-05-books-53-58"
 EXPECTED_BOOK_COUNT = 50
 EXPECTED_ARTICLE_COUNT = 357
 EXPECTED_REWRITE_ARTICLE_COUNT = 355
-EXPECTED_ORIGINAL_WORKS = {"51", "52", "53", "54", "55", "56", "57", "58"}
+EXPECTED_ORIGINAL_WORKS = {"51", "52", "53", "54", "55", "56", "57", "58", "59"}
 EXPECTED_ORIGINAL_ARTICLES = {"353", "354"}
 
 ORIGINAL_WORK_MARKERS = (
@@ -40,7 +40,7 @@ BOOK_NUMBER_PATTERN = re.compile(r"^book-(\d+)-")
 ARTICLE_NUMBER_PATTERN = re.compile(r"^article-(\d+)-")
 ORIGINAL_COUNT_PATTERN = re.compile(r"Original works \(not rewrites\):\s+\*\*(\d+)\*\*")
 COVERAGE_PATTERN = re.compile(
-    r"Coverage so far:\s+\*\*(\d+)\s*/\s*(\d+)\s+books\*\*,\s+\*\*(\d+)\s*/\s*(\d+)\s+articles\*\*\."
+    r"Coverage so far:\s+\*\*(\d+)\s*/\s*(\d+)\s+(?:rewrite )?books\*\*,\s+\*\*(\d+)\s*/\s*(\d+)\s+articles\*\*\."
 )
 
 
@@ -162,10 +162,10 @@ def test_psicat_readme_coverage_matches_actual_corpus() -> None:
     assert expected_articles == EXPECTED_ARTICLE_COUNT
 
 
-def test_collection_has_exactly_58_individual_complete_books() -> None:
+def test_collection_has_exactly_59_individual_complete_books() -> None:
     books = _markdown_files(BOOKS_DIR)
     numbers = [int(BOOK_NUMBER_PATTERN.match(path.name).group(1)) for path in books]
-    assert sorted(numbers) == list(range(1, 59))
+    assert sorted(numbers) == list(range(1, 60))
     assert not any("-part-" in path.name or path.name.endswith("-FULL.md") for path in books)
 
 
