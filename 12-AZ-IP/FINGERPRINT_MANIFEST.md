@@ -1646,3 +1646,12 @@ Windows. Native qualification and release publication remain pending.
 | `12-AZ-IP/45-axiomzero-pc-suite/lib/runtime-manager.cjs` | `e678a071613d39dc43d70a13754dcb236a8e76db0c0d90e215405f396089d5e3` | 25032 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `1e83ca1e68ad6d5649c9241bd3048a234aa359a69b61cac19a2659a9ded24d08` | 25250 |
 | `12-AZ-IP/46-axiomzero-android-suite/app/src/main/assets/products.json` | `bc367173ab2dbd3522272f265b6adc322ca65b122426944e286f6f2a482ef187` | 16717 |
+
+### Android emulator launch diagnostics — 2026-11-11
+
+Retain a failing launch gate and capture Android crash diagnostics when an
+activity exits after launch.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/platform-targets.test.cjs` | `cce9d3a7c410f07bc9cea3e6044cd16bc9494548bd4f2bab9b06e3d7e9da0d09` | 31558 |
