@@ -46,8 +46,7 @@ class TestSEPNordtvedt:
 
 class TestSEPYukawaSuppression:
     def test_ew_radion_at_earth_scale_is_zero(self):
-        # For m_r = M_KK ≈ 1040 GeV, Yukawa range λ_r ≈ 1.9e-16 m
-        # At Earth radius 6.4e6 m → exp(-3.4e22) = 0
+        # Point-source proxy for 1040 GeV: λ_r ≈ 1.9e-19 m.
         delta_eta = sep_yukawa_suppression(M_KK_GEV, 6.371e6, ALPHA_RS1)
         assert delta_eta == 0.0
 
@@ -63,12 +62,9 @@ class TestSEPYukawaSuppression:
         delta_eta = sep_yukawa_suppression(M_KK_GEV, 6.371e6, ALPHA_RS1)
         assert delta_eta < MICROSCOPE_ETA_LIMIT
 
-    def test_zero_mass_returns_inf(self):
-        # m_r = 0 → lambda_r = inf (massless field, infinite range, no Yukawa suppression).
-        # For m_r=0: lambda_r=inf, ratio=0, yukawa=1.0, prefactor = 2α²×(inf/r)×Ω_grav → inf.
-        # This is the physically correct limit: a massless scalar fully couples at all distances.
-        delta_eta = sep_yukawa_suppression(0.0, 1.0, ALPHA_RS1)
-        assert math.isinf(delta_eta)
+    def test_zero_mass_rejected(self):
+        with pytest.raises(ValueError):
+            sep_yukawa_suppression(0.0, 1.0, ALPHA_RS1)
 
 
 class TestSEPEWRadionVerdict:
@@ -84,11 +80,12 @@ class TestSEPEWRadionVerdict:
     def test_alpha_is_rs1(self):
         assert abs(self.result["alpha"] - 1.0 / math.sqrt(6.0)) < 1e-10
 
-    def test_sep_eotovos_safe(self):
-        assert self.result["sep_eotovos_safe"] is True
+    def test_sep_eotovos_not_determined(self):
+        assert self.result["sep_eotovos_safe"] is None
+        assert self.result["delta_eta_eotovos"] is None
 
-    def test_sep_nordtvedt_safe(self):
-        assert self.result["sep_nordtvedt_safe"] is True
+    def test_sep_nordtvedt_not_determined(self):
+        assert self.result["sep_nordtvedt_safe"] is None
 
     def test_yukawa_range_sub_femtometer(self):
         # λ_r should be < 1 fm = 1e-15 m for M_KK ≈ 1 TeV
@@ -101,8 +98,8 @@ class TestSEPEWRadionVerdict:
     def test_mechanism_is_mass_not_tuning(self):
         assert "MASS" in self.result["mechanism"] or "mass" in self.result["mechanism"].lower()
 
-    def test_verdict_contains_safe(self):
-        assert "SAFE" in self.result["verdict"]
+    def test_verdict_is_conditional(self):
+        assert "NOT ESTABLISHED" in self.result["verdict"]
 
 
 class TestKKCasimirEnergy:
@@ -182,11 +179,11 @@ class TestVacuumStressEnergyAudit:
         assert "sep_audit" in self.result
         assert "stress_energy_audit" in self.result
 
-    def test_overall_verdict_pass(self):
-        assert "PASS" in self.result["overall_verdict"]
+    def test_overall_verdict_is_conditional(self):
+        assert "NOT ESTABLISHED" in self.result["overall_verdict"]
 
-    def test_sep_audit_safe(self):
-        assert self.result["sep_audit"]["sep_eotovos_safe"] is True
+    def test_sep_audit_not_determined(self):
+        assert self.result["sep_audit"]["sep_eotovos_safe"] is None
 
 
 class TestPillar197Summary:
@@ -213,8 +210,8 @@ class TestPillar197Summary:
         assert "next_attack_anticipated" in self.result
         assert len(self.result["next_attack_anticipated"]) > 50
 
-    def test_coupling_fixed_not_free(self):
-        assert "NOT" in self.result["sep_coupling_fixed"] or "fixed" in self.result["sep_coupling_fixed"]
+    def test_coupling_is_assumed(self):
+        assert "assumed" in self.result["sep_coupling_fixed"]
 
 
 class TestAlphaIsNotFreeParameter:

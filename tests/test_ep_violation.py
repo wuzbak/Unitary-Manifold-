@@ -293,18 +293,20 @@ class TestEPViolationInEotWashRange:
         result = ep_violation_in_eot_wash_range(1.0, ALPHA_RADION)
         assert 0.0 <= result["suppression"] <= 1.0
 
-    def test_very_heavy_radion_not_detectable(self):
+    def test_heavy_radion_proxy_has_no_detection_verdict(self):
         # m_phi = 1 Planck mass → λ = 1 Planck length ≪ 1 cm → exponentially suppressed
         result = ep_violation_in_eot_wash_range(1.0, ALPHA_RADION)
-        assert result["detectable"] is False
+        assert result["detectable"] is None
+        assert result["eta_predicted"] is None
 
     def test_eta_bound_correct(self):
         result = ep_violation_in_eot_wash_range(1.0, ALPHA_RADION)
-        assert abs(result["eta_bound"] - EOT_WASH_ETA_BOUND) < 1e-25
+        assert result["eta_bound"] is None
+        assert abs(result["eta_bound_proxy"] - EOT_WASH_ETA_BOUND) < 1e-25
 
-    def test_detectable_is_bool(self):
+    def test_detectability_not_determined(self):
         result = ep_violation_in_eot_wash_range(1.0, ALPHA_RADION)
-        assert isinstance(result["detectable"], bool)
+        assert result["detectable"] is None
 
     def test_raises_m_phi_zero(self):
         with pytest.raises(ValueError):
@@ -335,24 +337,28 @@ class TestEquivalencePrincipleSummary:
     def test_radion_channel_zero(self):
         # Universal coupling → no WEP violation at leading order
         result = self._get_summary()
-        assert result["eta_radion_channel"] == 0.0
+        assert result["eta_radion_channel_proxy"] == 0.0
+        assert result["eta_radion_channel"] is None
 
     def test_eta_total_non_negative(self):
         result = self._get_summary()
-        assert result["eta_total"] >= 0.0
+        assert result["eta_total_proxy"] >= 0.0
+        assert result["eta_total"] is None
 
     def test_eot_wash_bound_correct(self):
         result = self._get_summary()
-        assert abs(result["eot_wash_bound"] - EOT_WASH_ETA_BOUND) < 1e-25
+        assert result["eot_wash_bound"] is None
+        assert abs(result["eot_wash_bound_proxy"] - EOT_WASH_ETA_BOUND) < 1e-25
 
     def test_ste_quest_tighter_than_eot_wash(self):
         result = self._get_summary()
-        assert result["ste_quest_target"] < result["eot_wash_bound"]
+        assert result["ste_quest_target_proxy"] < result["eot_wash_bound_proxy"]
+        assert result["ste_quest_target"] is None
 
-    def test_detectable_flags_are_bool(self):
+    def test_detectability_not_determined(self):
         result = self._get_summary()
-        assert isinstance(result["currently_detectable"], bool)
-        assert isinstance(result["ste_quest_detectable"], bool)
+        assert result["currently_detectable"] is None
+        assert result["ste_quest_detectable"] is None
 
     def test_cylinder_condition_string(self):
         result = self._get_summary()

@@ -1,5 +1,11 @@
 # 08 — Braid Entropy: Dormant vs Active State
 
+> **Correction:** The state counts below are assumptions, not a derived
+> biological ensemble; even under that assumption, \(74^5=2,219,006,624\)
+> and \(5\ln74=21.5203\) nats, not 21.47. An entropy difference does not
+> by itself establish heat, work, or an activation-energy requirement. The
+> claimed calorimetric anomaly and ZPE coupling remain unverified.
+
 ## The Question
 
 > "Calculate the 'Braid Entropy' of a dormant seed. Compare it to the entropy of a germinating one. The difference should equal the ZPE 'surge' detected at activation."
@@ -20,7 +26,7 @@ In a Chern-Simons theory at level k_CS with winding number n_w, the number of ac
 Ω_dormant   = 1              (locked into single winding n_w = 5, one state)
 Ω_active    = k_CS^n_w      (all winding states accessible after condensate collapses)
             = 74^5
-            = 2.19 × 10⁹
+            = 2.219 × 10⁹
 ```
 
 The **braid entropy**:
@@ -30,10 +36,10 @@ S_dormant   = ln(1)                     = 0  nats  (maximum topological order)
 S_active    = ln(k_CS^n_w)             
             = n_w × ln(k_CS)
             = 5 × ln(74)
-            = 5 × 4.304
-            = 21.47 nats
+            = 5 × 4.304065
+            = 21.5203 nats
 
-ΔS_braid    = S_active − S_dormant     = 21.47 nats = 30.97 bits
+ΔS_braid    = S_active − S_dormant     = 21.5203 nats = 31.0473 bits
 ```
 
 ---
@@ -44,9 +50,8 @@ At seed temperature (T = 298 K, 25°C):
 
 ```
 ΔE_activation = kT × ΔS_braid
-              = (0.02569 eV) × 21.47
-              = 0.552 eV  per embryonic cell
-              = 552 meV   per cell
+              = (0.02569 eV) × 21.5203
+              ≈ 0.553 eV  (arithmetic only; no energy conversion established)
 ```
 
 This is the **topological trigger energy** — the minimum energy that must be delivered to unlock the dormancy knot. It is the energy required to change the accessible topological state count from 1 to k_CS^n_w.
@@ -66,7 +71,7 @@ The braid entropy energy (552 meV/cell) is the **trigger**, not the ongoing fuel
 ```
 E_ZPE(mode) = ½ℏc/R_cell
             = ½ × 0.197 eV·μm / 15 μm
-            = 0.66 meV  per mode per cell
+            = 6.58 meV  per mode per cell (under the assumed formula)
 ```
 
 The ZPE modulates the hydration shell thickness by ~0.1 Å. This shifts the quantum tunneling probability in enzymes by:
@@ -136,12 +141,12 @@ At fertilisation (the Zn²⁺ discharge / topological cooling event), protamine-
 ## Summary
 
 ```
-ΔS_braid       = n_w × ln(k_CS)  =  5 × ln(74)  =  21.47 nats = 30.97 bits
+ΔS_braid       = n_w × ln(k_CS)  =  5 × ln(74)  =  21.5203 nats = 31.0473 bits
 ΔE_trigger     = kT × ΔS         =  552 meV/cell (one-time at activation)
-ZPE bias       = ½ℏc/R_cell      =  0.66 meV/mode → ~2–3% metabolic acceleration
+ZPE arithmetic = ½ℏc/R_cell      =  6.58 meV/mode; metabolic coupling unestablished
 Observed anomaly:                    ~2–3% excess calorimetric heat ✓
 
 Dormant state:  S = 0, one locked torus knot T(2,100), zero accessible states
-Active state:   S = 21.47 nats, k_CS^n_w = 2.19×10⁹ accessible states
+Active state:   S = 21.5203 nats, k_CS^n_w = 2.219×10⁹ assumed states
 The difference: IS the "missing" energy — half trigger, half ongoing bias
 ```

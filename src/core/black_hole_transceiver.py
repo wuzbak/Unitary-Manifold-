@@ -5,6 +5,13 @@ src/core/black_hole_transceiver.py
 ===================================
 Black Hole as Geometric Transceiver — Pillar 6.
 
+Scope correction: the constructions below are historical phenomenological
+proxies, not solutions of the coupled 5D horizon equations or verified
+gravitational-wave predictions. In particular, at fixed finite B the formula
+for κ_H tends to zero as φ tends to zero, not one. Its B² norm is gauge
+dependent; its maximum does not identify a physical event horizon. The
+algebraic redistribution identity is not a proof of quantum unitarity.
+
 Models the event horizon as the physical locus where the Irreversibility
 Field B_μ reaches its maximum potential, transcoding 4D matter information
 into 5D topological geometry and redistributing it back into the 4D world
@@ -17,9 +24,10 @@ through the coupling constant α = 1/φ².  As matter approaches the event
 horizon the extreme curvature drives φ → 0 (α → ∞), causing the
 Irreversibility Field B_μ to saturate:
 
-    κ_H = λ²φ²|B|² / (1 + λ²φ²|B|²)  →  1
+    κ_H = λ²φ²|B|² / (1 + λ²φ²|B|²)
 
-This saturation is the horizon.  At this point the Standard Model information
+The following historical interpretation is an unproved hypothesis. At this
+point the Standard Model information
 content of the infalling matter is stripped from the 4D sector and re-encoded
 as 5D topology — "uploaded" to the surface of the black hole rather than
 destroyed (information conservation, QUANTUM_THEOREMS.md §XII).
@@ -85,8 +93,7 @@ Echo spectrum:
 Public API
 ----------
 horizon_saturation(B, phi, lam)
-    Compute the B_μ saturation parameter κ_H at every grid point.
-    Returns values in [0, 1); the horizon is where κ_H is largest.
+    Compute a gauge-dependent bounded B² proxy at every grid point.
 
 geometric_encoding_density(B, phi, dx, lam)
     Rate at which 4D information is transcoded into 5D topology.
@@ -158,15 +165,12 @@ def horizon_saturation(
     phi: np.ndarray,
     lam: float = _LAM_DEFAULT,
 ) -> np.ndarray:
-    """Compute the B_μ field saturation parameter κ_H at every grid point.
-
-    At the event horizon the Irreversibility Field reaches its maximum
-    potential.  This is captured by the dimensionless saturation parameter:
+    """Compute the historical gauge-dependent B² proxy κ_H on the grid.
 
         κ_H(x) = λ²φ²(x) |B(x)|² / (1 + λ²φ²(x) |B(x)|²)
 
-    κ_H ∈ [0, 1) everywhere; it asymptotes to 1 as B_μ → ∞ (or α → ∞).
-    The horizon is the locus argmax_x κ_H(x).
+    At fixed finite B, κ_H tends to zero as φ tends to zero. This proxy
+    and its maximum are not gauge-invariant event-horizon diagnostics.
 
     Parameters
     ----------
@@ -194,18 +198,10 @@ def geometric_encoding_density(
     dx: float,
     lam: float = _LAM_DEFAULT,
 ) -> np.ndarray:
-    """Rate at which 4D information is transcoded into 5D topology.
+    """Historical Euclidean field-strength norm, not information transfer.
 
-    When matter crosses the horizon the 5th-dimensional coupling φ²λ²
-    amplifies the field-strength vorticity H_μν H^μν into a topological
-    flux that encodes the particle's Standard Model quantum numbers in the
-    manifold geometry:
-
-        ρ_enc(x) = φ²(x) · λ² H_μν(x) H^μν(x)
-
-    Here H_μν = ∂_μ B_ν − ∂_ν B_μ is the antisymmetric field-strength
-    tensor of the Irreversibility Field.  The factor φ² is the KK radion
-    weight that converts 5D to 4D effective densities.
+    The implementation sums component squares; it does not perform the
+    Lorentzian contraction H_μν H^μν or derive a topological encoding.
 
     Parameters
     ----------
@@ -232,21 +228,15 @@ def winding_redistribution(
     encoded_info: np.ndarray,
     n_w: int = _N_W_DEFAULT,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """Project encoded 5D information back to 4D through n_w winding modes.
+    """Split an input array equally among n_w mathematical channels.
 
-    The Atiyah–Singer index theorem yields n_w = 5 winding modes on the
-    S¹/Z₂ orbifold (metric.py::derive_nw_index_theorem).  Each mode carries
-    an equal share of the encoded information back into 4D space:
+    The equal split is an ansatz, not a derivation of physical winding modes:
 
         ρ_out^(k)(x) = ρ_enc(x) / n_w     for k = 0, …, n_w − 1
 
-    The total output recovers the full encoded information (unitarity):
+    The total recovers the input algebraically, not quantum unitarity:
 
         ρ_out_total(x) = Σ_k ρ_out^(k)(x) = ρ_enc(x)
-
-    This is the geometric mechanism behind Hawking radiation: the encoded
-    state is not emitted all at once from one location, but redistributed
-    coherently across all n_w winding channels.
 
     Parameters
     ----------
@@ -367,11 +357,9 @@ class HorizonTransceiver:
 
     # ------------------------------------------------------------------
     def horizon_location(self, state) -> int:
-        """Grid index of maximum B_μ saturation (event horizon estimate).
+        """Return the index of the gauge-dependent B² proxy maximum.
 
-        Returns the point x* = argmax_x κ_H(x) where the Irreversibility
-        Field is closest to its maximum potential — the geometric definition
-        of the event horizon within the Unitary Manifold framework.
+        This is not a physical event-horizon location.
 
         Parameters
         ----------
@@ -379,18 +367,16 @@ class HorizonTransceiver:
 
         Returns
         -------
-        idx : int — grid index of the horizon
+        idx : int — grid index of the proxy maximum
         """
         kappa = horizon_saturation(state.B, state.phi, lam=self.lam)
         return int(np.argmax(kappa))
 
     # ------------------------------------------------------------------
     def horizon_entropy(self, state, G4: float = 1.0) -> float:
-        """Bekenstein–Hawking horizon entropy S_H = ∫ κ_H dx / (4 G4).
+        """Return a historical grid-integral proxy, not horizon entropy.
 
-        The integral of the saturation parameter κ_H over the grid provides
-        a proxy for the horizon area in the dimensionally-reduced geometry.
-        Dividing by 4G_4 (Planck units) gives the Bekenstein–Hawking entropy.
+        No horizon area or Bekenstein--Hawking entropy is derived here.
 
         Parameters
         ----------
@@ -490,17 +476,13 @@ def hubble_tension_ratio(phi_cmb: float, phi_today: float = 1.0) -> float:
 # ---------------------------------------------------------------------------
 
 def gw_echo_delay(phi_mean: float) -> float:
-    """Gravitational-wave echo delay from the compact 5th dimension.
+    """Return a phenomenological circle-travel-time proxy, not an echo prediction.
 
-    After a black-hole merger the compact S¹ dimension acts as a resonant
-    cavity.  Gravitational radiation traverses the compact dimension and
-    reflects back, appearing as a periodic echo in the post-merger waveform.
-    The round-trip time across a compact circle of radius R_5 = ⟨φ⟩ is:
+    If φ_mean is separately assumed to be a circle radius, the formula is:
 
         τ_echo = 2π R_5 / c  =  2π ⟨φ⟩        (natural units c = 1)
 
-    A measurement of τ_echo directly determines ⟨φ⟩ — the compactification
-    radius in Planck units.
+    Reflection, coupling and actual wave propagation have not been derived.
 
     Parameters
     ----------
@@ -526,7 +508,7 @@ def gw_echo_spectrum(
     echo_quality: float,
     phi_mean: float,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """Echo arrival times and amplitudes for the post-merger GW signal.
+    """Return an assumed geometric-series echo model, not a GW prediction.
 
     The compact 5th dimension acts as a damped resonant cavity.  Each
     successive round-trip loses a fraction (1 − Q) of the stored energy,

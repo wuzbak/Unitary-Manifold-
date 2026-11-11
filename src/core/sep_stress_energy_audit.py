@@ -5,6 +5,11 @@ src/core/sep_stress_energy_audit.py
 =====================================
 Pillar 197 — Strong Equivalence Principle (SEP) Stress-Energy Audit.
 
+Scope correction: the radion mass and scalar charges below are assumed, not
+derived for UM matter. The point-Earth exponential is not a finite-body
+MICROSCOPE response, and the historical verdicts are not validated exclusions.
+See docs/physics/RADION_FIFTH_FORCE_AUDIT.md.
+
 ═══════════════════════════════════════════════════════════════════════════════
 CALTECH-LEVEL RED-TEAM AUDIT RESPONSE (v10.2)
 Red-Team Finding §1: "The Radion Problem / SEP at 10⁻¹⁵"
@@ -45,17 +50,13 @@ For a massive Yukawa scalar (mass m_r, range λ_r = ℏc/m_r):
     Δη_Eötvös ~ 2α² · (λ_r / r_⊕) · exp(−r_⊕/λ_r) · (Ω_grav/E_rest)⊕
 
 For the EW-sector radion in the UM:
-    m_r ≈ M_KK ≈ 1040 GeV  →  λ_r ≈ 1.9 × 10⁻¹⁶ m
+    m_r ≈ M_KK ≈ 1040 GeV  →  λ_r ≈ 1.9 × 10⁻¹⁹ m
     Earth radius: r_⊕ ≈ 6.4 × 10⁶ m
 
-    exp(−r_⊕/λ_r) ≈ exp(−3.4 × 10²²) ≈ 0
+    exp(−r_⊕/λ_r) ≈ exp(−3.4 × 10²⁵) ≈ 0 (point-source proxy only)
 
-The Yukawa suppression is so extreme that the torsion-balance constraint
-(10⁻¹⁵) is satisfied by ~10²² orders of margin.
-
-This is NOT a tuning: the Yukawa range is set by M_KK ≈ 1040 GeV (derived
-from n_w = 5, K_CS = 74; Pillar 56 φ₀ closure and Pillar 68 Goldberger-Wise),
-and M_KK >> H₀ is geometrically necessary for electroweak symmetry breaking.
+The numerical point-source suppression is not an apparatus-level constraint
+or a derivation of the radion mass and matter couplings.
 
 ═══════════════════════════════════════════════════════════════════════════════
 PHYSICS: PROBLEM (B) — 5D VACUUM STRESS-ENERGY AUDIT
@@ -204,7 +205,7 @@ def sep_yukawa_suppression(
     r_test_m: float,
     alpha: float = ALPHA_RS1,
 ) -> float:
-    """SEP violation amplitude at distance r_test_m for a massive radion.
+    """Historical point-source exponential proxy, not an SEP prediction.
 
     The Yukawa-screened contribution to the Eötvös parameter:
         Δη_Eötvös ~ 2α² · (λ_r/r) · exp(−r/λ_r) · Ω_grav/E_rest
@@ -212,18 +213,14 @@ def sep_yukawa_suppression(
     Returns
     -------
     float
-        |Δη| at the test scale (dimensionless). Returns 0.0 for extreme suppression.
-        For m_r_gev=0 (massless limit), lambda_r_m=inf and the function returns inf,
-        representing unbounded coupling at all scales — the physically correct limit.
+        Proxy at the test scale (dimensionless). Returns 0.0 for extreme
+        suppression. Its divergent massless limit is unphysical and rejected.
     """
-    # For m_r_gev > 0: Yukawa range λ_r = ℏc/m_r (metres).
-    # For m_r_gev = 0: massless field has infinite range; λ_r = inf.
-    # lambda_r_m is always either a positive finite number or math.inf — never 0.
-    lambda_r_m = HBAR_C_GEV_M / m_r_gev if m_r_gev > 0 else math.inf
-
-    # Guard for r_test_m == 0 (field amplitude at the source is undefined).
-    if r_test_m == 0:
-        return 0.0
+    if not all(math.isfinite(x) for x in (m_r_gev, r_test_m, alpha)):
+        raise ValueError("mass, distance and coupling must be finite")
+    if m_r_gev <= 0 or r_test_m <= 0:
+        raise ValueError("mass and distance must be positive for this proxy")
+    lambda_r_m = HBAR_C_GEV_M / m_r_gev
 
     ratio = r_test_m / lambda_r_m
     if ratio > 700:
@@ -236,7 +233,7 @@ def sep_yukawa_suppression(
 
 
 def sep_ew_radion_verdict() -> dict:
-    """Complete SEP audit for the EW-sector radion.
+    """Conditional point-source proxy, not a complete SEP audit.
 
     Returns a machine-readable dict with all numerical bounds and verdicts.
     """
@@ -253,8 +250,7 @@ def sep_ew_radion_verdict() -> dict:
     eta_nordtvedt_massless = sep_nordtvedt_bound(alpha)
 
     # Suppression factor (Yukawa at Earth scale).
-    # For EW radion, ratio ≈ 3.4e22 — larger than any representable float (~1.8e308),
-    # so we use math.inf as the practical upper guard and return -inf for the log.
+    # Protect the logarithmic proxy against overflow for extreme inputs.
     _FLOAT_OVERFLOW_GUARD: float = 1e308  # slightly below sys.float_info.max ≈ 1.8e308
     ratio = R_EARTH_M / lambda_r_m
     log10_suppression = -ratio / math.log(10) if ratio < _FLOAT_OVERFLOW_GUARD else -math.inf
@@ -268,14 +264,15 @@ def sep_ew_radion_verdict() -> dict:
         "lambda_r_fm": lambda_r_m / 1e-15,
         "r_test_m": R_EARTH_M,
         "log10_yukawa_suppression": log10_suppression,
-        "delta_eta_eotovos": delta_eta_ew,
+        "delta_eta_eotovos_proxy": delta_eta_ew,
+        "delta_eta_eotovos": None,
         "microscope_limit": MICROSCOPE_ETA_LIMIT,
         "llr_nordtvedt_limit": LLR_NORDTVEDT_LIMIT,
         "eta_nordtvedt_massless_limit": eta_nordtvedt_massless,
-        "sep_eotovos_safe": delta_eta_ew < MICROSCOPE_ETA_LIMIT,
-        "sep_nordtvedt_safe": eta_nordtvedt_massless < LLR_NORDTVEDT_LIMIT,
-        "verdict": "SAFE — Yukawa suppression exp(−3.4×10²²) renders SEP violation unmeasurable",
-        "mechanism": "MASS (not tuning): m_r ≈ M_KK from Pillar 56 + 68",
+        "sep_eotovos_safe": None,
+        "sep_nordtvedt_safe": None,
+        "verdict": "CONDITIONAL PROXY; FINITE-BODY SEP COMPARISON NOT ESTABLISHED",
+        "mechanism": "Assumed mass and point-Earth exponential, not a validated SEP model",
     }
 
 
@@ -375,9 +372,8 @@ def vacuum_stress_energy_audit() -> dict:
         "sep_audit": sep,
         "stress_energy_audit": cc,
         "overall_verdict": (
-            "PASS — EW radion is Yukawa-screened at 10⁻¹⁵ by mass (not tuning). "
-            "KK Casimir vacuum does NOT create 4D matter (three-layer cancellation). "
-            "Residual Λ_KK << Λ_obs. Honest open: full CC problem unsolved."
+            "SEP COMPARISON NOT ESTABLISHED; the separate legacy "
+            "stress-energy calculation is reported without a combined pass."
         ),
     }
 
@@ -388,9 +384,9 @@ def sep_pillar197_summary() -> dict:
         "pillar": 197,
         "name": "SEP Stress-Energy Audit",
         "red_team_finding": "Scalar breathing: SEP violation at 10⁻¹⁵? 5D vacuum → 4D matter?",
-        "sep_mechanism": "Yukawa screening: exp(−r_⊕/λ_r) ≈ exp(−3.4×10²²) ≈ 0",
-        "sep_coupling_fixed": "α = 1/√6 fixed by 5D RS1 action (NOT a free parameter)",
-        "sep_verdict": "SAFE — margin > 10²² orders of magnitude",
+        "sep_mechanism": "Unvalidated point-Earth proxy; finite-body comparison remains open",
+        "sep_coupling_fixed": "α = 1/√6 is an assumed benchmark; UM matter charge not established",
+        "sep_verdict": "CONDITIONAL PROXY; FINITE-BODY SEP COMPARISON NOT ESTABLISHED",
         "stress_energy_layers": [
             "Layer 1: Topological UV cutoff N_KK_max = 74 (Pillar 196)",
             "Layer 2: Z₂ parity cancellation (even/odd KK modes)",

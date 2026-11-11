@@ -345,20 +345,25 @@ but would not falsify it outright:
 
 **Experiment:** MICROSCOPE-II or successor torsion-balance missions; sensitivity target |Δη| < 10⁻¹⁷.
 
-**UM prediction:** No SEP violation detectable by any current or planned experiment.
-The EW-sector radion Yukawa range λ_r ≈ 0.19 fm ensures exp(−r_test/λ_r) ≈ 0 at all
-test scales.
+**Status correction:** The previously quoted EW-radion mass is an assumed
+benchmark, not a derived universal mass. At 1040 GeV its Compton range is
+approximately 0.00019 fm, not 0.19 fm. A short-range point-source estimate
+does not establish an experimental SEP verdict: finite Earth geometry,
+composition-dependent charges, source response, and the actual likelihood
+are required. See [the radion audit](../docs/physics/RADION_FIFTH_FORCE_AUDIT.md).
 
 **Falsification threshold:**
 
-> Any torsion-balance result showing |Δη| > 10⁻¹⁵ at 3σ, **combined with** a
-> theoretical demonstration that the signal cannot be explained by Standard Model
-> effects alone, would falsify the UM if attributed to a scalar with Compton
-> wavelength > 1 mm.
+> A statistically established nonzero differential signal is a potential
+> test only after a specified UM matter action predicts the relevant charges
+> and an apparatus-level comparison excludes that prediction. The historical
+> universal 10⁻¹⁵ threshold is not a validated model-independent falsifier.
 
-This would require a scalar mass m_φ < 2×10⁻¹⁰ eV, which the UM does not predict.
+A Compton wavelength above 1 mm corresponds to \(m_\phi c^2\lesssim
+1.97\times10^{-4}\) eV, not \(2\times10^{-10}\) eV.
 
-*Code:* `src/core/sep_stress_energy_audit.sep_ew_radion_verdict()` (Pillar 197).
+*Historical proxy code:* `src/core/sep_stress_energy_audit.sep_ew_radion_verdict()`
+(Pillar 197); its point-source estimate is not a finite-body SEP analysis.
 
 ---
 

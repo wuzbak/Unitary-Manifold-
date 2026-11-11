@@ -5,6 +5,10 @@ src/core/equivalence_principle_guard.py
 ==========================================
 Pillar 186 — Equivalence Principle Guard: Radion Fifth-Force Constraints.
 
+Scope correction: the following historical claims and numerical verdicts are
+conditional proxies, not established matter couplings, radion masses, or
+experimental likelihoods. See docs/physics/RADION_FIFTH_FORCE_AUDIT.md.
+
 ═══════════════════════════════════════════════════════════════════════════════
 RED-TEAM AUDIT RESPONSE (v9.39) — "Fifth Force Suppression Gap"
 ═══════════════════════════════════════════════════════════════════════════════
@@ -61,9 +65,9 @@ value arising from the kinetic term of the Goldberger-Wise scalar in the 5D
 bulk.  It is NOT tuned to avoid detection.
 
 The reason the EW radion is invisible to Cassini is its MASS — not its coupling.
-The mass m_r ≈ M_KK ≈ 1040 GeV gives Yukawa range λ_r ≈ 1.9 × 10⁻¹⁶ m.
+The assumed mass m_r ≈ M_KK ≈ 1040 GeV gives λ_r ≈ 1.9 × 10⁻¹⁹ m.
 At the Earth-Sun distance (~1.5 × 10¹¹ m), the force is suppressed by
-exp(−r/λ_r) ≈ exp(−8 × 10²⁶) ≈ 0.
+exp(−r/λ_r) ≈ exp(−8 × 10²⁹) ≈ 0 for a point source.
 
 ═══════════════════════════════════════════════════════════════════════════════
 EINSTEIN TELESCOPE REACH

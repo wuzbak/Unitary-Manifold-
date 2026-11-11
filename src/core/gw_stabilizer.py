@@ -5,6 +5,11 @@ src/core/gw_stabilizer.py
 ==========================
 Pillar 189-C — Hard Goldberger-Wise Stabilization: Zero Force at the Fixed Point.
 
+Scope correction: the potential derivative vanishes at its minimum, but this
+does not imply a zero matter-sourced fifth force. The mass, matter coupling,
+and experimental response require independent action matching. The historical
+calculators remain available; see docs/physics/RADION_FIFTH_FORCE_AUDIT.md.
+
 ═══════════════════════════════════════════════════════════════════════════════
 AUDIT CONTEXT (v10.0 Response to "Fifth Force" / Radion Instability)
 ═══════════════════════════════════════════════════════════════════════════════
@@ -21,8 +26,8 @@ The v10.0 adversarial audit raises a concern about the radion stabilization:
     A theory that merely suppresses predictions below experimental sensitivity
     risks becoming unfalsifiable.
 
-THIS MODULE provides the "stability" answer: the radion force is ZERO at the
-FTUM fixed point Ψ* because the radion IS AT ITS POTENTIAL MINIMUM.
+This module verifies a potential-stationarity identity for an assumed
+potential. It does not show that matter sources produce no scalar force.
 
 ═══════════════════════════════════════════════════════════════════════════════
 THE HARD STABILIZATION PROOF
@@ -65,16 +70,14 @@ For a massive scalar with Yukawa potential:
 where λ_r = ℏc / m_r is the Yukawa range.
 
 For the EW radion with m_r ~ M_KK ~ 1040 GeV:
-    λ_r = ℏc / m_r ≈ 1.9 × 10⁻¹⁶ m  (subatomic range)
+    λ_r = ℏc / m_r ≈ 1.9 × 10⁻¹⁹ m  (subatomic range)
 
 At the Solar-System scale (r ~ 1 AU ≈ 1.5 × 10¹¹ m):
     F_Yukawa / F_grav ~ exp(−r_AU / λ_r) ≈ exp(−10²⁷) ≈ 0
 
-The Cassini bound is trivially satisfied because:
-  1. The EW radion IS at its minimum (∂V/∂φ = 0 → no restoring force → no 5th force).
-  2. Even if displaced, the Yukawa suppression exp(−r_AU/λ_r) is exp(−10²⁷).
-
-This is DOUBLY safe: zero equilibrium force AND Yukawa-suppressed off-equilibrium.
+The benchmark has very strong Yukawa suppression at an AU, but its mass and
+matter coupling are assumptions. Stationarity alone is not a Cassini test.
+The historical Cassini proxy below is not a verified experimental likelihood.
 
 ═══════════════════════════════════════════════════════════════════════════════
 ROLE IN THE TWO-TIER ARCHITECTURE
@@ -311,11 +314,11 @@ def fixed_point_force(
     lambda_gw: float = 1.0,
     tolerance: float = 1e-15,
 ) -> Dict[str, object]:
-    """Prove ∂V/∂φ = 0 at the FTUM fixed point φ = v = Ψ*.
+    """Evaluate ∂V/∂φ at the assumed potential minimum φ = v.
 
     This is the KEY RESULT of Pillar 189-C:
-        The radion force is EXACTLY ZERO at the fixed point.
-        This is an ANALYTIC proof, not a numerical approximation.
+        The self-potential gradient is zero, not necessarily the
+        matter-sourced fifth force.
 
     Parameters
     ----------
@@ -357,15 +360,14 @@ def fixed_point_force(
             "∂V/∂φ = 4λφ(φ²−v²)  →  at φ=v:  4λ × v × (v²−v²) = 4λ × v × 0 = 0.  "
             "This is an ANALYTIC identity, exact to machine precision.  "
             "∂²V/∂φ² = 8λv² > 0 confirms a stable minimum.  "
-            "CONCLUSION: The radion force is ZERO at equilibrium.  "
-            "Not suppressed — ZERO."
+            "The self-potential gradient is ZERO at its minimum; "
+            "this does not determine the matter-sourced scalar force."
         ),
         "distinction_from_stealth": (
             "Pillar 187 (lhc_kk_resonances.py) shows k/M_Pl ~ 10⁻¹⁶ (coupling tiny).  "
-            "Pillar 189-C shows ∂V/∂φ = 0 at Ψ* (force zero at equilibrium).  "
-            "These are complementary, not contradictory.  "
-            "The former describes an observer seeing a displaced radion; "
-            "the latter proves the radion IS at its equilibrium (no displacement occurs)."
+            "Pillar 189-C shows ∂V/∂φ = 0 at the assumed potential minimum. "
+            "This identity does not determine matter coupling or displacement "
+            "caused by a source."
         ),
     }
 
@@ -424,13 +426,13 @@ def cassini_yukawa_suppression(
             f"Yukawa range λ_r = ℏc/m_r ≈ {lambda_r_m:.2e} m.  "
             f"At r = {r_m:.2e} m: r/λ_r ≈ {r_over_lambda:.2e}.  "
             f"Suppression exp(−r/λ_r) ≈ {suppression:.2e}.  "
-            "Cassini bound: TRIVIALLY SATISFIED."
+            "Conditional legacy Cassini proxy, not a verified experimental exclusion."
         ),
     }
 
 
 def cassini_constraint_check() -> Dict[str, object]:
-    """Full Cassini constraint analysis for the EW radion.
+    """Legacy conditional proxy, not a complete Cassini constraint analysis.
 
     Returns
     -------
@@ -448,9 +450,8 @@ def cassini_constraint_check() -> Dict[str, object]:
             "force_at_fixed_point": force_at_eq["force_at_fixed_point"],
             "is_exactly_zero": force_at_eq["is_exactly_zero"],
             "explanation": (
-                "The EW radion IS at its GW potential minimum (Ψ*).  "
-                "At equilibrium, ∂V/∂φ = 0 exactly.  "
-                "No force is exerted on surrounding matter."
+                "The self-potential derivative is zero at the assumed minimum. "
+                "This does not rule out a matter-sourced fifth force."
             ),
         },
         "argument_2_yukawa": {
@@ -458,19 +459,19 @@ def cassini_constraint_check() -> Dict[str, object]:
             "delta_gamma": yukawa["delta_gamma"],
             "cassini_satisfied": yukawa["cassini_satisfied"],
             "explanation": (
-                f"Even if the radion were displaced, the Yukawa suppression "
+                f"For the assumed mass, the Yukawa potential factor "
                 f"exp(−r_AU/λ_r) ≈ {yukawa['yukawa_suppression']:.2e} reduces "
-                "the fifth-force signal to unmeasurably small values."
+                "the point-source interaction. The Cassini proxy is not a "
+                "derived experimental likelihood."
             ),
         },
         "radion_mass": mass_result,
-        "overall_status": "CASSINI CONSTRAINT SATISFIED — doubly protected",
+        "overall_status": "CONDITIONAL PROXY; PHYSICAL CONSTRAINT NOT ESTABLISHED",
         "conclusion": (
-            "The EW radion presents NO fifth-force problem:  "
-            "(1) It IS at its minimum → zero equilibrium force (analytic proof).  "
-            "(2) Even off-equilibrium, Yukawa suppression at Solar-System scales "
-            "is ~ exp(−10²⁷) — completely undetectable.  "
-            "The Cassini bound is satisfied by an enormous margin."
+            "An assumed potential has zero gradient at its minimum. "
+            "The assumed heavy mass suppresses a point-source Yukawa potential "
+            "at AU scales. Neither establishes the actual radion coupling, "
+            "mass, or Cassini verdict."
         ),
     }
 
@@ -510,8 +511,7 @@ def gw_stabilization_proof() -> Dict[str, object]:
             "THEOREM (Pillar 189-C): At the FTUM fixed point φ = Ψ* = v,  "
             "the first derivative of the Goldberger-Wise potential vanishes:  "
             "∂V/∂φ |_{φ=Ψ*} = 4λΨ*(Ψ*² − v²) = 0.  "
-            "COROLLARY: No fifth force is exerted on matter at Solar-System scales.  "
-            "PROOF: By direct substitution. QED."
+            "This identity alone does not determine matter-sourced fifth forces."
         ),
         "scaffold_tier": {
             "module": "src/core/goldberger_wise.py",
@@ -522,7 +522,7 @@ def gw_stabilization_proof() -> Dict[str, object]:
         "primary_tier": {
             "module": "src/core/phi0_closure.py",
             "pillar": 56,
-            "role": "Primary braided VEV closure (zero free parameters)",
+            "role": "Historical braided VEV identification; see current foundation reassessment",
             "retained": True,
         },
         "derivation_tier": {
@@ -533,9 +533,8 @@ def gw_stabilization_proof() -> Dict[str, object]:
         },
         "improvement_over_stealth": (
             "Pillar 187: coupling k/M_Pl ~ 10⁻¹⁶ → signal invisible.  "
-            "Pillar 189-C: ∂V/∂φ = 0 at Ψ* → no force at equilibrium (PROVED).  "
-            "The transition is from 'stealth suppression' to 'zero at minimum'.  "
-            "Both results are correct and complementary."
+            "Pillar 189-C: ∂V/∂φ = 0 at the assumed minimum. "
+            "A zero self-potential gradient is not proof of a zero fifth force."
         ),
     }
 
@@ -556,7 +555,7 @@ def pillar189c_summary() -> Dict[str, object]:
         "pillar": "189-C",
         "title": proof["title"],
         "version": proof["version"],
-        "status": "ANALYTICALLY PROVED",
+        "status": "POTENTIAL STATIONARITY ANALYTICALLY PROVED; FIFTH FORCE OPEN",
         "main_theorem": proof["main_theorem"],
         "force_at_fixed_point": force["force_at_fixed_point"],
         "force_is_exactly_zero": force["is_exactly_zero"],

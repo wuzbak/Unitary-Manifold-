@@ -1,5 +1,11 @@
 # Embryology × Unitary Manifold — Discovery Notes
 
+> **Research status:** These historical notes are speculative and not
+> established biological mechanisms. With the stated inputs the frequency
+> formula gives 0.814 THz, not 0.324 THz, and \(5\ln74=21.5203\) nats.
+> The assumed state count, heat conversion, and biological coupling are not
+> derived; apparent arithmetic matches do not establish causal mechanisms.
+
 > *"The biology is the hardware. The Manifold is the firmware. This folder is the source code."*
 
 This folder records every connection discovered between the **Unitary Manifold** (wuzbak/Unitary-Manifold-) and the biology of **seed/egg activation, embryogenesis, and morphogenesis**. All numbers are derived from three integers: **n₁ = 5, n₂ = 7, k_CS = 74**.
@@ -69,14 +75,14 @@ See [`01_TVC_condensate.md`](01_TVC_condensate.md) for the full argument.
 | Quantity | Formula | Value | Biology |
 |----------|---------|-------|---------|
 | R_egg | n_w × R_KK / 2π | 59.7 μm | Human egg radius ✓ |
-| f_KK at egg scale | c_s × c / 2R_egg | 0.324 THz | Protein hydration shell resonance ✓ |
+| f_KK at egg scale | c_s × c / 2R_egg | 0.814 THz | Hypothetical; resonance not established |
 | ε_r critical | 1/c_s² | 9.51 | Water dielectric gate for germination |
-| w_critical | Maxwell-Garnett solve | 0.363 g/g | Germination hydration threshold ✓ |
+| w_critical | Maxwell-Garnett solve | Unreachable with ε_water=9, ε_dry=4.5 | No established germination threshold |
 | N_Zn | k_CS^n_w | 2.19 × 10⁹ | Zinc ions in fertilization spark ✓ |
 | n_HOX_groups | 2 × n_w | 10 | Conserved HOX paralog groups ✓ |
 | n_HOX_clusters | 2^(n₂−n₁) | 4 | HOX clusters in tetrapods ✓ |
 | n_centriole_triplets | n₁ + n₂ − 3 | 9 | Centriole 9-fold symmetry ✓ |
-| ΔS_braid | n_w × ln(k_CS) | 21.47 nats/cell | Activation entropy at germination |
+| ΔS_braid | n_w × ln(k_CS) | 21.5203 nats | Assumed count, not a derived biological entropy |
 | ΔT_zinc_cooling | E_condensate / (mCp) | ~10–50 mK | Predicted cooling at spark site |
 | 14-day rule | n > 3 log₂(k_CS × n_w) | ~14 divisions | Gastrulation onset from flux limit ✓ |
 | k_CS / π | 74 / π | 23.55 ≈ 23 | Human haploid chromosome number (open question) |

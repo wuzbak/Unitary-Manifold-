@@ -15,6 +15,7 @@ Retained as executable but not promoted as exact theorem:
 
 from __future__ import annotations
 
+import math
 from typing import Any, Dict
 
 __all__ = [
@@ -29,14 +30,15 @@ __all__ = [
 ]
 
 BRAIDED_SOUND_SPEED: float = 12.0 / 37.0
+# Historical illustrative input, not a measured THz dielectric response.
 DEFAULT_EPS_WATER: float = 80.0
 DEFAULT_EPS_DRY: float = 4.5
 
 
 def critical_dielectric_from_sound_speed(sound_speed: float = BRAIDED_SOUND_SPEED) -> float:
     """Return the exact dielectric threshold 1/c_s²."""
-    if sound_speed <= 0.0:
-        raise ValueError(f"sound_speed must be > 0, got {sound_speed!r}")
+    if not math.isfinite(sound_speed) or sound_speed <= 0.0:
+        raise ValueError(f"sound_speed must be finite and > 0, got {sound_speed!r}")
     return 1.0 / (sound_speed * sound_speed)
 
 
@@ -45,13 +47,17 @@ def maxwell_garnett_effective_dielectric(
     eps_water: float = DEFAULT_EPS_WATER,
     eps_dry: float = DEFAULT_EPS_DRY,
 ) -> float:
-    """Return the Maxwell-Garnett effective dielectric for a wet/dry mixture."""
+    """Return the spherical-inclusion Maxwell-Garnett dielectric model.
+
+    The real, positive input values are assumptions, not a frequency-dependent
+    complex dielectric measurement.
+    """
     if not (0.0 <= water_fraction < 1.0):
         raise ValueError(f"water_fraction must be in [0,1), got {water_fraction!r}")
-    if eps_water <= 0.0 or eps_dry <= 0.0:
-        raise ValueError("dielectric constants must be positive")
+    if not all(math.isfinite(eps) and eps > 0.0 for eps in (eps_water, eps_dry)):
+        raise ValueError("dielectric constants must be finite and positive")
     contrast = (eps_water - eps_dry) / (eps_water + 2.0 * eps_dry)
-    numerator = 1.0 + 3.0 * water_fraction * contrast
+    numerator = 1.0 + 2.0 * water_fraction * contrast
     denominator = 1.0 - water_fraction * contrast
     if denominator <= 0.0:
         raise ValueError("mixture is outside the Maxwell-Garnett admissible range")
@@ -67,16 +73,21 @@ def critical_water_volume_fraction(
     """Solve for the water volume fraction reaching a target dielectric."""
     if eps_target is None:
         eps_target = critical_dielectric_from_sound_speed()
-    if eps_target <= 0.0:
-        raise ValueError("eps_target must be positive")
+    if not math.isfinite(eps_target) or eps_target <= 0.0:
+        raise ValueError("eps_target must be finite and positive")
+    if not isinstance(steps, int) or isinstance(steps, bool) or steps <= 0:
+        raise ValueError("steps must be a positive integer")
     low = maxwell_garnett_effective_dielectric(0.0, eps_water, eps_dry)
     high = maxwell_garnett_effective_dielectric(0.999999, eps_water, eps_dry)
-    if not (low <= eps_target <= high):
+    if low == high:
+        raise ValueError("equal dielectric constants do not determine a unique fraction")
+    if not (min(low, high) <= eps_target <= max(low, high)):
         raise ValueError("target dielectric is not reachable with the supplied medium inputs")
     lo, hi = 0.0, 0.999999
     for _ in range(steps):
         mid = 0.5 * (lo + hi)
-        if maxwell_garnett_effective_dielectric(mid, eps_water, eps_dry) < eps_target:
+        value = maxwell_garnett_effective_dielectric(mid, eps_water, eps_dry)
+        if (value < eps_target) == (low < high):
             lo = mid
         else:
             hi = mid
@@ -91,8 +102,8 @@ def water_mass_ratio_from_volume_fraction(
     """Convert a water volume fraction to g water / g dry."""
     if not (0.0 <= water_fraction < 1.0):
         raise ValueError(f"water_fraction must be in [0,1), got {water_fraction!r}")
-    if rho_water <= 0.0 or rho_dry <= 0.0:
-        raise ValueError("densities must be positive")
+    if not all(math.isfinite(rho) and rho > 0.0 for rho in (rho_water, rho_dry)):
+        raise ValueError("densities must be finite and positive")
     dry_fraction = 1.0 - water_fraction
     return (water_fraction * rho_water) / (dry_fraction * rho_dry)
 
@@ -117,8 +128,9 @@ def critical_hydration_kernel_report() -> Dict[str, Any]:
             "critical_mass_ratio_g_per_g": water_mass_ratio_from_volume_fraction(volume_fraction),
         },
         "honest_note": (
-            "Only the dielectric threshold is exact. Water-fraction and mass-ratio "
-            "predictions remain medium-dependent and are kept as executable "
-            "prediction helpers rather than promoted theorem claims."
+            "The dielectric threshold is an algebraic consequence of the assumed "
+            "phase-velocity equality, not a derived biological mechanism. "
+            "Water-fraction and mass-ratio results depend on medium inputs; "
+            "the default water dielectric is not a measured THz response."
         ),
     }
