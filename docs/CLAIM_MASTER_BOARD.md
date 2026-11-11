@@ -1,5 +1,24 @@
 # CLAIM_MASTER_BOARD.md — Canonical Claim Registry
-# Unitary Manifold v38.7
+# Unitary Manifold v38.9
+
+## Action-derived linearized radion–gauge evolution (2026-11-11)
+
+P1138 derives the quadratic radion–Maxwell action and coordinate-time equations
+around constant-radion Minkowski space. The radion and transverse gauge modes
+obey the null wave equation, and the longitudinal electric field is constrained.
+This advances only the linearized zero-mode, fixed-background sector; it does
+not derive the relaxation-time law or close the framework-level physical-time
+obligation. No hardgate, score, falsifier, Lean-count, or framework-closure
+change. Focused P1137/P1138/action-to-evolution tests passed 15; full regression
+was not run. See [the derivation](physics/ACTION_TO_EVOLUTION_LINEARIZED_ZERO_MODE.md).
+
+## Planar radion Kasner relations (2026-11-10)
+
+P1137 derives exact generalized-Kasner identities on the rolling homogeneous
+planar-radion branch. Stability and genericity outside this branch remain
+open. The source is present in the core shard and its canonical flat import
+path is exercised by the focused tests. No hardgate or framework closure is
+claimed. See [Pillar 1137](../PILLARS/P1137/README.md).
 
 > **α_GUT / Λ_QCD qualification (2026-11-08):** The geometric candidate
 > `N_c/K_CS` is not a first-principles derivation from the stated 5D action.
@@ -67,7 +86,7 @@ No new pillar or overall physics closure is claimed.
 | Flavor / internal gauge selection | Uniqueness not established by parity | Action/domain specification plus uniqueness proof or explicit countermodels |
 | CMB | Calibration and transfer errors must be separated | Backend-labelled spectra, error budget, covariance scope, action-derived corrections |
 | UV/Higgs | Predictivity unestablished; zero parameter cost not inferred from an empty list | Joint matching calculation with moduli and stability accounted for |
-| Action-to-evolution equivalence | Implemented flow remains phenomenological, not a derived circle-EH Euler-Lagrange system | A verified action-level matching derivation or replacement equations |
+| Action-to-evolution equivalence | The default flow's field equations are action-derived within a restricted zero-mode perimeter; its relaxation-time law remains declared, and general physical-time evolution is not certified | Derive or justify the relaxation law, then verify the nonlinear physical-time equations and their domain/constraints |
 
 Detailed assumptions, counterexamples, and verification record:
 [TRUTH_LAYER](TRUTH_LAYER.md#foundation-reassessment).

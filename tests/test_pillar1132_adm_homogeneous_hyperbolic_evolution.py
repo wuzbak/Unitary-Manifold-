@@ -78,8 +78,9 @@ def test_historical_sync_does_not_require_current_cz_metadata():
     wave = next(row for row in sync["files"] if row["path"].endswith("WAVE_CHANGELOG.md"))
     assert wave["scope"] == "historical Sprint CZ section, not current metadata"
     derivation = (p1132._ROOT / "1-THEORY/DERIVATION_STATUS.md").read_text()
-    assert "**The Unitary Manifold v38.7" in derivation
-    assert "*Last updated: 2026-11-08 (v38.7 — Sprint DC:" in derivation
+    assert "**Current ledger: " in derivation
+    assert "**Historical ledger: v38.7 — Sprint DC" in derivation
+    assert "*Last updated: " in derivation
 
 
 @pytest.mark.parametrize("mutation", ["registration", "historical_slot", "qualification"])

@@ -365,7 +365,7 @@ def build_live_status() -> dict:
             "cmb_normalization": "CALIBRATED: primordial normalization and transfer-spectrum errors are separate questions.",
             "flavor_uniqueness": "UNESTABLISHED: parity alone does not fix bulk masses or the internal gauge involution.",
             "uv_predictivity": "UNESTABLISHED: an empty declared parameter list is not a derivation.",
-            "action_to_evolution": "PARTIAL: the default flow relaxes field equations derived from the circle-reduced 5D Einstein-Hilbert action (steward-promoted within a 1-D periodic zero-mode perimeter, Pillar 1130); the t-relaxation law is declared, physical-time evolution is not certified, and the legacy flow remains phenomenological.",
+            "action_to_evolution": "PARTIAL: the default flow's field equations are action-derived within a 1-D periodic zero-mode perimeter (Pillar 1130), and linearized coordinate-time radion/transverse-gauge evolution is certified around constant-radion Minkowski space (Pillar 1138); the t-relaxation law remains declared, general nonlinear physical-time evolution is not certified, and the legacy flow remains phenomenological.",
         },
         "predictions": PREDICTIONS,
         "open_gates": OPEN_GATES,
