@@ -111,6 +111,7 @@ def test_windows_installer_helper_is_checked_before_dependent_packaging() -> Non
     assert "node --test tests/download-installer-kit.test.cjs" in step["run"]
     assert "throw" in step["run"]
     assert "browser-desktop-runtime" in jobs["test-and-package"]["needs"]
+    assert "eige-native" in jobs["test-and-package"]["needs"]
     assert any(step.get("run") == "npm run smoke:win" for step in jobs["test-and-package"]["steps"])
 
 

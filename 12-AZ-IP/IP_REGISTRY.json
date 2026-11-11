@@ -1180,11 +1180,17 @@
       "description": "Static and synthetic PowerShell installer-kit integrity, consent, path/URL bounds and fail-closed retrieval regressions; no real model or installer execution",
       "category": "apps",
       "status": "REGISTERED",
-      "updated": "2026-11-08",
-      "sha256": "62980a55ac76acdc5df7a3d8ff6232ca12b93804a939df02042f302155681b2a",
-      "size_bytes": 10752,
-      "reseal_note": "Require the downloader default to match the package version while retaining historical-kit fixtures.",
+      "updated": "2026-11-11",
+      "sha256": "67e1c838f1fc9b2aff288579f8f0a56d2c198250739cbea616510c31e7edc7f1",
+      "size_bytes": 10765,
+      "reseal_note": "Require native EIGE custody and verification checks before Windows packaging.",
       "reseal_history": [
+        {
+          "updated": "2026-11-08",
+          "sha256": "62980a55ac76acdc5df7a3d8ff6232ca12b93804a939df02042f302155681b2a",
+          "size_bytes": 10752,
+          "reseal_note": "Require the downloader default to match the package version while retaining historical-kit fixtures."
+        },
         {
           "updated": "2026-11-08",
           "sha256": "290f755b223b3cf7d5efdbd64a35734a3d1c0306ce1fc5ebb9f7cd83224e2208",

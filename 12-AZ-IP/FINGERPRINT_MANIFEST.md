@@ -1619,3 +1619,12 @@ workflow gates remain open.
 |-------|---------|------:|
 | `12-AZ-IP/03-eige/README.md` | `9698407d80d6ef859bbadf28916f8d8da0f6946183a0cd7501a76c33af012a40` | 7086 |
 | `12-AZ-IP/45-axiomzero-pc-suite/README.md` | `03552160684cab6132c7e86a636003876daddf6d1579ff5abb5ae108a48799aa` | 47867 |
+
+### Windows EIGE gate reseal — 2026-11-11
+
+Require native Windows EIGE custody and verifier tests before desktop packaging.
+Actual Windows results remain pending.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/45-axiomzero-pc-suite/tests/download-installer-kit.test.cjs` | `67e1c838f1fc9b2aff288579f8f0a56d2c198250739cbea616510c31e7edc7f1` | 10765 |

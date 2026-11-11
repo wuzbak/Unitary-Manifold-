@@ -31,7 +31,7 @@ test("download helper is explicit, pinned, bounded, exclusive, and never execute
   assert.doesNotMatch(source, /Invoke-Expression|Start-Process|Start-BitsTransfer|ExecutionPolicy Bypass|Register-ScheduledTask/);
   const workflow = await fs.readFile(path.resolve(__dirname, "../../../.github/workflows/pc-suite-windows.yml"), "utf8");
   assert.match(workflow, /shell: powershell[\s\S]*P45_POWERSHELL = "powershell.exe"/);
-  assert.match(workflow, /needs: \[browser-desktop-runtime, instruction-backend, platform-artifacts, recovered-python-products\]/);
+  assert.match(workflow, /needs: \[browser-desktop-runtime, instruction-backend, platform-artifacts, recovered-python-products, eige-native\]/);
   assert.match(workflow, /payload:verify[\s\S]*Copy-Item[\s\S]*Add-Content -LiteralPath dist\/SHA256SUMS.txt/);
   assert.match(workflow, /dist\/\*-download\.ps1/);
 });
