@@ -1556,3 +1556,14 @@ checks are extended but have not yet been executed for these changes.
 | `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `61511cc52bcfd4edf071f82289a7584d05b0c7568cb58c46a0563688cb9cf9e4` | 8171 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manager.test.cjs` | `116def9e8a3a4ffd6af252a573005b53ab9185dd890e575311cb15ae725422fa` | 20671 |
 | `12-AZ-IP/45-axiomzero-pc-suite/tests/runtime-manifest.test.cjs` | `e9394cbc93bb5ebb6e92ed4a7223a929b0f55975f058048a2f6431171f6e0254` | 8066 |
+
+### Axiom OS symlink-free desktop packaging reseal — 2026-11-11
+
+Resolve the canonical package and repository root without relying on symlinks
+excluded from installed bundles. Add Product 01 to the Windows smoke; native
+Windows execution remains unverified.
+
+| Asset | SHA-256 | Bytes |
+|-------|---------|------:|
+| `12-AZ-IP/01-axiom-os/README.md` | `a4bbe3799b31f0b471d37af12390419a2c194e26800eff1d0c24abc2a2f3832d` | 10477 |
+| `12-AZ-IP/45-axiomzero-pc-suite/scripts/portfolio_smoke.cjs` | `e8e77f4846d046597d095185fb52b2ecbb9bbea1ad82636538bcdc1e9ae3a998` | 8494 |

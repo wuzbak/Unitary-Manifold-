@@ -7,6 +7,17 @@
 """Compatibility package for canonical AxiomZero imports."""
 from __future__ import annotations
 
+from pathlib import Path
+
+# Installed portfolio bundles omit symlinks; canonical subpackages are siblings.
+__path__.append(str(Path(__file__).resolve().parent.parent))
+
+
+def repository_root() -> Path:
+    """Return the repository containing the canonical 12-AZ-IP product."""
+    return Path(__file__).resolve().parents[3]
+
+
 __version__ = "1.0.0"
 __author__ = "ThomasCory Walker-Pearson"
 __license__ = "LicenseRef-DefensivePublicCommons-1.0"

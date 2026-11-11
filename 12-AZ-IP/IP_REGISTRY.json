@@ -281,9 +281,9 @@
       "description": "Canonical merged Axiom OS suite README",
       "category": "os",
       "status": "REGISTERED",
-      "updated": "2026-11-05",
-      "sha256": "05ed1c24584a6fbe87a4b842b9fa1b8add1fc5491ad281709377e8487ba66cc9",
-      "size_bytes": 9983,
+      "updated": "2026-11-11",
+      "sha256": "a4bbe3799b31f0b471d37af12390419a2c194e26800eff1d0c24abc2a2f3832d",
+      "size_bytes": 10477,
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -295,9 +295,15 @@
           "updated": "2026-08-18",
           "sha256": "5cabf9cfb1bad808503845a6f9c2850c2f7ae4b2e8f8615e4eddd4ea5218748c",
           "size_bytes": 2191
+        },
+        {
+          "updated": "2026-11-05",
+          "sha256": "05ed1c24584a6fbe87a4b842b9fa1b8add1fc5491ad281709377e8487ba66cc9",
+          "size_bytes": 9983,
+          "reseal_note": "Documented deterministic per-operation SQLite connection closure, retaining commit/rollback and explicit restart limitations."
         }
       ],
-      "reseal_note": "Documented deterministic per-operation SQLite connection closure, retaining commit/rollback and explicit restart limitations."
+      "reseal_note": "Make Axiom OS imports and repository discovery work in symlink-free PC suite bundles; extend installed Windows smoke."
     },
     "12-AZ-IP/02-az-kernel/README.md": {
       "description": "Canonical merged AZ-KERNEL README",
@@ -2467,9 +2473,9 @@
       "category": "apps",
       "status": "REGISTERED",
       "updated": "2026-11-11",
-      "sha256": "61511cc52bcfd4edf071f82289a7584d05b0c7568cb58c46a0563688cb9cf9e4",
-      "size_bytes": 8171,
-      "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage.",
+      "sha256": "e8e77f4846d046597d095185fb52b2ecbb9bbea1ad82636538bcdc1e9ae3a998",
+      "size_bytes": 8494,
+      "reseal_note": "Make Axiom OS imports and repository discovery work in symlink-free PC suite bundles; extend installed Windows smoke.",
       "reseal_history": [
         {
           "updated": "2026-11-04",
@@ -2506,6 +2512,12 @@
           "sha256": "51e4ab3c5c01b6d525931b9825b0dd32069f39d2a660b58f54f714bfe670fbdd",
           "size_bytes": 7197,
           "reseal_note": "Windows desktop path/diagnostic fixes and a separate provenance-checked instruction-backend gate; no production intelligence or physics claim promotion."
+        },
+        {
+          "updated": "2026-11-11",
+          "sha256": "61511cc52bcfd4edf071f82289a7584d05b0c7568cb58c46a0563688cb9cf9e4",
+          "size_bytes": 8171,
+          "reseal_note": "Repair desktop UI startup and per-user persistence; extend installed Windows smoke coverage."
         }
       ]
     },

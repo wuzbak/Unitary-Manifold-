@@ -16,6 +16,7 @@ async function main() {
   });
   try {
     for (const [id, pathname, title] of [
+      ["01", "/", "AxiomZero"],
       ["04", "/frontend/", "UM-SOS Prediction Explorer"],
       ["16", "/", "Oracle"],
       ["25", "/ui/index.html", "PsiCat Braided Brain"]
@@ -26,6 +27,11 @@ async function main() {
       const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
       assert.equal(response.status, 200, `Product ${id} UI did not load.`);
       assert.match(await response.text(), new RegExp(title, "i"));
+      if (id === "01") {
+        const status = await fetch(new URL("/status", started.endpoint), { signal: AbortSignal.timeout(10000) });
+        assert.equal(status.status, 200);
+        assert.deepEqual((await status.json()).managers, ["m1", "m2", "m3", "m4", "m5", "m6", "m7"]);
+      }
       manager.stop(id);
       for (let attempt = 0; attempt < 100 && manager.list().find((entry) => entry.id === id).running; attempt++) {
         await new Promise((resolve) => setTimeout(resolve, 100));

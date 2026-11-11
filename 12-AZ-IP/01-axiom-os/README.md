@@ -173,6 +173,13 @@ These are **hard-wired blocks** in M7, not soft suggestions.
 
 ## Phase 4 — Cross-Platform Interface
 
+- **PC suite**: `python run.py serve --port 8001` serves the AxiomZero dashboard
+  and API on loopback. Without an explicit `repo_root` in the user's
+  configuration, repository-aware managers and the vector store use the root
+  containing `12-AZ-IP/01-axiom-os`. Installed suite bundles omit symlinks,
+  so the compatibility package also resolves its subpackages from this product
+  directory. External models and vector-store dependencies are not provided by
+  the lean desktop requirements.
 - **Desktop**: `http://localhost:8000` (uvicorn + existing `10-UM-SOS/` frontend extended)
 - **IDE**: Continue.dev config auto-deployed to `~/.axiomzero/continue_config.json`
 - **Android**: Termux thin client — read-mostly; write operations require desktop
