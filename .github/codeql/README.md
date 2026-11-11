@@ -31,6 +31,14 @@ steward approval before retiring obsolete baseline configurations. Do not dismis
 alerts, delete current configurations or upload empty substitute analyses to
 silence a missing-configuration warning.
 
+The `python-core`, `python-product20`, and `python-psicat-runtime` slices retain
+their historical CodeQL category IDs and scopes while GitHub's baseline moves
+to the newer split slices. These are real, non-empty analyses, intentionally
+overlapping `python-core-src`/`python-core-tests`,
+`python-runtime-integration`/`python-psicat-tests-tools`, and
+`python-runtime-integration`, respectively. Keep them until a steward approves
+retiring those baseline configurations.
+
 ## Why this exists
 
 Until this manifest was added, the slice list lived inside the workflow and was
