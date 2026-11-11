@@ -1,6 +1,6 @@
-version: "v38.8"
-date: "2026-11-10"
-updated: "2026-11-08"
+version: "v38.9"
+date: "2026-11-11"
+updated: "2026-11-11"
 
 alpha_gut_matching_audit_2026_11_08:
   status: "FIRST_PRINCIPLES_ALPHA_GUT_OPEN"
@@ -27,6 +27,54 @@ canonical_status_notice: >
   (sprint_id v30.0, next_pillar_slot 942) predates the compact tracker
   format   adopted at v31.0/Sprint BG and must never be read as the
   repository's current pillar count, version, or regression total.
+
+v38_9_sprint_de:
+  sprint: DE
+  version: v38.9
+  date: "2026-11-11"
+  pillars: 1138-1138
+  new_pillars: 1
+  new_tests: 5
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures: []
+  advances:
+    - LINEARIZED_ZERO_MODE_RADION_GAUGE_COORDINATE_TIME_EVOLUTION_CERTIFIED
+  residual_obligations:
+    - T_RELAXATION_LAW_DECLARED_NOT_DERIVED
+    - PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED
+  remaining_open:
+    - NONLINEAR_METRIC_BACKREACTION
+    - GENERAL_3_PLUS_1_GAUGE_FIELD_EVOLUTION
+    - FULLY_INHOMOGENEOUS_5D_SECTOR_PHYSICAL_TIME_EVOLUTION
+    - Z2_ORBIFOLD_PHYSICAL_TIME_EVOLUTION
+    - GLOBAL_WELL_POSEDNESS
+  focused_regression: "15 passed across P1137, P1138, and action-to-evolution contract tests"
+  regression: "Historical combined Sprint CU receipt: 64,150 passed · 22 skipped · 18 deselected · 0 failed. Separate fresh runs, zero failures: tests/ 62,408 passed · 69 skipped · 66 deselected (default slow filter); recycling/ 316 passed; Unitary Pentad 3,088 passed · 3 skipped. Not whole-repository clearance."
+  next_pillar_slot: 1139
+
+v38_8_sprint_dd:
+  sprint: DD
+  version: v38.8
+  date: "2026-11-10"
+  pillars: 1137-1137
+  new_pillars: 1
+  new_tests: 5
+  lean4_start: 4080
+  lean4_end: 4080
+  lean4_delta: 0
+  closures: []
+  advances:
+    - PLANAR_RADION_KASNER_RELATIONS_DERIVED
+  residual_obligations:
+    - T_RELAXATION_LAW_DECLARED_NOT_DERIVED
+    - PHYSICAL_TIME_EVOLUTION_NOT_CERTIFIED
+  remaining_open:
+    - PLANAR_RADION_HOMOGENEOUS_BRANCH_STABILITY_AND_GENERICITY
+  focused_regression: "Pillar 1137 source and tests; 5 passed in the Sprint DE focused run"
+  regression: "No full regression; historical Sprint CU record remains unchanged"
+  next_pillar_slot: 1138
 
 v38_7_sprint_dc:
   sprint: DC

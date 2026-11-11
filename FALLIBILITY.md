@@ -1,5 +1,19 @@
 # Fallibility, Limitations, and Failure Modes
 
+*Unitary Manifold v38.9 — Sprint DE (2026-11-11): Pillar 1138 derives the
+linearized coordinate-time radion–gauge equations from the quadratic
+circle-reduced action around constant-radion Minkowski space. The transverse
+gauge and radion modes have the null principal symbol; the longitudinal
+Maxwell sector is constrained. This is not nonlinear backreaction, full
+physical-time closure, or a derivation of the separate relaxation law. The
+framework-level action-to-evolution obligations remain open. The focused
+P1137/P1138/action-to-evolution regression passed 15 tests. The historical
+combined Sprint CU receipt is 64,150 passed, 22 skipped, 18 deselected, 0
+failed. Separate fresh scoped runs passed with zero failures: `tests/` 62,408 passed, 69 skipped, 66
+deselected (default slow-test filter); `recycling/` 316 passed; Unitary Pentad
+3,088 passed, 3 skipped. These do not certify the whole repository. The Sprint
+CU count remains historical.*
+
 > **Radion fifth-force qualification (2026-11-10):** A vanishing potential
 > gradient at a vacuum does not rule out a matter-sourced scalar force, and
 > the cylinder condition is not radion freezing. The legacy Pillar 33/37
@@ -22,7 +36,7 @@
 > Older closure claims below are historical and do not establish a
 > first-principles QCD scale. See [the action matching and counterexample](docs/TRUTH_LAYER.md#α_gut-conditional-action-matching-and-remaining-uv-gap-2026-11-08).
 
-*Unitary Manifold v38.8 — Sprint DD ledger synchronization (2026-11-10); prior v38.7 Sprint DC (2026-11-08):
+*Historical: Unitary Manifold v38.8 — Sprint DD ledger synchronization (2026-11-10); prior v38.7 Sprint DC (2026-11-08):
 Pillar 1137 adds exact generalized-Kasner relations for the rolling planar branch; stability and genericity outside that homogeneous branch remain open, and no closure is claimed. Pillar 1136 derives the radion-weighted local scalar energy balance in the
 restricted planar sector. The periodic scalar energy exchanges work with the
 evolving radion and is not generally conserved. The finite-grid diagnostic

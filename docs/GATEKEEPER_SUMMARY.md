@@ -1,5 +1,22 @@
 # GATEKEEPER_SUMMARY.md — Scientific Gatekeeper Reference
-# Unitary Manifold v38.7
+# Unitary Manifold v38.9
+
+> **Action-derived linearized radion–gauge evolution (2026-11-11; Sprint DE,
+> Pillar 1138):** the quadratic circle-reduced action about constant-radion
+> Minkowski space yields radion and transverse gauge wave equations with
+> \(\omega^2=k^2\); the longitudinal Maxwell field is constrained. This is
+> fixed-background linearized evidence, not nonlinear evolution or framework
+> closure. The separate relaxation law and general physical-time obligations
+> remain open. Focused P1137/P1138/action-to-evolution checks: 15 passed.
+> Separate fresh runs passed with zero failures: `tests/` 62,408 passed, 69
+> skipped, 66 deselected (default slow-test filter); `recycling/` 316 passed;
+> Unitary Pentad 3,088 passed, 3 skipped. This is scoped validation, not
+> whole-repository clearance.
+
+> **Planar radion Kasner relations (2026-11-10; Sprint DD, Pillar 1137):**
+> exact generalized-Kasner identities hold on the rolling homogeneous branch.
+> Stability and genericity outside that branch remain open; no hardgate or
+> framework closure is claimed. See [Pillar 1137](../PILLARS/P1137/README.md).
 
 > **α_GUT / Λ_QCD qualification (2026-11-08):** The CS-level coupling
 > relation is postulated, not derived from the stated 5D action. Conditional
@@ -63,6 +80,10 @@ and peer reviewers.*
 Every entry links to the complete derivation in `docs/TRUTH_LAYER.md`.*
 *Every verdict is independently checkable via `src/` and `tests/`.*
 
+> **Sprint DE (v38.9 — 2026-11-11):** 1 pillar (1138). P1138 derives the quadratic-action coordinate-time equations for linear radion and gauge perturbations around constant-radion Minkowski space. The transverse modes have \(\omega^2=k^2\); the longitudinal Maxwell field is constrained. This is not nonlinear or framework-level closure. The t-relaxation law and general physical-time obligations remain open. Focused P1137/P1138/action-to-evolution checks: 15 passed. Separate fresh tests/, recycling/, and Pentad runs passed with zero failures; default slow-test filter applies to tests/. Not whole-repository clearance. Next slot 1139.
+>
+> **Sprint DD (v38.8 — 2026-11-10):** 1 pillar (1137). P1137 derives exact generalized-Kasner identities on the rolling homogeneous planar-radion branch. Stability and genericity outside that branch remain open; no hardgate or framework closure is claimed. Next slot 1138.
+>
 
 > **Sprint DC (v38.7 — 2026-11-08):** 1 pillar (1136). P1136 derives the restricted planar radion-weighted scalar energy balance and exposes its energy and radion-work rate as a centered-difference diagnostic. The source term generally changes the periodic scalar energy; no conservation law or exact discrete invariant is claimed. Pillar 1130's framework obligations remain open. No hardgate physics closure. Focused tests and full regression were not run because NumPy, SymPy, and pytest are unavailable. Next slot 1137.
 >

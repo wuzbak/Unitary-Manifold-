@@ -1,5 +1,21 @@
 # SPRINT_PLAN.md — Unitary Manifold Sprint Continuity Document
 
+## Action-derived linearized zero-mode evolution (2026-11-11)
+
+Current registration: v38.9 Sprint DE (Pillar 1138; next slot 1139).
+
+P1138 expands the massless circle-reduced Einstein-frame action to quadratic
+order around constant-radion Minkowski space and derives its physical-time
+radion/transverse-gauge wave equations and longitudinal Maxwell constraints.
+The scope is linearized, zero-mode, fixed-background dynamics; the
+relaxation-time law and nonlinear/framework-level evolution obligations remain
+open. Focused checks across P1137, P1138, and the action-to-evolution contract
+passed (15 tests). Fresh separate runs passed with zero failures:
+`tests/` 62,408 passed, 69 skipped, 66 deselected (default slow-test filter);
+`recycling/` 316 passed; Unitary Pentad 3,088 passed, 3 skipped. These scopes
+are not a whole-repository clearance; the historical Sprint CU combined
+regression receipt is not a current all-clear.
+
 ## α_GUT action-matching audit (2026-11-08)
 
 The conditional orbifold kinetic reduction and an explicit fixed-CS-level
@@ -9,7 +25,7 @@ audit allocates no new pillar and does not promote α_GUT or Λ_QCD.
 
 ## Planar radion scalar energy balance (2026-11-08)
 
-Current registration: v38.7 Sprint DC (Pillar 1136; next slot 1137).
+Historical registration: v38.7 Sprint DC (Pillar 1136; next slot 1137).
 
 P1136 derives the local radion-weighted scalar energy balance in the restricted
 planar coordinate-time sector and provides a finite-difference energy/work
@@ -168,20 +184,22 @@ Proceed only when all three agree.
 
 ---
 
-## CURRENT AUDITABLE STATE (v38.7 — Sprint DC)
+## CURRENT AUDITABLE STATE (v38.9 — Sprint DE)
 
 | Field | Value |
 |-------|-------|
-| Version | **v38.7** |
-| Sprint | **Sprint DC** |
-| Pillars | **1136-1136** |
-| Next pillar slot | **1137** |
+| Version | **v38.9** |
+| Sprint | **Sprint DE** |
+| Pillars | **1138-1138** |
+| Next pillar slot | **1139** |
 | Lean4 theorems | **4080** |
 | Verified full regression | **64,150 passed · 22 skipped · 18 deselected · 0 failed (Sprint CU record)** |
-| Sprint theme | **Derive and expose the radion-work source in the restricted planar scalar energy balance; keep Pillar 1130's two residual obligations open** |
-| Primary target | **Symbolically verify the local identity and expose its radion-weighted energy/work diagnostic without claiming exact discrete conservation** |
-| Binary outcome | **P1136 is a restricted exact identity; no closure, score, hardgate, or observational change. Focused tests and full regression were not run because required Python packages are unavailable** |
+| Sprint theme | **Derive physical-time linearized radion–gauge equations from the circle-reduced action within the action-to-evolution lane** |
+| Primary target | **Verify the quadratic action, Euler equations, Maxwell constraints, and massless principal symbol without claiming nonlinear or framework closure** |
+| Binary outcome | **P1138 verified for the linearized fixed-background zero-mode sector; relaxation law and general physical-time obligations remain open. Focused tests: 15 passed. Separate tests/, recycling/, and Pentad runs: 0 failures; default slow-test filter applies to tests/.** |
 
+Historical continuity: v38.9 Sprint DE (Pillar 1138; next slot 1139) derives linearized coordinate-time radion–gauge evolution from the circle-reduced action, with the relaxation law and general evolution obligations still open.
+Historical continuity: v38.8 Sprint DD (Pillar 1137; next slot 1138) derives exact generalized-Kasner relations on the homogeneous planar-radion branch; stability and genericity remain open.
 Historical continuity: v38.7 Sprint DC (Pillar 1136; next slot 1137) adds a sourced radion-weighted energy diagnostic to the certified restricted planar sector.
 Historical continuity: v38.6 Sprint DB (Pillar 1135; next slot 1136) is the canonical planar radion physical-time certification layer directly above Sprint DA.
 Historical continuity: v38.5 Sprint DA (Pillars 1133-1134; next slot 1135) records adjacent superfluid-reference and rare-decay-tool registration above Sprint CZ, not a hardgate physics closure or a new full-regression claim; the historical Sprint CU regression record remains unchanged.
