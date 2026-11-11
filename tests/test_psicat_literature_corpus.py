@@ -58,10 +58,10 @@ def test_loader_sees_every_markdown_file_in_every_subdirectory() -> None:
             assert rel in seen_paths, f"loader did not see {rel}"
 
 
-def test_loader_indexes_58_complete_books_without_preservation_duplicates() -> None:
+def test_loader_indexes_59_complete_books_without_preservation_duplicates() -> None:
     sources = iter_literature_sources()
     book_sources = [s for s in sources if s["kind"] == "markdown" and "/Books/" in s["path"]]
-    assert len(book_sources) == 58
+    assert len(book_sources) == 59
     assert not any("/Archive/" in s["path"] for s in sources)
     assert not any("-part-" in s["path"] or s["path"].endswith("-FULL.md") for s in book_sources)
 
@@ -133,6 +133,7 @@ def test_commissioned_books_are_retrievable_by_title_as_editorial_sources() -> N
     for number, title in (
         ("57", "AxiomZero Applied Sciences and Intellectual Properties"),
         ("58", "The State of the Manifold The AxiomZero Monorepo"),
+        ("59", "The Work Between the Equations"),
     ):
         matches = [
             chunk for _, chunk in index.search(title, top_k=8)
