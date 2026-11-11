@@ -2,9 +2,9 @@
   "format": "unitary-monorepo-map-v1",
   "scope": "repository entries in the Git index, including symlinks",
   "source": "git ls-files --cached",
-  "file_count": 8707,
+  "file_count": 8716,
   "lanes": {
-    "az_ip": 2686,
+    "az_ip": 2695,
     "compactification": 9,
     "other": 5597,
     "psicat_articles": 357,
@@ -23,7 +23,7 @@
     "1-THEORY": 50,
     "10-UM-SOS": 1,
     "11-AZ-OS": 2,
-    "12-AZ-IP": 2686,
+    "12-AZ-IP": 2695,
     "2-REPRODUCIBILITY": 12,
     "3-FALSIFICATION": 45,
     "4-IMPLICATIONS": 55,
@@ -198,6 +198,7 @@
       "12-AZ-IP/01-axiom-os/memory/vector_store.py",
       "12-AZ-IP/01-axiom-os/phi_decision_engine.py",
       "12-AZ-IP/01-axiom-os/phi_field_interface.py",
+      "12-AZ-IP/01-axiom-os/requirements-desktop.txt",
       "12-AZ-IP/01-axiom-os/requirements.txt",
       "12-AZ-IP/01-axiom-os/run.py",
       "12-AZ-IP/01-axiom-os/src/app/__init__.py",
@@ -1076,6 +1077,7 @@
       "12-AZ-IP/03-eige/requirements.in",
       "12-AZ-IP/03-eige/requirements.lock",
       "12-AZ-IP/03-eige/requirements.txt",
+      "12-AZ-IP/03-eige/run.py",
       "12-AZ-IP/03-eige/run_demo.py",
       "12-AZ-IP/03-eige/sbom.cdx.json",
       "12-AZ-IP/03-eige/schemas/oscal-1.5.0-component-definition.json",
@@ -1225,6 +1227,7 @@
       "12-AZ-IP/05-uos-kernel/UOS/security.py",
       "12-AZ-IP/05-uos-kernel/UOS/shell.py",
       "12-AZ-IP/05-uos-kernel/requirements.txt",
+      "12-AZ-IP/05-uos-kernel/run.py",
       "12-AZ-IP/05-uos-kernel/src/app/__init__.py",
       "12-AZ-IP/05-uos-kernel/tests/test_live_5d_console.py",
       "12-AZ-IP/05-uos-kernel/tests/test_uos_driver_wrapper.py",
@@ -1255,6 +1258,7 @@
       "12-AZ-IP/06-omega-synthesis/omega/yukawa_explorer.py",
       "12-AZ-IP/06-omega-synthesis/omega_synthesis.py",
       "12-AZ-IP/06-omega-synthesis/requirements.txt",
+      "12-AZ-IP/06-omega-synthesis/run.py",
       "12-AZ-IP/06-omega-synthesis/src/app/__init__.py",
       "12-AZ-IP/06-omega-synthesis/tests/test_omega_synthesis.py",
       "12-AZ-IP/06-omega-synthesis/tests/test_yukawa_explorer.py"
@@ -1277,6 +1281,7 @@
       "12-AZ-IP/07-holon-zero/holon_zero/test_holon_zero_engine.py",
       "12-AZ-IP/07-holon-zero/holon_zero_engine.py",
       "12-AZ-IP/07-holon-zero/requirements.txt",
+      "12-AZ-IP/07-holon-zero/run.py",
       "12-AZ-IP/07-holon-zero/src/app/__init__.py",
       "12-AZ-IP/07-holon-zero/subpillars/__init__.py",
       "12-AZ-IP/07-holon-zero/subpillars/holon_landscape.py",
@@ -2390,6 +2395,7 @@
       "12-AZ-IP/25-psicat-braided-brain/SESSION_RESUME.json",
       "12-AZ-IP/25-psicat-braided-brain/css/main.css",
       "12-AZ-IP/25-psicat-braided-brain/package.json",
+      "12-AZ-IP/25-psicat-braided-brain/requirements.txt",
       "12-AZ-IP/25-psicat-braided-brain/run.py",
       "12-AZ-IP/25-psicat-braided-brain/sw.js",
       "12-AZ-IP/25-psicat-braided-brain/tests/app.test.js",
@@ -4539,6 +4545,13 @@
     },
     {
       "path": "12-AZ-IP/01-axiom-os/phi_field_interface.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "01-axiom-os"
+    },
+    {
+      "path": "12-AZ-IP/01-axiom-os/requirements-desktop.txt",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -10663,6 +10676,13 @@
       "product": "03-eige"
     },
     {
+      "path": "12-AZ-IP/03-eige/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "03-eige"
+    },
+    {
       "path": "12-AZ-IP/03-eige/run_demo.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -11678,6 +11698,13 @@
       "product": "05-uos-kernel"
     },
     {
+      "path": "12-AZ-IP/05-uos-kernel/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "05-uos-kernel"
+    },
+    {
       "path": "12-AZ-IP/05-uos-kernel/src/app/__init__.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -11874,6 +11901,13 @@
       "product": "06-omega-synthesis"
     },
     {
+      "path": "12-AZ-IP/06-omega-synthesis/run.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "06-omega-synthesis"
+    },
+    {
       "path": "12-AZ-IP/06-omega-synthesis/src/app/__init__.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -12008,6 +12042,13 @@
     },
     {
       "path": "12-AZ-IP/07-holon-zero/requirements.txt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "07-holon-zero"
+    },
+    {
+      "path": "12-AZ-IP/07-holon-zero/run.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip",
@@ -19553,6 +19594,13 @@
       "product": "25-psicat-braided-brain"
     },
     {
+      "path": "12-AZ-IP/25-psicat-braided-brain/requirements.txt",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip",
+      "product": "25-psicat-braided-brain"
+    },
+    {
       "path": "12-AZ-IP/25-psicat-braided-brain/run.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22662,6 +22710,18 @@
       "lane": "az_ip"
     },
     {
+      "path": "12-AZ-IP/lib/library_console/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip"
+    },
+    {
+      "path": "12-AZ-IP/lib/library_console/index.html",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip"
+    },
+    {
       "path": "12-AZ-IP/lib/open_science/__init__.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
@@ -22693,6 +22753,12 @@
     },
     {
       "path": "12-AZ-IP/lib/tests/__init__.py",
+      "top_level": "12-AZ-IP",
+      "kind": "file",
+      "lane": "az_ip"
+    },
+    {
+      "path": "12-AZ-IP/lib/tests/test_library_console.py",
       "top_level": "12-AZ-IP",
       "kind": "file",
       "lane": "az_ip"

@@ -13,6 +13,7 @@ REPO_ROOT = DELPHI_DIR.parent
 
 @dataclass
 class DelphiConfig:
+    version: str = "1.0.0"
     db_path: Path = field(
         default_factory=lambda: Path(os.getenv("DELPHI_DB_PATH", DELPHI_DIR / "data" / "delphi.db"))
     )

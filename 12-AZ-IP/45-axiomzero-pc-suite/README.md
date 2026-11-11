@@ -375,6 +375,15 @@ support is not asserted. Startup health uses a live slider calculation, not
 the status page; installed Windows execution still needs its workflow check.
 Other non-Python target tooling is not managed.
 
+Each managed Python product launches only on loopback (127.0.0.1) at a fixed
+port from the runtime manager's table, with per-user databases under the
+suite data directory. Service products (04, 08–13, 16–19, 22, 25) start their
+own UI; Product 01 starts its dashboard with `run.py serve`; library products
+(03, 05, 06, 07) start a shared loopback workbench
+(`12-AZ-IP/lib/library_console`) to browse modules and call public functions.
+Windows execution of these launchers is not claimed until the installed
+workflow verifies it; Products 02, 14 and 15 remain build-tooling targets.
+
 Products 24 and 27 use the managed Node toolchain. **Install private Node LTS** downloads the
 maintained Node 24 Windows x64 archive and checksum manifest from fixed
 `nodejs.org` HTTPS endpoints, forbids redirects, verifies SHA-256, and extracts
